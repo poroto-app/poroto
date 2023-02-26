@@ -1,13 +1,15 @@
-import Link from 'next/link'
-import Layout from '../components/Layout'
+import React from "react";
+import Head from "next/head";
 
 const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">About</Link>
-    </p>
-  </Layout>
+    <div>
+        <Head>
+            <title>poroto</title>
+            <meta charSet="utf-8" />
+            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        </Head>
+        <h1>Hello <a href="https://poroto.app">poroto</a></h1>
+    </div>
 )
 
 export default IndexPage
