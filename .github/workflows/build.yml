@@ -1,0 +1,32 @@
+name: build
+run-name: Build by @${{ github.actor }}
+on: [push]
+jobs:
+  dependency-install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - run: yarn install
+  type-check:
+    needs: dependency-install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - run: yarn install
+      - run: yarn type-check
+  build:
+    needs: dependency-install
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - run: yarn install
+      - run: yarn build
