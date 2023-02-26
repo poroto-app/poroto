@@ -9,14 +9,13 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '16'
-          cache: npm
   type-check:
-    needs: install
+    needs: dependency-install
     runs-on: ubuntu-latest
     steps:
       - run: yarn type-check
   build:
-    needs: install
+    needs: dependency-install
     runs-on: ubuntu-latest
     steps:
       - run: yarn build
