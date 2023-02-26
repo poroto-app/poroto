@@ -3,9 +3,10 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p $PORT",
     "type-check": "tsc",
-
+    "gcp-build": "yarn build",
+    "deploy": "gcloud app deploy --quiet app.yaml"
   },
   "dependencies": {
     "next": "13.2.1",

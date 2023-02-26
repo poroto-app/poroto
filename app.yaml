@@ -1,0 +1,22 @@
+# SEE: https://cloud.google.com/appengine/docs/standard/go/config/appref?hl=ja
+runtime: nodejs16
+automatic_scaling:
+  min_idle_instances: automatic
+  max_idle_instances: 1
+  min_pending_latency: 3000ms
+  max_pending_latency: automatic
+  max_instances: 1
+  min_instances: 0
+
+handlers:
+  - url: /_next/static
+    static_dir: .next/static
+  - url: /(.*\.(gif|png|jpg|ico|txt|svg))$
+    static_files: public/\1
+    upload: public/.*\.(gif|png|jpg|ico|txt|svg)$
+  - url: /.*
+    secure: always # httpsのみ許可
+    script: auto   # next.jsに何のファイルをロードするかを依存する
+
+env_variables:
+  NODE_ENV: "production"
