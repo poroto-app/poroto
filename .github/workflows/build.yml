@@ -5,18 +5,16 @@ jobs:
   dependency-install:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-      - run: yarn install
+      - uses: ./github/workflows/install.yml
   type-check:
     needs: dependency-install
     runs-on: ubuntu-latest
     steps:
+      - uses: ./github/workflows/install.yml
       - run: yarn type-check
   build:
     needs: dependency-install
     runs-on: ubuntu-latest
     steps:
+      - uses: ./github/workflows/install.yml
       - run: yarn build
