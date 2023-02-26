@@ -3,15 +3,18 @@ run-name: Build by @${{ github.actor }}
 on: [push]
 jobs:
   dependency-install:
+    runs-on: ubuntu-latest
     steps:
       - uses: ./github/workflows/install.yml
   type-check:
     needs: dependency-install
+    runs-on: ubuntu-latest
     steps:
       - uses: ./github/workflows/install.yml
       - run: yarn type-check
   build:
     needs: dependency-install
+    runs-on: ubuntu-latest
     steps:
       - uses: ./github/workflows/install.yml
       - run: yarn build
