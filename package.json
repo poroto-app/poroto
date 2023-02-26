@@ -3,11 +3,13 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start",
-    "type-check": "tsc"
+    "start": "next start -p $PORT",
+    "type-check": "tsc",
+    "gcp-build": "yarn build",
+    "deploy": "gcloud app deploy --quiet app.yaml"
   },
   "dependencies": {
-    "next": "latest",
+    "next": "13.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
