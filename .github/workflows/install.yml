@@ -1,4 +1,6 @@
 name: install
+on:
+  workflow_call:
 jobs:
   dependency-install:
     runs-on: ubuntu-latest
