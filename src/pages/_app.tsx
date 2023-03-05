@@ -60,6 +60,7 @@ export default function App({Component, pageProps}: AppProps) {
                 `}
             </style>
             <ChakraProvider>
+                {/*@ts-ignore*/}
                 <Component {...pageProps} />
             </ChakraProvider>
         </>
