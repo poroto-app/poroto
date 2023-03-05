@@ -1,15 +1,11 @@
 import React from "react";
-import Head from "next/head";
+import {Container} from "@chakra-ui/react";
+import {CreatePlanFromCurrentLocationButton} from "src/view/top/CreatePlanFromCurrentLocationButton";
 
 const IndexPage = () => (
-    <div>
-        <Head>
-            <title>poroto</title>
-            <meta charSet="utf-8" />
-            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        </Head>
-        <h1>Hello <a href="https://poroto.app">poroto</a></h1>
-    </div>
+    <Container maxW="990px" px="16px" py="16px">
+        <CreatePlanFromCurrentLocationButton onClick={() => 0}/>
+    </Container>
 )
 
 export default IndexPage
