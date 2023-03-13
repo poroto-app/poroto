@@ -33,7 +33,7 @@ const SelectPlanPage = () => {
         <NavBar title="プランを選ぶ"/>
         <VStack w="100%" px="16px" spacing={16} py="16px">
             {
-                plans.map((plan) => <VStack key={plan.id} w="100%">
+                plans.map((plan) => <VStack key={plan.id} w="100%" maxW="300px">
                     <PlanThumbnail imageUrls={plan.imageUrls}/>
                     <HStack w="100%" justifyContent="flex-start">
                         {plan.tags.map((tag) => <Tag tag={tag}/>)}
