@@ -1,6 +1,6 @@
 import {NavBar} from "src/view/common/NavBar";
 import {PlanEntry, PlanTag} from "src/domain/plan/Plan";
-import {Grid, GridItem, HStack, Text, VStack} from "@chakra-ui/react";
+import {Box, Grid, GridItem, HStack, Text, VStack} from "@chakra-ui/react";
 import styled from "styled-components";
 
 // TODO: Delete
@@ -67,7 +67,9 @@ const Thumbnail = styled.img`
 `;
 
 const Tag = ({tag}: { tag: PlanTag }) => {
-    return <Text>{tag.content}</Text>
+    return <Box px="8px" py="4px" borderRadius="5px" border="1px solid rgba(0, 0, 0, .1)">
+        <Text>{tag.content}</Text>
+    </Box>
 }
 
 export default SelectPlanPage;
