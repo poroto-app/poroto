@@ -34,10 +34,10 @@ const SelectPlanPage = () => {
         <NavBar title="プランを選ぶ"/>
         <VStack w="100%" px="16px" spacing={16} py="16px">
             {
-                plans.map((plan) => <VStack key={plan.id} w="100%" maxW="300px">
+                plans.map((plan,i) => <VStack key={i} w="100%" maxW="300px">
                     <PlanThumbnail imageUrls={plan.imageUrls}/>
                     <HStack w="100%" justifyContent="flex-start">
-                        {plan.tags.map((tag) => <Tag tag={tag}/>)}
+                        {plan.tags.map((tag, i) => <Tag key={i} tag={tag}/>)}
                     </HStack>
                 </VStack>)
             }
@@ -69,6 +69,7 @@ const PlanThumbnail = ({imageUrls}: { imageUrls: string[] }) => {
     >
         {
             imageUrls.map((url, i) => <GridItem
+                key={i}
                 w="100%" h="100%" overflow="hidden" position="relative"
                 gridArea={gridAreas[i]}
             >
