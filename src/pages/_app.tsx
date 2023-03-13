@@ -10,6 +10,7 @@ export default function App({Component, pageProps}: AppProps) {
                 <title>poroto</title>
                 <meta name="viewport" content="width=device-width,initial-scale=1"/>
             </Head>
+            {/*@ts-ignore*/}
             <style jsx global>
                 {`
                   html {
