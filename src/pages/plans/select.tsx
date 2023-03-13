@@ -48,6 +48,8 @@ const SelectPlanPage = () => {
 
 const PlanThumbnail = ({imageUrls}: { imageUrls: string[] }) => {
 
+    imageUrls = imageUrls.slice(0, 4);
+
     const gridAreas = ["A", "B", "C", "D"]
     const gridAreaTemplates = [
         `"A A"
