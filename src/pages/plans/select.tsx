@@ -1,0 +1,98 @@
+import {NavBar} from "src/view/common/NavBar";
+import {PlanEntry, PlanTag} from "src/domain/plan/Plan";
+import {Box, Grid, GridItem, HStack, Skeleton, Text, VStack} from "@chakra-ui/react";
+import styled from "styled-components";
+import React from "react";
+
+// TODO: Delete
+const plans: PlanEntry[] = [
+    {
+        id: "cate",
+        title: "カフェでほっと一息",
+        imageUrls: ["https://picsum.photos/200"],
+        tags: [
+            {content: "カフェ"}
+        ]
+    },
+    {
+        id: "cafe&book",
+        title: "ゆっくり読書時間",
+        imageUrls: [
+            "https://picsum.photos/600/500",
+            "https://picsum.photos/800/500",
+            "https://picsum.photos/600/300"
+        ],
+        tags: [
+            {content: "カフェ"},
+            {content: "書店"}
+        ]
+    }
+]
+
+const SelectPlanPage = () => {
+    return <div>
+        <NavBar title="プランを選ぶ"/>
+        <VStack w="100%" px="16px" spacing={16} py="16px">
+            {
+                plans.map((plan,i) => <VStack key={i} w="100%" maxW="300px">
+                    <PlanThumbnail imageUrls={plan.imageUrls}/>
+                    <HStack w="100%" justifyContent="flex-start">
+                        {plan.tags.map((tag, i) => <Tag key={i} tag={tag}/>)}
+                    </HStack>
+                </VStack>)
+            }
+        </VStack>
+    </div>
+}
+
+
+const PlanThumbnail = ({imageUrls}: { imageUrls: string[] }) => {
+
+    imageUrls = imageUrls.slice(0, 4);
+
+    const gridAreas = ["A", "B", "C", "D"]
+    const gridAreaTemplates = [
+        `"A A"
+         "A A"`,
+
+        `"A B"
+         "A B"`,
+
+        `"A A"\n"B C"`,
+
+        `"A B"\n"C D"`
+    ]
+
+    return <Grid
+        width="300px" height="300px"
+        templateColumns="repeat(2, 1fr)" templateRows="repeat(2, 1fr)"
+        gridTemplateAreas={gridAreaTemplates[imageUrls.length - 1]}
+        borderRadius="10px" overflow="hidden"
+    >
+        {
+            imageUrls.map((url, i) => <GridItem
+                key={i}
+                w="100%" h="100%" overflow="hidden" position="relative"
+                gridArea={gridAreas[i]}
+            >
+                <Skeleton position="absolute" top="0" right="0" bottom="0" left="0" zIndex="-1"/>
+                <Thumbnail src={url}/>
+            </GridItem>)
+        }
+    </Grid>
+}
+
+const Thumbnail = styled.img`
+  overflow: clip;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+`;
+
+const Tag = ({tag}: { tag: PlanTag }) => {
+    return <Box px="8px" py="4px" borderRadius="5px" border="1px solid rgba(0, 0, 0, .1)">
+        <Text>{tag.content}</Text>
+    </Box>
+}
+
+export default SelectPlanPage;

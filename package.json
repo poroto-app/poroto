@@ -9,14 +9,22 @@
     "deploy": "gcloud app deploy --quiet app.yaml"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.5.1",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "babel-plugin-styled-components": "^2.0.7",
+    "framer-motion": "^10.0.2",
     "next": "13.2.1",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-icons": "^4.8.0",
+    "styled-components": "^5.3.8"
   },
   "devDependencies": {
     "@types/node": "^12.12.21",
     "@types/react": "^17.0.2",
     "@types/react-dom": "^17.0.1",
+    "@types/styled-components": "^5.1.26",
     "typescript": "^4.8.3"
   }
 }
