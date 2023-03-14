@@ -17,6 +17,7 @@ const Button = styled.div`
   background-color: #539565;
   border-radius: 10px;
   color: white;
+  cursor: pointer;
   display: flex;
   font-weight: bold;
   align-items: center;
@@ -24,4 +25,5 @@ const Button = styled.div`
   column-gap: 8px;
   padding: 4px 8px;
   width: 100%;
+  transition: 0.2s ease-in;
 `;

@@ -35,7 +35,7 @@ const SelectPlanPage = () => {
         <VStack w="100%" px="16px" spacing={16} py="16px">
             {
                 plans.map((plan,i) => <VStack key={i} w="100%" maxW="300px">
-                    <PlanThumbnail imageUrls={plan.imageUrls}/>
+                    <PlanThumbnail imageUrls={plan.imageUrls} />
                     <HStack w="100%" justifyContent="flex-start">
                         {plan.tags.map((tag, i) => <Tag key={i} tag={tag}/>)}
                     </HStack>
@@ -67,7 +67,7 @@ const PlanThumbnail = ({imageUrls}: { imageUrls: string[] }) => {
         width="300px" height="300px"
         templateColumns="repeat(2, 1fr)" templateRows="repeat(2, 1fr)"
         gridTemplateAreas={gridAreaTemplates[imageUrls.length - 1]}
-        borderRadius="10px" overflow="hidden"
+        borderRadius="10px" overflow="hidden" cursor="pointer"
     >
         {
             imageUrls.map((url, i) => <GridItem
@@ -90,7 +90,11 @@ const Thumbnail = styled.img`
 `;
 
 const Tag = ({tag}: { tag: PlanTag }) => {
-    return <Box px="8px" py="4px" borderRadius="5px" border="1px solid rgba(0, 0, 0, .1)">
+    return <Box
+        px="8px" py="4px"
+        borderRadius="5px" border="1px solid rgba(0, 0, 0, .1)"
+        cursor="pointer"
+    >
         <Text>{tag.content}</Text>
     </Box>
 }
