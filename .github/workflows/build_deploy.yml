@@ -4,9 +4,7 @@ on: push
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: ./.github/workflows/build.yaml
+    uses: ./.github/workflows/build.yaml
   # SEE: https://github.com/google-github-actions/deploy-appengine
   deploy:
     name: GAE deploy
