@@ -1,26 +1,25 @@
-import {useState} from "react";
 import {GeoLocation} from "src/domain/models/GeoLocation";
 
 export const useLocation = () => {
-    const [location, setLocation] = useState<GeoLocation>();
-
-    const getCurrentLocation = () => {
+    const getCurrentLocation = async (): Promise<GeoLocation | null> => {
         if (!navigator.geolocation) {
             console.info("cannot use the geolocation API");
-            return
+            return null;
         }
 
-        navigator.geolocation.getCurrentPosition((position) => {
-            setLocation({
-                latitude: position.coords.latitude, longitude: position.coords.longitude
-            });
-        }, (e) => {
-            console.error("error while getting current location");
-        })
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition((position) => {
+                resolve({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                });
+            }, (e) => {
+                reject(e)
+            })
+        });
     }
 
     return {
-        location,
         getCurrentLocation
     }
 }
