@@ -16,6 +16,7 @@ module.exports = {
     "core": {
         "builder": "@storybook/builder-webpack5"
     },
+    staticDirs: ['../public'],
     webpackFinal(config) {
         config.resolve.modules = [
             ...(config.resolve.modules || []),
