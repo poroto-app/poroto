@@ -12,7 +12,10 @@ export const LoadingModal = ({title}: Props) => {
     >
         <VStack>
             <img src="/images/logo.svg" alt="logo"/>
-            <Text mt="8px" fontSize="1.25rem" bgGradient="linear(45deg, #4E6382, #BBA0A6)" bgClip="text">{title}</Text>
+            <Text
+                px="16px" mt="8px" maxW="100%" fontSize="1.25rem"
+                bgGradient="linear(45deg, #4E6382, #BBA0A6)" bgClip="text"
+            >{title}</Text>
         </VStack>
     </Center>
 }
