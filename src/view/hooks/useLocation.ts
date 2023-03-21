@@ -1,5 +1,5 @@
-import {useState} from "react";
-import {GeoLocation} from "src/domain/models/GeoLocation";
+import { useState } from "react";
+import { GeoLocation } from "src/domain/models/GeoLocation";
 
 
 const fetchCurrentLocation = async (): Promise<GeoLocation | null> => {
@@ -22,6 +22,7 @@ const fetchCurrentLocation = async (): Promise<GeoLocation | null> => {
 
 export const useLocation = () => {
     const [location, setLocation] = useState<GeoLocation>(null);
+    const [didRejected, setDidRejected] = useState<boolean | null>(null);
     const [isLoadingLocation, setIsLoadingLocation] = useState(false);
 
     const fetchCurrentLocationWithHook = async (): Promise<GeoLocation | null> => {
@@ -29,9 +30,11 @@ export const useLocation = () => {
         try {
             const currentLocation = await fetchCurrentLocation();
             setLocation(currentLocation);
+            setDidRejected(false);
             return currentLocation;
         } catch (e) {
             setLocation(null);
+            setDidRejected(true);
             return null;
         } finally {
             setIsLoadingLocation(false);
@@ -40,6 +43,7 @@ export const useLocation = () => {
 
     return {
         isLoadingLocation,
+        didRejected,
         location,
         getCurrentLocation: fetchCurrentLocationWithHook,
     }
