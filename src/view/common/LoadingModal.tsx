@@ -12,12 +12,12 @@ export const LoadingModal = ({title}: Props) => {
         backgroundColor="F7F5EE"
         position="fixed" top={0} right={0} bottom={0} left={0}
     >
-        <VStack>
+        <VStack spacing={8}>
             <FadeInFadeOutTransition>
                 <Image width={100} height={100} src="/images/logo.svg" alt="logo"/>
             </FadeInFadeOutTransition>
             <Text
-                px="16px" mt="8px" maxW="100%" fontSize="1.25rem"
+                px="16px" maxW="100%" fontSize="1.25rem"
                 bgGradient="linear(45deg, #4E6382, #BBA0A6)" bgClip="text"
             >{title}</Text>
         </VStack>
