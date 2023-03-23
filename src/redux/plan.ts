@@ -1,6 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {PlanEntry} from "src/domain/plan/Plan";
 import {PlannerApi} from "src/data/api/planner/PlannerApi";
+import {useSelector} from "react-redux";
+import {RootState} from "src/redux/redux";
 
 export type PlanState = {
     plans: PlanEntry[] | null,
@@ -47,5 +49,7 @@ export const slice = createSlice({
 export const {
     setPlans
 } = slice.actions;
+
+export const reduxPlanSelector = () => useSelector((state: RootState) => state.plan);
 
 export const planReducer = slice.reducer;
