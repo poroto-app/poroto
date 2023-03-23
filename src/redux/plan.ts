@@ -1,5 +1,6 @@
-import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {PlanEntry} from "src/domain/plan/Plan";
+import {PlannerApi} from "src/data/api/planner/PlannerApi";
 
 export type PlanState = {
     plans: PlanEntry[] | null,
@@ -8,6 +9,27 @@ export type PlanState = {
 const initialState: PlanState = {
     plans: null,
 }
+
+type CreatePlanFromCurrentLocationProps = {
+    currentLocation: {
+        latitude: number,
+        longitude: number,
+    }
+};
+export const CreatePlanFromCurrentLocation = createAsyncThunk(
+    'plan/CreatePlanFromCurrentLocation',
+    async ({currentLocation}: CreatePlanFromCurrentLocationProps, {dispatch}) => {
+        const plannerApi = new PlannerApi();
+        const response = await plannerApi.createPlansFromLocation({location: currentLocation});
+        const plans: PlanEntry[] = response.plans.map((plan) => ({
+            id: plan.id,
+            title: plan.title,
+            imageUrls: plan.places.flatMap((place) => place.imageUrls),
+            tags: plan.tags
+        }));
+        dispatch(setPlans({plans}))
+    }
+)
 
 export const slice = createSlice({
     name: 'plan',
@@ -22,6 +44,8 @@ export const slice = createSlice({
     },
 });
 
-export const {} = slice.actions;
+export const {
+    setPlans
+} = slice.actions;
 
 export const planReducer = slice.reducer;
