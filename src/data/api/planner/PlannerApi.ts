@@ -1,5 +1,5 @@
 export class PlannerApi {
-    createPlansFromCurrentLocation(request: CreatePlanFromCurrentLocationRequest): CreatePlanFromCurrentLocationResponse {
+    createPlansFromLocation(request: CreatePlanFromLocationRequest): CreatePlanFromLocationResponse {
         // TODO: implement me!
         return {
             plans: [
@@ -48,14 +48,14 @@ export class PlannerApi {
     }
 }
 
-export type CreatePlanFromCurrentLocationRequest = {
+export type CreatePlanFromLocationRequest = {
     location: {
         latitude: number,
         longitude: number,
     }
 }
 
-export type CreatePlanFromCurrentLocationResponse = {
+export type CreatePlanFromLocationResponse = {
     plans: {
         id: string,
         title: string
