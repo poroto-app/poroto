@@ -13,16 +13,16 @@ const initialState: PlanState = {
 }
 
 type CreatePlanFromCurrentLocationProps = {
-    currentLocation: {
+    location: {
         latitude: number,
         longitude: number,
     }
 };
-export const CreatePlanFromCurrentLocation = createAsyncThunk(
-    'plan/CreatePlanFromCurrentLocation',
-    async ({currentLocation}: CreatePlanFromCurrentLocationProps, {dispatch}) => {
+export const createPlanFromLocation = createAsyncThunk(
+    'plan/createPlanFromCurrentLocation',
+    async ({location}: CreatePlanFromCurrentLocationProps, {dispatch}) => {
         const plannerApi = new PlannerApi();
-        const response = await plannerApi.createPlansFromLocation({location: currentLocation});
+        const response = await plannerApi.createPlansFromLocation({location: location});
         const plans: PlanEntry[] = response.plans.map((plan) => ({
             id: plan.id,
             title: plan.title,
