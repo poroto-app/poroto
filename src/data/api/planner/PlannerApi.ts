@@ -1,5 +1,5 @@
 export class PlannerApi {
-    createPlansFromLocation(request: CreatePlanFromLocationRequest): CreatePlanFromLocationResponse {
+    async createPlansFromLocation(request: CreatePlanFromLocationRequest): Promise<CreatePlanFromLocationResponse> {
         // TODO: implement me!
         return {
             plans: [
