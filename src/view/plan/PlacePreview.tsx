@@ -14,6 +14,7 @@ export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
                 imageUrls.map((imageUrl, i) => <Image
                     key={i} src={imageUrl}
                     objectFit="cover" w="100%" h="100%"
+                    scrollSnapAlign="start"
                 />)
             }
         </ImagePreviewer>
@@ -39,6 +40,7 @@ const ImagePreviewer = styled.div`
     width: 100%;
     height: 200px;
     overflow-x: scroll;
+    scroll-snap-type: x mandatory;
 
     &::-webkit-scrollbar {
         display: none;
