@@ -17,7 +17,7 @@ export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
                 />)
             }
         </ImagePreviewer>
-        <Text>{name}</Text>
+        <Text fontSize="1.15rem">{name}</Text>
         <HStack>
             {
                 tags.map((tag, i) => <Box
@@ -25,7 +25,7 @@ export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
                     border="1px solid rgba(0, 0, 0, .1)" borderRadius="5px"
                     px="4px" py="2px"
                 >
-                    <Text>{tag}</Text>
+                    <Text fontSize="0.95rem">{tag}</Text>
                 </Box>)
             }
         </HStack>
