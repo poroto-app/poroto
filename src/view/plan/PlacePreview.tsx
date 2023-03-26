@@ -1,4 +1,4 @@
-import { Box, HStack, Text, Image } from "@chakra-ui/react"
+import { Box, HStack, Text, Image, VStack } from "@chakra-ui/react"
 import styled from "styled-components"
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 }
 
 export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
-    return <Box>
+    return <VStack alignItems="flex-start">
         <ImagePreviewer>
             {
                 imageUrls.map((imageUrl, i) => <Image
@@ -18,7 +18,18 @@ export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
             }
         </ImagePreviewer>
         <Text>{name}</Text>
-    </Box>
+        <HStack>
+            {
+                tags.map((tag, i) => <Box
+                    key={i}
+                    border="1px solid rgba(0, 0, 0, .1)" borderRadius="5px"
+                    px="4px" py="2px"
+                >
+                    <Text>{tag}</Text>
+                </Box>)
+            }
+        </HStack>
+    </VStack>
 }
 
 const ImagePreviewer = styled.div`
