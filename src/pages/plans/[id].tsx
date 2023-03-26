@@ -11,8 +11,8 @@ const plan = {
             name: "poroto書店",
             imageUrls: [
                 "https://picsum.photos/200",
-                "https://picsum.photos/200",
-                "https://picsum.photos/200",
+                "https://picsum.photos/300",
+                "https://picsum.photos/400",
             ],
             tags: [
                 "書店",
@@ -22,8 +22,8 @@ const plan = {
         {
             name: "スターバックス・コーヒー poroto店",
             imageUrls: [
-                "https://picsum.photos/200/800",
-                "https://picsum.photos/200/500",
+                "https://picsum.photos/300/400",
+                "https://picsum.photos/1280/720",
                 "https://picsum.photos/400/600",
             ],
             tags: [
@@ -38,8 +38,8 @@ const plan = {
 const PlanDetail = () => {
     return <Center flexDirection="column">
         <NavBar title={plan.title} />
-        <Box maxWidth="990px" w="100%" py="16px" px="8px">
-            <VStack>
+        <Box maxWidth="990px" w="100%" px="8px" py="16px" boxSizing="border-box">
+            <VStack spacing={8} w="100%">
                 {
                     plan.places.map((place, i) => <PlacePreview
                         key={i}
