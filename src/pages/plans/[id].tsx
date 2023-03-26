@@ -1,5 +1,6 @@
-import { Box } from "@chakra-ui/react"
+import { Box, Center, Container, VStack } from "@chakra-ui/react"
 import { NavBar } from "src/view/common/NavBar"
+import { PlacePreview } from "src/view/plan/PlacePreview"
 
 // TODO: Delete
 const plan = {
@@ -35,9 +36,21 @@ const plan = {
 }
 
 const PlanDetail = () => {
-    return <Box>
+    return <Center flexDirection="column">
         <NavBar title={plan.title} />
-    </Box>
+        <Box maxWidth="990px" w="100%" py="16px" px="8px">
+            <VStack>
+                {
+                    plan.places.map((place, i) => <PlacePreview
+                        key={i}
+                        name={place.name}
+                        imageUrls={place.imageUrls}
+                        tags={place.tags}
+                    />)
+                }
+            </VStack>
+        </Box>
+    </Center>
 }
 
 export default PlanDetail

@@ -8,7 +8,7 @@ type Props = {
 }
 
 export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
-    return <VStack alignItems="flex-start">
+    return <VStack alignItems="flex-start" w="100%">
         <ImagePreviewer>
             {
                 imageUrls.map((imageUrl, i) => <Image
