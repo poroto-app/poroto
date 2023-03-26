@@ -18,4 +18,5 @@ const Container = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, .1);
   padding: 8px 16px;
   font-size: 0.95rem;
+  width: 100%;
 `;
