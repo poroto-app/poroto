@@ -7,7 +7,7 @@ import {useLocation} from "src/view/hooks/useLocation";
 
 const IndexPage = () => {
     const router = useRouter();
-    const {getCurrentLocation, isLoadingLocation, didRejected} = useLocation();
+    const {getCurrentLocation, isLoadingLocation, isRejected} = useLocation();
 
     const onClickCreatePlanFromCurrentLocation = async () => {
         const currentLocation = await getCurrentLocation();
@@ -18,7 +18,7 @@ const IndexPage = () => {
     return <Container maxW="990px" px="16px" py="16px">
         <CreatePlanFromCurrentLocationButton onClick={onClickCreatePlanFromCurrentLocation}/>
         {isLoadingLocation && <Text>現在地を取得中</Text>}
-        {didRejected && <Text>現在地の取得を拒否されました。</Text>}
+        {isRejected && <Text>現在地の取得を拒否されました。</Text>}
     </Container>
 }
 

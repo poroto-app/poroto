@@ -22,7 +22,7 @@ const fetchCurrentLocation = async (): Promise<GeoLocation | null> => {
 
 export const useLocation = () => {
     const [location, setLocation] = useState<GeoLocation>(null);
-    const [didRejected, setDidRejected] = useState<boolean | null>(null);
+    const [isRejected, setIsRejected] = useState<boolean | null>(null);
     const [isLoadingLocation, setIsLoadingLocation] = useState(false);
 
     const fetchCurrentLocationWithHook = async (): Promise<GeoLocation | null> => {
@@ -30,11 +30,11 @@ export const useLocation = () => {
         try {
             const currentLocation = await fetchCurrentLocation();
             setLocation(currentLocation);
-            setDidRejected(false);
+            setIsRejected(false);
             return currentLocation;
         } catch (e) {
             setLocation(null);
-            setDidRejected(true);
+            setIsRejected(true);
             return null;
         } finally {
             setIsLoadingLocation(false);
@@ -43,7 +43,7 @@ export const useLocation = () => {
 
     return {
         isLoadingLocation,
-        didRejected,
+        isRejected,
         location,
         getCurrentLocation: fetchCurrentLocationWithHook,
     }
