@@ -1,41 +1,21 @@
 import {NavBar} from "src/view/common/NavBar";
-import {PlanEntry, PlanTag} from "src/domain/plan/Plan";
+import {PlanTag} from "src/domain/plan/Plan";
 import {Box, Grid, GridItem, HStack, Skeleton, Text, VStack} from "@chakra-ui/react";
 import styled from "styled-components";
 import React from "react";
+import {reduxPlanSelector} from "src/redux/plan";
 
-// TODO: Delete
-const plans: PlanEntry[] = [
-    {
-        id: "cate",
-        title: "カフェでほっと一息",
-        imageUrls: ["https://picsum.photos/200"],
-        tags: [
-            {content: "カフェ"}
-        ]
-    },
-    {
-        id: "cafe&book",
-        title: "ゆっくり読書時間",
-        imageUrls: [
-            "https://picsum.photos/600/500",
-            "https://picsum.photos/800/500",
-            "https://picsum.photos/600/300"
-        ],
-        tags: [
-            {content: "カフェ"},
-            {content: "書店"}
-        ]
-    }
-]
 
 const SelectPlanPage = () => {
+
+    const {plans} = reduxPlanSelector();
+
     return <div>
         <NavBar title="プランを選ぶ"/>
         <VStack w="100%" px="16px" spacing={16} py="16px">
             {
-                plans.map((plan,i) => <VStack key={i} w="100%" maxW="300px">
-                    <PlanThumbnail imageUrls={plan.imageUrls} />
+                (plans || []).map((plan, i) => <VStack key={i} w="100%" maxW="300px">
+                    <PlanThumbnail imageUrls={plan.imageUrls}/>
                     <HStack w="100%" justifyContent="flex-start">
                         {plan.tags.map((tag, i) => <Tag key={i} tag={tag}/>)}
                     </HStack>
