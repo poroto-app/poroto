@@ -21,7 +21,7 @@ const fetchCurrentLocation = async (): Promise<GeoLocation | null> => {
 }
 
 export const useLocation = () => {
-    const [location, setLocation] = useState<GeoLocation>(null);
+    const [location, setLocation] = useState<GeoLocation | null>(null);
     const [isRejected, setIsRejected] = useState<boolean | null>(null);
     const [isLoadingLocation, setIsLoadingLocation] = useState(false);
 
