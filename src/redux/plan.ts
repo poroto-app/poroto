@@ -7,6 +7,7 @@ import {RootState} from "src/redux/redux";
 export type PlanState = {
     // TODO: ここもPlanで管理する（提示するプランは３件だけでデータ量も多くないはずだから）
     plans: PlanEntry[] | null,
+    // TODO: `usePlanPreview`等でデータを二重管理しないようにする
     preview: Plan | null,
 }
 
