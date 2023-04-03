@@ -1,50 +1,37 @@
+import axios, {AxiosResponse} from "axios";
+
 export class PlannerApi {
     async createPlansFromLocation(request: CreatePlanFromLocationRequest): Promise<CreatePlanFromLocationResponse> {
-        // TODO: implement me!
+        // TODO: Planner APIと型を合わせる
+        const response: AxiosResponse<{
+            plans: {
+                name: string,
+                places: {
+                    name: string
+                    location: {
+                        latitude: number,
+                        longitude: number,
+                    }
+                }[]
+            }[]
+        }> = await axios.post(`${process.env.PLANNER_API_ENDPOINT}/plans`, request);
+
         return {
-            plans: [
-                {
-                    id: "0",
-                    title: "カフェでほっと一息",
-                    tags: [
-                        {content: "カフェ"}
+            plans: response.data.plans.map((plan, i) => ({
+                id: i.toString(),
+                title: plan.name,
+                tags: [],
+                places: plan.places.map((place) => ({
+                    name: place.name,
+                    imageUrls: [
+                        "https://picsum.photos/600/500",
+                        "https://picsum.photos/800/500",
+                        "https://picsum.photos/600/300"
                     ],
-                    places: [
-                        {
-                            name: "カフェ",
-                            imageUrls: ["https://picsum.photos/200"],
-                            location: {latitude: 0, longitude: 0}
-                        }
-                    ],
-                },
-                {
-                    id: "1",
-                    title: "ゆっくり読書時間",
-                    tags: [
-                        {content: "カフェ"},
-                        {content: "書店"}
-                    ],
-                    places: [
-                        {
-                            name: "カフェ",
-                            imageUrls: [
-                                "https://picsum.photos/200",
-                            ],
-                            location: {latitude: 0, longitude: 0}
-                        },
-                        {
-                            name: "書店",
-                            imageUrls: [
-                                "https://picsum.photos/600/500",
-                                "https://picsum.photos/800/500",
-                                "https://picsum.photos/600/300"
-                            ],
-                            location: {latitude: 0, longitude: 0}
-                        }
-                    ],
-                },
-            ]
-        }
+                    location: place.location,
+                })),
+            }))
+        };
     }
 }
 
