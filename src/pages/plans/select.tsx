@@ -24,8 +24,9 @@ const SelectPlanPage = () => {
         <VStack w="100%" px="16px" spacing={16} py="16px">
             {
                 (plans || []).map((plan, i) => <Link key={i} href={"/plans/" + plan.id}>
-                        <VStack w="100%" maxW="300px">
+                        <VStack w="100%" maxW="300px" alignItems="flex-start">
                             <PlanThumbnail imageUrls={plan.imageUrls}/>
+                            <Text fontWeight="bold" fontSize="1.25rem">{plan.title}</Text>
                             <HStack w="100%" justifyContent="flex-start">
                                 {plan.tags.map((tag, i) => <Tag key={i} tag={tag}/>)}
                             </HStack>
