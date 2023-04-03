@@ -4,6 +4,7 @@ import {Box, Grid, GridItem, HStack, Skeleton, Text, VStack} from "@chakra-ui/re
 import styled from "styled-components";
 import React from "react";
 import {reduxPlanSelector} from "src/redux/plan";
+import Link from "next/link";
 
 
 const SelectPlanPage = () => {
@@ -14,12 +15,15 @@ const SelectPlanPage = () => {
         <NavBar title="プランを選ぶ"/>
         <VStack w="100%" px="16px" spacing={16} py="16px">
             {
-                (plans || []).map((plan, i) => <VStack key={i} w="100%" maxW="300px">
-                    <PlanThumbnail imageUrls={plan.imageUrls}/>
-                    <HStack w="100%" justifyContent="flex-start">
-                        {plan.tags.map((tag, i) => <Tag key={i} tag={tag}/>)}
-                    </HStack>
-                </VStack>)
+                (plans || []).map((plan, i) => <Link key={i} href={"/plans/" + plan.id}>
+                        <VStack w="100%" maxW="300px">
+                            <PlanThumbnail imageUrls={plan.imageUrls}/>
+                            <HStack w="100%" justifyContent="flex-start">
+                                {plan.tags.map((tag, i) => <Tag key={i} tag={tag}/>)}
+                            </HStack>
+                        </VStack>
+                    </Link>
+                )
             }
         </VStack>
     </div>
