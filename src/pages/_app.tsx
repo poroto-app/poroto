@@ -11,6 +11,8 @@ export default function App({Component, pageProps}: AppProps) {
                 <meta charSet="utf-8"/>
                 <title>poroto</title>
                 <meta name="viewport" content="width=device-width,initial-scale=1"/>
+                <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+                <link rel="icon" type="image/png" href="/favicon/favicon.png" />
             </Head>
             {/*@ts-ignore*/}
             <style jsx global>
