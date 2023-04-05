@@ -1,12 +1,9 @@
-export type Plan = {
-    title: string
-    imageUrls: string
-}
+import {Place} from "src/domain/place/place";
 
-export type PlanEntry = {
-    id: string,
+export type Plan = {
+    id: string
     title: string
-    imageUrls: string[]
+    places: Place[],
     tags: PlanTag[]
 }
 

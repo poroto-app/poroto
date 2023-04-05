@@ -1,45 +1,38 @@
 import {NavBar} from "src/view/common/NavBar";
-import {PlanEntry, PlanTag} from "src/domain/plan/Plan";
-import {Box, Grid, GridItem, HStack, Skeleton, Text, VStack} from "@chakra-ui/react";
+import {PlanTag} from "src/domain/plan/Plan";
+import {Box, Center, Grid, GridItem, HStack, Skeleton, Text, VStack} from "@chakra-ui/react";
 import styled from "styled-components";
 import React from "react";
+import {reduxPlanSelector} from "src/redux/plan";
+import Link from "next/link";
+import {LoadingModal} from "src/view/common/LoadingModal";
 
-// TODO: Delete
-const plans: PlanEntry[] = [
-    {
-        id: "cate",
-        title: "カフェでほっと一息",
-        imageUrls: ["https://picsum.photos/200"],
-        tags: [
-            {content: "カフェ"}
-        ]
-    },
-    {
-        id: "cafe&book",
-        title: "ゆっくり読書時間",
-        imageUrls: [
-            "https://picsum.photos/600/500",
-            "https://picsum.photos/800/500",
-            "https://picsum.photos/600/300"
-        ],
-        tags: [
-            {content: "カフェ"},
-            {content: "書店"}
-        ]
-    }
-]
 
 const SelectPlanPage = () => {
+
+    const {plans} = reduxPlanSelector();
+
+    if (!plans) return <LoadingModal title="プランを作成しています"/>
+
+    // TODO: プラン作成失敗 or 直接このページに来たときははじく
+    if (plans.length === 0) return <Center>
+        <Text>プランを作成することができませんでした。</Text>
+    </Center>
+
     return <div>
         <NavBar title="プランを選ぶ"/>
         <VStack w="100%" px="16px" spacing={16} py="16px">
             {
-                plans.map((plan,i) => <VStack key={i} w="100%" maxW="300px">
-                    <PlanThumbnail imageUrls={plan.imageUrls} />
-                    <HStack w="100%" justifyContent="flex-start">
-                        {plan.tags.map((tag, i) => <Tag key={i} tag={tag}/>)}
-                    </HStack>
-                </VStack>)
+                (plans || []).map((plan, i) => <Link key={i} href={"/plans/" + plan.id}>
+                        <VStack w="100%" maxW="300px" alignItems="flex-start">
+                            <PlanThumbnail imageUrls={plan.places.flatMap((place) => place.imageUrls)}/>
+                            <Text fontWeight="bold" fontSize="1.25rem">{plan.title}</Text>
+                            <HStack w="100%" justifyContent="flex-start">
+                                {plan.tags.map((tag, i) => <Tag key={i} tag={tag}/>)}
+                            </HStack>
+                        </VStack>
+                    </Link>
+                )
             }
         </VStack>
     </div>

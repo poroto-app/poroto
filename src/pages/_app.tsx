@@ -1,6 +1,8 @@
 import {AppProps} from "next/app";
 import Head from "next/head";
 import {ChakraProvider} from "@chakra-ui/react";
+import {Provider} from "react-redux";
+import {reduxStore} from "src/redux/redux";
 
 export default function App({Component, pageProps}: AppProps) {
     return (
@@ -9,6 +11,8 @@ export default function App({Component, pageProps}: AppProps) {
                 <meta charSet="utf-8"/>
                 <title>poroto</title>
                 <meta name="viewport" content="width=device-width,initial-scale=1"/>
+                <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
+                <link rel="icon" type="image/png" href="/favicon/favicon.png" />
             </Head>
             {/*@ts-ignore*/}
             <style jsx global>
@@ -61,8 +65,10 @@ export default function App({Component, pageProps}: AppProps) {
                 `}
             </style>
             <ChakraProvider>
-                {/*@ts-ignore*/}
-                <Component {...pageProps} />
+                <Provider store={reduxStore}>
+                    {/*@ts-ignore*/}
+                    <Component {...pageProps} />
+                </Provider>
             </ChakraProvider>
         </>
     )
