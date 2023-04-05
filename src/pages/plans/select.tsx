@@ -1,23 +1,32 @@
 import {NavBar} from "src/view/common/NavBar";
 import {PlanTag} from "src/domain/plan/Plan";
-import {Box, Grid, GridItem, HStack, Skeleton, Text, VStack} from "@chakra-ui/react";
+import {Box, Center, Grid, GridItem, HStack, Skeleton, Text, VStack} from "@chakra-ui/react";
 import styled from "styled-components";
 import React from "react";
 import {reduxPlanSelector} from "src/redux/plan";
 import Link from "next/link";
+import {LoadingModal} from "src/view/common/LoadingModal";
 
 
 const SelectPlanPage = () => {
 
     const {plans} = reduxPlanSelector();
 
+    if (!plans) return <LoadingModal title="プランを作成しています"/>
+
+    // TODO: プラン作成失敗 or 直接このページに来たときははじく
+    if (plans.length === 0) return <Center>
+        <Text>プランを作成することができませんでした。</Text>
+    </Center>
+
     return <div>
         <NavBar title="プランを選ぶ"/>
         <VStack w="100%" px="16px" spacing={16} py="16px">
             {
                 (plans || []).map((plan, i) => <Link key={i} href={"/plans/" + plan.id}>
-                        <VStack w="100%" maxW="300px">
+                        <VStack w="100%" maxW="300px" alignItems="flex-start">
                             <PlanThumbnail imageUrls={plan.imageUrls}/>
+                            <Text fontWeight="bold" fontSize="1.25rem">{plan.title}</Text>
                             <HStack w="100%" justifyContent="flex-start">
                                 {plan.tags.map((tag, i) => <Tag key={i} tag={tag}/>)}
                             </HStack>
