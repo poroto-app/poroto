@@ -3,5 +3,9 @@ module.exports = {
     eslint: {
         ignoreDuringBuilds: true,
     },
-    env: {},
+    env: {
+        PLANNER_API_PROTOCOL: process.env.PLANNER_API_PROTOCOL,
+        PLANNER_API_HOST: process.env.PLANNER_API_HOST,
+        PLANNER_API_ENDPOINT: `${process.env.PLANNER_API_PROTOCOL}://${process.env.PLANNER_API_HOST}`
+    },
 };
