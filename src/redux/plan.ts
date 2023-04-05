@@ -1,12 +1,12 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Plan, PlanEntry} from "src/domain/plan/Plan";
+import {Plan} from "src/domain/plan/Plan";
 import {PlannerApi} from "src/data/api/planner/PlannerApi";
 import {useSelector} from "react-redux";
 import {RootState} from "src/redux/redux";
 
 export type PlanState = {
     // TODO: ここもPlanで管理する（提示するプランは３件だけでデータ量も多くないはずだから）
-    plans: PlanEntry[] | null,
+    plans: Plan[] | null,
     // TODO: `usePlanPreview`等でデータを二重管理しないようにする
     preview: Plan | null,
 }
@@ -27,11 +27,17 @@ export const createPlanFromLocation = createAsyncThunk(
     async ({location}: CreatePlanFromCurrentLocationProps, {dispatch}) => {
         const plannerApi = new PlannerApi();
         const response = await plannerApi.createPlansFromLocation({location: location});
-        const plans: PlanEntry[] = response.plans.map((plan) => ({
+        const plans: Plan[] = response.plans.map((plan) => ({
             id: plan.id,
             title: plan.title,
             imageUrls: plan.places.flatMap((place) => place.imageUrls),
-            tags: plan.tags
+            // TODO: Planner API側で指定する
+            tags: [],
+            places: plan.places.map((place) => ({
+                name: place.name,
+                imageUrls: place.imageUrls,
+                tags: [],
+            }))
         }));
         dispatch(setPlans({plans}))
     }
@@ -41,44 +47,12 @@ export const slice = createSlice({
     name: 'plan',
     initialState,
     reducers: {
-        setPlans: (state, {payload}: PayloadAction<{ plans: PlanEntry[] | null }>) => {
+        setPlans: (state, {payload}: PayloadAction<{ plans: Plan[] | null }>) => {
             state.plans = payload.plans;
         },
         fetchPlanDetail: (state, {payload}: PayloadAction<{ planId: string }>) => {
             if (!state.plans) return;
-            const entry = state.plans.find((plan) => plan.id === payload.planId);
-            state.preview = {
-                // TODO: replace
-                id: entry.id,
-                title: entry.title,
-                places: [
-                    {
-                        name: "poroto書店",
-                        imageUrls: [
-                            "https://picsum.photos/200",
-                            "https://picsum.photos/300",
-                            "https://picsum.photos/400",
-                        ],
-                        tags: [
-                            "書店",
-                            "駅チカ",
-                        ]
-                    },
-                    {
-                        name: "スターバックス・コーヒー poroto店",
-                        imageUrls: [
-                            "https://picsum.photos/300/400",
-                            "https://picsum.photos/1280/720",
-                            "https://picsum.photos/400/600",
-                        ],
-                        tags: [
-                            "スタバ",
-                            "季節限定",
-                            "もも",
-                        ]
-                    }
-                ]
-            }
+            state.preview = state.plans.find((plan) => plan.id === payload.planId);
         },
     },
     extraReducers: (builder) => {
