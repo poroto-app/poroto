@@ -16,6 +16,12 @@ export default function App({Component, pageProps}: AppProps) {
                 <link rel="apple-touch-icon" href="/icons/icon-192x192.png"></link>
                 <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg"/>
                 <link rel="icon" type="image/png" href="/favicon/favicon.png"/>
+                <meta property="og:title" content="poroto" />
+                <meta property="og:site_name" content="poroto" />
+                <meta property="og:description" content="porotoは、あなたの暇な時間を楽しく過ごすための最適なプランを自動的に生成します！" />
+                <meta property="og:url" content="https://poroto.app/" />
+                <meta property="og:image" content="https://bc3e-133-2-206-198.ngrok-free.app/ogp/ogp.png" />
+                <meta property="og:type" content="website" />
             </Head>
             {/*@ts-ignore*/}
             <style jsx global>
