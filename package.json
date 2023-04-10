@@ -7,6 +7,7 @@
     "type-check": "tsc",
     "gcp-build": "yarn build",
     "deploy": "gcloud app deploy --quiet app.yaml",
+    "deploy:staging": "gcloud app deploy --quiet app-staging.yaml",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
