@@ -11,8 +11,11 @@ export default function App({Component, pageProps}: AppProps) {
                 <meta charSet="utf-8"/>
                 <title>poroto</title>
                 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-                <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg" />
-                <link rel="icon" type="image/png" href="/favicon/favicon.png" />
+                <meta name="theme-color" content="#F7F5EE"/>
+                <link rel="manifest" href="/manifest.webmanifest"/>
+                <link rel="apple-touch-icon" href="/icons/icon-192x192.png"></link>
+                <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg"/>
+                <link rel="icon" type="image/png" href="/favicon/favicon.png"/>
             </Head>
             {/*@ts-ignore*/}
             <style jsx global>

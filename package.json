@@ -7,6 +7,7 @@
     "type-check": "tsc",
     "gcp-build": "yarn build",
     "deploy": "gcloud app deploy --quiet app.yaml",
+    "deploy:staging": "gcloud app deploy --quiet app-staging.yaml",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -19,6 +20,7 @@
     "babel-plugin-styled-components": "^2.0.7",
     "framer-motion": "^10.0.2",
     "next": "13.2.1",
+    "next-pwa": "^5.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",

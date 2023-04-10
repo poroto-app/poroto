@@ -1,0 +1,11 @@
+# SEE: https://cloud.google.com/appengine/docs/standard/go/config/appref?hl=ja
+service: poroto-staging
+runtime: nodejs16
+
+handlers:
+  - url: /.*
+    secure: always # httpsのみ許可
+    script: auto   # next.jsに何のファイルをロードするかを依存する
+
+env_variables:
+  NODE_ENV: "staging"
