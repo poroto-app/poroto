@@ -2,12 +2,12 @@ import axios, {AxiosResponse} from "axios";
 
 export class PlannerApi {
     async createPlansFromLocation(request: CreatePlanFromLocationRequest): Promise<CreatePlanFromLocationResponse> {
-        // TODO: Planner APIと型を合わせる
         const response: AxiosResponse<{
             plans: {
                 name: string,
                 places: {
-                    name: string
+                    name: string,
+                    photos: string[],
                     location: {
                         latitude: number,
                         longitude: number,
@@ -23,11 +23,7 @@ export class PlannerApi {
                 tags: [],
                 places: plan.places.map((place) => ({
                     name: place.name,
-                    imageUrls: [
-                        "https://picsum.photos/600/500",
-                        "https://picsum.photos/800/500",
-                        "https://picsum.photos/600/300"
-                    ],
+                    imageUrls: place.photos,
                     location: place.location,
                 })),
             }))
