@@ -33,6 +33,7 @@ export const CategorySelect = ({category, onClickYes, onClickNo}: Props) => {
 
 const ThumbnailCard = styled.div`
   border: 1px solid rgba(0, 0, 0, .1);
+  box-shadow: 0 0 60px 20px rgba(187, 160, 166, 0.1);
   border-radius: 15px;
   display: flex;
   flex-direction: column;
