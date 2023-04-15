@@ -23,15 +23,13 @@ const Button = styled.button<{ color: string }>`
 
   transition: all 0.2s;
 
-  &:hover {
+  &:active {
     background-color: ${({color}) => color};
 
     > svg {
       color: white;
     }
-  }
 
-  &:active {
     transform: scale(0.8);
   }
 `;
