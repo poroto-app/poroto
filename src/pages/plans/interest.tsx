@@ -52,7 +52,11 @@ export const PlanInterestPage = () => {
 
     return <VStack h="100%" w="100%" spacing={0}>
         <NavBar title="どんな場所に行きたいですか？"/>
-        <Box h="100%" w="100%" maxWidth="990px" px="16px" pt="24px" pb="32px">
+        <Box
+            flex={1} overflow="hidden"
+            h="100%" w="100%" maxWidth="990px"
+            px="16px" pt="24px" pb="32px"
+        >
             <CategorySelect category={currentCategory} onClickYes={handleYes} onClickNo={handleNo}/>
         </Box>
     </VStack>
