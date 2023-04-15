@@ -1,3 +1,4 @@
 export type LocationCategory = {
-    name: string
+    thumbnail: string,
+    name: string,
 }
