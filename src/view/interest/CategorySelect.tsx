@@ -47,4 +47,5 @@ const Thumbnail = styled.img`
   width: 100%;
   object-fit: cover;
   flex: 1;
+  overflow: hidden;
 `;
