@@ -1,0 +1,9 @@
+query MatchInterests($latitude: Float!, $longitude: Float!) {
+    matchInterests(input: {latitude: $latitude, longitude: $longitude}) {
+        categories {
+            name
+            displayName
+            photo
+        }
+    }
+}
