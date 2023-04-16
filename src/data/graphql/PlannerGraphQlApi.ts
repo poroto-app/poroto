@@ -5,7 +5,7 @@ import {
     MatchInterestRequest, MatchInterestResponse,
     PlannerApi
 } from "src/domain/plan/PlannerApi";
-import {CreatePlanByLocationDocument, MatchInterestsDocument} from "src/graphql/graphql";
+import {CreatePlanByLocationDocument, MatchInterestsDocument} from "src/data/graphql/generated";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async createPlansFromLocation(request: CreatePlanFromLocationRequest): Promise<CreatePlanFromLocationResponse> {
