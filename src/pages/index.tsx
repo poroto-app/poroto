@@ -6,14 +6,16 @@ import {Routes} from "src/view/constants/router";
 import {useAppDispatch} from "src/redux/redux";
 import {createPlanFromLocation} from "src/redux/plan";
 import {useLocation} from "src/view/hooks/useLocation";
+import {setLocation} from "src/redux/location";
 
 const IndexPage = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const { getCurrentLocation, isLoadingLocation, isRejected } = useLocation();
+    const {getCurrentLocation, isLoadingLocation, isRejected} = useLocation();
 
     const onClickCreatePlanFromCurrentLocation = async () => {
         const currentLocation = await getCurrentLocation();
+        dispatch(setLocation({location: currentLocation}));
         dispatch(createPlanFromLocation({
             location: {
                 latitude: currentLocation.latitude,
