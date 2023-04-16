@@ -2,9 +2,11 @@ import {combineReducers} from "redux";
 import {configureStore} from "@reduxjs/toolkit";
 import {planReducer} from "src/redux/plan";
 import {useDispatch} from "react-redux";
+import {locationReducer} from "src/redux/location";
 
 const reducer = combineReducers({
-    plan: planReducer
+    plan: planReducer,
+    location: locationReducer,
 })
 
 export const reduxStore = configureStore({
