@@ -9,9 +9,11 @@
     "deploy": "gcloud app deploy --quiet app.yaml",
     "deploy:staging": "gcloud app deploy --quiet app-staging.yaml",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "graphql:gen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.12",
     "@chakra-ui/react": "^2.5.1",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
@@ -30,7 +32,12 @@
   },
   "devDependencies": {
     "@babel/core": "^7.21.3",
-    "@graphql-codegen/cli": "^3.3.0",
+    "@graphql-codegen/cli": "3.3.0",
+    "@graphql-codegen/client-preset": "^3.0.0",
+    "@graphql-codegen/introspection": "3.0.1",
+    "@graphql-codegen/typed-document-node": "^4.0.0",
+    "@graphql-codegen/typescript": "^3.0.3",
+    "@graphql-codegen/typescript-operations": "^3.0.3",
     "@storybook/addon-actions": "^6.5.16",
     "@storybook/addon-essentials": "^6.5.16",
     "@storybook/addon-interactions": "^6.5.16",
