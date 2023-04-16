@@ -3,17 +3,26 @@ import {Plan} from "src/domain/plan/Plan";
 import {PlannerApi} from "src/data/api/planner/PlannerApi";
 import {useSelector} from "react-redux";
 import {RootState} from "src/redux/redux";
+import {LocationCategory} from "src/domain/models/LocationCategory";
 
 export type PlanState = {
     // TODO: ここもPlanで管理する（提示するプランは３件だけでデータ量も多くないはずだから）
     plans: Plan[] | null,
     // TODO: `usePlanPreview`等でデータを二重管理しないようにする
     preview: Plan | null,
+
+    categoryCandidates: LocationCategory[] | null,
+    categoryAccepted: LocationCategory[],
+    categoryRejected: LocationCategory[],
 }
 
 const initialState: PlanState = {
     plans: null,
     preview: null,
+
+    categoryCandidates: null,
+    categoryAccepted: null,
+    categoryRejected: null,
 }
 
 type CreatePlanFromCurrentLocationProps = {
@@ -54,6 +63,22 @@ export const slice = createSlice({
             if (!state.plans) return;
             state.preview = state.plans.find((plan) => plan.id === payload.planId);
         },
+
+        setCategoryCandidates: (state, {payload}: PayloadAction<{ categories: LocationCategory[] }>) => {
+            state.categoryCandidates = payload.categories;
+            state.categoryAccepted = [];
+            state.categoryRejected = [];
+        },
+        pushAcceptedCategory: (state, {payload}: PayloadAction<{ category: LocationCategory }>) => {
+            if (!state.categoryAccepted) state.categoryAccepted = [];
+            state.categoryAccepted.push(payload.category);
+            state.categoryCandidates = state.categoryCandidates.filter((category) => category.name != payload.category.name);
+        },
+        pushRejectedCategory: (state, {payload}: PayloadAction<{ category: LocationCategory }>) => {
+            if (!state.categoryRejected) state.categoryRejected = [];
+            state.categoryRejected.push(payload.category);
+            state.categoryCandidates = state.categoryCandidates.filter((category) => category.name != payload.category.name);
+        },
     },
     extraReducers: (builder) => {
 
@@ -63,6 +88,10 @@ export const slice = createSlice({
 export const {
     setPlans,
     fetchPlanDetail,
+
+    setCategoryCandidates,
+    pushAcceptedCategory,
+    pushRejectedCategory,
 } = slice.actions;
 
 export const reduxPlanSelector = () => useSelector((state: RootState) => state.plan);
