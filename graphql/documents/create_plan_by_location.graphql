@@ -1,0 +1,13 @@
+mutation CreatePlanByLocation($latitude: Float!, $longitude: Float!) {
+    createPlanByLocation(input: {latitude: $latitude, longitude: $longitude}) {
+        name
+        places {
+            name
+            photos
+            location {
+                longitude
+                latitude
+            }
+        }
+    }
+}
