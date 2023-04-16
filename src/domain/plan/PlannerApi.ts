@@ -1,5 +1,7 @@
 export interface PlannerApi {
     createPlansFromLocation(request: CreatePlanFromLocationRequest): Promise<CreatePlanFromLocationResponse>
+
+    matchInterest(request: MatchInterestRequest): Promise<MatchInterestResponse>
 }
 
 export type CreatePlanFromLocationRequest = {
@@ -24,5 +26,20 @@ export type CreatePlanFromLocationResponse = {
                 longitude: number,
             }
         }[]
+    }[]
+}
+
+export type MatchInterestRequest = {
+    location: {
+        latitude: number,
+        longitude: number,
+    }
+}
+
+export type MatchInterestResponse = {
+    categories: {
+        name: string
+        displayName: string
+        photo: string
     }[]
 }
