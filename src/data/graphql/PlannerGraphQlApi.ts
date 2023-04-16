@@ -5,7 +5,7 @@ import {
     MatchInterestRequest, MatchInterestResponse,
     PlannerApi
 } from "src/domain/plan/PlannerApi";
-import {CreatePlanByLocationDocument} from "src/graphql/graphql";
+import {CreatePlanByLocationDocument, MatchInterestsDocument} from "src/graphql/graphql";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async createPlansFromLocation(request: CreatePlanFromLocationRequest): Promise<CreatePlanFromLocationResponse> {
@@ -30,7 +30,17 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         }
     }
 
-    matchInterest(request: MatchInterestRequest): Promise<MatchInterestResponse> {
-        return Promise.resolve(undefined);
+    async matchInterest(request: MatchInterestRequest): Promise<MatchInterestResponse> {
+        const {data} = await this.client.query({
+            query: MatchInterestsDocument,
+            variables: {latitude: request.location.latitude, longitude: request.location.longitude},
+        });
+        return {
+            categories: data.matchInterests.categories.map((category) => ({
+                name: category.name,
+                displayName: category.displayName,
+                photo: category.photo,
+            }))
+        }
     }
 }
