@@ -53,6 +53,27 @@ export const createPlanFromLocation = createAsyncThunk(
     }
 )
 
+type MatchInterestProps = {
+    location: {
+        latitude: number,
+        longitude: number,
+    }
+};
+export const matchInterest = createAsyncThunk(
+    'plan/matchInterest',
+    async ({location}: MatchInterestProps, {dispatch}) => {
+        const plannerApi: PlannerApi = new PlannerRestApi();
+        const response = await plannerApi.matchInterest({location});
+        dispatch(setCategoryCandidates({
+            categories: response.categories.map((category) => ({
+                name: category.name,
+                displayName: category.displayName,
+                thumbnail: category.photo,
+            }))
+        }))
+    }
+)
+
 export const slice = createSlice({
     name: 'plan',
     initialState,
