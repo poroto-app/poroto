@@ -14,7 +14,7 @@ export const CategorySelect = ({category, onClickYes, onClickNo}: Props) => {
     return <VStack h="100%" w="100%" spacing={6}>
         <ThumbnailCard>
             <Thumbnail src={category.thumbnail}/>
-            <Text fontSize="1.25rem" py={4}>{category.name}</Text>
+            <Text fontSize="1.25rem" py={4}>{category.displayName}</Text>
         </ThumbnailCard>
         <HStack w="100%">
             <SelectButton

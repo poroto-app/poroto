@@ -8,7 +8,7 @@ export default {
 
 const Template = ({category, thumbnail}) => <Box maxW="500px" w="100%" p={8}>
     <CategorySelect
-        category={{name: category, thumbnail}}
+        category={{name: "category", displayName: category, thumbnail}}
         onClickYes={() => 0}
         onClickNo={() => 0}
     />
