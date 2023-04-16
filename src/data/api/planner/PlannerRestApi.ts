@@ -1,6 +1,7 @@
 import axios, {AxiosResponse} from "axios";
+import {CreatePlanFromLocationRequest, CreatePlanFromLocationResponse, PlannerApi} from "src/domain/plan/PlannerApi";
 
-export class PlannerApi {
+export class PlannerRestApi implements PlannerApi {
     async createPlansFromLocation(request: CreatePlanFromLocationRequest): Promise<CreatePlanFromLocationResponse> {
         const response: AxiosResponse<{
             plans: {
@@ -29,29 +30,4 @@ export class PlannerApi {
             }))
         };
     }
-}
-
-export type CreatePlanFromLocationRequest = {
-    location: {
-        latitude: number,
-        longitude: number,
-    }
-}
-
-export type CreatePlanFromLocationResponse = {
-    plans: {
-        id: string,
-        title: string
-        tags: {
-            content: string,
-        }[],
-        places: {
-            name: string,
-            imageUrls: string[],
-            location: {
-                latitude: number,
-                longitude: number,
-            }
-        }[]
-    }[]
 }
