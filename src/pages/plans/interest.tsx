@@ -1,4 +1,4 @@
-import {pushAcceptedCategory, pushRejectedCategory, reduxPlanSelector, setCategoryCandidates} from "src/redux/plan";
+import {matchInterest, pushAcceptedCategory, pushRejectedCategory, reduxPlanSelector} from "src/redux/plan";
 import {useEffect, useState} from "react";
 import {useAppDispatch} from "src/redux/redux";
 import {LocationCategory} from "src/domain/models/LocationCategory";
@@ -8,28 +8,18 @@ import {CategorySelect} from "src/view/interest/CategorySelect";
 import {LoadingModal} from "src/view/common/LoadingModal";
 import {Box, VStack} from "@chakra-ui/react";
 import {NavBar} from "src/view/common/NavBar";
+import {reduxLocationSelector} from "src/redux/location";
 
 export const PlanInterestPage = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [currentCategory, setCurrentCategory] = useState<LocationCategory | null>(null);
     const {categoryCandidates} = reduxPlanSelector();
+    const {location} = reduxLocationSelector();
 
-    // TODO: DELETE
     useEffect(() => {
-        dispatch(setCategoryCandidates({
-            categories: [
-                {
-                    name: "温泉",
-                    thumbnail: "https://images.pexels.com/photos/347137/pexels-photo-347137.jpeg",
-                },
-                {
-                    name: "カフェ",
-                    thumbnail: "https://images.pexels.com/photos/1402407/pexels-photo-1402407.jpeg"
-                }
-            ]
-        }))
-    }, []);
+        if (location) dispatch(matchInterest({location}));
+    }, [location]);
 
     useEffect(() => {
         if (!categoryCandidates) return;

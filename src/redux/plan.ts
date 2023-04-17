@@ -1,9 +1,10 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {Plan} from "src/domain/plan/Plan";
-import {PlannerApi} from "src/data/api/planner/PlannerApi";
+import {PlannerRestApi} from "src/data/api/planner/PlannerRestApi";
 import {useSelector} from "react-redux";
 import {RootState} from "src/redux/redux";
 import {LocationCategory} from "src/domain/models/LocationCategory";
+import {PlannerApi} from "src/domain/plan/PlannerApi";
 
 export type PlanState = {
     // TODO: ここもPlanで管理する（提示するプランは３件だけでデータ量も多くないはずだから）
@@ -34,7 +35,7 @@ type CreatePlanFromCurrentLocationProps = {
 export const createPlanFromLocation = createAsyncThunk(
     'plan/createPlanFromCurrentLocation',
     async ({location}: CreatePlanFromCurrentLocationProps, {dispatch}) => {
-        const plannerApi = new PlannerApi();
+        const plannerApi: PlannerApi = new PlannerRestApi();
         const response = await plannerApi.createPlansFromLocation({location: location});
         const plans: Plan[] = response.plans.map((plan) => ({
             id: plan.id,
@@ -49,6 +50,27 @@ export const createPlanFromLocation = createAsyncThunk(
             }))
         }));
         dispatch(setPlans({plans}))
+    }
+)
+
+type MatchInterestProps = {
+    location: {
+        latitude: number,
+        longitude: number,
+    }
+};
+export const matchInterest = createAsyncThunk(
+    'plan/matchInterest',
+    async ({location}: MatchInterestProps, {dispatch}) => {
+        const plannerApi: PlannerApi = new PlannerRestApi();
+        const response = await plannerApi.matchInterest({location});
+        dispatch(setCategoryCandidates({
+            categories: response.categories.map((category) => ({
+                name: category.name,
+                displayName: category.displayName,
+                thumbnail: category.photo,
+            }))
+        }))
     }
 )
 

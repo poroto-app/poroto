@@ -1,6 +1,14 @@
 import axios, {AxiosResponse} from "axios";
+import {
+    CreatePlanFromLocationRequest,
+    CreatePlanFromLocationResponse,
+    MatchInterestRequest,
+    MatchInterestResponse,
+    PlannerApi
+} from "src/domain/plan/PlannerApi";
 
-export class PlannerApi {
+// TODO: DELETE
+export class PlannerRestApi implements PlannerApi {
     async createPlansFromLocation(request: CreatePlanFromLocationRequest): Promise<CreatePlanFromLocationResponse> {
         const response: AxiosResponse<{
             plans: {
@@ -29,29 +37,21 @@ export class PlannerApi {
             }))
         };
     }
-}
 
-export type CreatePlanFromLocationRequest = {
-    location: {
-        latitude: number,
-        longitude: number,
+    async matchInterest(request: MatchInterestRequest): Promise<MatchInterestResponse> {
+        return {
+            categories: [
+                {
+                    name: "spa",
+                    displayName: "温泉",
+                    photo: "https://images.pexels.com/photos/347137/pexels-photo-347137.jpeg",
+                },
+                {
+                    name: "cafe",
+                    displayName: "カフェ",
+                    photo: "https://images.pexels.com/photos/1402407/pexels-photo-1402407.jpeg"
+                }
+            ]
+        };
     }
-}
-
-export type CreatePlanFromLocationResponse = {
-    plans: {
-        id: string,
-        title: string
-        tags: {
-            content: string,
-        }[],
-        places: {
-            name: string,
-            imageUrls: string[],
-            location: {
-                latitude: number,
-                longitude: number,
-            }
-        }[]
-    }[]
 }
