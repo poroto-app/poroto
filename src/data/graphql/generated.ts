@@ -67,8 +67,10 @@ export type Place = {
 
 export type Plan = {
   __typename?: 'Plan';
+  id: Scalars['String'];
   name: Scalars['String'];
   places: Array<Place>;
+  timeInMinutes: Scalars['Float'];
 };
 
 export type Query = {
