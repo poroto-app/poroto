@@ -41,8 +41,7 @@ export const createPlanFromLocation = createAsyncThunk(
             id: plan.id,
             title: plan.title,
             imageUrls: plan.places.flatMap((place) => place.imageUrls),
-            // TODO: Planner API側で指定する
-            tags: [],
+            tags: plan.tags,
             places: plan.places.map((place) => ({
                 name: place.name,
                 imageUrls: place.imageUrls,
