@@ -7,7 +7,7 @@ import {LoadingModal} from "src/view/common/LoadingModal";
 import React, {useEffect} from "react";
 import {useRouter} from "next/router";
 import {IconType} from "react-icons";
-import {MdSchedule} from "react-icons/all";
+import {MdSchedule} from "react-icons/md";
 import {DateHelper} from "src/domain/util/date";
 
 const PlanDetail = () => {

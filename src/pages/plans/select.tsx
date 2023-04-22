@@ -5,7 +5,7 @@ import React, {FC} from "react";
 import {reduxPlanSelector} from "src/redux/plan";
 import Link from "next/link";
 import {LoadingModal} from "src/view/common/LoadingModal";
-import {MdDirectionsWalk} from "react-icons/all";
+import {MdDirectionsWalk} from "react-icons/md";
 
 
 const SelectPlanPage = () => {
