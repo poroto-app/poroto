@@ -6,6 +6,8 @@ import {fetchPlanDetail, reduxPlanSelector} from "src/redux/plan";
 import {LoadingModal} from "src/view/common/LoadingModal";
 import {useEffect} from "react";
 import {useRouter} from "next/router";
+import {PlanActionButton} from "src/view/plan/Props";
+import {MdPhotoCamera} from "react-icons/all";
 
 const PlanDetail = () => {
 
@@ -19,11 +21,15 @@ const PlanDetail = () => {
         }
     }, [id]);
 
+    const handleOnClickSaveAsImage = () => {
+
+    }
+
     if (!plan) return <LoadingModal title="素敵なプランを読み込んでいます"/>
 
     return <Center flexDirection="column">
         <NavBar title={plan.title}/>
-        <Box maxWidth="990px" w="100%" px="8px" py="16px" boxSizing="border-box">
+        <VStack maxWidth="990px" w="100%" px="8px" py="16px" boxSizing="border-box">
             <VStack spacing={8} w="100%">
                 {
                     plan.places.map((place, i) => <PlacePreview
@@ -34,7 +40,10 @@ const PlanDetail = () => {
                     />)
                 }
             </VStack>
-        </Box>
+            <VStack w="100%">
+                <PlanActionButton text="画像で保存する" color="#539565" icon={MdPhotoCamera} onClick={handleOnClickSaveAsImage}/>
+            </VStack>
+        </VStack>
     </Center>
 }
 
