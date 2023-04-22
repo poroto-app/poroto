@@ -47,7 +47,8 @@ export const createPlanFromLocation = createAsyncThunk(
                 name: place.name,
                 imageUrls: place.imageUrls,
                 tags: [],
-            }))
+            })),
+            timeInMinutes: plan.timeInMinutes,
         }));
         dispatch(setPlans({plans}))
     }
