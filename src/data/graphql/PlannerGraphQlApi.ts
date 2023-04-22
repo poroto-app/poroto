@@ -2,7 +2,8 @@ import {GraphQlRepository} from "src/data/graphql/GraphQlRepository";
 import {
     CreatePlanFromLocationRequest,
     CreatePlanFromLocationResponse,
-    MatchInterestRequest, MatchInterestResponse,
+    MatchInterestRequest,
+    MatchInterestResponse,
     PlannerApi
 } from "src/domain/plan/PlannerApi";
 import {CreatePlanByLocationDocument, MatchInterestsDocument} from "src/data/graphql/generated";
@@ -15,7 +16,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         });
         return {
             plans: data.createPlanByLocation.map((plan, i) => ({
-                id: i.toString(), // TODO: APIから取得する
+                id: plan.id,
                 title: plan.name,
                 tags: [], // TODO: APIから取得する,
                 places: plan.places.map((place) => ({
