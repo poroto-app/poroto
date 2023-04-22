@@ -26,7 +26,8 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                         latitude: place.location.latitude,
                         longitude: place.location.longitude,
                     }
-                }))
+                })),
+                timeInMinutes: plan.timeInMinutes,
             }))
         }
     }

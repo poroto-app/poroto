@@ -26,6 +26,7 @@ export type CreatePlanFromLocationResponse = {
                 longitude: number,
             }
         }[]
+        timeInMinutes: number,
     }[]
 }
 
