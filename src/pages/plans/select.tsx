@@ -5,7 +5,7 @@ import React, {FC} from "react";
 import {reduxPlanSelector} from "src/redux/plan";
 import Link from "next/link";
 import {LoadingModal} from "src/view/common/LoadingModal";
-import {MdSchedule} from "react-icons/all";
+import {MdDirectionsWalk} from "react-icons/all";
 
 
 const SelectPlanPage = () => {
@@ -29,8 +29,9 @@ const SelectPlanPage = () => {
                             <VStack w="100%" alignItems="flex-start" spacing={1}>
                                 <Text fontWeight="bold" fontSize="1.25rem">{plan.title}</Text>
                                 <HStack w="100%" justifyContent="flex-start">
+                                    {/* TODO: 最初の地点までの徒歩時間を移動距離を表示 */}
                                     <TagContainer tag={`${plan.timeInMinutes.toFixed(0)}分`}>
-                                        <Icon w="24px" h="24px" color="#BD9F8E" as={MdSchedule}/>
+                                        <Icon w="24px" h="24px" color="#539565" as={MdDirectionsWalk}/>
                                     </TagContainer>
                                     {plan.tags.map((tag, i) => <TagContainer key={i} tag={tag.content}/>)}
                                 </HStack>
