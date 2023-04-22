@@ -7,7 +7,7 @@ import {LoadingModal} from "src/view/common/LoadingModal";
 import {useEffect, useRef} from "react";
 import {useRouter} from "next/router";
 import {PlanActionButton} from "src/view/plan/Props";
-import {MdPhotoCamera} from "react-icons/all";
+import {MdPhotoCamera} from "react-icons/md";
 import html2canvas from "html2canvas";
 
 const PlanDetail = () => {
