@@ -1,6 +1,8 @@
-import {Button, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Text, VStack} from "@chakra-ui/react";
+import {Box, Button, Slider, SliderFilledTrack, SliderThumb, SliderTrack, Text, VStack} from "@chakra-ui/react";
 import {Colors} from "src/view/constants/color";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useLottie} from "lottie-react";
+import animationData from "src/view/lottie/day-and-night-transition-scene.json";
 
 type Props = {
     onClickNext: (duration: number) => void,
@@ -8,21 +10,41 @@ type Props = {
 }
 
 export const PlanDurationSelector = ({onClickNext, onClickIgnoreDuration}: Props) => {
+    const minDuration = 10;
+    const maxDuration = 60 * 5;
     const [duration, setDuration] = useState(10);
 
+    const {View: LottieView, goToAndStop} = useLottie({
+        animationData,
+        autoplay: false,
+    });
+
+    useEffect(() => {
+        const lastFrame = 470;
+        const percentage = (duration - minDuration) / (maxDuration - minDuration);
+        console.log(percentage, percentage);
+        goToAndStop(Math.floor(percentage * lastFrame), true);
+    }, [duration]);
+
     return <VStack w="100%" h="100%">
-        <VStack w="100%" spacing="32px" flex="1" justifyContent="center">
-            <Text fontSize="1.75rem">{duration}分</Text>
-            <Slider
-                w="100%"
-                min={10} max={60 * 5} value={duration} defaultValue={10} onChange={setDuration}
-                step={10}
-            >
-                <SliderTrack>
-                    <SliderFilledTrack/>
-                </SliderTrack>
-                <SliderThumb boxSize={6} border="1px solid rgba(0,0,0,.2)"/>
-            </Slider>
+        <VStack w="100%" spacing="48px" flex="1" justifyContent="center">
+            <Text fontSize="2rem">{duration}分</Text>
+            <Box w="100%" borderRadius="10px" overflow="hidden">
+                {LottieView}
+            </Box>
+            <Box w="100%" px="16px">
+                <Slider
+                    w="100%"
+                    min={minDuration} max={maxDuration} value={duration} defaultValue={minDuration}
+                    onChange={setDuration}
+                    step={10}
+                >
+                    <SliderTrack>
+                        <SliderFilledTrack/>
+                    </SliderTrack>
+                    <SliderThumb boxSize={6} border="1px solid rgba(0,0,0,.2)"/>
+                </Slider>
+            </Box>
         </VStack>
         <VStack w="100%">
             <Button
