@@ -2,6 +2,7 @@ import {Icon, Text} from "@chakra-ui/react";
 import {MdOutlinePlace} from "react-icons/md";
 import React from "react";
 import styled from "styled-components";
+import {Colors} from "src/view/constants/color";
 
 type Props = {
     onClick: () => void
@@ -14,7 +15,7 @@ export const CreatePlanFromCurrentLocationButton = ({onClick}: Props) => {
 }
 
 const Button = styled.div`
-  background-color: #539565;
+  background-color: ${Colors.green};
   border-radius: 10px;
   color: white;
   cursor: pointer;
