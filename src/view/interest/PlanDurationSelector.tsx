@@ -14,6 +14,11 @@ export const PlanDurationSelector = ({onClickNext, onClickIgnoreDuration}: Props
     const maxDuration = 60 * 5;
     const [duration, setDuration] = useState(10);
 
+    const hour = Math.floor(duration / 60);
+    const minute = duration - hour * 60;
+    const hourStr = hour > 0 ? `${hour}時間` : "";
+    const minuteStr = minute === 0 ? "" : `${minute.toString().padStart(2, "0")}分`;
+
     const {View: LottieView, goToAndStop} = useLottie({
         animationData,
         autoplay: false,
@@ -28,7 +33,7 @@ export const PlanDurationSelector = ({onClickNext, onClickIgnoreDuration}: Props
 
     return <VStack w="100%" h="100%">
         <VStack w="100%" spacing="48px" flex="1" justifyContent="center">
-            <Text fontSize="2rem">{duration}分</Text>
+            <Text fontSize="2rem">{hourStr + minuteStr}</Text>
             <Box w="100%" borderRadius="10px" overflow="hidden">
                 {LottieView}
             </Box>
