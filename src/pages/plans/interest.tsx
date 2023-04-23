@@ -13,18 +13,32 @@ import {reduxLocationSelector} from "src/redux/location";
 export const PlanInterestPage = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
-    const [currentCategory, setCurrentCategory] = useState<LocationCategory | null>(null);
-    const {categoryCandidates} = reduxPlanSelector();
     const {location} = reduxLocationSelector();
 
     useEffect(() => {
         if (location) dispatch(matchInterest({location}));
     }, [location]);
 
+    const handleOnDoneCategory = () => {
+        // TODO: 選択されたカテゴリをもとにプランを作成
+        router.push(Routes.plans.select).then();
+    }
+
+    return <VStack h="100%" w="100%" spacing={0}>
+        <NavBar title="どんな場所に行きたいですか？"/>
+        <PageCategory onDone={handleOnDoneCategory}/>
+    </VStack>
+}
+
+const PageCategory = ({onDone}: { onDone: () => void }) => {
+    const dispatch = useAppDispatch();
+    const {categoryCandidates} = reduxPlanSelector();
+    const [currentCategory, setCurrentCategory] = useState<LocationCategory | null>(null);
+
     useEffect(() => {
         if (!categoryCandidates) return;
         if (categoryCandidates.length === 0) {
-            router.push(Routes.plans.select).then();
+            onDone();
             return;
         }
         setCurrentCategory(categoryCandidates[0]);
@@ -39,17 +53,13 @@ export const PlanInterestPage = () => {
     }
 
     if (!currentCategory) return <LoadingModal title="近くに何があるかを探しています。"/>
-
-    return <VStack h="100%" w="100%" spacing={0}>
-        <NavBar title="どんな場所に行きたいですか？"/>
-        <Box
-            flex={1} overflow="hidden"
-            h="100%" w="100%" maxWidth="990px"
-            px="16px" pt="24px" pb="32px"
-        >
-            <CategorySelect category={currentCategory} onClickYes={handleYes} onClickNo={handleNo}/>
-        </Box>
-    </VStack>
+    return <Box
+        flex={1} overflow="hidden"
+        h="100%" w="100%" maxWidth="990px"
+        px="16px" pt="24px" pb="32px"
+    >
+        <CategorySelect category={currentCategory} onClickYes={handleYes} onClickNo={handleNo}/>
+    </Box>
 }
 
 export default PlanInterestPage;
