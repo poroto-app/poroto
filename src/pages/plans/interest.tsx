@@ -9,11 +9,23 @@ import {LoadingModal} from "src/view/common/LoadingModal";
 import {Box, VStack} from "@chakra-ui/react";
 import {NavBar} from "src/view/common/NavBar";
 import {reduxLocationSelector} from "src/redux/location";
+import {PlanDurationSelector} from "src/view/interest/PlanDurationSelector";
+
+const MatchInterestPages = {
+    TIME: "TIME",
+    CATEGORY: "CATEGORY",
+}
+type MatchInterestPage = typeof MatchInterestPages[keyof typeof MatchInterestPages];
 
 export const PlanInterestPage = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const [page, setPage] = useState(MatchInterestPages.TIME);
     const {location} = reduxLocationSelector();
+    const matchInterestPrompts = {
+        [MatchInterestPages.TIME]: "どのくらいの時間を過ごしたいですか？",
+        [MatchInterestPages.CATEGORY]: "どんな場所に行きたいですか？"
+    }
 
     useEffect(() => {
         if (location) dispatch(matchInterest({location}));
@@ -24,10 +36,39 @@ export const PlanInterestPage = () => {
         router.push(Routes.plans.select).then();
     }
 
+    // TODO: 戻るボタンで一つ前の項目に戻れるようにする
     return <VStack h="100%" w="100%" spacing={0}>
-        <NavBar title="どんな場所に行きたいですか？"/>
-        <PageCategory onDone={handleOnDoneCategory}/>
+        <NavBar title={matchInterestPrompts[page]}/>
+        <Box
+            flex={1} overflow="hidden"
+            h="100%" w="100%" maxWidth="990px"
+            px="16px" pt="24px" pb="32px"
+        >
+            {
+                page === MatchInterestPages.TIME && <PageTime onDone={() => setPage(MatchInterestPages.CATEGORY)}/>
+            }
+            {
+                page === MatchInterestPages.CATEGORY && <PageCategory onDone={handleOnDoneCategory}/>
+            }
+        </Box>
     </VStack>
+}
+
+const PageTime = ({onDone}: { onDone: () => void }) => {
+
+    const handleOnClickNext = (duration: number) => {
+        // TODO: reduxに設定された時間を渡す
+        onDone();
+    }
+
+    const handleOnClickIgnoreDuration = () => {
+        onDone();
+    }
+
+    return <PlanDurationSelector
+        onClickNext={handleOnClickNext}
+        onClickIgnoreDuration={handleOnClickIgnoreDuration}
+    />
 }
 
 const PageCategory = ({onDone}: { onDone: () => void }) => {
@@ -53,13 +94,7 @@ const PageCategory = ({onDone}: { onDone: () => void }) => {
     }
 
     if (!currentCategory) return <LoadingModal title="近くに何があるかを探しています。"/>
-    return <Box
-        flex={1} overflow="hidden"
-        h="100%" w="100%" maxWidth="990px"
-        px="16px" pt="24px" pb="32px"
-    >
-        <CategorySelect category={currentCategory} onClickYes={handleYes} onClickNo={handleNo}/>
-    </Box>
+    return <CategorySelect category={currentCategory} onClickYes={handleYes} onClickNo={handleNo}/>
 }
 
 export default PlanInterestPage;
