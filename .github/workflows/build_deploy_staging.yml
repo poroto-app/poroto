@@ -1,0 +1,26 @@
+name: deploy-staging
+run-name: Deploy Staging by @${{ github.actor }}
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  build:
+    uses: ./.github/workflows/build_workflow.yaml
+  # SEE: https://github.com/google-github-actions/deploy-appengine
+  deploy:
+    name: GAE deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+      # SEE: https://github.com/google-github-actions/deploy-appengine#authorization
+      - name: Deploy an App Engine app
+        uses: google-github-actions/deploy-appengine@v1
+        with:
+          deliverables: app-staging.yaml
