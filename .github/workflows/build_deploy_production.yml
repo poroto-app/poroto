@@ -10,7 +10,7 @@ jobs:
     uses: ./.github/workflows/build_workflow.yaml
   # SEE: https://github.com/google-github-actions/deploy-appengine
   deploy:
-    name: GAE deploy
+    name: GAE Production deploy
     needs: build
     runs-on: ubuntu-latest
     steps:
