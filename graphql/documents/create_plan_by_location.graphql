@@ -1,5 +1,6 @@
 mutation CreatePlanByLocation($latitude: Float!, $longitude: Float!) {
     createPlanByLocation(input: {latitude: $latitude, longitude: $longitude}) {
+        id
         name
         places {
             name
@@ -9,5 +10,6 @@ mutation CreatePlanByLocation($latitude: Float!, $longitude: Float!) {
                 latitude
             }
         }
+        timeInMinutes
     }
 }

@@ -5,6 +5,7 @@ export type Plan = {
     title: string
     places: Place[],
     tags: PlanTag[]
+    timeInMinutes: number
 }
 
 export type PlanTag = {

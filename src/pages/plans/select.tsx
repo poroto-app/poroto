@@ -1,11 +1,11 @@
 import {NavBar} from "src/view/common/NavBar";
-import {PlanTag} from "src/domain/plan/Plan";
-import {Box, Center, Grid, GridItem, HStack, Skeleton, Text, VStack} from "@chakra-ui/react";
+import {Center, Grid, GridItem, HStack, Icon, Skeleton, Text, VStack} from "@chakra-ui/react";
 import styled from "styled-components";
-import React from "react";
+import React, {FC} from "react";
 import {reduxPlanSelector} from "src/redux/plan";
 import Link from "next/link";
 import {LoadingModal} from "src/view/common/LoadingModal";
+import {MdDirectionsWalk} from "react-icons/md";
 
 
 const SelectPlanPage = () => {
@@ -24,12 +24,18 @@ const SelectPlanPage = () => {
         <VStack w="100%" px="16px" spacing={16} py="16px">
             {
                 (plans || []).map((plan, i) => <Link key={i} href={"/plans/" + plan.id}>
-                        <VStack w="100%" maxW="300px" alignItems="flex-start">
+                        <VStack w="100%" maxW="300px">
                             <PlanThumbnail imageUrls={plan.places.flatMap((place) => place.imageUrls)}/>
-                            <Text fontWeight="bold" fontSize="1.25rem">{plan.title}</Text>
-                            <HStack w="100%" justifyContent="flex-start">
-                                {plan.tags.map((tag, i) => <Tag key={i} tag={tag}/>)}
-                            </HStack>
+                            <VStack w="100%" alignItems="flex-start" spacing={1}>
+                                <Text fontWeight="bold" fontSize="1.25rem">{plan.title}</Text>
+                                <HStack w="100%" justifyContent="flex-start">
+                                    {/* TODO: 最初の地点までの徒歩時間を移動距離を表示 */}
+                                    <TagContainer tag={`${plan.timeInMinutes.toFixed(0)}分`}>
+                                        <Icon w="24px" h="24px" color="#539565" as={MdDirectionsWalk}/>
+                                    </TagContainer>
+                                    {plan.tags.map((tag, i) => <TagContainer key={i} tag={tag.content}/>)}
+                                </HStack>
+                            </VStack>
                         </VStack>
                     </Link>
                 )
@@ -82,14 +88,15 @@ const Thumbnail = styled.img`
   object-fit: cover;
 `;
 
-const Tag = ({tag}: { tag: PlanTag }) => {
-    return <Box
-        px="8px" py="4px"
-        borderRadius="5px" border="1px solid rgba(0, 0, 0, .1)"
-        cursor="pointer"
+const TagContainer: FC<{ tag: string }> = ({tag, children}) => {
+    return <HStack
+        spacing={1} alignItems="center" justifyContent="center"
+        border="1px solid rgba(0, 0, 0, .1)" borderRadius="5px"
+        h="100%" px="4px" py="2px"
     >
-        <Text>{tag.content}</Text>
-    </Box>
+        {children}
+        <Text>{tag}</Text>
+    </HStack>
 }
 
 export default SelectPlanPage;
