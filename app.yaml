@@ -1,12 +1,12 @@
 # SEE: https://cloud.google.com/appengine/docs/standard/go/config/appref?hl=ja
 runtime: nodejs16
 automatic_scaling:
-  min_idle_instances: automatic
+  min_idle_instances: 1
   max_idle_instances: 1
   min_pending_latency: 3000ms
   max_pending_latency: automatic
-  max_instances: 1
-  min_instances: 0
+  max_instances: 2
+  min_instances: 1
 
 handlers:
   - url: /.*
