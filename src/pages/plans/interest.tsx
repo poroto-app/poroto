@@ -1,4 +1,10 @@
-import {matchInterest, pushAcceptedCategory, pushRejectedCategory, reduxPlanSelector} from "src/redux/plan";
+import {
+    matchInterest,
+    pushAcceptedCategory,
+    pushRejectedCategory,
+    reduxPlanSelector,
+    resetInterest
+} from "src/redux/plan";
 import {useEffect, useState} from "react";
 import {useAppDispatch} from "src/redux/redux";
 import {LocationCategory} from "src/domain/models/LocationCategory";
@@ -19,6 +25,10 @@ export const PlanInterestPage = () => {
 
     useEffect(() => {
         if (location) dispatch(matchInterest({location}));
+        return () => {
+            // 戻るボタンで戻ってきたときに、最初から始める
+            dispatch(resetInterest());
+        };
     }, [location]);
 
     useEffect(() => {
