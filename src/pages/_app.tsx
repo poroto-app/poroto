@@ -10,7 +10,7 @@ export default function App({Component, pageProps}: AppProps) {
             <Head>
                 <meta charSet="utf-8"/>
                 <title>poroto</title>
-                <meta name="viewport" content="width=device-width,initial-scale=1"/>
+                <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0, user-scalable=no"/>
                 <meta name="theme-color" content="#F7F5EE"/>
                 <link rel="manifest" href="/manifest.webmanifest"/>
                 <link rel="apple-touch-icon" href="/icons/icon-192x192.png"></link>
