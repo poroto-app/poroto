@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import {Text} from "@chakra-ui/react";
+import {HStack, Text} from "@chakra-ui/react";
+import React from "react";
 
 type Props = {
     title?: string
@@ -7,13 +8,17 @@ type Props = {
 
 export const NavBar = ({title}: Props) => {
     return <Container>
-        {
-            title && <Text>{title}</Text>
-        }
+        <HStack w="100%" maxW="990px">
+            {
+                title && <Text>{title}</Text>
+            }
+        </HStack>
     </Container>
 }
 
 const Container = styled.div`
+  display: flex;
+  justify-content: center;
   background-color: white;
   border-bottom: 1px solid rgba(0, 0, 0, .1);
   padding: 8px 16px;
