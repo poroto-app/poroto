@@ -2,8 +2,7 @@ import styled from "styled-components";
 import {HStack, Icon, Text} from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/router";
-import {MdArrowBack, MdOutlinePlace} from "react-icons/md";
-import {reduxHistorySelector} from "src/redux/history";
+import {MdArrowBack} from "react-icons/md";
 
 type Props = {
     title?: string
