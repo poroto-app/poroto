@@ -3,6 +3,7 @@ import {HStack, Icon, Text} from "@chakra-ui/react";
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import {MdArrowBack} from "react-icons/md";
+import {reduxHistorySelector} from "src/redux/history";
 
 type Props = {
     title?: string
@@ -11,6 +12,7 @@ type Props = {
 export const NavBar = ({title}: Props) => {
     const router = useRouter();
     const [isHome, setIsHome] = useState(false);
+    const {historyStack} = reduxHistorySelector();
 
     useEffect(() => {
         setIsHome(router.pathname === "/");
@@ -20,9 +22,12 @@ export const NavBar = ({title}: Props) => {
         const isHome = router.pathname === "/";
         if (isHome) return;
 
-        // TODO: ホーム以外のページに直接来たときに、
-        // 通常の戻る操作ではなく、ホームに飛ばすようにする。
-        // (直接来た場合は、戻るボタンを押した場合、その前に見ていたページに遷移するため)
+        // 一つ前のページがporotoのページでない
+        if (historyStack === 0) {
+            await router.push("/")
+            return;
+        }
+
         await router.back();
     }
 
