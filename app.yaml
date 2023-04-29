@@ -15,3 +15,7 @@ handlers:
 
 env_variables:
   NODE_ENV: "production"
+
+# yarn gcp-build コマンドで利用される
+build_env_variables:
+  ENV: 'production'
