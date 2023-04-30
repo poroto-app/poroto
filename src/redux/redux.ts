@@ -3,10 +3,12 @@ import {configureStore} from "@reduxjs/toolkit";
 import {planReducer} from "src/redux/plan";
 import {useDispatch} from "react-redux";
 import {locationReducer} from "src/redux/location";
+import {historyReducer} from "src/redux/history";
 
 const reducer = combineReducers({
     plan: planReducer,
     location: locationReducer,
+    history: historyReducer,
 })
 
 export const reduxStore = configureStore({
