@@ -10,8 +10,7 @@ import {PlanActionButton} from "src/view/plan/Props";
 import {MdPhotoCamera} from "react-icons/md";
 import html2canvas from "html2canvas";
 import {MdSchedule} from "react-icons/md";
-import {DateHelper} from "src/domain/util/date";
-import { PlanSummaryItem } from "src/view/plan/PlanSummaryItem";
+import { PlanDuration, PlanSummaryItem } from "src/view/plan/PlanSummaryItem";
 
 const PlanDetail = () => {
 
@@ -52,10 +51,7 @@ const PlanDetail = () => {
         <NavBar title={plan.title}/>
         <VStack maxWidth="990px" w="100%" px="8px" py="16px" boxSizing="border-box">
             <VStack py="16px" w="100%" alignItems="flex-start">
-                <PlanSummaryItem
-                    icon={MdSchedule}
-                    text={`${plan.timeInMinutes.toFixed()}分 (~ ${DateHelper.dateToHHMM(DateHelper.add(new Date(), plan.timeInMinutes * DateHelper.Minute))})`}
-                />
+                <PlanDuration durationInMinutes={plan.timeInMinutes} />
             </VStack>
             <VStack spacing={8} w="100%" ref={plansRef}>
                 {
