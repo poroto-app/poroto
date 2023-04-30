@@ -1,4 +1,4 @@
-import {Box, Center, HStack, Icon, Text, VStack} from "@chakra-ui/react"
+import {Center, VStack} from "@chakra-ui/react"
 import {NavBar} from "src/view/common/NavBar"
 import {PlacePreview} from "src/view/plan/PlacePreview"
 import {useAppDispatch} from "src/redux/redux";
@@ -9,9 +9,9 @@ import {useRouter} from "next/router";
 import {PlanActionButton} from "src/view/plan/Props";
 import {MdPhotoCamera} from "react-icons/md";
 import html2canvas from "html2canvas";
-import {IconType} from "react-icons";
 import {MdSchedule} from "react-icons/md";
 import {DateHelper} from "src/domain/util/date";
+import { PlanSummaryItem } from "src/view/plan/PlanSummaryItem";
 
 const PlanDetail = () => {
 
@@ -75,13 +75,6 @@ const PlanDetail = () => {
             </VStack>
         </VStack>
     </Center>
-}
-
-const PlanSummaryItem = ({text, icon}: { text: string, icon: IconType }) => {
-    return <HStack w="100%" px="16px" py="4px" columnGap="20px" spacing={0}>
-        <Icon w="24px" h="24px" color="#BD9F8E" as={icon}/>
-        <Text color="rgba(0,0,0,.6)">{text}</Text>
-    </HStack>
 }
 
 export default PlanDetail
