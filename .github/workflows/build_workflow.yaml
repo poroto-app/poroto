@@ -10,7 +10,6 @@ jobs:
           node-version: '16'
       - run: yarn install
   type-check:
-    needs: dependency-install
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -20,7 +19,6 @@ jobs:
       - run: yarn install
       - run: yarn type-check
   build:
-    needs: dependency-install
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

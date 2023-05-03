@@ -101,6 +101,11 @@ export const slice = createSlice({
             state.categoryRejected.push(payload.category);
             state.categoryCandidates = state.categoryCandidates.filter((category) => category.name != payload.category.name);
         },
+        resetInterest: (state) => {
+            state.categoryCandidates = null;
+            state.categoryRejected = [];
+            state.categoryAccepted = [];
+        },
     },
     extraReducers: (builder) => {
 
@@ -114,6 +119,7 @@ export const {
     setCategoryCandidates,
     pushAcceptedCategory,
     pushRejectedCategory,
+    resetInterest,
 } = slice.actions;
 
 export const reduxPlanSelector = () => useSelector((state: RootState) => state.plan);
