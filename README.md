@@ -14,7 +14,6 @@ yarn install
 - `scipts/decrypt.sh`
   を実行することで復元できます
     - ※ [事前に gcloud をインストールする必要があります](https://cloud.google.com/sdk/docs/install?hl=ja）
-    - ※スクリプトの最初の行のコメントアウトを外して実行してください
 
 ### シークレット（.env.local等）変更時
 

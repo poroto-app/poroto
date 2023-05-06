@@ -25,4 +25,4 @@ runs:
 
     - name: Decrypt secrets
       shell: bash
-      run: sh scripts/decrypt.sh
+      run: sh scripts/decrypt_ci.sh
