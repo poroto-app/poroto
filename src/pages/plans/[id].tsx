@@ -1,4 +1,4 @@
-import {Box, Center, HStack, Icon, Text, VStack} from "@chakra-ui/react"
+import {Center, HStack, Icon, Text, VStack} from "@chakra-ui/react"
 import {NavBar} from "src/view/common/NavBar"
 import {PlacePreview} from "src/view/plan/PlacePreview"
 import {useAppDispatch} from "src/redux/redux";
@@ -7,11 +7,11 @@ import {LoadingModal} from "src/view/common/LoadingModal";
 import {useEffect, useRef} from "react";
 import {useRouter} from "next/router";
 import {PlanActionButton} from "src/view/plan/Props";
-import {MdPhotoCamera} from "react-icons/md";
+import {MdPhotoCamera, MdSchedule} from "react-icons/md";
 import html2canvas from "html2canvas";
 import {IconType} from "react-icons";
-import {MdSchedule} from "react-icons/md";
 import {DateHelper} from "src/domain/util/date";
+import {PlaceMap} from "src/view/plan/PlaceMap";
 
 const PlanDetail = () => {
 
@@ -68,6 +68,7 @@ const PlanDetail = () => {
                 }
             </VStack>
             <VStack w="100%">
+                <PlaceMap places={plan.places}/>
                 <PlanActionButton
                     text="画像で保存する" color="#539565" icon={MdPhotoCamera}
                     onClick={handleOnClickSaveAsImage}
