@@ -30,3 +30,6 @@ PlaceMapStoryBook.args = {
         }
     ] as Place[]
 }
+
+const EmptyTemplate = () => <PlaceMap places={[]}/>
+export const Empty = EmptyTemplate.bind({})
