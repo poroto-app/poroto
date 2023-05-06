@@ -1,4 +1,4 @@
-import {Place} from "src/domain/models/place";
+import {Place} from "src/domain/models/Place";
 
 export type Plan = {
     id: string
