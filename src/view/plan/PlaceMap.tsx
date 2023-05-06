@@ -12,6 +12,7 @@ export const PlaceMap = ({places}: Props) => {
     })
 
     return <VStack w="100%" h="300px" alignItems="flex-start">
+        <Text fontWeight="bold" fontSize="1.25rem">プラン内の場所</Text>
         <Map isLoaded={isLoaded} places={places}/>
     </VStack>
 }
