@@ -20,7 +20,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         });
         return {
             session: data.createPlanByLocation.session,
-            plans: data.createPlanByLocation.plans.map((plan, i) => ({
+            plans: data.createPlanByLocation.plans.map((plan) => ({
                 id: plan.id,
                 title: plan.name,
                 tags: [], // TODO: APIから取得する,
