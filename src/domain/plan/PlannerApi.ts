@@ -1,5 +1,6 @@
 export interface PlannerApi {
     createPlansFromLocation(request: CreatePlanFromLocationRequest): Promise<CreatePlanFromLocationResponse>
+
     fetchCachedCreatedPlans(request: FetchCachedCreatedPlansRequest): Promise<FetchCachedCreatedPlansResponse>
 
     matchInterest(request: MatchInterestRequest): Promise<MatchInterestResponse>
@@ -52,7 +53,7 @@ export type FetchCachedCreatedPlansResponse = {
             }
         }[]
         timeInMinutes: number,
-    }[]
+    }[] | null
 }
 
 export type MatchInterestRequest = {
