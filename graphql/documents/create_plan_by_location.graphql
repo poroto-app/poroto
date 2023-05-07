@@ -1,15 +1,18 @@
 mutation CreatePlanByLocation($latitude: Float!, $longitude: Float!) {
     createPlanByLocation(input: {latitude: $latitude, longitude: $longitude}) {
-        id
-        name
-        places {
+        session
+        plans {
+            id
             name
-            photos
-            location {
-                longitude
-                latitude
+            places {
+                name
+                photos
+                location {
+                    longitude
+                    latitude
+                }
             }
+            timeInMinutes
         }
-        timeInMinutes
     }
 }
