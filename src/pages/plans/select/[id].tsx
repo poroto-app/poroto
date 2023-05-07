@@ -19,10 +19,12 @@ const SelectPlanPage = () => {
     const {id} = router.query;
 
     useEffect(() => {
-        if (id && typeof id === "string") {
+        // ページをリロードしたときのみキャッシュを取得する
+        if (!id || typeof id !== "string") return;
+        if (!plansCreated) {
             dispatch(fetchCachedCreatedPlans({session: id}));
         }
-    }, [id]);
+    }, [id, plansCreated]);
 
     if (!plansCreated) {
         // TODO: ホームに戻れる404ページを作る
