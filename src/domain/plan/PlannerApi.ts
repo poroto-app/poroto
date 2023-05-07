@@ -7,7 +7,7 @@ export interface PlannerApi {
 }
 
 
-type PlanEntity = {
+export type PlanEntity = {
     id: string,
     title: string
     tags: {
@@ -22,6 +22,21 @@ type PlanEntity = {
         }
     }[]
     timeInMinutes: number,
+}
+
+export function createPlanFromPlanEntity(entities: PlanEntity[]) {
+    return entities.map((plan) => ({
+        id: plan.id,
+        title: plan.title,
+        imageUrls: plan.places.flatMap((place) => place.imageUrls),
+        tags: plan.tags,
+        places: plan.places.map((place) => ({
+            name: place.name,
+            imageUrls: place.imageUrls,
+            tags: [],
+        })),
+        timeInMinutes: plan.timeInMinutes,
+    }));
 }
 
 export type CreatePlanFromLocationRequest = {
