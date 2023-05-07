@@ -1,18 +1,36 @@
 import {NavBar} from "src/view/common/NavBar";
 import {Center, Grid, GridItem, HStack, Icon, Skeleton, Text, VStack} from "@chakra-ui/react";
 import styled from "styled-components";
-import React, {FC} from "react";
-import {reduxPlanSelector} from "src/redux/plan";
+import React, {FC, useEffect} from "react";
+import {fetchCachedCreatedPlans, reduxPlanSelector} from "src/redux/plan";
 import Link from "next/link";
 import {LoadingModal} from "src/view/common/LoadingModal";
 import {MdDirectionsWalk} from "react-icons/md";
+import {useRouter} from "next/router";
+import {useAppDispatch} from "src/redux/redux";
 
 
 const SelectPlanPage = () => {
 
-    const {plansCreated} = reduxPlanSelector();
+    const dispatch = useAppDispatch();
+    const {plansCreated, createPlanSession} = reduxPlanSelector();
 
-    if (!plansCreated) return <LoadingModal title="プランを作成しています"/>
+    const router = useRouter();
+    const {id} = router.query;
+
+    useEffect(() => {
+        if (id && typeof id === "string") {
+            dispatch(fetchCachedCreatedPlans({session: id}));
+        }
+    }, [id]);
+
+    if (!plansCreated) {
+        // TODO: ホームに戻れる404ページを作る
+        // sessionに紐づくプランが存在しない
+        if (createPlanSession) return <h1>Not Found</h1>
+
+        return <LoadingModal title="プランを取得しています"/>
+    }
 
     // TODO: プラン作成失敗 or 直接このページに来たときははじく
     if (plansCreated.length === 0) return <Center>

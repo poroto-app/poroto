@@ -55,6 +55,33 @@ export const createPlanFromLocation = createAsyncThunk(
     }
 )
 
+type FetchCachedCreatedPlansProps = { session: string };
+export const fetchCachedCreatedPlans = createAsyncThunk(
+  'plan/fetchCachedCreatedPlans',
+  async ({session}: FetchCachedCreatedPlansProps, {dispatch}) => {
+      const plannerApi: PlannerApi = new PlannerGraphQlApi();
+      const response = await plannerApi.fetchCachedCreatedPlans({session});
+      if(response.plans === null) {
+          dispatch(setCreatedPlans({session, plans: null}));
+          return;
+      }
+
+      const plans: Plan[] = response.plans.map((plan) => ({
+          id: plan.id,
+          title: plan.title,
+          imageUrls: plan.places.flatMap((place) => place.imageUrls),
+          tags: plan.tags,
+          places: plan.places.map((place) => ({
+              name: place.name,
+              imageUrls: place.imageUrls,
+              tags: [],
+          })),
+          timeInMinutes: plan.timeInMinutes,
+      }));
+      dispatch(setCreatedPlans({session, plans}));
+  }
+)
+
 type MatchInterestProps = {
     location: {
         latitude: number,
