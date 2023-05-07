@@ -7,8 +7,7 @@ import {PlannerApi} from "src/domain/plan/PlannerApi";
 import {PlannerGraphQlApi} from "src/data/graphql/PlannerGraphQlApi";
 
 export type PlanState = {
-    // TODO: ここもPlanで管理する（提示するプランは３件だけでデータ量も多くないはずだから）
-    plans: Plan[] | null,
+    plansCreated: Plan[] | null,
     // TODO: `usePlanPreview`等でデータを二重管理しないようにする
     preview: Plan | null,
 
@@ -18,7 +17,7 @@ export type PlanState = {
 }
 
 const initialState: PlanState = {
-    plans: null,
+    plansCreated: null,
     preview: null,
 
     categoryCandidates: null,
@@ -79,11 +78,11 @@ export const slice = createSlice({
     initialState,
     reducers: {
         setPlans: (state, {payload}: PayloadAction<{ plans: Plan[] | null }>) => {
-            state.plans = payload.plans;
+            state.plansCreated = payload.plans;
         },
         fetchPlanDetail: (state, {payload}: PayloadAction<{ planId: string }>) => {
-            if (!state.plans) return;
-            state.preview = state.plans.find((plan) => plan.id === payload.planId);
+            if (!state.plansCreated) return;
+            state.preview = state.plansCreated.find((plan) => plan.id === payload.planId);
         },
 
         setCategoryCandidates: (state, {payload}: PayloadAction<{ categories: LocationCategory[] }>) => {
