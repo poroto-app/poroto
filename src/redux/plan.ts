@@ -7,6 +7,7 @@ import {PlannerApi} from "src/domain/plan/PlannerApi";
 import {PlannerGraphQlApi} from "src/data/graphql/PlannerGraphQlApi";
 
 export type PlanState = {
+    createPlanSession: string | null,
     plansCreated: Plan[] | null,
     // TODO: `usePlanPreview`等でデータを二重管理しないようにする
     preview: Plan | null,
@@ -17,6 +18,7 @@ export type PlanState = {
 }
 
 const initialState: PlanState = {
+    createPlanSession: null,
     plansCreated: null,
     preview: null,
 
@@ -36,6 +38,7 @@ export const createPlanFromLocation = createAsyncThunk(
     async ({location}: CreatePlanFromCurrentLocationProps, {dispatch}) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.createPlansFromLocation({location: location});
+        const session = response.session;
         const plans: Plan[] = response.plans.map((plan) => ({
             id: plan.id,
             title: plan.title,
@@ -48,7 +51,7 @@ export const createPlanFromLocation = createAsyncThunk(
             })),
             timeInMinutes: plan.timeInMinutes,
         }));
-        dispatch(setPlans({plans}))
+        dispatch(setCreatedPlans({session, plans}))
     }
 )
 
@@ -77,7 +80,8 @@ export const slice = createSlice({
     name: 'plan',
     initialState,
     reducers: {
-        setPlans: (state, {payload}: PayloadAction<{ plans: Plan[] | null }>) => {
+        setCreatedPlans: (state, {payload}: PayloadAction<{ session: string, plans: Plan[] | null }>) => {
+            state.createPlanSession = payload.session;
             state.plansCreated = payload.plans;
         },
         fetchPlanDetail: (state, {payload}: PayloadAction<{ planId: string }>) => {
@@ -111,8 +115,11 @@ export const slice = createSlice({
     },
 });
 
+const {
+    setCreatedPlans,
+} = slice.actions;
+
 export const {
-    setPlans,
     fetchPlanDetail,
 
     setCategoryCandidates,
