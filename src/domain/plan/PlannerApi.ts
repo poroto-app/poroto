@@ -12,6 +12,7 @@ export type CreatePlanFromLocationRequest = {
 }
 
 export type CreatePlanFromLocationResponse = {
+    session: string,
     plans: {
         id: string,
         title: string

@@ -15,7 +15,8 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             variables: {latitude: request.location.latitude, longitude: request.location.longitude},
         });
         return {
-            plans: data.createPlanByLocation.map((plan, i) => ({
+            session: data.createPlanByLocation.session,
+            plans: data.createPlanByLocation.plans.map((plan, i) => ({
                 id: plan.id,
                 title: plan.name,
                 tags: [], // TODO: APIから取得する,
