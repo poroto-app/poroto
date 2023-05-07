@@ -10,12 +10,12 @@ import {MdDirectionsWalk} from "react-icons/md";
 
 const SelectPlanPage = () => {
 
-    const {plans} = reduxPlanSelector();
+    const {plansCreated} = reduxPlanSelector();
 
-    if (!plans) return <LoadingModal title="プランを作成しています"/>
+    if (!plansCreated) return <LoadingModal title="プランを作成しています"/>
 
     // TODO: プラン作成失敗 or 直接このページに来たときははじく
-    if (plans.length === 0) return <Center>
+    if (plansCreated.length === 0) return <Center>
         <Text>プランを作成することができませんでした。</Text>
     </Center>
 
@@ -23,7 +23,7 @@ const SelectPlanPage = () => {
         <NavBar title="プランを選ぶ"/>
         <VStack w="100%" px="16px" spacing={16} py="16px">
             {
-                (plans || []).map((plan, i) => <Link key={i} href={"/plans/" + plan.id}>
+                (plansCreated || []).map((plan, i) => <Link key={i} href={"/plans/" + plan.id}>
                         <VStack w="100%" maxW="300px">
                             <PlanThumbnail imageUrls={plan.places.flatMap((place) => place.imageUrls)}/>
                             <VStack w="100%" alignItems="flex-start" spacing={1}>
