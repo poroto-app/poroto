@@ -6,6 +6,24 @@ export interface PlannerApi {
     matchInterest(request: MatchInterestRequest): Promise<MatchInterestResponse>
 }
 
+
+type PlanEntity = {
+    id: string,
+    title: string
+    tags: {
+        content: string,
+    }[],
+    places: {
+        name: string,
+        imageUrls: string[],
+        location: {
+            latitude: number,
+            longitude: number,
+        }
+    }[]
+    timeInMinutes: number,
+}
+
 export type CreatePlanFromLocationRequest = {
     location: {
         latitude: number,
@@ -15,22 +33,7 @@ export type CreatePlanFromLocationRequest = {
 
 export type CreatePlanFromLocationResponse = {
     session: string,
-    plans: {
-        id: string,
-        title: string
-        tags: {
-            content: string,
-        }[],
-        places: {
-            name: string,
-            imageUrls: string[],
-            location: {
-                latitude: number,
-                longitude: number,
-            }
-        }[]
-        timeInMinutes: number,
-    }[]
+    plans: PlanEntity[]
 }
 
 export type FetchCachedCreatedPlansRequest = {
@@ -38,22 +41,7 @@ export type FetchCachedCreatedPlansRequest = {
 }
 
 export type FetchCachedCreatedPlansResponse = {
-    plans: {
-        id: string,
-        title: string
-        tags: {
-            content: string,
-        }[],
-        places: {
-            name: string,
-            imageUrls: string[],
-            location: {
-                latitude: number,
-                longitude: number,
-            }
-        }[]
-        timeInMinutes: number,
-    }[] | null
+    plans: PlanEntity[] | null
 }
 
 export type MatchInterestRequest = {
