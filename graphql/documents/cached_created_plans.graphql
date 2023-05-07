@@ -1,0 +1,17 @@
+query CachedCreatedPlans($session: String!) {
+    cachedCreatedPlans(input: {session: $session}) {
+        plans {
+            id
+            name
+            places {
+                name
+                photos
+                location {
+                    longitude
+                    latitude
+                }
+            }
+            timeInMinutes
+        }
+    }
+}
