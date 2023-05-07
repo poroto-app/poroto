@@ -34,7 +34,7 @@ export const PlanInterestPage = () => {
     useEffect(() => {
         if (!categoryCandidates) return;
         if (categoryCandidates.length === 0) {
-            router.push(Routes.plans.select).then();
+            router.push(Routes.plans.create).then();
             return;
         }
         setCurrentCategory(categoryCandidates[0]);
