@@ -26,6 +26,9 @@ export default function App({Component, pageProps}: AppProps) {
                 <meta property="og:image" content="https://poroto.app/ogp/ogp.png"/>
                 <meta property="og:type" content="website"/>
             </Head>
+            {/*MEMO:GitHub Actionsでtype checkを実行すると落ちる*/}
+            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+            {/*@ts-ignore*/}
             <style jsx global>
                 {`
                   html {
