@@ -1,6 +1,7 @@
 name: deploy-staging
 run-name: Deploy Staging by @${{ github.actor }}
-on: [ push ]
+on:
+  push
 
 jobs:
   deploy:
