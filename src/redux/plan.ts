@@ -50,7 +50,7 @@ export const createPlanFromLocation = createAsyncThunk(
             })),
             timeInMinutes: plan.timeInMinutes,
         }));
-        dispatch(setPlans({plans}))
+        dispatch(setPlans({ plans }));
     }
 )
 
@@ -61,8 +61,8 @@ type MatchInterestProps = {
     };
 };
 export const matchInterest = createAsyncThunk(
-    'plan/matchInterest',
-    async ({location}: MatchInterestProps, {dispatch}) => {
+    "plan/matchInterest",
+    async ({ location }: MatchInterestProps, { dispatch }) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.matchInterest({ location });
         dispatch(

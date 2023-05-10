@@ -11,7 +11,7 @@ import { setLocation } from "src/redux/location";
 const IndexPage = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const {getCurrentLocation, isLoadingLocation, isRejected} = useLocation();
+    const { getCurrentLocation, isLoadingLocation, isRejected } = useLocation();
 
     const onClickCreatePlanFromCurrentLocation = async () => {
         const currentLocation = await getCurrentLocation();

@@ -21,9 +21,7 @@ export const slice = createSlice({
     },
 });
 
-export const {
-    setLocation,
-} = slice.actions;
+export const { setLocation } = slice.actions;
 
 export const reduxLocationSelector = () => useSelector((state: RootState) => state.location);
 export const locationReducer = slice.reducer;

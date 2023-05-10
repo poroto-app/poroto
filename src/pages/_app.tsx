@@ -6,7 +6,7 @@ import { reduxStore, useAppDispatch } from "src/redux/redux";
 import { useEffect } from "react";
 import { popHistoryStack, pushHistoryStack } from "src/redux/history";
 
-export default function App({Component, pageProps}: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
             <Head>
