@@ -121,7 +121,8 @@ const History = () => {
         document.addEventListener("click", (e) => {
             if (e.target["tagName"] !== "A") return;
             const url = e.target["href"];
-            if (previousUrl && previousUrl !== url) dispatch(pushHistoryStack());
+            if (previousUrl && previousUrl !== url)
+                dispatch(pushHistoryStack());
             previousUrl = url;
         })
     }, []);
