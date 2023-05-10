@@ -10,7 +10,7 @@ export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
             <Head>
-                <meta charSet="utf-8"/>
+                <meta charSet="utf-8" />
                 <title>poroto</title>
                 <meta
                     name="viewport"
@@ -97,7 +97,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </style>
             <ChakraProvider>
                 <Provider store={reduxStore}>
-                    <History/>
+                    <History />
                     <Component {...pageProps} />
                 </Provider>
             </ChakraProvider>
