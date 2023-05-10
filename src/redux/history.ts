@@ -28,5 +28,6 @@ export const slice = createSlice({
 
 export const { pushHistoryStack, popHistoryStack } = slice.actions;
 
-export const reduxHistorySelector = () => useSelector((state: RootState) => state.history);
+export const reduxHistorySelector = () =>
+    useSelector((state: RootState) => state.history);
 export const historyReducer = slice.reducer;

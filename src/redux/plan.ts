@@ -33,10 +33,12 @@ type CreatePlanFromCurrentLocationProps = {
     };
 };
 export const createPlanFromLocation = createAsyncThunk(
-    'plan/createPlanFromCurrentLocation',
-    async ({location}: CreatePlanFromCurrentLocationProps, {dispatch}) => {
+    "plan/createPlanFromCurrentLocation",
+    async ({ location }: CreatePlanFromCurrentLocationProps, { dispatch }) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const response = await plannerApi.createPlansFromLocation({location: location});
+        const response = await plannerApi.createPlansFromLocation({
+            location: location,
+        });
         const plans: Plan[] = response.plans.map((plan) => ({
             id: plan.id,
             title: plan.title,
@@ -52,7 +54,7 @@ export const createPlanFromLocation = createAsyncThunk(
         }));
         dispatch(setPlans({ plans }));
     }
-)
+);
 
 type MatchInterestProps = {
     location: {
@@ -75,34 +77,55 @@ export const matchInterest = createAsyncThunk(
             })
         );
     }
-)
+);
 
 export const slice = createSlice({
-    name: 'plan',
+    name: "plan",
     initialState,
     reducers: {
-        setPlans: (state, {payload}: PayloadAction<{ plans: Plan[] | null }>) => {
+        setPlans: (
+            state,
+            { payload }: PayloadAction<{ plans: Plan[] | null }>
+        ) => {
             state.plans = payload.plans;
         },
-        fetchPlanDetail: (state, {payload}: PayloadAction<{ planId: string }>) => {
+        fetchPlanDetail: (
+            state,
+            { payload }: PayloadAction<{ planId: string }>
+        ) => {
             if (!state.plans) return;
-            state.preview = state.plans.find((plan) => plan.id === payload.planId);
+            state.preview = state.plans.find(
+                (plan) => plan.id === payload.planId
+            );
         },
 
-        setCategoryCandidates: (state, {payload}: PayloadAction<{ categories: LocationCategory[] }>) => {
+        setCategoryCandidates: (
+            state,
+            { payload }: PayloadAction<{ categories: LocationCategory[] }>
+        ) => {
             state.categoryCandidates = payload.categories;
             state.categoryAccepted = [];
             state.categoryRejected = [];
         },
-        pushAcceptedCategory: (state, {payload}: PayloadAction<{ category: LocationCategory }>) => {
+        pushAcceptedCategory: (
+            state,
+            { payload }: PayloadAction<{ category: LocationCategory }>
+        ) => {
             if (!state.categoryAccepted) state.categoryAccepted = [];
             state.categoryAccepted.push(payload.category);
-            state.categoryCandidates = state.categoryCandidates.filter((category) => category.name != payload.category.name);
+            state.categoryCandidates = state.categoryCandidates.filter(
+                (category) => category.name != payload.category.name
+            );
         },
-        pushRejectedCategory: (state, {payload}: PayloadAction<{ category: LocationCategory }>) => {
+        pushRejectedCategory: (
+            state,
+            { payload }: PayloadAction<{ category: LocationCategory }>
+        ) => {
             if (!state.categoryRejected) state.categoryRejected = [];
             state.categoryRejected.push(payload.category);
-            state.categoryCandidates = state.categoryCandidates.filter((category) => category.name != payload.category.name);
+            state.categoryCandidates = state.categoryCandidates.filter(
+                (category) => category.name != payload.category.name
+            );
         },
         resetInterest: (state) => {
             state.categoryCandidates = null;
@@ -122,6 +145,7 @@ export const {
     resetInterest,
 } = slice.actions;
 
-export const reduxPlanSelector = () => useSelector((state: RootState) => state.plan);
+export const reduxPlanSelector = () =>
+    useSelector((state: RootState) => state.plan);
 
 export const planReducer = slice.reducer;

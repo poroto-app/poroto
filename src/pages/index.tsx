@@ -15,21 +15,27 @@ const IndexPage = () => {
 
     const onClickCreatePlanFromCurrentLocation = async () => {
         const currentLocation = await getCurrentLocation();
-        dispatch(setLocation({location: currentLocation}));
-        dispatch(createPlanFromLocation({
-            location: {
-                latitude: currentLocation.latitude,
-                longitude: currentLocation.longitude
-            }
-        }));
+        dispatch(setLocation({ location: currentLocation }));
+        dispatch(
+            createPlanFromLocation({
+                location: {
+                    latitude: currentLocation.latitude,
+                    longitude: currentLocation.longitude,
+                },
+            })
+        );
         await router.push(Routes.plans.interest);
-    }
+    };
 
-    return <Container maxW="990px" px="16px" py="16px">
-        <CreatePlanFromCurrentLocationButton onClick={onClickCreatePlanFromCurrentLocation} />
-        {isLoadingLocation && <Text>現在地を取得中</Text>}
-        {isRejected && <Text>現在地の取得を拒否されました。</Text>}
-    </Container>
-}
+    return (
+        <Container maxW="990px" px="16px" py="16px">
+            <CreatePlanFromCurrentLocationButton
+                onClick={onClickCreatePlanFromCurrentLocation}
+            />
+            {isLoadingLocation && <Text>現在地を取得中</Text>}
+            {isRejected && <Text>現在地の取得を拒否されました。</Text>}
+        </Container>
+    );
+};
 
-export default IndexPage
+export default IndexPage;

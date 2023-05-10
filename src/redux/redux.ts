@@ -14,12 +14,13 @@ const reducer = combineReducers({
 export const reduxStore = configureStore({
     reducer,
     devTools: true,
-    middleware: getDefaultMiddleware => getDefaultMiddleware({
-        thunk: true,
-        immutableCheck: true,
-        serializableCheck: true
-    })
-})
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            thunk: true,
+            immutableCheck: true,
+            serializableCheck: true,
+        }),
+});
 
 export type RootState = ReturnType<typeof reducer>;
 export type AppDispatch = typeof reduxStore.dispatch;

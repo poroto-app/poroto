@@ -15,7 +15,10 @@ export const slice = createSlice({
     name: 'location',
     initialState,
     reducers: {
-        setLocation: (state, {payload}: PayloadAction<{ location: GeoLocation }>) => {
+        setLocation: (
+            state,
+            { payload }: PayloadAction<{ location: GeoLocation }>
+        ) => {
             state.location = payload.location;
         },
     },
@@ -23,5 +26,6 @@ export const slice = createSlice({
 
 export const { setLocation } = slice.actions;
 
-export const reduxLocationSelector = () => useSelector((state: RootState) => state.location);
+export const reduxLocationSelector = () =>
+    useSelector((state: RootState) => state.location);
 export const locationReducer = slice.reducer;
