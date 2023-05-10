@@ -26,6 +26,7 @@ const Map = ({isLoaded, places}: { isLoaded: boolean, places: Place[] }) => {
         text="プランに場所が含まれていないため表示できません。"
     />
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     return <GoogleMap
         zoom={15/*https://developers.google.com/maps/documentation/javascript/overview?hl=ja#zoom-levels*/ }
@@ -33,6 +34,7 @@ const Map = ({isLoaded, places}: { isLoaded: boolean, places: Place[] }) => {
         mapContainerStyle={{width: "100%", height: "100%"}}
     >
         {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             places.map((place, i) => <Marker
                 key={i}
