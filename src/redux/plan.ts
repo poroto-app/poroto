@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Plan} from "src/domain/plan/Plan";
+import {Plan} from "src/domain/models/Plan";
 import {useSelector} from "react-redux";
 import {RootState} from "src/redux/redux";
 import {LocationCategory} from "src/domain/models/LocationCategory";

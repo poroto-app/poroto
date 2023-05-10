@@ -33,6 +33,7 @@ export function createPlanFromPlanEntity(entities: PlanEntity[]) {
         places: plan.places.map((place) => ({
             name: place.name,
             imageUrls: place.imageUrls,
+            location: place.location,
             tags: [],
         })),
         timeInMinutes: plan.timeInMinutes,
