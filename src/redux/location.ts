@@ -12,7 +12,7 @@ const initialState: LocationState = {
 };
 
 export const slice = createSlice({
-    name: 'location',
+    name: "location",
     initialState,
     reducers: {
         setLocation: (

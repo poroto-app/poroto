@@ -14,7 +14,7 @@ const initialState: HistoryState = {
 };
 
 export const slice = createSlice({
-    name: 'history',
+    name: "history",
     initialState,
     reducers: {
         pushHistoryStack: (state) => {
