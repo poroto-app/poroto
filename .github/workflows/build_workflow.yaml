@@ -53,6 +53,6 @@ jobs:
         with:
           node-version: '18'
       - run: yarn install
-      - run: yarn prettier
+      - run: yarn format
       - name: Check diff
         run: git diff --exit-code
