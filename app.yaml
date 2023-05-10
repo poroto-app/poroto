@@ -1,5 +1,5 @@
 # SEE: https://cloud.google.com/appengine/docs/standard/go/config/appref?hl=ja
-runtime: nodejs16
+runtime: nodejs18
 automatic_scaling:
   min_idle_instances: 1
   max_idle_instances: 1
