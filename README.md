@@ -1,16 +1,33 @@
 # poroto
 
-## セットアップ方法
+## 環境構築
+
+### セットアップ方法
+
 ```shell
 yarn install
 ```
 
-## 起動方法
+### シークレットの復元
+
+- `poroto`で使用するシークレットは[poroto-app/infrastructure](https://github.com/poroto-app/infrastructure)で管理されています
+- `scipts/decrypt.sh`
+  を実行することで復元できます
+    - ※ [事前に gcloud をインストールする必要があります](https://cloud.google.com/sdk/docs/install?hl=ja）
+
+### シークレット（.env.local等）変更時
+
+- 暗号化し、[poroto-app/infrastructure](https://github.com/poroto-app/infrastructure)で管理してください
+- `scripts/encrypt.sh` を実行することで暗号化できます
+
+### 起動方法
+
 ```shell
 yarn dev
 ```
 
 ## ディレクトリ構造
+
 - `src/`: アプリケーションコード
 - `docs/`: 仕様書などのドキュメント
 

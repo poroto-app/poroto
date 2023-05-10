@@ -22,3 +22,16 @@ PlacePreviewStoryBook.args = {
         "https://picsum.photos/400/600",
     ]
 }
+
+export const Loading = Template.bind({});
+Loading.args = {
+    name: "poroto書店",
+    tags: ["書店", "駅チカ", "品揃え"],
+    imageUrls: [
+        "https://example.com/photo/a",
+        "https://example.com/photo/b",
+        "https://example.com/photo/c",
+        "https://example.com/photo/d",
+        "https://example.com/photo/e",
+    ]
+}

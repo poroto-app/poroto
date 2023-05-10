@@ -1,5 +1,6 @@
-import { Box, HStack, Text, Image, VStack } from "@chakra-ui/react"
+import {Box, HStack, Image, Skeleton, Text, VStack} from "@chakra-ui/react"
 import styled from "styled-components"
+import {useState} from "react";
 
 type Props = {
     name: string,
@@ -7,14 +8,12 @@ type Props = {
     tags: string[]
 }
 
-export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
+export const PlacePreview = ({name, imageUrls, tags}: Props) => {
     return <VStack alignItems="flex-start" w="100%">
         <ImagePreviewer>
             {
-                imageUrls.map((imageUrl, i) => <Image
+                imageUrls.map((imageUrl, i) => <ImageWithSkeleton
                     key={i} src={imageUrl}
-                    objectFit="cover" w="100%" h="100%"
-                    scrollSnapAlign="start"
                 />)
             }
         </ImagePreviewer>
@@ -33,16 +32,33 @@ export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
     </VStack>
 }
 
+const ImageWithSkeleton = ({src}: { src: string }) => {
+    const [isLoading, setIsLoading] = useState(true);
+    return <>
+        {
+            isLoading && <Box>
+                <Skeleton w="200px" h="100%" flex={1}/>
+            </Box>
+        }
+        <Image
+            src={src}
+            objectFit="cover" w={isLoading ? 0 : "100%"} h="100%"
+            scrollSnapAlign="start"
+            onLoad={() => setIsLoading(false)}
+        />
+    </>
+}
+
 const ImagePreviewer = styled.div`
-    display: flex;
-    column-gap: 4px;
+  display: flex;
+  column-gap: 4px;
 
-    width: 100%;
-    height: 200px;
-    overflow-x: scroll;
-    scroll-snap-type: x mandatory;
+  width: 100%;
+  height: 200px;
+  overflow-x: scroll;
+  scroll-snap-type: x proximity;
 
-    &::-webkit-scrollbar {
-        display: none;
-    }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
