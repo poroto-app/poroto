@@ -12,6 +12,7 @@ import html2canvas from "html2canvas";
 import {IconType} from "react-icons";
 import {DateHelper} from "src/domain/util/date";
 import {PlaceMap} from "src/view/plan/PlaceMap";
+import Link from "next/link";
 
 const PlanDetail = () => {
 
@@ -46,6 +47,25 @@ const PlanDetail = () => {
         }
     }
 
+    const generateGoogleMapUrl = (): string => {
+        // SEE: https://developers.google.com/maps/documentation/urls/get-started?hl=ja#directions-action
+        const url = new URL("https://www.google.com/maps/dir/");
+        url.searchParams.set("api", "1");
+
+        // TODO: 出発地点が現在地でなく、検索した場所のときは明示的に出発地点を設定する
+        // baseUrl.searchParams.set("origin", `${plan.places[0].location.latitude},${plan.places[0].location.longitude}`);
+
+        const waypoints = plan.places.slice(0, plan.places.length - 1)
+            .map((waypoint) => `${waypoint.location.longitude},${waypoint.location.latitude}`)
+            .join("|");
+        url.searchParams.set("waypoints", waypoints)
+
+        const destination = plan.places[plan.places.length - 1];
+        url.searchParams.set("destination", `${destination.location.latitude},${destination.location.longitude}`);
+
+        return url.href;
+    };
+
     if (!plan) return <LoadingModal title="素敵なプランを読み込んでいます"/>
 
     return <Center flexDirection="column">
@@ -73,6 +93,13 @@ const PlanDetail = () => {
                     text="画像で保存する" color="#539565" icon={MdPhotoCamera}
                     onClick={handleOnClickSaveAsImage}
                 />
+                <Link href={generateGoogleMapUrl()} target="_blank" style={{width: "100%"}}>
+                    <PlanActionButton
+                        text="Google Mapで経路を調べる"
+                        color="#0F88E7"
+                        imageUrl="/images/google_map_logo.png"
+                    />
+                </Link>
             </VStack>
         </VStack>
     </Center>

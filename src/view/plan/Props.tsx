@@ -8,7 +8,7 @@ type Props = {
     text: string
     imageUrl?: string
     icon?: IconType
-    onClick: () => void
+    onClick?: () => void
 }
 
 export const PlanActionButton = ({color, text, onClick, imageUrl, icon}: Props) => {
