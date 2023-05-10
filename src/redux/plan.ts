@@ -1,10 +1,10 @@
-import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {Plan} from "src/domain/models/Plan";
-import {useSelector} from "react-redux";
-import {RootState} from "src/redux/redux";
-import {LocationCategory} from "src/domain/models/LocationCategory";
-import {PlannerApi} from "src/domain/plan/PlannerApi";
-import {PlannerGraphQlApi} from "src/data/graphql/PlannerGraphQlApi";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Plan } from "src/domain/models/Plan";
+import { useSelector } from "react-redux";
+import { RootState } from "src/redux/redux";
+import { LocationCategory } from "src/domain/models/LocationCategory";
+import { PlannerApi } from "src/domain/plan/PlannerApi";
+import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 
 export type PlanState = {
     // TODO: ここもPlanで管理する（提示するプランは３件だけでデータ量も多くないはずだから）

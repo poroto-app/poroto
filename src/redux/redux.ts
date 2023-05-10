@@ -1,9 +1,9 @@
-import {combineReducers} from "redux";
-import {configureStore} from "@reduxjs/toolkit";
-import {planReducer} from "src/redux/plan";
-import {useDispatch} from "react-redux";
-import {locationReducer} from "src/redux/location";
-import {historyReducer} from "src/redux/history";
+import { combineReducers } from "redux";
+import { configureStore } from "@reduxjs/toolkit";
+import { planReducer } from "src/redux/plan";
+import { useDispatch } from "react-redux";
+import { locationReducer } from "src/redux/location";
+import { historyReducer } from "src/redux/history";
 
 const reducer = combineReducers({
     plan: planReducer,

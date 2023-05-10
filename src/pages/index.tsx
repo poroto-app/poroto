@@ -1,12 +1,12 @@
 import React from "react";
-import {Container, Text} from "@chakra-ui/react";
-import {CreatePlanFromCurrentLocationButton} from "src/view/top/CreatePlanFromCurrentLocationButton";
-import {useRouter} from "next/router";
-import {Routes} from "src/view/constants/router";
-import {useAppDispatch} from "src/redux/redux";
-import {createPlanFromLocation} from "src/redux/plan";
-import {useLocation} from "src/view/hooks/useLocation";
-import {setLocation} from "src/redux/location";
+import { Container, Text } from "@chakra-ui/react";
+import { CreatePlanFromCurrentLocationButton } from "src/view/top/CreatePlanFromCurrentLocationButton";
+import { useRouter } from "next/router";
+import { Routes } from "src/view/constants/router";
+import { useAppDispatch } from "src/redux/redux";
+import { createPlanFromLocation } from "src/redux/plan";
+import { useLocation } from "src/view/hooks/useLocation";
+import { setLocation } from "src/redux/location";
 
 const IndexPage = () => {
     const router = useRouter();

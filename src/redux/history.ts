@@ -1,6 +1,6 @@
-import {createSlice} from "@reduxjs/toolkit";
-import {useSelector} from "react-redux";
-import {RootState} from "src/redux/redux";
+import { createSlice } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
+import { RootState } from "src/redux/redux";
 
 export type HistoryState = {
     // 一つ前のページがporoto内のページかとうかを判別するための値

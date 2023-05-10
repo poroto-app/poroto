@@ -1,6 +1,6 @@
 // SEE: https://styled-components.com/docs/advanced#nextjs
-import Document from 'next/document'
-import { ServerStyleSheet } from 'styled-components'
+import Document from "next/document";
+import { ServerStyleSheet } from "styled-components";
 
 export default class AppDocument extends Document {
     static async getInitialProps(ctx) {
