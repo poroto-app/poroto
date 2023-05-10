@@ -26,7 +26,6 @@ export default function App({Component, pageProps}: AppProps) {
                 <meta property="og:image" content="https://poroto.app/ogp/ogp.png"/>
                 <meta property="og:type" content="website"/>
             </Head>
-            {/*@ts-ignore*/}
             <style jsx global>
                 {`
                   html {
