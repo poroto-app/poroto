@@ -1,14 +1,8 @@
 name: deploy-staging
 run-name: Deploy Staging by @${{ github.actor }}
-on:
-  push:
-    branches:
-      - develop
+on: [ push ]
 
 jobs:
-  build:
-    uses: ./.github/workflows/build_workflow.yaml
-  # SEE: https://github.com/google-github-actions/deploy-appengine
   deploy:
     name: GAE Staging deploy
     needs: build
