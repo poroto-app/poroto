@@ -10,5 +10,8 @@
     "ecmaFeatures": {
       "jsx": true
     }
+  },
+  "rules": {
+    "react-hooks/rules-of-hooks": "warn"
   }
 }
