@@ -4,8 +4,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 
 export type LocationState = {
-    location: GeoLocation | null,
-}
+    location: GeoLocation | null;
+};
 
 const initialState: LocationState = {
     location: null,

@@ -6,12 +6,12 @@ export type HistoryState = {
     // 一つ前のページがporoto内のページかとうかを判別するための値
     // ページリンクによる遷移で+1
     // 戻るボタンによる遷移で-1
-    historyStack: number,
-}
+    historyStack: number;
+};
 
 const initialState: HistoryState = {
     historyStack: 0,
-}
+};
 
 export const slice = createSlice({
     name: 'history',

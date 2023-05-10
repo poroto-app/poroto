@@ -8,14 +8,14 @@ import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 
 export type PlanState = {
     // TODO: ここもPlanで管理する（提示するプランは３件だけでデータ量も多くないはずだから）
-    plans: Plan[] | null,
+    plans: Plan[] | null;
     // TODO: `usePlanPreview`等でデータを二重管理しないようにする
-    preview: Plan | null,
+    preview: Plan | null;
 
-    categoryCandidates: LocationCategory[] | null,
-    categoryAccepted: LocationCategory[],
-    categoryRejected: LocationCategory[],
-}
+    categoryCandidates: LocationCategory[] | null;
+    categoryAccepted: LocationCategory[];
+    categoryRejected: LocationCategory[];
+};
 
 const initialState: PlanState = {
     plans: null,
@@ -24,13 +24,13 @@ const initialState: PlanState = {
     categoryCandidates: null,
     categoryAccepted: null,
     categoryRejected: null,
-}
+};
 
 type CreatePlanFromCurrentLocationProps = {
     location: {
-        latitude: number,
-        longitude: number,
-    }
+        latitude: number;
+        longitude: number;
+    };
 };
 export const createPlanFromLocation = createAsyncThunk(
     'plan/createPlanFromCurrentLocation',
@@ -56,22 +56,24 @@ export const createPlanFromLocation = createAsyncThunk(
 
 type MatchInterestProps = {
     location: {
-        latitude: number,
-        longitude: number,
-    }
+        latitude: number;
+        longitude: number;
+    };
 };
 export const matchInterest = createAsyncThunk(
     'plan/matchInterest',
     async ({location}: MatchInterestProps, {dispatch}) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const response = await plannerApi.matchInterest({location});
-        dispatch(setCategoryCandidates({
-            categories: response.categories.map((category) => ({
-                name: category.name,
-                displayName: category.displayName,
-                thumbnail: category.photo,
-            }))
-        }))
+        const response = await plannerApi.matchInterest({ location });
+        dispatch(
+            setCategoryCandidates({
+                categories: response.categories.map((category) => ({
+                    name: category.name,
+                    displayName: category.displayName,
+                    thumbnail: category.photo,
+                })),
+            })
+        );
     }
 )
 

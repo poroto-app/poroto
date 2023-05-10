@@ -9,7 +9,7 @@ const reducer = combineReducers({
     plan: planReducer,
     location: locationReducer,
     history: historyReducer,
-})
+});
 
 export const reduxStore = configureStore({
     reducer,
