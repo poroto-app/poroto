@@ -3,12 +3,12 @@ import {Plan} from "src/domain/models/Plan";
 import {useSelector} from "react-redux";
 import {RootState} from "src/redux/redux";
 import {LocationCategory} from "src/domain/models/LocationCategory";
-import {PlannerApi} from "src/domain/plan/PlannerApi";
+import {createPlanFromPlanEntity, PlannerApi} from "src/domain/plan/PlannerApi";
 import {PlannerGraphQlApi} from "src/data/graphql/PlannerGraphQlApi";
 
 export type PlanState = {
-    // TODO: ここもPlanで管理する（提示するプランは３件だけでデータ量も多くないはずだから）
-    plans: Plan[] | null,
+    createPlanSession: string | null,
+    plansCreated: Plan[] | null,
     // TODO: `usePlanPreview`等でデータを二重管理しないようにする
     preview: Plan | null,
 
@@ -18,7 +18,8 @@ export type PlanState = {
 }
 
 const initialState: PlanState = {
-    plans: null,
+    createPlanSession: null,
+    plansCreated: null,
     preview: null,
 
     categoryCandidates: null,
@@ -37,20 +38,25 @@ export const createPlanFromLocation = createAsyncThunk(
     async ({location}: CreatePlanFromCurrentLocationProps, {dispatch}) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.createPlansFromLocation({location: location});
-        const plans: Plan[] = response.plans.map((plan) => ({
-            id: plan.id,
-            title: plan.title,
-            imageUrls: plan.places.flatMap((place) => place.imageUrls),
-            tags: plan.tags,
-            places: plan.places.map((place) => ({
-                name: place.name,
-                imageUrls: place.imageUrls,
-                tags: [],
-                location: place.location,
-            })),
-            timeInMinutes: plan.timeInMinutes,
-        }));
-        dispatch(setPlans({plans}))
+        const session = response.session;
+        const plans: Plan[] = createPlanFromPlanEntity(response.plans);
+        dispatch(setCreatedPlans({session, plans}))
+    }
+)
+
+type FetchCachedCreatedPlansProps = { session: string };
+export const fetchCachedCreatedPlans = createAsyncThunk(
+    'plan/fetchCachedCreatedPlans',
+    async ({session}: FetchCachedCreatedPlansProps, {dispatch}) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.fetchCachedCreatedPlans({session});
+        if (response.plans === null) {
+            dispatch(setCreatedPlans({session, plans: null}));
+            return;
+        }
+
+        const plans: Plan[] = createPlanFromPlanEntity(response.plans);
+        dispatch(setCreatedPlans({session, plans}));
     }
 )
 
@@ -79,12 +85,13 @@ export const slice = createSlice({
     name: 'plan',
     initialState,
     reducers: {
-        setPlans: (state, {payload}: PayloadAction<{ plans: Plan[] | null }>) => {
-            state.plans = payload.plans;
+        setCreatedPlans: (state, {payload}: PayloadAction<{ session: string, plans: Plan[] | null }>) => {
+            state.createPlanSession = payload.session;
+            state.plansCreated = payload.plans;
         },
         fetchPlanDetail: (state, {payload}: PayloadAction<{ planId: string }>) => {
-            if (!state.plans) return;
-            state.preview = state.plans.find((plan) => plan.id === payload.planId);
+            if (!state.plansCreated) return;
+            state.preview = state.plansCreated.find((plan) => plan.id === payload.planId);
         },
 
         setCategoryCandidates: (state, {payload}: PayloadAction<{ categories: LocationCategory[] }>) => {
@@ -113,8 +120,11 @@ export const slice = createSlice({
     },
 });
 
+const {
+    setCreatedPlans,
+} = slice.actions;
+
 export const {
-    setPlans,
     fetchPlanDetail,
 
     setCategoryCandidates,
