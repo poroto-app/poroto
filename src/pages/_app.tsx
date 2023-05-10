@@ -78,7 +78,6 @@ export default function App({Component, pageProps}: AppProps) {
             <ChakraProvider>
                 <Provider store={reduxStore}>
                     <History/>
-                    {/*@ts-ignore*/}
                     <Component {...pageProps} />
                 </Provider>
             </ChakraProvider>
