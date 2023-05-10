@@ -1,12 +1,14 @@
-import {ComponentMeta, ComponentStory} from "@storybook/react";
-import {PlanThumbnail} from "src/view/plan/PlanThumbnail";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
 
 export default {
     title: "plan/PlanThumbnail",
-    component: PlanThumbnail
+    component: PlanThumbnail,
 } as ComponentMeta<typeof PlanThumbnail>;
 
-const Template: ComponentStory<typeof PlanThumbnail> = (args) => <PlanThumbnail {...args}/>
+const Template: ComponentStory<typeof PlanThumbnail> = (args) => (
+    <PlanThumbnail {...args} />
+);
 
 export const PlanThumbnailStoryBook = Template.bind({});
 PlanThumbnailStoryBook.args = {
@@ -15,5 +17,5 @@ PlanThumbnailStoryBook.args = {
         "https://picsum.photos/1280/720",
         "https://picsum.photos/400/600",
         "https://picsum.photos/400/600",
-    ]
-}
+    ],
+};
