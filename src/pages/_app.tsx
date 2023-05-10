@@ -102,7 +102,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 </Provider>
             </ChakraProvider>
         </>
-    )
+    );
 }
 
 // ページ遷移を記録するためのコンポーネント
@@ -116,7 +116,7 @@ const History = () => {
             if (previousUrl && previousUrl !== location.href) {
                 dispatch(popHistoryStack());
             }
-        }
+        };
 
         document.addEventListener("click", (e) => {
             if (e.target["tagName"] !== "A") return;
@@ -124,8 +124,8 @@ const History = () => {
             if (previousUrl && previousUrl !== url)
                 dispatch(pushHistoryStack());
             previousUrl = url;
-        })
+        });
     }, []);
 
-    return <></>
-}
+    return <></>;
+};

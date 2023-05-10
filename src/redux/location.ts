@@ -9,7 +9,7 @@ export type LocationState = {
 
 const initialState: LocationState = {
     location: null,
-}
+};
 
 export const slice = createSlice({
     name: 'location',
