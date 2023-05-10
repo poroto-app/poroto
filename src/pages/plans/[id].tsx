@@ -11,6 +11,7 @@ import {MdPhotoCamera, MdSchedule} from "react-icons/md";
 import html2canvas from "html2canvas";
 import {IconType} from "react-icons";
 import {DateHelper} from "src/domain/util/date";
+import {PlaceMap} from "src/view/plan/PlaceMap";
 import Link from "next/link";
 
 const PlanDetail = () => {
@@ -87,6 +88,7 @@ const PlanDetail = () => {
                 }
             </VStack>
             <VStack w="100%">
+                <PlaceMap places={plan.places}/>
                 <PlanActionButton
                     text="画像で保存する" color="#539565" icon={MdPhotoCamera}
                     onClick={handleOnClickSaveAsImage}
