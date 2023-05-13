@@ -12,10 +12,10 @@ type Props = {
 	distance: string
 	time: string
 	money: string
-	total_time: string
+	totalTime: string
 }
 
-export const PlanScreenShotComponent = ({ title, name, address, time, distance, money, total_time}: Props) => {
+export const PlanScreenShotComponent = ({ title, name, address, time, distance, money, totalTime}: Props) => {
 	return <Block>
 		<Name>{name}</Name>
 		<Address>{address}</Address>
@@ -35,7 +35,7 @@ export const PlanScreenShotComponent = ({ title, name, address, time, distance, 
 
 		<TotalTimeBlock>
             <Icon as={AiOutlineClockCircle} color="#808080" w="40px" h="40px"/>
-			<TotalTime>{total_time}</TotalTime>
+			<TotalTime>{totalTime}</TotalTime>
             
 		</TotalTimeBlock>
         <img src="/images/poroto.jpg" alt="poroto画像が表示されます。"/>
