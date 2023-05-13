@@ -13,7 +13,9 @@ type Props = {
 
 export const PlanScreenShotComponent = ({ plan, money }: Props) => {
 	return <Block>
-		<PlaceListItem place={plan.places[0]} />
+		{
+			plan.places.map((place, i) => <PlaceListItem key={i} place={place}/>)
+		}
 		<PlanPrice price={money.start} priceEnd={money.end} />
 		<PlanDuration durationInMinutes={plan.timeInMinutes} />
 		<img src="/images/poroto.jpg" alt="poroto画像が表示されます。" />
