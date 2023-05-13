@@ -6,7 +6,7 @@ export default {
     component: PlanScreenShotComponent
 } as ComponentMeta<typeof PlanScreenShotComponent>;
 
-const Template: ComponentStory<typeof PlanScreenShotComponent> = (args) => <PlanScreenShotComponent {...args}/>
+const Template: ComponentStory<typeof PlanScreenShotComponent> = (args) => <PlanScreenShotComponent {...args} />
 
 export const PlanScreenShotComponentStoryBook = Template.bind({});
 PlanScreenShotComponentStoryBook.args = {
