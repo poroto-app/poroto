@@ -86,14 +86,10 @@ const DistanceTime = styled.div`
 `;
 const Time = styled.div`
 	font-size: 15px;
-	// padding-bottom: 10px;
-	// border-bottom: 1px solid #808080;
 	color: #808080;
 `;
 const Distance = styled.div`
 	font-size: 15px;
-	// padding-bottom: 10px;
-	// border-bottom: 1px solid #808080;
 	color: #808080;
 `;
 const Money = styled.div`
