@@ -38,9 +38,7 @@ export const PlanScreenShotComponent = ({ title, name, address, time, distance, 
 			<TotalTime>{total_time}</TotalTime>
             
 		</TotalTimeBlock>
-		<>
-			<img src="/images/poroto.jpg" alt="poroto画像が表示されます。"></img>
-		</>
+        <img src="/images/poroto.jpg" alt="poroto画像が表示されます。"/>
 	</Block>
 }
 
