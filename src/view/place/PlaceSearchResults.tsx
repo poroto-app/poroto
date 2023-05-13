@@ -1,12 +1,9 @@
 import styled from "styled-components";
 import {Text, VStack} from "@chakra-ui/react";
+import {PlaceSearchResult} from "src/domain/models/PlaceSearchResult";
 
 type Props = {
-    places: {
-        id: string,
-        name: string,
-        address: string,
-    }[]
+    places: PlaceSearchResult[]
 }
 
 export function PlaceSearchResults({places}: Props) {
