@@ -40,7 +40,7 @@ const PlanSummaryContainer = styled.div`
 `;
 const PlaceContainer = styled.div`
 	border-bottom: 1px solid rgba(0,0,0,.1);
-	padding: 10px 0;
+	padding: 16px;
 `;
 const Name = styled.div`
 	font-size: 20px;
