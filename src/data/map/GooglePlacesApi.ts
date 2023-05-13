@@ -7,7 +7,7 @@ export class GooglePlacesApi {
                                 language,
                                 radius
                             }: PlaceAutoCompleteRequest): Promise<google.maps.places.AutocompleteResponse> {
-        const responce = await axios.get("https://maps.googleapis.com/maps/api/place/autocomplete/json", {
+        const response = await axios.get("https://maps.googleapis.com/maps/api/place/autocomplete/json", {
             params: {
                 input,
                 language,
@@ -16,7 +16,7 @@ export class GooglePlacesApi {
             }
         })
 
-        return responce.data;
+        return response.data;
     }
 }
 
