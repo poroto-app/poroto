@@ -15,5 +15,5 @@ PlanScreenShotComponentStoryBook.args = {
     distance: "300m",
     time: "徒歩 5分",
     money: "500 - 1000",
-    total_time: "20分 (~14:40)",
+    totalTime: "20分 (~14:40)",
 }
