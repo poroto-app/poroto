@@ -1,7 +1,7 @@
-import {Box, Icon} from "@chakra-ui/react";
+import {Icon} from "@chakra-ui/react";
 import styled from "styled-components";
 import React, {useEffect, useState} from "react";
-import {MdSearch} from "react-icons/all";
+import {MdSearch} from "react-icons/md";
 
 type Props = {
     onSearch: (value: string) => void;
