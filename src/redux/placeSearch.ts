@@ -17,12 +17,14 @@ type SearchPlacesByQueryProps = {
 };
 export const searchPlacesByQuery = createAsyncThunk(
     'placeSearch/searchPlacesByQuery',
-    async ({query}: SearchPlacesByQueryProps, {dispatch}) => {
+    async ({query}: SearchPlacesByQueryProps, {dispatch, getState}) => {
         const mapApi = new GooglePlacesApi();
+        const currentLocation = (getState() as RootState).location.location;
         const response = await mapApi.placeAutoComplete({
             input: query,
             language: 'ja',
             radius: 10000,
+            location: currentLocation,
         });
         const placeSearchResults: PlaceSearchResult[] = response.predictions.map((prediction) => ({
             id: prediction.place_id,
