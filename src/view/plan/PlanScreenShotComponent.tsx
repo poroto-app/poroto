@@ -6,7 +6,7 @@ import { IconContext } from "react-icons"
 import { Icon } from "@chakra-ui/react";
 import { PlanDuration, PlanPrice } from "src/view/plan/PlanSummaryItem";
 import { Plan } from "src/domain/models/Plan";
-
+import { Place } from "src/domain/models/Place";
 
 type Props = {
 	plan: Plan,
@@ -18,13 +18,18 @@ type Props = {
 
 export const PlanScreenShotComponent = ({ plan, money}: Props) => {
 	return <Block>
-		<Name>{plan.places[0].name}</Name>
-		<Address>{"住所"/*TODO: 住所を指定できるようにする*/}</Address>
-
+		<PlaceListItem  place={plan.places[0]}/>
 		<PlanPrice price={money.start} priceEnd={money.end} />
 		<PlanDuration durationInMinutes={plan.timeInMinutes}/>
         <img src="/images/poroto.jpg" alt="poroto画像が表示されます。"/>
 	</Block>
+}
+
+const PlaceListItem = ({place}: { place: Place })  => {
+	return <div>
+		<Name>{place.name}</Name>
+		<Address>{"住所"/*TODO: 住所を指定できるようにする*/}</Address>
+	</div>
 }
 
 const Block = styled.div`
