@@ -43,14 +43,21 @@ export const slice = createSlice({
     initialState,
     reducers: {
         setPlaceSearchResults: (state, {payload}: PayloadAction<{
-            placeSearchResults: PlaceSearchResult[] | null
+            placeSearchResults: PlaceSearchResult[]
         }>) => {
             state.placeSearchResults = payload.placeSearchResults;
+        },
+        resetPlaceSearchResults: (state) => {
+            state.placeSearchResults = null;
         },
     },
 });
 
 export const {
+    resetPlaceSearchResults,
+} = slice.actions;
+
+const {
     setPlaceSearchResults,
 } = slice.actions;
 
