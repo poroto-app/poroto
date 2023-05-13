@@ -16,8 +16,10 @@ export const PlanScreenShotComponent = ({ plan, money }: Props) => {
 		{
 			plan.places.map((place, i) => <PlaceListItem key={i} place={place}/>)
 		}
-		<PlanPrice price={money.start} priceEnd={money.end} />
-		<PlanDuration durationInMinutes={plan.timeInMinutes} />
+		<PlanSummaryContainer>
+			<PlanPrice price={money.start} priceEnd={money.end} />
+			<PlanDuration durationInMinutes={plan.timeInMinutes} />
+		</PlanSummaryContainer>
 		<img src="/images/poroto.jpg" alt="poroto画像が表示されます。" />
 	</Block>
 }
@@ -32,6 +34,9 @@ const PlaceListItem = ({ place }: { place: Place }) => {
 const Block = styled.div`
 	display: flex;
 	flex-direction: column;
+`;
+const PlanSummaryContainer = styled.div`
+	padding: 16px 0;
 `;
 const PlaceContainer = styled.div`
 	border-bottom: 1px solid rgba(0,0,0,.1);
