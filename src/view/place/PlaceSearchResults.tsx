@@ -3,13 +3,17 @@ import {Text, VStack} from "@chakra-ui/react";
 import {PlaceSearchResult} from "src/domain/models/PlaceSearchResult";
 
 type Props = {
-    places: PlaceSearchResult[]
+    places: PlaceSearchResult[],
+    onClickPlace: (place: PlaceSearchResult) => void,
 }
 
-export function PlaceSearchResults({places}: Props) {
+export function PlaceSearchResults({places, onClickPlace}: Props) {
     return <VStack w="100%">
         {
-            places.map((place, i) => <ListItem key={i}>
+            places.map((place, i) => <ListItem
+                key={i}
+                onClick={() => onClickPlace(place)}
+            >
                 <Text>{place.name}</Text>
                 <Text fontSize="0.8rem" opacity="0.7">{place.address}</Text>
             </ListItem>)
