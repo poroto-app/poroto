@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { PlanDuration, PlanPrice } from "src/view/plan/PlanSummaryItem";
 import { Plan } from "src/domain/models/Plan";
 import { Place } from "src/domain/models/Place";
+import PlanThumbnailStories from "src/stories/plan/PlanThumbnail.stories";
 
 type Props = {
 	plan: Plan,
@@ -13,6 +14,7 @@ type Props = {
 
 export const PlanScreenShotComponent = ({ plan, money }: Props) => {
 	return <Block>
+		<PlanTitle>{plan.title}</PlanTitle>
 		{
 			plan.places.map((place, i) => <PlaceListItem key={i} place={place}/>)
 		}
@@ -51,4 +53,11 @@ const Name = styled.div`
 const Address = styled.div`
 	font-size: 15px;
 	color: #808080;
+`;
+const PlanTitle = styled.div`
+	padding: 16px;
+	font-size: 20px;
+	font-weight: 600;
+	color: #000000;
+	border-bottom: 1px solid rgba(0,0,0,.1);
 `;
