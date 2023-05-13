@@ -1,9 +1,4 @@
 import styled from "styled-components";
-import { FaWalking } from 'react-icons/fa'
-import { BiYen } from 'react-icons/bi'
-import {AiOutlineClockCircle} from 'react-icons/ai'
-import { IconContext } from "react-icons"
-import { Icon } from "@chakra-ui/react";
 import { PlanDuration, PlanPrice } from "src/view/plan/PlanSummaryItem";
 import { Plan } from "src/domain/models/Plan";
 import { Place } from "src/domain/models/Place";
@@ -36,9 +31,6 @@ const Block = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
-const DistanceTimeCharacter = styled.div`
-	flex-direction: column;
-`;
 const Name = styled.div`
 	font-size: 20px;
 	font-weight: 600;
@@ -51,40 +43,4 @@ const Address = styled.div`
 	padding-bottom: 10px;
 	border-bottom: 1px solid #808080;
 	color: #808080;
-`;
-const Time = styled.div`
-	font-size: 15px;
-	color: #808080;
-`;
-const Distance = styled.div`
-	font-size: 15px;
-	color: #808080;
-`;
-const Money = styled.div`
-	padding-top: 10px;
-	display: flex;
-	flex-direction: row;
-`;
-const MoneyCharacter = styled.div`
-	font-size: 15px;
-	font-weight: 600;
-	padding-top: 10px;
-	color: #808080;
-	display: flex;
-	flex-direction: row;
-	vertical-align: middle;
-`;
-const TotalTimeBlock = styled.div`
-	padding-top: 10px;
-	display: flex;
-	flex-direction: row;
-`;
-const TotalTime = styled.div`
-	font-size: 15px;
-	font-weight: 600;
-	padding-top: 10px;
-	color: #808080;
-	display: flex;
-	flex-direction: row;
-	vertical-align: middle;
 `;
