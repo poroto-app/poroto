@@ -16,9 +16,9 @@ export const PlanSummaryItem = ({ text, icon }: Props) => {
     </HStack>
 }
 
-export const PlanDuration = ({ durationInMinutes: timeInMinutes }: { durationInMinutes: number }) => {
-    const duration = `${timeInMinutes.toFixed()}分`;
-    const endPlanDate = DateHelper.add(new Date(), timeInMinutes * DateHelper.Minute);
+export const PlanDuration = ({ durationInMinutes }: { durationInMinutes: number }) => {
+    const duration = `${durationInMinutes.toFixed()}分`;
+    const endPlanDate = DateHelper.add(new Date(), durationInMinutes * DateHelper.Minute);
     const endPlanTime = `${DateHelper.dateToHHMM(endPlanDate)}`;
     return <PlanSummaryItem
         text={`${duration} (~ ${endPlanTime})`}
@@ -27,11 +27,11 @@ export const PlanDuration = ({ durationInMinutes: timeInMinutes }: { durationInM
 }
 
 export const PlanPrice = ({ price, priceEnd }: { price: number, priceEnd?: number }) => {
-    let priceStr = `¥${price}`;
+    let priceStr = `${price}`;
     if (priceEnd) {
-        priceStr += ` ~ ¥${priceEnd}`;
+        priceStr += ` ~ ${priceEnd}`;
     }
-
+    
     return <PlanSummaryItem
         text={priceStr}
         icon={BiYen}

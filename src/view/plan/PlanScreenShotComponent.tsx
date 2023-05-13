@@ -4,6 +4,8 @@ import { BiYen } from 'react-icons/bi'
 import {AiOutlineClockCircle} from 'react-icons/ai'
 import { IconContext } from "react-icons"
 import { Icon } from "@chakra-ui/react";
+import { PlanDuration, PlanPrice } from "src/view/plan/PlanSummaryItem";
+
 
 type Props = {
 	title: string
@@ -11,8 +13,11 @@ type Props = {
     address: string
 	distance: string
 	time: string
-	money: string
-	totalTime: string
+	money: {
+		start: number
+		end?: number
+	}
+	totalTime: number
 }
 
 export const PlanScreenShotComponent = ({ title, name, address, time, distance, money, totalTime}: Props) => {
@@ -27,17 +32,8 @@ export const PlanScreenShotComponent = ({ title, name, address, time, distance, 
 				<Distance>{distance}</Distance>
 			</DistanceTimeCharacter>
 		</DistanceTime>
-
-		<Money>
-			<Icon as={BiYen} color="#808080" w="40px" h="40px" />
-			<MoneyCharacter>{money}</MoneyCharacter>
-		</Money>
-
-		<TotalTimeBlock>
-            <Icon as={AiOutlineClockCircle} color="#808080" w="40px" h="40px"/>
-			<TotalTime>{totalTime}</TotalTime>
-            
-		</TotalTimeBlock>
+		<PlanPrice price={money.start} priceEnd={money.end} />
+		<PlanDuration durationInMinutes={totalTime}/>
         <img src="/images/poroto.jpg" alt="poroto画像が表示されます。"/>
 	</Block>
 }

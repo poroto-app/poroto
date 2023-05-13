@@ -14,6 +14,9 @@ PlanScreenShotComponentStoryBook.args = {
     address: "〒2430018 神奈川県厚木市中町2丁目6 三世ほてい屋第一ビル",
     distance: "300m",
     time: "徒歩 5分",
-    money: "500 - 1000",
-    totalTime: "20分 (~14:40)",
+    money: {
+        start: 500,
+        end: 1000
+    },
+    totalTime: 20,
 }
