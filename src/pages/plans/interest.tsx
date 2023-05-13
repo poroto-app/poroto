@@ -70,7 +70,7 @@ export function PlanInterestPageComponent({currentCategory, handleYes, handleNo,
     return <VStack h="100%" w="100%" spacing={0}>
         {navBar}
         <VStack
-            flex={1} overflow="hidden"
+            flex={1}
             h="100%" w="100%" maxWidth="990px"
             px="16px" pt="8px" pb="32px"
         >
