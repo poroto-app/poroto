@@ -1,5 +1,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent"
+import { Plan } from "src/domain/models/Plan";
 
 export default {
     title: "plan/PlanScreenShotComponent",
@@ -10,12 +11,34 @@ const Template: ComponentStory<typeof PlanScreenShotComponent> = (args) => <Plan
 
 export const PlanScreenShotComponentStoryBook = Template.bind({});
 PlanScreenShotComponentStoryBook.args = {
-    name: "有隣堂",
-    address: "〒2430018 神奈川県厚木市中町2丁目6 三世ほてい屋第一ビル",
-    time: "徒歩 5分",
+    plan: {
+        id: "1",
+        title: "カフェでほっと一息",
+        timeInMinutes: 60,
+        tags: [],
+        places: [
+            {
+                name: "東京駅",
+                imageUrls: [],
+                tags: [],
+                location: {
+                    latitude: 35.6809591,
+                    longitude: 139.7673068,
+                }
+            },
+            {
+                name: "東京駅丸の内駅前広場",
+                imageUrls: [],
+                tags: [],
+                location: {
+                    latitude: 35.681616,
+                    longitude: 139.764954,
+                },
+            }
+        ]
+    } as Plan,
     money: {
         start: 500,
         end: 1000
     },
-    totalTime: 20,
 }

@@ -5,27 +5,24 @@ import {AiOutlineClockCircle} from 'react-icons/ai'
 import { IconContext } from "react-icons"
 import { Icon } from "@chakra-ui/react";
 import { PlanDuration, PlanPrice } from "src/view/plan/PlanSummaryItem";
+import { Plan } from "src/domain/models/Plan";
 
 
 type Props = {
-	title: string
-	name: string
-    address: string
-	time: string
+	plan: Plan,
 	money: {
 		start: number
 		end?: number
 	}
-	totalTime: number
 }
 
-export const PlanScreenShotComponent = ({ title, name, address, time, money, totalTime}: Props) => {
+export const PlanScreenShotComponent = ({ plan, money}: Props) => {
 	return <Block>
-		<Name>{name}</Name>
-		<Address>{address}</Address>
+		<Name>{plan.places[0].name}</Name>
+		<Address>{"住所"/*TODO: 住所を指定できるようにする*/}</Address>
 
 		<PlanPrice price={money.start} priceEnd={money.end} />
-		<PlanDuration durationInMinutes={totalTime}/>
+		<PlanDuration durationInMinutes={plan.timeInMinutes}/>
         <img src="/images/poroto.jpg" alt="poroto画像が表示されます。"/>
 	</Block>
 }
