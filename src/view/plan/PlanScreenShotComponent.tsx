@@ -3,6 +3,7 @@ import { FaWalking } from 'react-icons/fa'
 import { BiYen } from 'react-icons/bi'
 import {AiOutlineClockCircle} from 'react-icons/ai'
 import { IconContext } from "react-icons"
+import { Icon } from "@chakra-ui/react";
 
 type Props = {
 	title: string
@@ -20,11 +21,7 @@ export const PlanScreenShotComponent = ({ title, name, address, time, distance, 
 		<Address>{address}</Address>
 
 		<DistanceTime>
-			<IconContext.Provider value={{ color: '#808080', size: '40px' }}>
-				<h1>
-					<FaWalking />
-				</h1>
-			</IconContext.Provider>
+			<Icon as={FaWalking} color="#808080" w="40px" h="40px" />
 			<DistanceTimeCharacter>
 				<Time>{time}</Time>
 				<Distance>{distance}</Distance>
@@ -32,21 +29,14 @@ export const PlanScreenShotComponent = ({ title, name, address, time, distance, 
 		</DistanceTime>
 
 		<Money>
-			<IconContext.Provider value={{ color: '#808080', size: '40px' }}>
-					<h2>
-						<BiYen />
-					</h2>
-			</IconContext.Provider>
+			<Icon as={BiYen} color="#808080" w="40px" h="40px" />
 			<MoneyCharacter>{money}</MoneyCharacter>
 		</Money>
 
 		<TotalTimeBlock>
-			<IconContext.Provider value={{ color: '#808080', size: '40px' }}>
-					<h2>
-						<AiOutlineClockCircle />
-					</h2>
-			</IconContext.Provider>
+            <Icon as={AiOutlineClockCircle} color="#808080" w="40px" h="40px"/>
 			<TotalTime>{total_time}</TotalTime>
+            
 		</TotalTimeBlock>
 		<>
 			<img src="/images/poroto.jpg" alt="poroto画像が表示されます。"></img>
