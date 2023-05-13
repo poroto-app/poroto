@@ -2,8 +2,11 @@ import {Layout} from "src/view/common/Layout";
 import {Box, VStack} from "@chakra-ui/react";
 import {PlaceSearchBar} from "src/view/place/PlaceSearchBar";
 import {PlaceSearchResults} from "src/view/place/PlaceSearchResults";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {PlaceSearchResult} from "src/domain/models/PlaceSearchResult";
+import {useAppDispatch} from "src/redux/redux";
+import {reduxPlaceSearchSelector, searchPlacesByQuery} from "src/redux/placeSearch";
+import {copyObject} from "src/domain/util/object";
 
 const mockPlaces = [
     {
@@ -24,10 +27,11 @@ const mockPlaces = [
 ]
 
 export default function PlaceSearchPage() {
-    const [places, setPlaces] = useState<PlaceSearchResult[]>(mockPlaces);
+    const dispatch = useAppDispatch();
+    const {placeSearchResults} = reduxPlaceSearchSelector();
 
     const handleOnSearch = (value: string) => {
-        console.log("Search", value);
+        dispatch(searchPlacesByQuery({query: value}));
     }
 
     return <Layout>
@@ -35,7 +39,7 @@ export default function PlaceSearchPage() {
             <Box w="100%" px="16px">
                 <PlaceSearchBar onSearch={handleOnSearch}/>
             </Box>
-            <PlaceSearchResults places={places}/>
+            <PlaceSearchResults places={placeSearchResults || []}/>
         </VStack>
     </Layout>
 }
