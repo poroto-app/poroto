@@ -1,5 +1,6 @@
 import { HStack, Text, Icon } from "@chakra-ui/react"
 import { IconType } from "react-icons"
+import { BiYen } from "react-icons/bi"
 import { MdSchedule } from "react-icons/md"
 import { DateHelper } from "src/domain/util/date"
 
@@ -22,5 +23,17 @@ export const PlanDuration = ({ durationInMinutes: timeInMinutes }: { durationInM
     return <PlanSummaryItem
         text={`${duration} (~ ${endPlanTime})`}
         icon={MdSchedule}
+    />
+}
+
+export const PlanPrice = ({ price, priceEnd }: { price: number, priceEnd?: number }) => {
+    let priceStr = `¥${price}`;
+    if (priceEnd) {
+        priceStr += ` ~ ¥${priceEnd}`;
+    }
+
+    return <PlanSummaryItem
+        text={priceStr}
+        icon={BiYen}
     />
 }
