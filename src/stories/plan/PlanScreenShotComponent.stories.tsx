@@ -12,7 +12,6 @@ export const PlanScreenShotComponentStoryBook = Template.bind({});
 PlanScreenShotComponentStoryBook.args = {
     name: "有隣堂",
     address: "〒2430018 神奈川県厚木市中町2丁目6 三世ほてい屋第一ビル",
-    distance: "300m",
     time: "徒歩 5分",
     money: {
         start: 500,

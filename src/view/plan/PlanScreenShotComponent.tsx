@@ -11,7 +11,6 @@ type Props = {
 	title: string
 	name: string
     address: string
-	distance: string
 	time: string
 	money: {
 		start: number
@@ -20,18 +19,11 @@ type Props = {
 	totalTime: number
 }
 
-export const PlanScreenShotComponent = ({ title, name, address, time, distance, money, totalTime}: Props) => {
+export const PlanScreenShotComponent = ({ title, name, address, time, money, totalTime}: Props) => {
 	return <Block>
 		<Name>{name}</Name>
 		<Address>{address}</Address>
 
-		<DistanceTime>
-			<Icon as={FaWalking} color="#808080" w="40px" h="40px" />
-			<DistanceTimeCharacter>
-				<Time>{time}</Time>
-				<Distance>{distance}</Distance>
-			</DistanceTimeCharacter>
-		</DistanceTime>
 		<PlanPrice price={money.start} priceEnd={money.end} />
 		<PlanDuration durationInMinutes={totalTime}/>
         <img src="/images/poroto.jpg" alt="poroto画像が表示されます。"/>
@@ -57,16 +49,6 @@ const Address = styled.div`
 	padding-bottom: 10px;
 	border-bottom: 1px solid #808080;
 	color: #808080;
-`;
-const DistanceTime = styled.div`
-	font-size: 15px;
-	font-weight: 600;
-	color: #808080;
-	display: flex;
-	flex-direction: row;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	border-bottom: 1px solid #808080;
 `;
 const Time = styled.div`
 	font-size: 15px;
