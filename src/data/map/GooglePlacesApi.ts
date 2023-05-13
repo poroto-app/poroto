@@ -36,7 +36,7 @@ export class GooglePlacesApi {
 
     // SEE: https://developers.google.com/maps/documentation/javascript/examples/place-details
     async placeDetail({placeId, language}: PlaceDetailRequest) {
-        const mapApi = await this.loadMapApi(this.mapElement);
+        const mapApi = await this.loadMapApi();
         const service = new google.maps.places.PlacesService(mapApi);
         return new Promise<PlaceDetailResponse>((resolve, reject) => {
             service.getDetails(
@@ -63,7 +63,7 @@ export class GooglePlacesApi {
     }
 
     // SEE: https://developers.google.com/maps/documentation/javascript/overview?hl=ja#js_api_loader_package
-    private async loadMapApi(divElement: HTMLDivElement) {
+    private async loadMapApi() {
         if (this.mapApi) return this.mapApi;
 
         const loader = new Loader({
@@ -73,7 +73,7 @@ export class GooglePlacesApi {
         })
         await loader.load();
 
-        const mapApi = new google.maps.Map(this.mapElement, divElement);
+        const mapApi = new google.maps.Map(this.mapElement, this.mapElement);
         this.mapApi = mapApi;
         return mapApi;
     }
