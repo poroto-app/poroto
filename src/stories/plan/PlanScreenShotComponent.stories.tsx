@@ -1,13 +1,16 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent"
 import { Plan } from "src/domain/models/Plan";
+import {Box} from "@chakra-ui/react";
 
 export default {
     title: "plan/PlanScreenShotComponent",
     component: PlanScreenShotComponent
 } as ComponentMeta<typeof PlanScreenShotComponent>;
 
-const Template: ComponentStory<typeof PlanScreenShotComponent> = (args) => <PlanScreenShotComponent {...args} />
+const Template: ComponentStory<typeof PlanScreenShotComponent> = (args) => <Box w="100%">
+    <PlanScreenShotComponent {...args} />
+</Box>;
 
 export const PlanScreenShotComponentStoryBook = Template.bind({});
 PlanScreenShotComponentStoryBook.args = {

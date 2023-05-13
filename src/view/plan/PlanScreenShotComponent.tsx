@@ -34,6 +34,7 @@ const PlaceListItem = ({ place }: { place: Place }) => {
 const Block = styled.div`
 	display: flex;
 	flex-direction: column;
+	width: 360px;
 `;
 const PlanSummaryContainer = styled.div`
 	padding: 16px 0;
