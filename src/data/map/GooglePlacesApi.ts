@@ -1,5 +1,5 @@
-import axios from "axios";
 import {Loader} from "@googlemaps/js-api-loader";
+import {GeoLocation} from "src/domain/models/GeoLocation";
 
 //　MEMO: axiosで直接リクエストするとCORSエラーが発生する
 export class GooglePlacesApi {
@@ -8,6 +8,7 @@ export class GooglePlacesApi {
 
     constructor() {
         const createdElement = document.getElementById("GooglePlacesAPI");
+        console.log(createdElement);
         if (createdElement) {
             this.mapElement = createdElement as HTMLDivElement;
         } else {
@@ -16,22 +17,28 @@ export class GooglePlacesApi {
         }
     }
 
-    // SEE: https://developers.google.com/maps/documentation/places/web-service/autocomplete
+    // SEE: https://developers.google.com/maps/documentation/javascript/places-autocomplete
     async placeAutoComplete({
                                 input,
                                 language,
-                                radius
+                                radius,
+                                location,
                             }: PlaceAutoCompleteRequest): Promise<google.maps.places.AutocompleteResponse> {
-        const response = await axios.get("https://maps.googleapis.com/maps/api/place/autocomplete/json", {
-            params: {
-                input,
-                language,
-                radius,
-                key: process.env.GCP_API_KEY,
-            }
+        await this.loadMapApi();
+        const service = new google.maps.places.AutocompleteService();
+        const locationSinjukuStation = {
+            latitude: 35.6896067,
+            longitude: 139.7005713,
+        } as GeoLocation;
+        return await service.getPlacePredictions({
+            input,
+            language,
+            radius,
+            location: new google.maps.LatLng(
+                location?.latitude || locationSinjukuStation.latitude,
+                location?.longitude || locationSinjukuStation.longitude
+            ),
         })
-
-        return response.data;
     }
 
     // SEE: https://developers.google.com/maps/documentation/javascript/examples/place-details
@@ -54,14 +61,15 @@ export class GooglePlacesApi {
                     }
                     resolve({
                         location: {
-                            lat: place.geometry.location.lat(),
-                            lng: place.geometry.location.lng(),
+                            latitude: place.geometry.location.lat(),
+                            longitude: place.geometry.location.lng(),
                         }
                     })
                 })
         });
     }
 
+    // MEMO: この関数を呼び出さない限り、google.map.xxx の機能は利用できない
     // SEE: https://developers.google.com/maps/documentation/javascript/overview?hl=ja#js_api_loader_package
     private async loadMapApi() {
         if (this.mapApi) return this.mapApi;
@@ -73,7 +81,7 @@ export class GooglePlacesApi {
         })
         await loader.load();
 
-        const mapApi = new google.maps.Map(this.mapElement, this.mapElement);
+        const mapApi = new google.maps.Map(this.mapElement);
         this.mapApi = mapApi;
         return mapApi;
     }
@@ -82,8 +90,9 @@ export class GooglePlacesApi {
 
 type PlaceAutoCompleteRequest = {
     input: string;
-    radius: string;
+    radius: number;
     language: "ja";
+    location?: GeoLocation;
 }
 
 type PlaceDetailRequest = {
@@ -92,8 +101,5 @@ type PlaceDetailRequest = {
 }
 
 type PlaceDetailResponse = {
-    location: {
-        lat: number;
-        lng: number;
-    }
+    location: GeoLocation
 }
