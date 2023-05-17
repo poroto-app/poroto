@@ -56,8 +56,7 @@ const Address = styled.div`
 `;
 const PlanTitle = styled.div`
 	padding: 16px;
-	font-size: 20px;
-	font-weight: 600;
-	color: #000000;
+	font-size: 16px;
+	color: #5E6382;
 	border-bottom: 1px solid rgba(0,0,0,.1);
 `;
