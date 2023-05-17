@@ -28,7 +28,7 @@ export const PlanScreenShotComponent = ({ plan, money }: Props) => {
 
 const PlaceListItem = ({ place }: { place: Place }) => {
 	return <PlaceContainer>
-		<Name>{place.name}</Name>
+		<PlaceName>{place.name}</PlaceName>
 		<Address>{"住所"/*TODO: 住所を指定できるようにする*/}</Address>
 	</PlaceContainer>
 }
@@ -45,10 +45,8 @@ const PlaceContainer = styled.div`
 	border-bottom: 1px solid rgba(0,0,0,.1);
 	padding: 16px;
 `;
-const Name = styled.div`
-	font-size: 20px;
-	font-weight: 600;
-	color: #000000;
+const PlaceName = styled.div`
+	font-size: 16px;
 `;
 const Address = styled.div`
 	font-size: 15px;
