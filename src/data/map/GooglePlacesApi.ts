@@ -8,7 +8,6 @@ export class GooglePlacesApi {
 
     constructor() {
         const createdElement = document.getElementById("GooglePlacesAPI");
-        console.log(createdElement);
         if (createdElement) {
             this.mapElement = createdElement as HTMLDivElement;
         } else {
