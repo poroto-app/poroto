@@ -1,7 +1,7 @@
 import {Loader} from "@googlemaps/js-api-loader";
 import {GeoLocation} from "src/domain/models/GeoLocation";
 
-//　MEMO: axiosで直接リクエストするとCORSエラーが発生する
+// MEMO: axiosで直接リクエストするとCORSエラーが発生する
 export class GooglePlacesApi {
     private readonly mapElement: HTMLDivElement;
     private mapApi: google.maps.Map | null;
