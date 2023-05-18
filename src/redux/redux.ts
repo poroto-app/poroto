@@ -4,9 +4,11 @@ import {planReducer} from "src/redux/plan";
 import {useDispatch} from "react-redux";
 import {locationReducer} from "src/redux/location";
 import {historyReducer} from "src/redux/history";
+import {placeSearchReducer} from "src/redux/placeSearch";
 
 const reducer = combineReducers({
     plan: planReducer,
+    placeSearch: placeSearchReducer,
     location: locationReducer,
     history: historyReducer,
 })
