@@ -19,9 +19,6 @@ export const slice = createSlice({
             state.location = payload.location;
         },
     },
-    extraReducers: (builder) => {
-
-    },
 });
 
 export const {

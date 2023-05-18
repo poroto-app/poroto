@@ -134,9 +134,6 @@ export const slice = createSlice({
             state.categoryAccepted = [];
         },
     },
-    extraReducers: (builder) => {
-
-    },
 });
 
 const {
