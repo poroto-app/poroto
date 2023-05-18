@@ -5,6 +5,7 @@ import {RootState} from "src/redux/redux";
 import {LocationCategory} from "src/domain/models/LocationCategory";
 import {createPlanFromPlanEntity, PlannerApi} from "src/domain/plan/PlannerApi";
 import {PlannerGraphQlApi} from "src/data/graphql/PlannerGraphQlApi";
+import {GooglePlacesApi} from "src/data/map/GooglePlacesApi";
 
 export type PlanState = {
     createPlanSession: string | null,
@@ -41,6 +42,24 @@ export const createPlanFromLocation = createAsyncThunk(
         const session = response.session;
         const plans: Plan[] = createPlanFromPlanEntity(response.plans);
         dispatch(setCreatedPlans({session, plans}))
+    }
+)
+
+type CreatePlanByPlaceIdProps = {
+    placeId: string,
+};
+export const createPlanByPlaceId = createAsyncThunk(
+    'plan/createPlanByPlaceId',
+    async ({placeId}: CreatePlanByPlaceIdProps, {dispatch}) => {
+        const mapApi = new GooglePlacesApi();
+        const placeDetail = await mapApi.placeDetail({placeId, language: "ja"});
+
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.createPlansFromLocation({
+            location: placeDetail.location
+        });
+        const plans: Plan[] = createPlanFromPlanEntity(response.plans);
+        dispatch(setCreatedPlans({session: response.session, plans}))
     }
 )
 
