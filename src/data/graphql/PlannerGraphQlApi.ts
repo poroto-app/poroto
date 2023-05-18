@@ -1,12 +1,16 @@
 import {GraphQlRepository} from "src/data/graphql/GraphQlRepository";
 import {
     CreatePlanFromLocationRequest,
-    CreatePlanFromLocationResponse,
+    CreatePlanFromLocationResponse, FetchCachedCreatedPlansRequest, FetchCachedCreatedPlansResponse,
     MatchInterestRequest,
     MatchInterestResponse,
     PlannerApi
 } from "src/domain/plan/PlannerApi";
-import {CreatePlanByLocationDocument, MatchInterestsDocument} from "src/data/graphql/generated";
+import {
+    CachedCreatedPlansDocument,
+    CreatePlanByLocationDocument,
+    MatchInterestsDocument
+} from "src/data/graphql/generated";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async createPlansFromLocation(request: CreatePlanFromLocationRequest): Promise<CreatePlanFromLocationResponse> {
@@ -15,7 +19,34 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             variables: {latitude: request.location.latitude, longitude: request.location.longitude},
         });
         return {
-            plans: data.createPlanByLocation.map((plan) => ({
+            session: data.createPlanByLocation.session,
+            plans: data.createPlanByLocation.plans.map((plan) => ({
+                id: plan.id,
+                title: plan.name,
+                tags: [], // TODO: APIから取得する,
+                places: plan.places.map((place) => ({
+                    name: place.name,
+                    imageUrls: place.photos,
+                    location: {
+                        latitude: place.location.latitude,
+                        longitude: place.location.longitude,
+                    }
+                })),
+                timeInMinutes: plan.timeInMinutes,
+            }))
+        }
+    }
+
+    async fetchCachedCreatedPlans(request: FetchCachedCreatedPlansRequest): Promise<FetchCachedCreatedPlansResponse> {
+        const {data} = await this.client.query({
+            query: CachedCreatedPlansDocument,
+            variables: {session: request.session},
+        });
+
+        if (!data.cachedCreatedPlans.plans) return {plans: null};
+
+        return {
+            plans: data.cachedCreatedPlans.plans.map((plan) => ({
                 id: plan.id,
                 title: plan.name,
                 tags: [], // TODO: APIから取得する,
