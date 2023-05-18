@@ -4,5 +4,8 @@ export const Routes = {
         interest: "/plans/interest",
         create: "/plans/create",
         select: (session: string) => `/plans/select/${session}`,
+    },
+    places: {
+        search: "/places/search",
     }
 }
