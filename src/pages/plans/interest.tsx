@@ -5,7 +5,7 @@ import {
     reduxPlanSelector,
     resetInterest
 } from "src/redux/plan";
-import {useEffect, useState} from "react";
+import {FC, ReactNode, useEffect, useState} from "react";
 import {useAppDispatch} from "src/redux/redux";
 import {LocationCategory} from "src/domain/models/LocationCategory";
 import {useRouter} from "next/router";
@@ -17,7 +17,7 @@ import {NavBar} from "src/view/common/NavBar";
 import {reduxLocationSelector} from "src/redux/location";
 import {AskInterestMessage} from "src/view/plan/AskInterestMessage";
 
-export const PlanInterestPage = () => {
+export default function PlanInterestPage() {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [currentCategory, setCurrentCategory] = useState<LocationCategory | null>(null);
@@ -49,12 +49,28 @@ export const PlanInterestPage = () => {
         dispatch(pushRejectedCategory({category}));
     }
 
+    return <PlanInterestPageComponent
+        currentCategory={currentCategory}
+        handleYes={handleYes}
+        handleNo={handleNo}
+        navBar={<NavBar title="今の気分を教えてください"/>}
+    />
+}
+
+type Props = {
+    currentCategory: LocationCategory | null;
+    handleYes: (category: LocationCategory) => void;
+    handleNo: (category: LocationCategory) => void;
+    navBar: ReactNode;
+}
+
+export function PlanInterestPageComponent({currentCategory, handleYes, handleNo, navBar}: Props) {
     if (!currentCategory) return <LoadingModal title="近くに何があるかを探しています。"/>
 
     return <VStack h="100%" w="100%" spacing={0}>
-        <NavBar title="今の気分を教えてください"/>
+        {navBar}
         <VStack
-            flex={1} overflow="hidden"
+            flex={1}
             h="100%" w="100%" maxWidth="990px"
             px="16px" pt="8px" pb="32px"
         >
@@ -63,5 +79,3 @@ export const PlanInterestPage = () => {
         </VStack>
     </VStack>
 }
-
-export default PlanInterestPage;

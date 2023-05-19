@@ -26,14 +26,12 @@ const Map = ({isLoaded, places}: { isLoaded: boolean, places: Place[] }) => {
         text="プランに場所が含まれていないため表示できません。"
     />
 
-    // @ts-ignore
     return <GoogleMap
         zoom={15/*https://developers.google.com/maps/documentation/javascript/overview?hl=ja#zoom-levels*/ }
         center={{lat: places[0].location.latitude, lng: places[0].location.longitude}}
         mapContainerStyle={{width: "100%", height: "100%"}}
     >
         {
-            // @ts-ignore
             places.map((place, i) => <Marker
                 key={i}
                 position={{

@@ -1,5 +1,5 @@
 import React from "react";
-import {Container, Text} from "@chakra-ui/react";
+import {Container, Text, VStack} from "@chakra-ui/react";
 import {CreatePlanFromCurrentLocationButton} from "src/view/top/CreatePlanFromCurrentLocationButton";
 import {useRouter} from "next/router";
 import {Routes} from "src/view/constants/router";
@@ -7,6 +7,7 @@ import {useAppDispatch} from "src/redux/redux";
 import {createPlanFromLocation} from "src/redux/plan";
 import {useLocation} from "src/view/hooks/useLocation";
 import {setLocation} from "src/redux/location";
+import {PlaceSearchButton} from "src/view/place/PlaceSearchButton";
 
 const IndexPage = () => {
     const router = useRouter();
@@ -25,8 +26,11 @@ const IndexPage = () => {
         await router.push(Routes.plans.interest);
     }
 
-    return <Container maxW="990px" px="16px" py="16px">
-        <CreatePlanFromCurrentLocationButton onClick={onClickCreatePlanFromCurrentLocation} />
+    return <Container maxW="990px" px="16px">
+        <VStack w="100%" spacing={4} pt="32px">
+            <PlaceSearchButton/>
+            <CreatePlanFromCurrentLocationButton onClick={onClickCreatePlanFromCurrentLocation}/>
+        </VStack>
         {isLoadingLocation && <Text>現在地を取得中</Text>}
         {isRejected && <Text>現在地の取得を拒否されました。</Text>}
     </Container>

@@ -1,6 +1,6 @@
 import {LocationCategory} from "src/domain/models/LocationCategory";
 import styled from "styled-components";
-import {HStack, Text, VStack} from "@chakra-ui/react";
+import {Box, HStack, Text, VStack} from "@chakra-ui/react";
 import {MdCheck, MdClose} from "react-icons/md";
 import React from "react";
 import {SelectButton} from "src/view/interest/SelectButton";
@@ -13,7 +13,9 @@ type Props = {
 export const CategorySelect = ({category, onClickYes, onClickNo}: Props) => {
     return <VStack h="100%" w="100%" spacing={6}>
         <ThumbnailCard>
-            <Thumbnail src={category.thumbnail}/>
+           <Box w="100%" h="100%" flex={1} position="relative">
+               <Thumbnail src={category.thumbnail}/>
+           </Box>
             <Text fontSize="1.25rem" py={4}>{category.displayName}</Text>
         </ThumbnailCard>
         <HStack w="100%">
@@ -41,11 +43,20 @@ const ThumbnailCard = styled.div`
   flex: 1;
   overflow: hidden;
   width: 100%;
+  height: 100%;
+  max-height: 100%;
 `;
 
+// MEMO: 画像が読み込まれたときに、画像のアスペクト比に応じてコンポーネントの高さが変化してしまうのを防ぐために
+// 親要素に対してposition: relativeを指定して、子要素に対してposition: absoluteを指定している
 const Thumbnail = styled.img`
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
   object-fit: cover;
-  flex: 1;
   overflow: hidden;
 `;
