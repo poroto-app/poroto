@@ -19,6 +19,12 @@ export function MapPinSelector({center, onSelectLocation, pinnedLocation}: Props
         options={{
             fullscreenControl: false,
             mapTypeControl: false,
+            streetViewControlOptions: {
+                position: google.maps.ControlPosition.RIGHT_CENTER,
+            },
+            zoomControlOptions: {
+                position: google.maps.ControlPosition.RIGHT_CENTER,
+            }
         }}
     >
         {
