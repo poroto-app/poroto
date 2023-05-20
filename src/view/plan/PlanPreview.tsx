@@ -14,6 +14,8 @@ export function PlanPreview({plan}: Props) {
         .map((place) => place.imageUrls.length === 0 ? null : place.imageUrls[0])
         .filter((v) => v !== null);
 
+    const tagTime = `${plan.timeInMinutes.toFixed(0)}分`;
+
     return <Link href={"/plans/" + plan.id} style={{width: "100%", maxWidth: "600px"}}>
         <VStack w="100%">
             <PlanThumbnail imageUrls={thumbnails}/>
@@ -21,7 +23,7 @@ export function PlanPreview({plan}: Props) {
                 <Text fontWeight="bold" fontSize="1.25rem">{plan.title}</Text>
                 <HStack w="100%" justifyContent="flex-start">
                     {/* TODO: 最初の地点までの徒歩時間を移動距離を表示 */}
-                    <TagContainer tag={`${plan.timeInMinutes.toFixed(0)}分`}>
+                    <TagContainer tag={tagTime}>
                         <Icon w="24px" h="24px" color="#539565" as={MdDirectionsWalk}/>
                     </TagContainer>
                     {plan.tags.map((tag, i) => <TagContainer key={i} tag={tag.content}/>)}
