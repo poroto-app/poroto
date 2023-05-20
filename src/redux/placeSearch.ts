@@ -73,12 +73,17 @@ export const slice = createSlice({
         setSelectedLocation: (state, {payload}: PayloadAction<{ location: GeoLocation }>) => {
             state.locationSelected = payload.location;
         },
+        resetSelectedLocation: (state) => {
+            state.locationSelected = null;
+        }
     },
 });
 
 export const {
     resetPlaceSearchResults,
     setSelectedLocation,
+
+    resetSelectedLocation,
 } = slice.actions;
 
 const {

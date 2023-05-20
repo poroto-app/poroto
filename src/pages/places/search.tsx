@@ -8,6 +8,7 @@ import {
     fetchGeoLocationByPlaceId,
     reduxPlaceSearchSelector,
     resetPlaceSearchResults,
+    resetSelectedLocation,
     searchPlacesByQuery,
     setSelectedLocation,
 } from "src/redux/placeSearch";
@@ -37,6 +38,16 @@ export default function PlaceSearchPage() {
             });
     }, [location]);
 
+
+    useEffect(() => {
+        dispatch(resetPlaceSearchResults());
+        dispatch(resetSelectedLocation());
+        return () => {
+            dispatch(resetPlaceSearchResults());
+            dispatch(resetSelectedLocation());
+        }
+    }, []);
+
     const handleOnSearch = (value: string) => {
         dispatch(searchPlacesByQuery({query: value}));
     }
@@ -55,13 +66,6 @@ export default function PlaceSearchPage() {
         await router.push(Routes.plans.interest);
         dispatch(createPlanFromLocation({location: locationSelected}));
     }
-
-    useEffect(() => {
-        dispatch(resetPlaceSearchResults());
-        return () => {
-            dispatch(resetPlaceSearchResults());
-        }
-    }, []);
 
     return <Layout>
         <Box position="fixed" top={0} right={0} bottom={0} left={0} zIndex={0}>
