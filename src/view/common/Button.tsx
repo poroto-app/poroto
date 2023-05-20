@@ -7,22 +7,23 @@ type Props = {
     text: string;
     icon?: IconType;
     onClick?: () => void;
+    disabled?: boolean;
 } & ButtonProps
 
-export function Button({text, icon, onClick}: Props) {
-    return <RoundedButton onClick={onClick}>
+export function Button({text, icon, onClick, disabled}: Props) {
+    return <RoundedButton onClick={onClick} disabled={disabled ?? false}>
         {
-            icon && <Icon w="32px" h="32px" as={icon}/>
+            icon && <Icon mb="6px" w="32px" h="32px" as={icon}/>
         }
         <Text>{text}</Text>
     </RoundedButton>
 }
 
-const RoundedButton = styled.div`
-  background-color: #539565;
+const RoundedButton = styled.div<{ disabled: boolean }>`
+  background-color: ${({disabled}) => disabled ? "#8b8b8b" : "#539565"};
   border-radius: 10px;
   color: white;
-  cursor: pointer;
+  cursor: ${({disabled}) => disabled ? "default" : "pointer"};
   display: flex;
   font-weight: bold;
   align-items: center;

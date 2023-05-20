@@ -85,6 +85,7 @@ export default function PlaceSearchPage() {
                 <Button
                     text={locationSelected ? "指定した場所からプランを作成" : "タップして場所を選択"}
                     icon={locationSelected ? MdDone : MdOutlineTouchApp}
+                    disabled={locationSelected === null}
                 />
             </Layout>
         </Box>
