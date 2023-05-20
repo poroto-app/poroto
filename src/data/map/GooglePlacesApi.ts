@@ -4,6 +4,9 @@ import {locationSinjukuStation} from "src/view/constants/location";
 
 // MEMO: axiosで直接リクエストするとCORSエラーが発生する
 export class GooglePlacesApi {
+    static libraryVersion = "weekly";
+    static libraries: ["places"] = ["places"];
+
     private readonly mapElement: HTMLDivElement;
     private mapApi: google.maps.Map | null;
 
