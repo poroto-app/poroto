@@ -43,6 +43,7 @@ export default function PlaceSearchPage() {
 
     const handleOnClickPlace = (placeSearchResult: PlaceSearchResult) => {
         dispatch(fetchGeoLocationByPlaceId({placeId: placeSearchResult.id}));
+        dispatch(resetPlaceSearchResults());
     }
 
     const handleOnSelectLocation = (location: GeoLocation) => {
