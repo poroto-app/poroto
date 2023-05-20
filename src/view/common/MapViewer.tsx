@@ -1,14 +1,14 @@
 import {GoogleMap, useLoadScript} from "@react-google-maps/api";
-import {ReactNode, useEffect} from "react";
+import {ReactNode} from "react";
 
-type Props = {
+export type MapViewerProps = {
     zoom: number // SEE: https://developers.google.com/maps/documentation/javascript/overview?hl=ja#zoom-levels
     center?: { lat: number, lng: number }
     loadingPlaceHolder?: JSX.Element,
     children?: ReactNode
 }
 
-export function MapViewer({zoom, center, loadingPlaceHolder, children}: Props) {
+export function MapViewer({zoom, center, loadingPlaceHolder, children}: MapViewerProps) {
     const {isLoaded} = useLoadScript({
         googleMapsApiKey: process.env.GCP_API_KEY,
     })
