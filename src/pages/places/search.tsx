@@ -51,8 +51,8 @@ export default function PlaceSearchPage() {
     }, []);
 
     return <Layout>
-        <VStack w="100%" h="100%" pt="24px" spacing={4} position="relative" zIndex={10}>
-            <Box w="100%" px="16px">
+        <VStack w="100%" h="100%" pt="24px" px="8px" spacing={4} position="relative" zIndex={10}>
+            <Box w="100%">
                 <PlaceSearchBar onSearch={handleOnSearch}/>
             </Box>
             <Box w="100%"  backgroundColor="white" borderRadius={5}>
