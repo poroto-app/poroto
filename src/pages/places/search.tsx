@@ -66,6 +66,7 @@ export default function PlaceSearchPage() {
             <MapPinSelector
                 center={location ?? locationSinjukuStation}
                 onSelectLocation={handleOnSelectLocation}
+                pinnedLocation={locationSelected}
             />
         </Box>
     </Layout>
