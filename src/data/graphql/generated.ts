@@ -24,6 +24,7 @@ export type CachedCreatedPlansInput = {
 
 export type CreatePlanByLocationInput = {
   categories?: InputMaybe<Array<Scalars['String']>>;
+  freeTime?: InputMaybe<Scalars['Int']>;
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
 };
@@ -75,6 +76,7 @@ export type MutationPingArgs = {
 
 export type Place = {
   __typename?: 'Place';
+  estimatedStayDuration: Scalars['Int'];
   location: GeoLocation;
   name: Scalars['String'];
   photos?: Maybe<Array<Scalars['String']>>;
@@ -85,7 +87,7 @@ export type Plan = {
   id: Scalars['String'];
   name: Scalars['String'];
   places: Array<Place>;
-  timeInMinutes: Scalars['Float'];
+  timeInMinutes: Scalars['Int'];
 };
 
 export type Query = {
