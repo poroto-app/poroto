@@ -4,6 +4,7 @@ import {Plan} from "src/domain/models/Plan";
 import {Place} from "src/domain/models/Place";
 import PlanThumbnailStories from "src/stories/plan/PlanThumbnail.stories";
 import {forwardRef, MutableRefObject} from "react";
+import {Box, Text, VStack} from "@chakra-ui/react";
 
 type Props = {
     plan: Plan,
@@ -15,48 +16,30 @@ type Props = {
 }
 
 export const PlanScreenShotComponent = forwardRef<HTMLDivElement, Props>(({plan, money}, ref) => {
-    return <Block ref={ref}>
-        <PlanTitle>{plan.title}</PlanTitle>
+    return <VStack w="360px" spacing={0} ref={ref}>
+        <PlanTitle>
+            <Text fontSize="16px" color="#5E6382">{plan.title}</Text>
+        </PlanTitle>
         {
             plan.places.map((place, i) => <PlaceListItem key={i} place={place}/>)
         }
-        <PlanSummaryContainer>
+        <Box py="16px" w="100%">
             <PlanPrice price={money.start} priceEnd={money.end}/>
             <PlanDuration durationInMinutes={plan.timeInMinutes}/>
-        </PlanSummaryContainer>
+        </Box>
         <img src="/images/poroto.jpg" alt="poroto画像が表示されます。"/>
-    </Block>
+    </VStack>
 })
 
 const PlaceListItem = ({place}: { place: Place }) => {
-    return <PlaceContainer>
-        <PlaceName>{place.name}</PlaceName>
-        <Address>{"住所"/*TODO: 住所を指定できるようにする*/}</Address>
-    </PlaceContainer>
+    return <Box w="100%" p="16px" borderBottom="1px solid rgba(0, 0, 0, .1)">
+        <Text fontSize="16px">{place.name}</Text>
+        <Text fontSize="16px" color="#808080">{"住所"/*TODO: 住所を指定できるようにする*/}</Text>
+    </Box>
 }
 
-const Block = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 360px;
-`;
-const PlanSummaryContainer = styled.div`
-  padding: 16px 0;
-`;
-const PlaceContainer = styled.div`
-  border-bottom: 1px solid rgba(0, 0, 0, .1);
-  padding: 16px;
-`;
-const PlaceName = styled.div`
-  font-size: 16px;
-`;
-const Address = styled.div`
-  font-size: 15px;
-  color: #808080;
-`;
 const PlanTitle = styled.div`
   padding: 16px;
-  font-size: 16px;
-  color: #5E6382;
   border-bottom: 1px solid rgba(0, 0, 0, .1);
+  width: 100%;
 `;
