@@ -55,7 +55,10 @@ export default function PlaceSearchPage() {
             <Box w="100%">
                 <PlaceSearchBar onSearch={handleOnSearch}/>
             </Box>
-            <Box w="100%"  backgroundColor="white" borderRadius={5}>
+            <Box w="100%"
+                 backgroundColor="white" borderRadius={5}
+                 boxShadow={(placeSearchResults && placeSearchResults.length !== 0) && "0px 5px 20px 0px rgb(0 0 0 / 10%)"}
+            >
                 <PlaceSearchResults
                     places={(placeSearchResults || []).slice(0, 5)}
                     onClickPlace={handleOnClickPlace}
