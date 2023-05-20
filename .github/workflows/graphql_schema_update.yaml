@@ -1,7 +1,5 @@
 name: Update GraphQL Schema
-on:
-  repository_dispatch:
-    types: [update-graphql-schema]
+on: [push]
 jobs:
   update-graphql-schema:
     runs-on: ubuntu-latest
