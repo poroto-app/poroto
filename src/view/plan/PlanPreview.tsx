@@ -10,11 +10,13 @@ type Props = {
 }
 
 export function PlanPreview({plan}: Props) {
+    const thumbnails = plan.places
+        .map((place) => place.imageUrls.length === 0 ? null : place.imageUrls[0])
+        .filter((v) => v !== null);
+
     return <Link href={"/plans/" + plan.id} style={{width: "100%", maxWidth: "600px"}}>
         <VStack w="100%">
-            <PlanThumbnail
-                imageUrls={plan.places.flatMap((place) => place.imageUrls[0]).filter((v) => v !== null)}
-            />
+            <PlanThumbnail imageUrls={thumbnails}/>
             <VStack w="100%" alignItems="flex-start" spacing={1}>
                 <Text fontWeight="bold" fontSize="1.25rem">{plan.title}</Text>
                 <HStack w="100%" justifyContent="flex-start">
