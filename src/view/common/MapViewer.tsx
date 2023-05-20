@@ -7,7 +7,7 @@ export type MapViewerProps = {
     center?: { lat: number, lng: number }
     loadingPlaceHolder?: JSX.Element,
     onClick?: (e: google.maps.MapMouseEvent) => void,
-    options?: google.maps.MapOptions,
+    options?: () => google.maps.MapOptions, // MEMO: API読み込み前にオプションを指定するとエラーにため、読み込み後に関数を介して受け取る
     children?: ReactNode
 }
 
@@ -28,7 +28,7 @@ export function MapViewer({zoom, center, loadingPlaceHolder, options, onClick, c
         zoom={zoom}
         center={center}
         mapContainerStyle={{width: "100%", height: "100%"}}
-        options={options}
+        options={options && options()}
         onClick={onClick}
     >
         {children}

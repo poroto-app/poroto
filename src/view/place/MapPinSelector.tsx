@@ -16,7 +16,7 @@ export function MapPinSelector({center, onSelectLocation, pinnedLocation}: Props
             latitude: e.latLng.lat(),
             longitude: e.latLng.lng(),
         })}
-        options={{
+        options={() => ({
             fullscreenControl: false,
             mapTypeControl: false,
             streetViewControlOptions: {
@@ -25,7 +25,7 @@ export function MapPinSelector({center, onSelectLocation, pinnedLocation}: Props
             zoomControlOptions: {
                 position: google.maps.ControlPosition.RIGHT_CENTER,
             }
-        }}
+        })}
     >
         {
             pinnedLocation && <Marker
