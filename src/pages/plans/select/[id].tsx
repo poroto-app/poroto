@@ -7,7 +7,8 @@ import {LoadingModal} from "src/view/common/LoadingModal";
 import {MdDirectionsWalk} from "react-icons/md";
 import {useRouter} from "next/router";
 import {useAppDispatch} from "src/redux/redux";
-import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
+import {PlanThumbnail} from "src/view/plan/PlanThumbnail";
+import {Layout} from "src/view/common/Layout";
 
 const SelectPlanPage = () => {
 
@@ -38,8 +39,7 @@ const SelectPlanPage = () => {
         <Text>プランを作成することができませんでした。</Text>
     </Center>
 
-    return <div>
-        <NavBar title="プランを選ぶ"/>
+    return <Layout navBar={<NavBar title="プランを選ぶ"/>}>
         <VStack w="100%" px="16px" spacing={16} py="16px">
             {
                 (plansCreated || []).map((plan, i) => <Link key={i} href={"/plans/" + plan.id}>
@@ -60,7 +60,7 @@ const SelectPlanPage = () => {
                 )
             }
         </VStack>
-    </div>
+    </Layout>
 }
 
 const TagContainer: FC<{ tag: string }> = ({tag, children}) => {
