@@ -3,13 +3,16 @@ import {PlaceSearchResult} from "src/domain/models/PlaceSearchResult";
 import {RootState} from "src/redux/redux";
 import {useSelector} from "react-redux";
 import {GooglePlacesApi} from "src/data/map/GooglePlacesApi";
+import {GeoLocation} from "src/domain/models/GeoLocation";
 
 export type PlaceSearchState = {
     placeSearchResults: PlaceSearchResult[] | null,
+    locationSelected: GeoLocation | null,
 }
 
 const initialState: PlaceSearchState = {
     placeSearchResults: null,
+    locationSelected: null,
 }
 
 type SearchPlacesByQueryProps = {
@@ -50,11 +53,16 @@ export const slice = createSlice({
         resetPlaceSearchResults: (state) => {
             state.placeSearchResults = null;
         },
+
+        setSelectedLocation: (state, {payload}: PayloadAction<{ location: GeoLocation }>) => {
+            state.locationSelected = payload.location;
+        },
     },
 });
 
 export const {
     resetPlaceSearchResults,
+    setSelectedLocation,
 } = slice.actions;
 
 const {
