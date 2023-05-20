@@ -23,7 +23,11 @@ export const searchPlacesByQuery = createAsyncThunk(
     async ({query}: SearchPlacesByQueryProps, {dispatch, getState}) => {
         console.log("Search Places By Query", {query});
 
-        if (query === "") return;
+        if (query === "") {
+            dispatch(resetPlaceSearchResults());
+            return;
+        }
+
         const mapApi = new GooglePlacesApi();
         const currentLocation = (getState() as RootState).location.location;
         const response = await mapApi.placeAutoComplete({
