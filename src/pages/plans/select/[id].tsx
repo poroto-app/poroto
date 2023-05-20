@@ -43,7 +43,7 @@ const SelectPlanPage = () => {
         <VStack w="100%" px="16px" spacing={16} py="16px">
             {
                 (plansCreated || []).map((plan, i) => <Link key={i} href={"/plans/" + plan.id}>
-                        <VStack w="100%" maxW="300px">
+                        <VStack w="100%">
                             <PlanThumbnail imageUrls={plan.places.flatMap((place) => place.imageUrls)}/>
                             <VStack w="100%" alignItems="flex-start" spacing={1}>
                                 <Text fontWeight="bold" fontSize="1.25rem">{plan.title}</Text>
