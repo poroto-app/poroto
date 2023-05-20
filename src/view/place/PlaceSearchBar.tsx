@@ -1,7 +1,7 @@
 import {Icon} from "@chakra-ui/react";
 import styled from "styled-components";
 import React, {useEffect, useState} from "react";
-import {MdSearch} from "react-icons/md";
+import {MdClose, MdSearch} from "react-icons/md";
 
 type Props = {
     onSearch: (value: string) => void;
@@ -30,6 +30,13 @@ export function PlaceSearchBar({onSearch}: Props) {
             value={value}
             onChange={(e) => setValue(e.currentTarget.value)}
         />
+        {
+            value !== "" && <Icon
+                w="32px"
+                onClick={() => setValue("")}
+                as={MdClose}
+            />
+        }
     </Container>
 }
 
