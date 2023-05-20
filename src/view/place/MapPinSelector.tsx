@@ -16,6 +16,10 @@ export function MapPinSelector({center, onSelectLocation, pinnedLocation}: Props
             latitude: e.latLng.lat(),
             longitude: e.latLng.lng(),
         })}
+        options={{
+            fullscreenControl: false,
+            mapTypeControl: false,
+        }}
     >
         {
             pinnedLocation && <Marker

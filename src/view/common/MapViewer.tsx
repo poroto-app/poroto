@@ -7,10 +7,11 @@ export type MapViewerProps = {
     center?: { lat: number, lng: number }
     loadingPlaceHolder?: JSX.Element,
     onClick?: (e: google.maps.MapMouseEvent) => void,
+    options?: google.maps.MapOptions,
     children?: ReactNode
 }
 
-export function MapViewer({zoom, center, loadingPlaceHolder, onClick, children}: MapViewerProps) {
+export function MapViewer({zoom, center, loadingPlaceHolder, options, onClick, children}: MapViewerProps) {
     const {isLoaded} = useLoadScript({
         googleMapsApiKey: process.env.GCP_API_KEY,
         // MEMO: GooglePlacesAPIと利用するGoogle Maps Javascript APIのバージョンは同じにする必要がある
@@ -27,6 +28,7 @@ export function MapViewer({zoom, center, loadingPlaceHolder, onClick, children}:
         zoom={zoom}
         center={center}
         mapContainerStyle={{width: "100%", height: "100%"}}
+        options={options}
         onClick={onClick}
     >
         {children}
