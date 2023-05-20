@@ -39,7 +39,7 @@ const PlaceListItem = ({place}: { place: Place }) => {
 }
 
 const PlanTitle = styled.div`
-  padding: 16px;
+  padding: 8px 16px;
   border-bottom: 1px solid rgba(0, 0, 0, .1);
   width: 100%;
 `;
