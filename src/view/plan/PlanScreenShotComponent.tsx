@@ -15,7 +15,7 @@ type Props = {
     ref?: MutableRefObject<HTMLDivElement>
 }
 
-export const PlanScreenShotComponent = forwardRef<HTMLDivElement, Props>(({plan, money}, ref) => {
+export const PlanScreenShotComponent = forwardRef<HTMLDivElement, Props>(function Component({plan, money}, ref) {
     return <VStack w="360px" spacing={0} ref={ref}>
         <PlanTitle>
             <Text fontSize="16px" color="#5E6382">{plan.title}</Text>
