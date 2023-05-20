@@ -45,24 +45,6 @@ export const createPlanFromLocation = createAsyncThunk(
     }
 )
 
-type CreatePlanByPlaceIdProps = {
-    placeId: string,
-};
-export const createPlanByPlaceId = createAsyncThunk(
-    'plan/createPlanByPlaceId',
-    async ({placeId}: CreatePlanByPlaceIdProps, {dispatch}) => {
-        const mapApi = new GooglePlacesApi();
-        const placeDetail = await mapApi.placeDetail({placeId, language: "ja"});
-
-        const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const response = await plannerApi.createPlansFromLocation({
-            location: placeDetail.location
-        });
-        const plans: Plan[] = createPlanFromPlanEntity(response.plans);
-        dispatch(setCreatedPlans({session: response.session, plans}))
-    }
-)
-
 type FetchCachedCreatedPlansProps = { session: string };
 export const fetchCachedCreatedPlans = createAsyncThunk(
     'plan/fetchCachedCreatedPlans',

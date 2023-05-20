@@ -41,6 +41,18 @@ export const searchPlacesByQuery = createAsyncThunk(
     }
 );
 
+type FetchGeoLocationByPlaceIdProps = {
+    placeId: string
+};
+export const fetchGeoLocationByPlaceId = createAsyncThunk(
+    'placeSearch/fetchGeoLocationByPlaceId',
+    async ({placeId}: FetchGeoLocationByPlaceIdProps, {dispatch}) => {
+        const mapApi = new GooglePlacesApi();
+        const placeDetail = await mapApi.placeDetail({placeId, language: "ja"});
+        dispatch(setSelectedLocation({location: placeDetail.location}));
+    }
+)
+
 export const slice = createSlice({
     name: 'placeSearch',
     initialState,
