@@ -2,7 +2,7 @@ import {Layout} from "src/view/common/Layout";
 import {Box, VStack} from "@chakra-ui/react";
 import {PlaceSearchBar} from "src/view/place/PlaceSearchBar";
 import {PlaceSearchResults} from "src/view/place/PlaceSearchResults";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useAppDispatch} from "src/redux/redux";
 import {
     fetchGeoLocationByPlaceId,
@@ -10,6 +10,7 @@ import {
     resetPlaceSearchResults,
     resetSelectedLocation,
     searchPlacesByQuery,
+    setMoveToSelectedLocation,
     setSelectedLocation,
 } from "src/redux/placeSearch";
 import {PlaceSearchResult} from "src/domain/models/PlaceSearchResult";
@@ -23,21 +24,25 @@ import {MdDone, MdOutlineTouchApp} from "react-icons/md";
 import {Routes} from "src/view/constants/router";
 import {useRouter} from "next/router";
 import {createPlanFromLocation} from "src/redux/plan";
+import {copyObject} from "src/domain/util/object";
 
 export default function PlaceSearchPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const {placeSearchResults, locationSelected} = reduxPlaceSearchSelector();
+    const {placeSearchResults, locationSelected, moveToSelectedLocation} = reduxPlaceSearchSelector();
     const {location} = reduxLocationSelector();
     const {getCurrentLocation} = useLocation();
+    const [mapCenter, setMapCenter] = useState<GeoLocation>(locationSinjukuStation);
 
     useEffect(() => {
         getCurrentLocation()
             .then((location) => {
                 dispatch(setLocation({location}));
+                if (mapCenter === locationSinjukuStation) {
+                    setMapCenter(location);
+                }
             });
-    }, [location]);
-
+    }, []);
 
     useEffect(() => {
         dispatch(resetPlaceSearchResults());
@@ -47,6 +52,16 @@ export default function PlaceSearchPage() {
             dispatch(resetSelectedLocation());
         }
     }, []);
+
+    useEffect(() => {
+        if (locationSelected && moveToSelectedLocation) {
+            setMapCenter(locationSelected);
+        }
+
+        return () => {
+            dispatch(setMoveToSelectedLocation(false));
+        }
+    }, [copyObject(location), copyObject(locationSelected), moveToSelectedLocation]);
 
     const handleOnSearch = (value: string) => {
         dispatch(searchPlacesByQuery({query: value}));
@@ -70,7 +85,7 @@ export default function PlaceSearchPage() {
     return <Layout>
         <Box position="fixed" top={0} right={0} bottom={0} left={0} zIndex={0}>
             <MapPinSelector
-                center={locationSelected ?? location ?? locationSinjukuStation}
+                center={mapCenter}
                 onSelectLocation={handleOnSelectLocation}
                 pinnedLocation={locationSelected}
             />

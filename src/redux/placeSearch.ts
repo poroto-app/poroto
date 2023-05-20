@@ -8,11 +8,13 @@ import {GeoLocation} from "src/domain/models/GeoLocation";
 export type PlaceSearchState = {
     placeSearchResults: PlaceSearchResult[] | null,
     locationSelected: GeoLocation | null,
+    moveToSelectedLocation: boolean,
 }
 
 const initialState: PlaceSearchState = {
     placeSearchResults: null,
     locationSelected: null,
+    moveToSelectedLocation: false,
 }
 
 type SearchPlacesByQueryProps = {
@@ -50,10 +52,11 @@ type FetchGeoLocationByPlaceIdProps = {
 };
 export const fetchGeoLocationByPlaceId = createAsyncThunk(
     'placeSearch/fetchGeoLocationByPlaceId',
-    async ({placeId}: FetchGeoLocationByPlaceIdProps, {dispatch}) => {
+    async ({placeId}: FetchGeoLocationByPlaceIdProps, {dispatch, getState}) => {
         const mapApi = new GooglePlacesApi();
         const placeDetail = await mapApi.placeDetail({placeId, language: "ja"});
         dispatch(setSelectedLocation({location: placeDetail.location}));
+        dispatch(setMoveToSelectedLocation(true));
     }
 )
 
@@ -75,7 +78,11 @@ export const slice = createSlice({
         },
         resetSelectedLocation: (state) => {
             state.locationSelected = null;
-        }
+        },
+
+        setMoveToSelectedLocation: (state, {payload}: PayloadAction<boolean>) => {
+            state.moveToSelectedLocation = payload;
+        },
     },
 });
 
@@ -84,6 +91,8 @@ export const {
     setSelectedLocation,
 
     resetSelectedLocation,
+
+    setMoveToSelectedLocation,
 } = slice.actions;
 
 const {
