@@ -9,25 +9,7 @@ import {PlaceSearchResult} from "src/domain/models/PlaceSearchResult";
 import {createPlanByPlaceId} from "src/redux/plan";
 import {useRouter} from "next/router";
 import {Routes} from "src/view/constants/router";
-
-const mockPlaces = [
-    {
-        id: "1",
-        name: "町田駅",
-        address: "日本、東京都町田市原町田６丁目１２ 町田駅",
-    },
-    {
-        id: "2",
-        name: "町田駅前郵便局",
-        address: "日本、東京都町田市原町田４丁目１−１４ 町田駅前郵便局",
-    },
-    {
-        id: "3",
-        name: "町田駅前通り",
-        address: "日本、東京都町田市原町田２丁目１ 町田駅前通り",
-    }
-]
-
+import {MapPinSelector} from "src/view/place/MapPinSelector";
 export default function PlaceSearchPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
