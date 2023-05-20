@@ -42,7 +42,10 @@ const SelectPlanPage = () => {
     return <Layout navBar={<NavBar title="プランを選ぶ"/>}>
         <VStack w="100%" px="16px" spacing={16} py="16px">
             {
-                (plansCreated || []).map((plan, i) => <Link key={i} href={"/plans/" + plan.id}>
+                (plansCreated || []).map((plan, i) => <Link
+                        key={i} href={"/plans/" + plan.id}
+                        style={{width: "100%", maxWidth: "600px"}}
+                    >
                         <VStack w="100%">
                             <PlanThumbnail imageUrls={plan.places.flatMap((place) => place.imageUrls)}/>
                             <VStack w="100%" alignItems="flex-start" spacing={1}>
