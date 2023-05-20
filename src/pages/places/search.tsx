@@ -19,12 +19,16 @@ import {Button} from "src/view/common/Button";
 import {MapPinSelector} from "src/view/place/MapPinSelector";
 import {locationSinjukuStation} from "src/view/constants/location";
 import {MdDone, MdOutlineTouchApp} from "react-icons/md";
+import {Routes} from "src/view/constants/router";
+import {useRouter} from "next/router";
+import {createPlanFromLocation} from "src/redux/plan";
 
 export default function PlaceSearchPage() {
+    const router = useRouter();
     const dispatch = useAppDispatch();
     const {placeSearchResults, locationSelected} = reduxPlaceSearchSelector();
     const {location} = reduxLocationSelector();
-    const {getCurrentLocation, isLoadingLocation, isRejected} = useLocation();
+    const {getCurrentLocation} = useLocation();
 
     useEffect(() => {
         getCurrentLocation()
@@ -45,6 +49,12 @@ export default function PlaceSearchPage() {
         dispatch(setSelectedLocation({location}));
     }
 
+    const handleOnCreatePlan = async () => {
+        if (!locationSelected) return;
+        await router.push(Routes.plans.interest);
+        dispatch(createPlanFromLocation({location: locationSelected}));
+    }
+
     useEffect(() => {
         dispatch(resetPlaceSearchResults());
         return () => {
@@ -53,10 +63,9 @@ export default function PlaceSearchPage() {
     }, []);
 
     return <Layout>
-        {/*// TODO: 検索した場所を選択したときは、地図の中心をそこまで移動させる */}
         <Box position="fixed" top={0} right={0} bottom={0} left={0} zIndex={0}>
             <MapPinSelector
-                center={location ?? locationSinjukuStation}
+                center={locationSelected ?? location ?? locationSinjukuStation}
                 onSelectLocation={handleOnSelectLocation}
                 pinnedLocation={locationSelected}
             />
@@ -86,6 +95,7 @@ export default function PlaceSearchPage() {
                     text={locationSelected ? "指定した場所からプランを作成" : "タップして場所を選択"}
                     icon={locationSelected ? MdDone : MdOutlineTouchApp}
                     disabled={locationSelected === null}
+                    onClick={handleOnCreatePlan}
                 />
             </Layout>
         </Box>
