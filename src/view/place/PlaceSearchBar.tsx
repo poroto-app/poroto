@@ -41,6 +41,7 @@ const Container = styled.div`
   border: 1px solid rgba(0, 0, 0, .15);
   border-radius: 50px;
   padding: 4px 8px;
+  background: white;
 `;
 
 const TextField = styled.input`
