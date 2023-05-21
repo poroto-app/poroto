@@ -19,12 +19,6 @@ const IndexPage = () => {
         const currentLocation = await getCurrentLocation();
         dispatch(setCurrentLocation({currentLocation}));
         dispatch(setSearchLocation({searchLocation: currentLocation}));
-        dispatch(createPlanFromLocation({
-            location: {
-                latitude: currentLocation.latitude,
-                longitude: currentLocation.longitude
-            }
-        }));
         await router.push(Routes.plans.interest);
     }
 
