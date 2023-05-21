@@ -31,7 +31,7 @@ export const searchPlacesByQuery = createAsyncThunk(
         }
 
         const mapApi = new GooglePlacesApi();
-        const currentLocation = (getState() as RootState).location.location;
+        const currentLocation = (getState() as RootState).location.currentLocation;
         const response = await mapApi.placeAutoComplete({
             input: query,
             language: 'ja',

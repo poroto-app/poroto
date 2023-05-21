@@ -4,25 +4,25 @@ import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {GeoLocation} from "src/domain/models/GeoLocation";
 
 export type LocationState = {
-    location: GeoLocation | null,
+    currentLocation: GeoLocation | null,
 }
 
 const initialState: LocationState = {
-    location: null,
+    currentLocation: null,
 }
 
 export const slice = createSlice({
     name: 'location',
     initialState,
     reducers: {
-        setLocation: (state, {payload}: PayloadAction<{ location: GeoLocation }>) => {
-            state.location = payload.location;
+        setCurrentLocation: (state, {payload}: PayloadAction<{ currentLocation: GeoLocation }>) => {
+            state.currentLocation = payload.currentLocation;
         },
     },
 });
 
 export const {
-    setLocation,
+    setCurrentLocation,
 } = slice.actions;
 
 export const reduxLocationSelector = () => useSelector((state: RootState) => state.location);
