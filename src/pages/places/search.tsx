@@ -14,7 +14,7 @@ import {
     setSelectedLocation,
 } from "src/redux/placeSearch";
 import {PlaceSearchResult} from "src/domain/models/PlaceSearchResult";
-import {reduxLocationSelector, setLocation} from "src/redux/location";
+import {setCurrentLocation,} from "src/redux/location";
 import {useLocation} from "src/view/hooks/useLocation";
 import {GeoLocation} from "src/data/graphql/generated";
 import {Button} from "src/view/common/Button";
@@ -30,16 +30,15 @@ export default function PlaceSearchPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const {placeSearchResults, locationSelected, moveToSelectedLocation} = reduxPlaceSearchSelector();
-    const {location} = reduxLocationSelector();
     const {getCurrentLocation} = useLocation();
     const [mapCenter, setMapCenter] = useState<GeoLocation>(locationSinjukuStation);
 
     useEffect(() => {
         getCurrentLocation()
-            .then((location) => {
-                dispatch(setLocation({location}));
+            .then((currentLocation) => {
+                dispatch(setCurrentLocation({currentLocation}));
                 if (mapCenter === locationSinjukuStation) {
-                    setMapCenter(location);
+                    setMapCenter(currentLocation);
                 }
             });
     }, []);
