@@ -5,10 +5,12 @@ import {GeoLocation} from "src/domain/models/GeoLocation";
 
 export type LocationState = {
     currentLocation: GeoLocation | null,
+    searchLocation: GeoLocation | null,
 }
 
 const initialState: LocationState = {
     currentLocation: null,
+    searchLocation: null,
 }
 
 export const slice = createSlice({
@@ -18,11 +20,15 @@ export const slice = createSlice({
         setCurrentLocation: (state, {payload}: PayloadAction<{ currentLocation: GeoLocation }>) => {
             state.currentLocation = payload.currentLocation;
         },
+        setSearchLocation: (state, {payload}: PayloadAction<{ searchLocation: GeoLocation }>) => {
+            state.searchLocation = payload.searchLocation;
+        },
     },
 });
 
 export const {
     setCurrentLocation,
+    setSearchLocation,
 } = slice.actions;
 
 export const reduxLocationSelector = () => useSelector((state: RootState) => state.location);
