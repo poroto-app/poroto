@@ -22,16 +22,15 @@ export default function PlanInterestPage() {
     const router = useRouter();
     const [currentCategory, setCurrentCategory] = useState<LocationCategory | null>(null);
     const {categoryCandidates} = reduxPlanSelector();
-    const {currentLocation} = reduxLocationSelector();
+    const {searchLocation} = reduxLocationSelector();
 
-    // TODO: 現在地以外にも対応する
     useEffect(() => {
-        if (currentLocation) dispatch(matchInterest({location: currentLocation}));
+        if (searchLocation) dispatch(matchInterest({location: searchLocation}));
         return () => {
             // 戻るボタンで戻ってきたときに、最初から始める
             dispatch(resetInterest());
         };
-    }, [currentLocation]);
+    }, [searchLocation]);
 
     useEffect(() => {
         if (!categoryCandidates) return;
