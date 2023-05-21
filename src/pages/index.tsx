@@ -8,7 +8,7 @@ import {useLocation} from "src/view/hooks/useLocation";
 import {PlaceSearchButton} from "src/view/place/PlaceSearchButton";
 import {Button} from "src/view/common/Button";
 import {MdOutlinePlace} from "react-icons/md";
-import {setCurrentLocation} from "src/redux/location";
+import {setCurrentLocation, setSearchLocation} from "src/redux/location";
 
 const IndexPage = () => {
     const router = useRouter();
@@ -18,6 +18,7 @@ const IndexPage = () => {
     const onClickCreatePlanFromCurrentLocation = async () => {
         const currentLocation = await getCurrentLocation();
         dispatch(setCurrentLocation({currentLocation}));
+        dispatch(setSearchLocation({searchLocation: currentLocation}));
         dispatch(createPlanFromLocation({
             location: {
                 latitude: currentLocation.latitude,

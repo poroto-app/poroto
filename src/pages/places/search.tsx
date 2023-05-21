@@ -14,7 +14,7 @@ import {
     setSelectedLocation,
 } from "src/redux/placeSearch";
 import {PlaceSearchResult} from "src/domain/models/PlaceSearchResult";
-import {setCurrentLocation,} from "src/redux/location";
+import {setCurrentLocation, setSearchLocation,} from "src/redux/location";
 import {useLocation} from "src/view/hooks/useLocation";
 import {GeoLocation} from "src/data/graphql/generated";
 import {Button} from "src/view/common/Button";
@@ -77,8 +77,8 @@ export default function PlaceSearchPage() {
 
     const handleOnCreatePlan = async () => {
         if (!locationSelected) return;
+        dispatch(setSearchLocation({searchLocation: locationSelected}));
         await router.push(Routes.plans.interest);
-        dispatch(createPlanFromLocation({location: locationSelected}));
     }
 
     return <Layout>
