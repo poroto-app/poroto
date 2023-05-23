@@ -14,7 +14,7 @@ import {
     setSelectedLocation,
 } from "src/redux/placeSearch";
 import {PlaceSearchResult} from "src/domain/models/PlaceSearchResult";
-import {reduxLocationSelector, setLocation} from "src/redux/location";
+import {reduxLocationSelector, setCurrentLocation, setSearchLocation,} from "src/redux/location";
 import {useLocation} from "src/view/hooks/useLocation";
 import {GeoLocation} from "src/data/graphql/generated";
 import {Button} from "src/view/common/Button";
@@ -23,23 +23,22 @@ import {locationSinjukuStation} from "src/view/constants/location";
 import {MdDone, MdOutlineTouchApp} from "react-icons/md";
 import {Routes} from "src/view/constants/router";
 import {useRouter} from "next/router";
-import {createPlanFromLocation} from "src/redux/plan";
 import {copyObject} from "src/domain/util/object";
 
 export default function PlaceSearchPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
+    const {currentLocation} = reduxLocationSelector();
     const {placeSearchResults, locationSelected, moveToSelectedLocation} = reduxPlaceSearchSelector();
-    const {location} = reduxLocationSelector();
     const {getCurrentLocation} = useLocation();
     const [mapCenter, setMapCenter] = useState<GeoLocation>(locationSinjukuStation);
 
     useEffect(() => {
         getCurrentLocation()
-            .then((location) => {
-                dispatch(setLocation({location}));
+            .then((currentLocation) => {
+                dispatch(setCurrentLocation({currentLocation}));
                 if (mapCenter === locationSinjukuStation) {
-                    setMapCenter(location);
+                    setMapCenter(currentLocation);
                 }
             });
     }, []);
@@ -61,7 +60,7 @@ export default function PlaceSearchPage() {
         return () => {
             dispatch(setMoveToSelectedLocation(false));
         }
-    }, [copyObject(location), copyObject(locationSelected), moveToSelectedLocation]);
+    }, [copyObject(currentLocation), copyObject(locationSelected), moveToSelectedLocation]);
 
     const handleOnSearch = (value: string) => {
         dispatch(searchPlacesByQuery({query: value}));
@@ -78,8 +77,8 @@ export default function PlaceSearchPage() {
 
     const handleOnCreatePlan = async () => {
         if (!locationSelected) return;
+        dispatch(setSearchLocation({searchLocation: locationSelected}));
         await router.push(Routes.plans.interest);
-        dispatch(createPlanFromLocation({location: locationSelected}));
     }
 
     return <Layout>
