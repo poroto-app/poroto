@@ -1,4 +1,4 @@
-import {Center, HStack, Icon, Text, VStack} from "@chakra-ui/react"
+import {Box, Center, HStack, Icon, Text, VStack} from "@chakra-ui/react"
 import {NavBar} from "src/view/common/NavBar"
 import {PlacePreview} from "src/view/plan/PlacePreview"
 import {useAppDispatch} from "src/redux/redux";
@@ -11,7 +11,8 @@ import {MdPhotoCamera, MdSchedule} from "react-icons/md";
 import html2canvas from "html2canvas";
 import {PlaceMap} from "src/view/plan/PlaceMap";
 import Link from "next/link";
-import { PlanDuration } from "src/view/plan/PlanSummaryItem";
+import {PlanDuration} from "src/view/plan/PlanSummaryItem";
+import {PlanScreenShotComponent} from "src/view/plan/PlanScreenShotComponent";
 
 const PlanDetail = () => {
 
@@ -67,38 +68,44 @@ const PlanDetail = () => {
 
     if (!plan) return <LoadingModal title="素敵なプランを読み込んでいます"/>
 
-    return <Center flexDirection="column">
-        <NavBar title={plan.title}/>
-        <VStack maxWidth="990px" w="100%" px="8px" py="16px" boxSizing="border-box">
-            <VStack py="16px" w="100%" alignItems="flex-start">
-                <PlanDuration durationInMinutes={plan.timeInMinutes} />
-            </VStack>
-            <VStack spacing={8} w="100%" ref={plansRef}>
-                {
-                    plan.places.map((place, i) => <PlacePreview
-                        key={i}
-                        name={place.name}
-                        imageUrls={place.imageUrls}
-                        tags={place.tags}
-                    />)
-                }
-            </VStack>
-            <VStack w="100%">
-                <PlaceMap places={plan.places}/>
-                <PlanActionButton
-                    text="画像で保存する" color="#539565" icon={MdPhotoCamera}
-                    onClick={handleOnClickSaveAsImage}
-                />
-                <Link href={generateGoogleMapUrl()} target="_blank" style={{width: "100%"}}>
+    return <>
+        <Center flexDirection="column">
+            <NavBar title={plan.title}/>
+            <VStack maxWidth="990px" w="100%" px="8px" py="16px" boxSizing="border-box">
+                <VStack py="16px" w="100%" alignItems="flex-start">
+                    <PlanDuration durationInMinutes={plan.timeInMinutes}/>
+                </VStack>
+                <VStack spacing={8} w="100%">
+                    {
+                        plan.places.map((place, i) => <PlacePreview
+                            key={i}
+                            name={place.name}
+                            imageUrls={place.imageUrls}
+                            tags={place.tags}
+                        />)
+                    }
+                </VStack>
+                <VStack w="100%">
+                    <PlaceMap places={plan.places}/>
                     <PlanActionButton
-                        text="Google Mapで経路を調べる"
-                        color="#0F88E7"
-                        imageUrl="/images/google_map_logo.png"
+                        text="画像で保存する" color="#539565" icon={MdPhotoCamera}
+                        onClick={handleOnClickSaveAsImage}
                     />
-                </Link>
+                    <Link href={generateGoogleMapUrl()} target="_blank" style={{width: "100%"}}>
+                        <PlanActionButton
+                            text="Google Mapで経路を調べる"
+                            color="#0F88E7"
+                            imageUrl="/images/google_map_logo.png"
+                        />
+                    </Link>
+                </VStack>
             </VStack>
-        </VStack>
-    </Center>
+        </Center>
+        <Box position="fixed" top="-10000">
+            {/*TODO: 実際の予算を入力する*/}
+            <PlanScreenShotComponent plan={plan} money={{start: 0}} ref={plansRef} />
+        </Box>
+    </>
 }
 
 export default PlanDetail
