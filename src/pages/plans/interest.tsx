@@ -24,6 +24,7 @@ export default function PlanInterestPage() {
     const {categoryCandidates} = reduxPlanSelector();
     const {location} = reduxLocationSelector();
 
+    // TODO: 現在地以外にも対応する
     useEffect(() => {
         if (location) dispatch(matchInterest({location}));
         return () => {
