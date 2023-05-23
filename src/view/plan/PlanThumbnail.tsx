@@ -20,7 +20,7 @@ export const PlanThumbnail = ({imageUrls}: { imageUrls: string[] }) => {
     ]
 
     return <Grid
-        width="300px" height="300px"
+        width="100%" height="300px"
         templateColumns="repeat(2, 1fr)" templateRows="repeat(2, 1fr)"
         gridTemplateAreas={gridAreaTemplates[imageUrls.length - 1]}
         borderRadius="10px" overflow="hidden" cursor="pointer"
