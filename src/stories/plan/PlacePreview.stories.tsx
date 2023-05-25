@@ -3,10 +3,12 @@ import { PlacePreview } from "src/view/plan/PlacePreview";
 
 export default {
     title: "plan/PlacePreview",
-    component: PlacePreview
+    component: PlacePreview,
 } as ComponentMeta<typeof PlacePreview>;
 
-const Template: ComponentStory<typeof PlacePreview> = (args) => <PlacePreview {...args} />
+const Template: ComponentStory<typeof PlacePreview> = (args) => (
+    <PlacePreview {...args} />
+);
 
 export const PlacePreviewStoryBook = Template.bind({});
 PlacePreviewStoryBook.args = {
@@ -20,8 +22,8 @@ PlacePreviewStoryBook.args = {
         "https://picsum.photos/300/400",
         "https://picsum.photos/1280/720",
         "https://picsum.photos/400/600",
-    ]
-}
+    ],
+};
 
 export const Loading = Template.bind({});
 Loading.args = {
@@ -33,5 +35,5 @@ Loading.args = {
         "https://example.com/photo/c",
         "https://example.com/photo/d",
         "https://example.com/photo/e",
-    ]
-}
+    ],
+};

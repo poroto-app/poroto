@@ -4,7 +4,7 @@ export class DateHelper {
     static dateToHHMM(date: Date): string {
         const hour = date.getHours();
         const minute = date.getMinutes();
-        return `${hour}:${minute.toString().padStart(2, "0")}`
+        return `${hour}:${minute.toString().padStart(2, "0")}`;
     }
 
     static add(date: Date, timeInMilliSec: number): Date {
