@@ -6,7 +6,7 @@
     "start": "next start -p $PORT",
     "type-check": "tsc",
     "lint": "next lint --quiet",
-    "format": "yarn prettier --write src/**/*.{ts,tsx}",
+    "format": "prettier --write 'src/**/*.{ts,tsx}'",
     "test": "jest",
     "gcp-build": "env-cmd -f .env.$ENV yarn build",
     "deploy": "gcloud app deploy --quiet app.yaml",
