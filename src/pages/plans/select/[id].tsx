@@ -1,9 +1,5 @@
 import { NavBar } from "src/view/common/NavBar";
-import {
-    Center,
-    Text,
-    VStack,
-} from "@chakra-ui/react";
+import { Center, Text, VStack } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { fetchCachedCreatedPlans, reduxPlanSelector } from "src/redux/plan";
 import { LoadingModal } from "src/view/common/LoadingModal";
