@@ -1,12 +1,14 @@
-import {ComponentMeta, ComponentStory} from "@storybook/react";
-import {PlaceSearchResults} from "src/view/place/PlaceSearchResults";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
 
 export default {
     title: "place/PlaceSearchResults",
-    component: PlaceSearchResults
+    component: PlaceSearchResults,
 } as ComponentMeta<typeof PlaceSearchResults>;
 
-const Template: ComponentStory<typeof PlaceSearchResults> = (args) => <PlaceSearchResults {...args}/>
+const Template: ComponentStory<typeof PlaceSearchResults> = (args) => (
+    <PlaceSearchResults {...args} />
+);
 
 export const PlaceSearchResultsStoryBook = Template.bind({});
 PlaceSearchResultsStoryBook.args = {
@@ -25,6 +27,6 @@ PlaceSearchResultsStoryBook.args = {
             id: "3",
             name: "町田駅前通り",
             address: "日本、東京都町田市原町田２丁目１ 町田駅前通り",
-        }
-    ]
-}
+        },
+    ],
+};

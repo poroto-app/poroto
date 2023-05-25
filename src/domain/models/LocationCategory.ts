@@ -1,5 +1,5 @@
 export type LocationCategory = {
-    name: string,
-    displayName: string,
-    thumbnail: string,
-}
+    name: string;
+    displayName: string;
+    thumbnail: string;
+};
