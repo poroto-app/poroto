@@ -7,5 +7,5 @@ export const Routes = {
     },
     places: {
         search: "/places/search",
-    }
-}
+    },
+};

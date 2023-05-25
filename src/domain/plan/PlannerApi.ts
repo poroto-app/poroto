@@ -1,28 +1,33 @@
 export interface PlannerApi {
-    createPlansFromLocation(request: CreatePlanFromLocationRequest): Promise<CreatePlanFromLocationResponse>
+    createPlansFromLocation(
+        request: CreatePlanFromLocationRequest
+    ): Promise<CreatePlanFromLocationResponse>;
 
-    fetchCachedCreatedPlans(request: FetchCachedCreatedPlansRequest): Promise<FetchCachedCreatedPlansResponse>
+    fetchCachedCreatedPlans(
+        request: FetchCachedCreatedPlansRequest
+    ): Promise<FetchCachedCreatedPlansResponse>;
 
-    matchInterest(request: MatchInterestRequest): Promise<MatchInterestResponse>
+    matchInterest(
+        request: MatchInterestRequest
+    ): Promise<MatchInterestResponse>;
 }
-
 
 export type PlanEntity = {
-    id: string,
-    title: string
+    id: string;
+    title: string;
     tags: {
-        content: string,
-    }[],
+        content: string;
+    }[];
     places: {
-        name: string,
-        imageUrls: string[],
+        name: string;
+        imageUrls: string[];
         location: {
-            latitude: number,
-            longitude: number,
-        }
-    }[]
-    timeInMinutes: number,
-}
+            latitude: number;
+            longitude: number;
+        };
+    }[];
+    timeInMinutes: number;
+};
 
 export function createPlanFromPlanEntity(entities: PlanEntity[]) {
     return entities.map((plan) => ({
@@ -42,35 +47,35 @@ export function createPlanFromPlanEntity(entities: PlanEntity[]) {
 
 export type CreatePlanFromLocationRequest = {
     location: {
-        latitude: number,
-        longitude: number,
-    }
-}
+        latitude: number;
+        longitude: number;
+    };
+};
 
 export type CreatePlanFromLocationResponse = {
-    session: string,
-    plans: PlanEntity[]
-}
+    session: string;
+    plans: PlanEntity[];
+};
 
 export type FetchCachedCreatedPlansRequest = {
-    session: string
-}
+    session: string;
+};
 
 export type FetchCachedCreatedPlansResponse = {
-    plans: PlanEntity[] | null
-}
+    plans: PlanEntity[] | null;
+};
 
 export type MatchInterestRequest = {
     location: {
-        latitude: number,
-        longitude: number,
-    }
-}
+        latitude: number;
+        longitude: number;
+    };
+};
 
 export type MatchInterestResponse = {
     categories: {
-        name: string
-        displayName: string
-        photo: string
-    }[]
-}
+        name: string;
+        displayName: string;
+        photo: string;
+    }[];
+};

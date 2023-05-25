@@ -1,9 +1,17 @@
-import {IconType} from "react-icons";
-import {Icon} from "@chakra-ui/react";
+import { IconType } from "react-icons";
+import { Icon } from "@chakra-ui/react";
 import styled from "styled-components";
-import React, {useRef} from "react";
+import React, { useRef } from "react";
 
-export const SelectButton = ({color, onClick, icon}: { color: string, onClick: () => void, icon: IconType }) => {
+export const SelectButton = ({
+    color,
+    onClick,
+    icon,
+}: {
+    color: string;
+    onClick: () => void;
+    icon: IconType;
+}) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const handleOnClick = () => {
@@ -12,35 +20,36 @@ export const SelectButton = ({color, onClick, icon}: { color: string, onClick: (
         buttonRef.current.focus();
         setTimeout(() => buttonRef?.current?.blur(), 200);
         onClick();
-    }
+    };
 
-    return <Button color={color} ref={buttonRef} onClick={handleOnClick}>
-        <Icon w="32px" h="32px" color={color} as={icon}/>
-    </Button>
-}
-
+    return (
+        <Button color={color} ref={buttonRef} onClick={handleOnClick}>
+            <Icon w="32px" h="32px" color={color} as={icon} />
+        </Button>
+    );
+};
 
 const Button = styled.button<{ color: string }>`
-  display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  -webkit-tap-highlight-color: transparent;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    -webkit-tap-highlight-color: transparent;
 
-  background-color: white;
-  border: 2px solid ${({color}) => color};
-  border-radius: 100px;
-  padding: 8px;
+    background-color: white;
+    border: 2px solid ${({ color }) => color};
+    border-radius: 100px;
+    padding: 8px;
 
-  transition: all 200ms;
+    transition: all 200ms;
 
-  &:focus {
-    background-color: ${({color}) => color};
+    &:focus {
+        background-color: ${({ color }) => color};
 
-    > svg {
-      color: white;
+        > svg {
+            color: white;
+        }
+
+        transform: scale(0.8);
     }
-
-    transform: scale(0.8);
-  }
 `;
