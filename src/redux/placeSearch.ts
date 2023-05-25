@@ -3,13 +3,18 @@ import {PlaceSearchResult} from "src/domain/models/PlaceSearchResult";
 import {RootState} from "src/redux/redux";
 import {useSelector} from "react-redux";
 import {GooglePlacesApi} from "src/data/map/GooglePlacesApi";
+import {GeoLocation} from "src/domain/models/GeoLocation";
 
 export type PlaceSearchState = {
     placeSearchResults: PlaceSearchResult[] | null,
+    locationSelected: GeoLocation | null,
+    moveToSelectedLocation: boolean,
 }
 
 const initialState: PlaceSearchState = {
     placeSearchResults: null,
+    locationSelected: null,
+    moveToSelectedLocation: false,
 }
 
 type SearchPlacesByQueryProps = {
@@ -20,9 +25,13 @@ export const searchPlacesByQuery = createAsyncThunk(
     async ({query}: SearchPlacesByQueryProps, {dispatch, getState}) => {
         console.log("Search Places By Query", {query});
 
-        if (query === "") return;
+        if (query === "") {
+            dispatch(resetPlaceSearchResults());
+            return;
+        }
+
         const mapApi = new GooglePlacesApi();
-        const currentLocation = (getState() as RootState).location.location;
+        const currentLocation = (getState() as RootState).location.currentLocation;
         const response = await mapApi.placeAutoComplete({
             input: query,
             language: 'ja',
@@ -38,6 +47,19 @@ export const searchPlacesByQuery = createAsyncThunk(
     }
 );
 
+type FetchGeoLocationByPlaceIdProps = {
+    placeId: string
+};
+export const fetchGeoLocationByPlaceId = createAsyncThunk(
+    'placeSearch/fetchGeoLocationByPlaceId',
+    async ({placeId}: FetchGeoLocationByPlaceIdProps, {dispatch, getState}) => {
+        const mapApi = new GooglePlacesApi();
+        const placeDetail = await mapApi.placeDetail({placeId, language: "ja"});
+        dispatch(setSelectedLocation({location: placeDetail.location}));
+        dispatch(setMoveToSelectedLocation(true));
+    }
+)
+
 export const slice = createSlice({
     name: 'placeSearch',
     initialState,
@@ -50,11 +72,27 @@ export const slice = createSlice({
         resetPlaceSearchResults: (state) => {
             state.placeSearchResults = null;
         },
+
+        setSelectedLocation: (state, {payload}: PayloadAction<{ location: GeoLocation }>) => {
+            state.locationSelected = payload.location;
+        },
+        resetSelectedLocation: (state) => {
+            state.locationSelected = null;
+        },
+
+        setMoveToSelectedLocation: (state, {payload}: PayloadAction<boolean>) => {
+            state.moveToSelectedLocation = payload;
+        },
     },
 });
 
 export const {
     resetPlaceSearchResults,
+    setSelectedLocation,
+
+    resetSelectedLocation,
+
+    setMoveToSelectedLocation,
 } = slice.actions;
 
 const {

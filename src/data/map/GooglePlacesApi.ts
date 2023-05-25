@@ -1,8 +1,12 @@
 import {Loader} from "@googlemaps/js-api-loader";
 import {GeoLocation} from "src/domain/models/GeoLocation";
+import {locationSinjukuStation} from "src/view/constants/location";
 
 // MEMO: axiosで直接リクエストするとCORSエラーが発生する
 export class GooglePlacesApi {
+    static libraryVersion = "weekly";
+    static libraries: ["places"] = ["places"];
+
     private readonly mapElement: HTMLDivElement;
     private mapApi: google.maps.Map | null;
 
@@ -25,10 +29,6 @@ export class GooglePlacesApi {
                             }: PlaceAutoCompleteRequest): Promise<google.maps.places.AutocompleteResponse> {
         await this.loadMapApi();
         const service = new google.maps.places.AutocompleteService();
-        const locationSinjukuStation = {
-            latitude: 35.6896067,
-            longitude: 139.7005713,
-        } as GeoLocation;
         return await service.getPlacePredictions({
             input,
             language,

@@ -5,7 +5,7 @@
     "build": "next build",
     "start": "next start -p $PORT",
     "type-check": "tsc",
-    "lint": "next lint",
+    "lint": "next lint --quiet",
     "format": "prettier --write src/**/*.{ts,tsx}",
     "test": "jest",
     "gcp-build": "env-cmd -f .env.$ENV yarn build",

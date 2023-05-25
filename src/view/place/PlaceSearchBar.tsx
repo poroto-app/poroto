@@ -1,7 +1,7 @@
 import {Icon} from "@chakra-ui/react";
 import styled from "styled-components";
 import React, {useEffect, useState} from "react";
-import {MdSearch} from "react-icons/md";
+import {MdClose, MdSearch} from "react-icons/md";
 
 type Props = {
     onSearch: (value: string) => void;
@@ -11,8 +11,12 @@ export function PlaceSearchBar({onSearch}: Props) {
     const [value, setValue] = useState("");
 
     useEffect(() => {
+        if (value === "") {
+            onSearch(value);
+            return;
+        }
+
         const id = setTimeout(() => {
-            if (value === "") return;
             onSearch(value);
         }, 1200);
 
@@ -30,6 +34,13 @@ export function PlaceSearchBar({onSearch}: Props) {
             value={value}
             onChange={(e) => setValue(e.currentTarget.value)}
         />
+        {
+            value !== "" && <Icon
+                w="32px"
+                onClick={() => setValue("")}
+                as={MdClose}
+            />
+        }
     </Container>
 }
 
@@ -41,6 +52,7 @@ const Container = styled.div`
   border: 1px solid rgba(0, 0, 0, .15);
   border-radius: 50px;
   padding: 4px 8px;
+  background: white;
 `;
 
 const TextField = styled.input`
