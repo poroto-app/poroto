@@ -1,8 +1,12 @@
-import {Loader} from "@googlemaps/js-api-loader";
-import {GeoLocation} from "src/domain/models/GeoLocation";
+import { Loader } from "@googlemaps/js-api-loader";
+import { GeoLocation } from "src/domain/models/GeoLocation";
+import { locationSinjukuStation } from "src/view/constants/location";
 
 // MEMO: axiosで直接リクエストするとCORSエラーが発生する
 export class GooglePlacesApi {
+    static libraryVersion = "weekly";
+    static libraries: ["places"] = ["places"];
+
     private readonly mapElement: HTMLDivElement;
     private mapApi: google.maps.Map | null;
 
@@ -18,17 +22,13 @@ export class GooglePlacesApi {
 
     // SEE: https://developers.google.com/maps/documentation/javascript/places-autocomplete
     async placeAutoComplete({
-                                input,
-                                language,
-                                radius,
-                                location,
-                            }: PlaceAutoCompleteRequest): Promise<google.maps.places.AutocompleteResponse> {
+        input,
+        language,
+        radius,
+        location,
+    }: PlaceAutoCompleteRequest): Promise<google.maps.places.AutocompleteResponse> {
         await this.loadMapApi();
         const service = new google.maps.places.AutocompleteService();
-        const locationSinjukuStation = {
-            latitude: 35.6896067,
-            longitude: 139.7005713,
-        } as GeoLocation;
         return await service.getPlacePredictions({
             input,
             language,
@@ -37,11 +37,11 @@ export class GooglePlacesApi {
                 location?.latitude || locationSinjukuStation.latitude,
                 location?.longitude || locationSinjukuStation.longitude
             ),
-        })
+        });
     }
 
     // SEE: https://developers.google.com/maps/documentation/javascript/examples/place-details
-    async placeDetail({placeId, language}: PlaceDetailRequest) {
+    async placeDetail({ placeId, language }: PlaceDetailRequest) {
         const mapApi = await this.loadMapApi();
         const service = new google.maps.places.PlacesService(mapApi);
         return new Promise<PlaceDetailResponse>((resolve, reject) => {
@@ -62,9 +62,10 @@ export class GooglePlacesApi {
                         location: {
                             latitude: place.geometry.location.lat(),
                             longitude: place.geometry.location.lng(),
-                        }
-                    })
-                })
+                        },
+                    });
+                }
+            );
         });
     }
 
@@ -77,7 +78,7 @@ export class GooglePlacesApi {
             apiKey: process.env.GCP_API_KEY,
             version: "weekly",
             libraries: ["places"],
-        })
+        });
         await loader.load();
 
         const mapApi = new google.maps.Map(this.mapElement);
@@ -86,19 +87,18 @@ export class GooglePlacesApi {
     }
 }
 
-
 type PlaceAutoCompleteRequest = {
     input: string;
     radius: number;
     language: "ja";
     location?: GeoLocation;
-}
+};
 
 type PlaceDetailRequest = {
     placeId: string;
     language: "ja";
-}
+};
 
 type PlaceDetailResponse = {
-    location: GeoLocation
-}
+    location: GeoLocation;
+};

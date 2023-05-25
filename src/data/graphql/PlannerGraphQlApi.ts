@@ -1,22 +1,29 @@
-import {GraphQlRepository} from "src/data/graphql/GraphQlRepository";
+import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
 import {
     CreatePlanFromLocationRequest,
-    CreatePlanFromLocationResponse, FetchCachedCreatedPlansRequest, FetchCachedCreatedPlansResponse,
+    CreatePlanFromLocationResponse,
+    FetchCachedCreatedPlansRequest,
+    FetchCachedCreatedPlansResponse,
     MatchInterestRequest,
     MatchInterestResponse,
-    PlannerApi
+    PlannerApi,
 } from "src/domain/plan/PlannerApi";
 import {
     CachedCreatedPlansDocument,
     CreatePlanByLocationDocument,
-    MatchInterestsDocument
+    MatchInterestsDocument,
 } from "src/data/graphql/generated";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
-    async createPlansFromLocation(request: CreatePlanFromLocationRequest): Promise<CreatePlanFromLocationResponse> {
-        const {data} = await this.client.mutate({
+    async createPlansFromLocation(
+        request: CreatePlanFromLocationRequest
+    ): Promise<CreatePlanFromLocationResponse> {
+        const { data } = await this.client.mutate({
             mutation: CreatePlanByLocationDocument,
-            variables: {latitude: request.location.latitude, longitude: request.location.longitude},
+            variables: {
+                latitude: request.location.latitude,
+                longitude: request.location.longitude,
+            },
         });
         return {
             session: data.createPlanByLocation.session,
@@ -30,20 +37,22 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                     location: {
                         latitude: place.location.latitude,
                         longitude: place.location.longitude,
-                    }
+                    },
                 })),
                 timeInMinutes: plan.timeInMinutes,
-            }))
-        }
+            })),
+        };
     }
 
-    async fetchCachedCreatedPlans(request: FetchCachedCreatedPlansRequest): Promise<FetchCachedCreatedPlansResponse> {
-        const {data} = await this.client.query({
+    async fetchCachedCreatedPlans(
+        request: FetchCachedCreatedPlansRequest
+    ): Promise<FetchCachedCreatedPlansResponse> {
+        const { data } = await this.client.query({
             query: CachedCreatedPlansDocument,
-            variables: {session: request.session},
+            variables: { session: request.session },
         });
 
-        if (!data.cachedCreatedPlans.plans) return {plans: null};
+        if (!data.cachedCreatedPlans.plans) return { plans: null };
 
         return {
             plans: data.cachedCreatedPlans.plans.map((plan) => ({
@@ -56,24 +65,29 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                     location: {
                         latitude: place.location.latitude,
                         longitude: place.location.longitude,
-                    }
+                    },
                 })),
                 timeInMinutes: plan.timeInMinutes,
-            }))
-        }
+            })),
+        };
     }
 
-    async matchInterest(request: MatchInterestRequest): Promise<MatchInterestResponse> {
-        const {data} = await this.client.query({
+    async matchInterest(
+        request: MatchInterestRequest
+    ): Promise<MatchInterestResponse> {
+        const { data } = await this.client.query({
             query: MatchInterestsDocument,
-            variables: {latitude: request.location.latitude, longitude: request.location.longitude},
+            variables: {
+                latitude: request.location.latitude,
+                longitude: request.location.longitude,
+            },
         });
         return {
             categories: data.matchInterests.categories.map((category) => ({
                 name: category.name,
                 displayName: category.displayName,
                 photo: category.photo,
-            }))
-        }
+            })),
+        };
     }
 }
