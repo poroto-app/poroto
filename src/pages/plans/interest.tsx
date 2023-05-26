@@ -70,11 +70,11 @@ type Props = {
 };
 
 export function PlanInterestPageComponent({
-                                              currentCategory,
-                                              handleYes,
-                                              handleNo,
-                                              navBar,
-                                          }: Props) {
+    currentCategory,
+    handleYes,
+    handleNo,
+    navBar,
+}: Props) {
     if (!currentCategory)
         return <LoadingModal title="近くに何があるかを探しています。" />;
 
@@ -101,9 +101,7 @@ export function PlanInterestPageComponent({
     );
 }
 
-
 const PageTime = ({ onDone }: { onDone: () => void }) => {
-
     const handleOnClickNext = (duration: number) => {
         // TODO: reduxに設定された時間を渡す
         onDone();
@@ -113,8 +111,10 @@ const PageTime = ({ onDone }: { onDone: () => void }) => {
         onDone();
     };
 
-    return <PlanDurationSelector
-        onClickNext={handleOnClickNext}
-        onClickIgnoreDuration={handleOnClickIgnoreDuration}
-    />;
+    return (
+        <PlanDurationSelector
+            onClickNext={handleOnClickNext}
+            onClickIgnoreDuration={handleOnClickIgnoreDuration}
+        />
+    );
 };
