@@ -7,6 +7,11 @@ declare global {
             PLANNER_API_PROTOCOL: string
             PLANNER_API_HOST: string
             PLANNER_API_ENDPOINT: string
+
+            // ==============================
+            // GCP
+            // ==============================
+            GCP_API_KEY: string
         }
     }
 }

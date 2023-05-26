@@ -1,6 +1,6 @@
 # SEE: https://cloud.google.com/appengine/docs/standard/go/config/appref?hl=ja
 service: poroto-staging
-runtime: nodejs16
+runtime: nodejs18
 
 handlers:
   - url: /.*
@@ -9,3 +9,7 @@ handlers:
 
 env_variables:
   NODE_ENV: "staging"
+
+# yarn gcp-build コマンドで利用される
+build_env_variables:
+  ENV: 'staging'

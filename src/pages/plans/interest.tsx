@@ -1,100 +1,120 @@
-import {matchInterest, pushAcceptedCategory, pushRejectedCategory, reduxPlanSelector} from "src/redux/plan";
-import {useEffect, useState} from "react";
-import {useAppDispatch} from "src/redux/redux";
-import {LocationCategory} from "src/domain/models/LocationCategory";
-import {useRouter} from "next/router";
-import {Routes} from "src/view/constants/router";
-import {CategorySelect} from "src/view/interest/CategorySelect";
-import {LoadingModal} from "src/view/common/LoadingModal";
-import {Box, VStack} from "@chakra-ui/react";
-import {NavBar} from "src/view/common/NavBar";
-import {reduxLocationSelector} from "src/redux/location";
-import {PlanDurationSelector} from "src/view/interest/PlanDurationSelector";
+import {
+    matchInterest,
+    pushAcceptedCategory,
+    pushRejectedCategory,
+    reduxPlanSelector,
+    resetInterest,
+} from "src/redux/plan";
+import { ReactNode, useEffect, useState } from "react";
+import { useAppDispatch } from "src/redux/redux";
+import { LocationCategory } from "src/domain/models/LocationCategory";
+import { useRouter } from "next/router";
+import { Routes } from "src/view/constants/router";
+import { CategorySelect } from "src/view/interest/CategorySelect";
+import { LoadingModal } from "src/view/common/LoadingModal";
+import { VStack } from "@chakra-ui/react";
+import { NavBar } from "src/view/common/NavBar";
+import { reduxLocationSelector } from "src/redux/location";
+import { AskInterestMessage } from "src/view/plan/AskInterestMessage";
+import { PlanDurationSelector } from "src/view/interest/PlanDurationSelector";
 
-const MatchInterestPages = {
-    TIME: "TIME",
-    CATEGORY: "CATEGORY",
-}
-type MatchInterestPage = typeof MatchInterestPages[keyof typeof MatchInterestPages];
-
-export const PlanInterestPage = () => {
+export default function PlanInterestPage() {
     const dispatch = useAppDispatch();
     const router = useRouter();
-    const [page, setPage] = useState(MatchInterestPages.TIME);
-    const {location} = reduxLocationSelector();
-    const matchInterestPrompts = {
-        [MatchInterestPages.TIME]: "どのくらいの時間を過ごしたいですか？",
-        [MatchInterestPages.CATEGORY]: "どんな場所に行きたいですか？"
-    }
+    const [currentCategory, setCurrentCategory] =
+        useState<LocationCategory | null>(null);
+    const { categoryCandidates } = reduxPlanSelector();
+    const { searchLocation } = reduxLocationSelector();
 
     useEffect(() => {
-        if (location) dispatch(matchInterest({location}));
-    }, [location]);
-
-    const handleOnDoneCategory = () => {
-        // TODO: 選択されたカテゴリをもとにプランを作成
-        router.push(Routes.plans.select).then();
-    }
-
-    // TODO: 戻るボタンで一つ前の項目に戻れるようにする
-    return <VStack h="100%" w="100%" spacing={0}>
-        <NavBar title={matchInterestPrompts[page]}/>
-        <Box
-            flex={1} overflow="hidden"
-            h="100%" w="100%" maxWidth="990px"
-            px="16px" pt="24px" pb="32px"
-        >
-            {
-                page === MatchInterestPages.TIME && <PageTime onDone={() => setPage(MatchInterestPages.CATEGORY)}/>
-            }
-            {
-                page === MatchInterestPages.CATEGORY && <PageCategory onDone={handleOnDoneCategory}/>
-            }
-        </Box>
-    </VStack>
-}
-
-const PageTime = ({onDone}: { onDone: () => void }) => {
-
-    const handleOnClickNext = (duration: number) => {
-        // TODO: reduxに設定された時間を渡す
-        onDone();
-    }
-
-    const handleOnClickIgnoreDuration = () => {
-        onDone();
-    }
-
-    return <PlanDurationSelector
-        onClickNext={handleOnClickNext}
-        onClickIgnoreDuration={handleOnClickIgnoreDuration}
-    />
-}
-
-const PageCategory = ({onDone}: { onDone: () => void }) => {
-    const dispatch = useAppDispatch();
-    const {categoryCandidates} = reduxPlanSelector();
-    const [currentCategory, setCurrentCategory] = useState<LocationCategory | null>(null);
+        if (searchLocation)
+            dispatch(matchInterest({ location: searchLocation }));
+        return () => {
+            // 戻るボタンで戻ってきたときに、最初から始める
+            dispatch(resetInterest());
+        };
+    }, [searchLocation]);
 
     useEffect(() => {
         if (!categoryCandidates) return;
         if (categoryCandidates.length === 0) {
-            onDone();
+            router.push(Routes.plans.create).then();
             return;
         }
         setCurrentCategory(categoryCandidates[0]);
     }, [categoryCandidates?.length]);
 
     const handleYes = (category: LocationCategory) => {
-        dispatch(pushAcceptedCategory({category}));
-    }
+        dispatch(pushAcceptedCategory({ category }));
+    };
 
     const handleNo = (category: LocationCategory) => {
-        dispatch(pushRejectedCategory({category}));
-    }
+        dispatch(pushRejectedCategory({ category }));
+    };
 
-    if (!currentCategory) return <LoadingModal title="近くに何があるかを探しています。"/>
-    return <CategorySelect category={currentCategory} onClickYes={handleYes} onClickNo={handleNo}/>
+    return (
+        <PlanInterestPageComponent
+            currentCategory={currentCategory}
+            handleYes={handleYes}
+            handleNo={handleNo}
+            navBar={<NavBar title="今の気分を教えてください" />}
+        />
+    );
 }
 
-export default PlanInterestPage;
+type Props = {
+    currentCategory: LocationCategory | null;
+    handleYes: (category: LocationCategory) => void;
+    handleNo: (category: LocationCategory) => void;
+    navBar: ReactNode;
+};
+
+export function PlanInterestPageComponent({
+                                              currentCategory,
+                                              handleYes,
+                                              handleNo,
+                                              navBar,
+                                          }: Props) {
+    if (!currentCategory)
+        return <LoadingModal title="近くに何があるかを探しています。" />;
+
+    return (
+        <VStack h="100%" w="100%" spacing={0}>
+            {navBar}
+            <VStack
+                flex={1}
+                h="100%"
+                w="100%"
+                maxWidth="990px"
+                px="16px"
+                pt="8px"
+                pb="32px"
+            >
+                <AskInterestMessage message="どんな場所に行きたいですか？" />
+                <CategorySelect
+                    category={currentCategory}
+                    onClickYes={handleYes}
+                    onClickNo={handleNo}
+                />
+            </VStack>
+        </VStack>
+    );
+}
+
+
+const PageTime = ({ onDone }: { onDone: () => void }) => {
+
+    const handleOnClickNext = (duration: number) => {
+        // TODO: reduxに設定された時間を渡す
+        onDone();
+    };
+
+    const handleOnClickIgnoreDuration = () => {
+        onDone();
+    };
+
+    return <PlanDurationSelector
+        onClickNext={handleOnClickNext}
+        onClickIgnoreDuration={handleOnClickIgnoreDuration}
+    />;
+};

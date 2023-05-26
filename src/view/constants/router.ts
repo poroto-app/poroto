@@ -2,6 +2,10 @@ export const Routes = {
     home: "/",
     plans: {
         interest: "/plans/interest",
-        select: "/plans/select"
-    }
-}
+        create: "/plans/create",
+        select: (session: string) => `/plans/select/${session}`,
+    },
+    places: {
+        search: "/places/search",
+    },
+};
