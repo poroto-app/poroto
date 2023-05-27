@@ -35,6 +35,13 @@ export const PlanDurationSelector = ({
     const { View: LottieView, goToAndStop } = useLottie({
         animationData,
         autoplay: false,
+        style: {
+            position: "absolute",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+        }
     });
 
     useEffect(() => {
@@ -49,7 +56,7 @@ export const PlanDurationSelector = ({
         <VStack w="100%" h="100%">
             <VStack w="100%" spacing="48px" flex="1" justifyContent="center">
                 <Text fontSize="2rem">{hourStr + minuteStr}</Text>
-                <Box w="100%" borderRadius="10px" overflow="hidden">
+                <Box w="100%" borderRadius="10px" overflow="hidden" flex="1" position="relative">
                     {LottieView}
                 </Box>
                 <Box w="100%" px="16px">
