@@ -12,11 +12,10 @@ import { useRouter } from "next/router";
 import { Routes } from "src/view/constants/router";
 import { CategorySelect } from "src/view/interest/CategorySelect";
 import { LoadingModal } from "src/view/common/LoadingModal";
-import { VStack } from "@chakra-ui/react";
 import { NavBar } from "src/view/common/NavBar";
 import { reduxLocationSelector } from "src/redux/location";
-import { AskInterestMessage } from "src/view/plan/AskInterestMessage";
 import { PlanDurationSelector } from "src/view/interest/PlanDurationSelector";
+import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTemplate";
 
 const MatchInterestPages = {
     TIME: "TIME",
@@ -59,7 +58,9 @@ export default function PlanInterestPage() {
         dispatch(pushRejectedCategory({ category }));
     };
 
-    {/*TODO: 指定した時間をreduxで管理する*/}
+    {
+        /*TODO: 指定した時間をreduxで管理する*/
+    }
     return (
         <PlanInterestPageComponent
             currentCategory={currentCategory}
@@ -86,11 +87,9 @@ export function PlanInterestPageComponent({
     onSelectTime,
     navBar,
 }: Props) {
-    const [page, setPage] = useState<MatchInterestPage>(MatchInterestPages.TIME);
-    const matchInterestPrompts = {
-        [MatchInterestPages.TIME]: "どのくらいの時間を過ごしたいですか？",
-        [MatchInterestPages.CATEGORY]: "どんな場所に行きたいですか？",
-    };
+    const [page, setPage] = useState<MatchInterestPage>(
+        MatchInterestPages.TIME
+    );
 
     const handleSelectTime = (duration: number | null) => {
         onSelectTime(duration);
@@ -99,48 +98,30 @@ export function PlanInterestPageComponent({
 
     if (page === MatchInterestPages.TIME)
         return (
-            <VStack h="100%" w="100%" spacing={0}>
-                {navBar}
-                <VStack
-                    flex={1}
-                    h="100%"
-                    w="100%"
-                    maxWidth="990px"
-                    px="16px"
-                    pt="8px"
-                    pb="32px"
-                >
-                    <AskInterestMessage message={matchInterestPrompts[page]} />
-                    <PlanDurationSelector
-                        onClickNext={(duration) => handleSelectTime(duration)}
-                        onClickIgnoreDuration={() => handleSelectTime(null)}
-                    />
-                </VStack>
-            </VStack>
+            <MatchInterestPageTemplate
+                message="どのくらいの時間を過ごしたいですか？"
+                navBar={navBar}
+            >
+                <PlanDurationSelector
+                    onClickNext={(duration) => handleSelectTime(duration)}
+                    onClickIgnoreDuration={() => handleSelectTime(null)}
+                />
+            </MatchInterestPageTemplate>
         );
 
     if (!currentCategory)
         return <LoadingModal title="近くに何があるかを探しています。" />;
 
     return (
-        <VStack h="100%" w="100%" spacing={0}>
-            {navBar}
-            <VStack
-                flex={1}
-                h="100%"
-                w="100%"
-                maxWidth="990px"
-                px="16px"
-                pt="8px"
-                pb="32px"
-            >
-                <AskInterestMessage message={matchInterestPrompts[page]} />
-                <CategorySelect
-                    category={currentCategory}
-                    onClickYes={handleAcceptCategory}
-                    onClickNo={handleRejectCategory}
-                />
-            </VStack>
-        </VStack>
+        <MatchInterestPageTemplate
+            message="どんな場所に行きたいですか？"
+            navBar={navBar}
+        >
+            <CategorySelect
+                category={currentCategory}
+                onClickYes={handleAcceptCategory}
+                onClickNo={handleRejectCategory}
+            />
+        </MatchInterestPageTemplate>
     );
 }
