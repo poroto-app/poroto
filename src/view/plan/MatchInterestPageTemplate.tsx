@@ -1,6 +1,5 @@
 import { VStack } from "@chakra-ui/react";
 import { AskInterestMessage } from "src/view/plan/AskInterestMessage";
-import { PlanDurationSelector } from "src/view/interest/PlanDurationSelector";
 import { ReactNode } from "react";
 
 type Props = {
