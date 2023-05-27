@@ -55,8 +55,8 @@ export default function PlanInterestPage() {
     return (
         <PlanInterestPageComponent
             currentCategory={currentCategory}
-            handleYes={handleYes}
-            handleNo={handleNo}
+            handleAcceptCategory={handleYes}
+            handleRejectCategory={handleNo}
             navBar={<NavBar title="今の気分を教えてください" />}
         />
     );
@@ -64,15 +64,15 @@ export default function PlanInterestPage() {
 
 type Props = {
     currentCategory: LocationCategory | null;
-    handleYes: (category: LocationCategory) => void;
-    handleNo: (category: LocationCategory) => void;
+    handleAcceptCategory: (category: LocationCategory) => void;
+    handleRejectCategory: (category: LocationCategory) => void;
     navBar: ReactNode;
 };
 
 export function PlanInterestPageComponent({
     currentCategory,
-    handleYes,
-    handleNo,
+    handleAcceptCategory,
+    handleRejectCategory,
     navBar,
 }: Props) {
     if (!currentCategory)
