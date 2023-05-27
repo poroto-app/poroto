@@ -18,6 +18,13 @@ import { reduxLocationSelector } from "src/redux/location";
 import { AskInterestMessage } from "src/view/plan/AskInterestMessage";
 import { PlanDurationSelector } from "src/view/interest/PlanDurationSelector";
 
+const MatchInterestPages = {
+    TIME: "TIME",
+    CATEGORY: "CATEGORY",
+};
+type MatchInterestPage =
+    (typeof MatchInterestPages)[keyof typeof MatchInterestPages];
+
 export default function PlanInterestPage() {
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -52,11 +59,13 @@ export default function PlanInterestPage() {
         dispatch(pushRejectedCategory({ category }));
     };
 
+    {/*TODO: 指定した時間をreduxで管理する*/}
     return (
         <PlanInterestPageComponent
             currentCategory={currentCategory}
             handleAcceptCategory={handleYes}
             handleRejectCategory={handleNo}
+            onSelectTime={(duration) => console.log(duration)}
             navBar={<NavBar title="今の気分を教えてください" />}
         />
     );
@@ -66,6 +75,7 @@ type Props = {
     currentCategory: LocationCategory | null;
     handleAcceptCategory: (category: LocationCategory) => void;
     handleRejectCategory: (category: LocationCategory) => void;
+    onSelectTime: (duration: number | null) => void;
     navBar: ReactNode;
 };
 
@@ -73,8 +83,42 @@ export function PlanInterestPageComponent({
     currentCategory,
     handleAcceptCategory,
     handleRejectCategory,
+    onSelectTime,
     navBar,
 }: Props) {
+    const [page, setPage] = useState<MatchInterestPage>(MatchInterestPages.TIME);
+    const matchInterestPrompts = {
+        [MatchInterestPages.TIME]: "どのくらいの時間を過ごしたいですか？",
+        [MatchInterestPages.CATEGORY]: "どんな場所に行きたいですか？",
+    };
+
+    const handleSelectTime = (duration: number | null) => {
+        onSelectTime(duration);
+        setPage(MatchInterestPages.CATEGORY);
+    };
+
+    if (page === MatchInterestPages.TIME)
+        return (
+            <VStack h="100%" w="100%" spacing={0}>
+                {navBar}
+                <VStack
+                    flex={1}
+                    h="100%"
+                    w="100%"
+                    maxWidth="990px"
+                    px="16px"
+                    pt="8px"
+                    pb="32px"
+                >
+                    <AskInterestMessage message={matchInterestPrompts[page]} />
+                    <PlanDurationSelector
+                        onClickNext={(duration) => handleSelectTime(duration)}
+                        onClickIgnoreDuration={() => handleSelectTime(null)}
+                    />
+                </VStack>
+            </VStack>
+        );
+
     if (!currentCategory)
         return <LoadingModal title="近くに何があるかを探しています。" />;
 
@@ -90,31 +134,13 @@ export function PlanInterestPageComponent({
                 pt="8px"
                 pb="32px"
             >
-                <AskInterestMessage message="どんな場所に行きたいですか？" />
+                <AskInterestMessage message={matchInterestPrompts[page]} />
                 <CategorySelect
                     category={currentCategory}
-                    onClickYes={handleYes}
-                    onClickNo={handleNo}
+                    onClickYes={handleAcceptCategory}
+                    onClickNo={handleRejectCategory}
                 />
             </VStack>
         </VStack>
     );
 }
-
-const PageTime = ({ onDone }: { onDone: () => void }) => {
-    const handleOnClickNext = (duration: number) => {
-        // TODO: reduxに設定された時間を渡す
-        onDone();
-    };
-
-    const handleOnClickIgnoreDuration = () => {
-        onDone();
-    };
-
-    return (
-        <PlanDurationSelector
-            onClickNext={handleOnClickNext}
-            onClickIgnoreDuration={handleOnClickIgnoreDuration}
-        />
-    );
-};
