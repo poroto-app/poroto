@@ -13,6 +13,7 @@ export default function CreatePlanPage() {
     const { searchLocation } = reduxLocationSelector();
     const { createPlanSession, categoryAccepted } = reduxPlanSelector();
 
+    // TODO: selectorから変数を取得するのに時間がかかるので、Redux内でリクエストを完結させる
     // 指定した場所からプランを作成する
     useEffect(() => {
         if (!searchLocation || !categoryAccepted) return;
