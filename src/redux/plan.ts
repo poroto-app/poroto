@@ -18,7 +18,7 @@ export type PlanState = {
     categoryCandidates: LocationCategory[] | null;
     categoryAccepted: LocationCategory[] | null;
     categoryRejected: LocationCategory[] | null;
-  
+
     timeForPlan: number | null;
 };
 
