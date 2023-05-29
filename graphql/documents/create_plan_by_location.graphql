@@ -1,5 +1,5 @@
-mutation CreatePlanByLocation($latitude: Float!, $longitude: Float!) {
-    createPlanByLocation(input: {latitude: $latitude, longitude: $longitude}) {
+mutation CreatePlanByLocation($latitude: Float!, $longitude: Float!, $categories: [String!]) {
+    createPlanByLocation(input: {latitude: $latitude, longitude: $longitude, categories: $categories}) {
         session
         plans {
             id
