@@ -12,6 +12,7 @@ import { Colors } from "src/view/constants/color";
 import { useEffect, useState } from "react";
 import { useLottie } from "lottie-react";
 import animationData from "src/view/lottie/day-and-night-transition-scene.json";
+import { DateHelper } from "src/domain/util/date";
 
 type Props = {
     onClickNext: (duration: number) => void;
@@ -26,12 +27,6 @@ export const PlanDurationSelector = ({
     const maxDuration = 60 * 5;
     const [, setFlame] = useState(10);
     const [duration, setDuration] = useState(10);
-
-    const hour = Math.floor(duration / 60);
-    const minute = duration - hour * 60;
-    const hourStr = hour > 0 ? `${hour}時間` : "";
-    const minuteStr =
-        minute === 0 ? "" : `${minute.toString().padStart(2, "0")}分`;
 
     const { View: LottieView, goToAndStop } = useLottie({
         animationData,
@@ -79,7 +74,7 @@ export const PlanDurationSelector = ({
     return (
         <VStack w="100%" h="100%">
             <VStack w="100%" spacing="48px" flex="1" justifyContent="center">
-                <Text fontSize="2rem">{hourStr + minuteStr}</Text>
+                <Text fontSize="2rem">{DateHelper.formatHHMM(duration)}</Text>
                 <Box
                     w="100%"
                     borderRadius="10px"
