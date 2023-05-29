@@ -11,7 +11,7 @@ jobs:
       - name: Install dependencies
         run: yarn install
       - name: Update GraphQL Schema
-        run: GITHUB_PERSONAL_ACCESS_TOKEN=${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} yarn graphql:gen
+        run: GITHUB_PERSONAL_ACCESS_TOKEN=${{ secrets.GH_PERSONAL_ACCESS_TOKEN }} CONTEXT="CI" yarn graphql:gen
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
