@@ -13,6 +13,7 @@ const Template = ({ category }: { category: LocationCategory }) => (
         currentCategory={category}
         handleAcceptCategory={() => 0}
         handleRejectCategory={() => 0}
+        onSelectTime={(time) => console.log(time)}
         navBar={
             <NavBarComponent
                 canBack={true}
