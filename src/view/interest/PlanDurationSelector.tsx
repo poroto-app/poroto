@@ -26,7 +26,8 @@ export const PlanDurationSelector = ({
     const minDuration = 10;
     const maxDuration = 60 * 5;
     const [, setFlame] = useState(10);
-    const [duration, setDuration] = useState(10);
+    // MEMO: 意図せず最小時間の10分で確定しないように、デフォルト値をnullにしておく
+    const [duration, setDuration] = useState<number | null>(null);
 
     const { View: LottieView, goToAndStop } = useLottie({
         animationData,
@@ -42,8 +43,9 @@ export const PlanDurationSelector = ({
 
     useEffect(() => {
         const lastFrame = 300;
+        const currentDuration = duration ?? minDuration;
         const percentage =
-            (duration - minDuration) / (maxDuration - minDuration);
+            (currentDuration - minDuration) / (maxDuration - minDuration);
         const targetFlame = Math.floor(percentage * lastFrame);
 
         const idInterval = setInterval(() => {
@@ -74,7 +76,9 @@ export const PlanDurationSelector = ({
     return (
         <VStack w="100%" h="100%">
             <VStack w="100%" spacing="48px" flex="1" justifyContent="center">
-                <Text fontSize="2rem">{DateHelper.formatHHMM(duration)}</Text>
+                <Text fontSize="2rem">
+                    {duration ? DateHelper.formatHHMM(duration) : "0分"}
+                </Text>
                 <Box
                     w="100%"
                     borderRadius="10px"
@@ -89,7 +93,7 @@ export const PlanDurationSelector = ({
                         w="100%"
                         min={minDuration}
                         max={maxDuration}
-                        value={duration}
+                        value={duration ?? minDuration}
                         defaultValue={minDuration}
                         onChange={setDuration}
                         step={10}
