@@ -24,8 +24,7 @@ export const PlanDurationSelector = ({
 }: Props) => {
     const minDuration = 10;
     const maxDuration = 60 * 5;
-    const [flame, setFlame] = useState(10);
-    const [prevFrame, setPrevFrame] = useState(10);
+    const [, setFlame] = useState(10);
     const [duration, setDuration] = useState(10);
 
     const hour = Math.floor(duration / 60);
