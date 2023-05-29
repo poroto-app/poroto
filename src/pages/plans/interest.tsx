@@ -4,6 +4,7 @@ import {
     pushRejectedCategory,
     reduxPlanSelector,
     resetInterest,
+    setTimeForPlan,
 } from "src/redux/plan";
 import { ReactNode, useEffect, useState } from "react";
 import { useAppDispatch } from "src/redux/redux";
@@ -50,23 +51,24 @@ export default function PlanInterestPage() {
         setCurrentCategory(categoryCandidates[0]);
     }, [categoryCandidates?.length]);
 
-    const handleYes = (category: LocationCategory) => {
+    const handleAcceptCategory = (category: LocationCategory) => {
         dispatch(pushAcceptedCategory({ category }));
     };
 
-    const handleNo = (category: LocationCategory) => {
+    const handleRejectCategory = (category: LocationCategory) => {
         dispatch(pushRejectedCategory({ category }));
     };
 
-    {
-        /*TODO: 指定した時間をreduxで管理する*/
-    }
+    const handleSelectTime = (time: number | null) => {
+        dispatch(setTimeForPlan({ time }));
+    };
+
     return (
         <PlanInterestPageComponent
             currentCategory={currentCategory}
-            handleAcceptCategory={handleYes}
-            handleRejectCategory={handleNo}
-            onSelectTime={(duration) => console.log(duration)}
+            handleAcceptCategory={handleAcceptCategory}
+            handleRejectCategory={handleRejectCategory}
+            onSelectTime={handleSelectTime}
             navBar={<NavBar title="今の気分を教えてください" />}
         />
     );
