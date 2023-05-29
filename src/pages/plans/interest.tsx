@@ -34,12 +34,13 @@ export default function PlanInterestPage() {
     const { searchLocation } = reduxLocationSelector();
 
     useEffect(() => {
-        if (searchLocation)
-            dispatch(matchInterest({ location: searchLocation }));
-        return () => {
-            // 戻るボタンで戻ってきたときに、最初から始める
+        if (searchLocation) {
+            // 前回の結果をリセット
+            // MEMO: destructorでリセット処理を行うと、プラン作成時にユーザーが指定した情報を利用することができない
             dispatch(resetInterest());
-        };
+
+            dispatch(matchInterest({ location: searchLocation }));
+        }
     }, [searchLocation]);
 
     useEffect(() => {
