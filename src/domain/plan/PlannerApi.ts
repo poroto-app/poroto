@@ -50,6 +50,7 @@ export type CreatePlanFromLocationRequest = {
         latitude: number;
         longitude: number;
     };
+    categories?: string[];
 };
 
 export type CreatePlanFromLocationResponse = {

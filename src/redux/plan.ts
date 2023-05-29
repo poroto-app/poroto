@@ -16,8 +16,8 @@ export type PlanState = {
     preview: Plan | null;
 
     categoryCandidates: LocationCategory[] | null;
-    categoryAccepted: LocationCategory[];
-    categoryRejected: LocationCategory[];
+    categoryAccepted: LocationCategory[] | null;
+    categoryRejected: LocationCategory[] | null;
 };
 
 const initialState: PlanState = {
@@ -35,13 +35,18 @@ type CreatePlanFromCurrentLocationProps = {
         latitude: number;
         longitude: number;
     };
+    categories?: LocationCategory[];
 };
 export const createPlanFromLocation = createAsyncThunk(
     "plan/createPlanFromCurrentLocation",
-    async ({ location }: CreatePlanFromCurrentLocationProps, { dispatch }) => {
+    async (
+        { location, categories }: CreatePlanFromCurrentLocationProps,
+        { dispatch }
+    ) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.createPlansFromLocation({
             location: location,
+            categories: (categories ?? []).map((category) => category.name),
         });
         const session = response.session;
         const plans: Plan[] = createPlanFromPlanEntity(response.plans);
@@ -141,8 +146,8 @@ export const slice = createSlice({
         },
         resetInterest: (state) => {
             state.categoryCandidates = null;
-            state.categoryRejected = [];
-            state.categoryAccepted = [];
+            state.categoryRejected = null;
+            state.categoryAccepted = null;
         },
     },
 });
