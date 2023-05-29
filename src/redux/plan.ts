@@ -18,6 +18,8 @@ export type PlanState = {
     categoryCandidates: LocationCategory[] | null;
     categoryAccepted: LocationCategory[];
     categoryRejected: LocationCategory[];
+
+    timeForPlan: number | null;
 };
 
 const initialState: PlanState = {
@@ -28,6 +30,8 @@ const initialState: PlanState = {
     categoryCandidates: null,
     categoryAccepted: null,
     categoryRejected: null,
+
+    timeForPlan: null,
 };
 
 type CreatePlanFromCurrentLocationProps = {
@@ -139,7 +143,16 @@ export const slice = createSlice({
                 (category) => category.name != payload.category.name
             );
         },
+
+        setTimeForPlan: (
+            state,
+            { payload }: PayloadAction<{ time: number | null }>
+        ) => {
+            state.timeForPlan = payload.time;
+        },
+
         resetInterest: (state) => {
+            state.timeForPlan = null;
             state.categoryCandidates = null;
             state.categoryRejected = [];
             state.categoryAccepted = [];
@@ -155,6 +168,9 @@ export const {
     setCategoryCandidates,
     pushAcceptedCategory,
     pushRejectedCategory,
+
+    setTimeForPlan,
+
     resetInterest,
 } = slice.actions;
 
