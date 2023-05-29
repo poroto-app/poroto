@@ -21,7 +21,7 @@ export class DateHelper {
             minute: "分",
         }
     ): string {
-        if(timeInMinute===0) {
+        if (timeInMinute === 0) {
             return "0" + delimiter.minute;
         }
 

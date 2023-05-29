@@ -36,7 +36,7 @@ describe("formatHHMM", () => {
             delimiterHour: "時間",
             delimiterMinute: "分",
             expected: "1時間01分",
-        }
+        },
     ];
 
     cases.forEach((c) =>
