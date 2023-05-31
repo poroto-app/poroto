@@ -13,6 +13,7 @@ import { PlaceMap } from "src/view/plan/PlaceMap";
 import Link from "next/link";
 import { PlanDuration } from "src/view/plan/PlanSummaryItem";
 import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent";
+import { generateGoogleMapUrl } from "src/domain/util/googleMap";
 
 const PlanDetail = () => {
     const { id } = useRouter().query;
@@ -44,32 +45,6 @@ const PlanDetail = () => {
         } else {
             window.open(targetImageUri);
         }
-    };
-
-    const generateGoogleMapUrl = (): string => {
-        // SEE: https://developers.google.com/maps/documentation/urls/get-started?hl=ja#directions-action
-        const url = new URL("https://www.google.com/maps/dir/");
-        url.searchParams.set("api", "1");
-
-        // TODO: 出発地点が現在地でなく、検索した場所のときは明示的に出発地点を設定する
-        // baseUrl.searchParams.set("origin", `${plan.places[0].location.latitude},${plan.places[0].location.longitude}`);
-
-        const waypoints = plan.places
-            .slice(0, plan.places.length - 1)
-            .map(
-                (waypoint) =>
-                    `${waypoint.location.longitude},${waypoint.location.latitude}`
-            )
-            .join("|");
-        url.searchParams.set("waypoints", waypoints);
-
-        const destination = plan.places[plan.places.length - 1];
-        url.searchParams.set(
-            "destination",
-            `${destination.location.latitude},${destination.location.longitude}`
-        );
-
-        return url.href;
     };
 
     if (!plan) return <LoadingModal title="素敵なプランを読み込んでいます" />;
@@ -107,7 +82,12 @@ const PlanDetail = () => {
                             onClick={handleOnClickSaveAsImage}
                         />
                         <Link
-                            href={generateGoogleMapUrl()}
+                            href={generateGoogleMapUrl({
+                                locations: plan.places.map(
+                                    (place) => place.location
+                                ),
+                                // TODO: 出発地点が現在地でなく、検索した場所のときは明示的に出発地点を設定する
+                            })}
                             target="_blank"
                             style={{ width: "100%" }}
                         >
