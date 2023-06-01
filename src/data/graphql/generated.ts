@@ -84,6 +84,7 @@ export type Place = {
 
 export type Plan = {
   __typename?: 'Plan';
+  description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   name: Scalars['String'];
   places: Array<Place>;
