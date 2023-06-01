@@ -45,12 +45,15 @@ export const createPlanFromLocation = createAsyncThunk(
     "plan/createPlanFromCurrentLocation",
     async (
         { location, categories }: CreatePlanFromCurrentLocationProps,
-        { dispatch }
+        { dispatch, getState }
     ) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
+
+        const { timeForPlan } = (getState() as RootState).plan;
         const response = await plannerApi.createPlansFromLocation({
             location: location,
             categories: (categories ?? []).map((category) => category.name),
+            planDuration: timeForPlan,
         });
         const session = response.session;
         const plans: Plan[] = createPlanFromPlanEntity(response.plans);
