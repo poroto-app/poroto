@@ -4,6 +4,7 @@ import {
     pushRejectedCategory,
     reduxPlanSelector,
     resetInterest,
+    setTimeForPlan,
 } from "src/redux/plan";
 import { ReactNode, useEffect, useState } from "react";
 import { useAppDispatch } from "src/redux/redux";
@@ -12,10 +13,17 @@ import { useRouter } from "next/router";
 import { Routes } from "src/view/constants/router";
 import { CategorySelect } from "src/view/interest/CategorySelect";
 import { LoadingModal } from "src/view/common/LoadingModal";
-import { VStack } from "@chakra-ui/react";
 import { NavBar } from "src/view/common/NavBar";
 import { reduxLocationSelector } from "src/redux/location";
-import { AskInterestMessage } from "src/view/plan/AskInterestMessage";
+import { PlanDurationSelector } from "src/view/interest/PlanDurationSelector";
+import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTemplate";
+
+const MatchInterestPages = {
+    TIME: "TIME",
+    CATEGORY: "CATEGORY",
+};
+type MatchInterestPage =
+    (typeof MatchInterestPages)[keyof typeof MatchInterestPages];
 
 export default function PlanInterestPage() {
     const dispatch = useAppDispatch();
@@ -26,12 +34,13 @@ export default function PlanInterestPage() {
     const { searchLocation } = reduxLocationSelector();
 
     useEffect(() => {
-        if (searchLocation)
-            dispatch(matchInterest({ location: searchLocation }));
-        return () => {
-            // 戻るボタンで戻ってきたときに、最初から始める
+        if (searchLocation) {
+            // 前回の結果をリセット
+            // MEMO: destructorでリセット処理を行うと、プラン作成時にユーザーが指定した情報を利用することができない
             dispatch(resetInterest());
-        };
+
+            dispatch(matchInterest({ location: searchLocation }));
+        }
     }, [searchLocation]);
 
     useEffect(() => {
@@ -43,19 +52,24 @@ export default function PlanInterestPage() {
         setCurrentCategory(categoryCandidates[0]);
     }, [categoryCandidates?.length]);
 
-    const handleYes = (category: LocationCategory) => {
+    const handleAcceptCategory = (category: LocationCategory) => {
         dispatch(pushAcceptedCategory({ category }));
     };
 
-    const handleNo = (category: LocationCategory) => {
+    const handleRejectCategory = (category: LocationCategory) => {
         dispatch(pushRejectedCategory({ category }));
+    };
+
+    const handleSelectTime = (time: number | null) => {
+        dispatch(setTimeForPlan({ time }));
     };
 
     return (
         <PlanInterestPageComponent
             currentCategory={currentCategory}
-            handleYes={handleYes}
-            handleNo={handleNo}
+            handleAcceptCategory={handleAcceptCategory}
+            handleRejectCategory={handleRejectCategory}
+            onSelectTime={handleSelectTime}
             navBar={<NavBar title="今の気分を教えてください" />}
         />
     );
@@ -63,39 +77,54 @@ export default function PlanInterestPage() {
 
 type Props = {
     currentCategory: LocationCategory | null;
-    handleYes: (category: LocationCategory) => void;
-    handleNo: (category: LocationCategory) => void;
+    handleAcceptCategory: (category: LocationCategory) => void;
+    handleRejectCategory: (category: LocationCategory) => void;
+    onSelectTime: (duration: number | null) => void;
     navBar: ReactNode;
 };
 
 export function PlanInterestPageComponent({
     currentCategory,
-    handleYes,
-    handleNo,
+    handleAcceptCategory,
+    handleRejectCategory,
+    onSelectTime,
     navBar,
 }: Props) {
+    const [page, setPage] = useState<MatchInterestPage>(
+        MatchInterestPages.TIME
+    );
+
+    const handleSelectTime = (duration: number | null) => {
+        onSelectTime(duration);
+        setPage(MatchInterestPages.CATEGORY);
+    };
+
+    if (page === MatchInterestPages.TIME)
+        return (
+            <MatchInterestPageTemplate
+                message="どのくらいの時間を過ごしたいですか？"
+                navBar={navBar}
+            >
+                <PlanDurationSelector
+                    onClickNext={(duration) => handleSelectTime(duration)}
+                    onClickIgnoreDuration={() => handleSelectTime(null)}
+                />
+            </MatchInterestPageTemplate>
+        );
+
     if (!currentCategory)
         return <LoadingModal title="近くに何があるかを探しています。" />;
 
     return (
-        <VStack h="100%" w="100%" spacing={0}>
-            {navBar}
-            <VStack
-                flex={1}
-                h="100%"
-                w="100%"
-                maxWidth="990px"
-                px="16px"
-                pt="8px"
-                pb="32px"
-            >
-                <AskInterestMessage message="どんな場所に行きたいですか？" />
-                <CategorySelect
-                    category={currentCategory}
-                    onClickYes={handleYes}
-                    onClickNo={handleNo}
-                />
-            </VStack>
-        </VStack>
+        <MatchInterestPageTemplate
+            message="どんな場所に行きたいですか？"
+            navBar={navBar}
+        >
+            <CategorySelect
+                category={currentCategory}
+                onClickYes={handleAcceptCategory}
+                onClickNo={handleRejectCategory}
+            />
+        </MatchInterestPageTemplate>
     );
 }

@@ -16,8 +16,10 @@ export type PlanState = {
     preview: Plan | null;
 
     categoryCandidates: LocationCategory[] | null;
-    categoryAccepted: LocationCategory[];
-    categoryRejected: LocationCategory[];
+    categoryAccepted: LocationCategory[] | null;
+    categoryRejected: LocationCategory[] | null;
+
+    timeForPlan: number | null;
 };
 
 const initialState: PlanState = {
@@ -28,6 +30,8 @@ const initialState: PlanState = {
     categoryCandidates: null,
     categoryAccepted: null,
     categoryRejected: null,
+
+    timeForPlan: null,
 };
 
 type CreatePlanFromCurrentLocationProps = {
@@ -35,13 +39,21 @@ type CreatePlanFromCurrentLocationProps = {
         latitude: number;
         longitude: number;
     };
+    categories?: LocationCategory[];
 };
 export const createPlanFromLocation = createAsyncThunk(
     "plan/createPlanFromCurrentLocation",
-    async ({ location }: CreatePlanFromCurrentLocationProps, { dispatch }) => {
+    async (
+        { location, categories }: CreatePlanFromCurrentLocationProps,
+        { dispatch, getState }
+    ) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
+
+        const { timeForPlan } = (getState() as RootState).plan;
         const response = await plannerApi.createPlansFromLocation({
             location: location,
+            categories: (categories ?? []).map((category) => category.name),
+            planDuration: timeForPlan,
         });
         const session = response.session;
         const plans: Plan[] = createPlanFromPlanEntity(response.plans);
@@ -139,10 +151,19 @@ export const slice = createSlice({
                 (category) => category.name != payload.category.name
             );
         },
+
+        setTimeForPlan: (
+            state,
+            { payload }: PayloadAction<{ time: number | null }>
+        ) => {
+            state.timeForPlan = payload.time;
+        },
+
         resetInterest: (state) => {
+            state.timeForPlan = null;
             state.categoryCandidates = null;
-            state.categoryRejected = [];
-            state.categoryAccepted = [];
+            state.categoryRejected = null;
+            state.categoryAccepted = null;
         },
     },
 });
@@ -155,6 +176,9 @@ export const {
     setCategoryCandidates,
     pushAcceptedCategory,
     pushRejectedCategory,
+
+    setTimeForPlan,
+
     resetInterest,
 } = slice.actions;
 
