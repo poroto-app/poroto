@@ -11,8 +11,9 @@ export default {
 const Template = ({ category }: { category: LocationCategory }) => (
     <PlanInterestPageComponent
         currentCategory={category}
-        handleYes={() => 0}
-        handleNo={() => 0}
+        handleAcceptCategory={() => 0}
+        handleRejectCategory={() => 0}
+        onSelectTime={(time) => console.log(time)}
         navBar={
             <NavBarComponent
                 canBack={true}
