@@ -22,6 +22,11 @@ nodenv version
 node --version
 # v18.16.0
 ```
+### yarn（パッケージマネージャー）のインストール
+```shell
+npm install -g yarn
+```
+
 ### セットアップ方法
 
 ```shell
