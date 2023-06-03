@@ -14,12 +14,24 @@ import Link from "next/link";
 import { PlanDuration } from "src/view/plan/PlanSummaryItem";
 import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent";
 import { generateGoogleMapUrl } from "src/domain/util/googleMap";
+import { useLocation } from "src/view/hooks/useLocation";
 
 const PlanDetail = () => {
     const { id } = useRouter().query;
     const dispatch = useAppDispatch();
-    const { preview: plan } = reduxPlanSelector();
+    const { getCurrentLocation, location: currentLocation } = useLocation();
+    const { preview: plan, createdBasedOnCurrentLocation } =
+        reduxPlanSelector();
     const plansRef = useRef<HTMLDivElement>();
+
+    const startLocationOfRoute =
+        currentLocation && createdBasedOnCurrentLocation
+            ? currentLocation
+            : undefined;
+
+    useEffect(() => {
+        if (!currentLocation) getCurrentLocation().then();
+    }, [currentLocation]);
 
     useEffect(() => {
         if (id && typeof id === "string") {
@@ -86,7 +98,7 @@ const PlanDetail = () => {
                                 locations: plan.places.map(
                                     (place) => place.location
                                 ),
-                                // TODO: 出発地点が現在地でなく、検索した場所のときは明示的に出発地点を設定する
+                                startLocation: startLocationOfRoute,
                             })}
                             target="_blank"
                             style={{ width: "100%" }}
