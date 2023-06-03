@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import styled from "styled-components";
 import { useState } from "react";
-import { MdLocationOn } from "react-icons/md";
+import { MdOutlineLocationOn } from "react-icons/md";
 
 type Props = {
     name: string;
@@ -28,7 +28,12 @@ export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
                 </ImagePreviewer>
             )}
             <HStack>
-                <Icon w="24px" h="24px" color="#539565" as={MdLocationOn} />
+                <Icon
+                    w="24px"
+                    h="24px"
+                    color="#539565"
+                    as={MdOutlineLocationOn}
+                />
                 <Text fontSize="1.15rem">{name}</Text>
             </HStack>
             {tags.length > 0 && <TagList tags={tags} />}
