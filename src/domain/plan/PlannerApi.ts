@@ -65,6 +65,7 @@ export type FetchCachedCreatedPlansRequest = {
 };
 
 export type FetchCachedCreatedPlansResponse = {
+    createdBasedOnCurrentLocation: boolean;
     plans: PlanEntity[] | null;
 };
 
