@@ -52,6 +52,7 @@ export type CreatePlanFromLocationRequest = {
     };
     categories?: string[];
     planDuration?: number;
+    basedOnCurrentLocation: boolean;
 };
 
 export type CreatePlanFromLocationResponse = {
