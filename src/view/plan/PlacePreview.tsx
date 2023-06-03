@@ -1,6 +1,15 @@
-import { Box, HStack, Image, Skeleton, Text, VStack } from "@chakra-ui/react";
+import {
+    Box,
+    HStack,
+    Icon,
+    Image,
+    Skeleton,
+    Text,
+    VStack,
+} from "@chakra-ui/react";
 import styled from "styled-components";
 import { useState } from "react";
+import { MdLocationOn } from "react-icons/md";
 
 type Props = {
     name: string;
@@ -18,7 +27,10 @@ export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
                     ))}
                 </ImagePreviewer>
             )}
-            <Text fontSize="1.15rem">{name}</Text>
+            <HStack>
+                <Icon w="24px" h="24px" color="#539565" as={MdLocationOn} />
+                <Text fontSize="1.15rem">{name}</Text>
+            </HStack>
             {tags.length > 0 && <TagList tags={tags} />}
         </VStack>
     );
