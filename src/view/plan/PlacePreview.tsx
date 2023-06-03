@@ -11,11 +11,13 @@ type Props = {
 export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
     return (
         <VStack alignItems="flex-start" w="100%">
-            <ImagePreviewer>
-                {imageUrls.map((imageUrl, i) => (
-                    <ImageWithSkeleton key={i} src={imageUrl} />
-                ))}
-            </ImagePreviewer>
+            {imageUrls.length > 0 && (
+                <ImagePreviewer>
+                    {imageUrls.map((imageUrl, i) => (
+                        <ImageWithSkeleton key={i} src={imageUrl} />
+                    ))}
+                </ImagePreviewer>
+            )}
             <Text fontSize="1.15rem">{name}</Text>
             <TagList tags={tags} />
         </VStack>

@@ -37,3 +37,10 @@ Loading.args = {
         "https://example.com/photo/e",
     ],
 };
+
+export const EmptyImages = Template.bind({});
+EmptyImages.args = {
+    name: "poroto書店",
+    tags: ["書店", "駅チカ", "品揃え"],
+    imageUrls: [],
+};
