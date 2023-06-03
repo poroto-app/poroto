@@ -75,7 +75,7 @@ const PlanDetail = () => {
                     <VStack
                         spacing={4}
                         w="100%"
-                        divider={<Divider/>}
+                        divider={<Divider />}
                         py="16px"
                     >
                         {createdBasedOnCurrentLocation && (
