@@ -44,3 +44,18 @@ EmptyImages.args = {
     tags: ["書店", "駅チカ", "品揃え"],
     imageUrls: [],
 };
+
+export const EmptyTags = Template.bind({});
+EmptyTags.args = {
+    name: "poroto書店",
+    tags: [],
+    imageUrls: [
+        "https://picsum.photos/300/400",
+        "https://picsum.photos/1280/720",
+        "https://picsum.photos/400/600",
+        "https://picsum.photos/400/600",
+        "https://picsum.photos/300/400",
+        "https://picsum.photos/1280/720",
+        "https://picsum.photos/400/600",
+    ],
+};

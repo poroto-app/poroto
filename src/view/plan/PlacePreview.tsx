@@ -19,7 +19,7 @@ export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
                 </ImagePreviewer>
             )}
             <Text fontSize="1.15rem">{name}</Text>
-            <TagList tags={tags} />
+            {tags.length > 0 && <TagList tags={tags} />}
         </VStack>
     );
 };
