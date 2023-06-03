@@ -11,7 +11,9 @@ import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 
 export type PlanState = {
     createPlanSession: string | null;
+    createdBasedOnCurrentLocation: boolean | null;
     plansCreated: Plan[] | null;
+
     // TODO: `usePlanPreview`等でデータを二重管理しないようにする
     preview: Plan | null;
 
@@ -24,6 +26,7 @@ export type PlanState = {
 
 const initialState: PlanState = {
     createPlanSession: null,
+    createdBasedOnCurrentLocation: null,
     plansCreated: null,
     preview: null,
 
