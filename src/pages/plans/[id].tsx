@@ -76,6 +76,9 @@ const PlanDetail = () => {
                         <PlanDuration durationInMinutes={plan.timeInMinutes} />
                     </VStack>
                     <VStack spacing={8} w="100%">
+                        {
+                            createdBasedOnCurrentLocation && <PlacePreview name="現在地" imageUrls={[]} tags={[]} />
+                        }
                         {plan.places.map((place, i) => (
                             <PlacePreview
                                 key={i}
