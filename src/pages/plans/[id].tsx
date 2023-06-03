@@ -1,4 +1,4 @@
-import { Box, Center, VStack } from "@chakra-ui/react";
+import { Box, Center, Divider, VStack } from "@chakra-ui/react";
 import { NavBar } from "src/view/common/NavBar";
 import { PlacePreview } from "src/view/plan/PlacePreview";
 import { useAppDispatch } from "src/redux/redux";
@@ -72,13 +72,19 @@ const PlanDetail = () => {
                     py="16px"
                     boxSizing="border-box"
                 >
-                    <VStack py="16px" w="100%" alignItems="flex-start">
-                        <PlanDuration durationInMinutes={plan.timeInMinutes} />
-                    </VStack>
-                    <VStack spacing={8} w="100%">
-                        {
-                            createdBasedOnCurrentLocation && <PlacePreview name="現在地" imageUrls={[]} tags={[]} />
-                        }
+                    <VStack
+                        spacing={4}
+                        w="100%"
+                        divider={<Divider/>}
+                        py="16px"
+                    >
+                        {createdBasedOnCurrentLocation && (
+                            <PlacePreview
+                                name="現在地"
+                                imageUrls={[]}
+                                tags={[]}
+                            />
+                        )}
                         {plan.places.map((place, i) => (
                             <PlacePreview
                                 key={i}
@@ -87,6 +93,9 @@ const PlanDetail = () => {
                                 tags={place.tags}
                             />
                         ))}
+                    </VStack>
+                    <VStack py="16px" w="100%" alignItems="flex-start">
+                        <PlanDuration durationInMinutes={plan.timeInMinutes} />
                     </VStack>
                     <VStack w="100%">
                         <PlaceMap places={plan.places} />
