@@ -15,6 +15,7 @@ export type Scalars = {
 
 export type CachedCreatedPlans = {
   __typename?: 'CachedCreatedPlans';
+  createdBasedOnCurrentLocation: Scalars['Boolean'];
   plans?: Maybe<Array<Plan>>;
 };
 
@@ -24,6 +25,7 @@ export type CachedCreatedPlansInput = {
 
 export type CreatePlanByLocationInput = {
   categories?: InputMaybe<Array<Scalars['String']>>;
+  createdBasedOnCurrentLocation?: InputMaybe<Scalars['Boolean']>;
   freeTime?: InputMaybe<Scalars['Int']>;
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
@@ -84,6 +86,7 @@ export type Place = {
 
 export type Plan = {
   __typename?: 'Plan';
+  description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   name: Scalars['String'];
   places: Array<Place>;
