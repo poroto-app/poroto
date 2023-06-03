@@ -12,7 +12,9 @@ type Props = {
 export function PlanPreview({ plan }: Props) {
     const thumbnails = plan.places
         .map((place) =>
-            (place.imageUrls && place.imageUrls.length > 0) ? place.imageUrls[0] : null
+            place.imageUrls && place.imageUrls.length > 0
+                ? place.imageUrls[0]
+                : null
         )
         .filter((v) => v !== null);
 
