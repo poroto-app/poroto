@@ -23,9 +23,10 @@ export default function CreatePlanPage() {
         } else if (transition === PageTransitions.POP) {
             // 戻るボタンで遷移してきた場合
             router.back();
-        } else if (transition === PageTransitions.CHANGE) {
+        } else if ([null, PageTransitions.CHANGE].includes(transition)) {
             // 指定した場所からプランを作成する
-            // （興味を聞く画面から画面遷移で来たときのみ）
+            //  change: 画面遷移で来た場合
+            //  null: POP後に遷移してきた場合
             dispatch(
                 createPlanFromLocation({
                     location: searchLocation,
