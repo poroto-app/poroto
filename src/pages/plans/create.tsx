@@ -5,36 +5,35 @@ import { useRouter } from "next/router";
 import { Routes } from "src/view/constants/router";
 import { reduxLocationSelector } from "src/redux/location";
 import { useAppDispatch } from "src/redux/redux";
+import { PageTransitions, reduxHistorySelector } from "src/redux/history";
 
-// TODO: 作成中でないときはトップに戻す
+// TODO: 「戻るボタン」、「進むボタン」、「URLで直接ページを開く」場合の対応をしなくてもいいルーティングにする
 export default function CreatePlanPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const { searchLocation } = reduxLocationSelector();
     const { createPlanSession, categoryAccepted } = reduxPlanSelector();
+    const { transition } = reduxHistorySelector();
 
     // HACK: このページに「戻るボタン」やURLを叩いて直接遷移してきた場合は、さらに前のページに戻す
     useEffect(() => {
-        if (createPlanSession) {
-            // プラン作成画面から「戻るボタン」で遷移した場合
-            router.back();
-        } else if (!searchLocation) {
+        if (!searchLocation) {
             // URLを直接叩いて遷移してきた場合
             router.push(Routes.home).then();
+        } else if (transition === PageTransitions.POP) {
+            // 戻るボタンで遷移してきた場合
+            router.back();
+        } else if (transition === PageTransitions.CHANGE) {
+            // 指定した場所からプランを作成する
+            // （興味を聞く画面から画面遷移で来たときのみ）
+            dispatch(
+                createPlanFromLocation({
+                    location: searchLocation,
+                    categories: categoryAccepted,
+                })
+            );
         }
     }, []);
-
-    // TODO: selectorから変数を取得するのに時間がかかるので、Redux内でリクエストを完結させる
-    // 指定した場所からプランを作成する
-    useEffect(() => {
-        if (!searchLocation || !categoryAccepted) return;
-        dispatch(
-            createPlanFromLocation({
-                location: searchLocation,
-                categories: categoryAccepted,
-            })
-        );
-    }, [searchLocation, categoryAccepted]);
 
     // プランが作成されたら、プラン作成画面に遷移する
     useEffect(() => {
