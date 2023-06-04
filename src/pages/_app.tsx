@@ -118,16 +118,31 @@ const History = () => {
     const { historyStack } = reduxHistorySelector();
 
     useEffect(() => {
-        dispatch(pushHistoryStack({ historyKey: history.state.key }));
+        dispatch(
+            pushHistoryStack({
+                path: router.asPath,
+                key: history.state.key,
+            })
+        );
     }, []);
 
     useEffect(() => {
         const handlePopState = (e: PopStateEvent) => {
-            dispatch(popHistoryStack({ historyKey: e.state.key }));
+            dispatch(
+                popHistoryStack({
+                    path: e.state.path,
+                    key: e.state.key,
+                })
+            );
         };
 
         const handleRouteChange = () => {
-            dispatch(pushHistoryStack({ historyKey: history.state.key }));
+            dispatch(
+                pushHistoryStack({
+                    path: router.asPath,
+                    key: history.state.key,
+                })
+            );
         };
 
         router.events.on("routeChangeComplete", handleRouteChange);
