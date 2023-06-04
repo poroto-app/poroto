@@ -4,6 +4,8 @@ import {
     pushRejectedCategory,
     reduxPlanSelector,
     resetInterest,
+    resetPlanCandidates,
+    setCreatedPlans,
     setTimeForPlan,
 } from "src/redux/plan";
 import { ReactNode, useEffect, useState } from "react";
@@ -35,6 +37,9 @@ export default function PlanInterestPage() {
 
     useEffect(() => {
         dispatch(resetInterest());
+
+        // 2回目以降、プランを作成するときに、前回の結果が残らないようにする
+        dispatch(setCreatedPlans({ plans: null, session: null }));
 
         return () => {
             // 前回の結果をリセット

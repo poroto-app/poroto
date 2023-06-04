@@ -108,7 +108,7 @@ export const slice = createSlice({
             state,
             {
                 payload,
-            }: PayloadAction<{ session: string; plans: Plan[] | null }>
+            }: PayloadAction<{ session: string | null; plans: Plan[] | null }>
         ) => {
             state.createPlanSession = payload.session;
             state.plansCreated = payload.plans;
@@ -165,13 +165,18 @@ export const slice = createSlice({
             state.categoryRejected = null;
             state.categoryAccepted = null;
         },
+
+        resetPlanCandidates: (state) => {
+            state.plansCreated = null;
+            state.createPlanSession = null;
+        },
     },
 });
 
-const { setCreatedPlans } = slice.actions;
-
 export const {
     fetchPlanDetail,
+
+    setCreatedPlans,
 
     setCategoryCandidates,
     pushAcceptedCategory,
@@ -180,6 +185,7 @@ export const {
     setTimeForPlan,
 
     resetInterest,
+    resetPlanCandidates,
 } = slice.actions;
 
 export const reduxPlanSelector = () =>
