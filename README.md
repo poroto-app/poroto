@@ -3,7 +3,29 @@
 ## 環境構築
 
 ### nodeのインストール
-- nodenvを用いて，version 18以上のnodeをインストールしてください．
+- 特定のバージョンのgoを使用するために[nodenv](https://github.com/nodenv/nodenv)を利用しています。
+- [インストール方法はこちらを参考にしてください](https://github.com/nodenv/nodenv#locating-the-node-installation)
+- nodeのインストール
+```shell
+# version 18のnodeをインストールしてください．
+nodenv install 18.16.0
+```
+- バージョンを指定
+```shell
+nodenv global 18.16.0
+```
+- バージョンを確認
+```shell
+nodenv version
+# 18.16.0 (set by /home/zacker/.nodenv/version)
+
+node --version
+# v18.16.0
+```
+### yarn（パッケージマネージャー）のインストール
+```shell
+npm install -g yarn
+```
 
 ### セットアップ方法
 
