@@ -4,6 +4,8 @@ import {
     pushRejectedCategory,
     reduxPlanSelector,
     resetInterest,
+    resetPlanCandidates,
+    setCreatedPlans,
     setTimeForPlan,
 } from "src/redux/plan";
 import { ReactNode, useEffect, useState } from "react";
@@ -34,11 +36,26 @@ export default function PlanInterestPage() {
     const { searchLocation } = reduxLocationSelector();
 
     useEffect(() => {
-        if (searchLocation) {
-            // 前回の結果をリセット
-            // MEMO: destructorでリセット処理を行うと、プラン作成時にユーザーが指定した情報を利用することができない
-            dispatch(resetInterest());
+        dispatch(resetInterest());
 
+        // 2回目以降、プランを作成するときに、前回の結果が残らないようにする
+        dispatch(
+            setCreatedPlans({
+                plans: null,
+                session: null,
+                createdBasedOnCurrentLocation: null,
+            })
+        );
+
+        return () => {
+            // 前回の結果をリセット
+            // MEMO: 戻るボタンで遷移してきたときに、状態が残っていると/plans/createに自動的に遷移してしまう
+            dispatch(resetInterest());
+        };
+    }, []);
+
+    useEffect(() => {
+        if (searchLocation) {
             dispatch(matchInterest({ location: searchLocation }));
         }
     }, [searchLocation]);

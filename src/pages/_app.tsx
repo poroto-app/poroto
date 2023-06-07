@@ -4,7 +4,13 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Provider } from "react-redux";
 import { reduxStore, useAppDispatch } from "src/redux/redux";
 import { useEffect } from "react";
-import { popHistoryStack, pushHistoryStack } from "src/redux/history";
+import {
+    popHistoryStack,
+    pushHistoryStack,
+    reduxHistorySelector,
+} from "src/redux/history";
+import { useRouter } from "next/router";
+import { copyObject } from "src/domain/util/object";
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
@@ -108,24 +114,44 @@ export default function App({ Component, pageProps }: AppProps) {
 // ページ遷移を記録するためのコンポーネント
 const History = () => {
     const dispatch = useAppDispatch();
+    const router = useRouter();
+    const { historyStack } = reduxHistorySelector();
 
     useEffect(() => {
-        let previousUrl = document.location.href;
+        dispatch(
+            pushHistoryStack({
+                path: router.asPath,
+                key: history.state.key,
+            })
+        );
+    }, []);
 
-        window.onpopstate = () => {
-            if (previousUrl && previousUrl !== location.href) {
-                dispatch(popHistoryStack());
-            }
+    useEffect(() => {
+        const handlePopState = (e: PopStateEvent) => {
+            dispatch(
+                popHistoryStack({
+                    path: e.state.path,
+                    key: e.state.key,
+                })
+            );
         };
 
-        document.addEventListener("click", (e) => {
-            if (e.target["tagName"] !== "A") return;
-            const url = e.target["href"];
-            if (previousUrl && previousUrl !== url)
-                dispatch(pushHistoryStack());
-            previousUrl = url;
-        });
-    }, []);
+        const handleRouteChange = () => {
+            dispatch(
+                pushHistoryStack({
+                    path: router.asPath,
+                    key: history.state.key,
+                })
+            );
+        };
+
+        router.events.on("routeChangeComplete", handleRouteChange);
+        window.addEventListener("popstate", handlePopState);
+        return () => {
+            router.events.off("routeChangeComplete", handleRouteChange);
+            window.removeEventListener("popstate", handlePopState);
+        };
+    }, [copyObject(historyStack)]);
 
     return <></>;
 };
