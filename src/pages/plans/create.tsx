@@ -28,7 +28,7 @@ export default function CreatePlanPage() {
             //  change: 画面遷移で来た場合
             //  null: POP後に遷移してきた場合
             const createBasedOnCurrentLocation =
-                currentLocation === null &&
+                currentLocation !== null &&
                 currentLocation.latitude === searchLocation.latitude &&
                 currentLocation.longitude === searchLocation.longitude;
             dispatch(
