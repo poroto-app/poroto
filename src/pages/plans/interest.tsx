@@ -39,7 +39,13 @@ export default function PlanInterestPage() {
         dispatch(resetInterest());
 
         // 2回目以降、プランを作成するときに、前回の結果が残らないようにする
-        dispatch(setCreatedPlans({ plans: null, session: null, createdBasedOnCurrentLocation: null }));
+        dispatch(
+            setCreatedPlans({
+                plans: null,
+                session: null,
+                createdBasedOnCurrentLocation: null,
+            })
+        );
 
         return () => {
             // 前回の結果をリセット
