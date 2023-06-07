@@ -11,7 +11,9 @@ import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 
 export type PlanState = {
     createPlanSession: string | null;
+    createdBasedOnCurrentLocation: boolean | null;
     plansCreated: Plan[] | null;
+
     // TODO: `usePlanPreview`等でデータを二重管理しないようにする
     preview: Plan | null;
 
@@ -24,6 +26,7 @@ export type PlanState = {
 
 const initialState: PlanState = {
     createPlanSession: null,
+    createdBasedOnCurrentLocation: null,
     plansCreated: null,
     preview: null,
 
@@ -40,11 +43,16 @@ type CreatePlanFromCurrentLocationProps = {
         longitude: number;
     };
     categories?: LocationCategory[];
+    isCurrentLocation: boolean;
 };
 export const createPlanFromLocation = createAsyncThunk(
     "plan/createPlanFromCurrentLocation",
     async (
-        { location, categories }: CreatePlanFromCurrentLocationProps,
+        {
+            location,
+            categories,
+            isCurrentLocation,
+        }: CreatePlanFromCurrentLocationProps,
         { dispatch, getState }
     ) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
@@ -54,10 +62,17 @@ export const createPlanFromLocation = createAsyncThunk(
             location: location,
             categories: (categories ?? []).map((category) => category.name),
             planDuration: timeForPlan,
+            basedOnCurrentLocation: isCurrentLocation,
         });
         const session = response.session;
         const plans: Plan[] = createPlanFromPlanEntity(response.plans);
-        dispatch(setCreatedPlans({ session, plans }));
+        dispatch(
+            setCreatedPlans({
+                session,
+                plans,
+                createdBasedOnCurrentLocation: isCurrentLocation,
+            })
+        );
     }
 );
 
@@ -68,12 +83,25 @@ export const fetchCachedCreatedPlans = createAsyncThunk(
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.fetchCachedCreatedPlans({ session });
         if (response.plans === null) {
-            dispatch(setCreatedPlans({ session, plans: null }));
+            dispatch(
+                setCreatedPlans({
+                    session,
+                    plans: null,
+                    createdBasedOnCurrentLocation: null,
+                })
+            );
             return;
         }
 
         const plans: Plan[] = createPlanFromPlanEntity(response.plans);
-        dispatch(setCreatedPlans({ session, plans }));
+        dispatch(
+            setCreatedPlans({
+                session,
+                plans,
+                createdBasedOnCurrentLocation:
+                    response.createdBasedOnCurrentLocation,
+            })
+        );
     }
 );
 
@@ -108,10 +136,16 @@ export const slice = createSlice({
             state,
             {
                 payload,
-            }: PayloadAction<{ session: string; plans: Plan[] | null }>
+            }: PayloadAction<{
+                session: string;
+                plans: Plan[] | null;
+                createdBasedOnCurrentLocation: boolean;
+            }>
         ) => {
             state.createPlanSession = payload.session;
             state.plansCreated = payload.plans;
+            state.createdBasedOnCurrentLocation =
+                payload.createdBasedOnCurrentLocation;
         },
         fetchPlanDetail: (
             state,

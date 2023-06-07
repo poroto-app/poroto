@@ -1,9 +1,10 @@
-mutation CreatePlanByLocation($latitude: Float!, $longitude: Float!, $categories: [String!], $planDuration: Int) {
+mutation CreatePlanByLocation($latitude: Float!, $longitude: Float!, $categories: [String!], $planDuration: Int, $basedOnCurrentLocation: Boolean!) {
     createPlanByLocation(input: {
         latitude: $latitude,
         longitude: $longitude,
         categories: $categories,
         freeTime: $planDuration,
+        createdBasedOnCurrentLocation: $basedOnCurrentLocation,
     }) {
         session
         plans {

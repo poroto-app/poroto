@@ -25,6 +25,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                 longitude: request.location.longitude,
                 categories: request.categories,
                 planDuration: request.planDuration ?? undefined,
+                basedOnCurrentLocation: request.basedOnCurrentLocation,
             },
         });
         return {
@@ -54,9 +55,12 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             variables: { session: request.session },
         });
 
-        if (!data.cachedCreatedPlans.plans) return { plans: null };
+        if (!data.cachedCreatedPlans.plans)
+            return { plans: null, createdBasedOnCurrentLocation: false };
 
         return {
+            createdBasedOnCurrentLocation:
+                data.cachedCreatedPlans.createdBasedOnCurrentLocation,
             plans: data.cachedCreatedPlans.plans.map((plan) => ({
                 id: plan.id,
                 title: plan.name,

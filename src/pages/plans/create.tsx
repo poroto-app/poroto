@@ -10,20 +10,29 @@ import { useAppDispatch } from "src/redux/redux";
 export default function CreatePlanPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const { searchLocation } = reduxLocationSelector();
+    const { searchLocation, currentLocation } = reduxLocationSelector();
     const { createPlanSession, categoryAccepted } = reduxPlanSelector();
 
     // TODO: selectorから変数を取得するのに時間がかかるので、Redux内でリクエストを完結させる
     // 指定した場所からプランを作成する
     useEffect(() => {
         if (!searchLocation || !categoryAccepted) return;
+
+        let createBasedOnCurrentLocation = false;
+        if (currentLocation) {
+            createBasedOnCurrentLocation =
+                currentLocation.latitude === searchLocation.latitude &&
+                currentLocation.longitude === searchLocation.longitude;
+        }
+
         dispatch(
             createPlanFromLocation({
                 location: searchLocation,
                 categories: categoryAccepted,
+                isCurrentLocation: createBasedOnCurrentLocation,
             })
         );
-    }, [searchLocation, categoryAccepted]);
+    }, [searchLocation, categoryAccepted, currentLocation]);
 
     // プランが作成されたら、プラン作成画面に遷移する
     useEffect(() => {
