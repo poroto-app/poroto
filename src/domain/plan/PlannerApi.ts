@@ -52,6 +52,7 @@ export type CreatePlanFromLocationRequest = {
     };
     categories?: string[];
     planDuration?: number;
+    basedOnCurrentLocation: boolean;
 };
 
 export type CreatePlanFromLocationResponse = {
@@ -64,6 +65,7 @@ export type FetchCachedCreatedPlansRequest = {
 };
 
 export type FetchCachedCreatedPlansResponse = {
+    createdBasedOnCurrentLocation: boolean;
     plans: PlanEntity[] | null;
 };
 

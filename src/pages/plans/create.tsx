@@ -11,7 +11,7 @@ import { PageTransitions, reduxHistorySelector } from "src/redux/history";
 export default function CreatePlanPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const { searchLocation } = reduxLocationSelector();
+    const { searchLocation, currentLocation } = reduxLocationSelector();
     const { createPlanSession, categoryAccepted } = reduxPlanSelector();
     const { transition } = reduxHistorySelector();
 
@@ -27,10 +27,15 @@ export default function CreatePlanPage() {
             // 指定した場所からプランを作成する
             //  change: 画面遷移で来た場合
             //  null: POP後に遷移してきた場合
+            const createBasedOnCurrentLocation =
+                currentLocation === null &&
+                currentLocation.latitude === searchLocation.latitude &&
+                currentLocation.longitude === searchLocation.longitude;
             dispatch(
                 createPlanFromLocation({
                     location: searchLocation,
                     categories: categoryAccepted,
+                    isCurrentLocation: createBasedOnCurrentLocation,
                 })
             );
         }
