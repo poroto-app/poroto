@@ -23,7 +23,7 @@ export const NavBar = ({ title }: Props) => {
         if (isHome) return;
 
         // 一つ前のページがporotoのページでない
-        if (historyStack === 0) {
+        if (historyStack.length <= 1) {
             await router.push("/");
             return;
         }

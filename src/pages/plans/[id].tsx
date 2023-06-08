@@ -1,4 +1,4 @@
-import { Box, Center, VStack } from "@chakra-ui/react";
+import { Box, Center, Divider, VStack } from "@chakra-ui/react";
 import { NavBar } from "src/view/common/NavBar";
 import { PlacePreview } from "src/view/plan/PlacePreview";
 import { useAppDispatch } from "src/redux/redux";
@@ -14,12 +14,24 @@ import Link from "next/link";
 import { PlanDuration } from "src/view/plan/PlanSummaryItem";
 import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent";
 import { generateGoogleMapUrl } from "src/domain/util/googleMap";
+import { useLocation } from "src/view/hooks/useLocation";
 
 const PlanDetail = () => {
     const { id } = useRouter().query;
     const dispatch = useAppDispatch();
-    const { preview: plan } = reduxPlanSelector();
+    const { getCurrentLocation, location: currentLocation } = useLocation();
+    const { preview: plan, createdBasedOnCurrentLocation } =
+        reduxPlanSelector();
     const plansRef = useRef<HTMLDivElement>();
+
+    const startLocationOfRoute =
+        currentLocation && createdBasedOnCurrentLocation
+            ? currentLocation
+            : undefined;
+
+    useEffect(() => {
+        if (!currentLocation) getCurrentLocation().then();
+    }, [currentLocation]);
 
     useEffect(() => {
         if (id && typeof id === "string") {
@@ -60,10 +72,19 @@ const PlanDetail = () => {
                     py="16px"
                     boxSizing="border-box"
                 >
-                    <VStack py="16px" w="100%" alignItems="flex-start">
-                        <PlanDuration durationInMinutes={plan.timeInMinutes} />
-                    </VStack>
-                    <VStack spacing={8} w="100%">
+                    <VStack
+                        spacing={4}
+                        w="100%"
+                        divider={<Divider />}
+                        py="16px"
+                    >
+                        {createdBasedOnCurrentLocation && (
+                            <PlacePreview
+                                name="現在地"
+                                imageUrls={[]}
+                                tags={[]}
+                            />
+                        )}
                         {plan.places.map((place, i) => (
                             <PlacePreview
                                 key={i}
@@ -72,6 +93,9 @@ const PlanDetail = () => {
                                 tags={place.tags}
                             />
                         ))}
+                    </VStack>
+                    <VStack py="16px" w="100%" alignItems="flex-start">
+                        <PlanDuration durationInMinutes={plan.timeInMinutes} />
                     </VStack>
                     <VStack w="100%">
                         <PlaceMap places={plan.places} />
@@ -86,7 +110,7 @@ const PlanDetail = () => {
                                 locations: plan.places.map(
                                     (place) => place.location
                                 ),
-                                // TODO: 出発地点が現在地でなく、検索した場所のときは明示的に出発地点を設定する
+                                startLocation: startLocationOfRoute,
                             })}
                             target="_blank"
                             style={{ width: "100%" }}

@@ -1,6 +1,15 @@
-import { Box, HStack, Image, Skeleton, Text, VStack } from "@chakra-ui/react";
+import {
+    Box,
+    HStack,
+    Icon,
+    Image,
+    Skeleton,
+    Text,
+    VStack,
+} from "@chakra-ui/react";
 import styled from "styled-components";
 import { useState } from "react";
+import { MdOutlineLocationOn } from "react-icons/md";
 
 type Props = {
     name: string;
@@ -11,28 +20,44 @@ type Props = {
 export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
     return (
         <VStack alignItems="flex-start" w="100%">
-            <ImagePreviewer>
-                {imageUrls.map((imageUrl, i) => (
-                    <ImageWithSkeleton key={i} src={imageUrl} />
-                ))}
-            </ImagePreviewer>
-            <Text fontSize="1.15rem">{name}</Text>
+            {imageUrls.length > 0 && (
+                <ImagePreviewer>
+                    {imageUrls.map((imageUrl, i) => (
+                        <ImageWithSkeleton key={i} src={imageUrl} />
+                    ))}
+                </ImagePreviewer>
+            )}
             <HStack>
-                {tags.map((tag, i) => (
-                    <Box
-                        key={i}
-                        border="1px solid rgba(0, 0, 0, .1)"
-                        borderRadius="5px"
-                        px="4px"
-                        py="2px"
-                    >
-                        <Text fontSize="0.95rem">{tag}</Text>
-                    </Box>
-                ))}
+                <Icon
+                    w="24px"
+                    h="24px"
+                    color="#539565"
+                    as={MdOutlineLocationOn}
+                />
+                <Text fontSize="1.15rem">{name}</Text>
             </HStack>
+            {tags.length > 0 && <TagList tags={tags} />}
         </VStack>
     );
 };
+
+function TagList({ tags }: { tags: string[] }) {
+    return (
+        <HStack>
+            {tags.map((tag, i) => (
+                <Box
+                    key={i}
+                    border="1px solid rgba(0, 0, 0, .1)"
+                    borderRadius="5px"
+                    px="4px"
+                    py="2px"
+                >
+                    <Text fontSize="0.95rem">{tag}</Text>
+                </Box>
+            ))}
+        </HStack>
+    );
+}
 
 const ImageWithSkeleton = ({ src }: { src: string }) => {
     const [isLoading, setIsLoading] = useState(true);
