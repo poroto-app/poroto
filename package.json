@@ -8,7 +8,7 @@
     "lint": "next lint --quiet",
     "format": "prettier --write 'src/**/*.{ts,tsx}'",
     "test": "jest",
-    "gcp-build": "env-cmd -f .env.$ENV yarn build",
+    "gcp-build": "env-cmd -f .env.$ENV env-cmd -f .env.$ENV.local yarn build",
     "deploy": "gcloud app deploy --quiet app.yaml",
     "deploy:staging": "gcloud app deploy --quiet app-staging.yaml",
     "storybook": "start-storybook -p 6006",
