@@ -12,32 +12,19 @@ export default {
 const Template: ComponentStory<typeof PlanActionButton> = ({
     text,
     color,
-    filled,
-}) => (
-    <Box w="300px">
-        <PlanActionButton
-            onClick={() => 0}
-            text={text}
-            icon={MdOutlinePhotoCamera}
-            color={color}
-            filled={filled}
-        />
-    </Box>
-);
-
-const TemplateImage: ComponentStory<typeof PlanActionButton> = ({
-    text,
-    color,
     imageUrl,
     filled,
+    borderRadius,
 }) => (
     <Box w="300px">
         <PlanActionButton
             onClick={() => 0}
             text={text}
+            icon={!imageUrl && MdOutlinePhotoCamera}
             imageUrl={imageUrl}
             color={color}
             filled={filled}
+            borderRadius={borderRadius}
         />
     </Box>
 );
@@ -48,7 +35,7 @@ Icon.args = {
     color: "#539565",
 };
 
-export const Image = TemplateImage.bind({});
+export const Image = Template.bind({});
 Image.args = {
     text: "保存",
     color: "#539565",
@@ -61,4 +48,11 @@ Filled.args = {
     text: "保存",
     color: "#539565",
     filled: true,
+};
+
+export const Rounded = Template.bind({});
+Rounded.args = {
+    text: "保存",
+    color: "#539565",
+    borderRadius: 10,
 };

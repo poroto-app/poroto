@@ -10,6 +10,7 @@ type Props = {
     icon?: IconType;
     onClick?: () => void;
     filled?: boolean;
+    borderRadius?: number;
 };
 
 export const PlanActionButton = ({
@@ -19,9 +20,15 @@ export const PlanActionButton = ({
     imageUrl,
     icon,
     filled,
+    borderRadius,
 }: Props) => {
     return (
-        <BorderButton color={color} filled={filled ?? false} onClick={onClick}>
+        <BorderButton
+            color={color}
+            filled={filled ?? false}
+            borderRadius={borderRadius ?? 2}
+            onClick={onClick}
+        >
             {icon && (
                 <Icon
                     w="32px"
@@ -36,13 +43,17 @@ export const PlanActionButton = ({
     );
 };
 
-const BorderButton = styled.div<{ color: string; filled: boolean }>`
+const BorderButton = styled.div<{
+    color: string;
+    filled: boolean;
+    borderRadius: number;
+}>`
     color: ${({ filled }) => (filled ? "white" : "black")};
     border-width: 1px;
     border-style: solid;
     border-color: ${({ color, filled }) => (filled ? "white" : color)};
     background-color: ${({ color, filled }) => (filled ? color : "white")};
-    border-radius: 2px;
+    border-radius: ${({ borderRadius }) => borderRadius}px;
     cursor: pointer;
     display: flex;
     flex-direction: row;
