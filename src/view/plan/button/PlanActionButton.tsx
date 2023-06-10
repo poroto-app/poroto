@@ -10,23 +10,29 @@ type Props = {
     icon?: IconType;
     onClick?: () => void;
     filled?: boolean;
+    fitHeight?: boolean;
     borderRadius?: number;
+    center?: boolean;
 };
 
 export const PlanActionButton = ({
     color,
+    center,
     text,
     onClick,
     imageUrl,
     icon,
     filled,
+    fitHeight,
     borderRadius,
 }: Props) => {
     return (
         <BorderButton
             color={color}
+            center={center}
             filled={filled ?? false}
             borderRadius={borderRadius ?? 2}
+            fitHeight={fitHeight}
             onClick={onClick}
         >
             {icon && (
@@ -38,7 +44,7 @@ export const PlanActionButton = ({
                 />
             )}
             {imageUrl && <IconImage src={imageUrl} filled={filled} />}
-            <Text flex={1}>{text}</Text>
+            <Text>{text}</Text>
         </BorderButton>
     );
 };
@@ -47,6 +53,8 @@ const BorderButton = styled.div<{
     color: string;
     filled: boolean;
     borderRadius: number;
+    fitHeight?: boolean;
+    center: boolean;
 }>`
     color: ${({ filled }) => (filled ? "white" : "black")};
     border-width: 1px;
@@ -59,8 +67,10 @@ const BorderButton = styled.div<{
     flex-direction: row;
     column-gap: 16px;
     align-items: center;
+    justify-content: ${({ center }) => (center ? "center" : "flex-start")};
     font-weight: bold;
     padding: 4px 16px;
+    height: ${({ fitHeight }) => (fitHeight ? "100%" : undefined)};
     width: 100%;
 `;
 

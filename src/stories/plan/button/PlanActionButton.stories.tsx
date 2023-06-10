@@ -15,6 +15,7 @@ const Template: ComponentStory<typeof PlanActionButton> = ({
     imageUrl,
     filled,
     borderRadius,
+    center,
 }) => (
     <Box w="300px">
         <PlanActionButton
@@ -25,6 +26,7 @@ const Template: ComponentStory<typeof PlanActionButton> = ({
             color={color}
             filled={filled}
             borderRadius={borderRadius}
+            center={center}
         />
     </Box>
 );
@@ -55,4 +57,11 @@ Rounded.args = {
     text: "保存",
     color: "#539565",
     borderRadius: 10,
+};
+
+export const Center = Template.bind({});
+Center.args = {
+    text: "保存",
+    color: "#539565",
+    center: true,
 };
