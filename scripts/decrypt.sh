@@ -36,13 +36,13 @@ fi
 
 case "$env" in
 "development")
-  secrets_variable=(".env.development.local" "src/secrets/firebaseConfig.ts")
+  secrets_variable=(".env.development.local")
   ;;
 "staging")
-  secrets_variable=(".env.staging.local" "src/secrets/firebaseConfig.ts")
+  secrets_variable=(".env.staging.local")
   ;;
 "production")
-  secrets_variable=(".env.production.local" "src/secrets/firebaseConfig.ts")
+  secrets_variable=(".env.production.local")
   ;;
 esac
 
