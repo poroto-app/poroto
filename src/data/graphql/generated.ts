@@ -81,7 +81,7 @@ export type Place = {
   estimatedStayDuration: Scalars['Int'];
   location: GeoLocation;
   name: Scalars['String'];
-  photos?: Maybe<Array<Scalars['String']>>;
+  photos: Array<Scalars['String']>;
 };
 
 export type Plan = {
@@ -115,7 +115,7 @@ export type CachedCreatedPlansQueryVariables = Exact<{
 }>;
 
 
-export type CachedCreatedPlansQuery = { __typename?: 'Query', cachedCreatedPlans: { __typename?: 'CachedCreatedPlans', createdBasedOnCurrentLocation: boolean, plans?: Array<{ __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', name: string, photos?: Array<string> | null, location: { __typename?: 'GeoLocation', longitude: number, latitude: number } }> }> | null } };
+export type CachedCreatedPlansQuery = { __typename?: 'Query', cachedCreatedPlans: { __typename?: 'CachedCreatedPlans', createdBasedOnCurrentLocation: boolean, plans?: Array<{ __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', name: string, photos: Array<string>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number } }> }> | null } };
 
 export type CreatePlanByLocationMutationVariables = Exact<{
   latitude: Scalars['Float'];
@@ -126,7 +126,7 @@ export type CreatePlanByLocationMutationVariables = Exact<{
 }>;
 
 
-export type CreatePlanByLocationMutation = { __typename?: 'Mutation', createPlanByLocation: { __typename?: 'CreatePlanByLocationOutput', session: string, plans: Array<{ __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', name: string, photos?: Array<string> | null, location: { __typename?: 'GeoLocation', longitude: number, latitude: number } }> }> } };
+export type CreatePlanByLocationMutation = { __typename?: 'Mutation', createPlanByLocation: { __typename?: 'CreatePlanByLocationOutput', session: string, plans: Array<{ __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', name: string, photos: Array<string>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number } }> }> } };
 
 export type MatchInterestsQueryVariables = Exact<{
   latitude: Scalars['Float'];
