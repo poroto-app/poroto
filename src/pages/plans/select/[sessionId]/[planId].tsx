@@ -5,6 +5,7 @@ import {
     fetchCachedCreatedPlans,
     fetchPlanDetail,
     reduxPlanSelector,
+    savePlanFromCandidate,
 } from "src/redux/plan";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { useEffect } from "react";
@@ -19,6 +20,7 @@ import {
     FooterHeight,
     PlanCandidateFooter,
 } from "src/view/plan/PlanCandidateFooter";
+import { Plan } from "src/domain/models/Plan";
 
 const PlanDetail = () => {
     const { sessionId, planId } = useRouter().query;
@@ -52,6 +54,19 @@ const PlanDetail = () => {
             dispatch(fetchPlanDetail({ planId }));
         }
     }, [planId, createPlanSession]);
+
+    const handleOnSavePlan = ({
+        session,
+        plan,
+    }: {
+        session: string;
+        plan: Plan;
+    }) => {
+        // TODO: 作成が完了したら、プランのページに遷移させる
+        dispatch(savePlanFromCandidate({ session, planId: plan.id }));
+        // TODO: DELETE ME
+        alert("プランを保存しました");
+    };
 
     if (!plan) return <LoadingModal title="素敵なプランを読み込んでいます" />;
 
@@ -88,7 +103,11 @@ const PlanDetail = () => {
                     </VStack>
                 </VStack>
             </Center>
-            <PlanCandidateFooter onSave={() => {}} />
+            <PlanCandidateFooter
+                onSave={() =>
+                    handleOnSavePlan({ session: createPlanSession, plan })
+                }
+            />
         </>
     );
 };
