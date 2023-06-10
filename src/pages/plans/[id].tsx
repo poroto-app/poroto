@@ -9,8 +9,8 @@ import { useRouter } from "next/router";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanDuration } from "src/view/plan/PlanSummaryItem";
 import { useLocation } from "src/view/hooks/useLocation";
-import { SavePlanAsImageButton } from "src/view/plan/SavePlanAsImageButton";
-import { SearchRouteByGoogleMapButton } from "src/view/plan/SearchRouteByGoogleMapButton";
+import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
+import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 
 const PlanDetail = () => {
     const { id } = useRouter().query;

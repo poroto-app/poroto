@@ -3,7 +3,7 @@ import { MdPhotoCamera } from "react-icons/md";
 import html2canvas from "html2canvas";
 import { useRef } from "react";
 import { Box } from "@chakra-ui/react";
-import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent";
+import { PlanScreenShotComponent } from "src/view/plan/button/PlanScreenShotComponent";
 import { Plan } from "src/domain/models/Plan";
 
 type Props = {

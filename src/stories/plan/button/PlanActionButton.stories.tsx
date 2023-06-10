@@ -5,7 +5,7 @@ import React from "react";
 import { Box } from "@chakra-ui/react";
 
 export default {
-    title: "plan/PlanActionButton",
+    title: "plan/button/PlanActionButton",
     component: PlanActionButton,
 } as ComponentMeta<typeof PlanActionButton>;
 

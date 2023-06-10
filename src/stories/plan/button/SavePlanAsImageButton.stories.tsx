@@ -1,10 +1,10 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { SavePlanAsImageButton } from "src/view/plan/SavePlanAsImageButton";
+import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { mockPlan } from "src/stories/mock/plan";
 import { Box } from "@chakra-ui/react";
 
 export default {
-    title: "plan/SavePlanAsImageButton",
+    title: "plan/button/SavePlanAsImageButton",
     component: SavePlanAsImageButton,
 } as ComponentMeta<typeof SavePlanAsImageButton>;
 

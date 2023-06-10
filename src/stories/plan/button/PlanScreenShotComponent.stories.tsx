@@ -1,10 +1,10 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent";
+import { PlanScreenShotComponent } from "src/view/plan/button/PlanScreenShotComponent";
 import { Plan } from "src/domain/models/Plan";
 import { Box } from "@chakra-ui/react";
 
 export default {
-    title: "plan/PlanScreenShotComponent",
+    title: "plan/button/PlanScreenShotComponent",
     component: PlanScreenShotComponent,
 } as ComponentMeta<typeof PlanScreenShotComponent>;
 
