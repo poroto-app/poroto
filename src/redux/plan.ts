@@ -79,7 +79,14 @@ export const createPlanFromLocation = createAsyncThunk(
 type FetchCachedCreatedPlansProps = { session: string };
 export const fetchCachedCreatedPlans = createAsyncThunk(
     "plan/fetchCachedCreatedPlans",
-    async ({ session }: FetchCachedCreatedPlansProps, { dispatch }) => {
+    async (
+        { session }: FetchCachedCreatedPlansProps,
+        { dispatch, getState }
+    ) => {
+        // すでに取得している場合はスキップ
+        const { createPlanSession } = (getState() as RootState).plan;
+        if (createPlanSession && session === createPlanSession) return null;
+
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.fetchCachedCreatedPlans({ session });
         if (response.plans === null) {
