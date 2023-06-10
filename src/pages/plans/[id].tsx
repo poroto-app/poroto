@@ -6,13 +6,11 @@ import { fetchPlanDetail, reduxPlanSelector } from "src/redux/plan";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
-import { PlanActionButton } from "src/view/plan/Props";
 import { PlaceMap } from "src/view/plan/PlaceMap";
-import Link from "next/link";
 import { PlanDuration } from "src/view/plan/PlanSummaryItem";
-import { generateGoogleMapUrl } from "src/domain/util/googleMap";
 import { useLocation } from "src/view/hooks/useLocation";
 import { SavePlanAsImageButton } from "src/view/plan/SavePlanAsImageButton";
+import { SearchRouteByGoogleMapButton } from "src/view/plan/SearchRouteByGoogleMapButton";
 
 const PlanDetail = () => {
     const { id } = useRouter().query;
@@ -20,11 +18,6 @@ const PlanDetail = () => {
     const { getCurrentLocation, location: currentLocation } = useLocation();
     const { preview: plan, createdBasedOnCurrentLocation } =
         reduxPlanSelector();
-
-    const startLocationOfRoute =
-        currentLocation && createdBasedOnCurrentLocation
-            ? currentLocation
-            : undefined;
 
     useEffect(() => {
         if (!currentLocation) getCurrentLocation().then();
@@ -77,22 +70,13 @@ const PlanDetail = () => {
                     <VStack w="100%">
                         <PlaceMap places={plan.places} />
                         <SavePlanAsImageButton plan={plan} />
-                        <Link
-                            href={generateGoogleMapUrl({
-                                locations: plan.places.map(
-                                    (place) => place.location
-                                ),
-                                startLocation: startLocationOfRoute,
-                            })}
-                            target="_blank"
-                            style={{ width: "100%" }}
-                        >
-                            <PlanActionButton
-                                text="Google Mapで経路を調べる"
-                                color="#0F88E7"
-                                imageUrl="/images/google_map_logo.png"
-                            />
-                        </Link>
+                        <SearchRouteByGoogleMapButton
+                            plan={plan}
+                            currentLocation={currentLocation}
+                            createdBasedOnCurrentLocation={
+                                createdBasedOnCurrentLocation
+                            }
+                        />
                     </VStack>
                 </VStack>
             </Center>
