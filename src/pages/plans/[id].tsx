@@ -1,6 +1,5 @@
-import { Center, Divider, VStack } from "@chakra-ui/react";
+import { Center, VStack } from "@chakra-ui/react";
 import { NavBar } from "src/view/common/NavBar";
-import { PlacePreview } from "src/view/plan/PlacePreview";
 import { useAppDispatch } from "src/redux/redux";
 import { fetchPlanDetail, reduxPlanSelector } from "src/redux/plan";
 import { LoadingModal } from "src/view/common/LoadingModal";
@@ -11,6 +10,7 @@ import { PlanDuration } from "src/view/plan/PlanSummaryItem";
 import { useLocation } from "src/view/hooks/useLocation";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
+import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 
 const PlanDetail = () => {
     const { id } = useRouter().query;
@@ -42,28 +42,12 @@ const PlanDetail = () => {
                     py="16px"
                     boxSizing="border-box"
                 >
-                    <VStack
-                        spacing={4}
-                        w="100%"
-                        divider={<Divider />}
-                        py="16px"
-                    >
-                        {createdBasedOnCurrentLocation && (
-                            <PlacePreview
-                                name="現在地"
-                                imageUrls={[]}
-                                tags={[]}
-                            />
-                        )}
-                        {plan.places.map((place, i) => (
-                            <PlacePreview
-                                key={i}
-                                name={place.name}
-                                imageUrls={place.imageUrls}
-                                tags={place.tags}
-                            />
-                        ))}
-                    </VStack>
+                    <PlanPlaceList
+                        plan={plan}
+                        createdBasedOnCurrentLocation={
+                            createdBasedOnCurrentLocation
+                        }
+                    />
                     <VStack py="16px" w="100%" alignItems="flex-start">
                         <PlanDuration durationInMinutes={plan.timeInMinutes} />
                     </VStack>
