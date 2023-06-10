@@ -28,9 +28,7 @@ export const mockPlan: Plan = {
                 "https://picsum.photos/400/500",
                 "https://picsum.photos/450/600",
             ],
-            tags: [
-
-            ],
+            tags: [],
             location: {
                 latitude: 35.681616,
                 longitude: 139.764954,
