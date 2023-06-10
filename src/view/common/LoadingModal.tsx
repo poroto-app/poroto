@@ -17,6 +17,7 @@ export const LoadingModal = ({ title }: Props) => {
             right={0}
             bottom={0}
             left={0}
+            userSelect="none"
         >
             <VStack spacing={8}>
                 <FadeInFadeOutTransition>
