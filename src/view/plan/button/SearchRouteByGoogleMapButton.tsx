@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { generateGoogleMapUrl } from "src/domain/util/googleMap";
-import { PlanActionButton } from "src/view/plan/PlanActionButton";
+import { PlanActionButton } from "src/view/plan/button/PlanActionButton";
 import { Plan } from "src/domain/models/Plan";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 
