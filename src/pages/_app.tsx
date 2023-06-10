@@ -11,8 +11,12 @@ import {
 } from "src/redux/history";
 import { useRouter } from "next/router";
 import { copyObject } from "src/domain/util/object";
+import {initializeApp} from "firebase/app";
+import {firebaseConfig} from "src/secrets/firebaseConfig";
 
 export default function App({ Component, pageProps }: AppProps) {
+    initializeApp(firebaseConfig);
+
     return (
         <>
             <Head>
