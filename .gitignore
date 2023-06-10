@@ -42,3 +42,6 @@ next-env.d.ts
 public/fallback-*.js
 public/workbox**
 public/sw**
+
+# secrets
+src/secrets/*
