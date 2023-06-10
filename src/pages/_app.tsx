@@ -11,12 +11,9 @@ import {
 } from "src/redux/history";
 import { useRouter } from "next/router";
 import { copyObject } from "src/domain/util/object";
-import {initializeApp} from "firebase/app";
-import {firebaseConfig} from "src/secrets/firebaseConfig";
+import {FirebaseProvider} from "src/view/common/FirebaseProvider";
 
 export default function App({ Component, pageProps }: AppProps) {
-    initializeApp(firebaseConfig);
-
     return (
         <>
             <Head>
@@ -107,6 +104,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </style>
             <ChakraProvider>
                 <Provider store={reduxStore}>
+                    <FirebaseProvider/>
                     <History />
                     <Component {...pageProps} />
                 </Provider>
