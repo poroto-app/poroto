@@ -3,7 +3,7 @@ import { Icon, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import React from "react";
 
-type PlanActionButton = {
+type Props = {
     color: string;
     text: string;
     imageUrl?: string;
@@ -17,7 +17,7 @@ export const PlanActionButton = ({
     onClick,
     imageUrl,
     icon,
-}: PlanActionButton) => {
+}: Props) => {
     return (
         <BorderButton color={color} onClick={onClick}>
             {icon && <Icon w="32px" h="32px" color={color} as={icon} />}
