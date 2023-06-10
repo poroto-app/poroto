@@ -7,7 +7,7 @@ import { GeoLocation } from "src/domain/models/GeoLocation";
 type Props = {
     plan: Plan;
     currentLocation: GeoLocation | null;
-    createdBasedOnCurrentLocation: boolean | null;
+    createdBasedOnCurrentLocation?: boolean | null;
 };
 
 export function SearchRouteByGoogleMapButton({
