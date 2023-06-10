@@ -1,4 +1,4 @@
-import { PlanActionButton } from "src/view/plan/Props";
+import { PlanActionButton } from "src/view/plan/PlanActionButton";
 import { MdPhotoCamera } from "react-icons/md";
 import html2canvas from "html2canvas";
 import { useRef } from "react";
