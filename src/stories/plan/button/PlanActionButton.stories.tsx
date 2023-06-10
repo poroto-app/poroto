@@ -9,13 +9,18 @@ export default {
     component: PlanActionButton,
 } as ComponentMeta<typeof PlanActionButton>;
 
-const Template: ComponentStory<typeof PlanActionButton> = ({ text, color }) => (
+const Template: ComponentStory<typeof PlanActionButton> = ({
+    text,
+    color,
+    filled,
+}) => (
     <Box w="300px">
         <PlanActionButton
             onClick={() => 0}
             text={text}
             icon={MdOutlinePhotoCamera}
             color={color}
+            filled={filled}
         />
     </Box>
 );
@@ -24,6 +29,7 @@ const TemplateImage: ComponentStory<typeof PlanActionButton> = ({
     text,
     color,
     imageUrl,
+    filled,
 }) => (
     <Box w="300px">
         <PlanActionButton
@@ -31,6 +37,7 @@ const TemplateImage: ComponentStory<typeof PlanActionButton> = ({
             text={text}
             imageUrl={imageUrl}
             color={color}
+            filled={filled}
         />
     </Box>
 );
@@ -47,4 +54,11 @@ Image.args = {
     color: "#539565",
     imageUrl:
         "https://developers.google.com/static/maps/images/maps-icon.svg?hl=ja",
+};
+
+export const Filled = Template.bind({});
+Filled.args = {
+    text: "保存",
+    color: "#539565",
+    filled: true,
 };
