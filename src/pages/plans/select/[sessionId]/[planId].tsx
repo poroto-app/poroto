@@ -15,6 +15,10 @@ import { useLocation } from "src/view/hooks/useLocation";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
+import {
+    FooterHeight,
+    PlanCandidateFooter,
+} from "src/view/plan/PlanCandidateFooter";
 
 const PlanDetail = () => {
     const { sessionId, planId } = useRouter().query;
@@ -53,7 +57,7 @@ const PlanDetail = () => {
 
     return (
         <>
-            <Center flexDirection="column">
+            <Center flexDirection="column" pb={`${FooterHeight}px`}>
                 <NavBar title={plan.title} />
                 <VStack
                     maxWidth="990px"
@@ -84,6 +88,7 @@ const PlanDetail = () => {
                     </VStack>
                 </VStack>
             </Center>
+            <PlanCandidateFooter onSave={() => {}} />
         </>
     );
 };
