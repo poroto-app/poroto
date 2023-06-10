@@ -1,7 +1,11 @@
 import { Center, VStack } from "@chakra-ui/react";
 import { NavBar } from "src/view/common/NavBar";
 import { useAppDispatch } from "src/redux/redux";
-import { fetchPlanDetail, reduxPlanSelector } from "src/redux/plan";
+import {
+    fetchCachedCreatedPlans,
+    fetchPlanDetail,
+    reduxPlanSelector,
+} from "src/redux/plan";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
@@ -13,21 +17,37 @@ import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteBy
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 
 const PlanDetail = () => {
-    const { id } = useRouter().query;
+    const { sessionId, planId } = useRouter().query;
     const dispatch = useAppDispatch();
     const { getCurrentLocation, location: currentLocation } = useLocation();
-    const { preview: plan, createdBasedOnCurrentLocation } =
-        reduxPlanSelector();
+    const {
+        preview: plan,
+        createdBasedOnCurrentLocation,
+        createPlanSession,
+    } = reduxPlanSelector();
 
     useEffect(() => {
         if (!currentLocation) getCurrentLocation().then();
     }, [currentLocation]);
 
+    // プラン候補のキャッシュが存在しない場合は取得する
     useEffect(() => {
-        if (id && typeof id === "string") {
-            dispatch(fetchPlanDetail({ planId: id }));
+        if (!sessionId || typeof sessionId !== "string") {
+            return;
         }
-    }, [id]);
+
+        if (createPlanSession !== sessionId) {
+            dispatch(fetchCachedCreatedPlans({ session: sessionId }));
+        }
+    }, [sessionId, createPlanSession]);
+
+    // プランの詳細を取得する
+    useEffect(() => {
+        if (!createPlanSession) return;
+        if (planId && typeof planId === "string") {
+            dispatch(fetchPlanDetail({ planId }));
+        }
+    }, [planId, createPlanSession]);
 
     if (!plan) return <LoadingModal title="素敵なプランを読み込んでいます" />;
 
