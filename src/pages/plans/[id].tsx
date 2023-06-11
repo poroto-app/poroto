@@ -6,12 +6,20 @@ import { PlanDuration } from "src/view/plan/PlanSummaryItem";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
-import { reduxPlanSelector } from "src/redux/plan";
+import {fetchPlan, reduxPlanSelector} from "src/redux/plan";
 import { LoadingModal } from "src/view/common/LoadingModal";
+import {useEffect} from "react";
+import {useAppDispatch} from "src/redux/redux";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
+    const dispatch = useAppDispatch();
     const { preview: plan } = reduxPlanSelector();
+
+    useEffect(() => {
+        if(typeof id !== "string") return;
+        dispatch(fetchPlan({ planId: id }));
+    }, [id]);
 
     if (!plan) return <LoadingModal title="プランを読み込んでいます" />;
 

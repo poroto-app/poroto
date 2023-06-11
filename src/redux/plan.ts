@@ -8,6 +8,7 @@ import {
     PlannerApi,
 } from "src/domain/plan/PlannerApi";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
+import { mockPlan } from "src/stories/mock/plan";
 
 export type PlanState = {
     createPlanSession: string | null;
@@ -135,6 +136,18 @@ export const matchInterest = createAsyncThunk(
     }
 );
 
+type FetchPlanProps = { planId: string };
+export const fetchPlan = createAsyncThunk(
+    "plan/fetchPlan",
+    async ({ planId }: FetchPlanProps) => {
+        //   TODO: implement me!
+        return {
+            ...mockPlan,
+            id: planId,
+        };
+    }
+);
+
 export const slice = createSlice({
     name: "plan",
     initialState,
@@ -211,6 +224,13 @@ export const slice = createSlice({
             state.plansCreated = null;
             state.createPlanSession = null;
         },
+    },
+    extraReducers: (builder) => {
+        builder
+            // Fetch Plan
+            .addCase(fetchPlan.fulfilled, (state, { payload }) => {
+                state.preview = payload;
+            });
     },
 });
 
