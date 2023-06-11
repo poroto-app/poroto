@@ -2,7 +2,7 @@ import { Layout } from "src/view/common/Layout";
 import { Box, VStack } from "@chakra-ui/react";
 import { PlaceSearchBar } from "src/view/place/PlaceSearchBar";
 import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppDispatch } from "src/redux/redux";
 import {
     fetchGeoLocationByPlaceId,
@@ -28,6 +28,7 @@ import { MdDone, MdOutlineTouchApp } from "react-icons/md";
 import { Routes } from "src/view/constants/router";
 import { useRouter } from "next/router";
 import { copyObject } from "src/domain/util/object";
+import { NavBar } from "src/view/common/NavBar";
 
 export default function PlaceSearchPage() {
     const router = useRouter();
@@ -92,21 +93,16 @@ export default function PlaceSearchPage() {
     };
 
     return (
-        <Layout>
-            <Box
-                position="fixed"
-                top={0}
-                right={0}
-                bottom={0}
-                left={0}
-                zIndex={0}
-            >
+        <Layout
+            navBar={<NavBar title="場所を検索" />}
+            fillComponent={
                 <MapPinSelector
                     center={mapCenter}
                     onSelectLocation={handleOnSelectLocation}
                     pinnedLocation={locationSelected}
                 />
-            </Box>
+            }
+        >
             <VStack
                 w="100%"
                 h="100%"
