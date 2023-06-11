@@ -6,10 +6,10 @@ import { PlanDuration } from "src/view/plan/PlanSummaryItem";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
-import {fetchPlan, reduxPlanSelector} from "src/redux/plan";
+import { fetchPlan, reduxPlanSelector } from "src/redux/plan";
 import { LoadingModal } from "src/view/common/LoadingModal";
-import {useEffect} from "react";
-import {useAppDispatch} from "src/redux/redux";
+import { useEffect } from "react";
+import { useAppDispatch } from "src/redux/redux";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -17,7 +17,7 @@ export default function PlanPage() {
     const { preview: plan } = reduxPlanSelector();
 
     useEffect(() => {
-        if(typeof id !== "string") return;
+        if (typeof id !== "string") return;
         dispatch(fetchPlan({ planId: id }));
     }, [id]);
 
