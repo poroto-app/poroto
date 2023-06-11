@@ -94,7 +94,7 @@ export default function PlaceSearchPage() {
 
     return (
         <Layout
-            navBar={<NavBar title="場所を検索" />}
+            navBar={<NavBar title="場所を指定してプランを作成" />}
             fillComponent={
                 <MapPinSelector
                     center={mapCenter}
