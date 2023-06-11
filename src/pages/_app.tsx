@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <title>poroto</title>
                 <meta
                     name="viewport"
-                    content="width=device-width,initial-scale=1,maximum-scale=1.0, user-scalable=no"
+                    content="width=device-width,initial-scale=1,maximum-scale=1.0,minimum-scale=1"
                 />
                 <meta name="theme-color" content="#F7F5EE" />
                 <link rel="manifest" href="/manifest.webmanifest" />
@@ -74,7 +74,6 @@ export default function App({ Component, pageProps }: AppProps) {
                         height: 100%;
                         margin: 0;
                         padding: 0;
-                        min-width: 370px;
                     }
 
                     h1,
