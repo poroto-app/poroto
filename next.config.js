@@ -19,5 +19,6 @@ module.exports = withPWA({
         PLANNER_API_HOST: process.env.PLANNER_API_HOST,
         PLANNER_API_ENDPOINT: `${process.env.PLANNER_API_PROTOCOL}://${process.env.PLANNER_API_HOST}`,
         GCP_API_KEY: process.env.GCP_API_KEY,
+        ADSENSE_KEY: process.env.ADSENSE_KEY
     },
 });

@@ -47,11 +47,10 @@ export default function App({ Component, pageProps }: AppProps) {
                     content="https://poroto.app/ogp/ogp.png"
                 />
                 <meta property="og:type" content="website" />
-                
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_PUBLISHER_ID" crossOrigin="anonymous" />
+
+                <script async src= {`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_KEY}`}crossOrigin="anonymous" />
             </Head>
             {/*MEMO:GitHub Actionsでtype checkを実行すると落ちる*/}
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
             {/*@ts-ignore*/}
             <style jsx global>
                 {`
