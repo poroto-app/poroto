@@ -53,6 +53,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <script async src= {`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_KEY}`}crossOrigin="anonymous" />
 
                 <div style={{margin: "1.5rem 0"}}>
+                <div  style={{fontSize: "13px"}}>スポンサーリンク</div>
                     {window.location.hostname == hostname ?
                     (
                         <ins className="adsbygoogle"
