@@ -12,6 +12,8 @@ import {
 import { useRouter } from "next/router";
 import { copyObject } from "src/domain/util/object";
 
+const hostname = "http://localhost:3000/"  //本番サイトのホスト名
+
 export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
@@ -49,6 +51,23 @@ export default function App({ Component, pageProps }: AppProps) {
                 <meta property="og:type" content="website" />
 
                 <script async src= {`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_KEY}`}crossOrigin="anonymous" />
+
+                <div style={{margin: "1.5rem 0"}}>
+                    {window.location.hostname == hostname ?
+                    (
+                        <ins className="adsbygoogle"
+                        style={{display: "block", textAlign: "center"}}
+                        data-ad-layout="in-article"
+                        data-ad-format="fluid"
+                        data-ad-client="ca-pub-XXXXXXXXXXXXXXX"
+                        data-ad-slot="XXXXXXXXX"></ins>
+                    ) :
+                    (
+                        <div style={{ padding: "10px", border: "1px solid #333" }}>
+                        広告
+                        </div>
+                    )}
+                </div>
             </Head>
             {/*MEMO:GitHub Actionsでtype checkを実行すると落ちる*/}
             {/*@ts-ignore*/}
