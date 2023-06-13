@@ -54,8 +54,23 @@ export default function App({ Component, pageProps }: AppProps) {
                     crossOrigin="anonymous"
                 />
 
-                <div style={{ position: "fixed", bottom: 0, width: "100%", textAlign: "center" }}>
-                    <div style={{ padding: "10px", fontSize: "13px", textAlign: "left" }}>スポンサーリンク</div>
+                <div
+                    style={{
+                        position: "fixed",
+                        bottom: 0,
+                        width: "100%",
+                        textAlign: "center",
+                    }}
+                >
+                    <div
+                        style={{
+                            padding: "10px",
+                            fontSize: "13px",
+                            textAlign: "left",
+                        }}
+                    >
+                        スポンサーリンク
+                    </div>
                     <div style={{ padding: "10px", border: "1px solid #333" }}>
                         広告
                     </div>
