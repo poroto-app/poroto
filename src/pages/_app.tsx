@@ -57,8 +57,8 @@ export default function App({ Component, pageProps }: AppProps) {
                     style={{display: "block", textAlign: "center"}}
                     data-ad-layout="in-article"
                     data-ad-format="fluid"
-                    data-ad-client= ""
-                    data-ad-slot="">
+                    data-ad-client= {'${process.env.ADSENSE_KEY_ClIENT}'}
+                    data-ad-slot= {'${process.env.ADSENSE_KEY_SLOT}'} >
                     </ins>
                     <div style={{ padding: "10px", border: "1px solid #333" }}>
                     広告
