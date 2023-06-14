@@ -12,7 +12,8 @@ export default function CreatePlanPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const { searchLocation, currentLocation } = reduxLocationSelector();
-    const { createPlanSession, categoryAccepted } = reduxPlanSelector();
+    const { createPlanSession, categoryAccepted, timeForPlan } =
+        reduxPlanSelector();
     const { transition } = reduxHistorySelector();
 
     // HACK: このページに「戻るボタン」やURLを叩いて直接遷移してきた場合は、さらに前のページに戻す
@@ -31,11 +32,15 @@ export default function CreatePlanPage() {
                 currentLocation !== null &&
                 currentLocation.latitude === searchLocation.latitude &&
                 currentLocation.longitude === searchLocation.longitude;
+
+            // HACK: 画面が読み込まれた直後の値が保持されるため、resetInterestの影響を受けない
+            // TODO: プラン作成時に適切のreduxの状態を使えるようにする（戻るボタンを押したときに最初から操作できるようにする）
             dispatch(
                 createPlanFromLocation({
                     location: searchLocation,
                     categories: categoryAccepted,
                     isCurrentLocation: createBasedOnCurrentLocation,
+                    timeForPlan: timeForPlan,
                 })
             );
         }

@@ -44,6 +44,7 @@ type CreatePlanFromCurrentLocationProps = {
     };
     categories?: LocationCategory[];
     isCurrentLocation: boolean;
+    timeForPlan?: number;
 };
 export const createPlanFromLocation = createAsyncThunk(
     "plan/createPlanFromCurrentLocation",
@@ -52,12 +53,12 @@ export const createPlanFromLocation = createAsyncThunk(
             location,
             categories,
             isCurrentLocation,
+            timeForPlan,
         }: CreatePlanFromCurrentLocationProps,
         { dispatch, getState }
     ) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
 
-        const { timeForPlan } = (getState() as RootState).plan;
         const response = await plannerApi.createPlansFromLocation({
             location: location,
             categories: (categories ?? []).map((category) => category.name),
