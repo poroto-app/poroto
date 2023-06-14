@@ -13,15 +13,15 @@ const SelectPlanPage = () => {
     const { plansCreated, createPlanSession } = reduxPlanSelector();
 
     const router = useRouter();
-    const { id } = router.query;
+    const { sessionId } = router.query;
 
     useEffect(() => {
         // ページをリロードしたときのみキャッシュを取得する
-        if (!id || typeof id !== "string") return;
+        if (!sessionId || typeof sessionId !== "string") return;
         if (!plansCreated) {
-            dispatch(fetchCachedCreatedPlans({ session: id }));
+            dispatch(fetchCachedCreatedPlans({ session: sessionId }));
         }
-    }, [id, plansCreated]);
+    }, [sessionId, plansCreated]);
 
     if (!plansCreated) {
         // TODO: ホームに戻れる404ページを作る
@@ -43,7 +43,11 @@ const SelectPlanPage = () => {
         <Layout navBar={<NavBar title="プランを選ぶ" />}>
             <VStack w="100%" px="16px" spacing={16} py="16px">
                 {plansCreated.map((plan, i) => (
-                    <PlanPreview plan={plan} key={i} />
+                    <PlanPreview
+                        session={createPlanSession}
+                        plan={plan}
+                        key={i}
+                    />
                 ))}
             </VStack>
         </Layout>

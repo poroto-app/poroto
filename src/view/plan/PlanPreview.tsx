@@ -4,12 +4,14 @@ import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
 import { MdDirectionsWalk } from "react-icons/md";
 import Link from "next/link";
 import React, { FC } from "react";
+import { Routes } from "src/view/constants/router";
 
 type Props = {
+    session: string;
     plan: Plan;
 };
 
-export function PlanPreview({ plan }: Props) {
+export function PlanPreview({ session, plan }: Props) {
     const thumbnails = plan.places
         .map((place) =>
             place.imageUrls.length > 0 ? place.imageUrls[0] : null
@@ -20,7 +22,7 @@ export function PlanPreview({ plan }: Props) {
 
     return (
         <Link
-            href={"/plans/" + plan.id}
+            href={Routes.plans.planCandidate(session, plan.id)}
             style={{ width: "100%", maxWidth: "600px" }}
         >
             <VStack w="100%">
