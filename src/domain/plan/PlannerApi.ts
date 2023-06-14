@@ -10,6 +10,10 @@ export interface PlannerApi {
     matchInterest(
         request: MatchInterestRequest
     ): Promise<MatchInterestResponse>;
+
+    savePlanFromCandidate(
+        request: SavePlanFromCandidateRequest
+    ): Promise<SavePlanFromCandidateResponse>;
 }
 
 export type PlanEntity = {
@@ -82,4 +86,13 @@ export type MatchInterestResponse = {
         displayName: string;
         photo: string;
     }[];
+};
+
+export type SavePlanFromCandidateRequest = {
+    session: string;
+    planId: string;
+};
+
+export type SavePlanFromCandidateResponse = {
+    planId: string;
 };

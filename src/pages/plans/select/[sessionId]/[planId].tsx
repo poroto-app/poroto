@@ -5,6 +5,7 @@ import {
     fetchCachedCreatedPlans,
     fetchPlanDetail,
     reduxPlanSelector,
+    savePlanFromCandidate,
 } from "src/redux/plan";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { useEffect } from "react";
@@ -15,6 +16,11 @@ import { useLocation } from "src/view/hooks/useLocation";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
+import {
+    FooterHeight,
+    PlanCandidateFooter,
+} from "src/view/plan/PlanCandidateFooter";
+import { Plan } from "src/domain/models/Plan";
 
 const PlanDetail = () => {
     const { sessionId, planId } = useRouter().query;
@@ -49,11 +55,24 @@ const PlanDetail = () => {
         }
     }, [planId, createPlanSession]);
 
+    const handleOnSavePlan = ({
+        session,
+        plan,
+    }: {
+        session: string;
+        plan: Plan;
+    }) => {
+        // TODO: 作成が完了したら、プランのページに遷移させる
+        dispatch(savePlanFromCandidate({ session, planId: plan.id }));
+        // TODO: DELETE ME
+        alert("プランを保存しました");
+    };
+
     if (!plan) return <LoadingModal title="素敵なプランを読み込んでいます" />;
 
     return (
         <>
-            <Center flexDirection="column">
+            <Center flexDirection="column" pb={`${FooterHeight}px`}>
                 <NavBar title={plan.title} />
                 <VStack
                     maxWidth="990px"
@@ -84,6 +103,11 @@ const PlanDetail = () => {
                     </VStack>
                 </VStack>
             </Center>
+            <PlanCandidateFooter
+                onSave={() =>
+                    handleOnSavePlan({ session: createPlanSession, plan })
+                }
+            />
         </>
     );
 };

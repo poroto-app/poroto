@@ -45,6 +45,7 @@ type CreatePlanFromCurrentLocationProps = {
     };
     categories?: LocationCategory[];
     isCurrentLocation: boolean;
+    timeForPlan?: number;
 };
 export const createPlanFromLocation = createAsyncThunk(
     "plan/createPlanFromCurrentLocation",
@@ -53,12 +54,12 @@ export const createPlanFromLocation = createAsyncThunk(
             location,
             categories,
             isCurrentLocation,
+            timeForPlan,
         }: CreatePlanFromCurrentLocationProps,
         { dispatch, getState }
     ) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
 
-        const { timeForPlan } = (getState() as RootState).plan;
         const response = await plannerApi.createPlansFromLocation({
             location: location,
             categories: (categories ?? []).map((category) => category.name),
@@ -145,6 +146,26 @@ export const fetchPlan = createAsyncThunk(
             ...mockPlan,
             id: planId,
         };
+    }
+);
+
+type SavePlanFromCandidateProps = {
+    session: string;
+    planId: string;
+};
+export const savePlanFromCandidate = createAsyncThunk(
+    "plan/savePlanFromCandidate",
+    async ({ session, planId }: SavePlanFromCandidateProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.savePlanFromCandidate({
+            session,
+            planId,
+        });
+
+        // TODO: プランの内容を全件取得する
+        // TODO: プラン作成のReduxとプラン閲覧のReduxを分ける
+        // TODO: プラン閲覧のReduxにプランのIDとプランの内容を保存する
+        return response.planId;
     }
 );
 
