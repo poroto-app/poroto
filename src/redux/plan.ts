@@ -136,6 +136,26 @@ export const matchInterest = createAsyncThunk(
     }
 );
 
+type SavePlanFromCandidateProps = {
+    session: string;
+    planId: string;
+};
+export const savePlanFromCandidate = createAsyncThunk(
+    "plan/savePlanFromCandidate",
+    async ({ session, planId }: SavePlanFromCandidateProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.savePlanFromCandidate({
+            session,
+            planId,
+        });
+
+        // TODO: プランの内容を全件取得する
+        // TODO: プラン作成のReduxとプラン閲覧のReduxを分ける
+        // TODO: プラン閲覧のReduxにプランのIDとプランの内容を保存する
+        return response.planId;
+    }
+);
+
 export const slice = createSlice({
     name: "plan",
     initialState,

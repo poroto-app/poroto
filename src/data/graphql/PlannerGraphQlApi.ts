@@ -7,11 +7,14 @@ import {
     MatchInterestRequest,
     MatchInterestResponse,
     PlannerApi,
+    SavePlanFromCandidateRequest,
+    SavePlanFromCandidateResponse,
 } from "src/domain/plan/PlannerApi";
 import {
     CachedCreatedPlansDocument,
     CreatePlanByLocationDocument,
     MatchInterestsDocument,
+    SavePlanFromCandidateDocument,
 } from "src/data/graphql/generated";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
@@ -94,6 +97,21 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                 displayName: category.displayName,
                 photo: category.photo,
             })),
+        };
+    }
+
+    async savePlanFromCandidate(
+        request: SavePlanFromCandidateRequest
+    ): Promise<SavePlanFromCandidateResponse> {
+        const { data } = await this.client.mutate({
+            mutation: SavePlanFromCandidateDocument,
+            variables: {
+                session: request.session,
+                planId: request.planId,
+            },
+        });
+        return {
+            planId: data.savePlanFromCandidate.plan.id,
         };
     }
 }
