@@ -12,7 +12,9 @@ export function BannerAd() {
                 data-ad-format="fluid"
                 data-ad-client={process.env.ADSENSE_ClIENT}
                 data-ad-slot={process.env.ADSENSE_SLOT}
-                data-adtest={process.env.NODE_ENV === "production" ? "off" : "on"}
+                data-adtest={
+                    process.env.NODE_ENV === "production" ? "off" : "on"
+                }
             ></StyledIns>
         </StyledDiv>
     );
