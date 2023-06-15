@@ -20,7 +20,6 @@ module.exports = withPWA({
         PLANNER_API_ENDPOINT: `${process.env.PLANNER_API_PROTOCOL}://${process.env.PLANNER_API_HOST}`,
         GCP_API_KEY: process.env.GCP_API_KEY,
 
-        ADSENSE_KEY: process.env.ADSENSE_KEY,
         ADSENSE_CLIENT: process.env.ADSENSE_CLIENT,
         ADSENSE_SLOT: process.env.ADSENSE_SLOT,
       
