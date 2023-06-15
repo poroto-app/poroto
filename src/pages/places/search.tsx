@@ -1,9 +1,15 @@
-import { Layout } from "src/view/common/Layout";
 import { Box, VStack } from "@chakra-ui/react";
-import { PlaceSearchBar } from "src/view/place/PlaceSearchBar";
-import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
-import React, { useEffect, useState } from "react";
-import { useAppDispatch } from "src/redux/redux";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { MdDone, MdOutlineTouchApp } from "react-icons/md";
+import { GeoLocation } from "src/data/graphql/generated";
+import { PlaceSearchResult } from "src/domain/models/PlaceSearchResult";
+import { copyObject } from "src/domain/util/object";
+import {
+    reduxLocationSelector,
+    setCurrentLocation,
+    setSearchLocation,
+} from "src/redux/location";
 import {
     fetchGeoLocationByPlaceId,
     reduxPlaceSearchSelector,
@@ -13,22 +19,16 @@ import {
     setMoveToSelectedLocation,
     setSelectedLocation,
 } from "src/redux/placeSearch";
-import { PlaceSearchResult } from "src/domain/models/PlaceSearchResult";
-import {
-    reduxLocationSelector,
-    setCurrentLocation,
-    setSearchLocation,
-} from "src/redux/location";
-import { useLocation } from "src/view/hooks/useLocation";
-import { GeoLocation } from "src/data/graphql/generated";
+import { useAppDispatch } from "src/redux/redux";
 import { Button } from "src/view/common/Button";
-import { MapPinSelector } from "src/view/place/MapPinSelector";
-import { locationSinjukuStation } from "src/view/constants/location";
-import { MdDone, MdOutlineTouchApp } from "react-icons/md";
-import { Routes } from "src/view/constants/router";
-import { useRouter } from "next/router";
-import { copyObject } from "src/domain/util/object";
+import { Layout } from "src/view/common/Layout";
 import { NavBar } from "src/view/common/NavBar";
+import { locationSinjukuStation } from "src/view/constants/location";
+import { Routes } from "src/view/constants/router";
+import { useLocation } from "src/view/hooks/useLocation";
+import { MapPinSelector } from "src/view/place/MapPinSelector";
+import { PlaceSearchBar } from "src/view/place/PlaceSearchBar";
+import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
 
 export default function PlaceSearchPage() {
     const router = useRouter();

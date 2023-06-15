@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Plan } from "src/domain/models/Plan";
 import { useSelector } from "react-redux";
-import { RootState } from "src/redux/redux";
+import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { LocationCategory } from "src/domain/models/LocationCategory";
+import { Plan } from "src/domain/models/Plan";
 import {
     createPlanFromPlanEntity,
     PlannerApi,
 } from "src/domain/plan/PlannerApi";
-import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
+import { RootState } from "src/redux/redux";
 import { mockPlan } from "src/stories/mock/plan";
 
 export type PlanState = {

@@ -1,11 +1,11 @@
-import { NavBar } from "src/view/common/NavBar";
 import { Center, Text, VStack } from "@chakra-ui/react";
-import React, { useEffect } from "react";
-import { fetchCachedCreatedPlans, reduxPlanSelector } from "src/redux/plan";
-import { LoadingModal } from "src/view/common/LoadingModal";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { fetchCachedCreatedPlans, reduxPlanSelector } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { Layout } from "src/view/common/Layout";
+import { LoadingModal } from "src/view/common/LoadingModal";
+import { NavBar } from "src/view/common/NavBar";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 
 const SelectPlanPage = () => {

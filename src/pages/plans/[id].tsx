@@ -1,15 +1,15 @@
-import { useRouter } from "next/router";
 import { Center, VStack } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { fetchPlan, reduxPlanSelector } from "src/redux/plan";
+import { useAppDispatch } from "src/redux/redux";
+import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
-import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
-import { PlanDuration } from "src/view/plan/PlanSummaryItem";
-import { PlaceMap } from "src/view/plan/PlaceMap";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
-import { fetchPlan, reduxPlanSelector } from "src/redux/plan";
-import { LoadingModal } from "src/view/common/LoadingModal";
-import { useEffect } from "react";
-import { useAppDispatch } from "src/redux/redux";
+import { PlaceMap } from "src/view/plan/PlaceMap";
+import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
+import { PlanDuration } from "src/view/plan/PlanSummaryItem";
 
 export default function PlanPage() {
     const { id } = useRouter().query;

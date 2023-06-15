@@ -1,6 +1,6 @@
+import { Box } from "@chakra-ui/react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { NavBarComponent } from "src/view/common/NavBar";
-import { Box } from "@chakra-ui/react";
 
 export default {
     title: "common/NavBar",

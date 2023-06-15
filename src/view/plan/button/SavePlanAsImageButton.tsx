@@ -1,10 +1,10 @@
-import { PlanActionButton } from "src/view/plan/button/PlanActionButton";
-import { MdPhotoCamera } from "react-icons/md";
+import { Box } from "@chakra-ui/react";
 import html2canvas from "html2canvas";
 import { useRef } from "react";
-import { Box } from "@chakra-ui/react";
-import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent";
+import { MdPhotoCamera } from "react-icons/md";
 import { Plan } from "src/domain/models/Plan";
+import { PlanActionButton } from "src/view/plan/button/PlanActionButton";
+import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent";
 
 type Props = {
     plan: Plan;

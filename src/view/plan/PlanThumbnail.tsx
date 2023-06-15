@@ -1,6 +1,5 @@
 import { Grid, GridItem, Skeleton } from "@chakra-ui/react";
 import styled from "styled-components";
-import React from "react";
 
 export const PlanThumbnail = ({ imageUrls }: { imageUrls: string[] }) => {
     imageUrls = imageUrls.slice(0, 4);

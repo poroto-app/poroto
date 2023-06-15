@@ -1,6 +1,6 @@
-import styled from "styled-components";
 import { Text, VStack } from "@chakra-ui/react";
 import { PlaceSearchResult } from "src/domain/models/PlaceSearchResult";
+import styled from "styled-components";
 
 type Props = {
     places: PlaceSearchResult[];

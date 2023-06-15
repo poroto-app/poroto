@@ -1,6 +1,6 @@
+import { Box } from "@chakra-ui/react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { PlaceSearchBar } from "src/view/place/PlaceSearchBar";
-import { Box } from "@chakra-ui/react";
 
 export default {
     title: "place/PlaceSearchBar",

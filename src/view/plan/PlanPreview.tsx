@@ -1,10 +1,10 @@
-import { Plan } from "src/domain/models/Plan";
 import { HStack, Icon, Text, VStack } from "@chakra-ui/react";
-import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
-import { MdDirectionsWalk } from "react-icons/md";
 import Link from "next/link";
-import React, { FC } from "react";
+import { FC } from "react";
+import { MdDirectionsWalk } from "react-icons/md";
+import { Plan } from "src/domain/models/Plan";
 import { Routes } from "src/view/constants/router";
+import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
 
 type Props = {
     session: string;

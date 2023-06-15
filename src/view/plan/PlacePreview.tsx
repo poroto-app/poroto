@@ -7,9 +7,9 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import styled from "styled-components";
 import { useState } from "react";
 import { MdOutlineLocationOn } from "react-icons/md";
+import styled from "styled-components";
 
 type Props = {
     name: string;
