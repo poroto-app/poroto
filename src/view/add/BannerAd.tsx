@@ -10,8 +10,8 @@ export function BannerAd() {
                 className="adsbygoogle"
                 data-ad-layout="in-article"
                 data-ad-format="fluid"
-                data-ad-client={process.env.ADSENSE_KEY_ClIENT}
-                data-ad-slot={process.env.ADSENSE_KEY_SLOT}
+                data-ad-client={process.env.ADSENSE_ClIENT}
+                data-ad-slot={process.env.ADSENSE_SLOT}
                 data-adtest={process.env.NODE_ENV === "production" ? "off" : "on"}
             ></StyledIns>
         </StyledDiv>

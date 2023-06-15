@@ -52,7 +52,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </Head>
             <Script
                 async
-                src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_KEY}`}
+                src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_CLIENT}`}
                 crossOrigin="anonymous"
             />
             {/*MEMO:GitHub Actionsでtype checkを実行すると落ちる*/}

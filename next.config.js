@@ -21,6 +21,8 @@ module.exports = withPWA({
         GCP_API_KEY: process.env.GCP_API_KEY,
 
         ADSENSE_KEY: process.env.ADSENSE_KEY,
+        ADSENSE_CLIENT: process.env.ADSENSE_CLIENT,
+        ADSENSE_SLOT: process.env.ADSENSE_SLOT,
       
         FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
         FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
