@@ -3,29 +3,34 @@
 #   - planner
 #   - infrastructure
 
+function encrypt() {
+   environment=$1
+   file=$2
+   echo "[${environment}] Encrypting ${target} ..."
+   gcloud kms encrypt \
+      --location "asia-northeast1" \
+      --keyring "poroto_key_ring" \
+      --key "poroto_crypt_key" \
+      --plaintext-file "./${file}" \
+      --ciphertext-file "../infrastructure/roles/app/poroto/${environment}/${file}.enc"
+   echo ">> Encrypted ${target}!"
+}
+
 crypt_targets_dev=(".env.development.local")
+crypt_targets_stg=(".env.staging.local")
 crypt_targets_prd=(".env.production.local")
 
 for target in "${crypt_targets_dev[@]}"
 do
-  echo "[Development] Encrypting ${target} ..."
-  gcloud kms encrypt \
-     --location "asia-northeast1" \
-     --keyring "poroto_key_ring" \
-     --key "poroto_crypt_key" \
-     --plaintext-file "./${target}" \
-     --ciphertext-file "../infrastructure/roles/app/poroto/development/${target}.enc"
-  echo ">> Encrypted ${target}!"
+  encrypt "development" "${target}"
+done
+
+for target in "${crypt_targets_stg[@]}"
+do
+  encrypt "staging" "${target}"
 done
 
 for target in "${crypt_targets_prd[@]}"
 do
-  echo "[Production] Encrypting ${target} ..."
-  gcloud kms encrypt \
-     --location "asia-northeast1" \
-     --keyring "poroto_key_ring" \
-     --key "poroto_crypt_key" \
-     --plaintext-file "./${target}" \
-     --ciphertext-file "../infrastructure/roles/app/poroto/production/${target}.enc"
-  echo ">> Encrypted ${target}!"
+  encrypt "production" "${target}"
 done

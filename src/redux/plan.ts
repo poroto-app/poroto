@@ -8,6 +8,7 @@ import {
     PlannerApi,
 } from "src/domain/plan/PlannerApi";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
+import { mockPlan } from "src/stories/mock/plan";
 
 export type PlanState = {
     createPlanSession: string | null;
@@ -44,6 +45,7 @@ type CreatePlanFromCurrentLocationProps = {
     };
     categories?: LocationCategory[];
     isCurrentLocation: boolean;
+    timeForPlan?: number;
 };
 export const createPlanFromLocation = createAsyncThunk(
     "plan/createPlanFromCurrentLocation",
@@ -52,12 +54,12 @@ export const createPlanFromLocation = createAsyncThunk(
             location,
             categories,
             isCurrentLocation,
+            timeForPlan,
         }: CreatePlanFromCurrentLocationProps,
         { dispatch, getState }
     ) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
 
-        const { timeForPlan } = (getState() as RootState).plan;
         const response = await plannerApi.createPlansFromLocation({
             location: location,
             categories: (categories ?? []).map((category) => category.name),
@@ -79,7 +81,14 @@ export const createPlanFromLocation = createAsyncThunk(
 type FetchCachedCreatedPlansProps = { session: string };
 export const fetchCachedCreatedPlans = createAsyncThunk(
     "plan/fetchCachedCreatedPlans",
-    async ({ session }: FetchCachedCreatedPlansProps, { dispatch }) => {
+    async (
+        { session }: FetchCachedCreatedPlansProps,
+        { dispatch, getState }
+    ) => {
+        // すでに取得している場合はスキップ
+        const { createPlanSession } = (getState() as RootState).plan;
+        if (createPlanSession && session === createPlanSession) return null;
+
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.fetchCachedCreatedPlans({ session });
         if (response.plans === null) {
@@ -125,6 +134,38 @@ export const matchInterest = createAsyncThunk(
                 })),
             })
         );
+    }
+);
+
+type FetchPlanProps = { planId: string };
+export const fetchPlan = createAsyncThunk(
+    "plan/fetchPlan",
+    async ({ planId }: FetchPlanProps) => {
+        //   TODO: implement me!
+        return {
+            ...mockPlan,
+            id: planId,
+        };
+    }
+);
+
+type SavePlanFromCandidateProps = {
+    session: string;
+    planId: string;
+};
+export const savePlanFromCandidate = createAsyncThunk(
+    "plan/savePlanFromCandidate",
+    async ({ session, planId }: SavePlanFromCandidateProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.savePlanFromCandidate({
+            session,
+            planId,
+        });
+
+        // TODO: プランの内容を全件取得する
+        // TODO: プラン作成のReduxとプラン閲覧のReduxを分ける
+        // TODO: プラン閲覧のReduxにプランのIDとプランの内容を保存する
+        return response.planId;
     }
 );
 
@@ -204,6 +245,13 @@ export const slice = createSlice({
             state.plansCreated = null;
             state.createPlanSession = null;
         },
+    },
+    extraReducers: (builder) => {
+        builder
+            // Fetch Plan
+            .addCase(fetchPlan.fulfilled, (state, { payload }) => {
+                state.preview = payload;
+            });
     },
 });
 
