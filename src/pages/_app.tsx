@@ -12,6 +12,7 @@ import {
 import { useRouter } from "next/router";
 import { copyObject } from "src/domain/util/object";
 import { FirebaseProvider } from "src/view/common/FirebaseProvider";
+import Script from "next/script";
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
@@ -48,8 +49,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     content="https://poroto.app/ogp/ogp.png"
                 />
                 <meta property="og:type" content="website" />
-
-                <script
+                <Script
                     async
                     src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_KEY}`}
                     crossOrigin="anonymous"
