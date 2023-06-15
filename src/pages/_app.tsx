@@ -11,6 +11,8 @@ import {
 } from "src/redux/history";
 import { useRouter } from "next/router";
 import { copyObject } from "src/domain/util/object";
+import { FirebaseProvider } from "src/view/common/FirebaseProvider";
+import Script from "next/script";
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
@@ -20,7 +22,7 @@ export default function App({ Component, pageProps }: AppProps) {
                 <title>poroto</title>
                 <meta
                     name="viewport"
-                    content="width=device-width,initial-scale=1,maximum-scale=1.0, user-scalable=no"
+                    content="width=device-width,initial-scale=1,maximum-scale=1.0,minimum-scale=1"
                 />
                 <meta name="theme-color" content="#F7F5EE" />
                 <link rel="manifest" href="/manifest.webmanifest" />
@@ -48,8 +50,13 @@ export default function App({ Component, pageProps }: AppProps) {
                 />
                 <meta property="og:type" content="website" />
             </Head>
+            <Script
+                async
+                src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_CLIENT}`}
+                crossOrigin="anonymous"
+            />
             {/*MEMO:GitHub Actionsでtype checkを実行すると落ちる*/}
-            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+            {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
             {/*@ts-ignore*/}
             <style jsx global>
                 {`
@@ -74,7 +81,6 @@ export default function App({ Component, pageProps }: AppProps) {
                         height: 100%;
                         margin: 0;
                         padding: 0;
-                        min-width: 370px;
                     }
 
                     h1,
@@ -103,6 +109,7 @@ export default function App({ Component, pageProps }: AppProps) {
             </style>
             <ChakraProvider>
                 <Provider store={reduxStore}>
+                    <FirebaseProvider />
                     <History />
                     <Component {...pageProps} />
                 </Provider>

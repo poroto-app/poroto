@@ -8,6 +8,7 @@ import { PlaceSearchButton } from "src/view/place/PlaceSearchButton";
 import { Button } from "src/view/common/Button";
 import { MdOutlinePlace } from "react-icons/md";
 import { setCurrentLocation, setSearchLocation } from "src/redux/location";
+import { BannerAd } from "src/view/ad/BannerAd";
 
 const IndexPage = () => {
     const router = useRouter();
@@ -22,18 +23,21 @@ const IndexPage = () => {
     };
 
     return (
-        <Container maxW="990px" px="16px">
-            <VStack w="100%" spacing={4} pt="32px">
-                <PlaceSearchButton />
-                <Button
-                    text="現在地からプランを作成"
-                    icon={MdOutlinePlace}
-                    onClick={onClickCreatePlanFromCurrentLocation}
-                />
-            </VStack>
-            {isLoadingLocation && <Text>現在地を取得中</Text>}
-            {isRejected && <Text>現在地の取得を拒否されました。</Text>}
-        </Container>
+        <>
+            <Container maxW="990px" px="16px">
+                <VStack w="100%" spacing={4} pt="32px">
+                    <PlaceSearchButton />
+                    <Button
+                        text="現在地からプランを作成"
+                        icon={MdOutlinePlace}
+                        onClick={onClickCreatePlanFromCurrentLocation}
+                    />
+                </VStack>
+                {isLoadingLocation && <Text>現在地を取得中</Text>}
+                {isRejected && <Text>現在地の取得を拒否されました。</Text>}
+            </Container>
+            <BannerAd />
+        </>
     );
 };
 
