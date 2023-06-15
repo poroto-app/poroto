@@ -22,28 +22,28 @@ const IndexPage = () => {
         await router.push(Routes.plans.interest);
     };
 
-const StyledDiv = styled.div`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
-`;
+    const StyledDiv = styled.div`
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        text-align: center;
+    `;
 
-const InnerDiv1 = styled.div`
-  padding: 10px;
-  font-size: 13px;
-  text-align: left;
-`;
+    const InnerDiv1 = styled.div`
+        padding: 10px;
+        font-size: 13px;
+        text-align: left;
+    `;
 
-const InnerDiv2 = styled.div`
-  padding: 10px 10px;
-  border: 1px solid #333;
-`;
+    const InnerDiv2 = styled.div`
+        padding: 10px 10px;
+        border: 1px solid #333;
+    `;
 
-const StyledIns = styled.ins`
-  display: block;
-  text-align: center;
-`;
+    const StyledIns = styled.ins`
+        display: block;
+        text-align: center;
+    `;
 
     return (
         <>
@@ -60,17 +60,17 @@ const StyledIns = styled.ins`
                 {isRejected && <Text>現在地の取得を拒否されました。</Text>}
             </Container>
             <StyledDiv>
-            <InnerDiv1>スポンサーリンク</InnerDiv1>
-            <InnerDiv2>広告</InnerDiv2>
-            <StyledIns
-                className="adsbygoogle"
-                data-ad-layout="in-article"
-                data-ad-format="fluid"
-                data-ad-client={process.env.ADSENSE_KEY_ClIENT}
-                data-ad-slot={process.env.ADSENSE_KEY_SLOT}
-            ></StyledIns>
-        </StyledDiv>
-    </>
+                <InnerDiv1>スポンサーリンク</InnerDiv1>
+                <InnerDiv2>広告</InnerDiv2>
+                <StyledIns
+                    className="adsbygoogle"
+                    data-ad-layout="in-article"
+                    data-ad-format="fluid"
+                    data-ad-client={process.env.ADSENSE_KEY_ClIENT}
+                    data-ad-slot={process.env.ADSENSE_KEY_SLOT}
+                ></StyledIns>
+            </StyledDiv>
+        </>
     );
 };
 
