@@ -8,7 +8,7 @@ import { PlaceSearchButton } from "src/view/place/PlaceSearchButton";
 import { Button } from "src/view/common/Button";
 import { MdOutlinePlace } from "react-icons/md";
 import { setCurrentLocation, setSearchLocation } from "src/redux/location";
-import { BannerAd } from "src/view/add/BannerAd";
+import { BannerAd } from "src/view/ad/BannerAd";
 
 const IndexPage = () => {
     const router = useRouter();
