@@ -51,9 +51,9 @@ export default function App({ Component, pageProps }: AppProps) {
                 <meta property="og:type" content="website" />
             </Head>
             <Script
-                    async
-                    src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_KEY}`}
-                    crossOrigin="anonymous"
+                async
+                src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_KEY}`}
+                crossOrigin="anonymous"
             />
             {/*MEMO:GitHub Actionsでtype checkを実行すると落ちる*/}
             {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}

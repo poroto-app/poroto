@@ -14,28 +14,28 @@ export function BannerAd() {
                 data-ad-slot={process.env.ADSENSE_KEY_SLOT}
             ></StyledIns>
         </StyledDiv>
-    )
-  }
+    );
+}
 
-  const StyledDiv = styled.div`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  text-align: center;
+const StyledDiv = styled.div`
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
 `;
 
 const InnerDiv1 = styled.div`
-  padding: 10px;
-  font-size: 13px;
-  text-align: left;
+    padding: 10px;
+    font-size: 13px;
+    text-align: left;
 `;
 
 const InnerDiv2 = styled.div`
-  padding: 10px 10px;
-  border: 1px solid #333;
+    padding: 10px 10px;
+    border: 1px solid #333;
 `;
 
 const StyledIns = styled.ins`
-  display: block;
-  text-align: center;
+    display: block;
+    text-align: center;
 `;
