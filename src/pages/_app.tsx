@@ -53,36 +53,6 @@ export default function App({ Component, pageProps }: AppProps) {
                     src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_KEY}`}
                     crossOrigin="anonymous"
                 />
-
-                <div
-                    style={{
-                        position: "fixed",
-                        bottom: 0,
-                        width: "100%",
-                        textAlign: "center",
-                    }}
-                >
-                    <div
-                        style={{
-                            padding: "10px",
-                            fontSize: "13px",
-                            textAlign: "left",
-                        }}
-                    >
-                        スポンサーリンク
-                    </div>
-                    <div style={{ padding: "10px", border: "1px solid #333" }}>
-                        広告
-                    </div>
-                    <ins
-                        className="adsbygoogle"
-                        style={{ display: "block", textAlign: "center" }}
-                        data-ad-layout="in-article"
-                        data-ad-format="fluid"
-                        data-ad-client={"${process.env.ADSENSE_KEY_ClIENT}"}
-                        data-ad-slot={"${process.env.ADSENSE_KEY_SLOT}"}
-                    ></ins>
-                </div>
             </Head>
             {/*MEMO:GitHub Actionsでtype checkを実行すると落ちる*/}
             {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
