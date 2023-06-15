@@ -1,6 +1,6 @@
 import { Divider, VStack } from "@chakra-ui/react";
-import { PlacePreview } from "src/view/plan/PlacePreview";
 import { Plan } from "src/domain/models/Plan";
+import { PlacePreview } from "src/view/plan/PlacePreview";
 
 type Props = {
     plan: Plan;

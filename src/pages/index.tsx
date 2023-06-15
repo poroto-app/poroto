@@ -1,14 +1,13 @@
-import React from "react";
 import { Container, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { Routes } from "src/view/constants/router";
-import { useAppDispatch } from "src/redux/redux";
-import { useLocation } from "src/view/hooks/useLocation";
-import { PlaceSearchButton } from "src/view/place/PlaceSearchButton";
-import { Button } from "src/view/common/Button";
 import { MdOutlinePlace } from "react-icons/md";
 import { setCurrentLocation, setSearchLocation } from "src/redux/location";
+import { useAppDispatch } from "src/redux/redux";
 import { BannerAd } from "src/view/ad/BannerAd";
+import { Button } from "src/view/common/Button";
+import { Routes } from "src/view/constants/router";
+import { useLocation } from "src/view/hooks/useLocation";
+import { PlaceSearchButton } from "src/view/place/PlaceSearchButton";
 
 const IndexPage = () => {
     const router = useRouter();

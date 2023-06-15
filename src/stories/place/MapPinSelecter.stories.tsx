@@ -1,7 +1,7 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { MapPinSelector } from "src/view/place/MapPinSelector";
 import { useState } from "react";
 import { GeoLocation } from "src/domain/models/GeoLocation";
+import { MapPinSelector } from "src/view/place/MapPinSelector";
 
 export default {
     title: "place/MapPinSelector",

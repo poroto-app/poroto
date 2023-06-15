@@ -1,9 +1,8 @@
-import { LocationCategory } from "src/domain/models/LocationCategory";
-import styled from "styled-components";
 import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 import { MdCheck, MdClose } from "react-icons/md";
-import React from "react";
+import { LocationCategory } from "src/domain/models/LocationCategory";
 import { SelectButton } from "src/view/interest/SelectButton";
+import styled from "styled-components";
 
 type Props = {
     category: LocationCategory;

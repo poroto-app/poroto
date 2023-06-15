@@ -1,3 +1,9 @@
+import {
+    CachedCreatedPlansDocument,
+    CreatePlanByLocationDocument,
+    MatchInterestsDocument,
+    SavePlanFromCandidateDocument,
+} from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
 import {
     CreatePlanFromLocationRequest,
@@ -10,12 +16,6 @@ import {
     SavePlanFromCandidateRequest,
     SavePlanFromCandidateResponse,
 } from "src/domain/plan/PlannerApi";
-import {
-    CachedCreatedPlansDocument,
-    CreatePlanByLocationDocument,
-    MatchInterestsDocument,
-    SavePlanFromCandidateDocument,
-} from "src/data/graphql/generated";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async createPlansFromLocation(

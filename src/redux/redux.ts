@@ -1,10 +1,10 @@
-import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
-import { planReducer } from "src/redux/plan";
 import { useDispatch } from "react-redux";
-import { locationReducer } from "src/redux/location";
+import { combineReducers } from "redux";
 import { historyReducer } from "src/redux/history";
+import { locationReducer } from "src/redux/location";
 import { placeSearchReducer } from "src/redux/placeSearch";
+import { planReducer } from "src/redux/plan";
 
 const reducer = combineReducers({
     plan: planReducer,

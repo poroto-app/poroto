@@ -1,7 +1,6 @@
+import { ButtonProps, Icon, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import styled from "styled-components";
-import { ButtonProps, Icon, Text } from "@chakra-ui/react";
-import React from "react";
 
 type Props = {
     text: string;

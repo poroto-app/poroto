@@ -8,11 +8,11 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { Colors } from "src/view/constants/color";
-import { useEffect, useState } from "react";
 import { useLottie } from "lottie-react";
-import animationData from "src/view/lottie/day-and-night-transition-scene.json";
+import { useEffect, useState } from "react";
 import { DateHelper } from "src/domain/util/date";
+import { Colors } from "src/view/constants/color";
+import animationData from "src/view/lottie/day-and-night-transition-scene.json";
 
 type Props = {
     onClickNext: (duration: number) => void;

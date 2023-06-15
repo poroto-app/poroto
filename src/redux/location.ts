@@ -1,7 +1,7 @@
-import { useSelector } from "react-redux";
-import { RootState } from "src/redux/redux";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 import { GeoLocation } from "src/domain/models/GeoLocation";
+import { RootState } from "src/redux/redux";
 
 export type LocationState = {
     currentLocation: GeoLocation | null;

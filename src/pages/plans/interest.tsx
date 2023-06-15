@@ -1,22 +1,21 @@
+import { useRouter } from "next/router";
+import { ReactNode, useEffect, useState } from "react";
+import { LocationCategory } from "src/domain/models/LocationCategory";
+import { reduxLocationSelector } from "src/redux/location";
 import {
     matchInterest,
     pushAcceptedCategory,
     pushRejectedCategory,
     reduxPlanSelector,
     resetInterest,
-    resetPlanCandidates,
     setCreatedPlans,
     setTimeForPlan,
 } from "src/redux/plan";
-import { ReactNode, useEffect, useState } from "react";
 import { useAppDispatch } from "src/redux/redux";
-import { LocationCategory } from "src/domain/models/LocationCategory";
-import { useRouter } from "next/router";
-import { Routes } from "src/view/constants/router";
-import { CategorySelect } from "src/view/interest/CategorySelect";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
-import { reduxLocationSelector } from "src/redux/location";
+import { Routes } from "src/view/constants/router";
+import { CategorySelect } from "src/view/interest/CategorySelect";
 import { PlanDurationSelector } from "src/view/interest/PlanDurationSelector";
 import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTemplate";
 

@@ -1,7 +1,6 @@
-import styled from "styled-components";
 import { Icon, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import React from "react";
+import styled from "styled-components";
 
 type Props = {
     color: string;

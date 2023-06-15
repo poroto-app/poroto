@@ -1,4 +1,4 @@
-import { HStack, Text, Icon } from "@chakra-ui/react";
+import { HStack, Icon, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import { BiYen } from "react-icons/bi";
 import { MdSchedule } from "react-icons/md";

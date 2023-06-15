@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { mockPlan } from "src/stories/mock/plan";
+import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 
 export default {
     title: "plan/PlanPlaceList",

@@ -1,4 +1,4 @@
-import { describe, test, expect } from "@jest/globals";
+import { describe, expect, test } from "@jest/globals";
 import { createArrayWithSize } from "src/domain/util/array";
 
 describe("createArrayWithSize", () => {

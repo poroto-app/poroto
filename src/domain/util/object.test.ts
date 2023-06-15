@@ -1,4 +1,4 @@
-import { describe, test, expect } from "@jest/globals";
+import { describe, expect, test } from "@jest/globals";
 import { copyObject } from "src/domain/util/object";
 
 describe("copyObject", () => {

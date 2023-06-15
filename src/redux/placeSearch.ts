@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { PlaceSearchResult } from "src/domain/models/PlaceSearchResult";
-import { RootState } from "src/redux/redux";
 import { useSelector } from "react-redux";
 import { GooglePlacesApi } from "src/data/map/GooglePlacesApi";
 import { GeoLocation } from "src/domain/models/GeoLocation";
+import { PlaceSearchResult } from "src/domain/models/PlaceSearchResult";
+import { RootState } from "src/redux/redux";
 
 export type PlaceSearchState = {
     placeSearchResults: PlaceSearchResult[] | null;

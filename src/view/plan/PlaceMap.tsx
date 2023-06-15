@@ -1,6 +1,6 @@
-import { Place } from "src/domain/models/Place";
 import { Center, Text, VStack } from "@chakra-ui/react";
 import { Marker } from "@react-google-maps/api";
+import { Place } from "src/domain/models/Place";
 import { MapViewer } from "src/view/common/MapViewer";
 
 type Props = {

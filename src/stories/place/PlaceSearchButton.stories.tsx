@@ -1,7 +1,6 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import React from "react";
-import { PlaceSearchButton } from "src/view/place/PlaceSearchButton";
 import { Box } from "@chakra-ui/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { PlaceSearchButton } from "src/view/place/PlaceSearchButton";
 
 export default {
     title: "place/PlaceSearchButton",

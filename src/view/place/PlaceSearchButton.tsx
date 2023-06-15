@@ -1,9 +1,8 @@
-import styled from "styled-components";
-import Link from "next/link";
-import { Routes } from "src/view/constants/router";
 import { Icon, Text } from "@chakra-ui/react";
+import Link from "next/link";
 import { MdSearch } from "react-icons/md";
-import React from "react";
+import { Routes } from "src/view/constants/router";
+import styled from "styled-components";
 
 export function PlaceSearchButton() {
     return (

@@ -1,7 +1,7 @@
 import { ComponentMeta } from "@storybook/react";
+import { LocationCategory } from "src/domain/models/LocationCategory";
 import { PlanInterestPageComponent } from "src/pages/plans/interest";
 import { NavBarComponent } from "src/view/common/NavBar";
-import { LocationCategory } from "src/domain/models/LocationCategory";
 
 export default {
     title: "interest/PlanInterestPageComponent",

@@ -1,8 +1,8 @@
 import Link from "next/link";
+import { GeoLocation } from "src/domain/models/GeoLocation";
+import { Plan } from "src/domain/models/Plan";
 import { generateGoogleMapUrl } from "src/domain/util/googleMap";
 import { PlanActionButton } from "src/view/plan/button/PlanActionButton";
-import { Plan } from "src/domain/models/Plan";
-import { GeoLocation } from "src/domain/models/GeoLocation";
 
 type Props = {
     plan: Plan;

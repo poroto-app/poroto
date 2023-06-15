@@ -1,12 +1,12 @@
-import { LoadingModal } from "src/view/common/LoadingModal";
-import React, { useEffect } from "react";
-import { createPlanFromLocation, reduxPlanSelector } from "src/redux/plan";
-import { useRouter } from "next/router";
-import { Routes } from "src/view/constants/router";
-import { reduxLocationSelector } from "src/redux/location";
-import { useAppDispatch } from "src/redux/redux";
-import { PageTransitions, reduxHistorySelector } from "src/redux/history";
 import { getAnalytics, logEvent } from "@firebase/analytics";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { PageTransitions, reduxHistorySelector } from "src/redux/history";
+import { reduxLocationSelector } from "src/redux/location";
+import { createPlanFromLocation, reduxPlanSelector } from "src/redux/plan";
+import { useAppDispatch } from "src/redux/redux";
+import { LoadingModal } from "src/view/common/LoadingModal";
+import { Routes } from "src/view/constants/router";
 
 // TODO: 「戻るボタン」、「進むボタン」、「URLで直接ページを開く」場合の対応をしなくてもいいルーティングにする
 export default function CreatePlanPage() {

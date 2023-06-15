@@ -1,18 +1,18 @@
+import { ChakraProvider } from "@chakra-ui/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { ChakraProvider } from "@chakra-ui/react";
-import { Provider } from "react-redux";
-import { reduxStore, useAppDispatch } from "src/redux/redux";
+import { useRouter } from "next/router";
+import Script from "next/script";
 import { useEffect } from "react";
+import { Provider } from "react-redux";
+import { copyObject } from "src/domain/util/object";
 import {
     popHistoryStack,
     pushHistoryStack,
     reduxHistorySelector,
 } from "src/redux/history";
-import { useRouter } from "next/router";
-import { copyObject } from "src/domain/util/object";
+import { reduxStore, useAppDispatch } from "src/redux/redux";
 import { FirebaseProvider } from "src/view/common/FirebaseProvider";
-import Script from "next/script";
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
