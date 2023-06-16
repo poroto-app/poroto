@@ -23,6 +23,16 @@ export type CachedCreatedPlansInput = {
   session: Scalars['String'];
 };
 
+export type ChangePlacesOrderInPlanInput = {
+  id: Scalars['String'];
+  session: Scalars['String'];
+};
+
+export type ChangePlacesOrderInPlanOutput = {
+  __typename?: 'ChangePlacesOrderInPlanOutput';
+  plan: Plan;
+};
+
 export type CreatePlanByLocationInput = {
   categories?: InputMaybe<Array<Scalars['String']>>;
   createdBasedOnCurrentLocation?: InputMaybe<Scalars['Boolean']>;
@@ -62,9 +72,15 @@ export type MatchInterestsInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  changePlacesOrderInPlan: ChangePlacesOrderInPlanOutput;
   createPlanByLocation: CreatePlanByLocationOutput;
   ping: Scalars['String'];
   savePlanFromCandidate: SavePlanFromCandidateOutput;
+};
+
+
+export type MutationChangePlacesOrderInPlanArgs = {
+  input: ChangePlacesOrderInPlanInput;
 };
 
 
@@ -103,6 +119,7 @@ export type Query = {
   __typename?: 'Query';
   cachedCreatedPlans: CachedCreatedPlans;
   matchInterests: InterestCandidate;
+  plan?: Maybe<Plan>;
   version: Scalars['String'];
 };
 
@@ -114,6 +131,11 @@ export type QueryCachedCreatedPlansArgs = {
 
 export type QueryMatchInterestsArgs = {
   input?: InputMaybe<MatchInterestsInput>;
+};
+
+
+export type QueryPlanArgs = {
+  id: Scalars['String'];
 };
 
 export type SavePlanFromCandidateInput = {
