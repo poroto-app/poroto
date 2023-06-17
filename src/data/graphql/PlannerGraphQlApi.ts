@@ -1,6 +1,7 @@
 import {
     CachedCreatedPlansDocument,
     CreatePlanByLocationDocument,
+    FetchPlanByIdDocument,
     MatchInterestsDocument,
     SavePlanFromCandidateDocument,
 } from "src/data/graphql/generated";
@@ -10,6 +11,8 @@ import {
     CreatePlanFromLocationResponse,
     FetchCachedCreatedPlansRequest,
     FetchCachedCreatedPlansResponse,
+    FetchPlanRequest,
+    FetchPlanResponse,
     MatchInterestRequest,
     MatchInterestResponse,
     PlannerApi,
@@ -18,6 +21,32 @@ import {
 } from "src/domain/plan/PlannerApi";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
+    async fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse> {
+        const { data } = await this.client.query({
+            query: FetchPlanByIdDocument,
+            variables: { planId: request.planId },
+        });
+        return {
+            plan:
+                data.plan === null
+                    ? null
+                    : {
+                          id: data.plan.id,
+                          title: data.plan.name,
+                          tags: [], // TODO: APIから取得する,
+                          places: data.plan.places.map((place) => ({
+                              name: place.name,
+                              imageUrls: place.photos,
+                              location: {
+                                  latitude: place.location.latitude,
+                                  longitude: place.location.longitude,
+                              },
+                          })),
+                          timeInMinutes: data.plan.timeInMinutes,
+                      },
+        };
+    }
+
     async createPlansFromLocation(
         request: CreatePlanFromLocationRequest
     ): Promise<CreatePlanFromLocationResponse> {

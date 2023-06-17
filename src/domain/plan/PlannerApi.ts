@@ -1,4 +1,6 @@
 export interface PlannerApi {
+    fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse>;
+
     createPlansFromLocation(
         request: CreatePlanFromLocationRequest
     ): Promise<CreatePlanFromLocationResponse>;
@@ -45,9 +47,17 @@ export function createPlanFromPlanEntity(entity: PlanEntity) {
             location: place.location,
             tags: [],
         })),
-        timeInMinutes: plan.timeInMinutes,
-    }));
+        timeInMinutes: entity.timeInMinutes,
+    };
 }
+
+export type FetchPlanRequest = {
+    planId: string;
+};
+
+export type FetchPlanResponse = {
+    plan: PlanEntity | null;
+};
 
 export type CreatePlanFromLocationRequest = {
     location: {
