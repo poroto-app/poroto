@@ -9,6 +9,7 @@ query FetchPlanById($planId: String!) {
                 longitude
                 latitude
             }
+            estimatedStayDuration
         }
         timeInMinutes
     }

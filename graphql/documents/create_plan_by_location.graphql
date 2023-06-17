@@ -17,6 +17,7 @@ mutation CreatePlanByLocation($latitude: Float!, $longitude: Float!, $categories
                     longitude
                     latitude
                 }
+                estimatedStayDuration
             }
             timeInMinutes
         }
