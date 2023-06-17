@@ -1,0 +1,15 @@
+query FetchPlanById($planId: String!) {
+    plan(id: $planId) {
+        id
+        name
+        places {
+            name
+            photos
+            location {
+                longitude
+                latitude
+            }
+        }
+        timeInMinutes
+    }
+}
