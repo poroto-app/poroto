@@ -8,14 +8,14 @@ import {
     PlannerApi,
 } from "src/domain/plan/PlannerApi";
 import { RootState } from "src/redux/redux";
-import { mockPlan } from "src/stories/mock/plan";
 
 export type PlanState = {
     createPlanSession: string | null;
     createdBasedOnCurrentLocation: boolean | null;
     plansCreated: Plan[] | null;
 
-    // TODO: `usePlanPreview`等でデータを二重管理しないようにする
+    // TODO: 取得中か存在しないのかを見分けられるようにする
+    //  （画面に大きく依存するもののため、専用のsliceを作成する）
     preview: Plan | null;
 
     categoryCandidates: LocationCategory[] | null;
@@ -141,11 +141,9 @@ type FetchPlanProps = { planId: string };
 export const fetchPlan = createAsyncThunk(
     "plan/fetchPlan",
     async ({ planId }: FetchPlanProps) => {
-        //   TODO: implement me!
-        return {
-            ...mockPlan,
-            id: planId,
-        };
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.fetchPlan({ planId });
+        return response.plan ? createPlanFromPlanEntity(response.plan) : null;
     }
 );
 
