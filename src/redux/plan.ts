@@ -67,7 +67,7 @@ export const createPlanFromLocation = createAsyncThunk(
             basedOnCurrentLocation: isCurrentLocation,
         });
         const session = response.session;
-        const plans: Plan[] = createPlanFromPlanEntity(response.plans);
+        const plans: Plan[] = response.plans.map(createPlanFromPlanEntity);
         dispatch(
             setCreatedPlans({
                 session,
@@ -102,7 +102,7 @@ export const fetchCachedCreatedPlans = createAsyncThunk(
             return;
         }
 
-        const plans: Plan[] = createPlanFromPlanEntity(response.plans);
+        const plans: Plan[] = response.plans.map(createPlanFromPlanEntity);
         dispatch(
             setCreatedPlans({
                 session,

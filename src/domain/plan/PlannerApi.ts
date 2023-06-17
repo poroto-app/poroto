@@ -33,13 +33,13 @@ export type PlanEntity = {
     timeInMinutes: number;
 };
 
-export function createPlanFromPlanEntity(entities: PlanEntity[]) {
-    return entities.map((plan) => ({
-        id: plan.id,
-        title: plan.title,
-        imageUrls: plan.places.flatMap((place) => place.imageUrls),
-        tags: plan.tags,
-        places: plan.places.map((place) => ({
+export function createPlanFromPlanEntity(entity: PlanEntity) {
+    return {
+        id: entity.id,
+        title: entity.title,
+        imageUrls: entity.places.flatMap((place) => place.imageUrls),
+        tags: entity.tags,
+        places: entity.places.map((place) => ({
             name: place.name,
             imageUrls: place.imageUrls,
             location: place.location,
