@@ -4,10 +4,11 @@ import {
     DndContext,
     DragEndEvent,
     KeyboardSensor,
-    PointerSensor,
+    PointerSensor, TouchSensor,
     useSensor,
     useSensors,
 } from "@dnd-kit/core";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
     arrayMove,
     SortableContext,
@@ -26,6 +27,7 @@ type Props = {
 export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
     const sensors = useSensors(
         useSensor(PointerSensor),
+        useSensor(TouchSensor),
         useSensor(KeyboardSensor, {
             coordinateGetter: sortableKeyboardCoordinates,
         })
@@ -46,6 +48,7 @@ export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
         <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
+            modifiers={[restrictToVerticalAxis]}
             onDragEnd={handleDragEnd}
         >
             {/*TODO: Planner APIに場所のIDを指定させる*/}
