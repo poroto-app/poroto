@@ -120,6 +120,7 @@ export type Query = {
   cachedCreatedPlans: CachedCreatedPlans;
   matchInterests: InterestCandidate;
   plan?: Maybe<Plan>;
+  plans: Array<Plan>;
   version: Scalars['String'];
 };
 
@@ -136,6 +137,11 @@ export type QueryMatchInterestsArgs = {
 
 export type QueryPlanArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryPlansArgs = {
+  pageKey?: InputMaybe<Scalars['String']>;
 };
 
 export type SavePlanFromCandidateInput = {
