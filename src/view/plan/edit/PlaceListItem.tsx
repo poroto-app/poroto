@@ -1,12 +1,12 @@
-import { Center, HStack, Icon, Text } from "@chakra-ui/react";
+import { HStack, Icon, Text } from "@chakra-ui/react";
 import {
     DraggableAttributes,
     DraggableSyntheticListeners,
 } from "@dnd-kit/core";
-import Image from "next/image";
 import { forwardRef } from "react";
 import { MdDragIndicator } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
+import styled from "styled-components";
 
 type Props = {
     place: Place;
@@ -21,8 +21,8 @@ export const PlaceListItem = forwardRef<HTMLDivElement, Props>(
     ) {
         return (
             <HStack w="100%" spacing={4} backgroundColor="white">
-                <HStack userSelect="none" flex={1}>
-                    <Image
+                <HStack flex={1}>
+                    <img
                         width={48}
                         height={48}
                         src={place.imageUrls[0]}
@@ -37,14 +37,30 @@ export const PlaceListItem = forwardRef<HTMLDivElement, Props>(
                     />
                     <Text>{place.name}</Text>
                 </HStack>
-                <Center
+                <DragHandle
                     {...draggableAttributes}
                     {...draggableListeners}
                     ref={ref}
                 >
                     <Icon w="24px" h="24px" as={MdDragIndicator} color="gray" />
-                </Center>
+                </DragHandle>
             </HStack>
         );
     }
 );
+
+const DragHandle = styled.div`
+    // MEMO: touch-action: none とすることで、spで操作するときにスクロールしないようにする
+    touch-action: none;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+
+    &:focus-visible,
+    &:hover {
+        border-radius: 5px;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+    }
+`;
