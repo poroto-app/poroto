@@ -1,4 +1,4 @@
-import { Box, VStack } from "@chakra-ui/react";
+import { HStack, VStack } from "@chakra-ui/react";
 import {
     closestCenter,
     DndContext,
@@ -107,16 +107,18 @@ function ReorderblePlaceItem({
     };
 
     return (
-        <Box
+        <HStack
             w="100%"
             opacity={isActive ? 0.3 : 1}
             key={place.name}
             ref={setNodeRef}
             style={style}
-            {...attributes}
-            {...listeners}
         >
-            <PlaceListItem place={place} />
-        </Box>
+            <PlaceListItem
+                place={place}
+                draggableAttributes={attributes}
+                draggableListeners={listeners}
+            />
+        </HStack>
     );
 }
