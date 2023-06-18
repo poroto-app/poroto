@@ -47,9 +47,19 @@ const initialState: PlanState = {
 export const fetchPlansRecentlyCreated = createAsyncThunk<{
     plans: Plan[];
     nextPageToken: string | null;
-}>("plan/fetchPlansRecentlyCreated", async (props, { getState }) => {
-    const { nextPageTokenPlansRecentlyCreated } = (getState() as RootState)
-        .plan;
+} | null>("plan/fetchPlansRecentlyCreated", async (props, { getState }) => {
+    const { plansRecentlyCreated, nextPageTokenPlansRecentlyCreated } = (
+        getState() as RootState
+    ).plan;
+
+    // すでに取得している場合はスキップ
+    if (
+        plansRecentlyCreated &&
+        plansRecentlyCreated.length > 0 &&
+        nextPageTokenPlansRecentlyCreated === null
+    ) {
+        return null;
+    }
 
     const plannerApi: PlannerApi = new PlannerGraphQlApi();
     const { plans, nextPageKey } = await plannerApi.fetchPlans({
@@ -280,6 +290,8 @@ export const slice = createSlice({
             .addCase(
                 fetchPlansRecentlyCreated.fulfilled,
                 (state, { payload }) => {
+                    if (!payload) return;
+
                     if (!state.plansRecentlyCreated)
                         state.plansRecentlyCreated = [];
 
