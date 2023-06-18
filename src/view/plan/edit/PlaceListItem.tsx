@@ -23,7 +23,7 @@ export function PlaceListItem({
             <Box {...draggableAttributes} {...draggableListeners}>
                 <Icon w="24px" h="24px" as={MdDragIndicator} color="gray" />
             </Box>
-            <HStack>
+            <HStack userSelect="none">
                 <Image
                     width={48}
                     height={48}
