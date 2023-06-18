@@ -5,9 +5,7 @@ import {
     DragEndEvent,
     DragOverlay,
     DragStartEvent,
-    KeyboardSensor,
     PointerSensor,
-    TouchSensor,
     UniqueIdentifier,
     useSensor,
     useSensors,
@@ -16,7 +14,6 @@ import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
     arrayMove,
     SortableContext,
-    sortableKeyboardCoordinates,
     useSortable,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
@@ -32,13 +29,7 @@ type Props = {
 
 export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
     const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
-    const sensors = useSensors(
-        useSensor(PointerSensor),
-        useSensor(TouchSensor),
-        useSensor(KeyboardSensor, {
-            coordinateGetter: sortableKeyboardCoordinates,
-        })
-    );
+    const sensors = useSensors(useSensor(PointerSensor));
 
     const handleDragStart = (event: DragStartEvent) => {
         setActiveId(event.active.id);
@@ -70,7 +61,7 @@ export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
                 items={places.map((place) => ({ id: place.name, ...place }))}
                 strategy={verticalListSortingStrategy}
             >
-                <VStack w="100%" px="16px" spacing={4}>
+                <VStack w="100%" spacing={4}>
                     {places.map((place) => (
                         <ReorderblePlaceItem
                             key={place.name}
@@ -82,8 +73,12 @@ export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
             </SortableContext>
             <DragOverlay>
                 {activeId && (
-                    <PlaceListItem
-                        place={places.find((place) => place.name === activeId)}
+                    <ReorderblePlaceItem
+                        place={{
+                            id: activeId.toString(),
+                            ...places.find((place) => place.name === activeId),
+                        }}
+                        isActive={false}
                     />
                 )}
             </DragOverlay>
@@ -98,8 +93,14 @@ function ReorderblePlaceItem({
     place: Place & { id: string };
     isActive: boolean;
 }) {
-    const { attributes, listeners, setNodeRef, transform, transition } =
-        useSortable({ id: place.id });
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        setActivatorNodeRef,
+        transform,
+        transition,
+    } = useSortable({ id: place.id });
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -111,11 +112,12 @@ function ReorderblePlaceItem({
             w="100%"
             opacity={isActive ? 0.3 : 1}
             key={place.name}
-            ref={setNodeRef}
             style={style}
+            ref={setNodeRef}
         >
             <PlaceListItem
                 place={place}
+                ref={setActivatorNodeRef}
                 draggableAttributes={attributes}
                 draggableListeners={listeners}
             />
