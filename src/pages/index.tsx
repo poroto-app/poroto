@@ -1,4 +1,4 @@
-import {Center, Container, Divider, Text, VStack} from "@chakra-ui/react";
+import { Center, Divider, Text, VStack } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -32,7 +32,7 @@ const IndexPage = () => {
 
     return (
         <>
-            <VStack maxW="990px" px="16px" divider={<Divider/>} spacing="24px">
+            <VStack maxW="990px" px="16px" divider={<Divider />} spacing="24px">
                 <VStack w="100%" spacing={4} pt="32px">
                     <PlaceSearchButton />
                     <Button
