@@ -9,7 +9,7 @@ type Props = {
 
 export function PlaceListItem({ place }: Props) {
     return (
-        <HStack w="100%" spacing={4}>
+        <HStack w="100%" spacing={4} backgroundColor="white">
             <Icon w="24px" h="24px" as={MdDragIndicator} color="gray" />
             <HStack>
                 <Image

@@ -3,9 +3,12 @@ import {
     closestCenter,
     DndContext,
     DragEndEvent,
+    DragOverlay,
+    DragStartEvent,
     KeyboardSensor,
     PointerSensor,
     TouchSensor,
+    UniqueIdentifier,
     useSensor,
     useSensors,
 } from "@dnd-kit/core";
@@ -18,6 +21,7 @@ import {
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { useState } from "react";
 import { Place } from "src/domain/models/Place";
 import { PlaceListItem } from "src/view/plan/edit/PlaceListItem";
 
@@ -27,6 +31,7 @@ type Props = {
 };
 
 export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
+    const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
     const sensors = useSensors(
         useSensor(PointerSensor),
         useSensor(TouchSensor),
@@ -35,7 +40,13 @@ export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
         })
     );
 
+    const handleDragStart = (event: DragStartEvent) => {
+        setActiveId(event.active.id);
+    };
+
     const handleDragEnd = (event: DragEndEvent) => {
+        setActiveId(null);
+
         const { active, over } = event;
         if (active.id === over.id) return;
 
@@ -51,6 +62,7 @@ export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
             sensors={sensors}
             collisionDetection={closestCenter}
             modifiers={[restrictToVerticalAxis]}
+            onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
         >
             {/*TODO: Planner APIに場所のIDを指定させる*/}
@@ -62,16 +74,30 @@ export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
                     {places.map((place) => (
                         <ReorderblePlaceItem
                             key={place.name}
+                            isActive={activeId === place.name}
                             place={{ ...place, id: place.name }}
                         />
                     ))}
                 </VStack>
             </SortableContext>
+            <DragOverlay>
+                {activeId && (
+                    <PlaceListItem
+                        place={places.find((place) => place.name === activeId)}
+                    />
+                )}
+            </DragOverlay>
         </DndContext>
     );
 }
 
-function ReorderblePlaceItem({ place }: { place: Place & { id: string } }) {
+function ReorderblePlaceItem({
+    place,
+    isActive,
+}: {
+    place: Place & { id: string };
+    isActive: boolean;
+}) {
     const { attributes, listeners, setNodeRef, transform, transition } =
         useSortable({ id: place.id });
 
@@ -83,8 +109,8 @@ function ReorderblePlaceItem({ place }: { place: Place & { id: string } }) {
     return (
         <Box
             w="100%"
+            opacity={isActive ? 0.3 : 1}
             key={place.name}
-            backgroundColor="white"
             ref={setNodeRef}
             style={style}
             {...attributes}
