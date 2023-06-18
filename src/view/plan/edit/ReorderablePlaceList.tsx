@@ -1,8 +1,20 @@
-import { Box } from "@chakra-ui/react";
-import { Identifier, XYCoord } from "dnd-core";
-import { useRef } from "react";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import {Box, VStack} from "@chakra-ui/react";
+import {
+    closestCenter,
+    DndContext,
+    DragEndEvent,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+} from "@dnd-kit/core";
+import {
+    arrayMove,
+    SortableContext,
+    sortableKeyboardCoordinates, useSortable,
+    verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import {CSS} from '@dnd-kit/utilities';
 import { Place } from "src/domain/models/Place";
 import { PlaceListItem } from "src/view/plan/edit/PlaceListItem";
 
@@ -11,114 +23,63 @@ type Props = {
     onReorderPlaces: (places: Place[]) => void;
 };
 
-type DragItem = {
-    index: number;
-    id: string;
-    type: string;
-};
-
-const PlaceListItemType = "PlaceListItem";
-
 export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
-    const moveCard = (dragIndex: number, hoverIndex: number) => {
-        const dragCard = places[dragIndex];
-        const newPlaces = [...places];
-        newPlaces.splice(dragIndex, 1);
-        newPlaces.splice(hoverIndex, 0, dragCard);
-        onReorderPlaces(newPlaces);
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { active, over } = event;
+        if (active.id === over.id) return;
+
+        // TODO: Planner APIで指定されたIDを利用する
+        const oldIndex = places.findIndex((place) => place.name === active.id);
+        const newIndex = places.findIndex((place) => place.name === over.id);
+
+        onReorderPlaces(arrayMove(places, oldIndex, newIndex));
     };
 
     return (
-        <DndProvider backend={HTML5Backend}>
-            <Box>
-                {places.map((place, i) => (
-                    <Box px="16px" py="8px" key={place.name}>
-                        <ReorderablePlaceListItem
-                            place={place}
-                            index={i}
-                            /* TODO: Planner APIにIDを指定させる */
-                            moveCard={moveCard}
-                        />
-                    </Box>
-                ))}
-            </Box>
-        </DndProvider>
+        <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+        >
+            {/*TODO: Planner APIに場所のIDを指定させる*/}
+            <SortableContext
+                items={places.map((place) => ({ id: place.name, ...place }))}
+                strategy={verticalListSortingStrategy}
+            >
+                <VStack w="100%">
+                    {places.map((place) => (
+                        <Box w="100%" px="16px" py="8px" key={place.name}>
+                            <ReorderblePlaceItem place={({...place, id: place.name})} />
+                        </Box>
+                    ))}
+                </VStack>
+            </SortableContext>
+        </DndContext>
     );
 }
 
-// SEE: https://react-dnd.github.io/react-dnd/examples/sortable/simple
-export function ReorderablePlaceListItem({
-    place,
-    index,
-    moveCard,
-}: {
-    place: Place;
-    index: number;
-    moveCard: (dragIndex: number, hoverIndex: number) => void;
-}) {
-    const ref = useRef<HTMLDivElement>(null);
+function ReorderblePlaceItem({ place }: { place: Place & { id : string} }) {
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition,
+    } = useSortable({id: place.id});
 
-    const [{ handlerId }, drop] = useDrop<
-        DragItem,
-        void,
-        { handlerId: Identifier | null }
-    >({
-        accept: PlaceListItemType,
-        collect: (monitor) => {
-            return {
-                handlerId: monitor.getHandlerId(),
-            };
-        },
-        hover(item, monitor) {
-            if (!ref.current) {
-                return;
-            }
-            const dragIndex = item.index;
-            const hoverIndex = index;
-            if (dragIndex === hoverIndex) {
-                return;
-            }
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
 
-            const hoverBoundingRect = ref.current?.getBoundingClientRect();
-            const hoverMiddleY =
-                (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-            const clientOffset = monitor.getClientOffset();
-            const hoverClientY =
-                (clientOffset as XYCoord).y - hoverBoundingRect.top;
-
-            // 下方向にドラッグしている
-            if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-                return;
-            }
-
-            // 上方向にドラッグしている
-            if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-                return;
-            }
-
-            moveCard(dragIndex, hoverIndex);
-
-            item.index = hoverIndex;
-        },
-    });
-
-    const [{ isDragging }, drag] = useDrag({
-        type: PlaceListItemType,
-        item: () => {
-            // TODO: Planner APIにIDを指定させる
-            return { id: place.name, index };
-        },
-        collect: (monitor) => ({
-            isDragging: monitor.isDragging(),
-        }),
-    });
-
-    const opacity = isDragging ? 0.5 : 1;
-    drag(drop(ref));
-
-    return (
-        <Box ref={ref} opacity={opacity} data-handler-id={handlerId}>
-            <PlaceListItem place={place} />
-        </Box>
-    );
+    return <Box w="100%" ref={setNodeRef} style={style} {...attributes} {...listeners}>
+        <PlaceListItem place={place} />
+    </Box>
 }
