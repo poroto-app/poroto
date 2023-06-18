@@ -1,10 +1,12 @@
 import { HStack, VStack } from "@chakra-ui/react";
 import {
     closestCenter,
+    defaultDropAnimationSideEffects,
     DndContext,
     DragEndEvent,
     DragOverlay,
     DragStartEvent,
+    DropAnimation,
     PointerSensor,
     UniqueIdentifier,
     useSensor,
@@ -65,36 +67,25 @@ export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
                     {places.map((place) => (
                         <ReorderblePlaceItem
                             key={place.name}
-                            isActive={activeId === place.name}
                             place={{ ...place, id: place.name }}
                         />
                     ))}
                 </VStack>
             </SortableContext>
-            <DragOverlay>
-                {activeId && (
-                    <ReorderblePlaceItem
-                        place={{
-                            id: activeId.toString(),
-                            ...places.find((place) => place.name === activeId),
-                        }}
-                        isActive={false}
-                    />
-                )}
-            </DragOverlay>
+            {activeId && (
+                <ReorderableItemOverlay
+                    id={activeId.toString()}
+                    place={places.find((place) => place.name === activeId)}
+                />
+            )}
         </DndContext>
     );
 }
 
-function ReorderblePlaceItem({
-    place,
-    isActive,
-}: {
-    place: Place & { id: string };
-    isActive: boolean;
-}) {
+function ReorderblePlaceItem({ place }: { place: Place & { id: string } }) {
     const {
         attributes,
+        isDragging,
         listeners,
         setNodeRef,
         setActivatorNodeRef,
@@ -110,7 +101,7 @@ function ReorderblePlaceItem({
     return (
         <HStack
             w="100%"
-            opacity={isActive ? 0.3 : 1}
+            opacity={isDragging ? 0.3 : 1}
             key={place.name}
             style={style}
             ref={setNodeRef}
@@ -122,5 +113,28 @@ function ReorderblePlaceItem({
                 draggableListeners={listeners}
             />
         </HStack>
+    );
+}
+
+function ReorderableItemOverlay({ id, place }: { id: string; place: Place }) {
+    const dropAnimation: DropAnimation = {
+        sideEffects: defaultDropAnimationSideEffects({
+            styles: {
+                active: {
+                    opacity: "0.4",
+                },
+            },
+        }),
+    };
+
+    return (
+        <DragOverlay dropAnimation={dropAnimation}>
+            <ReorderblePlaceItem
+                place={{
+                    id,
+                    ...place,
+                }}
+            />
+        </DragOverlay>
     );
 }
