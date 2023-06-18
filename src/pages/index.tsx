@@ -1,4 +1,4 @@
-import { Center, Container, Text, VStack } from "@chakra-ui/react";
+import {Center, Container, Divider, Text, VStack} from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -32,7 +32,7 @@ const IndexPage = () => {
 
     return (
         <>
-            <Container maxW="990px" px="16px">
+            <VStack maxW="990px" px="16px" divider={<Divider/>} spacing="24px">
                 <VStack w="100%" spacing={4} pt="32px">
                     <PlaceSearchButton />
                     <Button
@@ -44,7 +44,7 @@ const IndexPage = () => {
                 {isLoadingLocation && <Text>現在地を取得中</Text>}
                 {isRejected && <Text>現在地の取得を拒否されました。</Text>}
 
-                <VStack px="16px" spacing={16} py="16px" w="100%">
+                <VStack px="16px" spacing={16} w="100%">
                     {plansRecentlyCreated &&
                         plansRecentlyCreated.map((plan, index) => (
                             <Link
@@ -58,7 +58,7 @@ const IndexPage = () => {
                             </Link>
                         ))}
                 </VStack>
-            </Container>
+            </VStack>
             <BannerAd />
         </>
     );
