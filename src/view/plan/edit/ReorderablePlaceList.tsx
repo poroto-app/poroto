@@ -1,10 +1,11 @@
-import {Box, VStack} from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 import {
     closestCenter,
     DndContext,
     DragEndEvent,
     KeyboardSensor,
-    PointerSensor, TouchSensor,
+    PointerSensor,
+    TouchSensor,
     useSensor,
     useSensors,
 } from "@dnd-kit/core";
@@ -12,10 +13,11 @@ import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
 import {
     arrayMove,
     SortableContext,
-    sortableKeyboardCoordinates, useSortable,
+    sortableKeyboardCoordinates,
+    useSortable,
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import {CSS} from '@dnd-kit/utilities';
+import { CSS } from "@dnd-kit/utilities";
 import { Place } from "src/domain/models/Place";
 import { PlaceListItem } from "src/view/plan/edit/PlaceListItem";
 
@@ -58,9 +60,10 @@ export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
             >
                 <VStack w="100%">
                     {places.map((place) => (
-                        <Box w="100%" px="16px" py="8px" key={place.name}>
-                            <ReorderblePlaceItem place={({...place, id: place.name})} />
-                        </Box>
+                        <ReorderblePlaceItem
+                            key={place.name}
+                            place={{ ...place, id: place.name }}
+                        />
                     ))}
                 </VStack>
             </SortableContext>
@@ -68,21 +71,28 @@ export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
     );
 }
 
-function ReorderblePlaceItem({ place }: { place: Place & { id : string} }) {
-    const {
-        attributes,
-        listeners,
-        setNodeRef,
-        transform,
-        transition,
-    } = useSortable({id: place.id});
+function ReorderblePlaceItem({ place }: { place: Place & { id: string } }) {
+    const { attributes, listeners, setNodeRef, transform, transition } =
+        useSortable({ id: place.id });
 
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
     };
 
-    return <Box w="100%" ref={setNodeRef} style={style} {...attributes} {...listeners}>
-        <PlaceListItem place={place} />
-    </Box>
+    return (
+        <Box
+            w="100%"
+            px="16px"
+            py="8px"
+            key={place.name}
+            backgroundColor="white"
+            ref={setNodeRef}
+            style={style}
+            {...attributes}
+            {...listeners}
+        >
+            <PlaceListItem place={place} />
+        </Box>
+    );
 }
