@@ -107,6 +107,7 @@ const PlanDetail = () => {
                 onSave={() =>
                     handleOnSavePlan({ session: createPlanSession, plan })
                 }
+                onEdit={() => alert("edit")}
             />
         </>
     );
