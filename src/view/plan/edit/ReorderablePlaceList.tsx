@@ -58,7 +58,7 @@ export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
                 items={places.map((place) => ({ id: place.name, ...place }))}
                 strategy={verticalListSortingStrategy}
             >
-                <VStack w="100%">
+                <VStack w="100%" px="16px" spacing={4}>
                     {places.map((place) => (
                         <ReorderblePlaceItem
                             key={place.name}
@@ -83,8 +83,6 @@ function ReorderblePlaceItem({ place }: { place: Place & { id: string } }) {
     return (
         <Box
             w="100%"
-            px="16px"
-            py="8px"
             key={place.name}
             backgroundColor="white"
             ref={setNodeRef}
