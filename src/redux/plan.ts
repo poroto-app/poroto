@@ -11,6 +11,9 @@ import { RootState } from "src/redux/redux";
 import { mockPlan } from "src/stories/mock/plan";
 
 export type PlanState = {
+    plansRecentlyCreated: Plan[] | null;
+    nextPageTokenPlansRecentlyCreated: string | null;
+
     createPlanSession: string | null;
     createdBasedOnCurrentLocation: boolean | null;
     plansCreated: Plan[] | null;
@@ -26,6 +29,9 @@ export type PlanState = {
 };
 
 const initialState: PlanState = {
+    plansRecentlyCreated: null,
+    nextPageTokenPlansRecentlyCreated: null,
+
     createPlanSession: null,
     createdBasedOnCurrentLocation: null,
     plansCreated: null,
@@ -37,6 +43,24 @@ const initialState: PlanState = {
 
     timeForPlan: null,
 };
+
+export const fetchPlansRecentlyCreated = createAsyncThunk<{
+    plans: Plan[];
+    nextPageToken: string | null;
+}>("plan/fetchPlansRecentlyCreated", async (props, { getState }) => {
+    const { nextPageTokenPlansRecentlyCreated } = (getState() as RootState)
+        .plan;
+
+    const plannerApi: PlannerApi = new PlannerGraphQlApi();
+    const { plans, nextPageKey } = await plannerApi.fetchPlans({
+        pageKey: nextPageTokenPlansRecentlyCreated,
+    });
+
+    return {
+        plans: createPlanFromPlanEntity(plans),
+        nextPageToken: nextPageKey,
+    };
+});
 
 type CreatePlanFromCurrentLocationProps = {
     location: {
@@ -251,7 +275,19 @@ export const slice = createSlice({
             // Fetch Plan
             .addCase(fetchPlan.fulfilled, (state, { payload }) => {
                 state.preview = payload;
-            });
+            })
+            // Fetch Plans Recently Created
+            .addCase(
+                fetchPlansRecentlyCreated.fulfilled,
+                (state, { payload }) => {
+                    if (!state.plansRecentlyCreated)
+                        state.plansRecentlyCreated = [];
+
+                    state.plansRecentlyCreated.push(...payload.plans);
+                    state.nextPageTokenPlansRecentlyCreated =
+                        payload.nextPageToken;
+                }
+            );
     },
 });
 
