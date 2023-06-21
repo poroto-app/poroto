@@ -1,49 +1,33 @@
-import { Box, Button, Image, Text, VStack } from "@chakra-ui/react";
+import { Button, Center, Image, Text, VStack } from "@chakra-ui/react";
 import styled from "styled-components";
 
-import notFoundImage from "./404.png";
+import notFoundImage from "/public/images/404.png";
 
 const NotFoundPage = () => {
     return (
-        <Container>
+        <VStack h="100%" py="24px" px="16px" justifyContent="space-between">
             <VStack>
-                <HeaderTextWrapper>
+                <VStack>
                     <HeaderText>404</HeaderText>
                     <SubText>Not Found</SubText>
-                </HeaderTextWrapper>
+                </VStack>
                 <StyledImageWrapper>
                     <StyledImage src={notFoundImage} alt="Not Found" />
                 </StyledImageWrapper>
-                <ErrorMessageWrapper>
+                <Center>
                     <ErrorMessage>
                         申し訳ございません
                         <br />
                         お探しのしおりの１ページが見つかりませんでした
                     </ErrorMessage>
-                </ErrorMessageWrapper>
+                </Center>
             </VStack>
             <TopButtonWrapper>
-                <TopButton>Top</TopButton>
+                <TopButton>ホームに戻る</TopButton>
             </TopButtonWrapper>
-        </Container>
+        </VStack>
     );
 };
-
-const Container = styled(Box)`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    height: 100vh;
-    padding: 24px 16px;
-`;
-
-const HeaderTextWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0;
-`;
 
 const HeaderText = styled(Text)`
     font-size: 170px;
@@ -68,13 +52,8 @@ const StyledImageWrapper = styled.div`
 
 const StyledImage = styled(Image)`
     max-height: 196px;
-    width: auto;
-`;
-
-const ErrorMessageWrapper = styled.div`
     width: 100%;
-    display: flex;
-    justify-content: center;
+    object-fit: cover;
 `;
 
 const ErrorMessage = styled(Text)`
@@ -98,6 +77,9 @@ const TopButton = styled(Button)`
     width: 40%;
     padding: 10px 20px;
     border-radius: 20px;
+    border: none;
+    outline: none;
+    appearance: none;
 `;
 
 export default NotFoundPage;
