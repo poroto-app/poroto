@@ -67,7 +67,7 @@ export const fetchPlansRecentlyCreated = createAsyncThunk<{
     });
 
     return {
-        plans: createPlanFromPlanEntity(plans),
+        plans: plans.map((plan) => createPlanFromPlanEntity(plan)),
         nextPageToken: nextPageKey,
     };
 });
