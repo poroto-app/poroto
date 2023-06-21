@@ -1,4 +1,6 @@
 export interface PlannerApi {
+    fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse>;
+
     fetchPlans(request: FetchPlansRequest): Promise<FetchPlansResponse>;
 
     createPlansFromLocation(
@@ -35,21 +37,29 @@ export type PlanEntity = {
     timeInMinutes: number;
 };
 
-export function createPlanFromPlanEntity(entities: PlanEntity[]) {
-    return entities.map((plan) => ({
-        id: plan.id,
-        title: plan.title,
-        imageUrls: plan.places.flatMap((place) => place.imageUrls),
-        tags: plan.tags,
-        places: plan.places.map((place) => ({
+export function createPlanFromPlanEntity(entity: PlanEntity) {
+    return {
+        id: entity.id,
+        title: entity.title,
+        imageUrls: entity.places.flatMap((place) => place.imageUrls),
+        tags: entity.tags,
+        places: entity.places.map((place) => ({
             name: place.name,
             imageUrls: place.imageUrls,
             location: place.location,
             tags: [],
         })),
-        timeInMinutes: plan.timeInMinutes,
-    }));
+        timeInMinutes: entity.timeInMinutes,
+    };
 }
+
+export type FetchPlanRequest = {
+    planId: string;
+};
+
+export type FetchPlanResponse = {
+    plan: PlanEntity | null;
+};
 
 export type FetchPlansRequest = {
     pageKey: string | null;
