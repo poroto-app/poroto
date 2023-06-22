@@ -3,27 +3,29 @@ import styled from "styled-components";
 
 const NotFoundPage = () => {
     return (
-        <VStack h="100%" py="24px" px="16px" justifyContent="space-between">
-            <VStack>
+        <Center w="100%">
+            <VStack h="100%" py="24px" px="16px" justifyContent="space-between">
                 <VStack>
-                    <HeaderText>404</HeaderText>
-                    <SubText>Not Found</SubText>
+                    <VStack>
+                        <HeaderText>404</HeaderText>
+                        <SubText>Not Found</SubText>
+                    </VStack>
+                    <StyledImageWrapper>
+                        <StyledImage src="/images/404.png" alt="Not Found" />
+                    </StyledImageWrapper>
+                    <Center>
+                        <ErrorMessage>
+                            申し訳ございません
+                            <br />
+                            お探しのしおりの１ページが見つかりませんでした
+                        </ErrorMessage>
+                    </Center>
                 </VStack>
-                <StyledImageWrapper>
-                    <StyledImage src="/images/404.png" alt="Not Found" />
-                </StyledImageWrapper>
-                <Center>
-                    <ErrorMessage>
-                        申し訳ございません
-                        <br />
-                        お探しのしおりの１ページが見つかりませんでした
-                    </ErrorMessage>
-                </Center>
+                <TopButtonWrapper>
+                    <TopButton>ホームに戻る</TopButton>
+                </TopButtonWrapper>
             </VStack>
-            <TopButtonWrapper>
-                <TopButton>ホームに戻る</TopButton>
-            </TopButtonWrapper>
-        </VStack>
+        </Center>
     );
 };
 
@@ -72,7 +74,7 @@ const TopButton = styled(Button)`
     font-weight: bold;
     background: linear-gradient(120deg, #e1c78c, #5e6382);
     color: #ffffff;
-    width: 40%;
+    width: 100%;
     padding: 10px 20px;
     border-radius: 20px;
     border: none;
