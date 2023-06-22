@@ -1,8 +1,6 @@
 import { Button, Center, Image, Text, VStack } from "@chakra-ui/react";
 import styled from "styled-components";
 
-import notFoundImage from "/public/images/404.png";
-
 const NotFoundPage = () => {
     return (
         <VStack h="100%" py="24px" px="16px" justifyContent="space-between">
@@ -12,7 +10,7 @@ const NotFoundPage = () => {
                     <SubText>Not Found</SubText>
                 </VStack>
                 <StyledImageWrapper>
-                    <StyledImage src={notFoundImage} alt="Not Found" />
+                    <StyledImage src="/images/404.png" alt="Not Found" />
                 </StyledImageWrapper>
                 <Center>
                     <ErrorMessage>
