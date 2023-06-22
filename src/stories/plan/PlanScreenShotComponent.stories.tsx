@@ -1,7 +1,7 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent";
-import { Plan } from "src/domain/models/Plan";
 import { Box } from "@chakra-ui/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Plan } from "src/domain/models/Plan";
+import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent";
 
 export default {
     title: "plan/PlanScreenShotComponent",

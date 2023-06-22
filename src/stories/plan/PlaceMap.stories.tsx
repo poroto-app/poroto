@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { PlaceMap } from "src/view/plan/PlaceMap";
 import { Place } from "src/domain/models/Place";
+import { PlaceMap } from "src/view/plan/PlaceMap";
 
 export default {
     title: "plan/PlaceMap",

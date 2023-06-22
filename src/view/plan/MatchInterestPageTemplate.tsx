@@ -1,6 +1,6 @@
 import { VStack } from "@chakra-ui/react";
-import { AskInterestMessage } from "src/view/plan/AskInterestMessage";
 import { ReactNode } from "react";
+import { AskInterestMessage } from "src/view/plan/AskInterestMessage";
 
 type Props = {
     message: string;

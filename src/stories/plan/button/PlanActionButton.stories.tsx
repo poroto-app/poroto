@@ -1,8 +1,7 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { PlanActionButton } from "src/view/plan/button/PlanActionButton";
-import { MdOutlinePhotoCamera } from "react-icons/md";
-import React from "react";
 import { Box } from "@chakra-ui/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { MdOutlinePhotoCamera } from "react-icons/md";
+import { PlanActionButton } from "src/view/plan/button/PlanActionButton";
 
 export default {
     title: "plan/button/PlanActionButton",

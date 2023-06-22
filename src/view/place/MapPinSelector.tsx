@@ -1,6 +1,6 @@
-import { MapViewer } from "src/view/common/MapViewer";
-import { GeoLocation } from "src/domain/models/GeoLocation";
 import { Marker } from "@react-google-maps/api";
+import { GeoLocation } from "src/domain/models/GeoLocation";
+import { MapViewer } from "src/view/common/MapViewer";
 
 export type Props = {
     center: GeoLocation;

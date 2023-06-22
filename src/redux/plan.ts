@@ -1,21 +1,24 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Plan } from "src/domain/models/Plan";
 import { useSelector } from "react-redux";
-import { RootState } from "src/redux/redux";
+import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { LocationCategory } from "src/domain/models/LocationCategory";
+import { Plan } from "src/domain/models/Plan";
 import {
     createPlanFromPlanEntity,
     PlannerApi,
 } from "src/domain/plan/PlannerApi";
-import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
-import { mockPlan } from "src/stories/mock/plan";
+import { RootState } from "src/redux/redux";
 
 export type PlanState = {
+    plansRecentlyCreated: Plan[] | null;
+    nextPageTokenPlansRecentlyCreated: string | null;
+
     createPlanSession: string | null;
     createdBasedOnCurrentLocation: boolean | null;
     plansCreated: Plan[] | null;
 
-    // TODO: `usePlanPreview`等でデータを二重管理しないようにする
+    // TODO: 取得中か存在しないのかを見分けられるようにする
+    //  （画面に大きく依存するもののため、専用のsliceを作成する）
     preview: Plan | null;
 
     categoryCandidates: LocationCategory[] | null;
@@ -26,6 +29,9 @@ export type PlanState = {
 };
 
 const initialState: PlanState = {
+    plansRecentlyCreated: null,
+    nextPageTokenPlansRecentlyCreated: null,
+
     createPlanSession: null,
     createdBasedOnCurrentLocation: null,
     plansCreated: null,
@@ -37,6 +43,34 @@ const initialState: PlanState = {
 
     timeForPlan: null,
 };
+
+export const fetchPlansRecentlyCreated = createAsyncThunk<{
+    plans: Plan[];
+    nextPageToken: string | null;
+} | null>("plan/fetchPlansRecentlyCreated", async (props, { getState }) => {
+    const { plansRecentlyCreated, nextPageTokenPlansRecentlyCreated } = (
+        getState() as RootState
+    ).plan;
+
+    // すでに取得している場合はスキップ
+    if (
+        plansRecentlyCreated &&
+        plansRecentlyCreated.length > 0 &&
+        nextPageTokenPlansRecentlyCreated === null
+    ) {
+        return null;
+    }
+
+    const plannerApi: PlannerApi = new PlannerGraphQlApi();
+    const { plans, nextPageKey } = await plannerApi.fetchPlans({
+        pageKey: nextPageTokenPlansRecentlyCreated,
+    });
+
+    return {
+        plans: plans.map((plan) => createPlanFromPlanEntity(plan)),
+        nextPageToken: nextPageKey,
+    };
+});
 
 type CreatePlanFromCurrentLocationProps = {
     location: {
@@ -67,7 +101,7 @@ export const createPlanFromLocation = createAsyncThunk(
             basedOnCurrentLocation: isCurrentLocation,
         });
         const session = response.session;
-        const plans: Plan[] = createPlanFromPlanEntity(response.plans);
+        const plans: Plan[] = response.plans.map(createPlanFromPlanEntity);
         dispatch(
             setCreatedPlans({
                 session,
@@ -102,7 +136,7 @@ export const fetchCachedCreatedPlans = createAsyncThunk(
             return;
         }
 
-        const plans: Plan[] = createPlanFromPlanEntity(response.plans);
+        const plans: Plan[] = response.plans.map(createPlanFromPlanEntity);
         dispatch(
             setCreatedPlans({
                 session,
@@ -141,11 +175,9 @@ type FetchPlanProps = { planId: string };
 export const fetchPlan = createAsyncThunk(
     "plan/fetchPlan",
     async ({ planId }: FetchPlanProps) => {
-        //   TODO: implement me!
-        return {
-            ...mockPlan,
-            id: planId,
-        };
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.fetchPlan({ planId });
+        return response.plan ? createPlanFromPlanEntity(response.plan) : null;
     }
 );
 
@@ -251,7 +283,21 @@ export const slice = createSlice({
             // Fetch Plan
             .addCase(fetchPlan.fulfilled, (state, { payload }) => {
                 state.preview = payload;
-            });
+            })
+            // Fetch Plans Recently Created
+            .addCase(
+                fetchPlansRecentlyCreated.fulfilled,
+                (state, { payload }) => {
+                    if (!payload) return;
+
+                    if (!state.plansRecentlyCreated)
+                        state.plansRecentlyCreated = [];
+
+                    state.plansRecentlyCreated.push(...payload.plans);
+                    state.nextPageTokenPlansRecentlyCreated =
+                        payload.nextPageToken;
+                }
+            );
     },
 });
 

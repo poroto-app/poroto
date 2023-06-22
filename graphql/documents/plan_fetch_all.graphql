@@ -1,0 +1,15 @@
+query FetchPlans($pageKey: String) {
+    plans(pageKey: $pageKey) {
+        id
+        name
+        places {
+            name
+            photos
+            location {
+                longitude
+                latitude
+            }
+        }
+        timeInMinutes
+    }
+}

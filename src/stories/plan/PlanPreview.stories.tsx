@@ -14,7 +14,6 @@ const Template = ({
     timeInMinutes: number;
 }) => (
     <PlanPreview
-        session="abc"
         plan={{
             id: "plan",
             title,

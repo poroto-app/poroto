@@ -1,5 +1,5 @@
-import { CategorySelect } from "src/view/interest/CategorySelect";
 import { Box } from "@chakra-ui/react";
+import { CategorySelect } from "src/view/interest/CategorySelect";
 
 export default {
     title: "interest/CategorySelect",

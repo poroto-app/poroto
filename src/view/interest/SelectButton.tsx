@@ -1,7 +1,7 @@
-import { IconType } from "react-icons";
 import { Icon } from "@chakra-ui/react";
+import { useRef } from "react";
+import { IconType } from "react-icons";
 import styled from "styled-components";
-import React, { useRef } from "react";
 
 export const SelectButton = ({
     color,

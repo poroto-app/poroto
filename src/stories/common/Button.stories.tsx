@@ -1,7 +1,7 @@
+import { Box } from "@chakra-ui/react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { MdOutlinePlace } from "react-icons/md";
 import { Button } from "src/view/common/Button";
-import { Box } from "@chakra-ui/react";
 
 export default {
     title: "common/Button",

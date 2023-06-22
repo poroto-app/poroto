@@ -1,26 +1,26 @@
 import { Center, VStack } from "@chakra-ui/react";
-import { NavBar } from "src/view/common/NavBar";
-import { useAppDispatch } from "src/redux/redux";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { Plan } from "src/domain/models/Plan";
 import {
     fetchCachedCreatedPlans,
     fetchPlanDetail,
     reduxPlanSelector,
     savePlanFromCandidate,
 } from "src/redux/plan";
+import { useAppDispatch } from "src/redux/redux";
 import { LoadingModal } from "src/view/common/LoadingModal";
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-import { PlaceMap } from "src/view/plan/PlaceMap";
-import { PlanDuration } from "src/view/plan/PlanSummaryItem";
+import { NavBar } from "src/view/common/NavBar";
 import { useLocation } from "src/view/hooks/useLocation";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
-import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
+import { PlaceMap } from "src/view/plan/PlaceMap";
 import {
     FooterHeight,
     PlanCandidateFooter,
 } from "src/view/plan/PlanCandidateFooter";
-import { Plan } from "src/domain/models/Plan";
+import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
+import { PlanDuration } from "src/view/plan/PlanSummaryItem";
 
 const PlanDetail = () => {
     const { sessionId, planId } = useRouter().query;

@@ -1,9 +1,9 @@
-import styled from "styled-components";
 import { HStack, Icon, Text } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { MdArrowBack } from "react-icons/md";
 import { reduxHistorySelector } from "src/redux/history";
+import styled from "styled-components";
 
 type Props = {
     title?: string;

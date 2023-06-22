@@ -1,6 +1,6 @@
 import { HStack } from "@chakra-ui/react";
-import { PlanActionButton } from "src/view/plan/button/PlanActionButton";
 import { Colors } from "src/view/constants/color";
+import { PlanActionButton } from "src/view/plan/button/PlanActionButton";
 
 type Props = {
     onSave: () => void;
