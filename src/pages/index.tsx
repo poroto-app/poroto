@@ -32,7 +32,13 @@ const IndexPage = () => {
 
     return (
         <Center w="100%">
-            <VStack maxW="990px" w="100%" px="16px" divider={<Divider />} spacing="24px">
+            <VStack
+                maxW="990px"
+                w="100%"
+                px="16px"
+                divider={<Divider />}
+                spacing="24px"
+            >
                 <VStack w="100%" spacing={4} pt="32px">
                     <PlaceSearchButton />
                     <Button
