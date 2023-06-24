@@ -14,7 +14,7 @@ type Props = {
     onRetry: () => void;
 
     // ホームでのみ利用
-    onClickClose: () => void;
+    onClickClose?: () => void;
     isHome?: boolean;
 };
 
@@ -60,7 +60,7 @@ function Failed({
     isHome,
 }: {
     onClickReFetch: () => void;
-    onClickClose: () => void;
+    onClickClose?: () => void;
     isHome: boolean;
 }) {
     return (
