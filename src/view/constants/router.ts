@@ -1,6 +1,7 @@
 export const Routes = {
     home: "/",
     plans: {
+        plan: (id: string) => `/plans/${id}`,
         interest: "/plans/interest",
         create: "/plans/create",
         select: (session: string) => `/plans/select/${session}`,
