@@ -1,5 +1,5 @@
 import { Box, Button, VStack } from "@chakra-ui/react";
-import { ReactNode } from "react";
+import { forwardRef, ReactNode, useRef } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 import { Place } from "src/domain/models/Place";
 import { ReorderablePlaceList } from "src/view/plan/edit/ReorderablePlaceList";
@@ -18,8 +18,10 @@ export function PlanEditorDialog({
     onReorderPlaces,
     onClosed,
 }: Props) {
+    const dialogRef = useRef<HTMLDivElement>();
+
     return (
-        <Dialog visible={visible} onClosed={onClosed}>
+        <Dialog visible={visible} onClosed={onClosed} ref={dialogRef}>
             <VStack spacing={4} w="100%" h="100%">
                 <Box
                     backgroundColor="white"
@@ -32,6 +34,7 @@ export function PlanEditorDialog({
                     <ReorderablePlaceList
                         places={places}
                         onReorderPlaces={onReorderPlaces}
+                        parentRef={dialogRef}
                     />
                 </Box>
                 <Button
@@ -47,25 +50,26 @@ export function PlanEditorDialog({
     );
 }
 
-function Dialog({
-    visible,
-    onClosed,
-    children,
-}: {
-    children: ReactNode;
-    onClosed: () => void;
-    visible: boolean;
-}) {
+const Dialog = forwardRef<
+    HTMLDivElement,
+    {
+        children: ReactNode;
+        onClosed: () => void;
+        visible: boolean;
+    }
+>(function DialogComponent({ visible, onClosed, children }, ref) {
     return (
         <Transition in={visible} timeout={400}>
             {(state) => (
                 <DialogWrapper onClick={onClosed} state={state}>
-                    <BottomSheet state={state}>{children}</BottomSheet>
+                    <BottomSheet id="hoge" state={state} ref={ref}>
+                        {children}
+                    </BottomSheet>
                 </DialogWrapper>
             )}
         </Transition>
     );
-}
+});
 
 const DialogWrapper = styled.div<{ state: TransitionStatus }>`
     background-color: rgba(0, 0, 0, 0.5);
@@ -88,6 +92,8 @@ const BottomSheet = styled.div<{ state: TransitionStatus }>`
     padding: 16px;
     border-radius: 10px;
     height: 400px;
+    max-width: var(--max-page-width);
+    width: 100%;
     opacity: ${({ state }) => (isEntering(state) ? 1 : 0)};
     transform: translateY(${({ state }) => (isEntering(state) ? 0 : 110)}%);
     max-height: 100%;
