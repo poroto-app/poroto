@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { MdOutlinePlace } from "react-icons/md";
+import InfiniteScroll from "react-infinite-scroller";
 import { setCurrentLocation, setSearchLocation } from "src/redux/location";
 import { fetchPlansRecentlyCreated, reduxPlanSelector } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
@@ -16,7 +17,8 @@ import { PlanPreview } from "src/view/plan/PlanPreview";
 const IndexPage = () => {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const { plansRecentlyCreated } = reduxPlanSelector();
+    const { plansRecentlyCreated, nextPageTokenPlansRecentlyCreated } =
+        reduxPlanSelector();
     const { getCurrentLocation, isLoadingLocation, isRejected } = useLocation();
 
     const onClickCreatePlanFromCurrentLocation = async () => {
@@ -50,20 +52,26 @@ const IndexPage = () => {
                 {isLoadingLocation && <Text>現在地を取得中</Text>}
                 {isRejected && <Text>現在地の取得を拒否されました。</Text>}
 
-                <VStack px="16px" spacing={16} w="100%">
-                    {plansRecentlyCreated &&
-                        plansRecentlyCreated.map((plan, index) => (
-                            <Link
-                                href={Routes.plans.plan(plan.id)}
-                                key={index}
-                                style={{ width: "100%" }}
-                            >
-                                <Center>
-                                    <PlanPreview plan={plan} />
-                                </Center>
-                            </Link>
-                        ))}
-                </VStack>
+                {plansRecentlyCreated && (
+                    <InfiniteScroll
+                        loadMore={() => dispatch(fetchPlansRecentlyCreated())}
+                        hasMore={nextPageTokenPlansRecentlyCreated !== null}
+                    >
+                        <VStack px="16px" spacing={16} w="100%">
+                            {plansRecentlyCreated.map((plan, index) => (
+                                <Link
+                                    href={Routes.plans.plan(plan.id)}
+                                    key={index}
+                                    style={{ width: "100%" }}
+                                >
+                                    <Center>
+                                        <PlanPreview plan={plan} />
+                                    </Center>
+                                </Link>
+                            ))}
+                        </VStack>
+                    </InfiniteScroll>
+                )}
             </VStack>
             <BannerAd />
         </Center>
