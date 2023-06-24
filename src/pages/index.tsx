@@ -6,7 +6,6 @@ import { MdOutlinePlace } from "react-icons/md";
 import { setCurrentLocation, setSearchLocation } from "src/redux/location";
 import { fetchPlansRecentlyCreated, reduxPlanSelector } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
-import { BannerAd } from "src/view/ad/BannerAd";
 import { Button } from "src/view/common/Button";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
@@ -65,7 +64,6 @@ const IndexPage = () => {
                         ))}
                 </VStack>
             </VStack>
-            <BannerAd />
         </Center>
     );
 };
