@@ -9,6 +9,7 @@ import {
     savePlanFromCandidate,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
+import { AdInArticle } from "src/view/ad/AdInArticle";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { useLocation } from "src/view/hooks/useLocation";
@@ -21,7 +22,6 @@ import {
 } from "src/view/plan/PlanCandidateFooter";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanDuration } from "src/view/plan/PlanSummaryItem";
-import {AdInArticle} from "src/view/ad/AdInArticle";
 
 const PlanDetail = () => {
     const { sessionId, planId } = useRouter().query;
@@ -88,7 +88,11 @@ const PlanDetail = () => {
                             createdBasedOnCurrentLocation
                         }
                     />
-                    <AdInArticle adSlot={process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE}/>
+                    <AdInArticle
+                        adSlot={
+                            process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE
+                        }
+                    />
                     <VStack py="16px" w="100%" alignItems="flex-start">
                         <PlanDuration durationInMinutes={plan.timeInMinutes} />
                     </VStack>
