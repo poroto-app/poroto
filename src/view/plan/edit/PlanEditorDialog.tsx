@@ -76,6 +76,7 @@ const DialogWrapper = styled.div<{ state: TransitionStatus }>`
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    align-items: center;
     padding: 4px;
     position: fixed;
     top: 0;
