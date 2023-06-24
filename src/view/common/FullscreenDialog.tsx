@@ -6,6 +6,7 @@ type Props = {
     position?: DialogPosition;
     children: ReactNode;
     onClickOutside?: () => void;
+    padding?: string;
 };
 
 export const DialogPositions = {
@@ -18,6 +19,7 @@ export type DialogPosition =
 export function FullscreenDialog({
     position = DialogPositions.CENTER,
     onClickOutside,
+    padding,
     children,
 }: Props) {
     return (
@@ -25,7 +27,7 @@ export function FullscreenDialog({
             <Container position={position}>
                 {/* MEMO: FullscreenDialogWrapper にonClick属性をつけて、zIndex:9999 にしても、childrenに触れたときにonClickOutsideが発火してしまう*/}
                 <TouchDetector onClick={onClickOutside} />
-                <Box zIndex={9999}>{children}</Box>
+                <Box zIndex={9999} padding={padding} maxW="100%">{children}</Box>
             </Container>
         </FullscreenDialogWrapper>
     );
