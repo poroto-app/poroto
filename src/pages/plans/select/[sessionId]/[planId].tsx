@@ -21,6 +21,7 @@ import {
 } from "src/view/plan/PlanCandidateFooter";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanDuration } from "src/view/plan/PlanSummaryItem";
+import {AdInArticle} from "src/view/ad/AdInArticle";
 
 const PlanDetail = () => {
     const { sessionId, planId } = useRouter().query;
@@ -87,6 +88,7 @@ const PlanDetail = () => {
                             createdBasedOnCurrentLocation
                         }
                     />
+                    <AdInArticle adSlot={process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE}/>
                     <VStack py="16px" w="100%" alignItems="flex-start">
                         <PlanDuration durationInMinutes={plan.timeInMinutes} />
                     </VStack>
