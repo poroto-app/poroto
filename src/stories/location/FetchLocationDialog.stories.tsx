@@ -21,10 +21,11 @@ FetchLocationDialogStoryBook.args = {
     isRejected: false,
 };
 
-export const Fetching = Template.bind({
+export const Fetching = Template.bind({});
+Fetching.args = {
     isLoadingLocation: true,
     isRejected: false,
-});
+}
 
 export const Rejected = Template.bind({});
 Rejected.args = {
