@@ -1,13 +1,13 @@
-import {Box, Button, HStack, Text, VStack} from "@chakra-ui/react";
+import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import { useLottie } from "lottie-react";
+import Link from "next/link";
 import { useEffect } from "react";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
-import animationDataLoadingLocation from "src/view/lottie/location-loading.json";
+import { Routes } from "src/view/constants/router";
 import animationDataFailedLocation from "src/view/lottie/location-failed.json";
-import Link from "next/link";
-import {Routes} from "src/view/constants/router";
+import animationDataLoadingLocation from "src/view/lottie/location-loading.json";
 
 type Props = {
     onFetchLocation: (location: GeoLocation) => void;
@@ -16,7 +16,12 @@ type Props = {
     getCurrentLocation: () => Promise<GeoLocation>;
 };
 
-export function FetchLocationDialog({ onFetchLocation, isLoadingLocation, isRejected, getCurrentLocation }: Props) {
+export function FetchLocationDialog({
+    onFetchLocation,
+    isLoadingLocation,
+    isRejected,
+    getCurrentLocation,
+}: Props) {
     useEffect(() => {
         getCurrentLocation().then((location) => {
             onFetchLocation(location);
@@ -27,20 +32,16 @@ export function FetchLocationDialog({ onFetchLocation, isLoadingLocation, isReje
         getCurrentLocation().then((location) => {
             onFetchLocation(location);
         });
-    }
+    };
 
-    if(!isRejected && !isLoadingLocation) return <></>
+    if (!isRejected && !isLoadingLocation) return <></>;
 
     return (
         <FullscreenDialog padding="16px">
             <RoundedDialog>
                 <Box p="16px" w="100%">
-                    {
-                        isLoadingLocation && <Fetching/>
-                    }
-                    {
-                        isRejected && <Failed onClickReFetch={handleReFetch}/>
-                    }
+                    {isLoadingLocation && <Fetching />}
+                    {isRejected && <Failed onClickReFetch={handleReFetch} />}
                 </Box>
             </RoundedDialog>
         </FullscreenDialog>
@@ -48,34 +49,56 @@ export function FetchLocationDialog({ onFetchLocation, isLoadingLocation, isReje
 }
 
 function Fetching() {
-    return <VStack w="100%">
-        <LottieContainer animationData={animationDataLoadingLocation}/>
-        <Text>位置情報を取得しています...</Text>
-    </VStack>
+    return (
+        <VStack w="100%">
+            <LottieContainer animationData={animationDataLoadingLocation} />
+            <Text>位置情報を取得しています...</Text>
+        </VStack>
+    );
 }
 
-function Failed({onClickReFetch}: {onClickReFetch: () => void}) {
-    return <VStack w="100%">
-        <LottieContainer animationData={animationDataFailedLocation} loop={false}/>
-        <VStack spacing={0}>
-            <Text>位置情報の取得に失敗しました</Text>
-            <Text>設定をご確認ください</Text>
-        </VStack>
-        <VStack w="100%" pt="8px">
-            <Button w="100%" variant="outline" colorScheme="blue" onClick={onClickReFetch}>
-                再取得
-            </Button>
-            <Link href={Routes.home} style={{width: "100%"}}>
-                <Button w="100%"  variant="link" colorScheme="blue">
-                    ホームに戻る
+function Failed({ onClickReFetch }: { onClickReFetch: () => void }) {
+    return (
+        <VStack w="100%">
+            <LottieContainer
+                animationData={animationDataFailedLocation}
+                loop={false}
+            />
+            <VStack spacing={0}>
+                <Text>位置情報の取得に失敗しました</Text>
+                <Text>設定をご確認ください</Text>
+            </VStack>
+            <VStack w="100%" pt="8px">
+                <Button
+                    w="100%"
+                    variant="outline"
+                    colorScheme="blue"
+                    onClick={onClickReFetch}
+                >
+                    再取得
                 </Button>
-            </Link>
+                <Link href={Routes.home} style={{ width: "100%" }}>
+                    <Button w="100%" variant="link" colorScheme="blue">
+                        ホームに戻る
+                    </Button>
+                </Link>
+            </VStack>
         </VStack>
-    </VStack>
+    );
 }
 
-function LottieContainer({animationData, loop=true}: {animationData: unknown, loop?: boolean}) {
-    const { View: LottieView, play,stop } = useLottie({
+function LottieContainer({
+    animationData,
+    loop = true,
+}: {
+    animationData: unknown;
+    loop?: boolean;
+}) {
+    const {
+        View: LottieView,
+        play,
+        stop,
+    } = useLottie({
         animationData,
         loop,
         autoplay: false,
@@ -92,7 +115,9 @@ function LottieContainer({animationData, loop=true}: {animationData: unknown, lo
         play();
     }, []);
 
-    return <Box w="100%" position="relative" h="250px">
-        {LottieView}
-    </Box>
+    return (
+        <Box w="100%" position="relative" h="250px">
+            {LottieView}
+        </Box>
+    );
 }

@@ -11,7 +11,9 @@ const Template: ComponentStory<typeof FetchLocationDialog> = (args) => (
         onFetchLocation={() => 0}
         isLoadingLocation={args.isLoadingLocation}
         isRejected={args.isRejected}
-        getCurrentLocation={() => Promise.resolve({latitude: 0, longitude: 0})}
+        getCurrentLocation={() =>
+            Promise.resolve({ latitude: 0, longitude: 0 })
+        }
     />
 );
 
@@ -25,7 +27,7 @@ export const Fetching = Template.bind({});
 Fetching.args = {
     isLoadingLocation: true,
     isRejected: false,
-}
+};
 
 export const Rejected = Template.bind({});
 Rejected.args = {

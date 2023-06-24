@@ -27,7 +27,9 @@ export function FullscreenDialog({
             <Container position={position}>
                 {/* MEMO: FullscreenDialogWrapper にonClick属性をつけて、zIndex:9999 にしても、childrenに触れたときにonClickOutsideが発火してしまう*/}
                 <TouchDetector onClick={onClickOutside} />
-                <Box zIndex={9999} padding={padding} maxW="100%">{children}</Box>
+                <Box zIndex={9999} padding={padding} maxW="100%">
+                    {children}
+                </Box>
             </Container>
         </FullscreenDialogWrapper>
     );
