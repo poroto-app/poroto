@@ -12,18 +12,12 @@ type Props = {
     isRejected: boolean;
     isLoadingLocation: boolean;
     onRetry: () => void;
-
-    // ホームでのみ利用
-    onClickClose?: () => void;
-    isHome?: boolean;
 };
 
 export function FetchLocationDialog({
     isLoadingLocation,
     isRejected,
-    isHome,
     onRetry,
-    onClickClose,
 }: Props) {
     if (!isRejected && !isLoadingLocation) return <></>;
 
@@ -32,13 +26,7 @@ export function FetchLocationDialog({
             <RoundedDialog>
                 <Box p="16px" w="100%">
                     {isLoadingLocation && <Fetching />}
-                    {isRejected && (
-                        <Failed
-                            onClickReFetch={onRetry}
-                            onClickClose={onClickClose}
-                            isHome={isHome ?? false}
-                        />
-                    )}
+                    {isRejected && <Failed onClickReFetch={onRetry} />}
                 </Box>
             </RoundedDialog>
         </FullscreenDialog>
@@ -54,15 +42,7 @@ function Fetching() {
     );
 }
 
-function Failed({
-    onClickReFetch,
-    onClickClose,
-    isHome,
-}: {
-    onClickReFetch: () => void;
-    onClickClose?: () => void;
-    isHome: boolean;
-}) {
+function Failed({ onClickReFetch }: { onClickReFetch: () => void }) {
     return (
         <VStack w="100%">
             <LottieContainer
@@ -82,22 +62,11 @@ function Failed({
                 >
                     再取得
                 </Button>
-                {!isHome ? (
-                    <Link href={Routes.home} style={{ width: "100%" }}>
-                        <Button w="100%" variant="link" colorScheme="blue">
-                            ホームに戻る
-                        </Button>
-                    </Link>
-                ) : (
-                    <Button
-                        w="100%"
-                        variant="link"
-                        colorScheme="blue"
-                        onClick={onClickClose}
-                    >
-                        閉じる
+                <Link href={Routes.home} style={{ width: "100%" }}>
+                    <Button w="100%" variant="link" colorScheme="blue">
+                        ホームに戻る
                     </Button>
-                )}
+                </Link>
             </VStack>
         </VStack>
     );
@@ -110,11 +79,7 @@ function LottieContainer({
     animationData: unknown;
     loop?: boolean;
 }) {
-    const {
-        View: LottieView,
-        play,
-        stop,
-    } = useLottie({
+    const { View: LottieView, play } = useLottie({
         animationData,
         loop,
         autoplay: false,
