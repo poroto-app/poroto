@@ -61,7 +61,7 @@ export const fetchPlan = createAsyncThunk(
 );
 
 export const slice = createSlice({
-    name: "Plan",
+    name: "plan",
     initialState,
     reducers: {},
     extraReducers: (builder) => {
