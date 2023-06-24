@@ -1,7 +1,9 @@
 import { Center, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
+import { copyObject } from "src/domain/util/object";
 import {
     fetchCachedCreatedPlans,
     fetchPlanDetail,
@@ -14,6 +16,7 @@ import { NavBar } from "src/view/common/NavBar";
 import { useLocation } from "src/view/hooks/useLocation";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
+import { PlanEditorDialog } from "src/view/plan/edit/PlanEditorDialog";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import {
     FooterHeight,
@@ -26,6 +29,11 @@ const PlanDetail = () => {
     const { sessionId, planId } = useRouter().query;
     const dispatch = useAppDispatch();
     const { getCurrentLocation, location: currentLocation } = useLocation();
+
+    // TODO: DELETE ME
+    const [places, setPlaces] = useState<Place[]>(null);
+
+    const [isEditingPlan, setIsEditingPlan] = useState(false);
     const {
         preview: plan,
         createdBasedOnCurrentLocation,
@@ -54,6 +62,12 @@ const PlanDetail = () => {
             dispatch(fetchPlanDetail({ planId }));
         }
     }, [planId, createPlanSession]);
+
+    // TODO: DELETE ME
+    useEffect(() => {
+        if (!plan) return;
+        setPlaces(plan.places);
+    }, [plan]);
 
     const handleOnSavePlan = ({
         session,
@@ -107,8 +121,21 @@ const PlanDetail = () => {
                 onSave={() =>
                     handleOnSavePlan({ session: createPlanSession, plan })
                 }
-                onEdit={() => alert("edit")}
+                onEdit={() => setIsEditingPlan(true)}
             />
+            {
+                // TODO: productionでも利用できるようにする
+                process.env.NODE_ENV !== "production" && (
+                    <PlanEditorDialog
+                        visible={isEditingPlan}
+                        onClosed={() => setIsEditingPlan(false)}
+                        places={places ?? []}
+                        onReorderPlaces={(places) =>
+                            setPlaces(copyObject(places))
+                        }
+                    />
+                )
+            }
         </>
     );
 };
