@@ -2,7 +2,6 @@ import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import { useLottie } from "lottie-react";
 import Link from "next/link";
 import { useEffect } from "react";
-import { GeoLocation } from "src/domain/models/GeoLocation";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import { Routes } from "src/view/constants/router";
@@ -10,30 +9,16 @@ import animationDataFailedLocation from "src/view/lottie/location-failed.json";
 import animationDataLoadingLocation from "src/view/lottie/location-loading.json";
 
 type Props = {
-    onFetchLocation: (location: GeoLocation) => void;
     isRejected: boolean;
     isLoadingLocation: boolean;
-    getCurrentLocation: () => Promise<GeoLocation>;
+    onRetry: () => void;
 };
 
 export function FetchLocationDialog({
-    onFetchLocation,
     isLoadingLocation,
     isRejected,
-    getCurrentLocation,
+    onRetry,
 }: Props) {
-    useEffect(() => {
-        getCurrentLocation().then((location) => {
-            onFetchLocation(location);
-        });
-    }, []);
-
-    const handleReFetch = () => {
-        getCurrentLocation().then((location) => {
-            onFetchLocation(location);
-        });
-    };
-
     if (!isRejected && !isLoadingLocation) return <></>;
 
     return (
@@ -41,7 +26,7 @@ export function FetchLocationDialog({
             <RoundedDialog>
                 <Box p="16px" w="100%">
                     {isLoadingLocation && <Fetching />}
-                    {isRejected && <Failed onClickReFetch={handleReFetch} />}
+                    {isRejected && <Failed onClickReFetch={onRetry} />}
                 </Box>
             </RoundedDialog>
         </FullscreenDialog>

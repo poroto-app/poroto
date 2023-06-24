@@ -8,12 +8,9 @@ export default {
 
 const Template: ComponentStory<typeof FetchLocationDialog> = (args) => (
     <FetchLocationDialog
-        onFetchLocation={() => 0}
         isLoadingLocation={args.isLoadingLocation}
         isRejected={args.isRejected}
-        getCurrentLocation={() =>
-            Promise.resolve({ latitude: 0, longitude: 0 })
-        }
+        onRetry={() => 0}
     />
 );
 
