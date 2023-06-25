@@ -19,7 +19,7 @@ export function RoundedIconButton({
     return (
         <RoundedButton onClick={onClick} disabled={disabled ?? false}>
             <HStack w="100%" justifyContent="center">
-                {icon && <Icon mb="6px" w="32px" h="32px" as={icon} m={0}/>}
+                {icon && <Icon mb="6px" w="32px" h="32px" as={icon} m={0} />}
                 {children}
             </HStack>
         </RoundedButton>
