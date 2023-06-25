@@ -11,9 +11,9 @@ type Props = {
 
 export const PlanSummaryItem = ({ text, icon }: Props) => {
     return (
-        <HStack w="100%" px="16px" py="4px" columnGap="20px" spacing={0}>
-            <Icon w="24px" h="24px" color="#BD9F8E" as={icon} />
-            <Text color="rgba(0,0,0,.6)">{text}</Text>
+        <HStack w="100%" py="4px" columnGap="20px" spacing={0}>
+            <Icon w="24px" h="24px" color="#222222" as={icon} />
+            <Text color="#222222">{text}</Text>
         </HStack>
     );
 };
