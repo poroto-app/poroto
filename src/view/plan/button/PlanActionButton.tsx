@@ -18,7 +18,7 @@ export const PlanActionButton = ({ text, onClick, imageUrl, icon }: Props) => {
                     w="32px"
                     h="32px"
                     as={icon}
-                    color={Colors.primary["700"]}
+                    color={Colors.primary["600"]}
                 />
             )}
             {imageUrl && <IconImage src={imageUrl} />}
