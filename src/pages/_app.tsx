@@ -13,7 +13,7 @@ import {
 } from "src/redux/history";
 import { reduxStore, useAppDispatch } from "src/redux/redux";
 import { FirebaseProvider } from "src/view/common/FirebaseProvider";
-import {Theme} from "src/view/common/Theme";
+import { Theme } from "src/view/common/Theme";
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
