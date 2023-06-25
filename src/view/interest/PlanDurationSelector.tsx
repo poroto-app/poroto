@@ -100,7 +100,7 @@ export const PlanDurationSelector = ({
                         step={10}
                     >
                         <SliderTrack>
-                            <SliderFilledTrack />
+                            <SliderFilledTrack bg={Colors.primary["400"]} />
                         </SliderTrack>
                         <SliderThumb
                             boxSize={6}
