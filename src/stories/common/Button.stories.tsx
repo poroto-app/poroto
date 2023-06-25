@@ -1,16 +1,16 @@
 import { Box } from "@chakra-ui/react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { MdOutlinePlace } from "react-icons/md";
-import { ButtonRounded } from "src/view/common/ButtonRounded";
+import { RoundedButton } from "src/view/common/RoundedButton";
 
 export default {
-    title: "common/ButtonRounded",
-    component: ButtonRounded,
-} as ComponentMeta<typeof ButtonRounded>;
+    title: "common/RoundedButton",
+    component: RoundedButton,
+} as ComponentMeta<typeof RoundedButton>;
 
-const Template: ComponentStory<typeof ButtonRounded> = (args) => (
+const Template: ComponentStory<typeof RoundedButton> = (args) => (
     <Box w="400px">
-        <ButtonRounded {...args} icon={MdOutlinePlace} />
+        <RoundedButton {...args} icon={MdOutlinePlace} />
     </Box>
 );
 

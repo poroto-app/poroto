@@ -7,7 +7,7 @@ import { setCurrentLocation, setSearchLocation } from "src/redux/location";
 import { fetchPlansRecentlyCreated, reduxPlanSelector } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { BannerAd } from "src/view/ad/BannerAd";
-import { ButtonRounded } from "src/view/common/ButtonRounded";
+import { RoundedButton } from "src/view/common/RoundedButton";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
 import { PlaceSearchButton } from "src/view/place/PlaceSearchButton";
@@ -41,7 +41,7 @@ const IndexPage = () => {
             >
                 <VStack w="100%" spacing={4} pt="32px">
                     <PlaceSearchButton />
-                    <ButtonRounded
+                    <RoundedButton
                         text="現在地からプランを作成"
                         icon={MdOutlinePlace}
                         onClick={onClickCreatePlanFromCurrentLocation}

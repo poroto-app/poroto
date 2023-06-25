@@ -10,16 +10,16 @@ type Props = {
     disabled?: boolean;
 } & ButtonProps;
 
-export function ButtonRounded({ text, icon, onClick, disabled }: Props) {
+export function RoundedButton({ text, icon, onClick, disabled }: Props) {
     return (
-        <RoundedButton onClick={onClick} disabled={disabled ?? false}>
+        <Rounded onClick={onClick} disabled={disabled ?? false}>
             {icon && <Icon mb="6px" w="32px" h="32px" as={icon} />}
             <Text>{text}</Text>
-        </RoundedButton>
+        </Rounded>
     );
 }
 
-const RoundedButton = styled.div<{ disabled: boolean }>`
+const Rounded = styled.div<{ disabled: boolean }>`
     background-color: ${({ disabled }) =>
         disabled ? "#8b8b8b" : Colors.primary["400"]};
     border-radius: 100px;
