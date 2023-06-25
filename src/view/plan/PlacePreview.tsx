@@ -10,6 +10,7 @@ import {
 import { useState } from "react";
 import { MdOutlineLocationOn } from "react-icons/md";
 import styled from "styled-components";
+import {Colors} from "src/view/constants/color";
 
 type Props = {
     name: string;
@@ -31,7 +32,7 @@ export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
                 <Icon
                     w="24px"
                     h="24px"
-                    color="#539565"
+                    color={Colors.primary["600"]}
                     as={MdOutlineLocationOn}
                 />
                 <Text fontSize="1.15rem">{name}</Text>
