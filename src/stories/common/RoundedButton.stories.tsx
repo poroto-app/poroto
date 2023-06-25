@@ -1,6 +1,5 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { MdOutlinePlace } from "react-icons/md";
 import { RoundedButton } from "src/view/common/RoundedButton";
 
 export default {
@@ -10,7 +9,9 @@ export default {
 
 const Template: ComponentStory<typeof RoundedButton> = (args) => (
     <Box w="400px">
-        <RoundedButton {...args} icon={MdOutlinePlace} />
+        <RoundedButton {...args}>
+            <Text>ボタン</Text>
+        </RoundedButton>
     </Box>
 );
 

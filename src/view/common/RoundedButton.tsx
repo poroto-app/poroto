@@ -1,20 +1,18 @@
-import { ButtonProps, Icon, Text } from "@chakra-ui/react";
-import { IconType } from "react-icons";
+import { ButtonProps } from "@chakra-ui/react";
+import { ReactNode } from "react";
 import { Colors } from "src/view/constants/color";
 import styled from "styled-components";
 
 type Props = {
-    text: string;
-    icon?: IconType;
     onClick?: () => void;
     disabled?: boolean;
+    children?: ReactNode;
 } & ButtonProps;
 
-export function RoundedButton({ text, icon, onClick, disabled }: Props) {
+export function RoundedButton({ onClick, disabled, children }: Props) {
     return (
         <Rounded onClick={onClick} disabled={disabled ?? false}>
-            {icon && <Icon mb="6px" w="32px" h="32px" as={icon} />}
-            <Text>{text}</Text>
+            {children}
         </Rounded>
     );
 }
@@ -27,6 +25,7 @@ const Rounded = styled.div<{ disabled: boolean }>`
     cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
     display: flex;
     font-weight: bold;
+    height: 2.5rem;
     align-items: center;
     justify-content: center;
     column-gap: 8px;

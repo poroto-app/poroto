@@ -22,7 +22,7 @@ import {
 import { useAppDispatch } from "src/redux/redux";
 import { Layout } from "src/view/common/Layout";
 import { NavBar } from "src/view/common/NavBar";
-import { RoundedButton } from "src/view/common/RoundedButton";
+import { RoundedIconButton } from "src/view/common/RoundedIconButton";
 import { locationSinjukuStation } from "src/view/constants/location";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
@@ -138,16 +138,15 @@ export default function PlaceSearchPage() {
          */}
             <Box position="fixed" left={0} bottom="32px" right={0} px="8px">
                 <Layout>
-                    <RoundedButton
-                        text={
-                            locationSelected
-                                ? "指定した場所からプランを作成"
-                                : "タップして場所を選択"
-                        }
+                    <RoundedIconButton
                         icon={locationSelected ? MdDone : MdOutlineTouchApp}
                         disabled={locationSelected === null}
                         onClick={handleOnCreatePlan}
-                    />
+                    >
+                        {locationSelected
+                            ? "指定した場所からプランを作成"
+                            : "タップして場所を選択"}
+                    </RoundedIconButton>
                 </Layout>
             </Box>
         </Layout>
