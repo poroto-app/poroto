@@ -51,7 +51,7 @@ const IndexPage = () => {
                 {isLoadingLocation && <Text>現在地を取得中</Text>}
                 {isRejected && <Text>現在地の取得を拒否されました。</Text>}
 
-                <VStack px="16px" spacing={8} w="100%">
+                <VStack spacing={8} w="100%">
                     {plansRecentlyCreated &&
                         plansRecentlyCreated.map((plan, index) => (
                             <Link
