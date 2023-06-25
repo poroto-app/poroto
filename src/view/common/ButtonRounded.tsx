@@ -9,7 +9,7 @@ type Props = {
     disabled?: boolean;
 } & ButtonProps;
 
-export function Button({ text, icon, onClick, disabled }: Props) {
+export function ButtonRounded({ text, icon, onClick, disabled }: Props) {
     return (
         <RoundedButton onClick={onClick} disabled={disabled ?? false}>
             {icon && <Icon mb="6px" w="32px" h="32px" as={icon} />}
