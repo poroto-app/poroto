@@ -1,5 +1,6 @@
 import { ButtonProps, Icon, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
+import { Colors } from "src/view/constants/color";
 import styled from "styled-components";
 
 type Props = {
@@ -19,8 +20,9 @@ export function ButtonRounded({ text, icon, onClick, disabled }: Props) {
 }
 
 const RoundedButton = styled.div<{ disabled: boolean }>`
-    background-color: ${({ disabled }) => (disabled ? "#8b8b8b" : "#539565")};
-    border-radius: 10px;
+    background-color: ${({ disabled }) =>
+        disabled ? "#8b8b8b" : Colors.primary["400"]};
+    border-radius: 100px;
     color: white;
     cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
     display: flex;

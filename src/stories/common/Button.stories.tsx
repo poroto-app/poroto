@@ -14,7 +14,13 @@ const Template: ComponentStory<typeof ButtonRounded> = (args) => (
     </Box>
 );
 
-export const ButtonStoryBook = Template.bind({});
-ButtonStoryBook.args = {
+export const Primary = Template.bind({});
+Primary.args = {
     text: "ボタン",
+};
+
+export const Disabled = Template.bind({});
+Disabled.args = {
+    text: "ボタン",
+    disabled: true,
 };
