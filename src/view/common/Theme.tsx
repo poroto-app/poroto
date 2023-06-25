@@ -1,54 +1,61 @@
 export function Theme() {
-    {/*MEMO:GitHub Actionsでtype checkを実行すると落ちる*/}
-    {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
-    {/*@ts-ignore*/}
-    return <style jsx global>
-        {`
-                    html {
-                        font-family: Helvetica, Hiragino Kaku Gothic Pro,
-                            Segoe UI, Yu Gothic, Meiryo, MS PGothic, sans-serif;
-                    }
+    // MEMO:GitHub Actionsでtype checkを実行すると落ちる
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return (
+        <style jsx global>
+            {`
+                html {
+                    font-family: Helvetica, Hiragino Kaku Gothic Pro, Segoe UI,
+                        Yu Gothic, Meiryo, MS PGothic, sans-serif;
+                }
 
-                    button {
-                        border-style: none;
-                        background-color: transparent;
-                        font-size: inherit;
-                    }
+                :root {
+                    --color-brown-400: #ac8e6c;
+                    --color-primary-400: var(--color-brown-400);
+                }
 
-                    button:focus {
-                        outline: none;
-                    }
+                button {
+                    border-style: none;
+                    background-color: transparent;
+                    font-size: inherit;
+                }
 
-                    html,
-                    body,
-                    #__next {
-                        height: 100%;
-                        margin: 0;
-                        padding: 0;
-                    }
+                button:focus {
+                    outline: none;
+                }
 
-                    h1,
-                    h2,
-                    h3,
-                    h4,
-                    h5,
-                    h6 {
-                        margin: 0;
-                    }
+                html,
+                body,
+                #__next {
+                    height: 100%;
+                    margin: 0;
+                    padding: 0;
+                }
 
-                    a {
-                        text-decoration: none;
-                        color: inherit;
-                    }
+                h1,
+                h2,
+                h3,
+                h4,
+                h5,
+                h6 {
+                    margin: 0;
+                }
 
-                    a:hover {
-                        cursor: pointer;
-                    }
+                a {
+                    text-decoration: none;
+                    color: inherit;
+                }
 
-                    ol,
-                    ul {
-                        list-style: none;
-                    }
-                `}
-    </style>
+                a:hover {
+                    cursor: pointer;
+                }
+
+                ol,
+                ul {
+                    list-style: none;
+                }
+            `}
+        </style>
+    );
 }
