@@ -24,7 +24,8 @@ export type CachedCreatedPlansInput = {
 };
 
 export type ChangePlacesOrderInPlanInput = {
-  id: Scalars['String'];
+  placesIds: Array<Scalars['String']>;
+  planId: Scalars['String'];
   session: Scalars['String'];
 };
 
@@ -101,6 +102,7 @@ export type MutationSavePlanFromCandidateArgs = {
 export type Place = {
   __typename?: 'Place';
   estimatedStayDuration: Scalars['Int'];
+  id: Scalars['String'];
   location: GeoLocation;
   name: Scalars['String'];
   photos: Array<Scalars['String']>;
