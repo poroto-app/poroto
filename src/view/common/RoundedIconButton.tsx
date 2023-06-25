@@ -1,4 +1,4 @@
-import { ButtonProps, HStack, Icon } from "@chakra-ui/react";
+import { Box, ButtonProps, HStack, Icon } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
 import { RoundedButton } from "src/view/common/RoundedButton";
@@ -20,7 +20,7 @@ export function RoundedIconButton({
         <RoundedButton onClick={onClick} disabled={disabled ?? false}>
             <HStack w="100%" justifyContent="center">
                 {icon && <Icon mb="6px" w="32px" h="32px" as={icon} m={0} />}
-                {children}
+                <Box>{children}</Box>
             </HStack>
         </RoundedButton>
     );
