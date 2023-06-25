@@ -3,6 +3,7 @@ import { FC } from "react";
 import { MdDirectionsWalk } from "react-icons/md";
 import { Plan } from "src/domain/models/Plan";
 import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
+import {Colors} from "src/view/constants/color";
 
 type Props = {
     plan: Plan;
@@ -30,7 +31,7 @@ export function PlanPreview({ plan }: Props) {
                         <Icon
                             w="24px"
                             h="24px"
-                            color="#539565"
+                            color={Colors.primary["500"]}
                             as={MdDirectionsWalk}
                         />
                     </TagContainer>
