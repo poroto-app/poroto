@@ -1,6 +1,5 @@
-import { HStack } from "@chakra-ui/react";
+import { Button, HStack } from "@chakra-ui/react";
 import { Colors } from "src/view/constants/color";
-import { PlanActionButton } from "src/view/plan/button/PlanActionButton";
 
 type Props = {
     onSave: () => void;
@@ -22,15 +21,15 @@ export function PlanCandidateFooter({ onSave }: Props) {
             left={0}
             right={0}
         >
-            <PlanActionButton
-                filled
-                fitHeight
-                center
-                color={Colors.primary["400"]}
+            <Button
+                w="100%"
+                color="white"
+                backgroundColor={Colors.primary["400"]}
                 borderRadius={10}
-                text="保存"
                 onClick={onSave}
-            />
+            >
+                保存
+            </Button>
         </HStack>
     );
 }
