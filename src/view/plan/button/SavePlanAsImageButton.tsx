@@ -37,7 +37,6 @@ export function SavePlanAsImageButton({ plan }: Props) {
         <>
             <PlanActionButton
                 text="画像で保存する"
-                color="#539565"
                 icon={MdPhotoCamera}
                 onClick={handleOnClickSaveAsImage}
             />
