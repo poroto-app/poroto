@@ -11,6 +11,7 @@ import {
 import { useLottie } from "lottie-react";
 import { useEffect, useState } from "react";
 import { DateHelper } from "src/domain/util/date";
+import { RoundedButton } from "src/view/common/RoundedButton";
 import { Colors } from "src/view/constants/color";
 import animationData from "src/view/lottie/day-and-night-transition-scene.json";
 
@@ -109,16 +110,11 @@ export const PlanDurationSelector = ({
                 </Box>
             </VStack>
             <VStack w="100%">
-                <Button
-                    backgroundColor={Colors.green}
-                    color="white"
-                    w="100%"
-                    onClick={() => onClickNext(duration)}
-                >
+                <RoundedButton onClick={() => onClickNext(duration)}>
                     次へ
-                </Button>
+                </RoundedButton>
                 <Button
-                    color={Colors.green}
+                    color={Colors.primary["400"]}
                     variant="ghost"
                     w="100%"
                     onClick={onClickIgnoreDuration}
