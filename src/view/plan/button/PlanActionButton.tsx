@@ -34,8 +34,8 @@ const BorderButton = styled.div`
     column-gap: 16px;
     align-items: center;
     justify-content: flex-start;
-    font-weight: bold;
-    padding: 8px 0;
+    font-weight: 500;
+    padding: 8px 8px;
     width: 100%;
 `;
 
