@@ -26,7 +26,7 @@ export function PlanCandidateFooter({ onSave }: Props) {
                 filled
                 fitHeight
                 center
-                color={Colors.green}
+                color={Colors.primary["400"]}
                 borderRadius={10}
                 text="保存"
                 onClick={onSave}
