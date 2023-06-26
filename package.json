@@ -61,7 +61,7 @@
     "@types/google.maps": "^3.53.1",
     "@types/jest": "^29.5.1",
     "@types/node": "^12.12.21",
-    "@types/react": "^17.0.2",
+    "@types/react": "^18.2.14",
     "@types/react-dom": "^17.0.1",
     "@types/react-redux": "^7.1.25",
     "@types/styled-components": "^5.1.26",
