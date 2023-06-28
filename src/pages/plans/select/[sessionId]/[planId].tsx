@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
+import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { copyObject } from "src/domain/util/object";
 import {
     fetchCachedCreatedPlans,
@@ -13,6 +14,7 @@ import {
 import { useAppDispatch } from "src/redux/redux";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
+import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
@@ -26,7 +28,8 @@ import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanDuration } from "src/view/plan/PlanSummaryItem";
 
 const PlanDetail = () => {
-    const { sessionId, planId } = useRouter().query;
+    const router = useRouter();
+    const { sessionId, planId } = router.query;
     const dispatch = useAppDispatch();
     const { getCurrentLocation, location: currentLocation } = useLocation();
 
@@ -38,6 +41,7 @@ const PlanDetail = () => {
         preview: plan,
         createdBasedOnCurrentLocation,
         createPlanSession,
+        savePlanFromCandidateRequestStatus,
     } = reduxPlanSelector();
 
     useEffect(() => {
@@ -69,6 +73,14 @@ const PlanDetail = () => {
         setPlaces(plan.places);
     }, [plan]);
 
+    // プランが保存され次第、ページ遷移を行う
+    useEffect(() => {
+        if (!plan) return;
+        if (savePlanFromCandidateRequestStatus === RequestStatuses.FULFILLED) {
+            router.push(Routes.plans.plan(plan.id));
+        }
+    }, [planId, savePlanFromCandidateRequestStatus]);
+
     const handleOnSavePlan = ({
         session,
         plan,
@@ -76,10 +88,7 @@ const PlanDetail = () => {
         session: string;
         plan: Plan;
     }) => {
-        // TODO: 作成が完了したら、プランのページに遷移させる
         dispatch(savePlanFromCandidate({ session, planId: plan.id }));
-        // TODO: DELETE ME
-        alert("プランを保存しました");
     };
 
     if (!plan) return <LoadingModal title="素敵なプランを読み込んでいます" />;
