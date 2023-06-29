@@ -56,6 +56,9 @@ export default function App({ Component, pageProps }: AppProps) {
                 src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_CLIENT}`}
                 crossOrigin="anonymous"
             />
+            <Script id="adsense">
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </Script>
             <Theme />
             <ChakraProvider>
                 <Provider store={reduxStore}>

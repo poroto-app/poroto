@@ -12,6 +12,7 @@ import {
     savePlanFromCandidate,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
+import { AdInArticle } from "src/view/ad/AdInArticle";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
@@ -108,6 +109,11 @@ const PlanDetail = () => {
                         plan={plan}
                         createdBasedOnCurrentLocation={
                             createdBasedOnCurrentLocation
+                        }
+                    />
+                    <AdInArticle
+                        adSlot={
+                            process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE
                         }
                     />
                     <VStack py="16px" w="100%" alignItems="flex-start">

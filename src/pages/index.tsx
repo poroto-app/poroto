@@ -6,7 +6,6 @@ import { MdOutlinePlace } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
 import { fetchPlansRecentlyCreated, reduxPlanSelector } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
-import { BannerAd } from "src/view/ad/BannerAd";
 import { RoundedIconButton } from "src/view/common/RoundedIconButton";
 import { Routes } from "src/view/constants/router";
 import { PlaceSearchButton } from "src/view/place/PlaceSearchButton";
@@ -66,7 +65,6 @@ const IndexPage = () => {
                     </InfiniteScroll>
                 )}
             </VStack>
-            <BannerAd />
         </Center>
     );
 };
