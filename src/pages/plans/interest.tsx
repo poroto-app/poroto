@@ -10,11 +10,11 @@ import {
     matchInterest,
     pushAcceptedCategory,
     pushRejectedCategory,
-    reduxPlanSelector,
+    reduxPlanCandidateSelector,
     resetInterest,
     setCreatedPlans,
     setTimeForPlan,
-} from "src/redux/plan";
+} from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
@@ -39,7 +39,7 @@ export default function PlanInterestPage() {
         useLocation();
     const [currentCategory, setCurrentCategory] =
         useState<LocationCategory | null>(null);
-    const { categoryCandidates } = reduxPlanSelector();
+    const { categoryCandidates } = reduxPlanCandidateSelector();
     const { searchLocation } = reduxLocationSelector();
 
     useEffect(() => {

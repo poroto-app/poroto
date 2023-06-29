@@ -6,7 +6,7 @@ import { MdOutlinePlace } from "react-icons/md";
 import { fetchPlansRecentlyCreated, reduxPlanSelector } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { BannerAd } from "src/view/ad/BannerAd";
-import { Button } from "src/view/common/Button";
+import { RoundedIconButton } from "src/view/common/RoundedIconButton";
 import { Routes } from "src/view/constants/router";
 import { PlaceSearchButton } from "src/view/place/PlaceSearchButton";
 import { PlanPreview } from "src/view/plan/PlanPreview";
@@ -35,10 +35,9 @@ const IndexPage = () => {
                         href={Routes.plans.interest}
                         style={{ width: "100%" }}
                     >
-                        <Button
-                            text="現在地からプランを作成"
-                            icon={MdOutlinePlace}
-                        />
+                        <RoundedIconButton icon={MdOutlinePlace}>
+                            現在地からプランを作成
+                        </RoundedIconButton>
                     </Link>
                 </VStack>
                 <VStack px="16px" spacing={16} w="100%">
