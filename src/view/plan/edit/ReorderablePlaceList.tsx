@@ -20,16 +20,25 @@ import {
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { useState } from "react";
+import { RefObject, useState } from "react";
 import { Place } from "src/domain/models/Place";
 import { PlaceListItem } from "src/view/plan/edit/PlaceListItem";
 
 type Props = {
     places: Place[];
     onReorderPlaces: (places: Place[]) => void;
+    // このコンポーネントを含む親要素のref
+    // MEMO: position: fixed; などで親要素の位置が変更されている場合は、
+    // dnd-kitが正しく自分の要素の位置を把握できず、ドラッグ中に要素がずれることがある。
+    // そのため、親要素の位置を把握することで、ドラッグ中に要素がずれないようにする。
+    parentRef?: RefObject<HTMLElement>;
 };
 
-export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
+export function ReorderablePlaceList({
+    places,
+    onReorderPlaces,
+    parentRef,
+}: Props) {
     const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
     const sensors = useSensors(useSensor(PointerSensor));
 
@@ -57,6 +66,30 @@ export function ReorderablePlaceList({ places, onReorderPlaces }: Props) {
             modifiers={[restrictToVerticalAxis]}
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
+            measuring={{
+                draggable: {
+                    measure: (node) => {
+                        if (!parentRef?.current)
+                            return node.getBoundingClientRect();
+
+                        return {
+                            ...node.getBoundingClientRect(),
+                            x: node.getBoundingClientRect().x,
+                            y: node.getBoundingClientRect().y,
+                            width: node.getBoundingClientRect().width,
+                            height: node.getBoundingClientRect().height,
+                            top:
+                                node.getBoundingClientRect().top -
+                                parentRef.current.getBoundingClientRect().top,
+                            left:
+                                node.getBoundingClientRect().left -
+                                parentRef.current.getBoundingClientRect().left,
+                            right: node.getBoundingClientRect().right,
+                            bottom: node.getBoundingClientRect().bottom,
+                        };
+                    },
+                },
+            }}
         >
             {/*TODO: Planner APIに場所のIDを指定させる*/}
             <SortableContext

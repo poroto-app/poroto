@@ -63,6 +63,8 @@ export default function App({ Component, pageProps }: AppProps) {
                     html {
                         font-family: Helvetica, Hiragino Kaku Gothic Pro,
                             Segoe UI, Yu Gothic, Meiryo, MS PGothic, sans-serif;
+
+                        --max-page-width: 990px;
                     }
 
                     button {
