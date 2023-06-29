@@ -44,7 +44,6 @@ export const useLocation = () => {
                 setLocation(null);
                 setRequestStatus(RequestStatuses.REJECTED);
                 return null;
-            } finally {
             }
         };
 
