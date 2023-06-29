@@ -9,6 +9,7 @@ export function Theme() {
                     html {
                         font-family: Helvetica, Hiragino Kaku Gothic Pro,
                             Segoe UI, Yu Gothic, Meiryo, MS PGothic, sans-serif;
+                        --max-page-width: 990px;
                     }
 
                     :root {

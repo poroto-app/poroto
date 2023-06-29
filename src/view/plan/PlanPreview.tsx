@@ -1,5 +1,5 @@
 import { HStack, Icon, Text, VStack } from "@chakra-ui/react";
-import { FC } from "react";
+import { ReactNode } from "react";
 import { MdDirectionsWalk } from "react-icons/md";
 import { Plan } from "src/domain/models/Plan";
 import { Colors } from "src/view/constants/color";
@@ -44,7 +44,13 @@ export function PlanPreview({ plan }: Props) {
     );
 }
 
-const TagContainer: FC<{ tag: string }> = ({ tag, children }) => {
+function TagContainer({
+    tag,
+    children,
+}: {
+    tag: string;
+    children?: ReactNode;
+}) {
     return (
         <HStack
             spacing={1}
@@ -60,4 +66,4 @@ const TagContainer: FC<{ tag: string }> = ({ tag, children }) => {
             <Text>{tag}</Text>
         </HStack>
     );
-};
+}

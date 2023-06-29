@@ -4,6 +4,10 @@ import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import { Plan } from "src/domain/models/Plan";
 import {
+    RequestStatus,
+    RequestStatuses,
+} from "src/domain/models/RequestStatus";
+import {
     createPlanFromPlanEntity,
     PlannerApi,
 } from "src/domain/plan/PlannerApi";
@@ -26,6 +30,7 @@ export type PlanState = {
     categoryRejected: LocationCategory[] | null;
 
     timeForPlan: number | null;
+    savePlanFromCandidateRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanState = {
@@ -42,6 +47,7 @@ const initialState: PlanState = {
     categoryRejected: null,
 
     timeForPlan: null,
+    savePlanFromCandidateRequestStatus: null,
 };
 
 export const fetchPlansRecentlyCreated = createAsyncThunk<{
@@ -297,7 +303,20 @@ export const slice = createSlice({
                     state.nextPageTokenPlansRecentlyCreated =
                         payload.nextPageToken;
                 }
-            );
+            )
+            // Save Plan From Candidate
+            .addCase(savePlanFromCandidate.pending, (state) => {
+                state.savePlanFromCandidateRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(savePlanFromCandidate.rejected, (state) => {
+                state.savePlanFromCandidateRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
+            .addCase(savePlanFromCandidate.fulfilled, (state) => {
+                state.savePlanFromCandidateRequestStatus =
+                    RequestStatuses.FULFILLED;
+            });
     },
 });
 
