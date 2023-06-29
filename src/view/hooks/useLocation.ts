@@ -44,10 +44,17 @@ export const useLocation = () => {
             }
         };
 
+    const resetLocationState = () => {
+        setLocation(null);
+        setIsRejected(null);
+        setIsLoadingLocation(false);
+    };
+
     return {
         isLoadingLocation,
         isRejected,
         location,
         getCurrentLocation: fetchCurrentLocationWithHook,
+        resetLocationState,
     };
 };
