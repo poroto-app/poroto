@@ -1,5 +1,8 @@
-import { Button, Center, Image, Text, VStack } from "@chakra-ui/react";
+import { Link } from "@chakra-ui/next-js";
+import { Center, Image, Text, VStack } from "@chakra-ui/react";
+import { Routes } from "src/view/constants/router";
 import styled from "styled-components";
+import { RoundedButton } from "./RoundedButton";
 
 const NotFoundPage = () => {
     return (
@@ -21,9 +24,9 @@ const NotFoundPage = () => {
                         </ErrorMessage>
                     </Center>
                 </VStack>
-                <TopButtonWrapper>
-                    <TopButton>ホームに戻る</TopButton>
-                </TopButtonWrapper>
+                <Link href={Routes.home} w="100%">
+                    <RoundedButton>ホームに戻る</RoundedButton>
+                </Link>
             </VStack>
         </Center>
     );
@@ -60,26 +63,6 @@ const ErrorMessage = styled(Text)`
     font-size: 20px;
     text-align: left;
     margin: 0;
-`;
-
-const TopButtonWrapper = styled.div`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-`;
-
-const TopButton = styled(Button)`
-    font-family: "Roboto", sans-serif;
-    font-size: 32px;
-    font-weight: bold;
-    background: linear-gradient(120deg, #e1c78c, #5e6382);
-    color: #ffffff;
-    width: 100%;
-    padding: 10px 20px;
-    border-radius: 20px;
-    border: none;
-    outline: none;
-    appearance: none;
 `;
 
 export default NotFoundPage;
