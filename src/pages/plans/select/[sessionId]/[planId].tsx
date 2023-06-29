@@ -8,9 +8,9 @@ import { copyObject } from "src/domain/util/object";
 import {
     fetchCachedCreatedPlans,
     fetchPlanDetail,
-    reduxPlanSelector,
+    reduxPlanCandidateSelector,
     savePlanFromCandidate,
-} from "src/redux/plan";
+} from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
@@ -42,7 +42,7 @@ const PlanDetail = () => {
         createdBasedOnCurrentLocation,
         createPlanSession,
         savePlanFromCandidateRequestStatus,
-    } = reduxPlanSelector();
+    } = reduxPlanCandidateSelector();
 
     useEffect(() => {
         if (!currentLocation) getCurrentLocation().then();
