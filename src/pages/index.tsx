@@ -96,7 +96,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
     let nextPageKey: string | null = null;
     try {
         console.info({
-            page:"/",
+            page: "/",
             message: "Fetching Recently Created Plans...",
         });
         const response = await plannerApi.fetchPlans({
@@ -108,7 +108,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
         nextPageKey = response.nextPageKey;
     } catch (e) {
         console.error({
-            page:"/",
+            page: "/",
             message: "Failed to fetch Recently Created Plans .",
             error: e,
         });
@@ -122,7 +122,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
         };
     } finally {
         console.info({
-            page:"/",
+            page: "/",
             message: "Fetched Recently Created Plans.",
         });
     }
