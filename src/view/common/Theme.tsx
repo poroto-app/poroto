@@ -56,10 +56,13 @@ export function Theme() {
                     a {
                         text-decoration: none;
                         color: inherit;
+                        appearance: none;
                     }
 
                     a:hover {
                         cursor: pointer;
+                        text-decoration: none;
+                        appearance: none;
                     }
 
                     ol,

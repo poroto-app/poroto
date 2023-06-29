@@ -31,4 +31,5 @@ const Rounded = styled.div<{ disabled: boolean }>`
     column-gap: 8px;
     padding: 4px 8px;
     width: 100%;
+    text-decoration: none;
 `;
