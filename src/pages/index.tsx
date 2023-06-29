@@ -8,7 +8,7 @@ import { setCurrentLocation, setSearchLocation } from "src/redux/location";
 import { fetchPlansRecentlyCreated, reduxPlanSelector } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { BannerAd } from "src/view/ad/BannerAd";
-import { Button } from "src/view/common/Button";
+import { RoundedIconButton } from "src/view/common/RoundedIconButton";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
 import { PlaceSearchButton } from "src/view/place/PlaceSearchButton";
@@ -43,11 +43,12 @@ const IndexPage = () => {
             >
                 <VStack w="100%" spacing={4} pt="32px">
                     <PlaceSearchButton />
-                    <Button
-                        text="現在地からプランを作成"
+                    <RoundedIconButton
                         icon={MdOutlinePlace}
                         onClick={onClickCreatePlanFromCurrentLocation}
-                    />
+                    >
+                        現在地からプランを作成
+                    </RoundedIconButton>
                 </VStack>
                 {isLoadingLocation && <Text>現在地を取得中</Text>}
                 {isRejected && <Text>現在地の取得を拒否されました。</Text>}

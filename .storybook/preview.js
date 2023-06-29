@@ -1,5 +1,6 @@
 import * as NextImage from "next/image";
 import {ChakraProvider} from "@chakra-ui/react";
+import {Theme} from "../src/view/common/Theme";
 
 const OriginalNextImage = NextImage.default;
 
@@ -11,6 +12,7 @@ Object.defineProperty(NextImage, "default", {
 const withChakra = (StoryFn) => {
     return (
         <ChakraProvider>
+            <Theme/>
             <div id="story-wrapper" style={{height: "100vh", display: "flex"}}>
                 <StoryFn/>
             </div>
