@@ -1,7 +1,6 @@
 import { Center, Divider, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { MdOutlinePlace } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
@@ -28,7 +27,6 @@ type Props = {
 };
 
 const IndexPage = (props: Props) => {
-    const router = useRouter();
     const dispatch = useAppDispatch();
     const { plansRecentlyCreated, nextPageTokenPlansRecentlyCreated } =
         reduxPlanSelector();
