@@ -28,7 +28,7 @@ export function PlanCandidateFooter({ onSave, onEdit }: Props) {
                     <PlanActionButton
                         fitHeight
                         center
-                        color={Colors.green}
+                        color={Colors.primary["400"]}
                         borderRadius={10}
                         text="編集"
                         onClick={onEdit}
@@ -38,7 +38,7 @@ export function PlanCandidateFooter({ onSave, onEdit }: Props) {
                     filled
                     fitHeight
                     center
-                    color={Colors.green}
+                    color={Colors.primary["400"]}
                     borderRadius={10}
                     text="保存"
                     onClick={onSave}
