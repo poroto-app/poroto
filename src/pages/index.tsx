@@ -54,6 +54,9 @@ const IndexPage = () => {
                 {isRejected && <Text>現在地の取得を拒否されました。</Text>}
 
                 {plansRecentlyCreated && (
+                    // TODO: React 18に対応
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
                     <InfiniteScroll
                         loadMore={() => dispatch(fetchPlansRecentlyCreated())}
                         hasMore={nextPageTokenPlansRecentlyCreated !== null}
