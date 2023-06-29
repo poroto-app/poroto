@@ -46,7 +46,7 @@ const SelectPlanPage = () => {
 
     return (
         <Layout navBar={<NavBar title="プランを選ぶ" />}>
-            <VStack w="100%" px="16px" spacing={16} py="16px">
+            <VStack w="100%" px="16px" spacing={8} py="16px">
                 {plansCreated.map((plan, i) => (
                     <Link
                         href={Routes.plans.planCandidate(

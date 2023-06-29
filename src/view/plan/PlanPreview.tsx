@@ -2,6 +2,7 @@ import { HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { MdDirectionsWalk } from "react-icons/md";
 import { Plan } from "src/domain/models/Plan";
+import { Colors } from "src/view/constants/color";
 import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
 
 type Props = {
@@ -21,7 +22,7 @@ export function PlanPreview({ plan }: Props) {
         <VStack w="100%" maxW="600px">
             <PlanThumbnail imageUrls={thumbnails} />
             <VStack w="100%" alignItems="flex-start" spacing={1}>
-                <Text fontWeight="bold" fontSize="1.25rem">
+                <Text fontWeight="bold" fontSize="1.1rem" color="#222222">
                     {plan.title}
                 </Text>
                 <HStack w="100%" justifyContent="flex-start">
@@ -30,7 +31,7 @@ export function PlanPreview({ plan }: Props) {
                         <Icon
                             w="24px"
                             h="24px"
-                            color="#539565"
+                            color={Colors.primary["500"]}
                             as={MdDirectionsWalk}
                         />
                     </TagContainer>

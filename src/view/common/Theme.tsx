@@ -14,7 +14,16 @@ export function Theme() {
 
                     :root {
                         --color-brown-400: #ac8e6c;
+                        --color-brown-500: #8c6d5c;
+                        --color-brown-600: #6c4d4c;
+                        --color-brown-700: #4c2d3c;
+                        --color-brown-800: #2c230d;
+
                         --color-primary-400: var(--color-brown-400);
+                        --color-primary-500: var(--color-brown-500);
+                        --color-primary-600: var(--color-brown-600);
+                        --color-primary-700: var(--color-brown-700);
+                        --color-primary-800: var(--color-brown-800);
                     }
 
                     button {
