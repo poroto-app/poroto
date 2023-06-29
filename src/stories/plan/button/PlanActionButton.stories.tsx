@@ -10,11 +10,7 @@ export default {
 
 const Template: ComponentStory<typeof PlanActionButton> = ({
     text,
-    color,
     imageUrl,
-    filled,
-    borderRadius,
-    center,
 }) => (
     <Box w="300px">
         <PlanActionButton
@@ -22,10 +18,6 @@ const Template: ComponentStory<typeof PlanActionButton> = ({
             text={text}
             icon={!imageUrl && MdOutlinePhotoCamera}
             imageUrl={imageUrl}
-            color={color}
-            filled={filled}
-            borderRadius={borderRadius}
-            center={center}
         />
     </Box>
 );
@@ -42,25 +34,4 @@ Image.args = {
     color: "#539565",
     imageUrl:
         "https://developers.google.com/static/maps/images/maps-icon.svg?hl=ja",
-};
-
-export const Filled = Template.bind({});
-Filled.args = {
-    text: "保存",
-    color: "#539565",
-    filled: true,
-};
-
-export const Rounded = Template.bind({});
-Rounded.args = {
-    text: "保存",
-    color: "#539565",
-    borderRadius: 10,
-};
-
-export const Center = Template.bind({});
-Center.args = {
-    text: "保存",
-    color: "#539565",
-    center: true,
 };

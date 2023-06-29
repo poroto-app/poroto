@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { MdOutlineLocationOn } from "react-icons/md";
+import { Colors } from "src/view/constants/color";
 import styled from "styled-components";
 
 type Props = {
@@ -31,7 +32,7 @@ export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
                 <Icon
                     w="24px"
                     h="24px"
-                    color="#539565"
+                    color={Colors.primary["600"]}
                     as={MdOutlineLocationOn}
                 />
                 <Text fontSize="1.15rem">{name}</Text>

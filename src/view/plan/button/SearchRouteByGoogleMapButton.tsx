@@ -31,7 +31,6 @@ export function SearchRouteByGoogleMapButton({
         >
             <PlanActionButton
                 text="Google Mapで経路を調べる"
-                color="#0F88E7"
                 imageUrl="/images/google_map_logo.png"
             />
         </Link>

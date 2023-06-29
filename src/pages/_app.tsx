@@ -13,6 +13,7 @@ import {
 } from "src/redux/history";
 import { reduxStore, useAppDispatch } from "src/redux/redux";
 import { FirebaseProvider } from "src/view/common/FirebaseProvider";
+import { Theme } from "src/view/common/Theme";
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
@@ -55,58 +56,10 @@ export default function App({ Component, pageProps }: AppProps) {
                 src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_CLIENT}`}
                 crossOrigin="anonymous"
             />
-            {/*MEMO:GitHub Actionsでtype checkを実行すると落ちる*/}
-            {/*eslint-disable-next-line @typescript-eslint/ban-ts-comment*/}
-            {/*@ts-ignore*/}
-            <style jsx global>
-                {`
-                    html {
-                        font-family: Helvetica, Hiragino Kaku Gothic Pro,
-                            Segoe UI, Yu Gothic, Meiryo, MS PGothic, sans-serif;
-                    }
-
-                    button {
-                        border-style: none;
-                        background-color: transparent;
-                        font-size: inherit;
-                    }
-
-                    button:focus {
-                        outline: none;
-                    }
-
-                    html,
-                    body,
-                    #__next {
-                        height: 100%;
-                        margin: 0;
-                        padding: 0;
-                    }
-
-                    h1,
-                    h2,
-                    h3,
-                    h4,
-                    h5,
-                    h6 {
-                        margin: 0;
-                    }
-
-                    a {
-                        text-decoration: none;
-                        color: inherit;
-                    }
-
-                    a:hover {
-                        cursor: pointer;
-                    }
-
-                    ol,
-                    ul {
-                        list-style: none;
-                    }
-                `}
-            </style>
+            <Script id="adsense">
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </Script>
+            <Theme />
             <ChakraProvider>
                 <Provider store={reduxStore}>
                     <FirebaseProvider />

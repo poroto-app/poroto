@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import html2canvas from "html2canvas";
 import { useRef } from "react";
-import { MdPhotoCamera } from "react-icons/md";
+import { MdOutlinePhotoCamera } from "react-icons/md";
 import { Plan } from "src/domain/models/Plan";
 import { PlanActionButton } from "src/view/plan/button/PlanActionButton";
 import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent";
@@ -37,8 +37,7 @@ export function SavePlanAsImageButton({ plan }: Props) {
         <>
             <PlanActionButton
                 text="画像で保存する"
-                color="#539565"
-                icon={MdPhotoCamera}
+                icon={MdOutlinePhotoCamera}
                 onClick={handleOnClickSaveAsImage}
             />
             <Box position="fixed" top="-10000">

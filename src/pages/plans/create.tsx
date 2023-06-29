@@ -3,7 +3,10 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { PageTransitions, reduxHistorySelector } from "src/redux/history";
 import { reduxLocationSelector } from "src/redux/location";
-import { createPlanFromLocation, reduxPlanSelector } from "src/redux/plan";
+import {
+    createPlanFromLocation,
+    reduxPlanCandidateSelector,
+} from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { Routes } from "src/view/constants/router";
@@ -14,7 +17,7 @@ export default function CreatePlanPage() {
     const dispatch = useAppDispatch();
     const { searchLocation, currentLocation } = reduxLocationSelector();
     const { createPlanSession, categoryAccepted, timeForPlan } =
-        reduxPlanSelector();
+        reduxPlanCandidateSelector();
     const { transition } = reduxHistorySelector();
 
     // HACK: このページに「戻るボタン」やURLを叩いて直接遷移してきた場合は、さらに前のページに戻す

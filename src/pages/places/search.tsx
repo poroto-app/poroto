@@ -20,12 +20,13 @@ import {
     setSelectedLocation,
 } from "src/redux/placeSearch";
 import { useAppDispatch } from "src/redux/redux";
-import { Button } from "src/view/common/Button";
 import { Layout } from "src/view/common/Layout";
 import { NavBar } from "src/view/common/NavBar";
+import { RoundedIconButton } from "src/view/common/RoundedIconButton";
 import { locationSinjukuStation } from "src/view/constants/location";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
+import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
 import { MapPinSelector } from "src/view/place/MapPinSelector";
 import { PlaceSearchBar } from "src/view/place/PlaceSearchBar";
 import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
@@ -36,19 +37,33 @@ export default function PlaceSearchPage() {
     const { currentLocation } = reduxLocationSelector();
     const { placeSearchResults, locationSelected, moveToSelectedLocation } =
         reduxPlaceSearchSelector();
-    const { getCurrentLocation } = useLocation();
+    const {
+        isLoadingLocation,
+        isRejected,
+        getCurrentLocation,
+        location,
+        resetLocationState,
+    } = useLocation();
     const [mapCenter, setMapCenter] = useState<GeoLocation>(
         locationSinjukuStation
     );
 
+    // 現在地を取得
+    // MEMO: 位置情報が利用できないと、Google Mapを表示しようとしたときにエラーになる
     useEffect(() => {
-        getCurrentLocation().then((currentLocation) => {
-            dispatch(setCurrentLocation({ currentLocation }));
-            if (mapCenter === locationSinjukuStation) {
-                setMapCenter(currentLocation);
-            }
-        });
+        resetLocationState();
+        getCurrentLocation().then();
     }, []);
+
+    // 現在地が取得できたら、地図の中心を現在地にする
+    useEffect(() => {
+        if (!location) return;
+
+        dispatch(setCurrentLocation({ currentLocation: location }));
+        if (mapCenter === locationSinjukuStation) {
+            setMapCenter(location);
+        }
+    }, [location]);
 
     useEffect(() => {
         dispatch(resetPlaceSearchResults());
@@ -91,6 +106,15 @@ export default function PlaceSearchPage() {
         dispatch(setSearchLocation({ searchLocation: locationSelected }));
         await router.push(Routes.plans.interest);
     };
+
+    if (!location)
+        return (
+            <FetchLocationDialog
+                isRejected={isRejected}
+                isLoadingLocation={isLoadingLocation}
+                onRetry={() => getCurrentLocation().then()}
+            />
+        );
 
     return (
         <Layout
@@ -138,16 +162,15 @@ export default function PlaceSearchPage() {
          */}
             <Box position="fixed" left={0} bottom="32px" right={0} px="8px">
                 <Layout>
-                    <Button
-                        text={
-                            locationSelected
-                                ? "指定した場所からプランを作成"
-                                : "タップして場所を選択"
-                        }
+                    <RoundedIconButton
                         icon={locationSelected ? MdDone : MdOutlineTouchApp}
                         disabled={locationSelected === null}
                         onClick={handleOnCreatePlan}
-                    />
+                    >
+                        {locationSelected
+                            ? "指定した場所からプランを作成"
+                            : "タップして場所を選択"}
+                    </RoundedIconButton>
                 </Layout>
             </Box>
         </Layout>
