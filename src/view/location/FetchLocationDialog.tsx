@@ -79,11 +79,7 @@ function LottieContainer({
     animationData: unknown;
     loop?: boolean;
 }) {
-    const {
-        View: LottieView,
-        play,
-        stop,
-    } = useLottie({
+    const { View: LottieView, play } = useLottie({
         animationData,
         loop,
         autoplay: false,

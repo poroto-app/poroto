@@ -1,7 +1,11 @@
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
 import { LocationCategory } from "src/domain/models/LocationCategory";
-import { reduxLocationSelector } from "src/redux/location";
+import {
+    reduxLocationSelector,
+    setCurrentLocation,
+    setSearchLocation,
+} from "src/redux/location";
 import {
     matchInterest,
     pushAcceptedCategory,
@@ -15,8 +19,10 @@ import { useAppDispatch } from "src/redux/redux";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
+import { useLocation } from "src/view/hooks/useLocation";
 import { CategorySelect } from "src/view/interest/CategorySelect";
 import { PlanDurationSelector } from "src/view/interest/PlanDurationSelector";
+import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
 import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTemplate";
 
 const MatchInterestPages = {
@@ -29,6 +35,8 @@ type MatchInterestPage =
 export default function PlanInterestPage() {
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const { getCurrentLocation, isLoadingLocation, isRejected, location } =
+        useLocation();
     const [currentCategory, setCurrentCategory] =
         useState<LocationCategory | null>(null);
     const { categoryCandidates } = reduxPlanCandidateSelector();
@@ -53,6 +61,22 @@ export default function PlanInterestPage() {
         };
     }, []);
 
+    // 検索する場所が指定されていない場合は、現在地を取得する
+    useEffect(() => {
+        if (!searchLocation) {
+            getCurrentLocation().then();
+        }
+    }, [searchLocation]);
+
+    // 現在地を取得したら、それをもとに検索
+    useEffect(() => {
+        if (!location) return;
+        const currentLocation = location;
+        dispatch(setCurrentLocation({ currentLocation }));
+        dispatch(setSearchLocation({ searchLocation: currentLocation }));
+    }, [location]);
+
+    // 検索する場所が指定されたら、興味を持つ場所を検索
     useEffect(() => {
         if (searchLocation) {
             dispatch(matchInterest({ location: searchLocation }));
@@ -79,6 +103,15 @@ export default function PlanInterestPage() {
     const handleSelectTime = (time: number | null) => {
         dispatch(setTimeForPlan({ time }));
     };
+
+    if (!searchLocation)
+        return (
+            <FetchLocationDialog
+                isLoadingLocation={isLoadingLocation}
+                isRejected={isRejected}
+                onRetry={() => getCurrentLocation().then()}
+            />
+        );
 
     return (
         <PlanInterestPageComponent
