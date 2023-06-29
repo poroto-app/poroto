@@ -59,6 +59,10 @@ const Dialog = forwardRef<
     }
 >(function DialogComponent({ visible, onClosed, children }, ref) {
     return (
+        // TODO: 別のライブラリに置き換える
+        // react-transition-groupはReact18に対応していない
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         <Transition in={visible} timeout={400}>
             {(state) => (
                 <DialogWrapper onClick={onClosed} state={state}>
