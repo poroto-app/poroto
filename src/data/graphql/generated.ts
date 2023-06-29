@@ -23,13 +23,16 @@ export type CachedCreatedPlansInput = {
   session: Scalars['String'];
 };
 
-export type ChangePlacesOrderInPlanInput = {
-  id: Scalars['String'];
+export type ChangePlacesOrderInPlanCandidateInput = {
+  currentLatitude?: InputMaybe<Scalars['Float']>;
+  currentLongitude?: InputMaybe<Scalars['Float']>;
+  placeIds: Array<Scalars['String']>;
+  planId: Scalars['String'];
   session: Scalars['String'];
 };
 
-export type ChangePlacesOrderInPlanOutput = {
-  __typename?: 'ChangePlacesOrderInPlanOutput';
+export type ChangePlacesOrderInPlanCandidateOutput = {
+  __typename?: 'ChangePlacesOrderInPlanCandidateOutput';
   plan: Plan;
 };
 
@@ -72,15 +75,15 @@ export type MatchInterestsInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  changePlacesOrderInPlan: ChangePlacesOrderInPlanOutput;
+  changePlacesOrderInPlanCandidate: ChangePlacesOrderInPlanCandidateOutput;
   createPlanByLocation: CreatePlanByLocationOutput;
   ping: Scalars['String'];
   savePlanFromCandidate: SavePlanFromCandidateOutput;
 };
 
 
-export type MutationChangePlacesOrderInPlanArgs = {
-  input: ChangePlacesOrderInPlanInput;
+export type MutationChangePlacesOrderInPlanCandidateArgs = {
+  input: ChangePlacesOrderInPlanCandidateInput;
 };
 
 
@@ -101,6 +104,7 @@ export type MutationSavePlanFromCandidateArgs = {
 export type Place = {
   __typename?: 'Place';
   estimatedStayDuration: Scalars['Int'];
+  id: Scalars['String'];
   location: GeoLocation;
   name: Scalars['String'];
   photos: Array<Scalars['String']>;
