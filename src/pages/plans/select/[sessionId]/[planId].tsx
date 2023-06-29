@@ -8,10 +8,11 @@ import { copyObject } from "src/domain/util/object";
 import {
     fetchCachedCreatedPlans,
     fetchPlanDetail,
-    reduxPlanSelector,
+    reduxPlanCandidateSelector,
     savePlanFromCandidate,
-} from "src/redux/plan";
+} from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
+import { AdInArticle } from "src/view/ad/AdInArticle";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
@@ -42,7 +43,7 @@ const PlanDetail = () => {
         createdBasedOnCurrentLocation,
         createPlanSession,
         savePlanFromCandidateRequestStatus,
-    } = reduxPlanSelector();
+    } = reduxPlanCandidateSelector();
 
     useEffect(() => {
         if (!currentLocation) getCurrentLocation().then();
@@ -108,6 +109,11 @@ const PlanDetail = () => {
                         plan={plan}
                         createdBasedOnCurrentLocation={
                             createdBasedOnCurrentLocation
+                        }
+                    />
+                    <AdInArticle
+                        adSlot={
+                            process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE
                         }
                     />
                     <VStack py="16px" w="100%" alignItems="flex-start">

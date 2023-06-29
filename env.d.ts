@@ -22,6 +22,12 @@ declare global {
             FIREBASE_STORAGE_BUCKET: string
             FIREBASE_MESSAGING_SENDER_ID: string
             FIREBASE_APP_ID: string
+
+            // ==============================
+            // Google AdSense
+            // ==============================
+            ADSENSE_CLIENT: string
+            ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE: string
         }
     }
 }

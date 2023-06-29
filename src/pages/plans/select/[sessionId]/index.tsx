@@ -2,7 +2,10 @@ import { Center, Text, VStack } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { fetchCachedCreatedPlans, reduxPlanSelector } from "src/redux/plan";
+import {
+    fetchCachedCreatedPlans,
+    reduxPlanCandidateSelector,
+} from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { Layout } from "src/view/common/Layout";
 import { LoadingModal } from "src/view/common/LoadingModal";
@@ -12,7 +15,7 @@ import { PlanPreview } from "src/view/plan/PlanPreview";
 
 const SelectPlanPage = () => {
     const dispatch = useAppDispatch();
-    const { plansCreated, createPlanSession } = reduxPlanSelector();
+    const { plansCreated, createPlanSession } = reduxPlanCandidateSelector();
 
     const router = useRouter();
     const { sessionId } = router.query;
