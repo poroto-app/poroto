@@ -38,7 +38,7 @@ const PlanSummaryContainer = styled.div`
     padding: 16px;
 `;
 
-export const PlanDuration = ({
+export const PlanSummaryDuration = ({
     durationInMinutes,
 }: {
     durationInMinutes: number;

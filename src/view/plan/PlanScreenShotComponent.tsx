@@ -2,7 +2,7 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 import { forwardRef, MutableRefObject } from "react";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
-import { PlanDuration } from "src/view/plan/PlanSummary";
+import { PlanSummaryDuration } from "src/view/plan/PlanSummary";
 import styled from "styled-components";
 
 type Props = {
@@ -23,7 +23,7 @@ export const PlanScreenShotComponent = forwardRef<HTMLDivElement, Props>(
                     <PlaceListItem key={i} place={place} />
                 ))}
                 <Box py="16px" w="100%">
-                    <PlanDuration
+                    <PlanSummaryDuration
                         durationInMinutes={plan.timeInMinutes}
                     />
                 </Box>

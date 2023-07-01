@@ -27,7 +27,7 @@ import {
 import { PlanPageSection } from "src/view/plan/PlanPageSection";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
-import { PlanDuration } from "src/view/plan/PlanSummary";
+import { PlanSummaryDuration } from "src/view/plan/PlanSummary";
 
 const PlanDetail = () => {
     const router = useRouter();
@@ -120,7 +120,9 @@ const PlanDetail = () => {
                         }
                     />
                     <VStack p="16px" w="100%" alignItems="flex-start">
-                        <PlanDuration durationInMinutes={plan.timeInMinutes} />
+                        <PlanSummaryDuration
+                            durationInMinutes={plan.timeInMinutes}
+                        />
                     </VStack>
                     <PlanPageSection title="スケジュール" accordion>
                         <PlanSchedule
