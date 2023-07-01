@@ -2,20 +2,13 @@ import { Link } from "@chakra-ui/next-js";
 import { Center, Image, Text, VStack } from "@chakra-ui/react";
 import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
+import styled from "styled-components";
 import { RoundedButton } from "./RoundedButton";
 
 export const NotFound = () => {
     return (
         <Center w="100%" h="100%">
-            <VStack
-                h="100%"
-                maxW="600px"
-                w="100%"
-                py="32px"
-                px="16px"
-                justifyContent="space-between"
-                userSelect="none"
-            >
+            <Container>
                 <Center flexDirection="column" flex={1} w="100%" px="16px">
                     <VStack
                         color={Colors.primary["400"]}
@@ -30,14 +23,12 @@ export const NotFound = () => {
                             Not Found
                         </Text>
                     </VStack>
-                    <Center w="100%">
-                        <Image
-                            w="100%"
-                            objectFit="cover"
-                            src="/images/404.png"
-                            alt="Not Found"
-                        />
-                    </Center>
+                    <Image
+                        w="100%"
+                        objectFit="cover"
+                        src="/images/404.png"
+                        alt="Not Found"
+                    />
                     <VStack
                         spacing={0}
                         w="100%"
@@ -57,7 +48,17 @@ export const NotFound = () => {
                 >
                     <RoundedButton>ホームに戻る</RoundedButton>
                 </Link>
-            </VStack>
+            </Container>
         </Center>
     );
 };
+
+const Container = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    max-width: 600px;
+    padding: 32px 16px;
+    user-select: none;
+`;
