@@ -14,7 +14,7 @@ type Story = StoryObj<typeof PlanSummary>;
 export const Primary: Story = {
     args: {
         title: "移動時間",
-        text: "5分",
+        children: "5分",
         icon: MdOutlineDirectionsWalk,
     },
 };
