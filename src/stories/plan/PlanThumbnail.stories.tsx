@@ -13,10 +13,10 @@ type Story = StoryObj<typeof PlanThumbnail>;
 export const Primary: Story = {
     args: {
         imageUrls: [
-            "https://picsum.photos/300/400",
+            "https://picsum.photos/1000/800",
             "https://picsum.photos/1280/720",
-            "https://picsum.photos/400/600",
-            "https://picsum.photos/400/600",
+            "https://picsum.photos/1400/600",
+            "https://picsum.photos/800/1600",
         ],
     },
 };
