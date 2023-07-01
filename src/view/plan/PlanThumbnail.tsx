@@ -7,7 +7,7 @@ export const PlanThumbnail = ({ imageUrls }: { imageUrls: string[] }) => {
     imageUrls = imageUrls.slice(0, 4);
 
     return (
-        <SlideContainer>
+        <SlideContainer options={{ drag: imageUrls.length > 1 }}>
             {imageUrls.map((url, i) => (
                 <SlideItem key={i}>
                     <Thumbnail src={url} />

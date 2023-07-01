@@ -21,6 +21,12 @@ export const Primary: Story = {
     },
 };
 
+export const Single: Story = {
+    args: {
+        imageUrls: ["https://picsum.photos/1000/800"],
+    },
+};
+
 export const Empty: Story = {
     args: {
         imageUrls: [],
