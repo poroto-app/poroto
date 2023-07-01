@@ -1,4 +1,4 @@
-import {Box, Center, VStack} from "@chakra-ui/react";
+import { Box, Center, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Place } from "src/domain/models/Place";
@@ -25,10 +25,10 @@ import {
     FooterHeight,
     PlanCandidateFooter,
 } from "src/view/plan/PlanCandidateFooter";
+import { PlanPageSection } from "src/view/plan/PlanPageSection";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
+import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanDuration } from "src/view/plan/PlanSummaryItem";
-import {PlanPageSection} from "src/view/plan/PlanPageSection";
-import {PlanSchedule} from "src/view/plan/PlanSchedule";
 
 const PlanDetail = () => {
     const router = useRouter();
@@ -124,7 +124,12 @@ const PlanDetail = () => {
                         <PlanDuration durationInMinutes={plan.timeInMinutes} />
                     </VStack>
                     <PlanPageSection title="スケジュール" accordion>
-                        <PlanSchedule plan={plan} startFromCurrentLocation={createdBasedOnCurrentLocation} />
+                        <PlanSchedule
+                            plan={plan}
+                            startFromCurrentLocation={
+                                createdBasedOnCurrentLocation
+                            }
+                        />
                     </PlanPageSection>
                     <VStack w="100%" p="16px">
                         <PlaceMap places={plan.places} />
