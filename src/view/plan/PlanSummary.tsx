@@ -9,7 +9,7 @@ type Props = {
     icon: IconType;
 };
 
-export const PlanSummaryItem = ({ text, icon }: Props) => {
+export const PlanSummary = ({ text, icon }: Props) => {
     return (
         <HStack w="100%" py="4px" columnGap="20px" spacing={0}>
             <Icon w="24px" h="24px" color="#222222" as={icon} />
@@ -30,7 +30,7 @@ export const PlanDuration = ({
     );
     const endPlanTime = `${DateHelper.dateToHHMM(endPlanDate)}`;
     return (
-        <PlanSummaryItem
+        <PlanSummary
             text={`${duration} (~ ${endPlanTime})`}
             icon={MdSchedule}
         />
@@ -49,5 +49,5 @@ export const PlanPrice = ({
         priceStr += ` ~ ${priceEnd}`;
     }
 
-    return <PlanSummaryItem text={priceStr} icon={BiYen} />;
+    return <PlanSummary text={priceStr} icon={BiYen} />;
 };

@@ -2,7 +2,7 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 import { forwardRef, MutableRefObject } from "react";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
-import { PlanDuration, PlanPrice } from "src/view/plan/PlanSummaryItem";
+import { PlanDuration, PlanPrice } from "src/view/plan/PlanSummary";
 import styled from "styled-components";
 
 type Props = {

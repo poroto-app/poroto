@@ -27,7 +27,7 @@ import {
 import { PlanPageSection } from "src/view/plan/PlanPageSection";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
-import { PlanDuration } from "src/view/plan/PlanSummaryItem";
+import { PlanDuration } from "src/view/plan/PlanSummary";
 
 const PlanDetail = () => {
     const router = useRouter();
