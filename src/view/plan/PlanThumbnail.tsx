@@ -43,6 +43,33 @@ const SlideContainer = styled(Splide)`
     & > .splide__pagination > li > button {
         opacity: 1;
     }
+
+    & > .splide__arrows {
+        opacity: 0;
+        & > .splide__arrow {
+            &:disabled {
+                opacity: 0;
+            }
+
+            &:hover {
+                opacity: 1;
+            }
+
+            > svg {
+                width: 12px;
+                height: 12px;
+            }
+        }
+    }
+
+    // pcでホバーをしたときだけ矢印を表示する
+    @media screen and (min-width: 700px) {
+        &:hover {
+            & > .splide__arrows {
+                opacity: 1;
+            }
+        }
+    }
 `;
 
 const SlideItem = styled(SplideSlide)`
