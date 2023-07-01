@@ -1,4 +1,4 @@
-import { Center, Text, VStack } from "@chakra-ui/react";
+import {Box, Center, Text, VStack} from "@chakra-ui/react";
 import { Marker } from "@react-google-maps/api";
 import { Place } from "src/domain/models/Place";
 import { MapViewer } from "src/view/common/MapViewer";
@@ -9,12 +9,9 @@ type Props = {
 
 export const PlaceMap = ({ places }: Props) => {
     return (
-        <VStack w="100%" h="300px" alignItems="flex-start">
-            <Text fontWeight="bold" fontSize="1.25rem">
-                プラン内の場所
-            </Text>
+        <Box w="100%" h="300px">
             <Map places={places} />
-        </VStack>
+        </Box>
     );
 };
 

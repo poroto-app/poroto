@@ -44,8 +44,10 @@ export default function PlanPage() {
                 <PlanPageSection title="スケジュール" accordion>
                     <PlanSchedule plan={plan} />
                 </PlanPageSection>
-                <VStack w="100%" px="16px">
+                <PlanPageSection title="プラン内の場所">
                     <PlaceMap places={plan.places} />
+                </PlanPageSection>
+                <VStack w="100%" px="16px">
                     <SavePlanAsImageButton plan={plan} />
                     <SearchRouteByGoogleMapButton
                         plan={plan}

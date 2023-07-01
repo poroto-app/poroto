@@ -131,9 +131,10 @@ const PlanDetail = () => {
                             }
                         />
                     </PlanPageSection>
-                    <VStack w="100%" p="16px">
+                    <PlanPageSection title="プラン内の場所">
                         <PlaceMap places={plan.places} />
-                        <SavePlanAsImageButton plan={plan} />
+                    </PlanPageSection>
+                    <VStack w="100%" p="16px">
                         <SearchRouteByGoogleMapButton
                             plan={plan}
                             currentLocation={currentLocation}
