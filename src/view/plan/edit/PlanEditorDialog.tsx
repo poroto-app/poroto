@@ -39,6 +39,8 @@ export function PlanEditorDialog({
                     px="8px"
                     py="8px"
                     w="100%"
+                    maxH="100%"
+                    overflowY="scroll"
                     flex={1}
                 >
                     <ReorderablePlaceList
