@@ -1,5 +1,5 @@
 import { HStack } from "@chakra-ui/react";
-import { PlanPageSection } from "src/view/plan/PlanPageSection";
+import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanSummaryDuration } from "src/view/plan/PlanSummary";
 
 type Props = {

@@ -8,7 +8,7 @@ import { NavBar } from "src/view/common/NavBar";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
-import { PlanPageSection } from "src/view/plan/PlanPageSection";
+import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";

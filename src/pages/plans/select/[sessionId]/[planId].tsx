@@ -24,7 +24,7 @@ import {
     FooterHeight,
     PlanCandidateFooter,
 } from "src/view/plan/PlanCandidateFooter";
-import { PlanPageSection } from "src/view/plan/PlanPageSection";
+import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";

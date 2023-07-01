@@ -1,6 +1,6 @@
 import { Skeleton } from "@chakra-ui/react";
 import { Meta, StoryObj } from "@storybook/react";
-import { PlanPageSection } from "src/view/plan/PlanPageSection";
+import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 
 export default {
     title: "plan/PlanPageSection",
