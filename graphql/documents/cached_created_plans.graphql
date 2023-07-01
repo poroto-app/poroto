@@ -5,6 +5,7 @@ query CachedCreatedPlans($session: String!) {
             id
             name
             places {
+                id
                 name
                 photos
                 location {
