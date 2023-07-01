@@ -10,6 +10,8 @@ import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteBy
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanDuration } from "src/view/plan/PlanSummaryItem";
+import {PlanSchedule} from "src/view/plan/PlanSchedule";
+import {PlanPageSection} from "src/view/plan/PlanPageSection";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -37,6 +39,9 @@ export default function PlanPage() {
                 <VStack py="16px" w="100%" alignItems="flex-start">
                     <PlanDuration durationInMinutes={plan.timeInMinutes} />
                 </VStack>
+                <PlanPageSection title="スケジュール">
+                    <PlanSchedule plan={plan} />
+                </PlanPageSection>
                 <VStack w="100%">
                     <PlaceMap places={plan.places} />
                     <SavePlanAsImageButton plan={plan} />

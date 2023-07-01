@@ -27,6 +27,8 @@ import {
 } from "src/view/plan/PlanCandidateFooter";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanDuration } from "src/view/plan/PlanSummaryItem";
+import {PlanPageSection} from "src/view/plan/PlanPageSection";
+import {PlanSchedule} from "src/view/plan/PlanSchedule";
 
 const PlanDetail = () => {
     const router = useRouter();
@@ -119,6 +121,9 @@ const PlanDetail = () => {
                     <VStack py="16px" w="100%" alignItems="flex-start">
                         <PlanDuration durationInMinutes={plan.timeInMinutes} />
                     </VStack>
+                    <PlanPageSection title="スケジュール">
+                        <PlanSchedule plan={plan} startFromCurrentLocation={createdBasedOnCurrentLocation} />
+                    </PlanPageSection>
                     <VStack w="100%">
                         <PlaceMap places={plan.places} />
                         <SavePlanAsImageButton plan={plan} />
