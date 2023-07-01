@@ -34,11 +34,12 @@ export default function PlanPage() {
                 px="0"
                 py="16px"
                 boxSizing="border-box"
+                spacing="16px"
             >
                 <PlanPageSectionSummary
                     planDurationInMinutes={plan.timeInMinutes}
                 />
-                <Box px="8px" pb="16px">
+                <Box px="8px">
                     <PlanPlaceList plan={plan} />
                 </Box>
                 <PlanPageSection title="スケジュール" accordion>

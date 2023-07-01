@@ -104,12 +104,13 @@ const PlanDetail = () => {
                     w="100%"
                     px="0"
                     py="16px"
+                    spacing="16px"
                     boxSizing="border-box"
                 >
                     <PlanPageSectionSummary
                         planDurationInMinutes={plan.timeInMinutes}
                     />
-                    <Box w="100%" px="8px" pb="16px">
+                    <Box w="100%" px="8px">
                         <PlanPlaceList
                             plan={plan}
                             createdBasedOnCurrentLocation={
