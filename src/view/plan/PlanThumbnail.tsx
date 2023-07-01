@@ -39,6 +39,10 @@ const SlideContainer = styled(Splide)`
     & > .splide__track {
         height: 100%;
     }
+
+    & > .splide__pagination > li > button {
+        opacity: 1;
+    }
 `;
 
 const SlideItem = styled(SplideSlide)`
