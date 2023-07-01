@@ -1,16 +1,31 @@
+import { Link } from "@chakra-ui/next-js";
 import { Skeleton } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
+import { ReactNode } from "react";
 import styled from "styled-components";
 
-export const PlanThumbnail = ({ imageUrls }: { imageUrls: string[] }) => {
+type Props = {
+    imageUrls: string[];
+    link: string;
+};
+
+export const PlanThumbnail = ({ imageUrls, link }: Props) => {
     imageUrls = imageUrls.slice(0, 4);
 
     return (
-        <SlideContainer options={{ drag: imageUrls.length > 1 }}>
+        <SlideContainer
+            options={{
+                drag: imageUrls.length > 1,
+                arrows: imageUrls.length > 1,
+            }}
+        >
             {imageUrls.map((url, i) => (
                 <SlideItem key={i}>
-                    <Thumbnail src={url} />
+                    {/*ページングのボタンを押したときにページ遷移しないようにするため*/}
+                    <LinkWrapper href={link}>
+                        <Thumbnail src={url} />
+                    </LinkWrapper>
                 </SlideItem>
             ))}
             {/*TODO: 画像が無いときのプレースホルダーを用意する*/}
@@ -28,6 +43,22 @@ export const PlanThumbnail = ({ imageUrls }: { imageUrls: string[] }) => {
     );
 };
 
+function LinkWrapper({
+    href,
+    children,
+}: {
+    href?: string;
+    children?: ReactNode;
+}) {
+    if (href)
+        return (
+            <Link href={href} w="100%" h="100%">
+                {children}
+            </Link>
+        );
+    return <>{children}</>;
+}
+
 const SlideContainer = styled(Splide)`
     width: 100%;
     height: 300px;
@@ -42,17 +73,26 @@ const SlideContainer = styled(Splide)`
 
     & > .splide__pagination > li > button {
         opacity: 1;
+        box-shadow: 0 0 0 1px transparent, 0 0 0 4px transparent,
+            0 2px 4px rgba(0, 0, 0, 0.18);
     }
 
     & > .splide__arrows {
         opacity: 0;
+
         & > .splide__arrow {
+            background-color: white;
+            box-shadow: 0 0 0 1px transparent, 0 0 0 4px transparent,
+                0 2px 4px rgba(0, 0, 0, 0.18);
+            z-index: 1;
+
             &:disabled {
                 opacity: 0;
             }
 
             &:hover {
                 opacity: 1;
+                z-index: 99;
             }
 
             > svg {
