@@ -11,7 +11,7 @@ import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanPageSection } from "src/view/plan/PlanPageSection";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
-import { PlanSummaryDuration } from "src/view/plan/PlanSummary";
+import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -35,14 +35,12 @@ export default function PlanPage() {
                 py="16px"
                 boxSizing="border-box"
             >
+                <PlanPageSectionSummary
+                    planDurationInMinutes={plan.timeInMinutes}
+                />
                 <Box px="8px">
                     <PlanPlaceList plan={plan} />
                 </Box>
-                <VStack p="16px" w="100%" alignItems="flex-start">
-                    <PlanSummaryDuration
-                        durationInMinutes={plan.timeInMinutes}
-                    />
-                </VStack>
                 <PlanPageSection title="スケジュール" accordion>
                     <PlanSchedule plan={plan} />
                 </PlanPageSection>

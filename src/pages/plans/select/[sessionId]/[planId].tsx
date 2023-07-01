@@ -27,7 +27,7 @@ import {
 import { PlanPageSection } from "src/view/plan/PlanPageSection";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
-import { PlanSummaryDuration } from "src/view/plan/PlanSummary";
+import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 
 const PlanDetail = () => {
     const router = useRouter();
@@ -106,6 +106,9 @@ const PlanDetail = () => {
                     py="16px"
                     boxSizing="border-box"
                 >
+                    <PlanPageSectionSummary
+                        planDurationInMinutes={plan.timeInMinutes}
+                    />
                     <Box w="100%" px="8px">
                         <PlanPlaceList
                             plan={plan}
@@ -119,11 +122,6 @@ const PlanDetail = () => {
                             process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE
                         }
                     />
-                    <VStack p="16px" w="100%" alignItems="flex-start">
-                        <PlanSummaryDuration
-                            durationInMinutes={plan.timeInMinutes}
-                        />
-                    </VStack>
                     <PlanPageSection title="スケジュール" accordion>
                         <PlanSchedule
                             plan={plan}
