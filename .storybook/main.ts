@@ -1,4 +1,6 @@
-const config = {
+import type { StorybookConfig } from "@storybook/nextjs"
+
+const config: StorybookConfig = {
     "stories": [
         "../src/**/*.stories.mdx",
         "../src/**/*.stories.@(js|jsx|ts|tsx)"
