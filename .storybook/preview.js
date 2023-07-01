@@ -13,9 +13,7 @@ const withChakra = (StoryFn) => {
     return (
         <ChakraProvider>
             <Theme/>
-            <div id="story-wrapper" style={{height: "100vh", display: "flex"}}>
-                <StoryFn/>
-            </div>
+            <StoryFn/>
         </ChakraProvider>
     );
 };
