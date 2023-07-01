@@ -24,9 +24,9 @@ import {
     FooterHeight,
     PlanCandidateFooter,
 } from "src/view/plan/PlanCandidateFooter";
-import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
+import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 
 const PlanDetail = () => {
@@ -109,7 +109,7 @@ const PlanDetail = () => {
                     <PlanPageSectionSummary
                         planDurationInMinutes={plan.timeInMinutes}
                     />
-                    <Box w="100%" px="8px">
+                    <Box w="100%" px="8px" pb="16px">
                         <PlanPlaceList
                             plan={plan}
                             createdBasedOnCurrentLocation={

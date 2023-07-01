@@ -8,9 +8,9 @@ import { NavBar } from "src/view/common/NavBar";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
-import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
+import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 
 export default function PlanPage() {
@@ -38,7 +38,7 @@ export default function PlanPage() {
                 <PlanPageSectionSummary
                     planDurationInMinutes={plan.timeInMinutes}
                 />
-                <Box px="8px">
+                <Box px="8px" pb="16px">
                     <PlanPlaceList plan={plan} />
                 </Box>
                 <PlanPageSection title="スケジュール" accordion>
