@@ -4,7 +4,7 @@ import { Routes } from "src/view/constants/router";
 import styled from "styled-components";
 import { RoundedButton } from "./RoundedButton";
 
-const NotFoundPage = () => {
+const NotFound = () => {
     return (
         <Center w="100%">
             <VStack h="100%" py="24px" px="16px" justifyContent="space-between">
@@ -65,4 +65,4 @@ const ErrorMessage = styled(Text)`
     margin: 0;
 `;
 
-export default NotFoundPage;
+export default NotFound;

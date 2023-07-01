@@ -1,5 +1,5 @@
-import NotFoundPage from "src/view/common/404";
+import NotFound from "src/view/common/NotFound";
 
 export default function Page() {
-    return <NotFoundPage />;
+    return <NotFound />;
 }
