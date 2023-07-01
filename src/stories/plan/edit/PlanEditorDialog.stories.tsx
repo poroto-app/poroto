@@ -10,10 +10,9 @@ export default {
 } as ComponentMeta<typeof PlanEditorDialog>;
 
 const Template: ComponentStory<typeof PlanEditorDialog> = ({
-    places: placesOriginal,
+    places,
     visible: visibilityOriginal,
 }) => {
-    const [places, setPlaces] = useState(placesOriginal);
     const [visible, setVisible] = useState(visibilityOriginal);
 
     useEffect(() => {
@@ -28,7 +27,7 @@ const Template: ComponentStory<typeof PlanEditorDialog> = ({
                 setVisible(false);
             }}
             places={places}
-            onReorderPlaces={(places) => setPlaces(copyObject(places))}
+            onSave={(places) => 0}
         />
     );
 };
