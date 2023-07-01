@@ -1,3 +1,5 @@
+import {GeoLocation} from "src/domain/models/GeoLocation";
+
 export interface PlannerApi {
     fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse>;
 
@@ -18,6 +20,10 @@ export interface PlannerApi {
     savePlanFromCandidate(
         request: SavePlanFromCandidateRequest
     ): Promise<SavePlanFromCandidateResponse>;
+
+    updatePlanCandidatePlacesOrder(
+        request: UpdatePlanCandidatePlacesOrderRequest
+    ): Promise<UpdatePlanCandidatePlacesOrderResponse>;
 }
 
 export type PlanEntity = {
@@ -117,3 +123,14 @@ export type SavePlanFromCandidateRequest = {
 export type SavePlanFromCandidateResponse = {
     planId: string;
 };
+
+export type UpdatePlanCandidatePlacesOrderRequest = {
+    session: string;
+    planId: string;
+    placeIds: string[];
+    currentLocation?: GeoLocation;
+}
+
+export type UpdatePlanCandidatePlacesOrderResponse = {
+    plan: PlanEntity | null;
+}

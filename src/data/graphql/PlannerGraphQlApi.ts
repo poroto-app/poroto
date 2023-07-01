@@ -1,5 +1,5 @@
 import {
-    CachedCreatedPlansDocument,
+    CachedCreatedPlansDocument, ChangePlacesOrderInPlanCandidateDocument,
     CreatePlanByLocationDocument,
     FetchPlanByIdDocument,
     FetchPlansDocument,
@@ -20,7 +20,7 @@ import {
     PlanEntity,
     PlannerApi,
     SavePlanFromCandidateRequest,
-    SavePlanFromCandidateResponse,
+    SavePlanFromCandidateResponse, UpdatePlanCandidatePlacesOrderRequest, UpdatePlanCandidatePlacesOrderResponse,
 } from "src/domain/plan/PlannerApi";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
@@ -135,6 +135,26 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         });
         return {
             planId: data.savePlanFromCandidate.plan.id,
+        };
+    }
+
+    async updatePlanCandidatePlacesOrder(
+        request: UpdatePlanCandidatePlacesOrderRequest,
+    ): Promise<UpdatePlanCandidatePlacesOrderResponse> {
+        const { data } = await this.client.mutate({
+            mutation: ChangePlacesOrderInPlanCandidateDocument,
+            variables: {
+                input: {
+                    session: request.session,
+                    planId: request.planId,
+                    placeIds: request.placeIds,
+                    currentLatitude: request.currentLocation?.latitude,
+                    currentLongitude: request.currentLocation?.longitude,
+                }
+            },
+        });
+        return {
+            plan: fromGraphqlPlanEntity(data.changePlacesOrderInPlanCandidate.plan),
         };
     }
 }
