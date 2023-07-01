@@ -1,6 +1,5 @@
 import { Icon, Text, VStack } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import { BiYen } from "react-icons/bi";
 import { MdSchedule } from "react-icons/md";
 import { DateHelper } from "src/domain/util/date";
 import styled from "styled-components";
@@ -20,7 +19,9 @@ export const PlanSummary = ({ title, text, icon }: Props) => {
                     {title}
                 </Text>
             </VStack>
-            <Text color="#222222" mt="4px">{text}</Text>
+            <Text color="#222222" mt="4px">
+                {text}
+            </Text>
         </PlanSummaryContainer>
     );
 };
@@ -55,19 +56,4 @@ export const PlanDuration = ({
             icon={MdSchedule}
         />
     );
-};
-
-export const PlanPrice = ({
-    price,
-    priceEnd,
-}: {
-    price: number;
-    priceEnd?: number;
-}) => {
-    let priceStr = `${price}`;
-    if (priceEnd) {
-        priceStr += ` ~ ${priceEnd}`;
-    }
-
-    return <PlanSummary title="料金" text={priceStr} icon={BiYen} />;
 };
