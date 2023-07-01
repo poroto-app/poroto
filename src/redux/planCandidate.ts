@@ -28,6 +28,7 @@ export type PlanCandidateState = {
 
     timeForPlan: number | null;
     savePlanFromCandidateRequestStatus: RequestStatus | null;
+    updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanCandidateState = {
@@ -42,6 +43,7 @@ const initialState: PlanCandidateState = {
 
     timeForPlan: null,
     savePlanFromCandidateRequestStatus: null,
+    updatePlacesOrderInPlanCandidateRequestStatus: null,
 };
 
 type CreatePlanFromCurrentLocationProps = {
@@ -163,6 +165,32 @@ export const savePlanFromCandidate = createAsyncThunk(
     }
 );
 
+type UpdatePlacesOrderInPlanCandidateProps = {
+    session: string;
+    planId: string;
+    placeIds: string[];
+};
+export const updatePlacesOrderInPlanCandidate = createAsyncThunk(
+    "planCandidate/updatePlacesOrderInPlanCandidate",
+    async (
+        { session, planId, placeIds }: UpdatePlacesOrderInPlanCandidateProps,
+        { dispatch }
+    ) => {
+        // Previewの内容は先に書き換える
+        dispatch(reorderPlacesInPreview({ placeIds }));
+
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.updatePlanCandidatePlacesOrder({
+            session,
+            planId,
+            placeIds,
+        });
+        return {
+            plan: createPlanFromPlanEntity(response.plan),
+        };
+    }
+);
+
 export const slice = createSlice({
     name: "plan",
     initialState,
@@ -239,6 +267,22 @@ export const slice = createSlice({
             state.plansCreated = null;
             state.createPlanSession = null;
         },
+
+        reorderPlacesInPreview: (
+            state,
+            { payload }: PayloadAction<{ placeIds: string[] }>
+        ) => {
+            if (!state.preview) return;
+
+            const isContainsAllPlacesIds = state.preview.places.some(
+                (place) => !payload.placeIds.includes(place.id)
+            );
+            if (isContainsAllPlacesIds) return;
+
+            state.preview.places = payload.placeIds.map((placeId) =>
+                state.preview.places.find((place) => place.id === placeId)
+            );
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -254,7 +298,32 @@ export const slice = createSlice({
             .addCase(savePlanFromCandidate.fulfilled, (state) => {
                 state.savePlanFromCandidateRequestStatus =
                     RequestStatuses.FULFILLED;
-            });
+            })
+            // Update Places Order In Plan Candidate
+            .addCase(updatePlacesOrderInPlanCandidate.pending, (state) => {
+                state.updatePlacesOrderInPlanCandidateRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(updatePlacesOrderInPlanCandidate.rejected, (state) => {
+                state.updatePlacesOrderInPlanCandidateRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
+            .addCase(
+                updatePlacesOrderInPlanCandidate.fulfilled,
+                (state, { payload }) => {
+                    state.updatePlacesOrderInPlanCandidateRequestStatus =
+                        RequestStatuses.FULFILLED;
+
+                    if (state.plansCreated === null) return;
+
+                    const planIndexToUpdate = state.plansCreated.findIndex(
+                        (plan) => plan.id === payload.plan.id
+                    );
+                    if (planIndexToUpdate < 0) return;
+
+                    state.plansCreated[planIndexToUpdate] = payload.plan;
+                }
+            );
     },
 });
 
@@ -272,6 +341,8 @@ export const {
     resetInterest,
     resetPlanCandidates,
 } = slice.actions;
+
+const { reorderPlacesInPreview } = slice.actions;
 
 export const reduxPlanCandidateSelector = () =>
     useSelector((state: RootState) => state.planCandidate);
