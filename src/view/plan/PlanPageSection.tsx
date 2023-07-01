@@ -17,7 +17,7 @@ export type Props = {
 }
 
 export function PlanPageSection({title, accordion, children}: Props) {
-    if(accordion) return <Accordion allowToggle borderColor="transparent" w="100%">
+    if(accordion) return <Accordion allowToggle borderColor="transparent" w="100%" px="16px">
         <AccordionItem>
             <AccordionButton justifyContent="space-between" px={0}>
                 <Title title={title}/>

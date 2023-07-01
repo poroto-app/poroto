@@ -1,4 +1,4 @@
-import { Center, VStack } from "@chakra-ui/react";
+import {Box, Center, VStack} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { fetchPlan, reduxPlanSelector } from "src/redux/plan";
@@ -31,18 +31,20 @@ export default function PlanPage() {
             <VStack
                 maxWidth="990px"
                 w="100%"
-                px="8px"
+                px="0"
                 py="16px"
                 boxSizing="border-box"
             >
-                <PlanPlaceList plan={plan} />
-                <VStack py="16px" w="100%" alignItems="flex-start">
+                <Box px="8px">
+                    <PlanPlaceList plan={plan} />
+                </Box>
+                <VStack p="16px" w="100%" alignItems="flex-start">
                     <PlanDuration durationInMinutes={plan.timeInMinutes} />
                 </VStack>
                 <PlanPageSection title="スケジュール" accordion>
                     <PlanSchedule plan={plan} />
                 </PlanPageSection>
-                <VStack w="100%">
+                <VStack w="100%" px="16px">
                     <PlaceMap places={plan.places} />
                     <SavePlanAsImageButton plan={plan} />
                     <SearchRouteByGoogleMapButton
