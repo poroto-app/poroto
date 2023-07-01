@@ -28,7 +28,7 @@ export function PlanEditorDialog({
 
     const handleOnSave = () => {
         onSave(places);
-    }
+    };
 
     return (
         <Dialog visible={visible} onClosed={onClosed} ref={dialogRef}>
