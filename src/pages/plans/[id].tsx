@@ -39,7 +39,7 @@ export default function PlanPage() {
                 <VStack py="16px" w="100%" alignItems="flex-start">
                     <PlanDuration durationInMinutes={plan.timeInMinutes} />
                 </VStack>
-                <PlanPageSection title="スケジュール">
+                <PlanPageSection title="スケジュール" accordion>
                     <PlanSchedule plan={plan} />
                 </PlanPageSection>
                 <VStack w="100%">

@@ -121,7 +121,7 @@ const PlanDetail = () => {
                     <VStack py="16px" w="100%" alignItems="flex-start">
                         <PlanDuration durationInMinutes={plan.timeInMinutes} />
                     </VStack>
-                    <PlanPageSection title="スケジュール">
+                    <PlanPageSection title="スケジュール" accordion>
                         <PlanSchedule plan={plan} startFromCurrentLocation={createdBasedOnCurrentLocation} />
                     </PlanPageSection>
                     <VStack w="100%">
