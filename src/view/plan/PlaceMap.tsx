@@ -1,4 +1,4 @@
-import {Box, Center, Text, VStack} from "@chakra-ui/react";
+import { Box, Center, Text } from "@chakra-ui/react";
 import { Marker } from "@react-google-maps/api";
 import { Place } from "src/domain/models/Place";
 import { MapViewer } from "src/view/common/MapViewer";
