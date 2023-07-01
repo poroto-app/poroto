@@ -55,7 +55,12 @@ function LinkWrapper({
     href?: string;
     children?: ReactNode;
 }) {
-    if (href) return <Link href={href} w="100%">{children}</Link>;
+    if (href)
+        return (
+            <Link href={href} w="100%">
+                {children}
+            </Link>
+        );
     return <>{children}</>;
 }
 
