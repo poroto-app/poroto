@@ -21,6 +21,7 @@ const Template = ({
             tags: [],
             places: [
                 {
+                    id: "place1",
                     name: "poroto書店",
                     tags: ["書店", "駅チカ", "品揃え"],
                     location: {
@@ -38,6 +39,7 @@ const Template = ({
                     ],
                 },
                 {
+                    id: "place2",
                     name: "スターバックスコーヒー",
                     tags: ["カフェ", "駅チカ", "コーヒー"],
                     location: {

@@ -1,5 +1,6 @@
 import {
-    CachedCreatedPlansDocument, ChangePlacesOrderInPlanCandidateDocument,
+    CachedCreatedPlansDocument,
+    ChangePlacesOrderInPlanCandidateDocument,
     CreatePlanByLocationDocument,
     FetchPlanByIdDocument,
     FetchPlansDocument,
@@ -20,7 +21,9 @@ import {
     PlanEntity,
     PlannerApi,
     SavePlanFromCandidateRequest,
-    SavePlanFromCandidateResponse, UpdatePlanCandidatePlacesOrderRequest, UpdatePlanCandidatePlacesOrderResponse,
+    SavePlanFromCandidateResponse,
+    UpdatePlanCandidatePlacesOrderRequest,
+    UpdatePlanCandidatePlacesOrderResponse,
 } from "src/domain/plan/PlannerApi";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
@@ -47,6 +50,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                 title: plan.name,
                 tags: [], // TODO: APIから取得する,
                 places: plan.places.map((place) => ({
+                    id: place.id,
                     name: place.name,
                     imageUrls: place.photos,
                     location: {
@@ -139,7 +143,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     }
 
     async updatePlanCandidatePlacesOrder(
-        request: UpdatePlanCandidatePlacesOrderRequest,
+        request: UpdatePlanCandidatePlacesOrderRequest
     ): Promise<UpdatePlanCandidatePlacesOrderResponse> {
         const { data } = await this.client.mutate({
             mutation: ChangePlacesOrderInPlanCandidateDocument,
@@ -150,11 +154,13 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                     placeIds: request.placeIds,
                     currentLatitude: request.currentLocation?.latitude,
                     currentLongitude: request.currentLocation?.longitude,
-                }
+                },
             },
         });
         return {
-            plan: fromGraphqlPlanEntity(data.changePlacesOrderInPlanCandidate.plan),
+            plan: fromGraphqlPlanEntity(
+                data.changePlacesOrderInPlanCandidate.plan
+            ),
         };
     }
 }
@@ -165,6 +171,7 @@ function fromGraphqlPlanEntity(plan: Plan): PlanEntity {
         title: plan.name,
         tags: [], // TODO: APIから取得する,
         places: plan.places.map((place) => ({
+            id: place.id,
             name: place.name,
             imageUrls: place.photos,
             location: {
