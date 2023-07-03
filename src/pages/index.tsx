@@ -32,14 +32,15 @@ const IndexPage = (props: Props) => {
         reduxPlanSelector();
 
     useEffect(() => {
-        dispatch(
+        // 初期表示時のみISRで取得したプランをReduxに保存する
+        if(!plansRecentlyCreated) dispatch(
             pushPlansRecentlyCreated({
                 plans: props.plansRecentlyCreated,
                 nextPageTokenPlansRecentlyCreated:
                     props.nextPageTokenPlansRecentlyCreated,
             })
         );
-    }, []);
+    }, [plansRecentlyCreated]);
 
     return (
         <Center w="100%">
