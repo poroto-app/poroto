@@ -33,13 +33,14 @@ const IndexPage = (props: Props) => {
 
     useEffect(() => {
         // 初期表示時のみISRで取得したプランをReduxに保存する
-        if(!plansRecentlyCreated) dispatch(
-            pushPlansRecentlyCreated({
-                plans: props.plansRecentlyCreated,
-                nextPageTokenPlansRecentlyCreated:
-                    props.nextPageTokenPlansRecentlyCreated,
-            })
-        );
+        if (!plansRecentlyCreated)
+            dispatch(
+                pushPlansRecentlyCreated({
+                    plans: props.plansRecentlyCreated,
+                    nextPageTokenPlansRecentlyCreated:
+                        props.nextPageTokenPlansRecentlyCreated,
+                })
+            );
     }, [plansRecentlyCreated]);
 
     return (
