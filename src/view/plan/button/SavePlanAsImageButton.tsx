@@ -40,13 +40,9 @@ export function SavePlanAsImageButton({ plan }: Props) {
                 icon={MdOutlinePhotoCamera}
                 onClick={handleOnClickSaveAsImage}
             />
+            {/*スクリーンショット用のコンポーネントは見えないようにしておく*/}
             <Box position="fixed" top="-10000">
-                {/*TODO: 実際の予算を入力する*/}
-                <PlanScreenShotComponent
-                    plan={plan}
-                    money={{ start: 0 }}
-                    ref={plansRef}
-                />
+                <PlanScreenShotComponent plan={plan} ref={plansRef} />
             </Box>
         </>
     );

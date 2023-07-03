@@ -24,10 +24,10 @@ import {
     FooterHeight,
     PlanCandidateFooter,
 } from "src/view/plan/PlanCandidateFooter";
-import { PlanPageSection } from "src/view/plan/PlanPageSection";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
-import { PlanDuration } from "src/view/plan/PlanSummaryItem";
+import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
+import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 
 const PlanDetail = () => {
     const router = useRouter();
@@ -104,8 +104,12 @@ const PlanDetail = () => {
                     w="100%"
                     px="0"
                     py="16px"
+                    spacing="16px"
                     boxSizing="border-box"
                 >
+                    <PlanPageSectionSummary
+                        planDurationInMinutes={plan.timeInMinutes}
+                    />
                     <Box w="100%" px="8px">
                         <PlanPlaceList
                             plan={plan}
@@ -119,9 +123,6 @@ const PlanDetail = () => {
                             process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE
                         }
                     />
-                    <VStack p="16px" w="100%" alignItems="flex-start">
-                        <PlanDuration durationInMinutes={plan.timeInMinutes} />
-                    </VStack>
                     <PlanPageSection title="スケジュール" accordion>
                         <PlanSchedule
                             plan={plan}
