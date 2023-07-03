@@ -33,7 +33,7 @@ export function PlanPageSection({ title, accordion, children }: Props) {
         );
 
     return (
-        <VStack w="100%" py="16px" spacing={4} alignItems="flex-start">
+        <VStack w="100%" p="16px" spacing={4} alignItems="flex-start">
             <Title title={title} />
             <Box w="100%">{children}</Box>
         </VStack>
