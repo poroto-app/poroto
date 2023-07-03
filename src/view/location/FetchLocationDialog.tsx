@@ -2,6 +2,10 @@ import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import { useLottie } from "lottie-react";
 import Link from "next/link";
 import { useEffect } from "react";
+import {
+    RequestStatus,
+    RequestStatuses,
+} from "src/domain/models/RequestStatus";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import { Routes } from "src/view/constants/router";
@@ -9,24 +13,31 @@ import animationDataFailedLocation from "src/view/lottie/location-failed.json";
 import animationDataLoadingLocation from "src/view/lottie/location-loading.json";
 
 type Props = {
-    isRejected: boolean;
-    isLoadingLocation: boolean;
+    fetchLocationRequestStatus: RequestStatus | null;
     onRetry: () => void;
 };
 
 export function FetchLocationDialog({
-    isLoadingLocation,
-    isRejected,
+    fetchLocationRequestStatus,
     onRetry,
 }: Props) {
-    if (!isRejected && !isLoadingLocation) return <></>;
+    if (
+        !fetchLocationRequestStatus ||
+        fetchLocationRequestStatus === RequestStatuses.FULFILLED
+    )
+        return <></>;
 
     return (
         <FullscreenDialog padding="16px">
             <RoundedDialog>
                 <Box p="16px" w="100%">
-                    {isLoadingLocation && <Fetching />}
-                    {isRejected && <Failed onClickReFetch={onRetry} />}
+                    {fetchLocationRequestStatus === RequestStatuses.PENDING && (
+                        <Fetching />
+                    )}
+                    {fetchLocationRequestStatus ===
+                        RequestStatuses.REJECTED && (
+                        <Failed onClickReFetch={onRetry} />
+                    )}
                 </Box>
             </RoundedDialog>
         </FullscreenDialog>

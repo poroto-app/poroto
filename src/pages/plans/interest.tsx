@@ -35,7 +35,7 @@ type MatchInterestPage =
 export default function PlanInterestPage() {
     const dispatch = useAppDispatch();
     const router = useRouter();
-    const { getCurrentLocation, isLoadingLocation, isRejected, location } =
+    const { getCurrentLocation, location, fetchCurrentLocationStatus } =
         useLocation();
     const [currentCategory, setCurrentCategory] =
         useState<LocationCategory | null>(null);
@@ -107,8 +107,7 @@ export default function PlanInterestPage() {
     if (!searchLocation)
         return (
             <FetchLocationDialog
-                isLoadingLocation={isLoadingLocation}
-                isRejected={isRejected}
+                fetchLocationRequestStatus={fetchCurrentLocationStatus}
                 onRetry={() => getCurrentLocation().then()}
             />
         );

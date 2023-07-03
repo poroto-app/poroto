@@ -1,33 +1,40 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
+import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
 
 export default {
     title: "location/FetchLocationDialog",
     component: FetchLocationDialog,
-} as ComponentMeta<typeof FetchLocationDialog>;
+    tags: ["autodocs"],
+    parameters: {},
+} as Meta<typeof FetchLocationDialog>;
 
-const Template: ComponentStory<typeof FetchLocationDialog> = (args) => (
-    <FetchLocationDialog
-        isLoadingLocation={args.isLoadingLocation}
-        isRejected={args.isRejected}
-        onRetry={() => 0}
-    />
-);
+type Story = StoryObj<typeof FetchLocationDialog>;
 
-export const FetchLocationDialogStoryBook = Template.bind({});
-FetchLocationDialogStoryBook.args = {
-    isLoadingLocation: true,
-    isRejected: false,
+export const Fetching: Story = {
+    args: {
+        fetchLocationRequestStatus: RequestStatuses.PENDING,
+        onRetry: () => 0,
+    },
 };
 
-export const Fetching = Template.bind({});
-Fetching.args = {
-    isLoadingLocation: true,
-    isRejected: false,
+export const Failed: Story = {
+    args: {
+        fetchLocationRequestStatus: RequestStatuses.REJECTED,
+        onRetry: () => 0,
+    },
 };
 
-export const Rejected = Template.bind({});
-Rejected.args = {
-    isLoadingLocation: false,
-    isRejected: true,
+export const Fulfilled: Story = {
+    args: {
+        fetchLocationRequestStatus: RequestStatuses.FULFILLED,
+        onRetry: () => 0,
+    },
+};
+
+export const None: Story = {
+    args: {
+        fetchLocationRequestStatus: null,
+        onRetry: () => 0,
+    },
 };
