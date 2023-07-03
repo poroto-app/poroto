@@ -66,7 +66,7 @@ export function Theme() {
 
                     a:hover {
                         cursor: pointer;
-                        text-decoration: none;
+                        text-decoration: none !important;
                         appearance: none;
                     }
 

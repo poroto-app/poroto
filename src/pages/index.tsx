@@ -71,15 +71,11 @@ const IndexPage = (props: Props) => {
                     >
                         <VStack px="16px" spacing={16} w="100%">
                             {plansRecentlyCreated.map((plan, index) => (
-                                <Link
-                                    href={Routes.plans.plan(plan.id)}
+                                <PlanPreview
                                     key={index}
-                                    style={{ width: "100%" }}
-                                >
-                                    <Center>
-                                        <PlanPreview plan={plan} />
-                                    </Center>
-                                </Link>
+                                    link={Routes.plans.plan(plan.id)}
+                                    plan={plan}
+                                />
                             ))}
                         </VStack>
                     </InfiniteScroll>
