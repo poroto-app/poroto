@@ -5,4 +5,5 @@ export type Place = {
     imageUrls: string[];
     tags: string[];
     location: GeoLocation;
+    estimatedStayDuration: number;
 };

@@ -1,4 +1,4 @@
-import { Center, VStack } from "@chakra-ui/react";
+import { Box, Center, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Place } from "src/domain/models/Place";
@@ -25,7 +25,9 @@ import {
     FooterHeight,
     PlanCandidateFooter,
 } from "src/view/plan/PlanCandidateFooter";
+import { PlanPageSection } from "src/view/plan/PlanPageSection";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
+import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanDuration } from "src/view/plan/PlanSummaryItem";
 
 const PlanDetail = () => {
@@ -101,25 +103,35 @@ const PlanDetail = () => {
                 <VStack
                     maxWidth="990px"
                     w="100%"
-                    px="8px"
+                    px="0"
                     py="16px"
                     boxSizing="border-box"
                 >
-                    <PlanPlaceList
-                        plan={plan}
-                        createdBasedOnCurrentLocation={
-                            createdBasedOnCurrentLocation
-                        }
-                    />
+                    <Box w="100%" px="8px">
+                        <PlanPlaceList
+                            plan={plan}
+                            createdBasedOnCurrentLocation={
+                                createdBasedOnCurrentLocation
+                            }
+                        />
+                    </Box>
                     <AdInArticle
                         adSlot={
                             process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE
                         }
                     />
-                    <VStack py="16px" w="100%" alignItems="flex-start">
+                    <VStack p="16px" w="100%" alignItems="flex-start">
                         <PlanDuration durationInMinutes={plan.timeInMinutes} />
                     </VStack>
-                    <VStack w="100%">
+                    <PlanPageSection title="スケジュール" accordion>
+                        <PlanSchedule
+                            plan={plan}
+                            startFromCurrentLocation={
+                                createdBasedOnCurrentLocation
+                            }
+                        />
+                    </PlanPageSection>
+                    <VStack w="100%" p="16px">
                         <PlaceMap places={plan.places} />
                         <SavePlanAsImageButton plan={plan} />
                         <SearchRouteByGoogleMapButton
