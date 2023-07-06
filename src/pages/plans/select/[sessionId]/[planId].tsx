@@ -10,6 +10,7 @@ import {
     fetchPlanDetail,
     reduxPlanCandidateSelector,
     savePlanFromCandidate,
+    updatePlacesOrderInPlanCandidate,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { AdInArticle } from "src/view/ad/AdInArticle";
@@ -34,9 +35,6 @@ const PlanDetail = () => {
     const { sessionId, planId } = router.query;
     const dispatch = useAppDispatch();
     const { getCurrentLocation, location: currentLocation } = useLocation();
-
-    // TODO: DELETE ME
-    const [places, setPlaces] = useState<Place[]>(null);
 
     const [isEditingPlan, setIsEditingPlan] = useState(false);
     const {
@@ -69,12 +67,6 @@ const PlanDetail = () => {
         }
     }, [planId, createPlanSession]);
 
-    // TODO: DELETE ME
-    useEffect(() => {
-        if (!plan) return;
-        setPlaces(plan.places);
-    }, [plan]);
-
     // プランが保存され次第、ページ遷移を行う
     useEffect(() => {
         if (!plan) return;
@@ -91,6 +83,22 @@ const PlanDetail = () => {
         plan: Plan;
     }) => {
         dispatch(savePlanFromCandidate({ session, planId: plan.id }));
+    };
+
+    const handleOnReorderPlaces = ({
+        session,
+        places,
+    }: {
+        session: string;
+        places: Place[];
+    }) => {
+        dispatch(
+            updatePlacesOrderInPlanCandidate({
+                session,
+                planId: plan.id,
+                placeIds: places.map((place) => place.id),
+            })
+        );
     };
 
     if (!plan) return <LoadingModal title="素敵なプランを読み込んでいます" />;
@@ -157,9 +165,12 @@ const PlanDetail = () => {
                     <PlanEditorDialog
                         visible={isEditingPlan}
                         onClosed={() => setIsEditingPlan(false)}
-                        places={places ?? []}
-                        onReorderPlaces={(places) =>
-                            setPlaces(copyObject(places))
+                        places={copyObject(plan.places)}
+                        onSave={(places) =>
+                            handleOnReorderPlaces({
+                                session: createPlanSession,
+                                places,
+                            })
                         }
                     />
                 )

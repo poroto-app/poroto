@@ -1,0 +1,19 @@
+mutation ChangePlacesOrderInPlanCandidate($input: ChangePlacesOrderInPlanCandidateInput!) {
+    changePlacesOrderInPlanCandidate(input: $input) {
+        plan {
+            id
+            name
+            places {
+                id
+                name
+                photos
+                location {
+                    longitude
+                    latitude
+                }
+                estimatedStayDuration
+            }
+            timeInMinutes
+        }
+    }
+}

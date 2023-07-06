@@ -7,6 +7,7 @@ export const mockPlan: Plan = {
     tags: [],
     places: [
         {
+            id: "1",
             name: "東京駅",
             imageUrls: [
                 "https://picsum.photos/300/400",
@@ -22,6 +23,7 @@ export const mockPlan: Plan = {
             estimatedStayDuration: 60,
         },
         {
+            id: "2",
             name: "東京駅丸の内駅前広場",
             imageUrls: [
                 "https://picsum.photos/400/400",
