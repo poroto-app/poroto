@@ -45,21 +45,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             },
         });
         return {
-            plans: data.plans.map((plan) => ({
-                id: plan.id,
-                title: plan.name,
-                tags: [], // TODO: APIから取得する,
-                places: plan.places.map((place) => ({
-                    id: place.id,
-                    name: place.name,
-                    imageUrls: place.photos,
-                    location: {
-                        latitude: place.location.latitude,
-                        longitude: place.location.longitude,
-                    },
-                })),
-                timeInMinutes: plan.timeInMinutes,
-            })),
+            plans: data.plans.map((plan) => fromGraphqlPlanEntity(plan)),
             nextPageKey:
                 data.plans.length === 0
                     ? null
@@ -178,6 +164,7 @@ function fromGraphqlPlanEntity(plan: Plan): PlanEntity {
                 latitude: place.location.latitude,
                 longitude: place.location.longitude,
             },
+            estimatedStayDuration: place.estimatedStayDuration,
         })),
         timeInMinutes: plan.timeInMinutes,
     };

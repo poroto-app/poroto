@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { MdDone, MdOutlineTouchApp } from "react-icons/md";
 import { GeoLocation } from "src/data/graphql/generated";
 import { PlaceSearchResult } from "src/domain/models/PlaceSearchResult";
+import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { copyObject } from "src/domain/util/object";
 import {
     reduxLocationSelector,
@@ -38,8 +39,7 @@ export default function PlaceSearchPage() {
     const { placeSearchResults, locationSelected, moveToSelectedLocation } =
         reduxPlaceSearchSelector();
     const {
-        isLoadingLocation,
-        isRejected,
+        fetchCurrentLocationStatus,
         getCurrentLocation,
         location,
         resetLocationState,
@@ -110,8 +110,9 @@ export default function PlaceSearchPage() {
     if (!location)
         return (
             <FetchLocationDialog
-                isRejected={isRejected}
-                isLoadingLocation={isLoadingLocation}
+                fetchLocationRequestStatus={
+                    fetchCurrentLocationStatus ?? RequestStatuses.PENDING
+                }
                 onRetry={() => getCurrentLocation().then()}
             />
         );

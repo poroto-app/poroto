@@ -20,6 +20,7 @@ export const mockPlan: Plan = {
                 latitude: 35.6809591,
                 longitude: 139.7673068,
             },
+            estimatedStayDuration: 60,
         },
         {
             id: "2",
@@ -35,6 +36,7 @@ export const mockPlan: Plan = {
                 latitude: 35.681616,
                 longitude: 139.764954,
             },
+            estimatedStayDuration: 60,
         },
     ],
 };

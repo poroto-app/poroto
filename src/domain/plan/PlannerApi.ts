@@ -40,6 +40,7 @@ export type PlanEntity = {
             latitude: number;
             longitude: number;
         };
+        estimatedStayDuration: number;
     }[];
     timeInMinutes: number;
 };
@@ -56,6 +57,7 @@ export function createPlanFromPlanEntity(entity: PlanEntity) {
             imageUrls: place.imageUrls,
             location: place.location,
             tags: [],
+            estimatedStayDuration: place.estimatedStayDuration,
         })),
         timeInMinutes: entity.timeInMinutes,
     };

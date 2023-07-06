@@ -37,6 +37,7 @@ const Template = ({
                         "https://picsum.photos/1280/720",
                         "https://picsum.photos/400/600",
                     ],
+                    estimatedStayDuration: 30,
                 },
                 {
                     id: "place2",
@@ -51,6 +52,7 @@ const Template = ({
                         "https://picsum.photos/300/400",
                         "https://picsum.photos/400/600",
                     ],
+                    estimatedStayDuration: 30,
                 },
             ],
         }}

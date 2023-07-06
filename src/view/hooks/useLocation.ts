@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { GeoLocation } from "src/domain/models/GeoLocation";
+import {
+    RequestStatus,
+    RequestStatuses,
+} from "src/domain/models/RequestStatus";
 
 const fetchCurrentLocation = async (): Promise<GeoLocation | null> => {
     if (!navigator.geolocation) {
@@ -24,35 +28,32 @@ const fetchCurrentLocation = async (): Promise<GeoLocation | null> => {
 
 export const useLocation = () => {
     const [location, setLocation] = useState<GeoLocation | null>(null);
-    const [isRejected, setIsRejected] = useState<boolean | null>(null);
-    const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+    const [requestStatus, setRequestStatus] = useState<RequestStatus | null>(
+        null
+    );
 
     const fetchCurrentLocationWithHook =
         async (): Promise<GeoLocation | null> => {
-            setIsLoadingLocation(true);
+            setRequestStatus(RequestStatuses.PENDING);
             try {
                 const currentLocation = await fetchCurrentLocation();
                 setLocation(currentLocation);
-                setIsRejected(false);
+                setRequestStatus(RequestStatuses.FULFILLED);
                 return currentLocation;
             } catch (e) {
                 setLocation(null);
-                setIsRejected(true);
+                setRequestStatus(RequestStatuses.REJECTED);
                 return null;
-            } finally {
-                setIsLoadingLocation(false);
             }
         };
 
     const resetLocationState = () => {
         setLocation(null);
-        setIsRejected(null);
-        setIsLoadingLocation(false);
+        setRequestStatus(null);
     };
 
     return {
-        isLoadingLocation,
-        isRejected,
+        fetchCurrentLocationStatus: requestStatus,
         location,
         getCurrentLocation: fetchCurrentLocationWithHook,
         resetLocationState,
