@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { Plan } from "src/domain/models/Plan";
@@ -63,7 +63,22 @@ export const fetchPlan = createAsyncThunk(
 export const slice = createSlice({
     name: "plan",
     initialState,
-    reducers: {},
+    reducers: {
+        pushPlansRecentlyCreated: (
+            state,
+            {
+                payload,
+            }: PayloadAction<{
+                plans: Plan[];
+                nextPageTokenPlansRecentlyCreated: string | null;
+            }>
+        ) => {
+            if (!state.plansRecentlyCreated) state.plansRecentlyCreated = [];
+            state.plansRecentlyCreated.push(...payload.plans);
+            state.nextPageTokenPlansRecentlyCreated =
+                payload.nextPageTokenPlansRecentlyCreated;
+        },
+    },
     extraReducers: (builder) => {
         builder
             // Fetch Plan
@@ -86,6 +101,8 @@ export const slice = createSlice({
             );
     },
 });
+
+export const { pushPlansRecentlyCreated } = slice.actions;
 
 export const reduxPlanSelector = () =>
     useSelector((state: RootState) => state.plan);

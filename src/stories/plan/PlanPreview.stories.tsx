@@ -21,6 +21,7 @@ const Template = ({
             tags: [],
             places: [
                 {
+                    id: "place1",
                     name: "poroto書店",
                     tags: ["書店", "駅チカ", "品揃え"],
                     location: {
@@ -36,8 +37,10 @@ const Template = ({
                         "https://picsum.photos/1280/720",
                         "https://picsum.photos/400/600",
                     ],
+                    estimatedStayDuration: 30,
                 },
                 {
+                    id: "place2",
                     name: "スターバックスコーヒー",
                     tags: ["カフェ", "駅チカ", "コーヒー"],
                     location: {
@@ -49,6 +52,7 @@ const Template = ({
                         "https://picsum.photos/300/400",
                         "https://picsum.photos/400/600",
                     ],
+                    estimatedStayDuration: 30,
                 },
             ],
         }}

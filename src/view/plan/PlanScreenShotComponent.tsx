@@ -2,20 +2,16 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 import { forwardRef, MutableRefObject } from "react";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
-import { PlanDuration, PlanPrice } from "src/view/plan/PlanSummaryItem";
+import { PlanSummaryDuration } from "src/view/plan/PlanSummary";
 import styled from "styled-components";
 
 type Props = {
     plan: Plan;
-    money: {
-        start: number;
-        end?: number;
-    };
     ref?: MutableRefObject<HTMLDivElement>;
 };
 
 export const PlanScreenShotComponent = forwardRef<HTMLDivElement, Props>(
-    function Component({ plan, money }, ref) {
+    function Component({ plan }, ref) {
         return (
             <VStack w="360px" spacing={0} ref={ref}>
                 <PlanTitle>
@@ -27,8 +23,9 @@ export const PlanScreenShotComponent = forwardRef<HTMLDivElement, Props>(
                     <PlaceListItem key={i} place={place} />
                 ))}
                 <Box py="16px" w="100%">
-                    <PlanPrice price={money.start} priceEnd={money.end} />
-                    <PlanDuration durationInMinutes={plan.timeInMinutes} />
+                    <PlanSummaryDuration
+                        durationInMinutes={plan.timeInMinutes}
+                    />
                 </Box>
                 <img
                     src="/images/poroto.jpg"

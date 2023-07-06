@@ -1,3 +1,5 @@
+import { GeoLocation } from "src/domain/models/GeoLocation";
+
 export interface PlannerApi {
     fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse>;
 
@@ -18,6 +20,10 @@ export interface PlannerApi {
     savePlanFromCandidate(
         request: SavePlanFromCandidateRequest
     ): Promise<SavePlanFromCandidateResponse>;
+
+    updatePlanCandidatePlacesOrder(
+        request: UpdatePlanCandidatePlacesOrderRequest
+    ): Promise<UpdatePlanCandidatePlacesOrderResponse>;
 }
 
 export type PlanEntity = {
@@ -27,12 +33,14 @@ export type PlanEntity = {
         content: string;
     }[];
     places: {
+        id: string;
         name: string;
         imageUrls: string[];
         location: {
             latitude: number;
             longitude: number;
         };
+        estimatedStayDuration: number;
     }[];
     timeInMinutes: number;
 };
@@ -44,10 +52,12 @@ export function createPlanFromPlanEntity(entity: PlanEntity) {
         imageUrls: entity.places.flatMap((place) => place.imageUrls),
         tags: entity.tags,
         places: entity.places.map((place) => ({
+            id: place.id,
             name: place.name,
             imageUrls: place.imageUrls,
             location: place.location,
             tags: [],
+            estimatedStayDuration: place.estimatedStayDuration,
         })),
         timeInMinutes: entity.timeInMinutes,
     };
@@ -116,4 +126,15 @@ export type SavePlanFromCandidateRequest = {
 
 export type SavePlanFromCandidateResponse = {
     planId: string;
+};
+
+export type UpdatePlanCandidatePlacesOrderRequest = {
+    session: string;
+    planId: string;
+    placeIds: string[];
+    currentLocation?: GeoLocation;
+};
+
+export type UpdatePlanCandidatePlacesOrderResponse = {
+    plan: PlanEntity | null;
 };

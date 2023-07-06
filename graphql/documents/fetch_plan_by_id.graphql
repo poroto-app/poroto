@@ -3,6 +3,7 @@ query FetchPlanById($planId: String!) {
         id
         name
         places {
+            id
             name
             photos
             location {

@@ -3,12 +3,14 @@ query FetchPlans($pageKey: String) {
         id
         name
         places {
+            id
             name
             photos
             location {
                 longitude
                 latitude
             }
+            estimatedStayDuration
         }
         timeInMinutes
     }

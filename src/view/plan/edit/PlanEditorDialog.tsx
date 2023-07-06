@@ -1,24 +1,34 @@
 import { Box, Button, VStack } from "@chakra-ui/react";
-import { forwardRef, ReactNode, useRef } from "react";
+import { forwardRef, ReactNode, useRef, useState } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 import { Place } from "src/domain/models/Place";
+import { copyObject } from "src/domain/util/object";
 import { ReorderablePlaceList } from "src/view/plan/edit/ReorderablePlaceList";
 import styled from "styled-components";
 
 type Props = {
     visible: boolean;
     onClosed: () => void;
+    onSave: (places: Place[]) => void;
     places: Place[];
-    onReorderPlaces: (places: Place[]) => void;
 };
 
 export function PlanEditorDialog({
     visible,
-    places,
-    onReorderPlaces,
+    places: placesOriginal,
+    onSave,
     onClosed,
 }: Props) {
+    const [places, setPlaces] = useState(placesOriginal);
     const dialogRef = useRef<HTMLDivElement>();
+
+    const handleOnReorderPlaces = (places: Place[]) => {
+        setPlaces(copyObject(places));
+    };
+
+    const handleOnSave = () => {
+        onSave(places);
+    };
 
     return (
         <Dialog visible={visible} onClosed={onClosed} ref={dialogRef}>
@@ -29,11 +39,13 @@ export function PlanEditorDialog({
                     px="8px"
                     py="8px"
                     w="100%"
+                    maxH="100%"
+                    overflowY="scroll"
                     flex={1}
                 >
                     <ReorderablePlaceList
                         places={places}
-                        onReorderPlaces={onReorderPlaces}
+                        onReorderPlaces={handleOnReorderPlaces}
                         parentRef={dialogRef}
                     />
                 </Box>
@@ -42,6 +54,7 @@ export function PlanEditorDialog({
                     backgroundColor="#5F553B"
                     color="white"
                     variant="solid"
+                    onClick={handleOnSave}
                 >
                     保存
                 </Button>

@@ -11,6 +11,7 @@ mutation CreatePlanByLocation($latitude: Float!, $longitude: Float!, $categories
             id
             name
             places {
+                id
                 name
                 photos
                 location {

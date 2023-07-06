@@ -1,7 +1,6 @@
-query CachedCreatedPlans($session: String!) {
-    cachedCreatedPlans(input: {session: $session}) {
-        createdBasedOnCurrentLocation,
-        plans {
+mutation ChangePlacesOrderInPlanCandidate($input: ChangePlacesOrderInPlanCandidateInput!) {
+    changePlacesOrderInPlanCandidate(input: $input) {
+        plan {
             id
             name
             places {

@@ -1,25 +1,47 @@
 import { Center, Divider, VStack } from "@chakra-ui/react";
+import { GetStaticProps } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { MdOutlinePlace } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
-import { fetchPlansRecentlyCreated, reduxPlanSelector } from "src/redux/plan";
+import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
+import { Plan } from "src/domain/models/Plan";
+import {
+    createPlanFromPlanEntity,
+    PlannerApi,
+} from "src/domain/plan/PlannerApi";
+import {
+    fetchPlansRecentlyCreated,
+    pushPlansRecentlyCreated,
+    reduxPlanSelector,
+} from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { RoundedIconButton } from "src/view/common/RoundedIconButton";
 import { Routes } from "src/view/constants/router";
 import { PlaceSearchButton } from "src/view/place/PlaceSearchButton";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 
-const IndexPage = () => {
-    const router = useRouter();
+type Props = {
+    plansRecentlyCreated: Plan[];
+    nextPageTokenPlansRecentlyCreated: string | null;
+};
+
+const IndexPage = (props: Props) => {
     const dispatch = useAppDispatch();
     const { plansRecentlyCreated, nextPageTokenPlansRecentlyCreated } =
         reduxPlanSelector();
 
     useEffect(() => {
-        dispatch(fetchPlansRecentlyCreated());
-    }, []);
+        // 初期表示時のみISRで取得したプランをReduxに保存する
+        if (!plansRecentlyCreated)
+            dispatch(
+                pushPlansRecentlyCreated({
+                    plans: props.plansRecentlyCreated,
+                    nextPageTokenPlansRecentlyCreated:
+                        props.nextPageTokenPlansRecentlyCreated,
+                })
+            );
+    }, [plansRecentlyCreated]);
 
     return (
         <Center w="100%">
@@ -51,15 +73,11 @@ const IndexPage = () => {
                     >
                         <VStack px="16px" spacing={16} w="100%">
                             {plansRecentlyCreated.map((plan, index) => (
-                                <Link
-                                    href={Routes.plans.plan(plan.id)}
+                                <PlanPreview
                                     key={index}
-                                    style={{ width: "100%" }}
-                                >
-                                    <Center>
-                                        <PlanPreview plan={plan} />
-                                    </Center>
-                                </Link>
+                                    link={Routes.plans.plan(plan.id)}
+                                    plan={plan}
+                                />
                             ))}
                         </VStack>
                     </InfiniteScroll>
@@ -67,6 +85,53 @@ const IndexPage = () => {
             </VStack>
         </Center>
     );
+};
+
+export const getStaticProps: GetStaticProps<Props> = async () => {
+    const plannerApi: PlannerApi = new PlannerGraphQlApi();
+
+    let plans: Plan[] = [];
+    let nextPageKey: string | null = null;
+    try {
+        console.info({
+            page: "/",
+            message: "Fetching Recently Created Plans...",
+        });
+        const response = await plannerApi.fetchPlans({
+            pageKey: null,
+        });
+        plans = response.plans.map((entity) =>
+            createPlanFromPlanEntity(entity)
+        );
+        nextPageKey = response.nextPageKey;
+    } catch (e) {
+        console.error({
+            page: "/",
+            message: "Failed to fetch Recently Created Plans .",
+            error: e,
+        });
+
+        return {
+            props: {
+                plansRecentlyCreated: [],
+                nextPageTokenPlansRecentlyCreated: null,
+            },
+            revalidate: 30,
+        };
+    } finally {
+        console.info({
+            page: "/",
+            message: "Fetched Recently Created Plans.",
+        });
+    }
+
+    return {
+        props: {
+            plansRecentlyCreated: plans,
+            nextPageTokenPlansRecentlyCreated: nextPageKey,
+        },
+        revalidate: 60,
+    };
 };
 
 export default IndexPage;

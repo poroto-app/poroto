@@ -1,4 +1,4 @@
-import { Center, VStack } from "@chakra-ui/react";
+import { Box, Center, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Place } from "src/domain/models/Place";
@@ -10,6 +10,7 @@ import {
     fetchPlanDetail,
     reduxPlanCandidateSelector,
     savePlanFromCandidate,
+    updatePlacesOrderInPlanCandidate,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { AdInArticle } from "src/view/ad/AdInArticle";
@@ -17,7 +18,6 @@ import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
-import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlanEditorDialog } from "src/view/plan/edit/PlanEditorDialog";
 import { PlaceMap } from "src/view/plan/PlaceMap";
@@ -26,16 +26,15 @@ import {
     PlanCandidateFooter,
 } from "src/view/plan/PlanCandidateFooter";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
-import { PlanDuration } from "src/view/plan/PlanSummaryItem";
+import { PlanSchedule } from "src/view/plan/PlanSchedule";
+import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
+import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 
 const PlanDetail = () => {
     const router = useRouter();
     const { sessionId, planId } = router.query;
     const dispatch = useAppDispatch();
     const { getCurrentLocation, location: currentLocation } = useLocation();
-
-    // TODO: DELETE ME
-    const [places, setPlaces] = useState<Place[]>(null);
 
     const [isEditingPlan, setIsEditingPlan] = useState(false);
     const {
@@ -68,12 +67,6 @@ const PlanDetail = () => {
         }
     }, [planId, createPlanSession]);
 
-    // TODO: DELETE ME
-    useEffect(() => {
-        if (!plan) return;
-        setPlaces(plan.places);
-    }, [plan]);
-
     // プランが保存され次第、ページ遷移を行う
     useEffect(() => {
         if (!plan) return;
@@ -92,6 +85,22 @@ const PlanDetail = () => {
         dispatch(savePlanFromCandidate({ session, planId: plan.id }));
     };
 
+    const handleOnReorderPlaces = ({
+        session,
+        places,
+    }: {
+        session: string;
+        places: Place[];
+    }) => {
+        dispatch(
+            updatePlacesOrderInPlanCandidate({
+                session,
+                planId: plan.id,
+                placeIds: places.map((place) => place.id),
+            })
+        );
+    };
+
     if (!plan) return <LoadingModal title="素敵なプランを読み込んでいます" />;
 
     return (
@@ -101,27 +110,39 @@ const PlanDetail = () => {
                 <VStack
                     maxWidth="990px"
                     w="100%"
-                    px="8px"
+                    px="0"
                     py="16px"
+                    spacing="16px"
                     boxSizing="border-box"
                 >
-                    <PlanPlaceList
-                        plan={plan}
-                        createdBasedOnCurrentLocation={
-                            createdBasedOnCurrentLocation
-                        }
+                    <PlanPageSectionSummary
+                        planDurationInMinutes={plan.timeInMinutes}
                     />
+                    <Box w="100%" px="8px">
+                        <PlanPlaceList
+                            plan={plan}
+                            createdBasedOnCurrentLocation={
+                                createdBasedOnCurrentLocation
+                            }
+                        />
+                    </Box>
                     <AdInArticle
                         adSlot={
                             process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE
                         }
                     />
-                    <VStack py="16px" w="100%" alignItems="flex-start">
-                        <PlanDuration durationInMinutes={plan.timeInMinutes} />
-                    </VStack>
-                    <VStack w="100%">
+                    <PlanPageSection title="スケジュール" accordion>
+                        <PlanSchedule
+                            plan={plan}
+                            startFromCurrentLocation={
+                                createdBasedOnCurrentLocation
+                            }
+                        />
+                    </PlanPageSection>
+                    <PlanPageSection title="プラン内の場所">
                         <PlaceMap places={plan.places} />
-                        <SavePlanAsImageButton plan={plan} />
+                    </PlanPageSection>
+                    <VStack w="100%" p="16px">
                         <SearchRouteByGoogleMapButton
                             plan={plan}
                             currentLocation={currentLocation}
@@ -144,9 +165,12 @@ const PlanDetail = () => {
                     <PlanEditorDialog
                         visible={isEditingPlan}
                         onClosed={() => setIsEditingPlan(false)}
-                        places={places ?? []}
-                        onReorderPlaces={(places) =>
-                            setPlaces(copyObject(places))
+                        places={copyObject(plan.places)}
+                        onSave={(places) =>
+                            handleOnReorderPlaces({
+                                session: createPlanSession,
+                                places,
+                            })
                         }
                     />
                 )
