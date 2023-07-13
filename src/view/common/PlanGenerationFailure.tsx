@@ -1,6 +1,9 @@
-import { Center, VStack, Text, Image} from "@chakra-ui/react";
+import { Link } from "@chakra-ui/next-js";
+import { Center, Image, Text, VStack } from "@chakra-ui/react";
 import { Colors } from "src/view/constants/color";
+import { Routes } from "src/view/constants/router";
 import styled from "styled-components";
+import { RoundedButton } from "./RoundedButton";
 
 export const PlanGenerationFailure = () => {
     return (
@@ -34,6 +37,13 @@ export const PlanGenerationFailure = () => {
                         alt="Not Found"
                     />
                 </Center>
+                <Link
+                    href={Routes.home}
+                    w="100%"
+                    _hover={{ textDecoration: "none" }}
+                >
+                    <RoundedButton>ホームに戻る</RoundedButton>
+                </Link>
             </Container>
         </Center>
     );
