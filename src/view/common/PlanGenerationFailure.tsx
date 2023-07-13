@@ -26,9 +26,7 @@ export const PlanGenerationFailure = () => {
                         alignItems="flex-start"
                         color="#222222"
                     >
-                        <Text>
-                            しおりを作成することができませんでした。
-                        </Text>
+                        <Text>しおりを作成することができませんでした。</Text>
                     </VStack>
                     <Image
                         w="100%"
