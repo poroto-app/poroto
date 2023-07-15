@@ -1,7 +1,5 @@
 import { Center, Divider, HStack, Icon, Text, VStack } from "@chakra-ui/react";
-import { transitions } from "polished";
-import { MdOutlineDirectionsWalk } from "react-icons/all";
-import { MdOutlineLocationOn } from "react-icons/md";
+import { MdOutlineDirectionsWalk, MdOutlineLocationOn } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import { Transition } from "src/domain/models/Transition";
