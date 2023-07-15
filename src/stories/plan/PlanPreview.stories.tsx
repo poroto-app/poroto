@@ -19,6 +19,13 @@ const Template = ({
             title,
             timeInMinutes,
             tags: [],
+            transitions: [
+                {
+                    fromPlaceId: "place1",
+                    toPlaceId: "place2",
+                    durationInMinutes: 10,
+                },
+            ],
             places: [
                 {
                     id: "place1",

@@ -5,6 +5,13 @@ export const mockPlan: Plan = {
     title: "カフェでほっと一息",
     timeInMinutes: 60,
     tags: [],
+    transitions: [
+        {
+            fromPlaceId: "1",
+            toPlaceId: "2",
+            durationInMinutes: 10,
+        },
+    ],
     places: [
         {
             id: "1",
