@@ -1,4 +1,5 @@
-import { GeoLocation } from "src/domain/models/GeoLocation";
+import {GeoLocation} from "src/domain/models/GeoLocation";
+import {Plan} from "src/domain/models/Plan";
 
 export interface PlannerApi {
     fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse>;
@@ -50,11 +51,10 @@ export type PlanEntity = {
     }[];
 };
 
-export function createPlanFromPlanEntity(entity: PlanEntity) {
+export function createPlanFromPlanEntity(entity: PlanEntity): Plan {
     return {
         id: entity.id,
         title: entity.title,
-        imageUrls: entity.places.flatMap((place) => place.imageUrls),
         tags: entity.tags,
         places: entity.places.map((place) => ({
             id: place.id,
