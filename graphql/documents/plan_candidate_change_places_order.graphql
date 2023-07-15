@@ -14,6 +14,15 @@ mutation ChangePlacesOrderInPlanCandidate($input: ChangePlacesOrderInPlanCandida
                 estimatedStayDuration
             }
             timeInMinutes
+            transitions {
+                duration
+                from {
+                    id
+                }
+                to {
+                    id
+                }
+            }
         }
     }
 }

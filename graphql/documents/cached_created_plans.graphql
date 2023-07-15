@@ -15,6 +15,15 @@ query CachedCreatedPlans($session: String!) {
                 estimatedStayDuration
             }
             timeInMinutes
+            transitions {
+                duration
+                from {
+                    id
+                }
+                to {
+                    id
+                }
+            }
         }
     }
 }

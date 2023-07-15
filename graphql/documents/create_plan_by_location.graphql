@@ -21,6 +21,15 @@ mutation CreatePlanByLocation($latitude: Float!, $longitude: Float!, $categories
                 estimatedStayDuration
             }
             timeInMinutes
+            transitions {
+                duration
+                from {
+                    id
+                }
+                to {
+                    id
+                }
+            }
         }
     }
 }
