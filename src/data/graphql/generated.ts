@@ -117,6 +117,7 @@ export type Plan = {
   name: Scalars['String'];
   places: Array<Place>;
   timeInMinutes: Scalars['Int'];
+  transitions: Array<Transition>;
 };
 
 export type Query = {
@@ -156,6 +157,13 @@ export type SavePlanFromCandidateInput = {
 export type SavePlanFromCandidateOutput = {
   __typename?: 'SavePlanFromCandidateOutput';
   plan: Plan;
+};
+
+export type Transition = {
+  __typename?: 'Transition';
+  duration: Scalars['Int'];
+  from?: Maybe<Place>;
+  to: Place;
 };
 
 export type CachedCreatedPlansQueryVariables = Exact<{
