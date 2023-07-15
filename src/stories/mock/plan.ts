@@ -7,6 +7,10 @@ export const mockPlan: Plan = {
     tags: [],
     transitions: [
         {
+            toPlaceId: "1",
+            durationInMinutes: 10,
+        },
+        {
             fromPlaceId: "1",
             toPlaceId: "2",
             durationInMinutes: 10,
