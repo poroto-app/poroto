@@ -1,4 +1,5 @@
 import { Center, Divider, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { transitions } from "polished";
 import { MdOutlineDirectionsWalk } from "react-icons/all";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
@@ -37,19 +38,43 @@ export function PlanSchedule({
                 <ListItemCurrentLocation startTime={startTime} />
             )}
             {startFromCurrentLocation && transitionFromCurrentLocation && (
-                <ListItemWalk
-                    transition={transitionFromCurrentLocation}
-                />
+                <ListItemWalk transition={transitionFromCurrentLocation} />
             )}
             {plan.places.map((place, i) => (
-                <ListItemPlace
+                <PlaceAndTransition
                     key={i}
                     place={place}
                     startTime={schedules[i].startTime}
                     endTime={schedules[i].endTime}
+                    transition={plan.transitions.find(
+                        (t) => t.fromPlaceId === place.id
+                    )}
                 />
             ))}
         </VStack>
+    );
+}
+
+function PlaceAndTransition({
+    place,
+    startTime,
+    endTime,
+    transition,
+}: {
+    place: Place;
+    startTime: Date;
+    endTime: Date;
+    transition?: Transition;
+}) {
+    return (
+        <>
+            <ListItemPlace
+                place={place}
+                startTime={startTime}
+                endTime={endTime}
+            />
+            {transition && <ListItemWalk transition={transition} />}
+        </>
     );
 }
 
