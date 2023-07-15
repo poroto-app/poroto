@@ -45,7 +45,7 @@ export type PlanEntity = {
     }[];
     timeInMinutes: number;
     transitions: {
-        fromPlaceId: string;
+        fromPlaceId?: string;
         toPlaceId: string;
         durationInMinutes: number;
     }[];

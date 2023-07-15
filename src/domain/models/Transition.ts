@@ -1,5 +1,5 @@
 export type Transition = {
-    fromPlaceId: string;
+    fromPlaceId?: string;
     toPlaceId: string;
     durationInMinutes: number;
 };
