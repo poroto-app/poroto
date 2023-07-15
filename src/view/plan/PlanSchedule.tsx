@@ -148,7 +148,7 @@ const ListItemPlace = ({
 const ListItemWalk = ({ transition }: { transition: Transition }) => {
     return (
         <HStack>
-            <Center w="20px" h="32px">
+            <Center w="20px" h="20px">
                 <Divider orientation="vertical" borderColor="rgba(0,0,0,.3)" />
             </Center>
             <Icon
