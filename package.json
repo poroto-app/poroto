@@ -59,7 +59,7 @@
     "@storybook/addon-links": "^7.0.20",
     "@storybook/blocks": "^7.0.20",
     "@storybook/nextjs": "^7.0.20",
-    "@storybook/react": "^7.0.20",
+    "@storybook/react": "^7.1.0",
     "@storybook/testing-library": "^0.0.14-next.2",
     "@types/google.maps": "^3.53.1",
     "@types/jest": "^29.5.1",
