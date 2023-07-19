@@ -5,6 +5,5 @@ updates:
     schedule:
       interval: "daily"
     ignore:
-      # ignore all GitHub linguist patch updates
-      - dependency-name: "github-linguist"
+      - dependency-name: "*"
         update-types: [ "version-update:semver-patch" ]
