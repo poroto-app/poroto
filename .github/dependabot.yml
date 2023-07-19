@@ -4,3 +4,7 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    ignore:
+      # ignore all GitHub linguist patch updates
+      - dependency-name: "github-linguist"
+        update-types: [ "version-update:semver-patch" ]
