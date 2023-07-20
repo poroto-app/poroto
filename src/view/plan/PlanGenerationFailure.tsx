@@ -16,7 +16,7 @@ export const PlanGenerationFailure = () => {
                         alignItems="flex-start"
                         spacing={0}
                     >
-                        <Text fontSize="140px" fontWeight="bold">
+                        <Text fontSize="80px" fontWeight="bold">
                             Sorry
                         </Text>
                     </VStack>
