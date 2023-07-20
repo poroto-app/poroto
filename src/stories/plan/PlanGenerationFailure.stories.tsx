@@ -2,7 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure";
 
 export default {
-    title: "common/PlanGenerationFailure",
+    title: "plan/PlanGenerationFailure",
     component: PlanGenerationFailure,
     tags: ["autodocs"],
     parameters: {},
