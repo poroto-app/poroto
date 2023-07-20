@@ -1,4 +1,5 @@
 import { Place } from "src/domain/models/Place";
+import { Transition } from "src/domain/models/Transition";
 
 export type Plan = {
     id: string;
@@ -6,6 +7,7 @@ export type Plan = {
     places: Place[];
     tags: PlanTag[];
     timeInMinutes: number;
+    transitions: Transition[];
 };
 
 export type PlanTag = {

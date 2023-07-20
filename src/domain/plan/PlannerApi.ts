@@ -1,4 +1,5 @@
 import { GeoLocation } from "src/domain/models/GeoLocation";
+import { Plan } from "src/domain/models/Plan";
 
 export interface PlannerApi {
     fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse>;
@@ -44,17 +45,16 @@ export type PlanEntity = {
     }[];
     timeInMinutes: number;
     transitions: {
-        fromPlaceId: string;
+        fromPlaceId?: string;
         toPlaceId: string;
         durationInMinutes: number;
     }[];
 };
 
-export function createPlanFromPlanEntity(entity: PlanEntity) {
+export function createPlanFromPlanEntity(entity: PlanEntity): Plan {
     return {
         id: entity.id,
         title: entity.title,
-        imageUrls: entity.places.flatMap((place) => place.imageUrls),
         tags: entity.tags,
         places: entity.places.map((place) => ({
             id: place.id,
@@ -65,6 +65,11 @@ export function createPlanFromPlanEntity(entity: PlanEntity) {
             estimatedStayDuration: place.estimatedStayDuration,
         })),
         timeInMinutes: entity.timeInMinutes,
+        transitions: entity.transitions.map((transition) => ({
+            fromPlaceId: transition.fromPlaceId,
+            toPlaceId: transition.toPlaceId,
+            durationInMinutes: transition.durationInMinutes,
+        })),
     };
 }
 
