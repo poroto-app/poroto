@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { PlanGenerationFailure } from "src/view/common/PlanGenerationFailure";
+import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure";
 
 export default {
     title: "common/PlanGenerationFailure",

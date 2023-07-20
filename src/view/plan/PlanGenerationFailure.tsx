@@ -3,7 +3,7 @@ import { Center, Image, Text, VStack } from "@chakra-ui/react";
 import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 import styled from "styled-components";
-import { RoundedButton } from "./RoundedButton";
+import { RoundedButton } from "../common/RoundedButton";
 
 export const PlanGenerationFailure = () => {
     return (
