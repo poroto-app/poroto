@@ -1,7 +1,8 @@
-import { HStack, Icon, Text, VStack } from "@chakra-ui/react";
-import { MdOutlineLocationOn } from "react-icons/md";
+import { Center, Divider, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { MdOutlineDirectionsWalk, MdOutlineLocationOn } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
+import { Transition } from "src/domain/models/Transition";
 import { DateHelper } from "src/domain/util/date";
 import { Colors } from "src/view/constants/color";
 
@@ -25,21 +26,53 @@ export function PlanSchedule({
     startTime = new Date(Date.now()),
 }: Props) {
     const schedules = generateSchedules({ places: plan.places, startTime });
+    const transitionFromCurrentLocation = plan.transitions.find(
+        (t) => !t.fromPlaceId
+    );
 
     return (
         <VStack alignItems="flex-start" w="100%" spacing="16px">
             {startFromCurrentLocation && (
                 <ListItemCurrentLocation startTime={startTime} />
             )}
+            {startFromCurrentLocation && transitionFromCurrentLocation && (
+                <ListItemWalk transition={transitionFromCurrentLocation} />
+            )}
             {plan.places.map((place, i) => (
-                <ListItemPlace
+                <PlaceAndTransition
                     key={i}
                     place={place}
                     startTime={schedules[i].startTime}
                     endTime={schedules[i].endTime}
+                    transition={plan.transitions.find(
+                        (t) => t.fromPlaceId === place.id
+                    )}
                 />
             ))}
         </VStack>
+    );
+}
+
+function PlaceAndTransition({
+    place,
+    startTime,
+    endTime,
+    transition,
+}: {
+    place: Place;
+    startTime: Date;
+    endTime: Date;
+    transition?: Transition;
+}) {
+    return (
+        <>
+            <ListItemPlace
+                place={place}
+                startTime={startTime}
+                endTime={endTime}
+            />
+            {transition && <ListItemWalk transition={transition} />}
+        </>
     );
 }
 
@@ -107,6 +140,25 @@ const ListItemPlace = ({
                     {DateHelper.dateToHHMM(startTime)} -{" "}
                     {DateHelper.dateToHHMM(endTime)}
                 </Text>
+            </VStack>
+        </HStack>
+    );
+};
+
+const ListItemWalk = ({ transition }: { transition: Transition }) => {
+    return (
+        <HStack>
+            <Center w="20px" h="20px">
+                <Divider orientation="vertical" borderColor="rgba(0,0,0,.3)" />
+            </Center>
+            <Icon
+                as={MdOutlineDirectionsWalk}
+                w="20px"
+                h="20px"
+                color={Colors.beige["400"]}
+            />
+            <VStack alignItems="flex-start" spacing={0}>
+                <Text color="gray">{transition.durationInMinutes}分</Text>
             </VStack>
         </HStack>
     );

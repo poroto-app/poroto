@@ -13,5 +13,14 @@ query FetchPlans($pageKey: String) {
             estimatedStayDuration
         }
         timeInMinutes
+        transitions {
+            duration
+            from {
+                id
+            }
+            to {
+                id
+            }
+        }
     }
 }

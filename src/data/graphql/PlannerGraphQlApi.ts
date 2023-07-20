@@ -3,9 +3,9 @@ import {
     ChangePlacesOrderInPlanCandidateDocument,
     CreatePlanByLocationDocument,
     FetchPlanByIdDocument,
+    FetchPlanByIdQuery,
     FetchPlansDocument,
     MatchInterestsDocument,
-    Plan,
     SavePlanFromCandidateDocument,
 } from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
@@ -151,7 +151,9 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     }
 }
 
-function fromGraphqlPlanEntity(plan: Plan): PlanEntity {
+type GraphQlPlanEntity = FetchPlanByIdQuery["plan"];
+
+function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
     return {
         id: plan.id,
         title: plan.name,
@@ -167,5 +169,10 @@ function fromGraphqlPlanEntity(plan: Plan): PlanEntity {
             estimatedStayDuration: place.estimatedStayDuration,
         })),
         timeInMinutes: plan.timeInMinutes,
+        transitions: plan.transitions.map((transition) => ({
+            fromPlaceId: transition.from?.id,
+            toPlaceId: transition.to.id,
+            durationInMinutes: transition.duration,
+        })),
     };
 }
