@@ -13,5 +13,14 @@ query FetchPlanById($planId: String!) {
             estimatedStayDuration
         }
         timeInMinutes
+        transitions {
+            duration
+            from {
+                id
+            }
+            to {
+                id
+            }
+        }
     }
 }

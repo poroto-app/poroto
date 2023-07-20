@@ -43,6 +43,11 @@ export type PlanEntity = {
         estimatedStayDuration: number;
     }[];
     timeInMinutes: number;
+    transitions: {
+        fromPlaceId: string;
+        toPlaceId: string;
+        durationInMinutes: number;
+    }[];
 };
 
 export function createPlanFromPlanEntity(entity: PlanEntity) {
