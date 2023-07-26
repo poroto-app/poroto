@@ -1,6 +1,6 @@
 import { Button, Center, HStack, Icon } from "@chakra-ui/react";
-import { Colors } from "src/view/constants/color";
 import { RiShareForwardLine } from "react-icons/ri";
+import { Colors } from "src/view/constants/color";
 
 type Props = {
     onSave: () => void;
