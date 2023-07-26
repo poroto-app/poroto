@@ -1,4 +1,4 @@
-import { Center, Text, VStack } from "@chakra-ui/react";
+import { Center, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import {
@@ -10,8 +10,8 @@ import { Layout } from "src/view/common/Layout";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
+import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure";
 import { PlanPreview } from "src/view/plan/PlanPreview";
-import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure"
 
 const SelectPlanPage = () => {
     const dispatch = useAppDispatch();
