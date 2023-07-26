@@ -11,6 +11,7 @@ import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
 import { PlanPreview } from "src/view/plan/PlanPreview";
+import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure"
 
 const SelectPlanPage = () => {
     const dispatch = useAppDispatch();
@@ -39,7 +40,7 @@ const SelectPlanPage = () => {
     if (plansCreated.length === 0)
         return (
             <Center>
-                <Text>プランを作成することができませんでした。</Text>
+                <PlanGenerationFailure />
             </Center>
         );
 
