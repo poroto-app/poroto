@@ -1,5 +1,6 @@
-import { Button, Center, HStack } from "@chakra-ui/react";
+import { Button, Center, HStack, Icon } from "@chakra-ui/react";
 import { Colors } from "src/view/constants/color";
+import { RiShareForwardLine } from "react-icons/ri";
 
 type Props = {
     onSave: () => void;
@@ -9,7 +10,7 @@ type Props = {
 
 export const FooterHeight = 80;
 
-export function PlanCandidateFooter({ onSave, onEdit }: Props) {
+export function PlanCandidateFooter({ onSave, onEdit, onShare }: Props) {
     return (
         <Center
             backgroundColor="white"
@@ -45,6 +46,17 @@ export function PlanCandidateFooter({ onSave, onEdit }: Props) {
                     onClick={onSave}
                 >
                     保存
+                </Button>
+                <Button
+                    variant="solid"
+                    flex={1}
+                    color="white"
+                    backgroundColor={Colors.primary["400"]}
+                    borderRadius={10}
+                    onClick={onShare}
+                    leftIcon={<Icon as={RiShareForwardLine} boxSize={6} />}
+                >
+                    共有
                 </Button>
             </HStack>
         </Center>
