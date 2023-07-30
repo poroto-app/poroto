@@ -15,7 +15,7 @@ export function AvailablePlace({ place }: Props) {
             overflow="hidden"
             spacing={0}
         >
-            <Box position="relative" w="100%" flex="1">
+            <Box position="relative" w="100%" h="100%">
                 <Image
                     position="absolute"
                     top={0}
@@ -29,7 +29,7 @@ export function AvailablePlace({ place }: Props) {
                     objectFit="cover"
                 />
             </Box>
-            <Text px="8px" py="4px" w="100%">
+            <Text px="8px" py="4px" w="100%" textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
                 {place.name}
             </Text>
         </VStack>
