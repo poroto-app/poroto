@@ -1,4 +1,4 @@
-import {Box, Image, Text, VStack} from "@chakra-ui/react";
+import { Box, Image, Text, VStack } from "@chakra-ui/react";
 import { Place } from "src/domain/models/Place";
 
 type Props = {
