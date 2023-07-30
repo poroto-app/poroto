@@ -1,4 +1,4 @@
-import { Center, HStack, Text, VStack } from "@chakra-ui/react";
+import { Center, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import {
@@ -11,7 +11,6 @@ import { Layout } from "src/view/common/Layout";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
-import { AvailablePlace } from "src/view/plan/candidate/AvailablePlace";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 
 const SelectPlanPage = () => {
@@ -65,15 +64,6 @@ const SelectPlanPage = () => {
                             )}
                         />
                     ))}
-                </VStack>
-                <VStack w="100%" maxW="600px" alignItems="flex-start">
-                    <Text fontWeight="bold" fontSize="20px">他の場所からプランを作る</Text>
-                    <HStack flexWrap="wrap">
-                        {placesAvailableForPlan &&
-                            placesAvailableForPlan.map((place, i) => (
-                                <AvailablePlace place={place} key={i} />
-                            ))}
-                    </HStack>
                 </VStack>
             </VStack>
         </Layout>
