@@ -16,3 +16,9 @@ export const Primary: Story = {
         place: mockPlan.places[0],
     },
 };
+
+export const Loading: Story = {
+    args: {
+        place: null,
+    },
+};

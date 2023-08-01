@@ -1,8 +1,15 @@
-import { Box, Image, Text, VStack } from "@chakra-ui/react";
+import {
+    Box,
+    Image,
+    Skeleton,
+    SkeletonText,
+    Text,
+    VStack,
+} from "@chakra-ui/react";
 import { Place } from "src/domain/models/Place";
 
 type Props = {
-    place: Place;
+    place: Place | null;
 };
 
 export function AvailablePlace({ place }: Props) {
@@ -16,22 +23,43 @@ export function AvailablePlace({ place }: Props) {
             spacing={0}
         >
             <Box position="relative" w="100%" h="100%">
-                <Image
-                    position="absolute"
-                    top={0}
-                    left={0}
-                    bottom={0}
-                    right={0}
-                    w="100%"
-                    h="100%"
-                    src={place.imageUrls[0]}
-                    alt={place.name}
-                    objectFit="cover"
-                />
+                {place ? (
+                    <Image
+                        position="absolute"
+                        top={0}
+                        left={0}
+                        bottom={0}
+                        right={0}
+                        w="100%"
+                        h="100%"
+                        src={place.imageUrls[0]}
+                        alt={place.name}
+                        objectFit="cover"
+                    />
+                ) : (
+                    <Skeleton w="100%" h="100%" borderRadius={0} />
+                )}
             </Box>
-            <Text px="8px" py="4px" w="100%" textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap">
-                {place.name}
-            </Text>
+            {place ? (
+                <Text
+                    px="8px"
+                    py="4px"
+                    w="100%"
+                    textOverflow="ellipsis"
+                    overflow="hidden"
+                    whiteSpace="nowrap"
+                >
+                    {place.name}
+                </Text>
+            ) : (
+                <SkeletonText
+                    px="8px"
+                    py="4px"
+                    w="100%"
+                    noOfLines={1}
+                    skeletonHeight="1rem"
+                />
+            )}
         </VStack>
     );
 }
