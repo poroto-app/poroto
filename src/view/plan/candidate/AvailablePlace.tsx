@@ -16,7 +16,7 @@ export function AvailablePlace({ place }: Props) {
     return (
         <VStack
             h="200px"
-            w="150px"
+            w="100%"
             border="1px solid rgba(0,0,0,.1)"
             borderRadius="10px"
             overflow="hidden"
