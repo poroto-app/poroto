@@ -15,14 +15,13 @@ type Props = {
 export function AvailablePlace({ place }: Props) {
     return (
         <VStack
-            h="200px"
             w="100%"
             border="1px solid rgba(0,0,0,.1)"
             borderRadius="10px"
             overflow="hidden"
             spacing={0}
         >
-            <Box position="relative" w="100%" h="100%">
+            <Box position="relative" w="100%" h="170px">
                 {place ? (
                     <Image
                         position="absolute"
@@ -37,18 +36,11 @@ export function AvailablePlace({ place }: Props) {
                         objectFit="cover"
                     />
                 ) : (
-                    <Skeleton w="100%" h="100%" borderRadius={0} />
+                    <Skeleton w="100%" h="170px" borderRadius={0} />
                 )}
             </Box>
             {place ? (
-                <Text
-                    px="8px"
-                    py="4px"
-                    w="100%"
-                    textOverflow="ellipsis"
-                    overflow="hidden"
-                    whiteSpace="nowrap"
-                >
+                <Text px="8px" py="4px" w="100%">
                     {place.name}
                 </Text>
             ) : (
