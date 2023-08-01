@@ -25,7 +25,7 @@
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.11.0",
     "@googlemaps/js-api-loader": "^1.16.2",
-    "@react-google-maps/api": "^2.18.1",
+    "@react-google-maps/api": "^2.19.2",
     "@reduxjs/toolkit": "^1.9.3",
     "@splidejs/react-splide": "^0.7.12",
     "@typescript-eslint/eslint-plugin": "^5.59.5",
