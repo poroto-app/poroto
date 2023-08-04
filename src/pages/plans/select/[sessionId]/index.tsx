@@ -45,6 +45,15 @@ const SelectPlanPage = () => {
         }
     }, [sessionId]);
 
+    // 指定した場所からプランを作成できたら、そのページへ遷移する
+    useEffect(() => {
+        if(createPlanFromPlaceRequestStatus !== RequestStatuses.FULFILLED) return;
+        if(!plansCreated || plansCreated.length === 0) return;
+        if(!createPlanSession) return;
+
+        router.push(Routes.plans.planCandidate(createPlanSession, plansCreated[-1].id));
+    }, [createPlanFromPlaceRequestStatus, plansCreated, createPlanSession]);
+
     const handleOnClickPlaceCandidate = (placeId: string) => {
         if (!sessionId || typeof sessionId !== "string") return;
         if (createPlanFromPlaceRequestStatus === RequestStatuses.PENDING)
