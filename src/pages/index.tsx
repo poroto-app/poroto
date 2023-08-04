@@ -48,12 +48,11 @@ const IndexPage = (props: Props) => {
             <CreatePlanSection />
             <Center w="100%">
                 <VStack
-                    maxW={Size.mainContentWidth}
                     w="100%"
+                    maxW={Size.mainContentWidth}
                     px="16px"
                     py="48px"
                     spacing="24px"
-                    alignItems="flex-start"
                 >
                     <Text fontWeight="bold" fontSize="20px">
                         みんなのプラン
