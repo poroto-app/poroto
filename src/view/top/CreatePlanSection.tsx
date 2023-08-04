@@ -1,19 +1,17 @@
-import { Center, Grid, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { Center, Grid, Image, Text, VStack } from "@chakra-ui/react";
 import { MdOutlineLocationOn, MdOutlineMap } from "react-icons/md";
+import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { CreatePlanButton } from "./CreatePlanButton";
-import {Routes} from "src/view/constants/router";
 
 export function CreatePlanSection() {
     return (
-        <Center
-            w="100%"
-            maxW={Size.mainContentWidth}
-            backgroundColor="#BD9F8E"
-            py="84px"
-            px="24px"
-        >
-            <VStack alignItems="flex-start" spacing="32px">
+        <Center w="100%" backgroundColor="#BD9F8E" py="84px" px="24px">
+            <VStack
+                w="100%"
+                maxW="600px"
+                spacing="32px"
+            >
                 <Image
                     src="/images/hangout.svg"
                     alt="logo"
@@ -31,7 +29,7 @@ export function CreatePlanSection() {
                     </Text>
                     <Grid
                         w="100%"
-                        templateColumns='repeat(2, 1fr)'
+                        templateColumns="repeat(2, 1fr)"
                         gap="8px"
                         filter="drop-shadow(20px 20px 60px #a18779) drop-shadow(-20px -20px 60px #d9b7a3)"
                         transform="translateZ(0px)"

@@ -15,6 +15,7 @@ import {
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { Routes } from "src/view/constants/router";
+import { Size } from "src/view/constants/size";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 
@@ -41,30 +42,34 @@ const IndexPage = (props: Props) => {
     }, [plansRecentlyCreated]);
 
     return (
-        <Center w="100%">
-            <VStack maxW="990px" w="100%" px="16px" spacing="24px">
-                <CreatePlanSection />
-                {plansRecentlyCreated && (
-                    // TODO: React 18に対応
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    <InfiniteScroll
-                        loadMore={() => dispatch(fetchPlansRecentlyCreated())}
-                        hasMore={nextPageTokenPlansRecentlyCreated !== null}
-                    >
-                        <VStack px="16px" spacing={16} w="100%">
-                            {plansRecentlyCreated.map((plan, index) => (
-                                <PlanPreview
-                                    key={index}
-                                    link={Routes.plans.plan(plan.id)}
-                                    plan={plan}
-                                />
-                            ))}
-                        </VStack>
-                    </InfiniteScroll>
-                )}
-            </VStack>
-        </Center>
+        <VStack w="100%">
+            <CreatePlanSection />
+            <Center w="100%">
+                <VStack maxW={Size.mainContentWidth} w="100%" px="16px" py="48px" spacing="24px">
+                    {plansRecentlyCreated && (
+                        // TODO: React 18に対応
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        <InfiniteScroll
+                            loadMore={() =>
+                                dispatch(fetchPlansRecentlyCreated())
+                            }
+                            hasMore={nextPageTokenPlansRecentlyCreated !== null}
+                        >
+                            <VStack px="16px" spacing={16} w="100%">
+                                {plansRecentlyCreated.map((plan, index) => (
+                                    <PlanPreview
+                                        key={index}
+                                        link={Routes.plans.plan(plan.id)}
+                                        plan={plan}
+                                    />
+                                ))}
+                            </VStack>
+                        </InfiniteScroll>
+                    )}
+                </VStack>
+            </Center>
+        </VStack>
     );
 };
 
