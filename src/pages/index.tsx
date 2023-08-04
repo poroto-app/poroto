@@ -14,6 +14,7 @@ import {
     reduxPlanSelector,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
+import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { PlanPreview } from "src/view/plan/PlanPreview";
@@ -42,7 +43,8 @@ const IndexPage = (props: Props) => {
     }, [plansRecentlyCreated]);
 
     return (
-        <VStack w="100%">
+        <VStack w="100%" spacing={0}>
+            <NavBar title="poroto"/>
             <CreatePlanSection />
             <Center w="100%">
                 <VStack
