@@ -6,7 +6,7 @@ import { CreatePlanButton } from "./CreatePlanButton";
 export function CreatePlanSection() {
     return (
         <Center w="100%" backgroundColor="#BD9F8E" py="84px" px="24px">
-            <VStack w="100%" maxW="600px" spacing="32px">
+            <VStack w="100%" maxW="600px" spacing="64px">
                 <Image
                     src="/images/hangout.svg"
                     alt="logo"
