@@ -22,6 +22,7 @@ const SelectPlanPage = () => {
         createPlanSession,
         placesAvailableForPlan,
         fetchAvailablePlacesForPlanRequestStatus,
+        createPlanFromPlaceRequestStatus,
     } = reduxPlanCandidateSelector();
 
     const router = useRouter();
@@ -44,9 +45,11 @@ const SelectPlanPage = () => {
     }, [sessionId]);
 
     const handleOnClickPlaceCandidate = (placeId: string) => {
-        if(!sessionId || typeof sessionId !== "string") return;
-        dispatch(createPlanFromPlace({ placeId, createPlanSessionId: sessionId }));
-    }
+        if (!sessionId || typeof sessionId !== "string") return;
+        dispatch(
+            createPlanFromPlace({ placeId, createPlanSessionId: sessionId })
+        );
+    };
 
     if (!plansCreated) {
         // TODO: ホームに戻れる404ページを作る
@@ -63,6 +66,10 @@ const SelectPlanPage = () => {
                 <Text>プランを作成することができませんでした。</Text>
             </Center>
         );
+
+    // 場所を指定してプランを作成中
+    if (createPlanFromPlaceRequestStatus === "pending")
+        return <LoadingModal title="プランを作成しています" />;
 
     return (
         <Layout navBar={<NavBar title="プランを選ぶ" />}>
