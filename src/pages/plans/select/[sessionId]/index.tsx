@@ -1,6 +1,7 @@
 import { Center, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
     createPlanFromPlace,
     fetchAvailablePlacesForPlan,
@@ -46,7 +47,8 @@ const SelectPlanPage = () => {
 
     const handleOnClickPlaceCandidate = (placeId: string) => {
         if (!sessionId || typeof sessionId !== "string") return;
-        if(createPlanFromPlaceRequestStatus === "pending") return;
+        if (createPlanFromPlaceRequestStatus === RequestStatuses.PENDING)
+            return;
         dispatch(
             createPlanFromPlace({ placeId, createPlanSessionId: sessionId })
         );
@@ -69,7 +71,7 @@ const SelectPlanPage = () => {
         );
 
     // 場所を指定してプランを作成中
-    if (createPlanFromPlaceRequestStatus === "pending")
+    if (createPlanFromPlaceRequestStatus === RequestStatuses.PENDING)
         return <LoadingModal title="プランを作成しています" />;
 
     return (
@@ -94,7 +96,7 @@ const SelectPlanPage = () => {
                             places={placesAvailableForPlan}
                             isFetching={
                                 fetchAvailablePlacesForPlanRequestStatus ===
-                                "pending"
+                                RequestStatuses.PENDING
                             }
                             onClickPlace={handleOnClickPlaceCandidate}
                         />
