@@ -1,4 +1,4 @@
-import { Center, VStack, Text } from "@chakra-ui/react";
+import { Center, Text, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
@@ -53,7 +53,9 @@ const IndexPage = (props: Props) => {
                     spacing="24px"
                     alignItems="flex-start"
                 >
-                    <Text fontWeight="bold" fontSize="20px">みんなのプラン</Text>
+                    <Text fontWeight="bold" fontSize="20px">
+                        みんなのプラン
+                    </Text>
                     {plansRecentlyCreated && (
                         // TODO: React 18に対応
                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
