@@ -11,12 +11,17 @@ import { Layout } from "src/view/common/Layout";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
+import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSection";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 
 const SelectPlanPage = () => {
     const dispatch = useAppDispatch();
-    const { plansCreated, createPlanSession, placesAvailableForPlan } =
-        reduxPlanCandidateSelector();
+    const {
+        plansCreated,
+        createPlanSession,
+        placesAvailableForPlan,
+        fetchAvailablePlacesForPlanRequestStatus,
+    } = reduxPlanCandidateSelector();
 
     const router = useRouter();
     const { sessionId } = router.query;
@@ -31,7 +36,10 @@ const SelectPlanPage = () => {
 
     useEffect(() => {
         if (!sessionId || typeof sessionId !== "string") return;
-        dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
+        // TODO: 実際に使えるようにする
+        if (process.env.NODE_ENV !== "production") {
+            dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
+        }
     }, [sessionId]);
 
     if (!plansCreated) {
@@ -65,6 +73,18 @@ const SelectPlanPage = () => {
                         />
                     ))}
                 </VStack>
+                {
+                    // TODO: 実際に利用できるようにする
+                    process.env.NODE_ENV !== "production" && (
+                        <AvailablePlaceSection
+                            places={placesAvailableForPlan}
+                            isFetching={
+                                fetchAvailablePlacesForPlanRequestStatus ===
+                                "pending"
+                            }
+                        />
+                    )
+                }
             </VStack>
         </Layout>
     );
