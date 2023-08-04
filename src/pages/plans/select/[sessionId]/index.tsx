@@ -55,7 +55,10 @@ const SelectPlanPage = () => {
 
         dispatch(resetCreatePlanFromPlaceRequestStatus());
         router.push(
-            Routes.plans.planCandidate(createPlanSession, plansCreated[-1].id)
+            Routes.plans.planCandidate(
+                createPlanSession,
+                plansCreated[plansCreated.length - 1].id
+            )
         );
     }, [createPlanFromPlaceRequestStatus, plansCreated, createPlanSession]);
 
