@@ -1,4 +1,4 @@
-import { Grid, HStack, Text, VStack } from "@chakra-ui/react";
+import { Grid, Text, VStack } from "@chakra-ui/react";
 import { Place } from "src/domain/models/Place";
 import { createArrayWithSize } from "src/domain/util/array";
 import { AvailablePlace } from "src/view/plan/candidate/AvailablePlace";
@@ -26,7 +26,7 @@ export function AvailablePlaceSection({ places, isFetching }: Props) {
                     ? places.map((place, i) => (
                           <AvailablePlace place={place} key={i} />
                       ))
-                    : createArrayWithSize(5).map((_, i) => (
+                    : createArrayWithSize(4).map((_, i) => (
                           <AvailablePlace key={i} place={null} />
                       ))}
             </Grid>
