@@ -46,6 +46,7 @@ const SelectPlanPage = () => {
 
     const handleOnClickPlaceCandidate = (placeId: string) => {
         if (!sessionId || typeof sessionId !== "string") return;
+        if(createPlanFromPlaceRequestStatus === "pending") return;
         dispatch(
             createPlanFromPlace({ placeId, createPlanSessionId: sessionId })
         );
