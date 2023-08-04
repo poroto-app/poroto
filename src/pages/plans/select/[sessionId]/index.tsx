@@ -7,6 +7,7 @@ import {
     fetchAvailablePlacesForPlan,
     fetchCachedCreatedPlans,
     reduxPlanCandidateSelector,
+    resetCreatePlanFromPlaceRequestStatus,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { Layout } from "src/view/common/Layout";
@@ -47,11 +48,15 @@ const SelectPlanPage = () => {
 
     // 指定した場所からプランを作成できたら、そのページへ遷移する
     useEffect(() => {
-        if(createPlanFromPlaceRequestStatus !== RequestStatuses.FULFILLED) return;
-        if(!plansCreated || plansCreated.length === 0) return;
-        if(!createPlanSession) return;
+        if (createPlanFromPlaceRequestStatus !== RequestStatuses.FULFILLED)
+            return;
+        if (!plansCreated || plansCreated.length === 0) return;
+        if (!createPlanSession) return;
 
-        router.push(Routes.plans.planCandidate(createPlanSession, plansCreated[-1].id));
+        dispatch(resetCreatePlanFromPlaceRequestStatus());
+        router.push(
+            Routes.plans.planCandidate(createPlanSession, plansCreated[-1].id)
+        );
     }, [createPlanFromPlaceRequestStatus, plansCreated, createPlanSession]);
 
     const handleOnClickPlaceCandidate = (placeId: string) => {
