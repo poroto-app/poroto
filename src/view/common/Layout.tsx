@@ -1,6 +1,6 @@
 import { Box, Center } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import {Size} from "src/view/constants/size";
+import { Size } from "src/view/constants/size";
 
 type Props = {
     navBar?: ReactNode;
