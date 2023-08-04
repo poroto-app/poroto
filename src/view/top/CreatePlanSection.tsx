@@ -1,17 +1,12 @@
 import { Center, Grid, Image, Text, VStack } from "@chakra-ui/react";
 import { MdOutlineLocationOn, MdOutlineMap } from "react-icons/md";
 import { Routes } from "src/view/constants/router";
-import { Size } from "src/view/constants/size";
 import { CreatePlanButton } from "./CreatePlanButton";
 
 export function CreatePlanSection() {
     return (
         <Center w="100%" backgroundColor="#BD9F8E" py="84px" px="24px">
-            <VStack
-                w="100%"
-                maxW="600px"
-                spacing="32px"
-            >
+            <VStack w="100%" maxW="600px" spacing="32px">
                 <Image
                     src="/images/hangout.svg"
                     alt="logo"
@@ -22,7 +17,7 @@ export function CreatePlanSection() {
                     <Text
                         color="white"
                         fontWeight="bold"
-                        fontSize="1.75rem"
+                        fontSize="24px"
                         zIndex="10"
                     >
                         暇つぶしプランを作ろう

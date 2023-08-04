@@ -1,4 +1,4 @@
-import { Center, VStack } from "@chakra-ui/react";
+import { Center, VStack, Text } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
@@ -45,7 +45,15 @@ const IndexPage = (props: Props) => {
         <VStack w="100%">
             <CreatePlanSection />
             <Center w="100%">
-                <VStack maxW={Size.mainContentWidth} w="100%" px="16px" py="48px" spacing="24px">
+                <VStack
+                    maxW={Size.mainContentWidth}
+                    w="100%"
+                    px="16px"
+                    py="48px"
+                    spacing="24px"
+                    alignItems="flex-start"
+                >
+                    <Text fontWeight="bold" fontSize="20px">みんなのプラン</Text>
                     {plansRecentlyCreated && (
                         // TODO: React 18に対応
                         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -56,7 +64,7 @@ const IndexPage = (props: Props) => {
                             }
                             hasMore={nextPageTokenPlansRecentlyCreated !== null}
                         >
-                            <VStack px="16px" spacing={16} w="100%">
+                            <VStack spacing={16} w="100%">
                                 {plansRecentlyCreated.map((plan, index) => (
                                     <PlanPreview
                                         key={index}
