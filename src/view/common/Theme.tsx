@@ -29,6 +29,8 @@ export function Theme() {
                         --color-primary-600: var(--color-brown-600);
                         --color-primary-700: var(--color-brown-700);
                         --color-primary-800: var(--color-brown-800);
+                      
+                      --size-main-content-width: 990px;
                     }
 
                     button {
