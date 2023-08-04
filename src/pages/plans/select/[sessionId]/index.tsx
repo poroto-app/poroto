@@ -54,13 +54,19 @@ const SelectPlanPage = () => {
         if (!createPlanSession) return;
 
         dispatch(resetCreatePlanFromPlaceRequestStatus());
-        router.push(
-            Routes.plans.planCandidate(
-                createPlanSession,
-                plansCreated[plansCreated.length - 1].id
+        router
+            .push(
+                Routes.plans.planCandidate(
+                    createPlanSession,
+                    plansCreated[plansCreated.length - 1].id
+                )
             )
-        ).then();
-    }, [createPlanFromPlaceRequestStatus, plansCreated?.length, createPlanSession]);
+            .then();
+    }, [
+        createPlanFromPlaceRequestStatus,
+        plansCreated?.length,
+        createPlanSession,
+    ]);
 
     const handleOnClickPlaceCandidate = (placeId: string) => {
         if (!sessionId || typeof sessionId !== "string") return;
