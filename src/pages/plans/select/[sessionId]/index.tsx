@@ -2,6 +2,7 @@ import { Center, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import {
+    createPlanFromPlace,
     fetchAvailablePlacesForPlan,
     fetchCachedCreatedPlans,
     reduxPlanCandidateSelector,
@@ -41,6 +42,11 @@ const SelectPlanPage = () => {
             dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
         }
     }, [sessionId]);
+
+    const handleOnClickPlaceCandidate = (placeId: string) => {
+        if(!sessionId || typeof sessionId !== "string") return;
+        dispatch(createPlanFromPlace({ placeId, createPlanSessionId: sessionId }));
+    }
 
     if (!plansCreated) {
         // TODO: ホームに戻れる404ページを作る
@@ -82,6 +88,7 @@ const SelectPlanPage = () => {
                                 fetchAvailablePlacesForPlanRequestStatus ===
                                 "pending"
                             }
+                            onClickPlace={handleOnClickPlaceCandidate}
                         />
                     )
                 }
