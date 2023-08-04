@@ -10,11 +10,12 @@ import { Place } from "src/domain/models/Place";
 
 type Props = {
     place: Place | null;
+    onClick?: () => void;
 };
 
-export function AvailablePlace({ place }: Props) {
+export function AvailablePlace({ place, onClick }: Props) {
     return (
-        <VStack w="100%" overflow="hidden" spacing={0}>
+        <VStack w="100%" overflow="hidden" spacing={0} onClick={onClick}>
             <Box
                 position="relative"
                 w="100%"
