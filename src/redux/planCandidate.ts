@@ -92,6 +92,24 @@ export const createPlanFromLocation = createAsyncThunk(
     }
 );
 
+type CreatePlanFromPlaceProps = {
+    placeId: string;
+    createPlanSessionId: string;
+};
+export const createPlanFromPlace = createAsyncThunk(
+    "planCandidate/createPlanFromPlace",
+    async ({ placeId, createPlanSessionId }: CreatePlanFromPlaceProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const { plan } = await plannerApi.createPlanFromPlace({
+            placeId,
+            createPlanSessionId,
+        });
+        return {
+            plan: createPlanFromPlanEntity(plan),
+        };
+    }
+);
+
 type FetchCachedCreatedPlansProps = { session: string };
 export const fetchCachedCreatedPlans = createAsyncThunk(
     "planCandidate/fetchCachedCreatedPlans",
