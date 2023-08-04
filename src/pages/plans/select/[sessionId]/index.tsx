@@ -59,8 +59,8 @@ const SelectPlanPage = () => {
                 createPlanSession,
                 plansCreated[plansCreated.length - 1].id
             )
-        );
-    }, [createPlanFromPlaceRequestStatus, plansCreated, createPlanSession]);
+        ).then();
+    }, [createPlanFromPlaceRequestStatus, plansCreated?.length, createPlanSession]);
 
     const handleOnClickPlaceCandidate = (placeId: string) => {
         if (!sessionId || typeof sessionId !== "string") return;
