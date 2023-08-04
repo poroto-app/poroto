@@ -44,7 +44,7 @@ const IndexPage = (props: Props) => {
 
     return (
         <VStack w="100%" spacing={0}>
-            <NavBar title="poroto"/>
+            <NavBar title="poroto" />
             <CreatePlanSection />
             <Center w="100%">
                 <VStack
