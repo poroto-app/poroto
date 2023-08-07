@@ -1,7 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
+import { GeoLocation } from "src/domain/models/GeoLocation";
 import { Plan } from "src/domain/models/Plan";
+import {
+    RequestStatus,
+    RequestStatuses,
+} from "src/domain/models/RequestStatus";
 import {
     createPlanFromPlanEntity,
     PlannerApi,
@@ -12,12 +17,20 @@ export type PlanState = {
     plansRecentlyCreated: Plan[] | null;
     nextPageTokenPlansRecentlyCreated: string | null;
 
+    plansNearby: Plan[] | null;
+    plansNearbyRequestStatus: RequestStatus | null;
+    nextPageTokenPlansNearby: string | null;
+
     preview: Plan | null;
 };
 
 const initialState: PlanState = {
     plansRecentlyCreated: null,
     nextPageTokenPlansRecentlyCreated: null,
+
+    plansNearby: null,
+    plansNearbyRequestStatus: null,
+    nextPageTokenPlansNearby: null,
 
     preview: null,
 };
@@ -49,6 +62,33 @@ export const fetchPlansRecentlyCreated = createAsyncThunk<{
         nextPageToken: nextPageKey,
     };
 });
+
+type FetchNearByPlans = { currentLocation: GeoLocation };
+export const fetchNearbyPlans = createAsyncThunk(
+    "plan/fetchNearbyPlans",
+    async ({ currentLocation }: FetchNearByPlans, { getState }) => {
+        const { nextPageTokenPlansNearby, plansNearby } = (
+            getState() as RootState
+        ).plan;
+
+        // すでに取得している場合はスキップ
+        if (plansNearby !== null && nextPageTokenPlansNearby === null) {
+            return null;
+        }
+
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const { plans, pageKey } = await plannerApi.fetchPlansByLocation({
+            location: currentLocation,
+            pageKey: nextPageTokenPlansNearby,
+            limit: 10,
+        });
+
+        return {
+            plans: plans.map((plan) => createPlanFromPlanEntity(plan)),
+            nextPageToken: pageKey,
+        };
+    }
+);
 
 type FetchPlanProps = { planId: string };
 export const fetchPlan = createAsyncThunk(
@@ -98,7 +138,22 @@ export const slice = createSlice({
                     state.nextPageTokenPlansRecentlyCreated =
                         payload.nextPageToken;
                 }
-            );
+            )
+            // Fetch Nearby Plans
+            .addCase(fetchNearbyPlans.pending, (state) => {
+                state.plansNearbyRequestStatus = RequestStatuses.PENDING;
+            })
+            .addCase(fetchNearbyPlans.fulfilled, (state, { payload }) => {
+                state.plansNearbyRequestStatus = RequestStatuses.FULFILLED;
+                if (!payload) return;
+
+                if (state.plansNearby === null) state.plansNearby = [];
+                state.plansNearby.push(...payload.plans);
+                state.nextPageTokenPlansNearby = payload.nextPageToken;
+            })
+            .addCase(fetchNearbyPlans.rejected, (state) => {
+                state.plansNearbyRequestStatus = RequestStatuses.REJECTED;
+            });
     },
 });
 
