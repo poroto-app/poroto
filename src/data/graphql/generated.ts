@@ -13,6 +13,15 @@ export type Scalars = {
   Float: number;
 };
 
+export type AvailablePlacesForPlan = {
+  __typename?: 'AvailablePlacesForPlan';
+  places: Array<Place>;
+};
+
+export type AvailablePlacesForPlanInput = {
+  session: Scalars['String'];
+};
+
 export type CachedCreatedPlans = {
   __typename?: 'CachedCreatedPlans';
   createdBasedOnCurrentLocation: Scalars['Boolean'];
@@ -50,6 +59,17 @@ export type CreatePlanByLocationOutput = {
   session: Scalars['String'];
 };
 
+export type CreatePlanByPlaceInput = {
+  placeId: Scalars['String'];
+  session: Scalars['String'];
+};
+
+export type CreatePlanByPlaceOutput = {
+  __typename?: 'CreatePlanByPlaceOutput';
+  plan: Plan;
+  session: Scalars['String'];
+};
+
 export type GeoLocation = {
   __typename?: 'GeoLocation';
   latitude: Scalars['Float'];
@@ -77,6 +97,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   changePlacesOrderInPlanCandidate: ChangePlacesOrderInPlanCandidateOutput;
   createPlanByLocation: CreatePlanByLocationOutput;
+  createPlanByPlace: CreatePlanByPlaceOutput;
   ping: Scalars['String'];
   savePlanFromCandidate: SavePlanFromCandidateOutput;
 };
@@ -89,6 +110,11 @@ export type MutationChangePlacesOrderInPlanCandidateArgs = {
 
 export type MutationCreatePlanByLocationArgs = {
   input: CreatePlanByLocationInput;
+};
+
+
+export type MutationCreatePlanByPlaceArgs = {
+  input: CreatePlanByPlaceInput;
 };
 
 
@@ -120,13 +146,33 @@ export type Plan = {
   transitions: Array<Transition>;
 };
 
+export type PlansByLocationInput = {
+  latitude: Scalars['Float'];
+  limit?: InputMaybe<Scalars['Int']>;
+  longitude: Scalars['Float'];
+  pageKey?: InputMaybe<Scalars['String']>;
+};
+
+export type PlansByLocationOutput = {
+  __typename?: 'PlansByLocationOutput';
+  pageKey?: Maybe<Scalars['String']>;
+  plans: Array<Plan>;
+};
+
 export type Query = {
   __typename?: 'Query';
+  availablePlacesForPlan: AvailablePlacesForPlan;
   cachedCreatedPlans: CachedCreatedPlans;
   matchInterests: InterestCandidate;
   plan?: Maybe<Plan>;
   plans: Array<Plan>;
+  plansByLocation: PlansByLocationOutput;
   version: Scalars['String'];
+};
+
+
+export type QueryAvailablePlacesForPlanArgs = {
+  input: AvailablePlacesForPlanInput;
 };
 
 
@@ -147,6 +193,11 @@ export type QueryPlanArgs = {
 
 export type QueryPlansArgs = {
   pageKey?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryPlansByLocationArgs = {
+  input: PlansByLocationInput;
 };
 
 export type SavePlanFromCandidateInput = {
