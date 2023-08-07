@@ -6,6 +6,10 @@ export interface PlannerApi {
 
     fetchPlans(request: FetchPlansRequest): Promise<FetchPlansResponse>;
 
+    fetchPlansByLocation(
+        request: FetchPlansByLocationRequest
+    ): Promise<FetchPlansByLocationResponse>;
+
     createPlansFromLocation(
         request: CreatePlanFromLocationRequest
     ): Promise<CreatePlanFromLocationResponse>;
@@ -88,6 +92,17 @@ export type FetchPlansRequest = {
 export type FetchPlansResponse = {
     plans: PlanEntity[];
     nextPageKey: string | null;
+};
+
+export type FetchPlansByLocationRequest = {
+    location: GeoLocation;
+    limit?: number;
+    pageKey: string | null;
+};
+
+export type FetchPlansByLocationResponse = {
+    pageKey: string | null;
+    plans: PlanEntity[];
 };
 
 export type CreatePlanFromLocationRequest = {
