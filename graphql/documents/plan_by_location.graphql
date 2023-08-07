@@ -1,0 +1,29 @@
+query PlansByLocation($latitude: Float!, $longitude: Float!, $limit: Int, $pageKey: String) {
+    plansByLocation(input: {latitude: $latitude, longitude: $longitude, limit: $limit, pageKey: $pageKey}) {
+        pageKey
+        plans {
+            id
+            name
+            places {
+                id
+                name
+                photos
+                location {
+                    longitude
+                    latitude
+                }
+                estimatedStayDuration
+            }
+            timeInMinutes
+            transitions {
+                duration
+                from {
+                    id
+                }
+                to {
+                    id
+                }
+            }
+        }
+    }
+}
