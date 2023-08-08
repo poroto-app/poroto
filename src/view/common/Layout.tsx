@@ -1,5 +1,6 @@
 import { Box, Center } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { Size } from "src/view/constants/size";
 
 type Props = {
     navBar?: ReactNode;
@@ -36,7 +37,7 @@ export function Layout({ navBar, children, fillComponent }: Props) {
                         {fillComponent}
                     </Box>
                 )}
-                <Box maxWidth="990px" w="100%">
+                <Box maxWidth={Size.mainContentWidth} w="100%">
                     {children}
                 </Box>
             </Center>
