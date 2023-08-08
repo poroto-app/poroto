@@ -1,4 +1,4 @@
-import { Center, Divider, VStack } from "@chakra-ui/react";
+import { Center, Divider, Text, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -30,8 +30,11 @@ type Props = {
 
 const IndexPage = (props: Props) => {
     const dispatch = useAppDispatch();
-    const { plansRecentlyCreated, nextPageTokenPlansRecentlyCreated } =
-        reduxPlanSelector();
+    const {
+        plansRecentlyCreated,
+        nextPageTokenPlansRecentlyCreated,
+        plansNearby,
+    } = reduxPlanSelector();
     const { checkGeolocationPermission, getCurrentLocation } = useLocation();
 
     // 位置情報が利用可能な場合は付近で作成されたプランを取得する
@@ -80,17 +83,20 @@ const IndexPage = (props: Props) => {
                         </RoundedIconButton>
                     </Link>
                 </VStack>
-
-                {plansRecentlyCreated && (
-                    // TODO: React 18に対応
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    <InfiniteScroll
-                        loadMore={() => dispatch(fetchPlansRecentlyCreated())}
-                        hasMore={nextPageTokenPlansRecentlyCreated !== null}
-                    >
-                        <VStack px="16px" spacing={16} w="100%">
-                            {plansRecentlyCreated.map((plan, index) => (
+                {/* TODO: 付近で作られたプランとすべてのプランでセクション分けをする */}
+                {plansNearby && (
+                    <VStack px="16px" w="100%" spacing={4}>
+                        <Text
+                            fontSize="20px"
+                            fontWeight="bold"
+                            w="100%"
+                            maxW="600px"
+                            textAlign="start"
+                        >
+                            近くで作られたプラン
+                        </Text>
+                        <VStack spacing={16} w="100%">
+                            {plansNearby.map((plan, index) => (
                                 <PlanPreview
                                     key={index}
                                     link={Routes.plans.plan(plan.id)}
@@ -98,7 +104,39 @@ const IndexPage = (props: Props) => {
                                 />
                             ))}
                         </VStack>
-                    </InfiniteScroll>
+                    </VStack>
+                )}
+                {plansRecentlyCreated && (
+                    <VStack px="16px" w="100%" spacing={4}>
+                        <Text
+                            fontSize="20px"
+                            fontWeight="bold"
+                            w="100%"
+                            maxW="600px"
+                            textAlign="start"
+                        >
+                            最近作られたプラン
+                        </Text>
+                        {/* TODO: React 18に対応 */}
+                        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                        {/* @ts-ignore */}
+                        <InfiniteScroll
+                            loadMore={() =>
+                                dispatch(fetchPlansRecentlyCreated())
+                            }
+                            hasMore={nextPageTokenPlansRecentlyCreated !== null}
+                        >
+                            <VStack px="16px" spacing={16} w="100%">
+                                {plansRecentlyCreated.map((plan, index) => (
+                                    <PlanPreview
+                                        key={index}
+                                        link={Routes.plans.plan(plan.id)}
+                                        plan={plan}
+                                    />
+                                ))}
+                            </VStack>
+                        </InfiniteScroll>
+                    </VStack>
                 )}
             </VStack>
         </Center>
