@@ -8,7 +8,7 @@ import { copyObject } from "src/domain/util/object";
 import {
     fetchCachedCreatedPlans,
     fetchPlanDetail,
-    reduxPlanCandidateSelector,
+    reduxPlanCandidateSelector, resetPlanCandidates,
     savePlanFromCandidate,
     updatePlacesOrderInPlanCandidate,
 } from "src/redux/planCandidate";
@@ -71,7 +71,9 @@ const PlanDetail = () => {
     useEffect(() => {
         if (!plan) return;
         if (savePlanFromCandidateRequestStatus === RequestStatuses.FULFILLED) {
-            router.push(Routes.plans.plan(plan.id));
+            router.push(Routes.plans.plan(plan.id)).then();
+            // 戻ったときに再リダイレクトされないようにする
+            dispatch(resetPlanCandidates());
         }
     }, [planId, savePlanFromCandidateRequestStatus]);
 
