@@ -11,6 +11,7 @@ import {
     PlannerApi,
 } from "src/domain/plan/PlannerApi";
 import {
+    fetchNearbyPlans,
     fetchPlansRecentlyCreated,
     pushPlansRecentlyCreated,
     reduxPlanSelector,
@@ -18,6 +19,7 @@ import {
 import { useAppDispatch } from "src/redux/redux";
 import { RoundedIconButton } from "src/view/common/RoundedIconButton";
 import { Routes } from "src/view/constants/router";
+import { useLocation } from "src/view/hooks/useLocation";
 import { PlaceSearchButton } from "src/view/place/PlaceSearchButton";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 
@@ -30,6 +32,21 @@ const IndexPage = (props: Props) => {
     const dispatch = useAppDispatch();
     const { plansRecentlyCreated, nextPageTokenPlansRecentlyCreated } =
         reduxPlanSelector();
+    const { checkGeolocationPermission, getCurrentLocation } = useLocation();
+
+    // 位置情報が利用可能な場合は付近で作成されたプランを取得する
+    useEffect(() => {
+        const fetchNearbyPlansWithCurrentLocation = async () => {
+            const isGranted = checkGeolocationPermission();
+            if (!isGranted) return;
+
+            const currentLocation = await getCurrentLocation();
+            if (!currentLocation) return;
+            dispatch(fetchNearbyPlans({ currentLocation }));
+        };
+
+        fetchNearbyPlansWithCurrentLocation().then();
+    }, []);
 
     useEffect(() => {
         // 初期表示時のみISRで取得したプランをReduxに保存する
