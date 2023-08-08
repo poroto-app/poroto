@@ -1,4 +1,4 @@
-import { Center, Text, VStack } from "@chakra-ui/react";
+import { Center, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import {
@@ -10,6 +10,7 @@ import { Layout } from "src/view/common/Layout";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
+import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 
 const SelectPlanPage = () => {
@@ -38,8 +39,8 @@ const SelectPlanPage = () => {
     // TODO: プラン作成失敗 or 直接このページに来たときははじく
     if (plansCreated.length === 0)
         return (
-            <Center>
-                <Text>プランを作成することができませんでした。</Text>
+            <Center h="100%" w="100%">
+                <PlanGenerationFailure />
             </Center>
         );
 
