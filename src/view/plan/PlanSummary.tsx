@@ -4,6 +4,7 @@ import { IconType } from "react-icons";
 import { MdSchedule } from "react-icons/md";
 import { DateHelper } from "src/domain/util/date";
 import styled from "styled-components";
+import {date} from "zod";
 
 type Props = {
     title: string;
@@ -50,12 +51,11 @@ export const PlanSummaryDuration = ({
         new Date(),
         durationInMinutes * DateHelper.Minute
     );
-    const endPlanTime = `${DateHelper.dateToHHMM(endPlanDate)}`;
     return (
         <PlanSummary title="移動時間" icon={MdSchedule}>
             <VStack alignItems="flex-start" w="100%" spacing={0}>
-                <Text>{duration}</Text>
-                <Text color="gray">~ {endPlanTime}</Text>
+                <Text>{DateHelper.formatHHMM(durationInMinutes)}</Text>
+                <Text color="gray">~ {DateHelper.dateToHHMM(endPlanDate)}</Text>
             </VStack>
         </PlanSummary>
     );
