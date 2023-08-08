@@ -10,9 +10,9 @@ import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteBy
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
+import { PlanShareFooter } from "src/view/plan/PlanShareFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
-import {PlanShareFooter} from "src/view/plan/PlanShareFooter";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -57,7 +57,7 @@ export default function PlanPage() {
                     />
                 </VStack>
             </VStack>
-            <PlanShareFooter/>
+            <PlanShareFooter />
         </Center>
     );
 }

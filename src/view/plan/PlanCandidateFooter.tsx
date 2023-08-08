@@ -1,4 +1,4 @@
-import { Button, Center, HStack} from "@chakra-ui/react";
+import { Button, Center, HStack } from "@chakra-ui/react";
 import { Colors } from "src/view/constants/color";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
 
 export const FooterHeight = 80;
 
-export function PlanCandidateFooter({ onSave, onEdit}: Props) {
+export function PlanCandidateFooter({ onSave, onEdit }: Props) {
     return (
         <Center
             backgroundColor="white"
