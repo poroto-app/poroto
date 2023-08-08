@@ -42,7 +42,7 @@ const IndexPage = (props: Props) => {
 
             const currentLocation = await getCurrentLocation();
             if (!currentLocation) return;
-            dispatch(fetchNearbyPlans({ currentLocation }));
+            dispatch(fetchNearbyPlans({ currentLocation, limit: 5 }));
         };
 
         fetchNearbyPlansWithCurrentLocation().then();
@@ -80,6 +80,7 @@ const IndexPage = (props: Props) => {
                         </RoundedIconButton>
                     </Link>
                 </VStack>
+
                 {plansRecentlyCreated && (
                     // TODO: React 18に対応
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

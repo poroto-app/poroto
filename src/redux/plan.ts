@@ -63,10 +63,10 @@ export const fetchPlansRecentlyCreated = createAsyncThunk<{
     };
 });
 
-type FetchNearByPlans = { currentLocation: GeoLocation };
+type FetchNearByPlans = { currentLocation: GeoLocation; limit: number };
 export const fetchNearbyPlans = createAsyncThunk(
     "plan/fetchNearbyPlans",
-    async ({ currentLocation }: FetchNearByPlans, { getState }) => {
+    async ({ currentLocation, limit }: FetchNearByPlans, { getState }) => {
         const { nextPageTokenPlansNearby, plansNearby } = (
             getState() as RootState
         ).plan;
@@ -80,7 +80,7 @@ export const fetchNearbyPlans = createAsyncThunk(
         const { plans, pageKey } = await plannerApi.fetchPlansByLocation({
             location: currentLocation,
             pageKey: nextPageTokenPlansNearby,
-            limit: 10,
+            limit,
         });
 
         return {
