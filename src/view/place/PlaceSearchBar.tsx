@@ -1,5 +1,5 @@
 import { Icon } from "@chakra-ui/react";
-import {FormEvent, useEffect, useState} from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { MdClose, MdSearch } from "react-icons/md";
 import styled from "styled-components";
 
@@ -8,29 +8,36 @@ type Props = {
 };
 
 export function PlaceSearchBar({ onSearch }: Props) {
+    const [lastUsedQuery, setLastUsedQuery] = useState<string | null>(null);
     const [value, setValue] = useState("");
 
     useEffect(() => {
         const id = setTimeout(() => {
+            // Enter押下で検索した場合は、検索を実行しない
+            if (lastUsedQuery === value) {
+                return;
+            }
+
             validateAndDoSearch(value);
         }, 1200);
 
         return () => {
             clearTimeout(id);
         };
-    }, [value]);
+    }, [value, lastUsedQuery]);
 
     const validateAndDoSearch = (value: string) => {
         if (!value || value === "") {
             return;
         }
+        setLastUsedQuery(value);
         onSearch(value);
-    }
+    };
 
     const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         validateAndDoSearch(value);
-    }
+    };
 
     return (
         <Container>
