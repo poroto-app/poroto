@@ -1,13 +1,5 @@
-import * as NextImage from "next/image";
 import {ChakraProvider} from "@chakra-ui/react";
 import {Theme} from "../src/view/common/Theme";
-
-const OriginalNextImage = NextImage.default;
-
-Object.defineProperty(NextImage, "default", {
-    configurable: true,
-    value: (props) => <OriginalNextImage {...props} unoptimized/>,
-});
 
 const withChakra = (StoryFn) => {
     return (

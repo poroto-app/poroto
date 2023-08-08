@@ -2,6 +2,7 @@ import { Center, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import {
+    fetchAvailablePlacesForPlan,
     fetchCachedCreatedPlans,
     reduxPlanCandidateSelector,
 } from "src/redux/planCandidate";
@@ -10,12 +11,18 @@ import { Layout } from "src/view/common/Layout";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
+import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSection";
 import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 
 const SelectPlanPage = () => {
     const dispatch = useAppDispatch();
-    const { plansCreated, createPlanSession } = reduxPlanCandidateSelector();
+    const {
+        plansCreated,
+        createPlanSession,
+        placesAvailableForPlan,
+        fetchAvailablePlacesForPlanRequestStatus,
+    } = reduxPlanCandidateSelector();
 
     const router = useRouter();
     const { sessionId } = router.query;
@@ -27,6 +34,14 @@ const SelectPlanPage = () => {
             dispatch(fetchCachedCreatedPlans({ session: sessionId }));
         }
     }, [sessionId, plansCreated]);
+
+    useEffect(() => {
+        if (!sessionId || typeof sessionId !== "string") return;
+        // TODO: 実際に使えるようにする
+        if (process.env.NODE_ENV !== "production") {
+            dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
+        }
+    }, [sessionId]);
 
     if (!plansCreated) {
         // TODO: ホームに戻れる404ページを作る
@@ -46,17 +61,31 @@ const SelectPlanPage = () => {
 
     return (
         <Layout navBar={<NavBar title="プランを選ぶ" />}>
-            <VStack w="100%" px="16px" spacing={8} py="16px">
-                {plansCreated.map((plan, i) => (
-                    <PlanPreview
-                        plan={plan}
-                        key={i}
-                        link={Routes.plans.planCandidate(
-                            createPlanSession,
-                            plan.id
-                        )}
-                    />
-                ))}
+            <VStack w="100%" px="16px" py="16px" spacing={8}>
+                <VStack w="100%" spacing={8}>
+                    {plansCreated.map((plan, i) => (
+                        <PlanPreview
+                            plan={plan}
+                            key={i}
+                            link={Routes.plans.planCandidate(
+                                createPlanSession,
+                                plan.id
+                            )}
+                        />
+                    ))}
+                </VStack>
+                {
+                    // TODO: 実際に利用できるようにする
+                    process.env.NODE_ENV !== "production" && (
+                        <AvailablePlaceSection
+                            places={placesAvailableForPlan}
+                            isFetching={
+                                fetchAvailablePlacesForPlanRequestStatus ===
+                                "pending"
+                            }
+                        />
+                    )
+                }
             </VStack>
         </Layout>
     );
