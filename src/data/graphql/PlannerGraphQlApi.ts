@@ -2,6 +2,7 @@ import {
     CachedCreatedPlansDocument,
     ChangePlacesOrderInPlanCandidateDocument,
     CreatePlanByLocationDocument,
+    CreatePlanByPlaceDocument,
     FetchAvailablePlacesForPlanCandidateDocument,
     FetchPlanByIdDocument,
     FetchPlanByIdQuery,
@@ -13,6 +14,8 @@ import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
 import {
     CreatePlanFromLocationRequest,
     CreatePlanFromLocationResponse,
+    CreatePlanFromPlaceRequest,
+    CreatePlanFromPlaceResponse,
     FetchAvailablePlacesForPlanRequest,
     FetchCachedCreatedPlansRequest,
     FetchCachedCreatedPlansResponse,
@@ -90,6 +93,22 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             plans: data.createPlanByLocation.plans.map((plan) =>
                 fromGraphqlPlanEntity(plan)
             ),
+        };
+    }
+
+    async createPlanFromPlace(
+        request: CreatePlanFromPlaceRequest
+    ): Promise<CreatePlanFromPlaceResponse> {
+        const { data } = await this.client.mutate({
+            mutation: CreatePlanByPlaceDocument,
+            variables: {
+                sessionId: request.createPlanSessionId,
+                placeId: request.placeId,
+            },
+        });
+        return {
+            createPlanSessionId: data.createPlanByPlace.session,
+            plan: fromGraphqlPlanEntity(data.createPlanByPlace.plan),
         };
     }
 

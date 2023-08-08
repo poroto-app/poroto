@@ -30,6 +30,8 @@ export type PlanCandidateState = {
     categoryRejected: LocationCategory[] | null;
 
     timeForPlan: number | null;
+
+    createPlanFromPlaceRequestStatus: RequestStatus | null;
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
     fetchAvailablePlacesForPlanRequestStatus: RequestStatus | null;
@@ -47,6 +49,8 @@ const initialState: PlanCandidateState = {
     categoryRejected: null,
 
     timeForPlan: null,
+
+    createPlanFromPlaceRequestStatus: null,
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
     fetchAvailablePlacesForPlanRequestStatus: null,
@@ -89,6 +93,24 @@ export const createPlanFromLocation = createAsyncThunk(
                 createdBasedOnCurrentLocation: isCurrentLocation,
             })
         );
+    }
+);
+
+type CreatePlanFromPlaceProps = {
+    placeId: string;
+    createPlanSessionId: string;
+};
+export const createPlanFromPlace = createAsyncThunk(
+    "planCandidate/createPlanFromPlace",
+    async ({ placeId, createPlanSessionId }: CreatePlanFromPlaceProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const { plan } = await plannerApi.createPlanFromPlace({
+            placeId,
+            createPlanSessionId,
+        });
+        return {
+            plan: createPlanFromPlanEntity(plan),
+        };
     }
 );
 
@@ -320,6 +342,26 @@ export const slice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // Create Plan From Place
+            .addCase(createPlanFromPlace.pending, (state, action) => {
+                state.createPlanFromPlaceRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(
+                createPlanFromPlace.fulfilled,
+                (state, { payload: { plan } }) => {
+                    state.createPlanFromPlaceRequestStatus =
+                        RequestStatuses.FULFILLED;
+                    if (!state.plansCreated) {
+                        state.plansCreated = [];
+                    }
+                    state.plansCreated.push(plan);
+                }
+            )
+            .addCase(createPlanFromPlace.rejected, (state, action) => {
+                state.createPlanFromPlaceRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
             // Save Plan From Candidate
             .addCase(savePlanFromCandidate.pending, (state) => {
                 state.savePlanFromCandidateRequestStatus =

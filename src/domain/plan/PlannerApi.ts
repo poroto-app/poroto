@@ -11,6 +11,10 @@ export interface PlannerApi {
         request: CreatePlanFromLocationRequest
     ): Promise<CreatePlanFromLocationResponse>;
 
+    createPlanFromPlace(
+        request: CreatePlanFromPlaceRequest
+    ): Promise<CreatePlanFromPlaceResponse>;
+
     fetchCachedCreatedPlans(
         request: FetchCachedCreatedPlansRequest
     ): Promise<FetchCachedCreatedPlansResponse>;
@@ -122,6 +126,16 @@ export type CreatePlanFromLocationRequest = {
 export type CreatePlanFromLocationResponse = {
     session: string;
     plans: PlanEntity[];
+};
+
+export type CreatePlanFromPlaceRequest = {
+    createPlanSessionId: string;
+    placeId: string;
+};
+
+export type CreatePlanFromPlaceResponse = {
+    createPlanSessionId: string;
+    plan: PlanEntity;
 };
 
 export type FetchCachedCreatedPlansRequest = {
