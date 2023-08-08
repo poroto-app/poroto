@@ -11,19 +11,21 @@ export function PlaceSearchBar({ onSearch }: Props) {
     const [value, setValue] = useState("");
 
     useEffect(() => {
-        if (value === "") {
-            onSearch(value);
-            return;
-        }
-
         const id = setTimeout(() => {
-            onSearch(value);
+            validateAndDoSearch(value);
         }, 1200);
 
         return () => {
             clearTimeout(id);
         };
     }, [value]);
+
+    const validateAndDoSearch = (value: string) => {
+        if (!value || value === "") {
+            return;
+        }
+        onSearch(value);
+    }
 
     return (
         <Container>
