@@ -5,6 +5,7 @@ import { MdDirectionsWalk } from "react-icons/md";
 import { Plan } from "src/domain/models/Plan";
 import { Colors } from "src/view/constants/color";
 import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
+import {DateHelper} from "src/domain/util/date";
 
 type Props = {
     plan: Plan;
@@ -18,8 +19,6 @@ export function PlanPreview({ plan, link }: Props) {
         )
         .filter((v) => v !== null);
 
-    const tagTime = `${plan.timeInMinutes.toFixed(0)}分`;
-
     return (
         <VStack w="100%" maxW="600px">
             <PlanThumbnail imageUrls={thumbnails} link={link} />
@@ -30,7 +29,7 @@ export function PlanPreview({ plan, link }: Props) {
                     </Text>
                     <HStack w="100%" justifyContent="flex-start">
                         {/* TODO: 最初の地点までの徒歩時間を移動距離を表示 */}
-                        <TagContainer tag={tagTime}>
+                        <TagContainer tag={DateHelper.formatHHMM(plan.timeInMinutes)}>
                             <Icon
                                 w="24px"
                                 h="24px"
