@@ -39,7 +39,7 @@ const SelectPlanPage = () => {
     // TODO: プラン作成失敗 or 直接このページに来たときははじく
     if (plansCreated.length === 0)
         return (
-            <Center>
+            <Center h="100%" w="100%">
                 <PlanGenerationFailure />
             </Center>
         );
