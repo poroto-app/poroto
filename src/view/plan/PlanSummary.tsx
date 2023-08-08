@@ -4,7 +4,6 @@ import { IconType } from "react-icons";
 import { MdSchedule } from "react-icons/md";
 import { DateHelper } from "src/domain/util/date";
 import styled from "styled-components";
-import {date} from "zod";
 
 type Props = {
     title: string;
