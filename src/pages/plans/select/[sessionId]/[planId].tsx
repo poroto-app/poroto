@@ -8,7 +8,8 @@ import { copyObject } from "src/domain/util/object";
 import {
     fetchCachedCreatedPlans,
     fetchPlanDetail,
-    reduxPlanCandidateSelector, resetPlanCandidates,
+    reduxPlanCandidateSelector,
+    resetPlanCandidates,
     savePlanFromCandidate,
     updatePlacesOrderInPlanCandidate,
 } from "src/redux/planCandidate";
