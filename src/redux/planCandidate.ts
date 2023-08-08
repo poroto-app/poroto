@@ -286,9 +286,20 @@ export const slice = createSlice({
         },
 
         resetPlanCandidates: (state) => {
-            state.plansCreated = null;
             state.createPlanSession = null;
+            state.createdBasedOnCurrentLocation = null;
+            state.plansCreated = null;
             state.placesAvailableForPlan = null;
+
+            state.preview = null;
+
+            state.categoryCandidates = null;
+            state.categoryRejected = null;
+            state.categoryAccepted = null;
+
+            state.timeForPlan = null;
+            state.savePlanFromCandidateRequestStatus = null;
+            state.updatePlacesOrderInPlanCandidateRequestStatus = null;
         },
 
         reorderPlacesInPreview: (

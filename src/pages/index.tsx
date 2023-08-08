@@ -1,8 +1,6 @@
-import { Center, Divider, VStack } from "@chakra-ui/react";
+import { Center, Text, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
-import Link from "next/link";
 import { useEffect } from "react";
-import { MdOutlinePlace } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { Plan } from "src/domain/models/Plan";
@@ -16,10 +14,11 @@ import {
     reduxPlanSelector,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
-import { RoundedIconButton } from "src/view/common/RoundedIconButton";
+import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
-import { PlaceSearchButton } from "src/view/place/PlaceSearchButton";
+import { Size } from "src/view/constants/size";
 import { PlanPreview } from "src/view/plan/PlanPreview";
+import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 
 type Props = {
     plansRecentlyCreated: Plan[];
@@ -44,46 +43,44 @@ const IndexPage = (props: Props) => {
     }, [plansRecentlyCreated]);
 
     return (
-        <Center w="100%">
-            <VStack
-                maxW="990px"
-                w="100%"
-                px="16px"
-                divider={<Divider />}
-                spacing="24px"
-            >
-                <VStack w="100%" spacing={4} pt="32px">
-                    <PlaceSearchButton />
-                    <Link
-                        href={Routes.plans.interest}
-                        style={{ width: "100%" }}
-                    >
-                        <RoundedIconButton icon={MdOutlinePlace}>
-                            現在地からプランを作成
-                        </RoundedIconButton>
-                    </Link>
+        <VStack w="100%" spacing={0}>
+            <NavBar title="poroto" />
+            <CreatePlanSection />
+            <Center w="100%">
+                <VStack
+                    w="100%"
+                    maxW={Size.mainContentWidth}
+                    px="16px"
+                    py="48px"
+                    spacing="24px"
+                >
+                    <Text fontWeight="bold" fontSize="20px">
+                        みんなのプラン
+                    </Text>
+                    {plansRecentlyCreated && (
+                        // TODO: React 18に対応
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        <InfiniteScroll
+                            loadMore={() =>
+                                dispatch(fetchPlansRecentlyCreated())
+                            }
+                            hasMore={nextPageTokenPlansRecentlyCreated !== null}
+                        >
+                            <VStack spacing={16} w="100%">
+                                {plansRecentlyCreated.map((plan, index) => (
+                                    <PlanPreview
+                                        key={index}
+                                        link={Routes.plans.plan(plan.id)}
+                                        plan={plan}
+                                    />
+                                ))}
+                            </VStack>
+                        </InfiniteScroll>
+                    )}
                 </VStack>
-                {plansRecentlyCreated && (
-                    // TODO: React 18に対応
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    <InfiniteScroll
-                        loadMore={() => dispatch(fetchPlansRecentlyCreated())}
-                        hasMore={nextPageTokenPlansRecentlyCreated !== null}
-                    >
-                        <VStack px="16px" spacing={16} w="100%">
-                            {plansRecentlyCreated.map((plan, index) => (
-                                <PlanPreview
-                                    key={index}
-                                    link={Routes.plans.plan(plan.id)}
-                                    plan={plan}
-                                />
-                            ))}
-                        </VStack>
-                    </InfiniteScroll>
-                )}
-            </VStack>
-        </Center>
+            </Center>
+        </VStack>
     );
 };
 

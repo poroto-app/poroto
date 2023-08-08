@@ -181,7 +181,7 @@ function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
         places: plan.places.map((place) => fromGraphqlPlaceEntity(place)),
         timeInMinutes: plan.timeInMinutes,
         transitions: plan.transitions.map((transition) => ({
-            fromPlaceId: transition.from?.id,
+            fromPlaceId: transition.from && transition.from?.id,
             toPlaceId: transition.to.id,
             durationInMinutes: transition.duration,
         })),
