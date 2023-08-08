@@ -5,7 +5,7 @@ import { Colors } from "src/view/constants/color";
 type Props = {
     onSave: () => void;
     onEdit: () => void;
-    onShare: () => void;
+    shareUrl?: string;
 };
 
 export const FooterHeight = 80;
