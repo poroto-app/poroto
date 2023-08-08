@@ -31,13 +31,13 @@ export const useLocation = () => {
     const [requestStatus, setRequestStatus] = useState<RequestStatus | null>(
         null
     );
-    const [geolocationPermission, setGeolocationPermission] =
-        useState<boolean>(false);
 
-    const checkGeolocationPermission = () => {
-        navigator.permissions.query({ name: "geolocation" }).then((result) => {
-            setGeolocationPermission(result.state === "granted");
+    const checkGeolocationPermission = async (): Promise<boolean> => {
+        const result = await navigator.permissions.query({
+            name: "geolocation",
         });
+        const isGranted = result.state === "granted";
+        return isGranted;
     };
 
     const fetchCurrentLocationWithHook =
@@ -65,7 +65,6 @@ export const useLocation = () => {
         location,
         getCurrentLocation: fetchCurrentLocationWithHook,
         resetLocationState,
-        geolocationPermission,
         checkGeolocationPermission,
     };
 };
