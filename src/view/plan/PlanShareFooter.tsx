@@ -1,13 +1,23 @@
-import { Button, Center, HStack, Icon } from "@chakra-ui/react";
+import { Button, Center, HStack, Icon, useToast } from "@chakra-ui/react";
 import { RiShareForwardLine } from "react-icons/ri";
 import { Colors } from "src/view/constants/color";
 
 export const FooterHeight = 80;
 
 export function PlanShareFooter() {
+    const toast = useToast();
+
     function copyUrl() {
         const url: string = location.href;
         navigator.clipboard.writeText(url);
+
+        toast({
+            title: "URLを共有",
+            description: "URLがクリップボードにコピーされました。",
+            status: "success",
+            duration: 3000, // ポップアップが表示される時間（ミリ秒）
+            isClosable: true,
+        });
     }
 
     return (
