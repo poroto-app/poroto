@@ -1,5 +1,5 @@
 import { Icon } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import {FormEvent, useEffect, useState} from "react";
 import { MdClose, MdSearch } from "react-icons/md";
 import styled from "styled-components";
 
@@ -27,16 +27,23 @@ export function PlaceSearchBar({ onSearch }: Props) {
         onSearch(value);
     }
 
+    const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        validateAndDoSearch(value);
+    }
+
     return (
         <Container>
             <Icon w="32px" h="32px" as={MdSearch} />
-            <TextField
-                autoFocus
-                type="text"
-                placeholder="場所を検索"
-                value={value}
-                onChange={(e) => setValue(e.currentTarget.value)}
-            />
+            <Form onSubmit={handleOnSubmit}>
+                <TextField
+                    autoFocus
+                    type="text"
+                    placeholder="場所を検索"
+                    value={value}
+                    onChange={(e) => setValue(e.currentTarget.value)}
+                />
+            </Form>
             {value !== "" && (
                 <Icon w="32px" onClick={() => setValue("")} as={MdClose} />
             )}
@@ -59,4 +66,8 @@ const TextField = styled.input`
     width: 100%;
     border: none;
     outline: none;
+`;
+
+const Form = styled.form`
+    width: 100%;
 `;
