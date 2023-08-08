@@ -83,7 +83,8 @@ const IndexPage = (props: Props) => {
                         </RoundedIconButton>
                     </Link>
                 </VStack>
-                {/* TODO: 付近で作られたプランとすべてのプランでセクション分けをする */}
+                {/* TODO: 位置情報をONにすると近くのプランを取得できることを伝えるボタンを配置 */}
+                {/* TODO: 取得中のときはプレースホルダーを表示 */}
                 {plansNearby && (
                     <VStack px="16px" w="100%" spacing={4}>
                         <Text
@@ -126,7 +127,7 @@ const IndexPage = (props: Props) => {
                             }
                             hasMore={nextPageTokenPlansRecentlyCreated !== null}
                         >
-                            <VStack px="16px" spacing={16} w="100%">
+                            <VStack spacing={16} w="100%">
                                 {plansRecentlyCreated.map((plan, index) => (
                                     <PlanPreview
                                         key={index}
