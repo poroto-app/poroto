@@ -1,8 +1,9 @@
-import { HStack, Icon, Text } from "@chakra-ui/react";
+import { Box, HStack, Icon, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { MdArrowBack } from "react-icons/md";
 import { reduxHistorySelector } from "src/redux/history";
+import AppLogoImage from "src/view/assets/svg/horizontal.svg";
 import styled from "styled-components";
 
 type Props = {
@@ -61,8 +62,16 @@ export const NavBarComponent = ({
                         onClick={onBack}
                     />
                 )}
+                {!title && <AppLogo />}
                 {title && (
-                    <Text fontSize="18px" userSelect="none">
+                    <Text
+                        flex={1}
+                        fontSize="18px"
+                        userSelect="none"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                        overflow="hidden"
+                    >
                         {title}
                     </Text>
                 )}
@@ -78,5 +87,20 @@ const Container = styled.div`
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 8px 16px;
     font-size: 0.95rem;
+    height: 50px;
     width: 100%;
 `;
+
+const AppLogo = () => {
+    return (
+        <Box h="100%">
+            <AppLogoImage
+                viewBox={
+                    "0 0 251 64" /*オリジナルのSVGのviewBoxと合わせている*/
+                }
+                width="100%"
+                height="100%"
+            />
+        </Box>
+    );
+};
