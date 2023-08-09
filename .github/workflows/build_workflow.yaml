@@ -13,6 +13,7 @@ jobs:
       - run: yarn install
   type-check:
     runs-on: ubuntu-latest
+    needs: dependency-install
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -29,6 +30,7 @@ jobs:
       - run: yarn type-check
   build:
     runs-on: ubuntu-latest
+    needs: dependency-install
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -45,6 +47,7 @@ jobs:
       - run: yarn build
   test:
     runs-on: ubuntu-latest
+    needs: dependency-install
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -61,6 +64,7 @@ jobs:
       - run: yarn test
   lint:
     runs-on: ubuntu-latest
+    needs: dependency-install
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -77,6 +81,7 @@ jobs:
       - run: yarn lint
   format:
     runs-on: ubuntu-latest
+    needs: dependency-install
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
