@@ -26,7 +26,7 @@ export function CreatePlanSection() {
                         w="100%"
                         templateColumns="repeat(2, 1fr)"
                         gap="8px"
-                        filter="drop-shadow(20px 20px 60px #a18779) drop-shadow(-20px -20px 60px #d9b7a3)"
+                        filter="drop-shadow(20px 20px 60px #a18779)"
                         transform="translateZ(0px)"
                     >
                         <CreatePlanButton
