@@ -1,9 +1,9 @@
-import { Image } from "@chakra-ui/next-js";
 import { Box, HStack, Icon, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { MdArrowBack } from "react-icons/md";
 import { reduxHistorySelector } from "src/redux/history";
+import AppLogoImage from "src/view/assets/svg/horizontal.svg";
 import styled from "styled-components";
 
 type Props = {
@@ -86,16 +86,13 @@ const Container = styled.div`
 
 const AppLogo = () => {
     return (
-        <Box h="100%" flex={1} position="relative">
-            <Image
-                src="/images/logo/horizontal.svg"
-                alt="app logo"
-                fill
-                position="absolute"
-                top={0}
-                right={0}
-                bottom={0}
-                left={0}
+        <Box h="100%">
+            <AppLogoImage
+                viewBox={
+                    "0 0 251 64" /*オリジナルのSVGのviewBoxと合わせている*/
+                }
+                width="100%"
+                height="100%"
             />
         </Box>
     );
