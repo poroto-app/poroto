@@ -6,9 +6,14 @@ import { AvailablePlace } from "src/view/plan/candidate/AvailablePlace";
 type Props = {
     places: Place[] | null;
     isFetching: boolean;
+    onClickPlace?: (placeId: string) => void;
 };
 
-export function AvailablePlaceSection({ places, isFetching }: Props) {
+export function AvailablePlaceSection({
+    places,
+    isFetching,
+    onClickPlace,
+}: Props) {
     if (!places && !isFetching) return <></>;
 
     return (
@@ -24,7 +29,11 @@ export function AvailablePlaceSection({ places, isFetching }: Props) {
             >
                 {places
                     ? places.map((place, i) => (
-                          <AvailablePlace place={place} key={i} />
+                          <AvailablePlace
+                              place={place}
+                              key={i}
+                              onClick={() => onClickPlace(place.id)}
+                          />
                       ))
                     : createArrayWithSize(4).map((_, i) => (
                           <AvailablePlace key={i} place={null} />

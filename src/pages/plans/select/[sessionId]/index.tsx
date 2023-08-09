@@ -1,10 +1,13 @@
 import { Center, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
+    createPlanFromPlace,
     fetchAvailablePlacesForPlan,
     fetchCachedCreatedPlans,
     reduxPlanCandidateSelector,
+    resetCreatePlanFromPlaceRequestStatus,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { Layout } from "src/view/common/Layout";
@@ -22,6 +25,7 @@ const SelectPlanPage = () => {
         createPlanSession,
         placesAvailableForPlan,
         fetchAvailablePlacesForPlanRequestStatus,
+        createPlanFromPlaceRequestStatus,
     } = reduxPlanCandidateSelector();
 
     const router = useRouter();
@@ -43,6 +47,37 @@ const SelectPlanPage = () => {
         }
     }, [sessionId]);
 
+    // 指定した場所からプランを作成できたら、そのページへ遷移する
+    useEffect(() => {
+        if (createPlanFromPlaceRequestStatus !== RequestStatuses.FULFILLED)
+            return;
+        if (!plansCreated || plansCreated.length === 0) return;
+        if (!createPlanSession) return;
+
+        dispatch(resetCreatePlanFromPlaceRequestStatus());
+        router
+            .push(
+                Routes.plans.planCandidate(
+                    createPlanSession,
+                    plansCreated[plansCreated.length - 1].id
+                )
+            )
+            .then();
+    }, [
+        createPlanFromPlaceRequestStatus,
+        plansCreated?.length,
+        createPlanSession,
+    ]);
+
+    const handleOnClickPlaceCandidate = (placeId: string) => {
+        if (!sessionId || typeof sessionId !== "string") return;
+        if (createPlanFromPlaceRequestStatus === RequestStatuses.PENDING)
+            return;
+        dispatch(
+            createPlanFromPlace({ placeId, createPlanSessionId: sessionId })
+        );
+    };
+
     if (!plansCreated) {
         // TODO: ホームに戻れる404ページを作る
         // sessionに紐づくプランが存在しない
@@ -58,6 +93,10 @@ const SelectPlanPage = () => {
                 <PlanGenerationFailure />
             </Center>
         );
+
+    // 場所を指定してプランを作成中
+    if (createPlanFromPlaceRequestStatus === RequestStatuses.PENDING)
+        return <LoadingModal title="プランを作成しています" />;
 
     return (
         <Layout navBar={<NavBar title="プランを選ぶ" />}>
@@ -81,8 +120,9 @@ const SelectPlanPage = () => {
                             places={placesAvailableForPlan}
                             isFetching={
                                 fetchAvailablePlacesForPlanRequestStatus ===
-                                "pending"
+                                RequestStatuses.PENDING
                             }
+                            onClickPlace={handleOnClickPlaceCandidate}
                         />
                     )
                 }
