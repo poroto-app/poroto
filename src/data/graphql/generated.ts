@@ -146,6 +146,19 @@ export type Plan = {
   transitions: Array<Transition>;
 };
 
+export type PlansByLocationInput = {
+  latitude: Scalars['Float'];
+  limit?: InputMaybe<Scalars['Int']>;
+  longitude: Scalars['Float'];
+  pageKey?: InputMaybe<Scalars['String']>;
+};
+
+export type PlansByLocationOutput = {
+  __typename?: 'PlansByLocationOutput';
+  pageKey?: Maybe<Scalars['String']>;
+  plans: Array<Plan>;
+};
+
 export type Query = {
   __typename?: 'Query';
   availablePlacesForPlan: AvailablePlacesForPlan;
@@ -153,6 +166,7 @@ export type Query = {
   matchInterests: InterestCandidate;
   plan?: Maybe<Plan>;
   plans: Array<Plan>;
+  plansByLocation: PlansByLocationOutput;
   version: Scalars['String'];
 };
 
@@ -179,6 +193,11 @@ export type QueryPlanArgs = {
 
 export type QueryPlansArgs = {
   pageKey?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryPlansByLocationArgs = {
+  input: PlansByLocationInput;
 };
 
 export type SavePlanFromCandidateInput = {
