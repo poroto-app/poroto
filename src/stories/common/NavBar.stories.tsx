@@ -1,24 +1,23 @@
-import { Box } from "@chakra-ui/react";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { NavBarComponent } from "src/view/common/NavBar";
 
 export default {
     title: "common/NavBar",
     component: NavBarComponent,
-} as ComponentMeta<typeof NavBarComponent>;
+} as Meta<typeof NavBarComponent>;
 
-const Template: ComponentStory<typeof NavBarComponent> = (args) => (
-    <Box w="100%">
-        <NavBarComponent
-            title={args.title}
-            canBack={args.canBack}
-            onBack={() => 0}
-        />
-    </Box>
-);
+type Story = StoryObj<typeof NavBarComponent>;
 
-export const NavBarStoryBook = Template.bind({});
-NavBarStoryBook.args = {
-    title: "Navigation Bar Title",
-    canBack: true,
+export const Primary: Story = {
+    args: {
+        title: "Navigation Bar Title",
+        canBack: true,
+    },
 };
+
+export const Home: Story = {
+    args: {
+        title: "Navigation Bar Title",
+        canBack: false,
+    }
+}
