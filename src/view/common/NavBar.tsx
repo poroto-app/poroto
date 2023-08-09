@@ -1,4 +1,5 @@
-import { HStack, Icon, Text } from "@chakra-ui/react";
+import { Image } from "@chakra-ui/next-js";
+import { Box, HStack, Icon, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { MdArrowBack } from "react-icons/md";
@@ -61,6 +62,7 @@ export const NavBarComponent = ({
                         onClick={onBack}
                     />
                 )}
+                {!title && <AppLogo />}
                 {title && (
                     <Text fontSize="18px" userSelect="none">
                         {title}
@@ -78,5 +80,23 @@ const Container = styled.div`
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 8px 16px;
     font-size: 0.95rem;
+    height: 50px;
     width: 100%;
 `;
+
+const AppLogo = () => {
+    return (
+        <Box h="100%" flex={1} position="relative">
+            <Image
+                src="/images/logo/horizontal.svg"
+                alt="app logo"
+                fill
+                position="absolute"
+                top={0}
+                right={0}
+                bottom={0}
+                left={0}
+            />
+        </Box>
+    );
+};

@@ -17,7 +17,6 @@ export const Primary: Story = {
 
 export const Home: Story = {
     args: {
-        title: "Navigation Bar Title",
         canBack: false,
-    }
-}
+    },
+};
