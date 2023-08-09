@@ -41,10 +41,7 @@ const SelectPlanPage = () => {
 
     useEffect(() => {
         if (!sessionId || typeof sessionId !== "string") return;
-        // TODO: 実際に使えるようにする
-        if (process.env.NODE_ENV !== "production") {
-            dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
-        }
+        dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
     }, [sessionId]);
 
     // 指定した場所からプランを作成できたら、そのページへ遷移する
@@ -113,19 +110,14 @@ const SelectPlanPage = () => {
                         />
                     ))}
                 </VStack>
-                {
-                    // TODO: 実際に利用できるようにする
-                    process.env.NODE_ENV !== "production" && (
-                        <AvailablePlaceSection
-                            places={placesAvailableForPlan}
-                            isFetching={
-                                fetchAvailablePlacesForPlanRequestStatus ===
-                                RequestStatuses.PENDING
-                            }
-                            onClickPlace={handleOnClickPlaceCandidate}
-                        />
-                    )
-                }
+                <AvailablePlaceSection
+                    places={placesAvailableForPlan}
+                    isFetching={
+                        fetchAvailablePlacesForPlanRequestStatus ===
+                        RequestStatuses.PENDING
+                    }
+                    onClickPlace={handleOnClickPlaceCandidate}
+                />
             </VStack>
         </Layout>
     );
