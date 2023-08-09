@@ -10,7 +10,7 @@ type Props = {
 
 export function CreatePlanButton({ title, icon, link }: Props) {
     return (
-        <Link href={link} w="100%" h="100%">
+        <Link href={link} w="100%">
             <VStack
                 borderRadius="20px"
                 backgroundColor="#FFF8F3"
