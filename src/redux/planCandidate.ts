@@ -2,12 +2,14 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { LocationCategory } from "src/domain/models/LocationCategory";
+import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
 import {
+    createPlaceFromPlaceEntity,
     createPlanFromPlanEntity,
     PlannerApi,
 } from "src/domain/plan/PlannerApi";
@@ -17,6 +19,7 @@ export type PlanCandidateState = {
     createPlanSession: string | null;
     createdBasedOnCurrentLocation: boolean | null;
     plansCreated: Plan[] | null;
+    placesAvailableForPlan: Place[] | null;
 
     // TODO: 取得中か存在しないのかを見分けられるようにする
     //  （画面に大きく依存するもののため、専用のsliceを作成する）
@@ -27,14 +30,18 @@ export type PlanCandidateState = {
     categoryRejected: LocationCategory[] | null;
 
     timeForPlan: number | null;
+
+    createPlanFromPlaceRequestStatus: RequestStatus | null;
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
+    fetchAvailablePlacesForPlanRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanCandidateState = {
     createPlanSession: null,
     createdBasedOnCurrentLocation: null,
     plansCreated: null,
+    placesAvailableForPlan: null,
     preview: null,
 
     categoryCandidates: null,
@@ -42,8 +49,11 @@ const initialState: PlanCandidateState = {
     categoryRejected: null,
 
     timeForPlan: null,
+
+    createPlanFromPlaceRequestStatus: null,
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
+    fetchAvailablePlacesForPlanRequestStatus: null,
 };
 
 type CreatePlanFromCurrentLocationProps = {
@@ -86,6 +96,24 @@ export const createPlanFromLocation = createAsyncThunk(
     }
 );
 
+type CreatePlanFromPlaceProps = {
+    placeId: string;
+    createPlanSessionId: string;
+};
+export const createPlanFromPlace = createAsyncThunk(
+    "planCandidate/createPlanFromPlace",
+    async ({ placeId, createPlanSessionId }: CreatePlanFromPlaceProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const { plan } = await plannerApi.createPlanFromPlace({
+            placeId,
+            createPlanSessionId,
+        });
+        return {
+            plan: createPlanFromPlanEntity(plan),
+        };
+    }
+);
+
 type FetchCachedCreatedPlansProps = { session: string };
 export const fetchCachedCreatedPlans = createAsyncThunk(
     "planCandidate/fetchCachedCreatedPlans",
@@ -119,6 +147,22 @@ export const fetchCachedCreatedPlans = createAsyncThunk(
                     response.createdBasedOnCurrentLocation,
             })
         );
+    }
+);
+
+type FetchAvailablePlacesForPlanProps = { session: string };
+export const fetchAvailablePlacesForPlan = createAsyncThunk(
+    "planCandidate/fetchAvailablePlacesForPlan",
+    async ({ session }: FetchAvailablePlacesForPlanProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.fetchAvailablePlacesForPlan({
+            session,
+        });
+        return {
+            places: response.places.map((place) =>
+                createPlaceFromPlaceEntity(place)
+            ),
+        };
     }
 );
 
@@ -264,8 +308,24 @@ export const slice = createSlice({
         },
 
         resetPlanCandidates: (state) => {
-            state.plansCreated = null;
             state.createPlanSession = null;
+            state.createdBasedOnCurrentLocation = null;
+            state.plansCreated = null;
+            state.placesAvailableForPlan = null;
+
+            state.preview = null;
+
+            state.categoryCandidates = null;
+            state.categoryRejected = null;
+            state.categoryAccepted = null;
+
+            state.timeForPlan = null;
+            state.savePlanFromCandidateRequestStatus = null;
+            state.updatePlacesOrderInPlanCandidateRequestStatus = null;
+        },
+
+        resetCreatePlanFromPlaceRequestStatus: (state) => {
+            state.createPlanFromPlaceRequestStatus = null;
         },
 
         reorderPlacesInPreview: (
@@ -286,6 +346,26 @@ export const slice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // Create Plan From Place
+            .addCase(createPlanFromPlace.pending, (state, action) => {
+                state.createPlanFromPlaceRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(
+                createPlanFromPlace.fulfilled,
+                (state, { payload: { plan } }) => {
+                    state.createPlanFromPlaceRequestStatus =
+                        RequestStatuses.FULFILLED;
+                    if (!state.plansCreated) {
+                        state.plansCreated = [];
+                    }
+                    state.plansCreated.push(plan);
+                }
+            )
+            .addCase(createPlanFromPlace.rejected, (state, action) => {
+                state.createPlanFromPlaceRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
             // Save Plan From Candidate
             .addCase(savePlanFromCandidate.pending, (state) => {
                 state.savePlanFromCandidateRequestStatus =
@@ -323,7 +403,24 @@ export const slice = createSlice({
 
                     state.plansCreated[planIndexToUpdate] = payload.plan;
                 }
-            );
+            )
+            // Fetch Available Places For Plan
+            .addCase(fetchAvailablePlacesForPlan.pending, (state, action) => {
+                state.fetchAvailablePlacesForPlanRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(
+                fetchAvailablePlacesForPlan.fulfilled,
+                (state, { payload: { places } }) => {
+                    state.fetchAvailablePlacesForPlanRequestStatus =
+                        RequestStatuses.FULFILLED;
+                    state.placesAvailableForPlan = places;
+                }
+            )
+            .addCase(fetchAvailablePlacesForPlan.rejected, (state, action) => {
+                state.fetchAvailablePlacesForPlanRequestStatus =
+                    RequestStatuses.REJECTED;
+            });
     },
 });
 
@@ -340,6 +437,7 @@ export const {
 
     resetInterest,
     resetPlanCandidates,
+    resetCreatePlanFromPlaceRequestStatus,
 } = slice.actions;
 
 const { reorderPlacesInPreview } = slice.actions;

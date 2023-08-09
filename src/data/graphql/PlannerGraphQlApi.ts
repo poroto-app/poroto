@@ -2,22 +2,31 @@ import {
     CachedCreatedPlansDocument,
     ChangePlacesOrderInPlanCandidateDocument,
     CreatePlanByLocationDocument,
+    CreatePlanByPlaceDocument,
+    FetchAvailablePlacesForPlanCandidateDocument,
     FetchPlanByIdDocument,
     FetchPlanByIdQuery,
     FetchPlansDocument,
     MatchInterestsDocument,
+    PlansByLocationDocument,
     SavePlanFromCandidateDocument,
 } from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
 import {
     CreatePlanFromLocationRequest,
     CreatePlanFromLocationResponse,
+    CreatePlanFromPlaceRequest,
+    CreatePlanFromPlaceResponse,
+    FetchAvailablePlacesForPlanRequest,
     FetchCachedCreatedPlansRequest,
     FetchCachedCreatedPlansResponse,
     FetchPlanRequest,
     FetchPlanResponse,
+    FetchPlansByLocationRequest,
+    FetchPlansByLocationResponse,
     MatchInterestRequest,
     MatchInterestResponse,
+    PlaceEntity,
     PlanEntity,
     PlannerApi,
     SavePlanFromCandidateRequest,
@@ -53,6 +62,41 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         };
     }
 
+    async fetchPlansByLocation(
+        request: FetchPlansByLocationRequest
+    ): Promise<FetchPlansByLocationResponse> {
+        const { data } = await this.client.query({
+            query: PlansByLocationDocument,
+            variables: {
+                latitude: request.location.latitude,
+                longitude: request.location.longitude,
+                limit: request.limit,
+                pageKey: request.pageKey,
+            },
+        });
+        return {
+            pageKey: data.plansByLocation.pageKey ?? null,
+            plans: data.plansByLocation.plans.map((plan) =>
+                fromGraphqlPlanEntity(plan)
+            ),
+        };
+    }
+    async fetchAvailablePlacesForPlan(
+        request: FetchAvailablePlacesForPlanRequest
+    ) {
+        const { data } = await this.client.query({
+            query: FetchAvailablePlacesForPlanCandidateDocument,
+            variables: {
+                session: request.session,
+            },
+        });
+        return {
+            places: data.availablePlacesForPlan.places.map((place) =>
+                fromGraphqlPlaceEntity(place)
+            ),
+        };
+    }
+
     async createPlansFromLocation(
         request: CreatePlanFromLocationRequest
     ): Promise<CreatePlanFromLocationResponse> {
@@ -71,6 +115,22 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             plans: data.createPlanByLocation.plans.map((plan) =>
                 fromGraphqlPlanEntity(plan)
             ),
+        };
+    }
+
+    async createPlanFromPlace(
+        request: CreatePlanFromPlaceRequest
+    ): Promise<CreatePlanFromPlaceResponse> {
+        const { data } = await this.client.mutate({
+            mutation: CreatePlanByPlaceDocument,
+            variables: {
+                sessionId: request.createPlanSessionId,
+                placeId: request.placeId,
+            },
+        });
+        return {
+            createPlanSessionId: data.createPlanByPlace.session,
+            plan: fromGraphqlPlanEntity(data.createPlanByPlace.plan),
         };
     }
 
@@ -152,27 +212,32 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
 }
 
 type GraphQlPlanEntity = FetchPlanByIdQuery["plan"];
+type GraphQlPlaceEntity = FetchPlanByIdQuery["plan"]["places"][0];
 
 function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
     return {
         id: plan.id,
         title: plan.name,
         tags: [], // TODO: APIから取得する,
-        places: plan.places.map((place) => ({
-            id: place.id,
-            name: place.name,
-            imageUrls: place.photos,
-            location: {
-                latitude: place.location.latitude,
-                longitude: place.location.longitude,
-            },
-            estimatedStayDuration: place.estimatedStayDuration,
-        })),
+        places: plan.places.map((place) => fromGraphqlPlaceEntity(place)),
         timeInMinutes: plan.timeInMinutes,
         transitions: plan.transitions.map((transition) => ({
-            fromPlaceId: transition.from?.id,
+            fromPlaceId: transition.from && transition.from?.id,
             toPlaceId: transition.to.id,
             durationInMinutes: transition.duration,
         })),
+    };
+}
+
+function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
+    return {
+        id: place.id,
+        name: place.name,
+        imageUrls: place.photos,
+        location: {
+            latitude: place.location.latitude,
+            longitude: place.location.longitude,
+        },
+        estimatedStayDuration: place.estimatedStayDuration,
     };
 }

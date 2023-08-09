@@ -1,4 +1,5 @@
 import { GeoLocation } from "src/domain/models/GeoLocation";
+import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 
 export interface PlannerApi {
@@ -6,13 +7,25 @@ export interface PlannerApi {
 
     fetchPlans(request: FetchPlansRequest): Promise<FetchPlansResponse>;
 
+    fetchPlansByLocation(
+        request: FetchPlansByLocationRequest
+    ): Promise<FetchPlansByLocationResponse>;
+
     createPlansFromLocation(
         request: CreatePlanFromLocationRequest
     ): Promise<CreatePlanFromLocationResponse>;
 
+    createPlanFromPlace(
+        request: CreatePlanFromPlaceRequest
+    ): Promise<CreatePlanFromPlaceResponse>;
+
     fetchCachedCreatedPlans(
         request: FetchCachedCreatedPlansRequest
     ): Promise<FetchCachedCreatedPlansResponse>;
+
+    fetchAvailablePlacesForPlan(
+        request: FetchAvailablePlacesForPlanRequest
+    ): Promise<FetchAvailablePlacesForPlanResponse>;
 
     matchInterest(
         request: MatchInterestRequest
@@ -33,16 +46,7 @@ export type PlanEntity = {
     tags: {
         content: string;
     }[];
-    places: {
-        id: string;
-        name: string;
-        imageUrls: string[];
-        location: {
-            latitude: number;
-            longitude: number;
-        };
-        estimatedStayDuration: number;
-    }[];
+    places: PlaceEntity[];
     timeInMinutes: number;
     transitions: {
         fromPlaceId?: string;
@@ -51,25 +55,40 @@ export type PlanEntity = {
     }[];
 };
 
+export type PlaceEntity = {
+    id: string;
+    name: string;
+    imageUrls: string[];
+    location: {
+        latitude: number;
+        longitude: number;
+    };
+    estimatedStayDuration: number;
+};
+
 export function createPlanFromPlanEntity(entity: PlanEntity): Plan {
     return {
         id: entity.id,
         title: entity.title,
         tags: entity.tags,
-        places: entity.places.map((place) => ({
-            id: place.id,
-            name: place.name,
-            imageUrls: place.imageUrls,
-            location: place.location,
-            tags: [],
-            estimatedStayDuration: place.estimatedStayDuration,
-        })),
+        places: entity.places.map((place) => createPlaceFromPlaceEntity(place)),
         timeInMinutes: entity.timeInMinutes,
         transitions: entity.transitions.map((transition) => ({
             fromPlaceId: transition.fromPlaceId,
             toPlaceId: transition.toPlaceId,
             durationInMinutes: transition.durationInMinutes,
         })),
+    };
+}
+
+export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
+    return {
+        id: entity.id,
+        name: entity.name,
+        imageUrls: entity.imageUrls,
+        location: entity.location,
+        tags: [],
+        estimatedStayDuration: entity.estimatedStayDuration,
     };
 }
 
@@ -90,6 +109,25 @@ export type FetchPlansResponse = {
     nextPageKey: string | null;
 };
 
+export type FetchPlansByLocationRequest = {
+    location: GeoLocation;
+    limit?: number;
+    pageKey: string | null;
+};
+
+export type FetchPlansByLocationResponse = {
+    pageKey: string | null;
+    plans: PlanEntity[];
+};
+
+export type FetchAvailablePlacesForPlanRequest = {
+    session: string;
+};
+
+export type FetchAvailablePlacesForPlanResponse = {
+    places: PlaceEntity[];
+};
+
 export type CreatePlanFromLocationRequest = {
     location: {
         latitude: number;
@@ -103,6 +141,16 @@ export type CreatePlanFromLocationRequest = {
 export type CreatePlanFromLocationResponse = {
     session: string;
     plans: PlanEntity[];
+};
+
+export type CreatePlanFromPlaceRequest = {
+    createPlanSessionId: string;
+    placeId: string;
+};
+
+export type CreatePlanFromPlaceResponse = {
+    createPlanSessionId: string;
+    plan: PlanEntity;
 };
 
 export type FetchCachedCreatedPlansRequest = {

@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { MdOutlineDirectionsWalk } from "react-icons/all";
+import { MdOutlineDirectionsWalk } from "react-icons/md";
 import { PlanSummary } from "src/view/plan/PlanSummary";
 
 export default {

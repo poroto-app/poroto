@@ -1,5 +1,5 @@
 import { Icon } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { MdClose, MdSearch } from "react-icons/md";
 import styled from "styled-components";
 
@@ -8,33 +8,49 @@ type Props = {
 };
 
 export function PlaceSearchBar({ onSearch }: Props) {
+    const [lastUsedQuery, setLastUsedQuery] = useState<string | null>(null);
     const [value, setValue] = useState("");
 
     useEffect(() => {
-        if (value === "") {
-            onSearch(value);
-            return;
-        }
-
         const id = setTimeout(() => {
-            onSearch(value);
+            // Enter押下で検索した場合は、検索を実行しない
+            if (lastUsedQuery === value) {
+                return;
+            }
+
+            validateAndDoSearch(value);
         }, 1200);
 
         return () => {
             clearTimeout(id);
         };
-    }, [value]);
+    }, [value, lastUsedQuery]);
+
+    const validateAndDoSearch = (value: string) => {
+        if (!value || value === "") {
+            return;
+        }
+        setLastUsedQuery(value);
+        onSearch(value);
+    };
+
+    const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        validateAndDoSearch(value);
+    };
 
     return (
         <Container>
             <Icon w="32px" h="32px" as={MdSearch} />
-            <TextField
-                autoFocus
-                type="text"
-                placeholder="場所を検索"
-                value={value}
-                onChange={(e) => setValue(e.currentTarget.value)}
-            />
+            <Form onSubmit={handleOnSubmit}>
+                <TextField
+                    autoFocus
+                    type="text"
+                    placeholder="場所を検索"
+                    value={value}
+                    onChange={(e) => setValue(e.currentTarget.value)}
+                />
+            </Form>
             {value !== "" && (
                 <Icon w="32px" onClick={() => setValue("")} as={MdClose} />
             )}
@@ -57,4 +73,8 @@ const TextField = styled.input`
     width: 100%;
     border: none;
     outline: none;
+`;
+
+const Form = styled.form`
+    width: 100%;
 `;

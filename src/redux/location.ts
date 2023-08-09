@@ -25,7 +25,7 @@ export const slice = createSlice({
         },
         setSearchLocation: (
             state,
-            { payload }: PayloadAction<{ searchLocation: GeoLocation }>
+            { payload }: PayloadAction<{ searchLocation: GeoLocation | null }>
         ) => {
             state.searchLocation = payload.searchLocation;
         },
