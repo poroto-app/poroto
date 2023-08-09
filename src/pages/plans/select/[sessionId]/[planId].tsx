@@ -163,20 +163,17 @@ const PlanDetail = () => {
                 onEdit={() => setIsEditingPlan(true)}
             />
             {
-                // TODO: productionでも利用できるようにする
-                process.env.NODE_ENV !== "production" && (
-                    <PlanEditorDialog
-                        visible={isEditingPlan}
-                        onClosed={() => setIsEditingPlan(false)}
-                        places={copyObject(plan.places)}
-                        onSave={(places) =>
-                            handleOnReorderPlaces({
-                                session: createPlanSession,
-                                places,
-                            })
-                        }
-                    />
-                )
+                <PlanEditorDialog
+                    visible={isEditingPlan}
+                    onClosed={() => setIsEditingPlan(false)}
+                    places={copyObject(plan.places)}
+                    onSave={(places) =>
+                        handleOnReorderPlaces({
+                            session: createPlanSession,
+                            places,
+                        })
+                    }
+                />
             }
         </>
     );
