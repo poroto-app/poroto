@@ -1,0 +1,31 @@
+mutation CreatePlanByPlace($sessionId: String!, $placeId: String!) {
+    createPlanByPlace(
+        input: {session: $sessionId, placeId: $placeId}
+    ) {
+        session
+        plan {
+            id
+            name
+            places {
+                id
+                name
+                photos
+                location {
+                    longitude
+                    latitude
+                }
+                estimatedStayDuration
+            }
+            timeInMinutes
+            transitions {
+                duration
+                from {
+                    id
+                }
+                to {
+                    id
+                }
+            }
+        }
+    }
+}

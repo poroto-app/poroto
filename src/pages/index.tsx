@@ -1,8 +1,6 @@
-import { Center, Divider, Text, VStack } from "@chakra-ui/react";
+import { Center, Text, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
-import Link from "next/link";
 import { useEffect } from "react";
-import { MdOutlinePlace } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { Plan } from "src/domain/models/Plan";
@@ -17,11 +15,12 @@ import {
     reduxPlanSelector,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
-import { RoundedIconButton } from "src/view/common/RoundedIconButton";
+import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
+import { Size } from "src/view/constants/size";
 import { useLocation } from "src/view/hooks/useLocation";
-import { PlaceSearchButton } from "src/view/place/PlaceSearchButton";
 import { PlanPreview } from "src/view/plan/PlanPreview";
+import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 
 type Props = {
     plansRecentlyCreated: Plan[];
@@ -64,71 +63,32 @@ const IndexPage = (props: Props) => {
     }, [plansRecentlyCreated]);
 
     return (
-        <Center w="100%">
-            <VStack
-                maxW="990px"
-                w="100%"
-                px="16px"
-                divider={<Divider />}
-                spacing="24px"
-            >
-                <VStack w="100%" spacing={4} pt="32px">
-                    <PlaceSearchButton />
-                    <Link
-                        href={Routes.plans.interest}
-                        style={{ width: "100%" }}
-                    >
-                        <RoundedIconButton icon={MdOutlinePlace}>
-                            現在地からプランを作成
-                        </RoundedIconButton>
-                    </Link>
-                </VStack>
-                {/* TODO: 位置情報をONにすると近くのプランを取得できることを伝えるボタンを配置 */}
-                {/* TODO: 取得中のときはプレースホルダーを表示 */}
-                {plansNearby && (
-                    <VStack px="16px" w="100%" spacing={4}>
-                        <Text
-                            fontSize="20px"
-                            fontWeight="bold"
-                            w="100%"
-                            maxW="600px"
-                            textAlign="start"
-                        >
-                            近くで作られたプラン
-                        </Text>
-                        <VStack spacing={16} w="100%">
-                            {plansNearby.map((plan, index) => (
-                                <PlanPreview
-                                    key={index}
-                                    link={Routes.plans.plan(plan.id)}
-                                    plan={plan}
-                                />
-                            ))}
-                        </VStack>
-                    </VStack>
-                )}
-                {plansRecentlyCreated && (
-                    <VStack px="16px" w="100%" spacing={4}>
-                        <Text
-                            fontSize="20px"
-                            fontWeight="bold"
-                            w="100%"
-                            maxW="600px"
-                            textAlign="start"
-                        >
-                            最近作られたプラン
-                        </Text>
-                        {/* TODO: React 18に対応 */}
-                        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                        {/* @ts-ignore */}
-                        <InfiniteScroll
-                            loadMore={() =>
-                                dispatch(fetchPlansRecentlyCreated())
-                            }
-                            hasMore={nextPageTokenPlansRecentlyCreated !== null}
-                        >
+        <VStack w="100%" spacing={0}>
+            <NavBar title="poroto" />
+            <CreatePlanSection />
+            <Center w="100%">
+                <VStack
+                    w="100%"
+                    maxW={Size.mainContentWidth}
+                    px="16px"
+                    py="48px"
+                    spacing="24px"
+                >
+                    {/* TODO: 位置情報をONにすると近くのプランを取得できることを伝えるボタンを配置 */}
+                    {/* TODO: 取得中のときはプレースホルダーを表示 */}
+                    {plansNearby && (
+                        <VStack w="100%" spacing={4}>
+                            <Text
+                                fontSize="20px"
+                                fontWeight="bold"
+                                w="100%"
+                                maxW="600px"
+                                textAlign="start"
+                            >
+                                近くで作られたプラン
+                            </Text>
                             <VStack spacing={16} w="100%">
-                                {plansRecentlyCreated.map((plan, index) => (
+                                {plansNearby.map((plan, index) => (
                                     <PlanPreview
                                         key={index}
                                         link={Routes.plans.plan(plan.id)}
@@ -136,11 +96,45 @@ const IndexPage = (props: Props) => {
                                     />
                                 ))}
                             </VStack>
-                        </InfiniteScroll>
-                    </VStack>
-                )}
-            </VStack>
-        </Center>
+                        </VStack>
+                    )}
+                    {plansRecentlyCreated && (
+                        <VStack w="100%" spacing={4}>
+                            <Text
+                                fontSize="20px"
+                                fontWeight="bold"
+                                w="100%"
+                                maxW="600px"
+                                textAlign="start"
+                            >
+                                最近作られたプラン
+                            </Text>
+                            {/* TODO: React 18に対応 */}
+                            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                            {/* @ts-ignore */}
+                            <InfiniteScroll
+                                loadMore={() =>
+                                    dispatch(fetchPlansRecentlyCreated())
+                                }
+                                hasMore={
+                                    nextPageTokenPlansRecentlyCreated !== null
+                                }
+                            >
+                                <VStack spacing={16} w="100%">
+                                    {plansRecentlyCreated.map((plan, index) => (
+                                        <PlanPreview
+                                            key={index}
+                                            link={Routes.plans.plan(plan.id)}
+                                            plan={plan}
+                                        />
+                                    ))}
+                                </VStack>
+                            </InfiniteScroll>
+                        </VStack>
+                    )}
+                </VStack>
+            </Center>
+        </VStack>
     );
 };
 
