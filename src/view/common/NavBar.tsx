@@ -96,9 +96,9 @@ const AppLogo = () => {
         <Box h="100%">
             <AppLogoImage
                 viewBox={
-                    "0 0 251 64" /*オリジナルのSVGのviewBoxと合わせている*/
+                    "0 0 200 50" /*オリジナルのSVGのviewBoxと合わせている*/
                 }
-                width="100%"
+                width="calc(33 / 50 * 200)px"
                 height="100%"
             />
         </Box>
