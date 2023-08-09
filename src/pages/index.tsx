@@ -9,6 +9,7 @@ import {
     PlannerApi,
 } from "src/domain/plan/PlannerApi";
 import {
+    fetchNearbyPlans,
     fetchPlansRecentlyCreated,
     pushPlansRecentlyCreated,
     reduxPlanSelector,
@@ -17,6 +18,7 @@ import { useAppDispatch } from "src/redux/redux";
 import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
+import { useLocation } from "src/view/hooks/useLocation";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 
@@ -27,8 +29,26 @@ type Props = {
 
 const IndexPage = (props: Props) => {
     const dispatch = useAppDispatch();
-    const { plansRecentlyCreated, nextPageTokenPlansRecentlyCreated } =
-        reduxPlanSelector();
+    const {
+        plansRecentlyCreated,
+        nextPageTokenPlansRecentlyCreated,
+        plansNearby,
+    } = reduxPlanSelector();
+    const { checkGeolocationPermission, getCurrentLocation } = useLocation();
+
+    // 位置情報が利用可能な場合は付近で作成されたプランを取得する
+    useEffect(() => {
+        const fetchNearbyPlansWithCurrentLocation = async () => {
+            const isGranted = checkGeolocationPermission();
+            if (!isGranted) return;
+
+            const currentLocation = await getCurrentLocation();
+            if (!currentLocation) return;
+            dispatch(fetchNearbyPlans({ currentLocation, limit: 5 }));
+        };
+
+        fetchNearbyPlansWithCurrentLocation().then();
+    }, []);
 
     useEffect(() => {
         // 初期表示時のみISRで取得したプランをReduxに保存する
@@ -54,21 +74,21 @@ const IndexPage = (props: Props) => {
                     py="48px"
                     spacing="24px"
                 >
-                    <Text fontWeight="bold" fontSize="20px">
-                        みんなのプラン
-                    </Text>
-                    {plansRecentlyCreated && (
-                        // TODO: React 18に対応
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-ignore
-                        <InfiniteScroll
-                            loadMore={() =>
-                                dispatch(fetchPlansRecentlyCreated())
-                            }
-                            hasMore={nextPageTokenPlansRecentlyCreated !== null}
-                        >
+                    {/* TODO: 位置情報をONにすると近くのプランを取得できることを伝えるボタンを配置 */}
+                    {/* TODO: 取得中のときはプレースホルダーを表示 */}
+                    {plansNearby && (
+                        <VStack w="100%" spacing={4}>
+                            <Text
+                                fontSize="20px"
+                                fontWeight="bold"
+                                w="100%"
+                                maxW="600px"
+                                textAlign="start"
+                            >
+                                近くで作られたプラン
+                            </Text>
                             <VStack spacing={16} w="100%">
-                                {plansRecentlyCreated.map((plan, index) => (
+                                {plansNearby.map((plan, index) => (
                                     <PlanPreview
                                         key={index}
                                         link={Routes.plans.plan(plan.id)}
@@ -76,7 +96,41 @@ const IndexPage = (props: Props) => {
                                     />
                                 ))}
                             </VStack>
-                        </InfiniteScroll>
+                        </VStack>
+                    )}
+                    {plansRecentlyCreated && (
+                        <VStack w="100%" spacing={4}>
+                            <Text
+                                fontSize="20px"
+                                fontWeight="bold"
+                                w="100%"
+                                maxW="600px"
+                                textAlign="start"
+                            >
+                                最近作られたプラン
+                            </Text>
+                            {/* TODO: React 18に対応 */}
+                            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                            {/* @ts-ignore */}
+                            <InfiniteScroll
+                                loadMore={() =>
+                                    dispatch(fetchPlansRecentlyCreated())
+                                }
+                                hasMore={
+                                    nextPageTokenPlansRecentlyCreated !== null
+                                }
+                            >
+                                <VStack spacing={16} w="100%">
+                                    {plansRecentlyCreated.map((plan, index) => (
+                                        <PlanPreview
+                                            key={index}
+                                            link={Routes.plans.plan(plan.id)}
+                                            plan={plan}
+                                        />
+                                    ))}
+                                </VStack>
+                            </InfiniteScroll>
+                        </VStack>
                     )}
                 </VStack>
             </Center>

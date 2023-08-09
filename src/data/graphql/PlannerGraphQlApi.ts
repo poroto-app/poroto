@@ -8,6 +8,7 @@ import {
     FetchPlanByIdQuery,
     FetchPlansDocument,
     MatchInterestsDocument,
+    PlansByLocationDocument,
     SavePlanFromCandidateDocument,
 } from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
@@ -21,6 +22,8 @@ import {
     FetchCachedCreatedPlansResponse,
     FetchPlanRequest,
     FetchPlanResponse,
+    FetchPlansByLocationRequest,
+    FetchPlansByLocationResponse,
     MatchInterestRequest,
     MatchInterestResponse,
     PlaceEntity,
@@ -59,6 +62,25 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         };
     }
 
+    async fetchPlansByLocation(
+        request: FetchPlansByLocationRequest
+    ): Promise<FetchPlansByLocationResponse> {
+        const { data } = await this.client.query({
+            query: PlansByLocationDocument,
+            variables: {
+                latitude: request.location.latitude,
+                longitude: request.location.longitude,
+                limit: request.limit,
+                pageKey: request.pageKey,
+            },
+        });
+        return {
+            pageKey: data.plansByLocation.pageKey ?? null,
+            plans: data.plansByLocation.plans.map((plan) =>
+                fromGraphqlPlanEntity(plan)
+            ),
+        };
+    }
     async fetchAvailablePlacesForPlan(
         request: FetchAvailablePlacesForPlanRequest
     ) {
