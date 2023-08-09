@@ -64,7 +64,14 @@ export const NavBarComponent = ({
                 )}
                 {!title && <AppLogo />}
                 {title && (
-                    <Text fontSize="18px" userSelect="none">
+                    <Text
+                        flex={1}
+                        fontSize="18px"
+                        userSelect="none"
+                        textOverflow="ellipsis"
+                        whiteSpace="nowrap"
+                        overflow="hidden"
+                    >
                         {title}
                     </Text>
                 )}

@@ -15,6 +15,13 @@ export const Primary: Story = {
     },
 };
 
+export const LongTitle: Story = {
+    args: {
+        title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies ultricies, nunc nisl ult",
+        canBack: true,
+    },
+};
+
 export const Home: Story = {
     args: {
         canBack: false,
