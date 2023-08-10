@@ -133,7 +133,8 @@ export type CreatePlanFromLocationRequest = {
         latitude: number;
         longitude: number;
     };
-    categories?: string[];
+    categoriesPreferred?: string[];
+    categoriesDisliked?: string[];
     planDuration?: number;
     basedOnCurrentLocation: boolean;
 };
