@@ -1,5 +1,6 @@
-import { Center, Grid, Image, Text, VStack } from "@chakra-ui/react";
+import { Box, Center, Grid, Text, VStack } from "@chakra-ui/react";
 import { MdOutlineLocationOn, MdOutlineMap } from "react-icons/md";
+import HangOut from "src/view/assets/svg/hangout.svg";
 import { Routes } from "src/view/constants/router";
 import { CreatePlanButton } from "./CreatePlanButton";
 
@@ -7,12 +8,7 @@ export function CreatePlanSection() {
     return (
         <Center w="100%" backgroundColor="#BD9F8E" py="84px" px="24px">
             <VStack w="100%" maxW="600px" spacing="64px">
-                <Image
-                    src="/images/hangout.svg"
-                    alt="logo"
-                    w="100%"
-                    maxW="500px"
-                />
+                <HangoutIcon />
                 <VStack w="100%" alignItems="flex-start" spacing="16px">
                     <Text
                         color="white"
@@ -45,3 +41,20 @@ export function CreatePlanSection() {
         </Center>
     );
 }
+
+const HangoutIcon = () => {
+    return (
+        <Box position="relative" w="100%" maxW="500px" pt="100%">
+            <HangOut
+                viewBox="0 0 785.77114 658"
+                style={{
+                    position: "absolute",
+                    top: "0",
+                    left: "0",
+                    width: "100%",
+                    height: "100%",
+                }}
+            />
+        </Box>
+    );
+};
