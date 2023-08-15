@@ -65,21 +65,31 @@ function TagList({ tags }: { tags: string[] }) {
 const ImageWithSkeleton = ({ src }: { src: string }) => {
     const [isLoading, setIsLoading] = useState(true);
     return (
-        <>
-            {isLoading && (
-                <Box>
-                    <Skeleton w="200px" h="100%" flex={1} />
-                </Box>
-            )}
+        <Box
+            w="200px"
+            h="100%"
+            position="relative"
+            overflow="hidden"
+            borderRadius="5px"
+        >
+            <Skeleton
+                position="absolute"
+                top={0}
+                right={0}
+                bottom={0}
+                left={0}
+                transition="opacity .3s"
+                opacity={isLoading ? 1 : 0}
+            />
             <Image
                 src={src}
                 objectFit="cover"
-                w={isLoading ? 0 : "100%"}
+                w={isLoading ? "0" : "100%"}
                 h="100%"
-                scrollSnapAlign="start"
                 onLoad={() => setIsLoading(false)}
+                scrollSnapAlign="start"
             />
-        </>
+        </Box>
     );
 };
 
