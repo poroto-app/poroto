@@ -23,9 +23,11 @@ export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
         <VStack alignItems="flex-start" w="100%">
             {imageUrls.length > 0 && (
                 <ImagePreviewer>
-                    {imageUrls.map((imageUrl, i) => (
-                        <ImageWithSkeleton key={i} src={imageUrl} />
-                    ))}
+                    <HStack h="100%">
+                        {imageUrls.map((imageUrl, i) => (
+                            <ImageWithSkeleton key={i} src={imageUrl} />
+                        ))}
+                    </HStack>
                 </ImagePreviewer>
             )}
             <HStack>
