@@ -40,7 +40,7 @@ export default function PlanPage() {
                 <PlanPageSectionSummary
                     planDurationInMinutes={plan.timeInMinutes}
                 />
-                <Box px="8px">
+                <Box w="100%" px="8px">
                     <PlanPlaceList plan={plan} />
                 </Box>
                 <PlanPageSection title="スケジュール" accordion>
