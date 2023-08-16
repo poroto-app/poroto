@@ -61,7 +61,8 @@ type CreatePlanFromCurrentLocationProps = {
         latitude: number;
         longitude: number;
     };
-    categories?: LocationCategory[];
+    categoriesAccepted?: LocationCategory[];
+    categoriesRejected?: LocationCategory[];
     isCurrentLocation: boolean;
     timeForPlan?: number;
 };
@@ -70,17 +71,23 @@ export const createPlanFromLocation = createAsyncThunk(
     async (
         {
             location,
-            categories,
+            categoriesAccepted,
+            categoriesRejected,
             isCurrentLocation,
             timeForPlan,
         }: CreatePlanFromCurrentLocationProps,
-        { dispatch, getState }
+        { dispatch }
     ) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
 
         const response = await plannerApi.createPlansFromLocation({
             location: location,
-            categories: (categories ?? []).map((category) => category.name),
+            categoriesPreferred: (categoriesAccepted ?? []).map(
+                (category) => category.name
+            ),
+            categoriesDisliked: (categoriesRejected ?? []).map(
+                (category) => category.name
+            ),
             planDuration: timeForPlan,
             basedOnCurrentLocation: isCurrentLocation,
         });
