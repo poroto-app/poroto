@@ -58,7 +58,7 @@ export default function PlanPage() {
                     />
                 </VStack>
             </VStack>
-            <PlanShareFooter h="64px" />
+            <PlanShareFooter />
         </Center>
     );
 }
