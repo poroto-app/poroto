@@ -27,7 +27,7 @@ export default function PlanPage() {
     if (!plan) return <LoadingModal title="プランを読み込んでいます" />;
 
     return (
-        <Center flexDirection="column">
+        <Center flexDirection="column" pb="64px">
             <NavBar title={plan.title} />
             <VStack
                 maxWidth="990px"
@@ -36,6 +36,7 @@ export default function PlanPage() {
                 py="16px"
                 boxSizing="border-box"
                 spacing="16px"
+                pb="16px"
             >
                 <PlanPageSectionSummary
                     planDurationInMinutes={plan.timeInMinutes}
@@ -57,7 +58,7 @@ export default function PlanPage() {
                     />
                 </VStack>
             </VStack>
-            <PlanShareFooter />
+            <PlanShareFooter h="64px"/>
         </Center>
     );
 }
