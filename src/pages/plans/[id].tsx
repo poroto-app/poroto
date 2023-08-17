@@ -27,7 +27,7 @@ export default function PlanPage() {
     if (!plan) return <LoadingModal title="プランを読み込んでいます" />;
 
     return (
-        <Center flexDirection="column" pb="64px">
+        <Center flexDirection="column" pb={`${FooterHeight}px`}>
             <NavBar title={plan.title} />
             <VStack
                 maxWidth="990px"
