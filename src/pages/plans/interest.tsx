@@ -58,6 +58,7 @@ export default function PlanInterestPage() {
             // 前回の結果をリセット
             // MEMO: 戻るボタンで遷移してきたときに、状態が残っていると/plans/createに自動的に遷移してしまう
             dispatch(resetInterest());
+            setCurrentCategory(null);
 
             // 場所を指定してプラン作成 -> 現在地からプラン作成
             // を行うと、指定した場所の情報が残り、そこからプランを作成してしまうためリセットする

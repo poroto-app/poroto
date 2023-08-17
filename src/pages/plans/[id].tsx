@@ -10,7 +10,7 @@ import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteBy
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
-import { PlanShareFooter } from "src/view/plan/PlanShareFooter";
+import { FooterHeight, PlanShareFooter } from "src/view/plan/PlanShareFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 
@@ -27,7 +27,7 @@ export default function PlanPage() {
     if (!plan) return <LoadingModal title="プランを読み込んでいます" />;
 
     return (
-        <Center flexDirection="column">
+        <Center flexDirection="column" pb={`${FooterHeight}px`}>
             <NavBar title={plan.title} />
             <VStack
                 maxWidth="990px"
@@ -36,11 +36,12 @@ export default function PlanPage() {
                 py="16px"
                 boxSizing="border-box"
                 spacing="16px"
+                pb="32px"
             >
                 <PlanPageSectionSummary
                     planDurationInMinutes={plan.timeInMinutes}
                 />
-                <Box px="8px">
+                <Box w="100%" px="8px">
                     <PlanPlaceList plan={plan} />
                 </Box>
                 <PlanPageSection title="スケジュール" accordion>

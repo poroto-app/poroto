@@ -16,8 +16,12 @@ export default function CreatePlanPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const { searchLocation, currentLocation } = reduxLocationSelector();
-    const { createPlanSession, categoryAccepted, timeForPlan } =
-        reduxPlanCandidateSelector();
+    const {
+        createPlanSession,
+        categoryAccepted,
+        categoryRejected,
+        timeForPlan,
+    } = reduxPlanCandidateSelector();
     const { transition } = reduxHistorySelector();
 
     // HACK: このページに「戻るボタン」やURLを叩いて直接遷移してきた場合は、さらに前のページに戻す
@@ -44,7 +48,8 @@ export default function CreatePlanPage() {
             dispatch(
                 createPlanFromLocation({
                     location: searchLocation,
-                    categories: categoryAccepted,
+                    categoriesAccepted: categoryAccepted,
+                    categoriesRejected: categoryRejected,
                     isCurrentLocation: createBasedOnCurrentLocation,
                     timeForPlan: timeForPlan,
                 })
