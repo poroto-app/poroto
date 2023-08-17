@@ -36,7 +36,7 @@ export default function PlanPage() {
                 py="16px"
                 boxSizing="border-box"
                 spacing="16px"
-                pb="16px"
+                pb="32px"
             >
                 <PlanPageSectionSummary
                     planDurationInMinutes={plan.timeInMinutes}
