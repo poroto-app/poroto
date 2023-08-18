@@ -170,6 +170,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                 name: category.name,
                 displayName: category.displayName,
                 photo: category.photo,
+                defaultPhotoUrl: category.defaultPhotoUrl,
             })),
         };
     }
