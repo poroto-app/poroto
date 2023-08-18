@@ -190,6 +190,7 @@ export const matchInterest = createAsyncThunk(
                     name: category.name,
                     displayName: category.displayName,
                     thumbnail: category.photo,
+                    defaultThumbnailUrl: category.defaultPhotoUrl,
                 })),
             })
         );
