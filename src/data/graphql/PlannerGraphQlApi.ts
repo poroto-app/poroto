@@ -165,11 +165,15 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                 longitude: request.location.longitude,
             },
         });
+
         return {
             categories: data.matchInterests.categories.map((category) => ({
                 name: category.name,
                 displayName: category.displayName,
-                photo: category.photo,
+                // TODO: nil check
+                photo:
+                    !category.photo.includes("https://placehold.jp") &&
+                    category.photo,
                 defaultPhotoUrl: category.defaultPhotoUrl,
             })),
         };
