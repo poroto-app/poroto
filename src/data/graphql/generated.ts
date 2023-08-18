@@ -84,6 +84,7 @@ export type InterestCandidate = {
 
 export type LocationCategory = {
   __typename?: 'LocationCategory';
+  defaultPhotoUrl: Scalars['String'];
   displayName: Scalars['String'];
   name: Scalars['String'];
   photo: Scalars['String'];
