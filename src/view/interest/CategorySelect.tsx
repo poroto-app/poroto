@@ -1,4 +1,4 @@
-import { Box, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Center, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import { MdCheck, MdClose } from "react-icons/md";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import { SelectButton } from "src/view/interest/SelectButton";
@@ -13,8 +13,20 @@ export const CategorySelect = ({ category, onClickYes, onClickNo }: Props) => {
     return (
         <VStack h="100%" w="100%" spacing={6}>
             <ThumbnailCard>
-                <Box w="100%" h="100%" flex={1} position="relative">
-                    <Thumbnail src={category.thumbnail} />
+                <Box
+                    w="100%"
+                    h="100%"
+                    flex={1}
+                    position="relative"
+                    overflow="hidden"
+                >
+                    {category.thumbnail ? (
+                        <Thumbnail src={category.thumbnail} />
+                    ) : (
+                        <DefaultThumbnail
+                            imageUrl={category.defaultThumbnailUrl}
+                        />
+                    )}
                 </Box>
                 <Text fontSize="1.25rem" py={4}>
                     {category.displayName}
@@ -63,3 +75,11 @@ const Thumbnail = styled.img`
     object-fit: cover;
     overflow: hidden;
 `;
+
+const DefaultThumbnail = ({ imageUrl }: { imageUrl: string }) => {
+    return (
+        <Center w="100%" h="100%" px="32px" py="32px">
+            <Image src={imageUrl} maxW="600px" maxH="100%" h="100%" w="100%" />
+        </Center>
+    );
+};
