@@ -1,5 +1,5 @@
 import { Box, Button, VStack } from "@chakra-ui/react";
-import { forwardRef, ReactNode, useRef, useState } from "react";
+import {forwardRef, ReactNode, useEffect, useRef, useState} from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 import { Place } from "src/domain/models/Place";
 import { copyObject } from "src/domain/util/object";
@@ -29,6 +29,10 @@ export function PlanEditorDialog({
     const handleOnSave = () => {
         onSave(places);
     };
+
+    useEffect(() => {
+        setPlaces(copyObject(placesOriginal));
+    }, [placesOriginal]);
 
     return (
         <Dialog visible={visible} onClosed={onClosed} ref={dialogRef}>
