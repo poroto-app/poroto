@@ -96,10 +96,7 @@ export function ReorderablePlaceList({
             >
                 <VStack w="100%" spacing={4}>
                     {places.map((place) => (
-                        <ReorderblePlaceItem
-                            key={place.id}
-                            place={place}
-                        />
+                        <ReorderblePlaceItem key={place.id} place={place} />
                     ))}
                 </VStack>
             </SortableContext>
