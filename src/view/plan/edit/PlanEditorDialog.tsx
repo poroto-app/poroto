@@ -1,8 +1,9 @@
 import { Box, Button, VStack } from "@chakra-ui/react";
-import {forwardRef, ReactNode, useEffect, useRef, useState} from "react";
+import { forwardRef, ReactNode, useEffect, useRef, useState } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 import { Place } from "src/domain/models/Place";
 import { copyObject } from "src/domain/util/object";
+import { Colors } from "src/view/constants/color";
 import { ReorderablePlaceList } from "src/view/plan/edit/ReorderablePlaceList";
 import styled from "styled-components";
 
@@ -55,7 +56,7 @@ export function PlanEditorDialog({
                 </Box>
                 <Button
                     w="100%"
-                    backgroundColor="#5F553B"
+                    backgroundColor={Colors.primary[400]}
                     color="white"
                     variant="solid"
                     onClick={handleOnSave}
