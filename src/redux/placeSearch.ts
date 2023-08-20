@@ -7,13 +7,16 @@ import { RootState } from "src/redux/redux";
 
 export type PlaceSearchState = {
     placeSearchResults: PlaceSearchResult[] | null;
-    locationSelected: GeoLocation | null;
+    placeSelected: {
+        placeId: string;
+        location: GeoLocation;
+    } | null;
     moveToSelectedLocation: boolean;
 };
 
 const initialState: PlaceSearchState = {
     placeSearchResults: null,
-    locationSelected: null,
+    placeSelected: null,
     moveToSelectedLocation: false,
 };
 
@@ -54,16 +57,15 @@ type FetchGeoLocationByPlaceIdProps = {
 };
 export const fetchGeoLocationByPlaceId = createAsyncThunk(
     "placeSearch/fetchGeoLocationByPlaceId",
-    async (
-        { placeId }: FetchGeoLocationByPlaceIdProps,
-        { dispatch, getState }
-    ) => {
+    async ({ placeId }: FetchGeoLocationByPlaceIdProps, { dispatch }) => {
         const mapApi = new GooglePlacesApi();
         const placeDetail = await mapApi.placeDetail({
             placeId,
             language: "ja",
         });
-        dispatch(setSelectedLocation({ location: placeDetail.location }));
+        dispatch(
+            setSelectedLocation({ location: placeDetail.location, placeId })
+        );
         dispatch(setMoveToSelectedLocation(true));
     }
 );
@@ -88,12 +90,17 @@ export const slice = createSlice({
 
         setSelectedLocation: (
             state,
-            { payload }: PayloadAction<{ location: GeoLocation }>
+            {
+                payload,
+            }: PayloadAction<{ location: GeoLocation; placeId: string }>
         ) => {
-            state.locationSelected = payload.location;
+            state.placeSelected = {
+                placeId: payload.placeId,
+                location: payload.location,
+            };
         },
         resetSelectedLocation: (state) => {
-            state.locationSelected = null;
+            state.placeSelected = null;
         },
 
         setMoveToSelectedLocation: (

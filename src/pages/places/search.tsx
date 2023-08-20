@@ -36,7 +36,7 @@ export default function PlaceSearchPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const { currentLocation } = reduxLocationSelector();
-    const { placeSearchResults, locationSelected, moveToSelectedLocation } =
+    const { placeSearchResults, placeSelected, moveToSelectedLocation } =
         reduxPlaceSearchSelector();
     const {
         fetchCurrentLocationStatus,
@@ -75,8 +75,8 @@ export default function PlaceSearchPage() {
     }, []);
 
     useEffect(() => {
-        if (locationSelected && moveToSelectedLocation) {
-            setMapCenter(locationSelected);
+        if (placeSelected && moveToSelectedLocation) {
+            setMapCenter(placeSelected.location);
         }
 
         return () => {
@@ -84,7 +84,7 @@ export default function PlaceSearchPage() {
         };
     }, [
         copyObject(currentLocation),
-        copyObject(locationSelected),
+        copyObject(placeSelected),
         moveToSelectedLocation,
     ]);
 
@@ -98,12 +98,17 @@ export default function PlaceSearchPage() {
     };
 
     const handleOnSelectLocation = (location: GeoLocation) => {
-        dispatch(setSelectedLocation({ location }));
+        dispatch(setSelectedLocation({ location, placeId: null }));
     };
 
     const handleOnCreatePlan = async () => {
-        if (!locationSelected) return;
-        dispatch(setSearchLocation({ searchLocation: locationSelected }));
+        if (!placeSelected) return;
+        dispatch(
+            setSearchLocation({
+                searchLocation: placeSelected.location,
+                searchPlaceId: placeSelected.placeId,
+            })
+        );
         await router.push(Routes.plans.interest);
     };
 
@@ -124,7 +129,7 @@ export default function PlaceSearchPage() {
                 <MapPinSelector
                     center={mapCenter}
                     onSelectLocation={handleOnSelectLocation}
-                    pinnedLocation={locationSelected}
+                    pinnedLocation={placeSelected?.location}
                 />
             }
         >
@@ -164,11 +169,11 @@ export default function PlaceSearchPage() {
             <Box position="fixed" left={0} bottom="32px" right={0} px="8px">
                 <Layout>
                     <RoundedIconButton
-                        icon={locationSelected ? MdDone : MdOutlineTouchApp}
-                        disabled={locationSelected === null}
+                        icon={placeSelected ? MdDone : MdOutlineTouchApp}
+                        disabled={placeSelected === null}
                         onClick={handleOnCreatePlan}
                     >
-                        {locationSelected
+                        {placeSelected
                             ? "指定した場所からプランを作成"
                             : "タップして場所を選択"}
                     </RoundedIconButton>
