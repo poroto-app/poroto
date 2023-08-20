@@ -6,10 +6,12 @@ import { reduxLocationSelector } from "src/redux/location";
 import {
     createPlanFromLocation,
     reduxPlanCandidateSelector,
+    resetCreatePlanFromLocationRequestStatus,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { Routes } from "src/view/constants/router";
+import { RequestStatuses } from "../../domain/models/RequestStatus";
 
 // TODO: 「戻るボタン」、「進むボタン」、「URLで直接ページを開く」場合の対応をしなくてもいいルーティングにする
 export default function CreatePlanPage() {
@@ -17,6 +19,7 @@ export default function CreatePlanPage() {
     const dispatch = useAppDispatch();
     const { searchLocation, currentLocation } = reduxLocationSelector();
     const {
+        createPlanFromLocationRequestStatus,
         createPlanSession,
         categoryAccepted,
         categoryRejected,
@@ -59,9 +62,14 @@ export default function CreatePlanPage() {
 
     // プランが作成されたら、プラン作成画面に遷移する
     useEffect(() => {
-        if (!createPlanSession) return;
-        router.push(Routes.plans.select(createPlanSession)).then();
-    }, [createPlanSession]);
+        if (
+            createPlanSession &&
+            createPlanFromLocationRequestStatus === RequestStatuses.FULFILLED
+        ) {
+            dispatch(resetCreatePlanFromLocationRequestStatus());
+            router.push(Routes.plans.select(createPlanSession)).then();
+        }
+    }, [createPlanSession, createPlanFromLocationRequestStatus]);
 
     return <LoadingModal title="プランを作成しています" />;
 }

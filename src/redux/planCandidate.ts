@@ -31,6 +31,7 @@ export type PlanCandidateState = {
 
     timeForPlan: number | null;
 
+    createPlanFromLocationRequestStatus: RequestStatus | null;
     createPlanFromPlaceRequestStatus: RequestStatus | null;
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
@@ -50,6 +51,7 @@ const initialState: PlanCandidateState = {
 
     timeForPlan: null,
 
+    createPlanFromLocationRequestStatus: null,
     createPlanFromPlaceRequestStatus: null,
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
@@ -271,14 +273,6 @@ export const slice = createSlice({
             );
         },
 
-        setCategoryCandidates: (
-            state,
-            { payload }: PayloadAction<{ categories: LocationCategory[] }>
-        ) => {
-            state.categoryCandidates = payload.categories;
-            state.categoryAccepted = [];
-            state.categoryRejected = [];
-        },
         pushAcceptedCategory: (
             state,
             { payload }: PayloadAction<{ category: LocationCategory }>
@@ -331,6 +325,10 @@ export const slice = createSlice({
             state.updatePlacesOrderInPlanCandidateRequestStatus = null;
         },
 
+        resetCreatePlanFromLocationRequestStatus: (state) => {
+            state.createPlanFromLocationRequestStatus = null;
+        },
+
         resetCreatePlanFromPlaceRequestStatus: (state) => {
             state.createPlanFromPlaceRequestStatus = null;
         },
@@ -353,6 +351,19 @@ export const slice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // Create Plan From Location
+            .addCase(createPlanFromLocation.pending, (state) => {
+                state.createPlanFromLocationRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(createPlanFromLocation.fulfilled, (state) => {
+                state.createPlanFromLocationRequestStatus =
+                    RequestStatuses.FULFILLED;
+            })
+            .addCase(createPlanFromLocation.rejected, (state) => {
+                state.createPlanFromLocationRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
             // Create Plan From Place
             .addCase(createPlanFromPlace.pending, (state, action) => {
                 state.createPlanFromPlaceRequestStatus =
@@ -436,7 +447,6 @@ export const {
 
     setCreatedPlans,
 
-    setCategoryCandidates,
     pushAcceptedCategory,
     pushRejectedCategory,
 
@@ -444,6 +454,7 @@ export const {
 
     resetInterest,
     resetPlanCandidates,
+    resetCreatePlanFromLocationRequestStatus,
     resetCreatePlanFromPlaceRequestStatus,
 } = slice.actions;
 
