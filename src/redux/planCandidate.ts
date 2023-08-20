@@ -1,3 +1,4 @@
+import { getAnalytics, logEvent } from "@firebase/analytics";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
@@ -65,26 +66,31 @@ type CreatePlanFromCurrentLocationProps = {
         latitude: number;
         longitude: number;
     };
-    categoriesAccepted?: LocationCategory[];
-    categoriesRejected?: LocationCategory[];
-    isCurrentLocation: boolean;
-    timeForPlan?: number;
 };
 export const createPlanFromLocation = createAsyncThunk(
     "planCandidate/createPlanFromCurrentLocation",
     async (
-        {
-            location,
-            categoriesAccepted,
-            categoriesRejected,
-            isCurrentLocation,
-            timeForPlan,
-        }: CreatePlanFromCurrentLocationProps,
-        { dispatch }
+        { location }: CreatePlanFromCurrentLocationProps,
+        { dispatch, getState }
     ) => {
+        logEvent(getAnalytics(), "create_plan");
+
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
 
+        const {
+            createPlanSession,
+            categoriesAccepted,
+            categoriesRejected,
+            timeForPlan,
+        } = (getState() as RootState).planCandidate;
+
+        const { currentLocation } = (getState() as RootState).location;
+        const isCurrentLocation =
+            currentLocation?.latitude === location.latitude &&
+            currentLocation?.longitude === location.longitude;
+
         const response = await plannerApi.createPlansFromLocation({
+            session: createPlanSession,
             location: location,
             categoriesPreferred: (categoriesAccepted ?? []).map(
                 (category) => category.name
@@ -95,6 +101,7 @@ export const createPlanFromLocation = createAsyncThunk(
             planDuration: timeForPlan,
             basedOnCurrentLocation: isCurrentLocation,
         });
+
         const session = response.session;
         const plans: Plan[] = response.plans.map(createPlanFromPlanEntity);
         dispatch(
