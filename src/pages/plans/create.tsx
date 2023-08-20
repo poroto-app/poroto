@@ -15,7 +15,8 @@ import { Routes } from "src/view/constants/router";
 export default function CreatePlanPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const { searchLocation, currentLocation } = reduxLocationSelector();
+    const { searchLocation, searchPlaceId, currentLocation } =
+        reduxLocationSelector();
     const {
         createPlanSession,
         categoryAccepted,
@@ -48,6 +49,7 @@ export default function CreatePlanPage() {
             dispatch(
                 createPlanFromLocation({
                     location: searchLocation,
+                    googlePlaceId: searchPlaceId,
                     categoriesAccepted: categoryAccepted,
                     categoriesRejected: categoryRejected,
                     isCurrentLocation: createBasedOnCurrentLocation,
