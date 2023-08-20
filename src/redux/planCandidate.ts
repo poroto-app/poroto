@@ -26,8 +26,8 @@ export type PlanCandidateState = {
     preview: Plan | null;
 
     categoryCandidates: LocationCategory[] | null;
-    categoryAccepted: LocationCategory[] | null;
-    categoryRejected: LocationCategory[] | null;
+    categoriesAccepted: LocationCategory[] | null;
+    categoriesRejected: LocationCategory[] | null;
 
     timeForPlan: number | null;
 
@@ -47,8 +47,8 @@ const initialState: PlanCandidateState = {
     preview: null,
 
     categoryCandidates: null,
-    categoryAccepted: null,
-    categoryRejected: null,
+    categoriesAccepted: null,
+    categoriesRejected: null,
 
     timeForPlan: null,
 
@@ -278,8 +278,8 @@ export const slice = createSlice({
             state,
             { payload }: PayloadAction<{ category: LocationCategory }>
         ) => {
-            if (!state.categoryAccepted) state.categoryAccepted = [];
-            state.categoryAccepted.push(payload.category);
+            if (!state.categoriesAccepted) state.categoriesAccepted = [];
+            state.categoriesAccepted.push(payload.category);
             state.categoryCandidates = state.categoryCandidates.filter(
                 (category) => category.name != payload.category.name
             );
@@ -288,8 +288,8 @@ export const slice = createSlice({
             state,
             { payload }: PayloadAction<{ category: LocationCategory }>
         ) => {
-            if (!state.categoryRejected) state.categoryRejected = [];
-            state.categoryRejected.push(payload.category);
+            if (!state.categoriesRejected) state.categoriesRejected = [];
+            state.categoriesRejected.push(payload.category);
             state.categoryCandidates = state.categoryCandidates.filter(
                 (category) => category.name != payload.category.name
             );
@@ -305,8 +305,8 @@ export const slice = createSlice({
         resetInterest: (state) => {
             state.timeForPlan = null;
             state.categoryCandidates = null;
-            state.categoryRejected = null;
-            state.categoryAccepted = null;
+            state.categoriesRejected = null;
+            state.categoriesAccepted = null;
         },
 
         resetPlanCandidates: (state) => {
@@ -318,8 +318,8 @@ export const slice = createSlice({
             state.preview = null;
 
             state.categoryCandidates = null;
-            state.categoryRejected = null;
-            state.categoryAccepted = null;
+            state.categoriesRejected = null;
+            state.categoriesAccepted = null;
 
             state.timeForPlan = null;
             state.savePlanFromCandidateRequestStatus = null;
@@ -448,8 +448,8 @@ export const slice = createSlice({
                 state.matchInterestRequestStatus = RequestStatuses.FULFILLED;
 
                 state.categoryCandidates = payload.categories;
-                state.categoryAccepted = [];
-                state.categoryRejected = [];
+                state.categoriesAccepted = [];
+                state.categoriesRejected = [];
 
                 state.createPlanSession = payload.createPlanSession;
             })
