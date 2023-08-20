@@ -7,6 +7,7 @@ import {
     setSearchLocation,
 } from "src/redux/location";
 import {
+    createPlanFromLocation,
     matchInterest,
     pushAcceptedCategory,
     pushRejectedCategory,
@@ -90,12 +91,13 @@ export default function PlanInterestPage() {
 
     useEffect(() => {
         if (!categoryCandidates) return;
-        if (categoryCandidates.length === 0) {
+        if (categoryCandidates.length === 0 && searchLocation) {
+            dispatch(createPlanFromLocation({ location: searchLocation }));
             router.push(Routes.plans.create).then();
             return;
         }
         setCurrentCategory(categoryCandidates[0]);
-    }, [categoryCandidates?.length]);
+    }, [categoryCandidates?.length, searchLocation]);
 
     const handleAcceptCategory = (category: LocationCategory) => {
         dispatch(pushAcceptedCategory({ category }));

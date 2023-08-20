@@ -1,10 +1,8 @@
-import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { PageTransitions, reduxHistorySelector } from "src/redux/history";
 import { reduxLocationSelector } from "src/redux/location";
 import {
-    createPlanFromLocation,
     reduxPlanCandidateSelector,
     resetCreatePlanFromLocationRequestStatus,
 } from "src/redux/planCandidate";
@@ -17,14 +15,9 @@ import { RequestStatuses } from "../../domain/models/RequestStatus";
 export default function CreatePlanPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const { searchLocation, currentLocation } = reduxLocationSelector();
-    const {
-        createPlanFromLocationRequestStatus,
-        createPlanSession,
-        categoryAccepted,
-        categoryRejected,
-        timeForPlan,
-    } = reduxPlanCandidateSelector();
+    const { searchLocation } = reduxLocationSelector();
+    const { createPlanFromLocationRequestStatus, createPlanSession } =
+        reduxPlanCandidateSelector();
     const { transition } = reduxHistorySelector();
 
     // HACK: このページに「戻るボタン」やURLを叩いて直接遷移してきた場合は、さらに前のページに戻す
@@ -35,28 +28,6 @@ export default function CreatePlanPage() {
         } else if (transition === PageTransitions.POP) {
             // 戻るボタンで遷移してきた場合
             router.back();
-        } else if ([null, PageTransitions.CHANGE].includes(transition)) {
-            logEvent(getAnalytics(), "create_plan");
-
-            // 指定した場所からプランを作成する
-            //  change: 画面遷移で来た場合
-            //  null: POP後に遷移してきた場合
-            const createBasedOnCurrentLocation =
-                currentLocation !== null &&
-                currentLocation.latitude === searchLocation.latitude &&
-                currentLocation.longitude === searchLocation.longitude;
-
-            // HACK: 画面が読み込まれた直後の値が保持されるため、resetInterestの影響を受けない
-            // TODO: プラン作成時に適切のreduxの状態を使えるようにする（戻るボタンを押したときに最初から操作できるようにする）
-            dispatch(
-                createPlanFromLocation({
-                    location: searchLocation,
-                    categoriesAccepted: categoryAccepted,
-                    categoriesRejected: categoryRejected,
-                    isCurrentLocation: createBasedOnCurrentLocation,
-                    timeForPlan: timeForPlan,
-                })
-            );
         }
     }, []);
 
