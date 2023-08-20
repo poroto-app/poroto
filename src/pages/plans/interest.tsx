@@ -80,7 +80,12 @@ export default function PlanInterestPage() {
         if (!location) return;
         const currentLocation = location;
         dispatch(setCurrentLocation({ currentLocation }));
-        dispatch(setSearchLocation({ searchLocation: currentLocation }));
+        dispatch(
+            setSearchLocation({
+                searchLocation: currentLocation,
+                searchPlaceId: null,
+            })
+        );
     }, [location]);
 
     // 検索する場所が指定されたら、興味を持つ場所を検索
