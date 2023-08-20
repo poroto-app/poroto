@@ -36,6 +36,7 @@ export type PlanCandidateState = {
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
     fetchAvailablePlacesForPlanRequestStatus: RequestStatus | null;
+    matchInterestRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanCandidateState = {
@@ -56,6 +57,7 @@ const initialState: PlanCandidateState = {
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
     fetchAvailablePlacesForPlanRequestStatus: null,
+    matchInterestRequestStatus: null,
 };
 
 type CreatePlanFromCurrentLocationProps = {
@@ -186,15 +188,14 @@ export const matchInterest = createAsyncThunk(
     async ({ location }: MatchInterestProps, { dispatch }) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.matchInterest({ location });
-        dispatch(
-            setCategoryCandidates({
-                categories: response.categories.map((category) => ({
-                    name: category.name,
-                    displayName: category.displayName,
-                    thumbnail: category.photo,
-                })),
-            })
-        );
+        return {
+            createPlanSession: response.session,
+            categories: response.categories.map((category) => ({
+                name: category.name,
+                displayName: category.displayName,
+                thumbnail: category.photo,
+            })),
+        };
     }
 );
 
@@ -438,6 +439,22 @@ export const slice = createSlice({
             .addCase(fetchAvailablePlacesForPlan.rejected, (state, action) => {
                 state.fetchAvailablePlacesForPlanRequestStatus =
                     RequestStatuses.REJECTED;
+            })
+            // Match Interest
+            .addCase(matchInterest.pending, (state) => {
+                state.matchInterestRequestStatus = RequestStatuses.PENDING;
+            })
+            .addCase(matchInterest.fulfilled, (state, { payload }) => {
+                state.matchInterestRequestStatus = RequestStatuses.FULFILLED;
+
+                state.categoryCandidates = payload.categories;
+                state.categoryAccepted = [];
+                state.categoryRejected = [];
+
+                state.createPlanSession = payload.createPlanSession;
+            })
+            .addCase(matchInterest.rejected, (state) => {
+                state.matchInterestRequestStatus = RequestStatuses.REJECTED;
             });
     },
 });
