@@ -1,6 +1,7 @@
 mutation CreatePlanByLocation(
     $latitude: Float!,
     $longitude: Float!,
+    $googlePlaceId: String,
     $categoriesPreferred: [String!],
     $categoriesDisliked: [String!],
     $planDuration: Int,
@@ -9,6 +10,7 @@ mutation CreatePlanByLocation(
     createPlanByLocation(input: {
         latitude: $latitude,
         longitude: $longitude,
+        googlePlaceId: $googlePlaceId,
         categoriesPreferred: $categoriesPreferred,
         categoriesDisliked: $categoriesDisliked,
         freeTime: $planDuration,
