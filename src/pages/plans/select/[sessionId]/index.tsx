@@ -25,6 +25,7 @@ const SelectPlanPage = () => {
         createPlanSession,
         placesAvailableForPlan,
         fetchAvailablePlacesForPlanRequestStatus,
+        createPlanFromLocationRequestStatus,
         createPlanFromPlaceRequestStatus,
     } = reduxPlanCandidateSelector();
 
@@ -74,6 +75,10 @@ const SelectPlanPage = () => {
             createPlanFromPlace({ placeId, createPlanSessionId: sessionId })
         );
     };
+
+    // プランを作成中
+    if (createPlanFromLocationRequestStatus === RequestStatuses.PENDING)
+        return <LoadingModal title="プランを作成しています" />;
 
     if (!plansCreated) {
         // TODO: ホームに戻れる404ページを作る

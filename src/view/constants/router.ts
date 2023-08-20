@@ -3,7 +3,6 @@ export const Routes = {
     plans: {
         plan: (id: string) => `/plans/${id}`,
         interest: "/plans/interest",
-        create: "/plans/create",
         select: (session: string) => `/plans/select/${session}`,
         planCandidate: (session: string, planId: string) =>
             `/plans/select/${session}/${planId}`,
