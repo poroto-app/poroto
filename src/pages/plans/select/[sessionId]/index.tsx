@@ -45,8 +45,8 @@ const SelectPlanPage = () => {
         if (!sessionId || typeof sessionId !== "string") return;
 
         // プラン作成完了前にリクエストが送信されないようにする
-        if(!plansCreated || plansCreated.length === 0) return;
-        
+        if (!plansCreated || plansCreated.length === 0) return;
+
         dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
     }, [sessionId, plansCreated]);
 
