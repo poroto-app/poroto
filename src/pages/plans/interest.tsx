@@ -62,7 +62,9 @@ export default function PlanInterestPage() {
 
             // 場所を指定してプラン作成 -> 現在地からプラン作成
             // を行うと、指定した場所の情報が残り、そこからプランを作成してしまうためリセットする
-            dispatch(setSearchLocation({ searchLocation: null }));
+            dispatch(
+                setSearchLocation({ searchLocation: null, searchPlaceId: null })
+            );
         };
     }, []);
 
