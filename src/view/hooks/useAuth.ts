@@ -10,9 +10,9 @@ import { User } from "src/domain/models/User";
 
 export const useAuth = () => {
     const [user, setUser] = useState<User>(null);
-    const auth = getAuth();
 
     useEffect(() => {
+        const auth = getAuth();
         auth.onAuthStateChanged((user) => {
             if (user) {
                 setUser({
@@ -27,6 +27,7 @@ export const useAuth = () => {
     }, []);
 
     const signInWithGoogle = () => {
+        const auth = getAuth();
         _signInWithGoogle(auth).then(({ user }) => {
             setUser({
                 id: user.uid,
@@ -37,6 +38,7 @@ export const useAuth = () => {
     };
 
     const logout = () => {
+        const auth = getAuth();
         signOut(auth).then(() => {
             setUser(null);
         });
