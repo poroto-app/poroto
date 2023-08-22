@@ -71,6 +71,11 @@ export type CreatePlanByPlaceOutput = {
   session: Scalars['String'];
 };
 
+export type FirebaseUserInput = {
+  firebaseAuthToken: Scalars['String'];
+  firebaseUserId: Scalars['String'];
+};
+
 export type GeoLocation = {
   __typename?: 'GeoLocation';
   latitude: Scalars['Float'];
@@ -164,6 +169,7 @@ export type Query = {
   __typename?: 'Query';
   availablePlacesForPlan: AvailablePlacesForPlan;
   cachedCreatedPlans: CachedCreatedPlans;
+  firebaseUser: User;
   matchInterests: InterestCandidate;
   plan?: Maybe<Plan>;
   plans: Array<Plan>;
@@ -179,6 +185,11 @@ export type QueryAvailablePlacesForPlanArgs = {
 
 export type QueryCachedCreatedPlansArgs = {
   input: CachedCreatedPlansInput;
+};
+
+
+export type QueryFirebaseUserArgs = {
+  input?: InputMaybe<FirebaseUserInput>;
 };
 
 
@@ -216,6 +227,13 @@ export type Transition = {
   duration: Scalars['Int'];
   from?: Maybe<Place>;
   to: Place;
+};
+
+export type User = {
+  __typename?: 'User';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  photoUrl?: Maybe<Scalars['String']>;
 };
 
 export type CachedCreatedPlansQueryVariables = Exact<{
