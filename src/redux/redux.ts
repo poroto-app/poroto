@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { combineReducers } from "redux";
+import { authReducer } from "src/redux/auth";
 import { historyReducer } from "src/redux/history";
 import { locationReducer } from "src/redux/location";
 import { placeSearchReducer } from "src/redux/placeSearch";
@@ -8,6 +9,7 @@ import { planReducer } from "src/redux/plan";
 import { planCandidateReducer } from "src/redux/planCandidate";
 
 const reducer = combineReducers({
+    auth: authReducer,
     plan: planReducer,
     planCandidate: planCandidateReducer,
     placeSearch: placeSearchReducer,
