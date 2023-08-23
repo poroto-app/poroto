@@ -7,6 +7,7 @@ import {
     setSearchLocation,
 } from "src/redux/location";
 import {
+    createPlanFromLocation,
     matchInterest,
     pushAcceptedCategory,
     pushRejectedCategory,
@@ -39,7 +40,8 @@ export default function PlanInterestPage() {
         useLocation();
     const [currentCategory, setCurrentCategory] =
         useState<LocationCategory | null>(null);
-    const { categoryCandidates } = reduxPlanCandidateSelector();
+    const { categoryCandidates, createPlanSession } =
+        reduxPlanCandidateSelector();
     const { searchLocation } = reduxLocationSelector();
 
     useEffect(() => {
@@ -90,12 +92,17 @@ export default function PlanInterestPage() {
 
     useEffect(() => {
         if (!categoryCandidates) return;
-        if (categoryCandidates.length === 0) {
-            router.push(Routes.plans.create).then();
+        if (
+            categoryCandidates.length === 0 &&
+            searchLocation &&
+            createPlanSession
+        ) {
+            dispatch(createPlanFromLocation({ location: searchLocation }));
+            router.push(Routes.plans.select(createPlanSession)).then();
             return;
         }
         setCurrentCategory(categoryCandidates[0]);
-    }, [categoryCandidates?.length]);
+    }, [categoryCandidates?.length, searchLocation, createPlanSession]);
 
     const handleAcceptCategory = (category: LocationCategory) => {
         dispatch(pushAcceptedCategory({ category }));
