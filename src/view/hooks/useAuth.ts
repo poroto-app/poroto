@@ -5,21 +5,31 @@ import {
     signInWithPopup,
     signOut,
 } from "@firebase/auth";
-import { useEffect, useState } from "react";
-import { User } from "src/domain/models/User";
+import { useEffect } from "react";
+import { RequestStatuses } from "src/domain/models/RequestStatus";
+import {
+    fetchByFirebaseUser,
+    reduxAuthSelector,
+    resetAuthUser,
+} from "src/redux/auth";
+import { useAppDispatch } from "src/redux/redux";
 
 export const useAuth = () => {
-    const [user, setUser] = useState<User>(null);
+    const dispatch = useAppDispatch();
+    const { user, fetchByFirebaseUserStatus } = reduxAuthSelector();
 
     useEffect(() => {
         const auth = getAuth();
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                setUser({
-                    id: user.uid,
-                    name: user.displayName,
-                    avatarImage: user.photoURL,
-                });
+        auth.onAuthStateChanged(async (firebaseUser) => {
+            if (firebaseUser) {
+                const idToken = await firebaseUser.getIdToken();
+                if (fetchByFirebaseUserStatus !== RequestStatuses.PENDING)
+                    dispatch(
+                        fetchByFirebaseUser({
+                            firebaseUserId: firebaseUser.uid,
+                            firebaseToken: idToken,
+                        })
+                    );
             } else {
                 dispatch(resetAuthUser());
             }
@@ -28,13 +38,7 @@ export const useAuth = () => {
 
     const signInWithGoogle = () => {
         const auth = getAuth();
-        _signInWithGoogle(auth).then(({ user }) => {
-            setUser({
-                id: user.uid,
-                name: user.displayName,
-                avatarImage: user.photoURL,
-            });
-        });
+        _signInWithGoogle(auth).then();
     };
 
     const logout = () => {
