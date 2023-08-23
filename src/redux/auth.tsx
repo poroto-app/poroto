@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 import { PlannerGraphqlUserApi } from "src/data/graphql/PlannerGraphqlUserApi";
 import {
     RequestStatus,
@@ -6,6 +7,7 @@ import {
 } from "src/domain/models/RequestStatus";
 import { User } from "src/domain/models/User";
 import { UserApi } from "src/domain/user/UserApi";
+import { RootState } from "src/redux/redux";
 
 export type AuthState = {
     user: User | null;
@@ -61,3 +63,5 @@ export const slice = createSlice({
 });
 
 export const authReducer = slice.reducer;
+export const reduxAuthSelector = () =>
+    useSelector((state: RootState) => state.auth);
