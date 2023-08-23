@@ -1,20 +1,21 @@
-import { Avatar } from "@chakra-ui/react";
-import { User } from "src/domain/models/User";
+import {Avatar} from "@chakra-ui/react";
+import {User} from "src/domain/models/User";
 
 type Props = {
     user: User | null;
     onClick: () => void;
 };
 
-export function UserAvatar({ user, onClick }: Props) {
+export function UserAvatar({user, onClick}: Props) {
     return (
-        <Avatar
-            h="33px"
-            w="33px"
-            onClick={onClick}
-            cursor={onClick && "pointer"}
-            src={user?.avatarImage}
-            border="1px solid rgba(0,0,0,.1)"
-        />
+        <button onClick={onClick}>
+            <Avatar
+                h="33px"
+                w="33px"
+                src={user?.avatarImage}
+                border="1px solid rgba(0,0,0,.1)"
+                backgroundColor={user?.avatarImage ? "whiter" : "#a9a9a9"}
+            />
+        </button>
     );
 }
