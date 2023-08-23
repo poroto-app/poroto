@@ -52,7 +52,9 @@ const _signInWithGoogle = async (auth: Auth) => {
     if (credential === null) {
         throw new Error("credential is null");
     }
-    const token = credential.accessToken;
-    const user = result.user;
-    return { token, user };
+    const idToken = await result.user.getIdToken();
+    return {
+        idToken,
+        user: result.user,
+    };
 };
