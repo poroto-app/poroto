@@ -21,7 +21,7 @@ export const useAuth = () => {
                     avatarImage: user.photoURL,
                 });
             } else {
-                setUser(null);
+                dispatch(resetAuthUser());
             }
         });
     }, []);
@@ -39,9 +39,7 @@ export const useAuth = () => {
 
     const logout = () => {
         const auth = getAuth();
-        signOut(auth).then(() => {
-            setUser(null);
-        });
+        signOut(auth).then();
     };
 
     return { user, signInWithGoogle, logout };

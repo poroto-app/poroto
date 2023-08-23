@@ -42,7 +42,11 @@ export const fetchByFirebaseUser = createAsyncThunk(
 export const slice = createSlice({
     name: "auth",
     initialState,
-    reducers: {},
+    reducers: {
+        resetAuthUser: (state) => {
+            state.user = null;
+        },
+    },
     extraReducers: (builder) => {
         builder
             // Fetch By Firebase User
@@ -62,6 +66,7 @@ export const slice = createSlice({
     },
 });
 
+export const { resetAuthUser } = slice.actions;
 export const authReducer = slice.reducer;
 export const reduxAuthSelector = () =>
     useSelector((state: RootState) => state.auth);
