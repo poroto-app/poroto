@@ -52,6 +52,7 @@ export type CreatePlanByLocationInput = {
   freeTime?: InputMaybe<Scalars['Int']>;
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
+  session?: InputMaybe<Scalars['String']>;
 };
 
 export type CreatePlanByLocationOutput = {
@@ -80,6 +81,7 @@ export type GeoLocation = {
 export type InterestCandidate = {
   __typename?: 'InterestCandidate';
   categories: Array<LocationCategory>;
+  session: Scalars['String'];
 };
 
 export type LocationCategory = {
