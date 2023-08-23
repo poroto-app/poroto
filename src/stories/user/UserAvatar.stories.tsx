@@ -1,6 +1,6 @@
+import { HStack } from "@chakra-ui/react";
 import { Meta, StoryObj } from "@storybook/react";
 import { UserAvatar } from "src/view/user/UserAvatar";
-import {Box, HStack} from "@chakra-ui/react";
 
 export default {
     title: "user/UserAvatar",
