@@ -2,11 +2,54 @@ import { Box, HStack, Icon, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
 import { MdLogin, MdLogout } from "react-icons/md";
+import { User } from "src/domain/models/User";
 import styled from "styled-components";
 
-export function NavBarUserDialog({ children }: { children?: ReactNode }) {
+type Props = {
+    user: User | null;
+    onLogin: () => void;
+    onLogout: () => void;
+    onClose: () => void;
+};
+
+export function NavBarUserDialog({ user, onLogin, onLogout, onClose }: Props) {
+    const handleOnLogout = () => {
+        onLogout();
+        onClose();
+    }
+
+    const handleOnLogin = () => {
+        onLogin();
+        onClose();
+    }
+
+    if (user) return <NavBarLoginUserDialog onLogout={handleOnLogout} />;
+    return <NavBarNonLoginUserDialog onLogin={handleOnLogin} />;
+}
+
+export function NavBarNonLoginUserDialog({ onLogin }: { onLogin: () => void }) {
     return (
-        <Box maxW="100%" padding="32px">
+        <NavBarUserDialogContainer>
+            <DialogItem icon={MdLogin} onClick={onLogin}>
+                ログイン
+            </DialogItem>
+        </NavBarUserDialogContainer>
+    );
+}
+
+export function NavBarLoginUserDialog({ onLogout }: { onLogout: () => void }) {
+    return (
+        <NavBarUserDialogContainer>
+            <DialogItem icon={MdLogout} onClick={onLogout}>
+                ログアウト
+            </DialogItem>
+        </NavBarUserDialogContainer>
+    );
+}
+
+function NavBarUserDialogContainer({ children }: { children?: ReactNode }) {
+    return (
+        <Box maxW="100%">
             <VStack
                 w="250px"
                 maxW="100%"
@@ -17,22 +60,6 @@ export function NavBarUserDialog({ children }: { children?: ReactNode }) {
                 {children}
             </VStack>
         </Box>
-    );
-}
-
-export function NavBarNonLoginUserDialog() {
-    return (
-        <NavBarUserDialog>
-            <DialogItem icon={MdLogin}>ログイン</DialogItem>
-        </NavBarUserDialog>
-    );
-}
-
-export function NavBarLoginUserDialog() {
-    return (
-        <NavBarUserDialog>
-            <DialogItem icon={MdLogout}>ログアウト</DialogItem>
-        </NavBarUserDialog>
     );
 }
 
@@ -65,3 +92,17 @@ const DialogItemContainer = styled.button`
         background-color: #f1f5f9;
     }
 `;
+
+export function NavBarUserDialogOverlay({ onClick }: { onClick: () => void }) {
+    return (
+        <Box
+            position="fixed"
+            top={0}
+            right={0}
+            bottom={0}
+            left={0}
+            onClick={onClick}
+            zIndex={0}
+        />
+    );
+}
