@@ -1,12 +1,12 @@
-import {Avatar} from "@chakra-ui/react";
-import {User} from "src/domain/models/User";
+import { Avatar } from "@chakra-ui/react";
+import { User } from "src/domain/models/User";
 
 type Props = {
     user: User | null;
     onClick: () => void;
 };
 
-export function UserAvatar({user, onClick}: Props) {
+export function UserAvatar({ user, onClick }: Props) {
     return (
         <button onClick={onClick}>
             <Avatar

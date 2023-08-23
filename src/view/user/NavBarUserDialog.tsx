@@ -16,12 +16,12 @@ export function NavBarUserDialog({ user, onLogin, onLogout, onClose }: Props) {
     const handleOnLogout = () => {
         onLogout();
         onClose();
-    }
+    };
 
     const handleOnLogin = () => {
         onLogin();
         onClose();
-    }
+    };
 
     if (user) return <NavBarLoginUserDialog onLogout={handleOnLogout} />;
     return <NavBarNonLoginUserDialog onLogin={handleOnLogin} />;
