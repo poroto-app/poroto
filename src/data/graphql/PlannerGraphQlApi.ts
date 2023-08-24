@@ -103,6 +103,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         const { data } = await this.client.mutate({
             mutation: CreatePlanByLocationDocument,
             variables: {
+                session: request.session,
                 latitude: request.location.latitude,
                 longitude: request.location.longitude,
                 categoriesPreferred: request.categoriesPreferred,
@@ -165,11 +166,17 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                 longitude: request.location.longitude,
             },
         });
+
         return {
+            session: data.matchInterests.session,
             categories: data.matchInterests.categories.map((category) => ({
                 name: category.name,
                 displayName: category.displayName,
-                photo: category.photo,
+                // TODO: nil check
+                photo:
+                    !category.photo.includes("https://placehold.jp") &&
+                    category.photo,
+                defaultPhotoUrl: category.defaultPhotoUrl,
             })),
         };
     }

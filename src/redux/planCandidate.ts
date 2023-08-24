@@ -1,3 +1,4 @@
+import { getAnalytics, logEvent } from "@firebase/analytics";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
@@ -26,15 +27,17 @@ export type PlanCandidateState = {
     preview: Plan | null;
 
     categoryCandidates: LocationCategory[] | null;
-    categoryAccepted: LocationCategory[] | null;
-    categoryRejected: LocationCategory[] | null;
+    categoriesAccepted: LocationCategory[] | null;
+    categoriesRejected: LocationCategory[] | null;
 
     timeForPlan: number | null;
 
+    createPlanFromLocationRequestStatus: RequestStatus | null;
     createPlanFromPlaceRequestStatus: RequestStatus | null;
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
     fetchAvailablePlacesForPlanRequestStatus: RequestStatus | null;
+    matchInterestRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanCandidateState = {
@@ -45,15 +48,17 @@ const initialState: PlanCandidateState = {
     preview: null,
 
     categoryCandidates: null,
-    categoryAccepted: null,
-    categoryRejected: null,
+    categoriesAccepted: null,
+    categoriesRejected: null,
 
     timeForPlan: null,
 
+    createPlanFromLocationRequestStatus: null,
     createPlanFromPlaceRequestStatus: null,
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
     fetchAvailablePlacesForPlanRequestStatus: null,
+    matchInterestRequestStatus: null,
 };
 
 type CreatePlanFromCurrentLocationProps = {
@@ -61,26 +66,31 @@ type CreatePlanFromCurrentLocationProps = {
         latitude: number;
         longitude: number;
     };
-    categoriesAccepted?: LocationCategory[];
-    categoriesRejected?: LocationCategory[];
-    isCurrentLocation: boolean;
-    timeForPlan?: number;
 };
 export const createPlanFromLocation = createAsyncThunk(
     "planCandidate/createPlanFromCurrentLocation",
     async (
-        {
-            location,
-            categoriesAccepted,
-            categoriesRejected,
-            isCurrentLocation,
-            timeForPlan,
-        }: CreatePlanFromCurrentLocationProps,
-        { dispatch }
+        { location }: CreatePlanFromCurrentLocationProps,
+        { dispatch, getState }
     ) => {
+        logEvent(getAnalytics(), "create_plan");
+
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
 
+        const {
+            createPlanSession,
+            categoriesAccepted,
+            categoriesRejected,
+            timeForPlan,
+        } = (getState() as RootState).planCandidate;
+
+        const { currentLocation } = (getState() as RootState).location;
+        const isCurrentLocation =
+            currentLocation?.latitude === location.latitude &&
+            currentLocation?.longitude === location.longitude;
+
         const response = await plannerApi.createPlansFromLocation({
+            session: createPlanSession,
             location: location,
             categoriesPreferred: (categoriesAccepted ?? []).map(
                 (category) => category.name
@@ -91,6 +101,7 @@ export const createPlanFromLocation = createAsyncThunk(
             planDuration: timeForPlan,
             basedOnCurrentLocation: isCurrentLocation,
         });
+
         const session = response.session;
         const plans: Plan[] = response.plans.map(createPlanFromPlanEntity);
         dispatch(
@@ -181,18 +192,18 @@ type MatchInterestProps = {
 };
 export const matchInterest = createAsyncThunk(
     "planCandidate/matchInterest",
-    async ({ location }: MatchInterestProps, { dispatch }) => {
+    async ({ location }: MatchInterestProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.matchInterest({ location });
-        dispatch(
-            setCategoryCandidates({
-                categories: response.categories.map((category) => ({
-                    name: category.name,
-                    displayName: category.displayName,
-                    thumbnail: category.photo,
-                })),
-            })
-        );
+        return {
+            createPlanSession: response.session,
+            categories: response.categories.map((category) => ({
+                name: category.name,
+                displayName: category.displayName,
+                thumbnail: category.photo,
+                defaultThumbnailUrl: category.defaultPhotoUrl,
+            })),
+        };
     }
 );
 
@@ -271,20 +282,12 @@ export const slice = createSlice({
             );
         },
 
-        setCategoryCandidates: (
-            state,
-            { payload }: PayloadAction<{ categories: LocationCategory[] }>
-        ) => {
-            state.categoryCandidates = payload.categories;
-            state.categoryAccepted = [];
-            state.categoryRejected = [];
-        },
         pushAcceptedCategory: (
             state,
             { payload }: PayloadAction<{ category: LocationCategory }>
         ) => {
-            if (!state.categoryAccepted) state.categoryAccepted = [];
-            state.categoryAccepted.push(payload.category);
+            if (!state.categoriesAccepted) state.categoriesAccepted = [];
+            state.categoriesAccepted.push(payload.category);
             state.categoryCandidates = state.categoryCandidates.filter(
                 (category) => category.name != payload.category.name
             );
@@ -293,8 +296,8 @@ export const slice = createSlice({
             state,
             { payload }: PayloadAction<{ category: LocationCategory }>
         ) => {
-            if (!state.categoryRejected) state.categoryRejected = [];
-            state.categoryRejected.push(payload.category);
+            if (!state.categoriesRejected) state.categoriesRejected = [];
+            state.categoriesRejected.push(payload.category);
             state.categoryCandidates = state.categoryCandidates.filter(
                 (category) => category.name != payload.category.name
             );
@@ -310,8 +313,8 @@ export const slice = createSlice({
         resetInterest: (state) => {
             state.timeForPlan = null;
             state.categoryCandidates = null;
-            state.categoryRejected = null;
-            state.categoryAccepted = null;
+            state.categoriesRejected = null;
+            state.categoriesAccepted = null;
         },
 
         resetPlanCandidates: (state) => {
@@ -323,12 +326,16 @@ export const slice = createSlice({
             state.preview = null;
 
             state.categoryCandidates = null;
-            state.categoryRejected = null;
-            state.categoryAccepted = null;
+            state.categoriesRejected = null;
+            state.categoriesAccepted = null;
 
             state.timeForPlan = null;
             state.savePlanFromCandidateRequestStatus = null;
             state.updatePlacesOrderInPlanCandidateRequestStatus = null;
+        },
+
+        resetCreatePlanFromLocationRequestStatus: (state) => {
+            state.createPlanFromLocationRequestStatus = null;
         },
 
         resetCreatePlanFromPlaceRequestStatus: (state) => {
@@ -353,6 +360,19 @@ export const slice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // Create Plan From Location
+            .addCase(createPlanFromLocation.pending, (state) => {
+                state.createPlanFromLocationRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(createPlanFromLocation.fulfilled, (state) => {
+                state.createPlanFromLocationRequestStatus =
+                    RequestStatuses.FULFILLED;
+            })
+            .addCase(createPlanFromLocation.rejected, (state) => {
+                state.createPlanFromLocationRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
             // Create Plan From Place
             .addCase(createPlanFromPlace.pending, (state, action) => {
                 state.createPlanFromPlaceRequestStatus =
@@ -427,6 +447,22 @@ export const slice = createSlice({
             .addCase(fetchAvailablePlacesForPlan.rejected, (state, action) => {
                 state.fetchAvailablePlacesForPlanRequestStatus =
                     RequestStatuses.REJECTED;
+            })
+            // Match Interest
+            .addCase(matchInterest.pending, (state) => {
+                state.matchInterestRequestStatus = RequestStatuses.PENDING;
+            })
+            .addCase(matchInterest.fulfilled, (state, { payload }) => {
+                state.matchInterestRequestStatus = RequestStatuses.FULFILLED;
+
+                state.categoryCandidates = payload.categories;
+                state.categoriesAccepted = [];
+                state.categoriesRejected = [];
+
+                state.createPlanSession = payload.createPlanSession;
+            })
+            .addCase(matchInterest.rejected, (state) => {
+                state.matchInterestRequestStatus = RequestStatuses.REJECTED;
             });
     },
 });
@@ -436,7 +472,6 @@ export const {
 
     setCreatedPlans,
 
-    setCategoryCandidates,
     pushAcceptedCategory,
     pushRejectedCategory,
 
@@ -444,6 +479,7 @@ export const {
 
     resetInterest,
     resetPlanCandidates,
+    resetCreatePlanFromLocationRequestStatus,
     resetCreatePlanFromPlaceRequestStatus,
 } = slice.actions;
 

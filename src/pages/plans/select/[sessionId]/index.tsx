@@ -25,6 +25,7 @@ const SelectPlanPage = () => {
         createPlanSession,
         placesAvailableForPlan,
         fetchAvailablePlacesForPlanRequestStatus,
+        createPlanFromLocationRequestStatus,
         createPlanFromPlaceRequestStatus,
     } = reduxPlanCandidateSelector();
 
@@ -39,10 +40,15 @@ const SelectPlanPage = () => {
         }
     }, [sessionId, plansCreated]);
 
+    // プラン作成の候補地を取得
     useEffect(() => {
         if (!sessionId || typeof sessionId !== "string") return;
+
+        // プラン作成完了前にリクエストが送信されないようにする
+        if (!plansCreated || plansCreated.length === 0) return;
+
         dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
-    }, [sessionId]);
+    }, [sessionId, plansCreated]);
 
     // 指定した場所からプランを作成できたら、そのページへ遷移する
     useEffect(() => {
@@ -74,6 +80,10 @@ const SelectPlanPage = () => {
             createPlanFromPlace({ placeId, createPlanSessionId: sessionId })
         );
     };
+
+    // プランを作成中
+    if (createPlanFromLocationRequestStatus === RequestStatuses.PENDING)
+        return <LoadingModal title="プランを作成しています" />;
 
     if (!plansCreated) {
         // TODO: ホームに戻れる404ページを作る
