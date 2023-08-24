@@ -192,7 +192,7 @@ type MatchInterestProps = {
 };
 export const matchInterest = createAsyncThunk(
     "planCandidate/matchInterest",
-    async ({ location }: MatchInterestProps, { dispatch }) => {
+    async ({ location }: MatchInterestProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.matchInterest({ location });
         return {
@@ -201,6 +201,7 @@ export const matchInterest = createAsyncThunk(
                 name: category.name,
                 displayName: category.displayName,
                 thumbnail: category.photo,
+                defaultThumbnailUrl: category.defaultPhotoUrl,
             })),
         };
     }

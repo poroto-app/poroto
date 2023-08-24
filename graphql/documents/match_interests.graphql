@@ -5,6 +5,7 @@ query MatchInterests($latitude: Float!, $longitude: Float!) {
             name
             displayName
             photo
+            defaultPhotoUrl
         }
     }
 }

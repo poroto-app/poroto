@@ -176,7 +176,8 @@ export type MatchInterestResponse = {
     categories: {
         name: string;
         displayName: string;
-        photo: string;
+        photo?: string;
+        defaultPhotoUrl: string;
     }[];
 };
 
