@@ -103,6 +103,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         const { data } = await this.client.mutate({
             mutation: CreatePlanByLocationDocument,
             variables: {
+                session: request.session,
                 latitude: request.location.latitude,
                 longitude: request.location.longitude,
                 categoriesPreferred: request.categoriesPreferred,
@@ -167,6 +168,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         });
 
         return {
+            session: data.matchInterests.session,
             categories: data.matchInterests.categories.map((category) => ({
                 name: category.name,
                 displayName: category.displayName,
