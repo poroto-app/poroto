@@ -79,6 +79,7 @@ const IndexPage = (props: Props) => {
                     {plansNearby && (
                         <VStack w="100%" spacing={4}>
                             <Text
+                                as="h2"
                                 fontSize="20px"
                                 fontWeight="bold"
                                 w="100%"
@@ -101,6 +102,7 @@ const IndexPage = (props: Props) => {
                     {plansRecentlyCreated && (
                         <VStack w="100%" spacing={4}>
                             <Text
+                                as="h2"
                                 fontSize="20px"
                                 fontWeight="bold"
                                 w="100%"

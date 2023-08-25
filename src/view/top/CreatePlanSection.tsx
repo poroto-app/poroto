@@ -11,6 +11,7 @@ export function CreatePlanSection() {
                 <HangoutIcon />
                 <VStack w="100%" alignItems="flex-start" spacing="16px">
                     <Text
+                        as="h1"
                         color="white"
                         fontWeight="bold"
                         fontSize="24px"
