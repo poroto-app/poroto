@@ -52,9 +52,8 @@ export function ReorderablePlaceList({
         const { active, over } = event;
         if (active.id === over.id) return;
 
-        // TODO: Planner APIで指定されたIDを利用する
-        const oldIndex = places.findIndex((place) => place.name === active.id);
-        const newIndex = places.findIndex((place) => place.name === over.id);
+        const oldIndex = places.findIndex((place) => place.id === active.id);
+        const newIndex = places.findIndex((place) => place.id === over.id);
 
         onReorderPlaces(arrayMove(places, oldIndex, newIndex));
     };
@@ -91,24 +90,20 @@ export function ReorderablePlaceList({
                 },
             }}
         >
-            {/*TODO: Planner APIに場所のIDを指定させる*/}
             <SortableContext
-                items={places.map((place) => ({ id: place.name, ...place }))}
+                items={places}
                 strategy={verticalListSortingStrategy}
             >
                 <VStack w="100%" spacing={4}>
                     {places.map((place) => (
-                        <ReorderblePlaceItem
-                            key={place.name}
-                            place={{ ...place, id: place.name }}
-                        />
+                        <ReorderblePlaceItem key={place.id} place={place} />
                     ))}
                 </VStack>
             </SortableContext>
             {activeId && (
                 <ReorderableItemOverlay
                     id={activeId.toString()}
-                    place={places.find((place) => place.name === activeId)}
+                    place={places.find((place) => place.id === activeId)}
                 />
             )}
         </DndContext>

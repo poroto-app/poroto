@@ -1,4 +1,5 @@
 mutation CreatePlanByLocation(
+    $session: String,
     $latitude: Float!,
     $longitude: Float!,
     $googlePlaceId: String,
@@ -8,6 +9,7 @@ mutation CreatePlanByLocation(
     $basedOnCurrentLocation: Boolean!
 ) {
     createPlanByLocation(input: {
+        session: $session,
         latitude: $latitude,
         longitude: $longitude,
         googlePlaceId: $googlePlaceId,

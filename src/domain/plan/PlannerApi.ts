@@ -129,6 +129,7 @@ export type FetchAvailablePlacesForPlanResponse = {
 };
 
 export type CreatePlanFromLocationRequest = {
+    session?: string;
     location: {
         latitude: number;
         longitude: number;
@@ -172,10 +173,12 @@ export type MatchInterestRequest = {
 };
 
 export type MatchInterestResponse = {
+    session: string;
     categories: {
         name: string;
         displayName: string;
-        photo: string;
+        photo?: string;
+        defaultPhotoUrl: string;
     }[];
 };
 
