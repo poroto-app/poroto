@@ -12,7 +12,10 @@ export const PageMetaData = {
     },
     plans: {
         interest: {
-            title: "近場でプランを作る | poroto",
+            title: (fromCurrentLocation: boolean) =>
+                `${
+                    fromCurrentLocation ? "近場で" : "好きな場所から"
+                }プランを作る | poroto`,
             description: "今の気分にあわせて近場で楽しめるプランを作ります",
         },
     },

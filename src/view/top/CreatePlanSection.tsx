@@ -29,7 +29,7 @@ export function CreatePlanSection() {
                         <CreatePlanButton
                             title="現在地から"
                             icon={MdOutlineLocationOn}
-                            link={Routes.plans.interest}
+                            link={Routes.plans.interest()}
                         />
                         <CreatePlanButton
                             title="好きな場所から"

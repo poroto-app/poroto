@@ -27,7 +27,7 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     const sitemap = generateSiteMap({
         pages: [
             { url: `${baseUrl}/` },
-            { url: `${baseUrl}${Routes.plans.interest}` },
+            { url: `${baseUrl}${Routes.plans.interest()}` },
             { url: `${baseUrl}${Routes.places.search}` },
         ],
     });

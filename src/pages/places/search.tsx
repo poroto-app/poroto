@@ -121,7 +121,7 @@ function PlaceSearchPage() {
     const handleOnCreatePlan = async () => {
         if (!locationSelected) return;
         dispatch(setSearchLocation({ searchLocation: locationSelected }));
-        await router.push(Routes.plans.interest);
+        await router.push(Routes.plans.interest(true));
     };
 
     if (!location)

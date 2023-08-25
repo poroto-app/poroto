@@ -36,10 +36,15 @@ type MatchInterestPage =
     (typeof MatchInterestPages)[keyof typeof MatchInterestPages];
 
 export default function Page() {
+    const router = useRouter();
     return (
         <>
             <Head>
-                <title>{PageMetaData.plans.interest.description}</title>
+                <title>
+                    {PageMetaData.plans.interest.title(
+                        router.query["location"] !== "true"
+                    )}
+                </title>
                 <meta
                     name="description"
                     content={PageMetaData.plans.interest.description}
