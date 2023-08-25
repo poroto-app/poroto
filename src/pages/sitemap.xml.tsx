@@ -41,4 +41,6 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
     };
 };
 
-export default function SiteMap() {}
+export default function SiteMap() {
+    return <></>;
+}
