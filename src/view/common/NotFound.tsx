@@ -36,9 +36,7 @@ export const NotFound = () => {
                         color="#222222"
                     >
                         <Text>申し訳ございません。</Text>
-                        <Text>
-                            お探しのしおりの１ページが見つかりませんでした。
-                        </Text>
+                        <Text>お探しのページが見つかりませんでした。</Text>
                     </VStack>
                 </Center>
                 <Link
