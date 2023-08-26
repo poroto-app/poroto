@@ -10,6 +10,7 @@ import {
     resetCreatePlanFromPlaceRequestStatus,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
+import { ErrorPage } from "src/view/common/ErrorPage";
 import { Layout } from "src/view/common/Layout";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
@@ -24,6 +25,7 @@ const SelectPlanPage = () => {
         plansCreated,
         createPlanSession,
         placesAvailableForPlan,
+        fetchCachedCreatedPlansRequestStatus,
         fetchAvailablePlacesForPlanRequestStatus,
         createPlanFromLocationRequestStatus,
         createPlanFromPlaceRequestStatus,
@@ -85,6 +87,10 @@ const SelectPlanPage = () => {
     if (createPlanFromLocationRequestStatus === RequestStatuses.PENDING)
         return <LoadingModal title="プランを作成しています" />;
 
+    // プラン候補取得失敗
+    if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.REJECTED)
+        return <ErrorPage />;
+
     if (!plansCreated) {
         // TODO: ホームに戻れる404ページを作る
         // sessionに紐づくプランが存在しない
@@ -100,10 +106,6 @@ const SelectPlanPage = () => {
                 <PlanGenerationFailure />
             </Center>
         );
-
-    // 場所を指定してプランを作成中
-    if (createPlanFromPlaceRequestStatus === RequestStatuses.PENDING)
-        return <LoadingModal title="プランを作成しています" />;
 
     return (
         <Layout navBar={<NavBar title="プランを選ぶ" />}>
