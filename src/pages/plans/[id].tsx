@@ -1,10 +1,12 @@
 import { Box, Center, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { fetchPlan, reduxPlanSelector } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
+import { NotFound } from "src/view/common/NotFound";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
@@ -17,14 +19,17 @@ import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSum
 export default function PlanPage() {
     const { id } = useRouter().query;
     const dispatch = useAppDispatch();
-    const { preview: plan } = reduxPlanSelector();
+    const { preview: plan, fetchPlanRequestStatus } = reduxPlanSelector();
 
     useEffect(() => {
         if (typeof id !== "string") return;
         dispatch(fetchPlan({ planId: id }));
     }, [id]);
 
-    if (!plan) return <LoadingModal title="プランを読み込んでいます" />;
+    if (fetchPlanRequestStatus === RequestStatuses.PENDING)
+        return <LoadingModal title="プランを読み込んでいます" />;
+
+    if (!plan) return <NotFound />;
 
     return (
         <Center flexDirection="column" pb={`${FooterHeight}px`}>
