@@ -50,6 +50,7 @@ export type CreatePlanByLocationInput = {
   categoriesPreferred?: InputMaybe<Array<Scalars['String']>>;
   createdBasedOnCurrentLocation?: InputMaybe<Scalars['Boolean']>;
   freeTime?: InputMaybe<Scalars['Int']>;
+  googlePlaceId?: InputMaybe<Scalars['String']>;
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   session?: InputMaybe<Scalars['String']>;
