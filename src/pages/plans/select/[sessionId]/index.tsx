@@ -14,6 +14,7 @@ import { ErrorPage } from "src/view/common/ErrorPage";
 import { Layout } from "src/view/common/Layout";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
+import { NotFound } from "src/view/common/NotFound";
 import { Routes } from "src/view/constants/router";
 import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSection";
 import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure";
@@ -87,14 +88,13 @@ const SelectPlanPage = () => {
     if (createPlanFromLocationRequestStatus === RequestStatuses.PENDING)
         return <LoadingModal title="プランを作成しています" />;
 
-    // プラン候補取得失敗
-    if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.REJECTED)
-        return <ErrorPage />;
-
     if (!plansCreated) {
-        // TODO: ホームに戻れる404ページを作る
-        // sessionに紐づくプランが存在しない
-        if (createPlanSession) return <h1>Not Found</h1>;
+        // プラン候補取得失敗
+        if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.REJECTED)
+            return <ErrorPage />;
+
+        // プラン候補が存在しない
+        if (createPlanSession) return <NotFound />;
 
         return <LoadingModal title="プランを取得しています" />;
     }
