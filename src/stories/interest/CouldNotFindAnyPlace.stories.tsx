@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import {CouldNotFindAnyPlace} from "src/view/interest/CouldNotFindAnyPlace";
+import { CouldNotFindAnyPlace } from "src/view/interest/CouldNotFindAnyPlace";
 
 export default {
     title: "interest/CouldNotFindAnyPlace",
