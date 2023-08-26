@@ -2,6 +2,10 @@ import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import {
+    RequestStatus,
+    RequestStatuses,
+} from "src/domain/models/RequestStatus";
+import {
     reduxLocationSelector,
     setCurrentLocation,
     setSearchLocation,
@@ -17,11 +21,13 @@ import {
     setTimeForPlan,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
+import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
 import { CategorySelect } from "src/view/interest/CategorySelect";
+import { CouldNotFindAnyPlace } from "src/view/interest/CouldNotFindAnyPlace";
 import { PlanDurationSelector } from "src/view/interest/PlanDurationSelector";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
 import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTemplate";
@@ -40,8 +46,11 @@ export default function PlanInterestPage() {
         useLocation();
     const [currentCategory, setCurrentCategory] =
         useState<LocationCategory | null>(null);
-    const { categoryCandidates, createPlanSession } =
-        reduxPlanCandidateSelector();
+    const {
+        categoryCandidates,
+        createPlanSession,
+        matchInterestRequestStatus,
+    } = reduxPlanCandidateSelector();
     const { searchLocation } = reduxLocationSelector();
 
     useEffect(() => {
@@ -127,6 +136,7 @@ export default function PlanInterestPage() {
     return (
         <PlanInterestPageComponent
             currentCategory={currentCategory}
+            matchInterestRequestStatus={matchInterestRequestStatus}
             handleAcceptCategory={handleAcceptCategory}
             handleRejectCategory={handleRejectCategory}
             onSelectTime={handleSelectTime}
@@ -137,6 +147,7 @@ export default function PlanInterestPage() {
 
 type Props = {
     currentCategory: LocationCategory | null;
+    matchInterestRequestStatus: RequestStatus | null;
     handleAcceptCategory: (category: LocationCategory) => void;
     handleRejectCategory: (category: LocationCategory) => void;
     onSelectTime: (duration: number | null) => void;
@@ -145,6 +156,7 @@ type Props = {
 
 export function PlanInterestPageComponent({
     currentCategory,
+    matchInterestRequestStatus,
     handleAcceptCategory,
     handleRejectCategory,
     onSelectTime,
@@ -172,8 +184,18 @@ export function PlanInterestPageComponent({
             </MatchInterestPageTemplate>
         );
 
-    if (!currentCategory)
-        return <LoadingModal title="近くに何があるかを探しています。" />;
+    if (!currentCategory) {
+        if (
+            !matchInterestRequestStatus ||
+            matchInterestRequestStatus === RequestStatuses.PENDING
+        )
+            return <LoadingModal title="近くに何があるかを探しています。" />;
+
+        if (matchInterestRequestStatus === RequestStatuses.REJECTED)
+            return <ErrorPage />;
+
+        return <CouldNotFindAnyPlace />;
+    }
 
     return (
         <MatchInterestPageTemplate
