@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { fetchPlan, reduxPlanSelector } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
+import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
@@ -26,8 +27,14 @@ export default function PlanPage() {
         dispatch(fetchPlan({ planId: id }));
     }, [id]);
 
-    if (fetchPlanRequestStatus === RequestStatuses.PENDING)
+    if (
+        !fetchPlanRequestStatus ||
+        fetchPlanRequestStatus === RequestStatuses.PENDING
+    )
         return <LoadingModal title="プランを読み込んでいます" />;
+
+    if (fetchPlanRequestStatus === RequestStatuses.REJECTED)
+        return <ErrorPage />;
 
     if (!plan) return <NotFound />;
 
