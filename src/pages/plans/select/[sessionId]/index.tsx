@@ -84,19 +84,24 @@ const SelectPlanPage = () => {
         );
     };
 
-    // プランを作成中
-    if (createPlanFromLocationRequestStatus === RequestStatuses.PENDING)
-        return <LoadingModal title="プランを作成しています" />;
-
     if (!plansCreated) {
+        if (
+            // ページ読み込み直後
+            (!fetchCachedCreatedPlansRequestStatus &&
+                !createPlanFromLocationRequestStatus) ||
+            // プラン作成中
+            createPlanFromLocationRequestStatus === RequestStatuses.PENDING ||
+            // プラン候補取得中
+            fetchCachedCreatedPlansRequestStatus === RequestStatuses.PENDING
+        )
+            return <LoadingModal title="プランを作成しています" />;
+
         // プラン候補取得失敗
         if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.REJECTED)
             return <ErrorPage />;
 
         // プラン候補が存在しない
-        if (createPlanSession) return <NotFound />;
-
-        return <LoadingModal title="プランを取得しています" />;
+        return <NotFound />;
     }
 
     // TODO: プラン作成失敗 or 直接このページに来たときははじく
