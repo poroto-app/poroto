@@ -56,9 +56,11 @@ export function FailurePage({
                             )}
                             <Center w="100%"></Center>
                         </VStack>
-                        <Box w="100%" my="32px">
-                            {image}
-                        </Box>
+                        <Center w="100%">
+                            <Box w="100%" maxW="450px" my="32px">
+                                {image}
+                            </Box>
+                        </Center>
                         <VStack
                             spacing={0}
                             w="100%"
