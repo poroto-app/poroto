@@ -1,10 +1,10 @@
 import { Box, Center, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
-import animationDataCreating from "src/view/lottie/creating_map.json";
-import animationDataFailed from "src/view/lottie/fail.json";
 import { LottiePlayer } from "src/view/common/LottiePlayer";
 import { RoundedButton } from "src/view/common/RoundedButton";
+import animationDataCreating from "src/view/lottie/creating_map.json";
+import animationDataFailed from "src/view/lottie/fail.json";
 
 type Props = {
     onClose: () => void;
@@ -16,11 +16,19 @@ export function GeneratingPlanDialog({ failed, onClose }: Props) {
         if (failed) {
             onClose();
         }
-    }
+    };
 
     return (
-        <FullscreenDialog onClickOutside={handleOnClickOutside} width="100%" height="500px" maxWidth="500px" maxHeight="100%">
-            <Dialog>{failed ? <Failed onClose={onClose}/> : <Generating />}</Dialog>
+        <FullscreenDialog
+            onClickOutside={handleOnClickOutside}
+            width="100%"
+            height="500px"
+            maxWidth="500px"
+            maxHeight="100%"
+        >
+            <Dialog>
+                {failed ? <Failed onClose={onClose} /> : <Generating />}
+            </Dialog>
         </FullscreenDialog>
     );
 }
@@ -29,25 +37,30 @@ function Generating() {
     return (
         <VStack>
             <Box position="relative" h="100px" w="100%" my="32px">
-                <LottiePlayer animationData={animationDataCreating} style={{transform: "scale3d(1.5, 1.5, 1)"}} />
+                <LottiePlayer
+                    animationData={animationDataCreating}
+                    style={{ transform: "scale3d(1.5, 1.5, 1)" }}
+                />
             </Box>
-            <Text fontSize="24px" fontWeight="bold">プランを作成しています</Text>
+            <Text fontSize="24px" fontWeight="bold">
+                プランを作成しています
+            </Text>
         </VStack>
     );
 }
 
-function Failed({onClose}: {onClose: () => void}) {
+function Failed({ onClose }: { onClose: () => void }) {
     return (
         <VStack spacing="16px">
             <VStack>
                 <Box position="relative" h="250px" w="100%">
                     <LottiePlayer animationData={animationDataFailed} />
                 </Box>
-                <Text fontSize="24px" fontWeight="bold">プランの作成に失敗しました</Text>
+                <Text fontSize="24px" fontWeight="bold">
+                    プランの作成に失敗しました
+                </Text>
             </VStack>
-            <RoundedButton onClick={onClose}>
-                閉じる
-            </RoundedButton>
+            <RoundedButton onClick={onClose}>閉じる</RoundedButton>
         </VStack>
     );
 }

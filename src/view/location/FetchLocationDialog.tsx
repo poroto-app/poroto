@@ -5,11 +5,11 @@ import {
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
+import { LottiePlayer } from "src/view/common/LottiePlayer";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import { Routes } from "src/view/constants/router";
 import animationDataFailedLocation from "src/view/lottie/location-failed.json";
 import animationDataLoadingLocation from "src/view/lottie/location-loading.json";
-import { LottiePlayer } from "src/view/common/LottiePlayer";
 
 type Props = {
     fetchLocationRequestStatus: RequestStatus | null;
