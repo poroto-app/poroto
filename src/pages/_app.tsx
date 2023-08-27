@@ -14,13 +14,19 @@ import {
 import { reduxStore, useAppDispatch } from "src/redux/redux";
 import { FirebaseProvider } from "src/view/common/FirebaseProvider";
 import { Theme } from "src/view/common/Theme";
+import { PageMetaData } from "src/view/constants/meta";
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
             <Head>
                 <meta charSet="utf-8" />
-                <title>poroto</title>
+                <title>{PageMetaData.top.title}</title>
+                <meta
+                    name="description"
+                    content={PageMetaData.top.description}
+                />
+                <meta name="locale" content="ja" />
                 <meta
                     name="viewport"
                     content="width=device-width,initial-scale=1,maximum-scale=1.0,minimum-scale=1"
@@ -38,11 +44,11 @@ export default function App({ Component, pageProps }: AppProps) {
                 />
                 <link rel="icon" type="image/png" href="/favicon/favicon.png" />
                 {/* ogp */}
-                <meta property="og:title" content="poroto" />
+                <meta property="og:title" content={PageMetaData.top.title} />
                 <meta property="og:site_name" content="poroto" />
                 <meta
                     property="og:description"
-                    content="porotoは、あなたの暇な時間を楽しく過ごすための最適なプランを自動的に生成します！"
+                    content={PageMetaData.top.description}
                 />
                 <meta property="og:url" content="https://poroto.app/" />
                 <meta
