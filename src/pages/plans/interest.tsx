@@ -62,12 +62,19 @@ function PlanInterestPage() {
         useLocation();
     const [currentCategory, setCurrentCategory] =
         useState<LocationCategory | null>(null);
-    const { categoryCandidates, createPlanSession } =
-        reduxPlanCandidateSelector();
+    const [matchInterestRequestId, setMatchInterestRequestId] = useState<
+        string | null
+    >(null);
+    const {
+        categoryCandidates,
+        createPlanSession,
+        fetchLocationCategoryRequestId,
+    } = reduxPlanCandidateSelector();
     const { searchLocation } = reduxLocationSelector();
 
     useEffect(() => {
         dispatch(resetInterest());
+        setMatchInterestRequestId(null);
 
         // 2回目以降、プランを作成するときに、前回の結果が残らないようにする
         dispatch(
@@ -80,9 +87,10 @@ function PlanInterestPage() {
 
         return () => {
             // 前回の結果をリセット
-            // MEMO: 戻るボタンで遷移してきたときに、状態が残っていると/plans/createに自動的に遷移してしまう
+            // MEMO: 戻るボタンで遷移してきたときに、状態が残っていると/plans/selectに自動的に遷移してしまう
             dispatch(resetInterest());
             setCurrentCategory(null);
+            setMatchInterestRequestId(null);
 
             // 場所を指定してプラン作成 -> 現在地からプラン作成
             // を行うと、指定した場所の情報が残り、そこからプランを作成してしまうためリセットする
@@ -108,7 +116,9 @@ function PlanInterestPage() {
     // 検索する場所が指定されたら、興味を持つ場所を検索
     useEffect(() => {
         if (searchLocation) {
-            dispatch(matchInterest({ location: searchLocation }));
+            const requestId = Date.now().toString();
+            setMatchInterestRequestId(requestId);
+            dispatch(matchInterest({ location: searchLocation, requestId }));
         }
     }, [searchLocation]);
 
@@ -148,7 +158,11 @@ function PlanInterestPage() {
 
     return (
         <PlanInterestPageComponent
-            currentCategory={currentCategory}
+            currentCategory={
+                // 別のリクエスト結果が使われないようにする
+                matchInterestRequestId === fetchLocationCategoryRequestId &&
+                currentCategory
+            }
             handleAcceptCategory={handleAcceptCategory}
             handleRejectCategory={handleRejectCategory}
             onSelectTime={handleSelectTime}

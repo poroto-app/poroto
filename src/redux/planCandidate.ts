@@ -29,6 +29,8 @@ export type PlanCandidateState = {
     categoryCandidates: LocationCategory[] | null;
     categoriesAccepted: LocationCategory[] | null;
     categoriesRejected: LocationCategory[] | null;
+    // 直前に発火したリクエストの結果と、新しく行ったリクエストの結果を区別できるようにするために利用する
+    fetchLocationCategoryRequestId: string | null;
 
     timeForPlan: number | null;
 
@@ -50,6 +52,7 @@ const initialState: PlanCandidateState = {
     categoryCandidates: null,
     categoriesAccepted: null,
     categoriesRejected: null,
+    fetchLocationCategoryRequestId: null,
 
     timeForPlan: null,
 
@@ -185,6 +188,7 @@ export const fetchAvailablePlacesForPlan = createAsyncThunk(
 );
 
 type MatchInterestProps = {
+    requestId: string;
     location: {
         latitude: number;
         longitude: number;
@@ -192,10 +196,11 @@ type MatchInterestProps = {
 };
 export const matchInterest = createAsyncThunk(
     "planCandidate/matchInterest",
-    async ({ location }: MatchInterestProps) => {
+    async ({ location, requestId }: MatchInterestProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.matchInterest({ location });
         return {
+            requestId,
             createPlanSession: response.session,
             categories: response.categories.map((category) => ({
                 name: category.name,
@@ -315,6 +320,7 @@ export const slice = createSlice({
             state.categoryCandidates = null;
             state.categoriesRejected = null;
             state.categoriesAccepted = null;
+            state.fetchLocationCategoryRequestId = null;
         },
 
         resetPlanCandidates: (state) => {
@@ -458,6 +464,7 @@ export const slice = createSlice({
                 state.categoryCandidates = payload.categories;
                 state.categoriesAccepted = [];
                 state.categoriesRejected = [];
+                state.fetchLocationCategoryRequestId = payload.requestId;
 
                 state.createPlanSession = payload.createPlanSession;
             })
