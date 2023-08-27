@@ -4,9 +4,14 @@ import { FailurePage } from "src/view/common/FailurePage";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { Routes } from "src/view/constants/router";
 
-export function CouldNotFindAnyPlace() {
+type Props = {
+    navBar?: boolean;
+};
+
+export function CouldNotFindAnyPlace({ navBar }: Props) {
     return (
         <FailurePage
+            navBar={navBar}
             title="Sorry"
             statusDescription="近くの場所を探すことができませんでした。"
             image={

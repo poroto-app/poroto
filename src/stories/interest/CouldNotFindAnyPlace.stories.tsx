@@ -11,5 +11,7 @@ export default {
 type Story = StoryObj<typeof CouldNotFindAnyPlace>;
 
 export const Primary: Story = {
-    args: {},
+    args: {
+        navBar: false,
+    },
 };

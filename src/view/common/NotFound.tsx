@@ -4,9 +4,14 @@ import { FailurePage } from "src/view/common/FailurePage";
 import { Routes } from "src/view/constants/router";
 import { RoundedButton } from "./RoundedButton";
 
-export const NotFound = () => {
+type Props = {
+    navBar?: boolean;
+};
+
+export const NotFound = ({ navBar }: Props) => {
     return (
         <FailurePage
+            navBar={navBar}
             title="404"
             statusMessage="Not Found"
             statusDescription="お探しのページが見つかりませんでした。"

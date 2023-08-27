@@ -7,7 +7,11 @@ import { RoundedButton } from "src/view/common/RoundedButton";
 import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 
-export function ErrorPage() {
+type Props = {
+    navBar?: boolean;
+};
+
+export function ErrorPage({ navBar }: Props) {
     const router = useRouter();
 
     const handleReload = () => {
@@ -16,6 +20,7 @@ export function ErrorPage() {
 
     return (
         <FailurePage
+            navBar={navBar}
             title="505"
             statusMessage="Server Error"
             statusDescription="サーバーでエラーが発生しました。"
