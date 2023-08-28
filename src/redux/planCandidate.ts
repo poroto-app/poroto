@@ -38,6 +38,7 @@ export type PlanCandidateState = {
     createPlanFromPlaceRequestStatus: RequestStatus | null;
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
+    fetchCachedCreatedPlansRequestStatus: RequestStatus | null;
     fetchAvailablePlacesForPlanRequestStatus: RequestStatus | null;
     matchInterestRequestStatus: RequestStatus | null;
 };
@@ -60,6 +61,7 @@ const initialState: PlanCandidateState = {
     createPlanFromPlaceRequestStatus: null,
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
+    fetchCachedCreatedPlansRequestStatus: null,
     fetchAvailablePlacesForPlanRequestStatus: null,
     matchInterestRequestStatus: null,
 };
@@ -138,10 +140,7 @@ export const createPlanFromPlace = createAsyncThunk(
 type FetchCachedCreatedPlansProps = { session: string };
 export const fetchCachedCreatedPlans = createAsyncThunk(
     "planCandidate/fetchCachedCreatedPlans",
-    async (
-        { session }: FetchCachedCreatedPlansProps,
-        { dispatch, getState }
-    ) => {
+    async ({ session }: FetchCachedCreatedPlansProps, { getState }) => {
         // すでに取得している場合はスキップ
         const { createPlanSession } = (getState() as RootState).planCandidate;
         if (createPlanSession && session === createPlanSession) return null;
@@ -149,25 +148,20 @@ export const fetchCachedCreatedPlans = createAsyncThunk(
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.fetchCachedCreatedPlans({ session });
         if (response.plans === null) {
-            dispatch(
-                setCreatedPlans({
-                    session,
-                    plans: null,
-                    createdBasedOnCurrentLocation: null,
-                })
-            );
-            return;
+            return {
+                session,
+                plans: null,
+                createdBasedOnCurrentLocation: null,
+            };
         }
 
         const plans: Plan[] = response.plans.map(createPlanFromPlanEntity);
-        dispatch(
-            setCreatedPlans({
-                session,
-                plans,
-                createdBasedOnCurrentLocation:
-                    response.createdBasedOnCurrentLocation,
-            })
-        );
+        return {
+            session,
+            plans,
+            createdBasedOnCurrentLocation:
+                response.createdBasedOnCurrentLocation,
+        };
     }
 );
 
@@ -437,6 +431,28 @@ export const slice = createSlice({
                     state.plansCreated[planIndexToUpdate] = payload.plan;
                 }
             )
+            // Fetch Cached Created Plans
+            .addCase(fetchCachedCreatedPlans.pending, (state, action) => {
+                state.fetchCachedCreatedPlansRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(
+                fetchCachedCreatedPlans.fulfilled,
+                (state, { payload }) => {
+                    if (!payload) return;
+                    state.createPlanSession = payload.session;
+                    state.plansCreated = payload.plans;
+                    state.createdBasedOnCurrentLocation =
+                        payload.createdBasedOnCurrentLocation;
+
+                    state.fetchCachedCreatedPlansRequestStatus =
+                        RequestStatuses.FULFILLED;
+                }
+            )
+            .addCase(fetchCachedCreatedPlans.rejected, (state, action) => {
+                state.fetchCachedCreatedPlansRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
             // Fetch Available Places For Plan
             .addCase(fetchAvailablePlacesForPlan.pending, (state, action) => {
                 state.fetchAvailablePlacesForPlanRequestStatus =

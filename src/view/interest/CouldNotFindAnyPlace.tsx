@@ -1,26 +1,26 @@
 import { Link } from "@chakra-ui/next-js";
-import { Image } from "@chakra-ui/react";
+import Lost from "src/view/assets/svg/lost.svg";
 import { FailurePage } from "src/view/common/FailurePage";
+import { RoundedButton } from "src/view/common/RoundedButton";
 import { Routes } from "src/view/constants/router";
-import { RoundedButton } from "./RoundedButton";
 
 type Props = {
     navBar?: boolean;
 };
 
-export const NotFound = ({ navBar }: Props) => {
+export function CouldNotFindAnyPlace({ navBar }: Props) {
     return (
         <FailurePage
             navBar={navBar}
-            title="404"
-            statusMessage="Not Found"
-            statusDescription="お探しのページが見つかりませんでした。"
+            title="Sorry"
+            statusDescription="近くの場所を探すことができませんでした。"
             image={
-                <Image
-                    w="100%"
-                    objectFit="cover"
-                    src="/images/404.png"
-                    alt="Not Found"
+                <Lost
+                    viewBox="0 0 885.20079 708.31655"
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                    }}
                 />
             }
             actions={
@@ -34,4 +34,4 @@ export const NotFound = ({ navBar }: Props) => {
             }
         />
     );
-};
+}

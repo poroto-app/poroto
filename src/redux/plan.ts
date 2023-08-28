@@ -22,6 +22,8 @@ export type PlanState = {
     nextPageTokenPlansNearby: string | null;
 
     preview: Plan | null;
+
+    fetchPlanRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanState = {
@@ -33,6 +35,8 @@ const initialState: PlanState = {
     nextPageTokenPlansNearby: null,
 
     preview: null,
+
+    fetchPlanRequestStatus: null,
 };
 
 export const fetchPlansRecentlyCreated = createAsyncThunk<{
@@ -122,8 +126,15 @@ export const slice = createSlice({
     extraReducers: (builder) => {
         builder
             // Fetch Plan
+            .addCase(fetchPlan.pending, (state) => {
+                state.fetchPlanRequestStatus = RequestStatuses.PENDING;
+            })
             .addCase(fetchPlan.fulfilled, (state, { payload }) => {
                 state.preview = payload;
+                state.fetchPlanRequestStatus = RequestStatuses.FULFILLED;
+            })
+            .addCase(fetchPlan.rejected, (state) => {
+                state.fetchPlanRequestStatus = RequestStatuses.REJECTED;
             })
             // Fetch Plans Recently Created
             .addCase(
