@@ -50,6 +50,7 @@ export type CreatePlanByLocationInput = {
   categoriesPreferred?: InputMaybe<Array<Scalars['String']>>;
   createdBasedOnCurrentLocation?: InputMaybe<Scalars['Boolean']>;
   freeTime?: InputMaybe<Scalars['Int']>;
+  googlePlaceId?: InputMaybe<Scalars['String']>;
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   session?: InputMaybe<Scalars['String']>;
@@ -147,6 +148,7 @@ export type Place = {
 
 export type Plan = {
   __typename?: 'Plan';
+  author?: Maybe<User>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   name: Scalars['String'];
@@ -168,6 +170,15 @@ export type PlansByLocationOutput = {
   plans: Array<Plan>;
 };
 
+export type PlansByUserInput = {
+  userId: Scalars['String'];
+};
+
+export type PlansByUserOutput = {
+  __typename?: 'PlansByUserOutput';
+  plans: Array<Plan>;
+};
+
 export type Query = {
   __typename?: 'Query';
   availablePlacesForPlan: AvailablePlacesForPlan;
@@ -177,6 +188,7 @@ export type Query = {
   plan?: Maybe<Plan>;
   plans: Array<Plan>;
   plansByLocation: PlansByLocationOutput;
+  plansByUser: PlansByUserOutput;
   version: Scalars['String'];
 };
 
@@ -215,7 +227,13 @@ export type QueryPlansByLocationArgs = {
   input: PlansByLocationInput;
 };
 
+
+export type QueryPlansByUserArgs = {
+  input: PlansByUserInput;
+};
+
 export type SavePlanFromCandidateInput = {
+  authToken?: InputMaybe<Scalars['String']>;
   planId: Scalars['String'];
   session: Scalars['String'];
 };
