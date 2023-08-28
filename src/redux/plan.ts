@@ -149,6 +149,9 @@ export const slice = createSlice({
             state.nextPageTokenPlansRecentlyCreated =
                 payload.nextPageTokenPlansRecentlyCreated;
         },
+        resetPlansByUser: (state) => {
+            state.plansByUser = null;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -199,7 +202,7 @@ export const slice = createSlice({
     },
 });
 
-export const { pushPlansRecentlyCreated } = slice.actions;
+export const { pushPlansRecentlyCreated, resetPlansByUser } = slice.actions;
 
 export const reduxPlanSelector = () =>
     useSelector((state: RootState) => state.plan);

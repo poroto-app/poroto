@@ -8,15 +8,17 @@ import {
     createPlanFromPlanEntity,
     PlannerApi,
 } from "src/domain/plan/PlannerApi";
+import { reduxAuthSelector } from "src/redux/auth";
 import {
     fetchNearbyPlans,
+    fetchPlansByUser,
     fetchPlansRecentlyCreated,
     pushPlansRecentlyCreated,
     reduxPlanSelector,
+    resetPlansByUser,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { NavBar } from "src/view/common/NavBar";
-import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { useLocation } from "src/view/hooks/useLocation";
 import { PlanList } from "src/view/plan/PlanList";
@@ -33,8 +35,10 @@ const IndexPage = (props: Props) => {
         plansRecentlyCreated,
         nextPageTokenPlansRecentlyCreated,
         plansNearby,
+        plansByUser,
     } = reduxPlanSelector();
     const { checkGeolocationPermission, getCurrentLocation } = useLocation();
+    const { user } = reduxAuthSelector();
 
     // 位置情報が利用可能な場合は付近で作成されたプランを取得する
     useEffect(() => {
@@ -62,6 +66,15 @@ const IndexPage = (props: Props) => {
             );
     }, [plansRecentlyCreated]);
 
+    useEffect(() => {
+        if (!user) {
+            dispatch(resetPlansByUser());
+            return;
+        }
+
+        dispatch(fetchPlansByUser({ userId: user.id }));
+    }, [user]);
+
     return (
         <VStack w="100%" spacing={0}>
             <NavBar />
@@ -74,6 +87,9 @@ const IndexPage = (props: Props) => {
                     py="48px"
                     spacing="24px"
                 >
+                    {user && (
+                        <PlanList title="保存したプラン" plans={plansByUser} />
+                    )}
                     {/* TODO: 位置情報をONにすると近くのプランを取得できることを伝えるボタンを配置 */}
                     {/* TODO: 取得中のときはプレースホルダーを表示 */}
                     <PlanList
