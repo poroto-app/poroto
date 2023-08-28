@@ -1,14 +1,14 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { NotFound } from "src/view/common/NotFound";
+import { ErrorPage } from "src/view/common/ErrorPage";
 
 export default {
-    title: "common/NotFound",
-    component: NotFound,
+    title: "common/ErrorPage",
+    component: ErrorPage,
     tags: ["autodocs"],
     parameters: {},
-} as Meta<typeof NotFound>;
+} as Meta<typeof ErrorPage>;
 
-type Story = StoryObj<typeof NotFound>;
+type Story = StoryObj<typeof ErrorPage>;
 
 export const Primary: Story = {
     args: {

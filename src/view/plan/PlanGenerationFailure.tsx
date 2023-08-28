@@ -1,40 +1,23 @@
 import { Link } from "@chakra-ui/next-js";
-import { Center, Image, Text, VStack } from "@chakra-ui/react";
-import { Colors } from "src/view/constants/color";
+import { Image } from "@chakra-ui/react";
+import { FailurePage } from "src/view/common/FailurePage";
 import { Routes } from "src/view/constants/router";
-import styled from "styled-components";
 import { RoundedButton } from "../common/RoundedButton";
 
 export const PlanGenerationFailure = () => {
     return (
-        <Center w="100%" h="100%">
-            <Container>
-                <Center flexDirection="column" flex={1} w="100%" px="16px">
-                    <VStack
-                        color={Colors.primary["400"]}
-                        w="100%"
-                        alignItems="flex-start"
-                        spacing={0}
-                    >
-                        <Text fontSize="80px" fontWeight="bold">
-                            Sorry
-                        </Text>
-                    </VStack>
-                    <VStack
-                        spacing={0}
-                        w="100%"
-                        alignItems="flex-start"
-                        color="#222222"
-                    >
-                        <Text>しおりを作成することができませんでした。</Text>
-                    </VStack>
-                    <Image
-                        w="100%"
-                        objectFit="cover"
-                        src="/images/NotFound.jpg"
-                        alt="Not Found"
-                    />
-                </Center>
+        <FailurePage
+            title="Sorry"
+            statusDescription="プランを作成することができませんでした。"
+            image={
+                <Image
+                    w="100%"
+                    objectFit="cover"
+                    src="/images/NotFound.jpg"
+                    alt="Not Found"
+                />
+            }
+            actions={
                 <Link
                     href={Routes.home}
                     w="100%"
@@ -42,17 +25,7 @@ export const PlanGenerationFailure = () => {
                 >
                     <RoundedButton>ホームに戻る</RoundedButton>
                 </Link>
-            </Container>
-        </Center>
+            }
+        />
     );
 };
-
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
-    max-width: 600px;
-    padding: 32px 16px;
-    user-select: none;
-`;
