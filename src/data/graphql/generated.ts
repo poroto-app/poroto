@@ -148,7 +148,7 @@ export type Place = {
 
 export type Plan = {
   __typename?: 'Plan';
-  author?: Maybe<User>;
+  authorId?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   name: Scalars['String'];
@@ -176,6 +176,7 @@ export type PlansByUserInput = {
 
 export type PlansByUserOutput = {
   __typename?: 'PlansByUserOutput';
+  author: User;
   plans: Array<Plan>;
 };
 
