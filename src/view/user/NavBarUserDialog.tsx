@@ -102,7 +102,7 @@ export function NavBarUserDialogOverlay({ onClick }: { onClick: () => void }) {
             bottom={0}
             left={0}
             onClick={onClick}
-            zIndex={9999}
+            zIndex={100}
         />
     );
 }
