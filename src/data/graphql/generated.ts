@@ -50,6 +50,7 @@ export type CreatePlanByLocationInput = {
   categoriesPreferred?: InputMaybe<Array<Scalars['String']>>;
   createdBasedOnCurrentLocation?: InputMaybe<Scalars['Boolean']>;
   freeTime?: InputMaybe<Scalars['Int']>;
+  googlePlaceId?: InputMaybe<Scalars['String']>;
   latitude: Scalars['Float'];
   longitude: Scalars['Float'];
   session?: InputMaybe<Scalars['String']>;
@@ -94,7 +95,7 @@ export type LocationCategory = {
   defaultPhotoUrl: Scalars['String'];
   displayName: Scalars['String'];
   name: Scalars['String'];
-  photo: Scalars['String'];
+  photo?: Maybe<Scalars['String']>;
 };
 
 export type MatchInterestsInput = {
@@ -272,7 +273,7 @@ export type MatchInterestsQueryVariables = Exact<{
 }>;
 
 
-export type MatchInterestsQuery = { __typename?: 'Query', matchInterests: { __typename?: 'InterestCandidate', session: string, categories: Array<{ __typename?: 'LocationCategory', name: string, displayName: string, photo: string, defaultPhotoUrl: string }> } };
+export type MatchInterestsQuery = { __typename?: 'Query', matchInterests: { __typename?: 'InterestCandidate', session: string, categories: Array<{ __typename?: 'LocationCategory', name: string, displayName: string, photo?: string | null, defaultPhotoUrl: string }> } };
 
 export type PlansByLocationQueryVariables = Exact<{
   latitude: Scalars['Float'];

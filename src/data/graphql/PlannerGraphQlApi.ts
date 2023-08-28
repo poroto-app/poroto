@@ -172,10 +172,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             categories: data.matchInterests.categories.map((category) => ({
                 name: category.name,
                 displayName: category.displayName,
-                // TODO: nil check
-                photo:
-                    !category.photo.includes("https://placehold.jp") &&
-                    category.photo,
+                photo: category.photo,
                 defaultPhotoUrl: category.defaultPhotoUrl,
             })),
         };
