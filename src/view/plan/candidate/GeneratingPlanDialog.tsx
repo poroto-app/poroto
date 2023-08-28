@@ -54,7 +54,11 @@ function Failed({ onClose }: { onClose: () => void }) {
         <VStack spacing="16px">
             <VStack>
                 <Box position="relative" h="250px" w="100%">
-                    <LottiePlayer animationData={animationDataFailed} />
+                    <LottiePlayer
+                        animationData={animationDataFailed}
+                        loop={false}
+                        segments={[0, 193]}
+                    />
                 </Box>
                 <Text fontSize="24px" fontWeight="bold">
                     プランの作成に失敗しました
