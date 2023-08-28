@@ -1,4 +1,5 @@
 import { Box, Center, VStack } from "@chakra-ui/react";
+import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Place } from "src/domain/models/Place";
@@ -78,14 +79,18 @@ const PlanDetail = () => {
         }
     }, [planId, savePlanFromCandidateRequestStatus]);
 
-    const handleOnSavePlan = ({
+    const handleOnSavePlan = async ({
         session,
         plan,
     }: {
         session: string;
         plan: Plan;
     }) => {
-        dispatch(savePlanFromCandidate({ session, planId: plan.id }));
+        const auth = getAuth();
+        const authToken = await auth.currentUser?.getIdToken(true);
+        dispatch(
+            savePlanFromCandidate({ session, planId: plan.id, authToken })
+        );
     };
 
     const handleOnReorderPlaces = ({
