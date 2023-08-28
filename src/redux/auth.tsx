@@ -6,7 +6,7 @@ import {
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
 import { User } from "src/domain/models/User";
-import { UserApi } from "src/domain/user/UserApi";
+import { createUserFromEntity, UserApi } from "src/domain/user/UserApi";
 import { RootState } from "src/redux/redux";
 
 export type AuthState = {
@@ -34,7 +34,7 @@ export const fetchByFirebaseUser = createAsyncThunk(
             firebaseToken,
         });
         return {
-            user,
+            user: createUserFromEntity(user),
         };
     }
 );

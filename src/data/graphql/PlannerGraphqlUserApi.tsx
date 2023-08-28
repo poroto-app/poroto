@@ -24,7 +24,7 @@ export class PlannerGraphqlUserApi
             user: {
                 id: data.firebaseUser.id,
                 name: data.firebaseUser.name,
-                avatarImage: data.firebaseUser.photoUrl,
+                photoUrl: data.firebaseUser.photoUrl,
             },
         };
     }
