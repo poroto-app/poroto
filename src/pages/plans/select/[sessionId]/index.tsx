@@ -17,6 +17,7 @@ import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
 import { Routes } from "src/view/constants/router";
 import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSection";
+import { GeneratingPlanDialog } from "src/view/plan/candidate/GeneratingPlanDialog";
 import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 
@@ -114,6 +115,19 @@ const SelectPlanPage = () => {
 
     return (
         <Layout navBar={<NavBar title="プランを選ぶ" />}>
+            {[RequestStatuses.PENDING, RequestStatuses.REJECTED].includes(
+                createPlanFromPlaceRequestStatus
+            ) && (
+                <GeneratingPlanDialog
+                    onClose={() =>
+                        dispatch(resetCreatePlanFromPlaceRequestStatus())
+                    }
+                    failed={
+                        createPlanFromPlaceRequestStatus ===
+                        RequestStatuses.REJECTED
+                    }
+                />
+            )}
             <VStack w="100%" px="16px" py="16px" spacing={8}>
                 <VStack w="100%" spacing={8}>
                     {plansCreated.map((plan, i) => (
