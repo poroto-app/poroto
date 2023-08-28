@@ -1,4 +1,4 @@
-import { Center, Text, VStack } from "@chakra-ui/react";
+import { Center, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
@@ -19,7 +19,7 @@ import { NavBar } from "src/view/common/NavBar";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { useLocation } from "src/view/hooks/useLocation";
-import { PlanPreview } from "src/view/plan/PlanPreview";
+import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 
 type Props = {
@@ -76,64 +76,22 @@ const IndexPage = (props: Props) => {
                 >
                     {/* TODO: 位置情報をONにすると近くのプランを取得できることを伝えるボタンを配置 */}
                     {/* TODO: 取得中のときはプレースホルダーを表示 */}
-                    {plansNearby && (
-                        <VStack w="100%" spacing={4}>
-                            <Text
-                                as="h2"
-                                fontSize="20px"
-                                fontWeight="bold"
-                                w="100%"
-                                maxW="600px"
-                                textAlign="start"
-                            >
-                                近くで作られたプラン
-                            </Text>
-                            <VStack spacing={16} w="100%">
-                                {plansNearby.map((plan, index) => (
-                                    <PlanPreview
-                                        key={index}
-                                        link={Routes.plans.plan(plan.id)}
-                                        plan={plan}
-                                    />
-                                ))}
-                            </VStack>
-                        </VStack>
-                    )}
-                    {plansRecentlyCreated && (
-                        <VStack w="100%" spacing={4}>
-                            <Text
-                                as="h2"
-                                fontSize="20px"
-                                fontWeight="bold"
-                                w="100%"
-                                maxW="600px"
-                                textAlign="start"
-                            >
-                                最近作られたプラン
-                            </Text>
-                            {/* TODO: React 18に対応 */}
-                            {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                            {/* @ts-ignore */}
-                            <InfiniteScroll
-                                loadMore={() =>
-                                    dispatch(fetchPlansRecentlyCreated())
-                                }
-                                hasMore={
-                                    nextPageTokenPlansRecentlyCreated !== null
-                                }
-                            >
-                                <VStack spacing={16} w="100%">
-                                    {plansRecentlyCreated.map((plan, index) => (
-                                        <PlanPreview
-                                            key={index}
-                                            link={Routes.plans.plan(plan.id)}
-                                            plan={plan}
-                                        />
-                                    ))}
-                                </VStack>
-                            </InfiniteScroll>
-                        </VStack>
-                    )}
+                    <PlanList
+                        title={"近くで作られたプラン"}
+                        plans={plansNearby}
+                    />
+                    {/* TODO: React 18に対応 */}
+                    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                    {/* @ts-ignore */}
+                    <InfiniteScroll
+                        loadMore={() => dispatch(fetchPlansRecentlyCreated())}
+                        hasMore={nextPageTokenPlansRecentlyCreated !== null}
+                    >
+                        <PlanList
+                            title="最近作られたプラン"
+                            plans={plansRecentlyCreated}
+                        />
+                    </InfiniteScroll>
                 </VStack>
             </Center>
         </VStack>
