@@ -1,4 +1,5 @@
 import { Box, VStack } from "@chakra-ui/react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { MdDone, MdOutlineTouchApp } from "react-icons/md";
@@ -25,6 +26,7 @@ import { Layout } from "src/view/common/Layout";
 import { NavBar } from "src/view/common/NavBar";
 import { RoundedIconButton } from "src/view/common/RoundedIconButton";
 import { locationSinjukuStation } from "src/view/constants/location";
+import { PageMetaData } from "src/view/constants/meta";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
@@ -32,7 +34,22 @@ import { MapPinSelector } from "src/view/place/MapPinSelector";
 import { PlaceSearchBar } from "src/view/place/PlaceSearchBar";
 import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
 
-export default function PlaceSearchPage() {
+export default function Page() {
+    return (
+        <>
+            <Head>
+                <title>{PageMetaData.place.search.title}</title>
+                <meta
+                    name="description"
+                    content={PageMetaData.place.search.description}
+                />
+            </Head>
+            <PlaceSearchPage />
+        </>
+    );
+}
+
+function PlaceSearchPage() {
     const router = useRouter();
     const dispatch = useAppDispatch();
     const { currentLocation } = reduxLocationSelector();
@@ -104,7 +121,7 @@ export default function PlaceSearchPage() {
     const handleOnCreatePlan = async () => {
         if (!locationSelected) return;
         dispatch(setSearchLocation({ searchLocation: locationSelected }));
-        await router.push(Routes.plans.interest);
+        await router.push(Routes.plans.interest(true));
     };
 
     if (!location)
@@ -162,6 +179,9 @@ export default function PlaceSearchPage() {
             `position: fixed;` で位置を調整している
          */}
             <Box position="fixed" left={0} bottom="32px" right={0} px="8px">
+                <Head>
+                    <title>好きな場所からプランを作る | poroto</title>
+                </Head>
                 <Layout>
                     <RoundedIconButton
                         icon={locationSelected ? MdDone : MdOutlineTouchApp}

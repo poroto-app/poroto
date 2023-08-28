@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
 import { LocationCategory } from "src/domain/models/LocationCategory";
@@ -24,6 +25,7 @@ import { useAppDispatch } from "src/redux/redux";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
+import { PageMetaData } from "src/view/constants/meta";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
 import { CategorySelect } from "src/view/interest/CategorySelect";
@@ -39,22 +41,47 @@ const MatchInterestPages = {
 type MatchInterestPage =
     (typeof MatchInterestPages)[keyof typeof MatchInterestPages];
 
-export default function PlanInterestPage() {
+export default function Page() {
+    const router = useRouter();
+    return (
+        <>
+            <Head>
+                <title>
+                    {PageMetaData.plans.interest.title(
+                        router.query["location"] !== "true"
+                    )}
+                </title>
+                <meta
+                    name="description"
+                    content={PageMetaData.plans.interest.description}
+                />
+            </Head>
+            <PlanInterestPage />
+        </>
+    );
+}
+
+function PlanInterestPage() {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const { getCurrentLocation, location, fetchCurrentLocationStatus } =
         useLocation();
     const [currentCategory, setCurrentCategory] =
         useState<LocationCategory | null>(null);
+    const [matchInterestRequestId, setMatchInterestRequestId] = useState<
+        string | null
+    >(null);
     const {
         categoryCandidates,
         createPlanSession,
+        fetchLocationCategoryRequestId,
         matchInterestRequestStatus,
     } = reduxPlanCandidateSelector();
     const { searchLocation } = reduxLocationSelector();
 
     useEffect(() => {
         dispatch(resetInterest());
+        setMatchInterestRequestId(null);
 
         // 2回目以降、プランを作成するときに、前回の結果が残らないようにする
         dispatch(
@@ -67,9 +94,10 @@ export default function PlanInterestPage() {
 
         return () => {
             // 前回の結果をリセット
-            // MEMO: 戻るボタンで遷移してきたときに、状態が残っていると/plans/createに自動的に遷移してしまう
+            // MEMO: 戻るボタンで遷移してきたときに、状態が残っていると/plans/selectに自動的に遷移してしまう
             dispatch(resetInterest());
             setCurrentCategory(null);
+            setMatchInterestRequestId(null);
 
             // 場所を指定してプラン作成 -> 現在地からプラン作成
             // を行うと、指定した場所の情報が残り、そこからプランを作成してしまうためリセットする
@@ -95,7 +123,9 @@ export default function PlanInterestPage() {
     // 検索する場所が指定されたら、興味を持つ場所を検索
     useEffect(() => {
         if (searchLocation) {
-            dispatch(matchInterest({ location: searchLocation }));
+            const requestId = Date.now().toString();
+            setMatchInterestRequestId(requestId);
+            dispatch(matchInterest({ location: searchLocation, requestId }));
         }
     }, [searchLocation]);
 
@@ -135,7 +165,11 @@ export default function PlanInterestPage() {
 
     return (
         <PlanInterestPageComponent
-            currentCategory={currentCategory}
+            currentCategory={
+                // 別のリクエスト結果が使われないようにする
+                matchInterestRequestId === fetchLocationCategoryRequestId &&
+                currentCategory
+            }
             matchInterestRequestStatus={matchInterestRequestStatus}
             handleAcceptCategory={handleAcceptCategory}
             handleRejectCategory={handleRejectCategory}
