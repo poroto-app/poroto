@@ -5,43 +5,45 @@ import {
     signInWithPopup,
     signOut,
 } from "@firebase/auth";
-import { useEffect, useState } from "react";
-import { User } from "src/domain/models/User";
+import { useEffect } from "react";
+import { RequestStatuses } from "src/domain/models/RequestStatus";
+import {
+    fetchByFirebaseUser,
+    reduxAuthSelector,
+    resetAuthUser,
+} from "src/redux/auth";
+import { useAppDispatch } from "src/redux/redux";
 
 export const useAuth = () => {
-    const [user, setUser] = useState<User>(null);
+    const dispatch = useAppDispatch();
+    const { user, fetchByFirebaseUserStatus } = reduxAuthSelector();
 
     useEffect(() => {
         const auth = getAuth();
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                setUser({
-                    id: user.uid,
-                    name: user.displayName,
-                    avatarImage: user.photoURL,
-                });
+        auth.onAuthStateChanged(async (firebaseUser) => {
+            if (firebaseUser) {
+                const idToken = await firebaseUser.getIdToken();
+                if (fetchByFirebaseUserStatus !== RequestStatuses.PENDING)
+                    dispatch(
+                        fetchByFirebaseUser({
+                            firebaseUserId: firebaseUser.uid,
+                            firebaseToken: idToken,
+                        })
+                    );
             } else {
-                setUser(null);
+                dispatch(resetAuthUser());
             }
         });
     }, []);
 
     const signInWithGoogle = () => {
         const auth = getAuth();
-        _signInWithGoogle(auth).then(({ user }) => {
-            setUser({
-                id: user.uid,
-                name: user.displayName,
-                avatarImage: user.photoURL,
-            });
-        });
+        _signInWithGoogle(auth).then();
     };
 
     const logout = () => {
         const auth = getAuth();
-        signOut(auth).then(() => {
-            setUser(null);
-        });
+        signOut(auth).then();
     };
 
     return { user, signInWithGoogle, logout };
@@ -54,7 +56,9 @@ const _signInWithGoogle = async (auth: Auth) => {
     if (credential === null) {
         throw new Error("credential is null");
     }
-    const token = credential.accessToken;
-    const user = result.user;
-    return { token, user };
+    const idToken = await result.user.getIdToken();
+    return {
+        idToken,
+        user: result.user,
+    };
 };
