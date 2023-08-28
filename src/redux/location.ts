@@ -6,11 +6,13 @@ import { RootState } from "src/redux/redux";
 export type LocationState = {
     currentLocation: GeoLocation | null;
     searchLocation: GeoLocation | null;
+    searchPlaceId: string | null;
 };
 
 const initialState: LocationState = {
     currentLocation: null,
     searchLocation: null,
+    searchPlaceId: null,
 };
 
 export const slice = createSlice({
@@ -25,9 +27,15 @@ export const slice = createSlice({
         },
         setSearchLocation: (
             state,
-            { payload }: PayloadAction<{ searchLocation: GeoLocation | null }>
+            {
+                payload,
+            }: PayloadAction<{
+                searchLocation: GeoLocation | null;
+                searchPlaceId: string | null;
+            }>
         ) => {
             state.searchLocation = payload.searchLocation;
+            state.searchPlaceId = payload.searchPlaceId;
         },
     },
 });

@@ -71,11 +71,12 @@ type CreatePlanFromCurrentLocationProps = {
         latitude: number;
         longitude: number;
     };
+    googlePlaceId?: string;
 };
 export const createPlanFromLocation = createAsyncThunk(
     "planCandidate/createPlanFromCurrentLocation",
     async (
-        { location }: CreatePlanFromCurrentLocationProps,
+        { location, googlePlaceId }: CreatePlanFromCurrentLocationProps,
         { dispatch, getState }
     ) => {
         logEvent(getAnalytics(), "create_plan");
@@ -97,6 +98,7 @@ export const createPlanFromLocation = createAsyncThunk(
         const response = await plannerApi.createPlansFromLocation({
             session: createPlanSession,
             location: location,
+            googlePlaceId,
             categoriesPreferred: (categoriesAccepted ?? []).map(
                 (category) => category.name
             ),

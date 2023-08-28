@@ -77,7 +77,7 @@ function PlanInterestPage() {
         fetchLocationCategoryRequestId,
         matchInterestRequestStatus,
     } = reduxPlanCandidateSelector();
-    const { searchLocation } = reduxLocationSelector();
+    const { searchLocation, searchPlaceId } = reduxLocationSelector();
 
     useEffect(() => {
         dispatch(resetInterest());
@@ -101,7 +101,9 @@ function PlanInterestPage() {
 
             // 場所を指定してプラン作成 -> 現在地からプラン作成
             // を行うと、指定した場所の情報が残り、そこからプランを作成してしまうためリセットする
-            dispatch(setSearchLocation({ searchLocation: null }));
+            dispatch(
+                setSearchLocation({ searchLocation: null, searchPlaceId: null })
+            );
         };
     }, []);
 
@@ -117,7 +119,12 @@ function PlanInterestPage() {
         if (!location) return;
         const currentLocation = location;
         dispatch(setCurrentLocation({ currentLocation }));
-        dispatch(setSearchLocation({ searchLocation: currentLocation }));
+        dispatch(
+            setSearchLocation({
+                searchLocation: currentLocation,
+                searchPlaceId: null,
+            })
+        );
     }, [location]);
 
     // 検索する場所が指定されたら、興味を持つ場所を検索
@@ -136,12 +143,22 @@ function PlanInterestPage() {
             searchLocation &&
             createPlanSession
         ) {
-            dispatch(createPlanFromLocation({ location: searchLocation }));
+            dispatch(
+                createPlanFromLocation({
+                    location: searchLocation,
+                    googlePlaceId: searchPlaceId,
+                })
+            );
             router.push(Routes.plans.select(createPlanSession)).then();
             return;
         }
         setCurrentCategory(categoryCandidates[0]);
-    }, [categoryCandidates?.length, searchLocation, createPlanSession]);
+    }, [
+        categoryCandidates?.length,
+        searchLocation,
+        searchPlaceId,
+        createPlanSession,
+    ]);
 
     const handleAcceptCategory = (category: LocationCategory) => {
         dispatch(pushAcceptedCategory({ category }));
