@@ -215,14 +215,16 @@ export const matchInterest = createAsyncThunk(
 type SavePlanFromCandidateProps = {
     session: string;
     planId: string;
+    authToken?: string;
 };
 export const savePlanFromCandidate = createAsyncThunk(
     "planCandidate/savePlanFromCandidate",
-    async ({ session, planId }: SavePlanFromCandidateProps) => {
+    async ({ session, planId, authToken }: SavePlanFromCandidateProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.savePlanFromCandidate({
             session,
             planId,
+            authToken,
         });
 
         // TODO: プランの内容を全件取得する
