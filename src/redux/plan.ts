@@ -57,8 +57,9 @@ export const fetchPlansRecentlyCreated = createAsyncThunk<{
         pageKey: nextPageTokenPlansRecentlyCreated,
     });
 
+    // TODO: ユーザー情報を取得する
     return {
-        plans: plans.map((plan) => createPlanFromPlanEntity(plan)),
+        plans: plans.map((plan) => createPlanFromPlanEntity(plan, null)),
         nextPageToken: nextPageKey,
     };
 });
@@ -83,8 +84,9 @@ export const fetchNearbyPlans = createAsyncThunk(
             limit,
         });
 
+        // TODO: ユーザー情報を取得する
         return {
-            plans: plans.map((plan) => createPlanFromPlanEntity(plan)),
+            plans: plans.map((plan) => createPlanFromPlanEntity(plan, null)),
             nextPageToken: pageKey,
         };
     }
@@ -96,7 +98,10 @@ export const fetchPlan = createAsyncThunk(
     async ({ planId }: FetchPlanProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.fetchPlan({ planId });
-        return response.plan ? createPlanFromPlanEntity(response.plan) : null;
+        // TODO: ユーザー情報を取得する
+        return response.plan
+            ? createPlanFromPlanEntity(response.plan, null)
+            : null;
     }
 );
 

@@ -106,7 +106,9 @@ export const createPlanFromLocation = createAsyncThunk(
         });
 
         const session = response.session;
-        const plans: Plan[] = response.plans.map(createPlanFromPlanEntity);
+        const plans: Plan[] = response.plans.map((planEntity) =>
+            createPlanFromPlanEntity(planEntity, null)
+        );
         dispatch(
             setCreatedPlans({
                 session,
@@ -129,8 +131,9 @@ export const createPlanFromPlace = createAsyncThunk(
             placeId,
             createPlanSessionId,
         });
+        // TODO: ユーザー情報を取得する
         return {
-            plan: createPlanFromPlanEntity(plan),
+            plan: createPlanFromPlanEntity(plan, null),
         };
     }
 );
@@ -159,7 +162,9 @@ export const fetchCachedCreatedPlans = createAsyncThunk(
             return;
         }
 
-        const plans: Plan[] = response.plans.map(createPlanFromPlanEntity);
+        const plans: Plan[] = response.plans.map((planEntity) =>
+            createPlanFromPlanEntity(planEntity, null)
+        );
         dispatch(
             setCreatedPlans({
                 session,
@@ -254,8 +259,9 @@ export const updatePlacesOrderInPlanCandidate = createAsyncThunk(
             planId,
             placeIds,
         });
+        // TODO: ユーザー情報を取得する
         return {
-            plan: createPlanFromPlanEntity(response.plan),
+            plan: createPlanFromPlanEntity(response.plan, null),
         };
     }
 );

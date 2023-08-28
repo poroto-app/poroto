@@ -50,4 +50,5 @@ export const mockPlan: Plan = {
             estimatedStayDuration: 60,
         },
     ],
+    author: null,
 };

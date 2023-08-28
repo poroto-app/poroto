@@ -153,8 +153,9 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
         const response = await plannerApi.fetchPlans({
             pageKey: null,
         });
+        // TODO: ユーザー情報を取得する
         plans = response.plans.map((entity) =>
-            createPlanFromPlanEntity(entity)
+            createPlanFromPlanEntity(entity, null)
         );
         nextPageKey = response.nextPageKey;
     } catch (e) {
