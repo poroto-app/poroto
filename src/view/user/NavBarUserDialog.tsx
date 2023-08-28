@@ -56,6 +56,7 @@ function NavBarUserDialogContainer({ children }: { children?: ReactNode }) {
                 borderRadius="10px"
                 boxShadow="0 0 0 1px #96a3b31a, 0 8px 28px -4px #96a3b34d"
                 backgroundColor="white"
+                overflow="hidden"
             >
                 {children}
             </VStack>
