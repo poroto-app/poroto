@@ -11,6 +11,7 @@ import {
     createPlanFromPlanEntity,
     PlannerApi,
 } from "src/domain/plan/PlannerApi";
+import { createUserFromEntity } from "src/domain/user/UserApi";
 import { RootState } from "src/redux/redux";
 
 export type PlanState = {
@@ -21,7 +22,11 @@ export type PlanState = {
     plansNearbyRequestStatus: RequestStatus | null;
     nextPageTokenPlansNearby: string | null;
 
+    plansByUser: Plan[] | null;
+
     preview: Plan | null;
+
+    fetchPlansByUserRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanState = {
@@ -32,7 +37,11 @@ const initialState: PlanState = {
     plansNearbyRequestStatus: null,
     nextPageTokenPlansNearby: null,
 
+    plansByUser: null,
+
     preview: null,
+
+    fetchPlansByUserRequestStatus: null,
 };
 
 export const fetchPlansRecentlyCreated = createAsyncThunk<{
@@ -105,6 +114,23 @@ export const fetchPlan = createAsyncThunk(
     }
 );
 
+type FetchPlansByUserProps = {
+    userId: string;
+};
+export const fetchPlansByUser = createAsyncThunk(
+    "plan/fetchPlansByUser",
+    async ({ userId }: FetchPlansByUserProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.fetchPlansByUser({ userId });
+        const author = createUserFromEntity(response.author);
+        return {
+            plans: response.plans.map((planEntity) =>
+                createPlanFromPlanEntity(planEntity, author)
+            ),
+        };
+    }
+);
+
 export const slice = createSlice({
     name: "plan",
     initialState,
@@ -129,6 +155,17 @@ export const slice = createSlice({
             // Fetch Plan
             .addCase(fetchPlan.fulfilled, (state, { payload }) => {
                 state.preview = payload;
+            })
+            // Fetch Plans By User
+            .addCase(fetchPlansByUser.pending, (state) => {
+                state.fetchPlansByUserRequestStatus = RequestStatuses.PENDING;
+            })
+            .addCase(fetchPlansByUser.fulfilled, (state, { payload }) => {
+                state.fetchPlansByUserRequestStatus = RequestStatuses.FULFILLED;
+                state.plansByUser = payload.plans;
+            })
+            .addCase(fetchPlansByUser.rejected, (state) => {
+                state.fetchPlansByUserRequestStatus = RequestStatuses.REJECTED;
             })
             // Fetch Plans Recently Created
             .addCase(
