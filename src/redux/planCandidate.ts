@@ -439,6 +439,7 @@ export const slice = createSlice({
             .addCase(
                 fetchCachedCreatedPlans.fulfilled,
                 (state, { payload }) => {
+                    if(!payload) return;
                     state.createPlanSession = payload.session;
                     state.plansCreated = payload.plans;
                     state.createdBasedOnCurrentLocation =
