@@ -1,11 +1,16 @@
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
+import { UserEntity } from "src/domain/user/UserApi";
 
 export interface PlannerApi {
     fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse>;
 
     fetchPlans(request: FetchPlansRequest): Promise<FetchPlansResponse>;
+
+    fetchPlansByUser(
+        request: FetchPlansByUserRequest
+    ): Promise<FetchPlansByUserResponse>;
 
     fetchPlansByLocation(
         request: FetchPlansByLocationRequest
@@ -107,6 +112,15 @@ export type FetchPlansRequest = {
 export type FetchPlansResponse = {
     plans: PlanEntity[];
     nextPageKey: string | null;
+};
+
+export type FetchPlansByUserRequest = {
+    userId: string;
+};
+
+export type FetchPlansByUserResponse = {
+    author: UserEntity;
+    plans: PlanEntity[];
 };
 
 export type FetchPlansByLocationRequest = {

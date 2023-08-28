@@ -9,6 +9,7 @@ import {
     FetchPlansDocument,
     MatchInterestsDocument,
     PlansByLocationDocument,
+    PlansByUserDocument,
     SavePlanFromCandidateDocument,
 } from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
@@ -24,6 +25,8 @@ import {
     FetchPlanResponse,
     FetchPlansByLocationRequest,
     FetchPlansByLocationResponse,
+    FetchPlansByUserRequest,
+    FetchPlansByUserResponse,
     MatchInterestRequest,
     MatchInterestResponse,
     PlaceEntity,
@@ -59,6 +62,23 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                 data.plans.length === 0
                     ? null
                     : data.plans[data.plans.length - 1].id,
+        };
+    }
+
+    async fetchPlansByUser(
+        request: FetchPlansByUserRequest
+    ): Promise<FetchPlansByUserResponse> {
+        const { data } = await this.client.query({
+            query: PlansByUserDocument,
+            variables: {
+                userId: request.userId,
+            },
+        });
+        return {
+            plans: data.plansByUser.plans.map((plan) =>
+                fromGraphqlPlanEntity(plan)
+            ),
+            author: data.plansByUser.author,
         };
     }
 
