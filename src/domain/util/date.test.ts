@@ -1,5 +1,5 @@
-import {describe, expect, test} from "@jest/globals";
-import {DateHelper} from "src/domain/util/date";
+import { describe, expect, test } from "@jest/globals";
+import { DateHelper } from "src/domain/util/date";
 
 describe("formatHHMM", () => {
     const cases: {
@@ -98,8 +98,8 @@ describe("roundMinute", () => {
             timeInMinute: 91,
             round: 60,
             expected: 120,
-        }
-    ]
+        },
+    ];
 
     cases.forEach((c) =>
         test(c.name, () => {

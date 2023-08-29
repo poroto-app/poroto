@@ -30,7 +30,9 @@ export function PlanPreview({ plan, link }: Props) {
                     <HStack w="100%" justifyContent="flex-start">
                         {/* TODO: 最初の地点までの徒歩時間を移動距離を表示 */}
                         <TagContainer
-                            tag={DateHelper.formatHHMM(plan.timeInMinutes)}
+                            tag={DateHelper.formatHHMM(
+                                DateHelper.roundMinute(plan.timeInMinutes, 30)
+                            )}
                         >
                             <Icon
                                 w="24px"
