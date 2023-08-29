@@ -1,7 +1,7 @@
 import { Link } from "@chakra-ui/next-js";
 import { HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { MdDirectionsWalk } from "react-icons/md";
+import { MdSchedule } from "react-icons/md";
 import { Plan } from "src/domain/models/Plan";
 import { DateHelper } from "src/domain/util/date";
 import { Colors } from "src/view/constants/color";
@@ -36,7 +36,7 @@ export function PlanPreview({ plan, link }: Props) {
                                 w="24px"
                                 h="24px"
                                 color={Colors.primary["500"]}
-                                as={MdDirectionsWalk}
+                                as={MdSchedule}
                             />
                         </TagContainer>
                         {plan.tags.map((tag, i) => (
