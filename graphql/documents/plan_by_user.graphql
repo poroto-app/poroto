@@ -1,0 +1,34 @@
+query PlansByUser($userId: String!) {
+    plansByUser(input: { userId: $userId }) {
+        plans {
+            id
+            name
+            places {
+                id
+                name
+                photos
+                location {
+                    longitude
+                    latitude
+                }
+                estimatedStayDuration
+            }
+            timeInMinutes
+            transitions {
+                duration
+                from {
+                    id
+                }
+                to {
+                    id
+                }
+            }
+            authorId
+        }
+        author {
+            id
+            name
+            photoUrl
+        }
+    }
+}

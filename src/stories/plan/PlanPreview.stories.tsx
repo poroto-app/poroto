@@ -62,6 +62,7 @@ const Template = ({
                     estimatedStayDuration: 30,
                 },
             ],
+            author: null,
         }}
     />
 );

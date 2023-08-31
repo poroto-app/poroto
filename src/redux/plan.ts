@@ -11,6 +11,7 @@ import {
     createPlanFromPlanEntity,
     PlannerApi,
 } from "src/domain/plan/PlannerApi";
+import { createUserFromEntity } from "src/domain/user/UserApi";
 import { RootState } from "src/redux/redux";
 
 export type PlanState = {
@@ -21,9 +22,12 @@ export type PlanState = {
     plansNearbyRequestStatus: RequestStatus | null;
     nextPageTokenPlansNearby: string | null;
 
+    plansByUser: Plan[] | null;
+
     preview: Plan | null;
 
     fetchPlanRequestStatus: RequestStatus | null;
+    fetchPlansByUserRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanState = {
@@ -34,9 +38,12 @@ const initialState: PlanState = {
     plansNearbyRequestStatus: null,
     nextPageTokenPlansNearby: null,
 
+    plansByUser: null,
+
     preview: null,
 
     fetchPlanRequestStatus: null,
+    fetchPlansByUserRequestStatus: null,
 };
 
 export const fetchPlansRecentlyCreated = createAsyncThunk<{
@@ -61,8 +68,9 @@ export const fetchPlansRecentlyCreated = createAsyncThunk<{
         pageKey: nextPageTokenPlansRecentlyCreated,
     });
 
+    // TODO: ユーザー情報を取得する
     return {
-        plans: plans.map((plan) => createPlanFromPlanEntity(plan)),
+        plans: plans.map((plan) => createPlanFromPlanEntity(plan, null)),
         nextPageToken: nextPageKey,
     };
 });
@@ -87,8 +95,9 @@ export const fetchNearbyPlans = createAsyncThunk(
             limit,
         });
 
+        // TODO: ユーザー情報を取得する
         return {
-            plans: plans.map((plan) => createPlanFromPlanEntity(plan)),
+            plans: plans.map((plan) => createPlanFromPlanEntity(plan, null)),
             nextPageToken: pageKey,
         };
     }
@@ -100,7 +109,27 @@ export const fetchPlan = createAsyncThunk(
     async ({ planId }: FetchPlanProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.fetchPlan({ planId });
-        return response.plan ? createPlanFromPlanEntity(response.plan) : null;
+        // TODO: ユーザー情報を取得する
+        return response.plan
+            ? createPlanFromPlanEntity(response.plan, null)
+            : null;
+    }
+);
+
+type FetchPlansByUserProps = {
+    userId: string;
+};
+export const fetchPlansByUser = createAsyncThunk(
+    "plan/fetchPlansByUser",
+    async ({ userId }: FetchPlansByUserProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.fetchPlansByUser({ userId });
+        const author = createUserFromEntity(response.author);
+        return {
+            plans: response.plans.map((planEntity) =>
+                createPlanFromPlanEntity(planEntity, author)
+            ),
+        };
     }
 );
 
@@ -122,6 +151,9 @@ export const slice = createSlice({
             state.nextPageTokenPlansRecentlyCreated =
                 payload.nextPageTokenPlansRecentlyCreated;
         },
+        resetPlansByUser: (state) => {
+            state.plansByUser = null;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -135,6 +167,17 @@ export const slice = createSlice({
             })
             .addCase(fetchPlan.rejected, (state) => {
                 state.fetchPlanRequestStatus = RequestStatuses.REJECTED;
+            })
+            // Fetch Plans By User
+            .addCase(fetchPlansByUser.pending, (state) => {
+                state.fetchPlansByUserRequestStatus = RequestStatuses.PENDING;
+            })
+            .addCase(fetchPlansByUser.fulfilled, (state, { payload }) => {
+                state.fetchPlansByUserRequestStatus = RequestStatuses.FULFILLED;
+                state.plansByUser = payload.plans;
+            })
+            .addCase(fetchPlansByUser.rejected, (state) => {
+                state.fetchPlansByUserRequestStatus = RequestStatuses.REJECTED;
             })
             // Fetch Plans Recently Created
             .addCase(
@@ -168,7 +211,7 @@ export const slice = createSlice({
     },
 });
 
-export const { pushPlansRecentlyCreated } = slice.actions;
+export const { pushPlansRecentlyCreated, resetPlansByUser } = slice.actions;
 
 export const reduxPlanSelector = () =>
     useSelector((state: RootState) => state.plan);
