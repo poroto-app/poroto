@@ -46,7 +46,9 @@ export function FetchLocationDialog({
 function Fetching() {
     return (
         <VStack w="100%">
-            <LottiePlayer animationData={animationDataLoadingLocation} />
+            <Box w="100%" position="relative" h="250px">
+                <LottiePlayer animationData={animationDataLoadingLocation} />
+            </Box>
             <Text>位置情報を取得しています...</Text>
         </VStack>
     );
