@@ -7,9 +7,6 @@ handlers:
     secure: always # httpsのみ許可
     script: auto   # next.jsに何のファイルをロードするかを依存する
 
-env_variables:
-  NODE_ENV: "staging"
-
 # yarn gcp-build コマンドで利用される
 build_env_variables:
   ENV: 'staging'
