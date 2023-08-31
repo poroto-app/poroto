@@ -160,7 +160,9 @@ export const fetchCachedCreatedPlans = createAsyncThunk(
             };
         }
 
-        const plans: Plan[] = response.plans.map((p) => createPlanFromPlanEntity(p, null));
+        const plans: Plan[] = response.plans.map((p) =>
+            createPlanFromPlanEntity(p, null)
+        );
         return {
             session,
             plans,
