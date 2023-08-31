@@ -182,7 +182,7 @@ const PlanDetail = () => {
             />
             {
                 // TODO: productionでも利用できるようにする
-                process.env.NODE_ENV !== "production" && (
+                process.env.APP_ENV !== "production" && (
                     <PlanEditorDialog
                         visible={isEditingPlan}
                         onClosed={() => setIsEditingPlan(false)}
