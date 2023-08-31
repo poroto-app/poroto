@@ -41,7 +41,7 @@ export const NavBar = ({ title }: Props) => {
             canBack={!isHome}
             onBack={handleOnBack}
             userComponent={
-                process.env.NODE_ENV !== "production" && (
+                process.env.APP_ENV !== "production" && (
                     <NavBarUser
                         user={user}
                         onLogin={signInWithGoogle}
