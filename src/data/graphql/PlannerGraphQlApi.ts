@@ -126,6 +126,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                 session: request.session,
                 latitude: request.location.latitude,
                 longitude: request.location.longitude,
+                googlePlaceId: request.googlePlaceId ?? undefined,
                 categoriesPreferred: request.categoriesPreferred,
                 categoriesDisliked: request.categoriesDisliked,
                 planDuration: request.planDuration ?? undefined,
@@ -192,10 +193,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             categories: data.matchInterests.categories.map((category) => ({
                 name: category.name,
                 displayName: category.displayName,
-                // TODO: nil check
-                photo:
-                    !category.photo.includes("https://placehold.jp") &&
-                    category.photo,
+                photo: category.photo,
                 defaultPhotoUrl: category.defaultPhotoUrl,
             })),
         };

@@ -16,8 +16,10 @@ import {
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { AdInArticle } from "src/view/ad/AdInArticle";
+import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
+import { NotFound } from "src/view/common/NotFound";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
@@ -44,6 +46,7 @@ const PlanDetail = () => {
         createdBasedOnCurrentLocation,
         createPlanSession,
         savePlanFromCandidateRequestStatus,
+        fetchCachedCreatedPlansRequestStatus,
     } = reduxPlanCandidateSelector();
 
     useEffect(() => {
@@ -109,7 +112,17 @@ const PlanDetail = () => {
         );
     };
 
-    if (!plan) return <LoadingModal title="素敵なプランを読み込んでいます" />;
+    if (!plan) {
+        // プラン候補取得失敗
+        if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.REJECTED)
+            return <ErrorPage />;
+
+        // プラン候補が存在しない
+        if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.FULFILLED)
+            return <NotFound />;
+
+        return <LoadingModal title="素敵なプランを読み込んでいます" />;
+    }
 
     return (
         <>

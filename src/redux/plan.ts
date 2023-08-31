@@ -26,6 +26,7 @@ export type PlanState = {
 
     preview: Plan | null;
 
+    fetchPlanRequestStatus: RequestStatus | null;
     fetchPlansByUserRequestStatus: RequestStatus | null;
 };
 
@@ -41,6 +42,7 @@ const initialState: PlanState = {
 
     preview: null,
 
+    fetchPlanRequestStatus: null,
     fetchPlansByUserRequestStatus: null,
 };
 
@@ -156,8 +158,15 @@ export const slice = createSlice({
     extraReducers: (builder) => {
         builder
             // Fetch Plan
+            .addCase(fetchPlan.pending, (state) => {
+                state.fetchPlanRequestStatus = RequestStatuses.PENDING;
+            })
             .addCase(fetchPlan.fulfilled, (state, { payload }) => {
                 state.preview = payload;
+                state.fetchPlanRequestStatus = RequestStatuses.FULFILLED;
+            })
+            .addCase(fetchPlan.rejected, (state) => {
+                state.fetchPlanRequestStatus = RequestStatuses.REJECTED;
             })
             // Fetch Plans By User
             .addCase(fetchPlansByUser.pending, (state) => {

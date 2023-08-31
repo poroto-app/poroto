@@ -153,6 +153,7 @@ export type CreatePlanFromLocationRequest = {
         latitude: number;
         longitude: number;
     };
+    googlePlaceId?: string;
     categoriesPreferred?: string[];
     categoriesDisliked?: string[];
     planDuration?: number;
