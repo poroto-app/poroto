@@ -187,6 +187,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             variables: {
                 session: request.session,
                 planId: request.planId,
+                authToken: request.authToken,
             },
         });
         return {

@@ -185,6 +185,7 @@ export type MatchInterestResponse = {
 export type SavePlanFromCandidateRequest = {
     session: string;
     planId: string;
+    authToken?: string;
 };
 
 export type SavePlanFromCandidateResponse = {
