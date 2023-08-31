@@ -34,4 +34,8 @@ export class DateHelper {
                 : `${minute.toString().padStart(2, "0")}${delimiter.minute}`;
         return `${hourStr}${minuteStr}`;
     }
+
+    static roundMinute(timeInMinute: number, round: number): number {
+        return Math.round(timeInMinute / round) * round;
+    }
 }
