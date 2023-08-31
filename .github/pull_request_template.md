@@ -34,3 +34,21 @@
 - [ ] プランが作成できることを確認
 - [ ] プランが保存できることを確認
 - [ ]
+
+```shell
+# poroto
+export BRANCH_POROTO=
+git fetch origin $BRANCH_POROTO
+git checkout $BRANCH_POROTO
+git pull origin $BRANCH_POROTO
+yarn install
+yarn dev
+```
+```shell
+# planner
+export BRANCH_PLANNER=develop
+git branch -D $BRANCH_PLANNER
+git fetch origin $BRANCH_PLANNER
+git checkout $BRANCH_PLANNER
+go run cmd/server/main.go
+````
