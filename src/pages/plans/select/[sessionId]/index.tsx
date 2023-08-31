@@ -10,11 +10,14 @@ import {
     resetCreatePlanFromPlaceRequestStatus,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
+import { ErrorPage } from "src/view/common/ErrorPage";
 import { Layout } from "src/view/common/Layout";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
+import { NotFound } from "src/view/common/NotFound";
 import { Routes } from "src/view/constants/router";
 import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSection";
+import { GeneratingPlanDialog } from "src/view/plan/candidate/GeneratingPlanDialog";
 import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 
@@ -24,6 +27,7 @@ const SelectPlanPage = () => {
         plansCreated,
         createPlanSession,
         placesAvailableForPlan,
+        fetchCachedCreatedPlansRequestStatus,
         fetchAvailablePlacesForPlanRequestStatus,
         createPlanFromLocationRequestStatus,
         createPlanFromPlaceRequestStatus,
@@ -81,16 +85,24 @@ const SelectPlanPage = () => {
         );
     };
 
-    // プランを作成中
-    if (createPlanFromLocationRequestStatus === RequestStatuses.PENDING)
-        return <LoadingModal title="プランを作成しています" />;
-
     if (!plansCreated) {
-        // TODO: ホームに戻れる404ページを作る
-        // sessionに紐づくプランが存在しない
-        if (createPlanSession) return <h1>Not Found</h1>;
+        if (
+            // ページ読み込み直後
+            (!fetchCachedCreatedPlansRequestStatus &&
+                !createPlanFromLocationRequestStatus) ||
+            // プラン作成中
+            createPlanFromLocationRequestStatus === RequestStatuses.PENDING ||
+            // プラン候補取得中
+            fetchCachedCreatedPlansRequestStatus === RequestStatuses.PENDING
+        )
+            return <LoadingModal title="プランを作成しています" />;
 
-        return <LoadingModal title="プランを取得しています" />;
+        // プラン候補取得失敗
+        if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.REJECTED)
+            return <ErrorPage />;
+
+        // プラン候補が存在しない
+        return <NotFound />;
     }
 
     // TODO: プラン作成失敗 or 直接このページに来たときははじく
@@ -101,12 +113,21 @@ const SelectPlanPage = () => {
             </Center>
         );
 
-    // 場所を指定してプランを作成中
-    if (createPlanFromPlaceRequestStatus === RequestStatuses.PENDING)
-        return <LoadingModal title="プランを作成しています" />;
-
     return (
         <Layout navBar={<NavBar title="プランを選ぶ" />}>
+            {[RequestStatuses.PENDING, RequestStatuses.REJECTED].includes(
+                createPlanFromPlaceRequestStatus
+            ) && (
+                <GeneratingPlanDialog
+                    onClose={() =>
+                        dispatch(resetCreatePlanFromPlaceRequestStatus())
+                    }
+                    failed={
+                        createPlanFromPlaceRequestStatus ===
+                        RequestStatuses.REJECTED
+                    }
+                />
+            )}
             <VStack w="100%" px="16px" py="16px" spacing={8}>
                 <VStack w="100%" spacing={8}>
                     {plansCreated.map((plan, i) => (

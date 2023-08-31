@@ -1,4 +1,5 @@
 import { Box, Center, VStack } from "@chakra-ui/react";
+import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Place } from "src/domain/models/Place";
@@ -15,8 +16,10 @@ import {
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { AdInArticle } from "src/view/ad/AdInArticle";
+import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
+import { NotFound } from "src/view/common/NotFound";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
@@ -43,6 +46,7 @@ const PlanDetail = () => {
         createdBasedOnCurrentLocation,
         createPlanSession,
         savePlanFromCandidateRequestStatus,
+        fetchCachedCreatedPlansRequestStatus,
     } = reduxPlanCandidateSelector();
 
     useEffect(() => {
@@ -78,14 +82,18 @@ const PlanDetail = () => {
         }
     }, [planId, savePlanFromCandidateRequestStatus]);
 
-    const handleOnSavePlan = ({
+    const handleOnSavePlan = async ({
         session,
         plan,
     }: {
         session: string;
         plan: Plan;
     }) => {
-        dispatch(savePlanFromCandidate({ session, planId: plan.id }));
+        const auth = getAuth();
+        const authToken = await auth.currentUser?.getIdToken(true);
+        dispatch(
+            savePlanFromCandidate({ session, planId: plan.id, authToken })
+        );
     };
 
     const handleOnReorderPlaces = ({
@@ -104,7 +112,17 @@ const PlanDetail = () => {
         );
     };
 
-    if (!plan) return <LoadingModal title="素敵なプランを読み込んでいます" />;
+    if (!plan) {
+        // プラン候補取得失敗
+        if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.REJECTED)
+            return <ErrorPage />;
+
+        // プラン候補が存在しない
+        if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.FULFILLED)
+            return <NotFound />;
+
+        return <LoadingModal title="素敵なプランを読み込んでいます" />;
+    }
 
     return (
         <>
@@ -164,7 +182,7 @@ const PlanDetail = () => {
             />
             {
                 // TODO: productionでも利用できるようにする
-                process.env.NODE_ENV !== "production" && (
+                process.env.APP_ENV !== "production" && (
                     <PlanEditorDialog
                         visible={isEditingPlan}
                         onClosed={() => setIsEditingPlan(false)}

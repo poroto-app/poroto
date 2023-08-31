@@ -1,9 +1,11 @@
 import { Box, HStack, Icon, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { MdArrowBack } from "react-icons/md";
 import { reduxHistorySelector } from "src/redux/history";
 import AppLogoImage from "src/view/assets/svg/horizontal.svg";
+import { useAuth } from "src/view/hooks/useAuth";
+import { NavBarUser } from "src/view/user/NavBarUser";
 import styled from "styled-components";
 
 type Props = {
@@ -14,6 +16,7 @@ export const NavBar = ({ title }: Props) => {
     const router = useRouter();
     const [isHome, setIsHome] = useState(false);
     const { historyStack } = reduxHistorySelector();
+    const { user, signInWithGoogle, logout } = useAuth();
 
     useEffect(() => {
         setIsHome(router.pathname === "/");
@@ -32,12 +35,20 @@ export const NavBar = ({ title }: Props) => {
         await router.back();
     };
 
-    // const router = useRouter();
     return (
         <NavBarComponent
             title={title}
             canBack={!isHome}
             onBack={handleOnBack}
+            userComponent={
+                process.env.APP_ENV !== "production" && (
+                    <NavBarUser
+                        user={user}
+                        onLogin={signInWithGoogle}
+                        onLogout={logout}
+                    />
+                )
+            }
         />
     );
 };
@@ -45,10 +56,12 @@ export const NavBar = ({ title }: Props) => {
 export const NavBarComponent = ({
     title,
     canBack,
+    userComponent,
     onBack,
 }: Props & {
     canBack: boolean;
     onBack: () => void;
+    userComponent?: ReactNode;
 }) => {
     return (
         <Container>
@@ -62,19 +75,28 @@ export const NavBarComponent = ({
                         onClick={onBack}
                     />
                 )}
-                {!title && <AppLogo />}
-                {title && (
-                    <Text
-                        flex={1}
-                        fontSize="18px"
-                        userSelect="none"
-                        textOverflow="ellipsis"
-                        whiteSpace="nowrap"
-                        overflow="hidden"
-                    >
-                        {title}
-                    </Text>
-                )}
+                <HStack
+                    flex={1}
+                    h="100%"
+                    justifyContent="flex-start"
+                    overflow="hidden"
+                >
+                    {!title && <AppLogo />}
+                    {title && (
+                        <Text
+                            flex={1}
+                            fontSize="18px"
+                            userSelect="none"
+                            textOverflow="ellipsis"
+                            whiteSpace="nowrap"
+                            overflow="hidden"
+                        >
+                            {title}
+                        </Text>
+                    )}
+                </HStack>
+
+                {userComponent && userComponent}
             </HStack>
         </Container>
     );

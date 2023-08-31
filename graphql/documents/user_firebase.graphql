@@ -1,0 +1,10 @@
+query FirebaseUser($firebaseUserId: String!, $firebaseToken: String!) {
+    firebaseUser(input: {
+        firebaseUserId: $firebaseUserId,
+        firebaseAuthToken: $firebaseToken
+    }) {
+        id
+        name
+        photoUrl
+    }
+}

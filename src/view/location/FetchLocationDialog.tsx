@@ -1,12 +1,11 @@
 import { Box, Button, Text, VStack } from "@chakra-ui/react";
-import { useLottie } from "lottie-react";
 import Link from "next/link";
-import { useEffect } from "react";
 import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
+import { LottiePlayer } from "src/view/common/LottiePlayer";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import { Routes } from "src/view/constants/router";
 import animationDataFailedLocation from "src/view/lottie/location-failed.json";
@@ -47,7 +46,9 @@ export function FetchLocationDialog({
 function Fetching() {
     return (
         <VStack w="100%">
-            <LottieContainer animationData={animationDataLoadingLocation} />
+            <Box w="100%" position="relative" h="250px">
+                <LottiePlayer animationData={animationDataLoadingLocation} />
+            </Box>
             <Text>位置情報を取得しています...</Text>
         </VStack>
     );
@@ -56,10 +57,12 @@ function Fetching() {
 function Failed({ onClickReFetch }: { onClickReFetch: () => void }) {
     return (
         <VStack w="100%">
-            <LottieContainer
-                animationData={animationDataFailedLocation}
-                loop={false}
-            />
+            <Box w="100%" position="relative" h="250px">
+                <LottiePlayer
+                    animationData={animationDataFailedLocation}
+                    loop={false}
+                />
+            </Box>
             <VStack spacing={0}>
                 <Text>位置情報の取得に失敗しました</Text>
                 <Text>設定をご確認ください</Text>
@@ -80,36 +83,5 @@ function Failed({ onClickReFetch }: { onClickReFetch: () => void }) {
                 </Link>
             </VStack>
         </VStack>
-    );
-}
-
-function LottieContainer({
-    animationData,
-    loop = true,
-}: {
-    animationData: unknown;
-    loop?: boolean;
-}) {
-    const { View: LottieView, play } = useLottie({
-        animationData,
-        loop,
-        autoplay: false,
-        style: {
-            position: "absolute",
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-        },
-    });
-
-    useEffect(() => {
-        play();
-    }, []);
-
-    return (
-        <Box w="100%" position="relative" h="250px">
-            {LottieView}
-        </Box>
     );
 }

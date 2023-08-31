@@ -1,6 +1,11 @@
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
 import { LocationCategory } from "src/domain/models/LocationCategory";
+import {
+    RequestStatus,
+    RequestStatuses,
+} from "src/domain/models/RequestStatus";
 import {
     reduxLocationSelector,
     setCurrentLocation,
@@ -17,11 +22,14 @@ import {
     setTimeForPlan,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
+import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
+import { PageMetaData } from "src/view/constants/meta";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
 import { CategorySelect } from "src/view/interest/CategorySelect";
+import { CouldNotFindAnyPlace } from "src/view/interest/CouldNotFindAnyPlace";
 import { PlanDurationSelector } from "src/view/interest/PlanDurationSelector";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
 import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTemplate";
@@ -33,19 +41,47 @@ const MatchInterestPages = {
 type MatchInterestPage =
     (typeof MatchInterestPages)[keyof typeof MatchInterestPages];
 
-export default function PlanInterestPage() {
+export default function Page() {
+    const router = useRouter();
+    return (
+        <>
+            <Head>
+                <title>
+                    {PageMetaData.plans.interest.title(
+                        router.query["location"] !== "true"
+                    )}
+                </title>
+                <meta
+                    name="description"
+                    content={PageMetaData.plans.interest.description}
+                />
+            </Head>
+            <PlanInterestPage />
+        </>
+    );
+}
+
+function PlanInterestPage() {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const { getCurrentLocation, location, fetchCurrentLocationStatus } =
         useLocation();
     const [currentCategory, setCurrentCategory] =
         useState<LocationCategory | null>(null);
-    const { categoryCandidates, createPlanSession } =
-        reduxPlanCandidateSelector();
-    const { searchLocation } = reduxLocationSelector();
+    const [matchInterestRequestId, setMatchInterestRequestId] = useState<
+        string | null
+    >(null);
+    const {
+        categoryCandidates,
+        createPlanSession,
+        fetchLocationCategoryRequestId,
+        matchInterestRequestStatus,
+    } = reduxPlanCandidateSelector();
+    const { searchLocation, searchPlaceId } = reduxLocationSelector();
 
     useEffect(() => {
         dispatch(resetInterest());
+        setMatchInterestRequestId(null);
 
         // 2回目以降、プランを作成するときに、前回の結果が残らないようにする
         dispatch(
@@ -58,13 +94,16 @@ export default function PlanInterestPage() {
 
         return () => {
             // 前回の結果をリセット
-            // MEMO: 戻るボタンで遷移してきたときに、状態が残っていると/plans/createに自動的に遷移してしまう
+            // MEMO: 戻るボタンで遷移してきたときに、状態が残っていると/plans/selectに自動的に遷移してしまう
             dispatch(resetInterest());
             setCurrentCategory(null);
+            setMatchInterestRequestId(null);
 
             // 場所を指定してプラン作成 -> 現在地からプラン作成
             // を行うと、指定した場所の情報が残り、そこからプランを作成してしまうためリセットする
-            dispatch(setSearchLocation({ searchLocation: null }));
+            dispatch(
+                setSearchLocation({ searchLocation: null, searchPlaceId: null })
+            );
         };
     }, []);
 
@@ -80,13 +119,20 @@ export default function PlanInterestPage() {
         if (!location) return;
         const currentLocation = location;
         dispatch(setCurrentLocation({ currentLocation }));
-        dispatch(setSearchLocation({ searchLocation: currentLocation }));
+        dispatch(
+            setSearchLocation({
+                searchLocation: currentLocation,
+                searchPlaceId: null,
+            })
+        );
     }, [location]);
 
     // 検索する場所が指定されたら、興味を持つ場所を検索
     useEffect(() => {
         if (searchLocation) {
-            dispatch(matchInterest({ location: searchLocation }));
+            const requestId = Date.now().toString();
+            setMatchInterestRequestId(requestId);
+            dispatch(matchInterest({ location: searchLocation, requestId }));
         }
     }, [searchLocation]);
 
@@ -97,12 +143,22 @@ export default function PlanInterestPage() {
             searchLocation &&
             createPlanSession
         ) {
-            dispatch(createPlanFromLocation({ location: searchLocation }));
+            dispatch(
+                createPlanFromLocation({
+                    location: searchLocation,
+                    googlePlaceId: searchPlaceId,
+                })
+            );
             router.push(Routes.plans.select(createPlanSession)).then();
             return;
         }
         setCurrentCategory(categoryCandidates[0]);
-    }, [categoryCandidates?.length, searchLocation, createPlanSession]);
+    }, [
+        categoryCandidates?.length,
+        searchLocation,
+        searchPlaceId,
+        createPlanSession,
+    ]);
 
     const handleAcceptCategory = (category: LocationCategory) => {
         dispatch(pushAcceptedCategory({ category }));
@@ -126,7 +182,12 @@ export default function PlanInterestPage() {
 
     return (
         <PlanInterestPageComponent
-            currentCategory={currentCategory}
+            currentCategory={
+                // 別のリクエスト結果が使われないようにする
+                matchInterestRequestId === fetchLocationCategoryRequestId &&
+                currentCategory
+            }
+            matchInterestRequestStatus={matchInterestRequestStatus}
             handleAcceptCategory={handleAcceptCategory}
             handleRejectCategory={handleRejectCategory}
             onSelectTime={handleSelectTime}
@@ -137,6 +198,7 @@ export default function PlanInterestPage() {
 
 type Props = {
     currentCategory: LocationCategory | null;
+    matchInterestRequestStatus: RequestStatus | null;
     handleAcceptCategory: (category: LocationCategory) => void;
     handleRejectCategory: (category: LocationCategory) => void;
     onSelectTime: (duration: number | null) => void;
@@ -145,6 +207,7 @@ type Props = {
 
 export function PlanInterestPageComponent({
     currentCategory,
+    matchInterestRequestStatus,
     handleAcceptCategory,
     handleRejectCategory,
     onSelectTime,
@@ -172,8 +235,18 @@ export function PlanInterestPageComponent({
             </MatchInterestPageTemplate>
         );
 
-    if (!currentCategory)
-        return <LoadingModal title="近くに何があるかを探しています。" />;
+    if (!currentCategory) {
+        if (
+            !matchInterestRequestStatus ||
+            matchInterestRequestStatus === RequestStatuses.PENDING
+        )
+            return <LoadingModal title="近くに何があるかを探しています。" />;
+
+        if (matchInterestRequestStatus === RequestStatuses.REJECTED)
+            return <ErrorPage />;
+
+        return <CouldNotFindAnyPlace />;
+    }
 
     return (
         <MatchInterestPageTemplate

@@ -1,5 +1,5 @@
-mutation SavePlanFromCandidate($session: String!, $planId: String!) {
-    savePlanFromCandidate(input: {session: $session, planId: $planId}) {
+mutation SavePlanFromCandidate($session: String!, $planId: String!, $authToken: String) {
+    savePlanFromCandidate(input: {session: $session, planId: $planId, authToken: $authToken}) {
         plan {
             id
         }

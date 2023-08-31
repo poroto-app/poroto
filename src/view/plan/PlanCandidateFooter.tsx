@@ -23,7 +23,7 @@ export function PlanCandidateFooter({ onSave, onEdit }: Props) {
             right={0}
         >
             <HStack w="100%" maxW="var(--max-page-width)" h="100%">
-                {process.env.NODE_ENV !== "production" && (
+                {process.env.APP_ENV !== "production" && (
                     <Button
                         variant="outline"
                         flex={1}

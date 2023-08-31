@@ -1,11 +1,17 @@
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
+import { User } from "src/domain/models/User";
+import { UserEntity } from "src/domain/user/UserApi";
 
 export interface PlannerApi {
     fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse>;
 
     fetchPlans(request: FetchPlansRequest): Promise<FetchPlansResponse>;
+
+    fetchPlansByUser(
+        request: FetchPlansByUserRequest
+    ): Promise<FetchPlansByUserResponse>;
 
     fetchPlansByLocation(
         request: FetchPlansByLocationRequest
@@ -66,7 +72,10 @@ export type PlaceEntity = {
     estimatedStayDuration: number;
 };
 
-export function createPlanFromPlanEntity(entity: PlanEntity): Plan {
+export function createPlanFromPlanEntity(
+    entity: PlanEntity,
+    author: User | null
+): Plan {
     return {
         id: entity.id,
         title: entity.title,
@@ -78,6 +87,7 @@ export function createPlanFromPlanEntity(entity: PlanEntity): Plan {
             toPlaceId: transition.toPlaceId,
             durationInMinutes: transition.durationInMinutes,
         })),
+        author,
     };
 }
 
@@ -109,6 +119,15 @@ export type FetchPlansResponse = {
     nextPageKey: string | null;
 };
 
+export type FetchPlansByUserRequest = {
+    userId: string;
+};
+
+export type FetchPlansByUserResponse = {
+    author: UserEntity;
+    plans: PlanEntity[];
+};
+
 export type FetchPlansByLocationRequest = {
     location: GeoLocation;
     limit?: number;
@@ -134,6 +153,7 @@ export type CreatePlanFromLocationRequest = {
         latitude: number;
         longitude: number;
     };
+    googlePlaceId?: string;
     categoriesPreferred?: string[];
     categoriesDisliked?: string[];
     planDuration?: number;
@@ -184,6 +204,7 @@ export type MatchInterestResponse = {
 export type SavePlanFromCandidateRequest = {
     session: string;
     planId: string;
+    authToken?: string;
 };
 
 export type SavePlanFromCandidateResponse = {

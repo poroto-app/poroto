@@ -49,3 +49,62 @@ describe("formatHHMM", () => {
         })
     );
 });
+
+describe("roundMinute", () => {
+    const cases: {
+        name: string;
+        timeInMinute: number;
+        round: number;
+        expected: number;
+    }[] = [
+        {
+            name: "0 min",
+            timeInMinute: 0,
+            round: 60,
+            expected: 0,
+        },
+        {
+            name: "29min rounded by 60min",
+            timeInMinute: 29,
+            round: 60,
+            expected: 0,
+        },
+        {
+            name: "30min rounded by 60min",
+            timeInMinute: 30,
+            round: 60,
+            expected: 60,
+        },
+        {
+            name: "31min rounded by 60min",
+            timeInMinute: 31,
+            round: 60,
+            expected: 60,
+        },
+        {
+            name: "89min rounded by 60min",
+            timeInMinute: 89,
+            round: 60,
+            expected: 60,
+        },
+        {
+            name: "90min rounded by 60min",
+            timeInMinute: 90,
+            round: 60,
+            expected: 120,
+        },
+        {
+            name: "91min rounded by 60min",
+            timeInMinute: 91,
+            round: 60,
+            expected: 120,
+        },
+    ];
+
+    cases.forEach((c) =>
+        test(c.name, () => {
+            const actual = DateHelper.roundMinute(c.timeInMinute, c.round);
+            expect(actual).toEqual(c.expected);
+        })
+    );
+});

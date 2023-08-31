@@ -45,13 +45,12 @@ export const PlanSummaryDuration = ({
 }: {
     durationInMinutes: number;
 }) => {
-    const duration = `${durationInMinutes.toFixed()}分`;
     const endPlanDate = DateHelper.add(
         new Date(),
         durationInMinutes * DateHelper.Minute
     );
     return (
-        <PlanSummary title="移動時間" icon={MdSchedule}>
+        <PlanSummary title="時間" icon={MdSchedule}>
             <VStack alignItems="flex-start" w="100%" spacing={0}>
                 <Text>{DateHelper.formatHHMM(durationInMinutes)}</Text>
                 <Text color="gray">~ {DateHelper.dateToHHMM(endPlanDate)}</Text>
