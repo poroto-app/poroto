@@ -75,7 +75,7 @@ export const NavBarComponent = ({
                         onClick={onBack}
                     />
                 )}
-                <HStack flex={1} h="100%" justifyContent="flex-start">
+                <HStack flex={1} h="100%" justifyContent="flex-start" overflow="hidden">
                     {!title && <AppLogo />}
                     {title && (
                         <Text
