@@ -261,6 +261,7 @@ function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
         id: place.id,
         name: place.name,
         imageUrls: place.photos,
+        thumbnailUrls: place.thumbnails,
         location: {
             latitude: place.location.latitude,
             longitude: place.location.longitude,

@@ -65,6 +65,7 @@ export type PlaceEntity = {
     id: string;
     name: string;
     imageUrls: string[];
+    thumbnailUrls: string[];
     location: {
         latitude: number;
         longitude: number;
