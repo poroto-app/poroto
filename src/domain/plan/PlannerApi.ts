@@ -70,7 +70,7 @@ export type PlaceEntity = {
         longitude: number;
     };
     estimatedStayDuration: number;
-    googlePlaceReviews?: GooglePlaceReviewEntity[];
+    googlePlaceReviews: GooglePlaceReviewEntity[] | null;
 };
 
 export type GooglePlaceReviewEntity = {
@@ -116,7 +116,7 @@ export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
             authorUrl: review.authorUrl,
             authorPhotoUrl: review.authorPhotoUrl,
             timeInMilliSec: review.time,
-        })),
+        })) ?? null,
     };
 }
 
