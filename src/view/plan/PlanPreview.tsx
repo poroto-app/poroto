@@ -29,21 +29,6 @@ export function PlanPreview({ plan, link }: Props) {
                     </Text>
                     <HStack w="100%" justifyContent="flex-start">
                         {/* TODO: 最初の地点までの徒歩時間を移動距離を表示 */}
-                        <TagContainer
-                            tag={DateHelper.formatHHMM(
-                                DateHelper.roundMinute(plan.timeInMinutes, 30)
-                            )}
-                        >
-                            <Icon
-                                w="24px"
-                                h="24px"
-                                color={Colors.primary["500"]}
-                                as={MdSchedule}
-                            />
-                        </TagContainer>
-                        {plan.tags.map((tag, i) => (
-                            <TagContainer key={i} tag={tag.content} />
-                        ))}
                     </HStack>
                 </VStack>
             </LinkWrapper>
@@ -65,28 +50,4 @@ function LinkWrapper({
             </Link>
         );
     return <>{children}</>;
-}
-
-function TagContainer({
-    tag,
-    children,
-}: {
-    tag: string;
-    children?: ReactNode;
-}) {
-    return (
-        <HStack
-            spacing={1}
-            alignItems="center"
-            justifyContent="center"
-            border="1px solid rgba(0, 0, 0, .1)"
-            borderRadius="5px"
-            h="100%"
-            px="4px"
-            py="2px"
-        >
-            {children}
-            <Text>{tag}</Text>
-        </HStack>
-    );
 }
