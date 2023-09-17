@@ -77,7 +77,7 @@ function PlaceSearchPage() {
             if (!isGranted) return;
 
             await getCurrentLocation();
-        }
+        };
         fetchCurrentLocation().then();
     }, []);
 
