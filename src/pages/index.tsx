@@ -29,7 +29,7 @@ import {
 } from "src/view/top/PlanListSectionTitle";
 
 type Props = {
-    plansRecentlyCreated: Plan[];
+    plansRecentlyCreated: Plan[] | null;
     nextPageTokenPlansRecentlyCreated: string | null;
 };
 
@@ -59,8 +59,11 @@ const IndexPage = (props: Props) => {
     }, []);
 
     useEffect(() => {
-        // 初期表示時のみISRで取得したプランをReduxに保存する
-        if (!plansRecentlyCreated)
+        // すでにプランを取得済みの場合は何もしない
+        if (plansRecentlyCreated) return;
+
+        if (props.plansRecentlyCreated) {
+            // 初期表示時のみISRで取得したプランをReduxに保存する
             dispatch(
                 pushPlansRecentlyCreated({
                     plans: props.plansRecentlyCreated,
@@ -68,6 +71,10 @@ const IndexPage = (props: Props) => {
                         props.nextPageTokenPlansRecentlyCreated,
                 })
             );
+        } else {
+            // ISRで取得できなかった場合はAPIから取得する
+            dispatch(fetchPlansRecentlyCreated());
+        }
     }, [plansRecentlyCreated]);
 
     useEffect(() => {
@@ -158,7 +165,7 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
 
         return {
             props: {
-                plansRecentlyCreated: [],
+                plansRecentlyCreated: null,
                 nextPageTokenPlansRecentlyCreated: null,
             },
             revalidate: 30,
