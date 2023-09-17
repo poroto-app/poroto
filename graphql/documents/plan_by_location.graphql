@@ -8,6 +8,7 @@ query PlansByLocation($latitude: Float!, $longitude: Float!, $limit: Int, $pageK
                 id
                 name
                 photos
+                thumbnails
                 location {
                     longitude
                     latitude

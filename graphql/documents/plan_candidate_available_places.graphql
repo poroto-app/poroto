@@ -8,6 +8,7 @@ query FetchAvailablePlacesForPlanCandidate($session: String!) {
                 longitude
             }
             photos
+            thumbnails
             estimatedStayDuration
         }
     }

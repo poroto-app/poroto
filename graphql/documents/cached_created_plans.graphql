@@ -8,6 +8,7 @@ query CachedCreatedPlans($session: String!) {
                 id
                 name
                 photos
+                thumbnails
                 location {
                     longitude
                     latitude
