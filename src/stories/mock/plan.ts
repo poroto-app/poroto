@@ -4,7 +4,6 @@ export const mockPlan: Plan = {
     id: "1",
     title: "カフェでほっと一息",
     timeInMinutes: 60,
-    tags: [],
     transitions: [
         {
             toPlaceId: "1",
@@ -26,7 +25,6 @@ export const mockPlan: Plan = {
                 "https://picsum.photos/400/600",
                 "https://picsum.photos/400/650",
             ],
-            tags: [],
             location: {
                 latitude: 35.6809591,
                 longitude: 139.7673068,
@@ -42,7 +40,6 @@ export const mockPlan: Plan = {
                 "https://picsum.photos/400/500",
                 "https://picsum.photos/450/600",
             ],
-            tags: [],
             location: {
                 latitude: 35.681616,
                 longitude: 139.764954,

@@ -13,7 +13,6 @@ const Template: ComponentStory<typeof PlacePreview> = (args) => (
 export const PlacePreviewStoryBook = Template.bind({});
 PlacePreviewStoryBook.args = {
     name: "poroto書店",
-    tags: ["書店", "駅チカ", "品揃え"],
     imageUrls: [
         "https://picsum.photos/300/400",
         "https://picsum.photos/1280/720",
@@ -28,7 +27,6 @@ PlacePreviewStoryBook.args = {
 export const Loading = Template.bind({});
 Loading.args = {
     name: "poroto書店",
-    tags: ["書店", "駅チカ", "品揃え"],
     imageUrls: [
         "https://example.com/photo/a",
         "https://example.com/photo/b",
@@ -41,21 +39,5 @@ Loading.args = {
 export const EmptyImages = Template.bind({});
 EmptyImages.args = {
     name: "poroto書店",
-    tags: ["書店", "駅チカ", "品揃え"],
     imageUrls: [],
-};
-
-export const EmptyTags = Template.bind({});
-EmptyTags.args = {
-    name: "poroto書店",
-    tags: [],
-    imageUrls: [
-        "https://picsum.photos/300/400",
-        "https://picsum.photos/1280/720",
-        "https://picsum.photos/400/600",
-        "https://picsum.photos/400/600",
-        "https://picsum.photos/300/400",
-        "https://picsum.photos/1280/720",
-        "https://picsum.photos/400/600",
-    ],
 };

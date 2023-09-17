@@ -18,7 +18,6 @@ const Template = ({
             id: "plan",
             title,
             timeInMinutes,
-            tags: [],
             transitions: [
                 {
                     fromPlaceId: "place1",
@@ -30,7 +29,6 @@ const Template = ({
                 {
                     id: "place1",
                     name: "poroto書店",
-                    tags: ["書店", "駅チカ", "品揃え"],
                     location: {
                         latitude: 35.681236,
                         longitude: 139.767125,
@@ -49,7 +47,6 @@ const Template = ({
                 {
                     id: "place2",
                     name: "スターバックスコーヒー",
-                    tags: ["カフェ", "駅チカ", "コーヒー"],
                     location: {
                         latitude: 35.681236,
                         longitude: 139.767125,
