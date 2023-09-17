@@ -273,6 +273,6 @@ function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
             authorName: review.authorName,
             authorUrl: review.authorUrl,
             authorPhotoUrl: review.authorPhotoUrl,
-        })),
+        })) ?? null,
     };
 }
