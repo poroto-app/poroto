@@ -63,6 +63,7 @@ export type PlanEntity = {
 
 export type PlaceEntity = {
     id: string;
+    googlePlaceId: string | null;
     name: string;
     imageUrls: string[];
     thumbnailUrls: string[];

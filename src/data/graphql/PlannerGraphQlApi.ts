@@ -259,6 +259,7 @@ function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
 function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
     return {
         id: place.id,
+        googlePlaceId: place.googlePlaceId ?? null,
         name: place.name,
         imageUrls: place.photos,
         thumbnailUrls: place.thumbnails,
