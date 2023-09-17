@@ -140,10 +140,12 @@ export type MutationSavePlanFromCandidateArgs = {
 export type Place = {
   __typename?: 'Place';
   estimatedStayDuration: Scalars['Int'];
+  googlePlaceId?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   location: GeoLocation;
   name: Scalars['String'];
   photos: Array<Scalars['String']>;
+  thumbnails: Array<Scalars['String']>;
 };
 
 export type Plan = {
