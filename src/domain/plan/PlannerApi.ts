@@ -70,6 +70,16 @@ export type PlaceEntity = {
         longitude: number;
     };
     estimatedStayDuration: number;
+    googlePlaceReviews?: GooglePlaceReviewEntity[];
+};
+
+export type GooglePlaceReviewEntity = {
+    rating: number;
+    text?: string;
+    time: number;
+    authorName: string;
+    authorUrl?: string;
+    authorPhotoUrl?: string;
 };
 
 export function createPlanFromPlanEntity(
