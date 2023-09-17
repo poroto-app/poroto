@@ -29,6 +29,7 @@ const Template = ({
             places: [
                 {
                     id: "place1",
+                    googlePlaceId: "googlePlaceId",
                     name: "poroto書店",
                     tags: ["書店", "駅チカ", "品揃え"],
                     location: {
@@ -44,10 +45,20 @@ const Template = ({
                         "https://picsum.photos/1280/720",
                         "https://picsum.photos/400/600",
                     ],
+                    thumbnailUrls: [
+                        "https://picsum.photos/300/400",
+                        "https://picsum.photos/1280/720",
+                        "https://picsum.photos/400/600",
+                        "https://picsum.photos/400/600",
+                        "https://picsum.photos/300/400",
+                        "https://picsum.photos/1280/720",
+                        "https://picsum.photos/400/600",
+                    ],
                     estimatedStayDuration: 30,
                 },
                 {
                     id: "place2",
+                    googlePlaceId: "googlePlaceId",
                     name: "スターバックスコーヒー",
                     tags: ["カフェ", "駅チカ", "コーヒー"],
                     location: {
@@ -57,6 +68,11 @@ const Template = ({
                     imageUrls: [
                         "https://picsum.photos/1280/720",
                         "https://picsum.photos/300/400",
+                        "https://picsum.photos/400/600",
+                    ],
+                    thumbnailUrls: [
+                        "https://picsum.photos/300/400",
+                        "https://picsum.photos/1280/720",
                         "https://picsum.photos/400/600",
                     ],
                     estimatedStayDuration: 30,
