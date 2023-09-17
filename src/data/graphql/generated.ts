@@ -84,6 +84,18 @@ export type GeoLocation = {
   longitude: Scalars['Float'];
 };
 
+export type GooglePlaceReview = {
+  __typename?: 'GooglePlaceReview';
+  authorName: Scalars['String'];
+  authorPhotoUrl?: Maybe<Scalars['String']>;
+  authorUrl?: Maybe<Scalars['String']>;
+  language?: Maybe<Scalars['String']>;
+  originalLanguage?: Maybe<Scalars['String']>;
+  rating: Scalars['Int'];
+  text?: Maybe<Scalars['String']>;
+  time: Scalars['Int'];
+};
+
 export type InterestCandidate = {
   __typename?: 'InterestCandidate';
   categories: Array<LocationCategory>;
@@ -140,6 +152,7 @@ export type MutationSavePlanFromCandidateArgs = {
 export type Place = {
   __typename?: 'Place';
   estimatedStayDuration: Scalars['Int'];
+  googleReviews?: Maybe<Array<GooglePlaceReview>>;
   id: Scalars['String'];
   location: GeoLocation;
   name: Scalars['String'];
