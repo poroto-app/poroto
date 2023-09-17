@@ -1,10 +1,7 @@
 import { Link } from "@chakra-ui/next-js";
-import { HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { MdSchedule } from "react-icons/md";
 import { Plan } from "src/domain/models/Plan";
-import { DateHelper } from "src/domain/util/date";
-import { Colors } from "src/view/constants/color";
 import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
 
 type Props = {
