@@ -9,16 +9,24 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { MdOutlineLocationOn } from "react-icons/md";
+import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import { Colors } from "src/view/constants/color";
+import { PlaceReview } from "src/view/plan/PlaceReview";
 import styled from "styled-components";
 
 type Props = {
     name: string;
     imageUrls: string[];
     tags: string[];
+    googlePlaceReviews?: GooglePlaceReview[];
 };
 
-export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
+export const PlacePreview = ({
+    name,
+    imageUrls,
+    tags,
+    googlePlaceReviews,
+}: Props) => {
     return (
         <VStack alignItems="flex-start" w="100%">
             {imageUrls.length > 0 && (
@@ -40,6 +48,16 @@ export const PlacePreview = ({ name, imageUrls, tags }: Props) => {
                 <Text fontSize="1.15rem">{name}</Text>
             </HStack>
             {tags.length > 0 && <TagList tags={tags} />}
+            {/* TODO: すべてのレビューの情報を表示する */}
+            {googlePlaceReviews &&
+                googlePlaceReviews.length > 0 &&
+                googlePlaceReviews[0].text && (
+                    <PlaceReview
+                        authorName={googlePlaceReviews[0].authorName}
+                        authorUrl={googlePlaceReviews[0].authorUrl}
+                        text={googlePlaceReviews[0].text}
+                    />
+                )}
         </VStack>
     );
 };
