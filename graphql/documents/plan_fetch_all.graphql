@@ -4,6 +4,7 @@ query FetchPlans($pageKey: String) {
         name
         places {
             id
+            googlePlaceId
             name
             photos
             thumbnails

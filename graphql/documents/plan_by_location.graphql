@@ -6,6 +6,7 @@ query PlansByLocation($latitude: Float!, $longitude: Float!, $limit: Int, $pageK
             name
             places {
                 id
+                googlePlaceId
                 name
                 photos
                 thumbnails

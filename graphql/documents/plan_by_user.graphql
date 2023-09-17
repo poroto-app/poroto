@@ -5,6 +5,7 @@ query PlansByUser($userId: String!) {
             name
             places {
                 id
+                googlePlaceId
                 name
                 photos
                 thumbnails

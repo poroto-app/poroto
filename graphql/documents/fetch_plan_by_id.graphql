@@ -4,6 +4,7 @@ query FetchPlanById($planId: String!) {
         name
         places {
             id
+            googlePlaceId
             name
             photos
             thumbnails

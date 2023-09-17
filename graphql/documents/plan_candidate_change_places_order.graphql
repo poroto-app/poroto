@@ -5,6 +5,7 @@ mutation ChangePlacesOrderInPlanCandidate($input: ChangePlacesOrderInPlanCandida
             name
             places {
                 id
+                googlePlaceId
                 name
                 photos
                 thumbnails

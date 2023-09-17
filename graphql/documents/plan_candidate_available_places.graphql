@@ -1,8 +1,9 @@
 query FetchAvailablePlacesForPlanCandidate($session: String!) {
     availablePlacesForPlan(input: {session: $session}) {
         places {
-            name
             id
+            googlePlaceId
+            name
             location {
                 latitude
                 longitude
