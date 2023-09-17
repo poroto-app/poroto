@@ -1,23 +1,22 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 
 export default {
     title: "plan/PlanPreview",
     component: PlanPreview,
-} as ComponentMeta<typeof PlanPreview>;
+    tags: ["autodocs"],
+    parameters: {},
+} as Meta<typeof PlanPreview>;
 
-const Template = ({
-    title,
-    timeInMinutes,
-}: {
-    title: string;
-    timeInMinutes: number;
-}) => (
-    <PlanPreview
-        plan={{
+type Story = StoryObj<typeof PlanPreview>;
+
+export const Primary: Story = {
+    args: {
+        plan: {
             id: "plan",
-            title,
-            timeInMinutes,
+            title: "プランタイトル",
+            timeInMinutes: 30,
+            author: null,
             tags: [],
             transitions: [
                 {
@@ -41,8 +40,6 @@ const Template = ({
                         "https://picsum.photos/400/600",
                         "https://picsum.photos/400/600",
                         "https://picsum.photos/300/400",
-                        "https://picsum.photos/1280/720",
-                        "https://picsum.photos/400/600",
                     ],
                     estimatedStayDuration: 30,
                 },
@@ -62,13 +59,12 @@ const Template = ({
                     estimatedStayDuration: 30,
                 },
             ],
-            author: null,
-        }}
-    />
-);
+        },
+    },
+};
 
-export const PlanPreviewStoryBook = Template.bind({});
-PlanPreviewStoryBook.args = {
-    title: "プランタイトル",
-    timeInMinutes: 30,
+export const PlaceHolder: Story = {
+    args: {
+        plan: null,
+    },
 };
