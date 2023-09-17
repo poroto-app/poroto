@@ -96,8 +96,10 @@ export function createPlanFromPlanEntity(
 export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
     return {
         id: entity.id,
+        googlePlaceId: entity.googlePlaceId,
         name: entity.name,
         imageUrls: entity.imageUrls,
+        thumbnailUrls: entity.thumbnailUrls,
         location: entity.location,
         tags: [],
         estimatedStayDuration: entity.estimatedStayDuration,
