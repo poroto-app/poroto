@@ -117,6 +117,7 @@ const IndexPage = (props: Props) => {
                     <InfiniteScroll
                         loadMore={() => dispatch(fetchPlansRecentlyCreated())}
                         hasMore={nextPageTokenPlansRecentlyCreated !== null}
+                        style={{ width: "100%" }}
                     >
                         <PlanList plans={plansRecentlyCreated}>
                             <PlanListSectionTitle
