@@ -262,7 +262,11 @@ function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
         googlePlaceId: place.googlePlaceId ?? null,
         name: place.name,
         imageUrls: place.photos,
-        thumbnailUrls: place.thumbnails,
+        images: place.images.map((image) => ({
+            default: image.default,
+            small: image.small ?? null,
+            large: image.large ?? null,
+        })),
         location: {
             latitude: place.location.latitude,
             longitude: place.location.longitude,
