@@ -5,7 +5,6 @@ export type Place = {
     googlePlaceId: string | null;
     name: string;
     imageUrls: string[];
-    thumbnailUrls: string[];
     tags: string[];
     location: GeoLocation;
     estimatedStayDuration: number;

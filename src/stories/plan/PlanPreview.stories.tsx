@@ -45,15 +45,6 @@ const Template = ({
                         "https://picsum.photos/1280/720",
                         "https://picsum.photos/400/600",
                     ],
-                    thumbnailUrls: [
-                        "https://picsum.photos/300/400",
-                        "https://picsum.photos/1280/720",
-                        "https://picsum.photos/400/600",
-                        "https://picsum.photos/400/600",
-                        "https://picsum.photos/300/400",
-                        "https://picsum.photos/1280/720",
-                        "https://picsum.photos/400/600",
-                    ],
                     estimatedStayDuration: 30,
                 },
                 {
@@ -68,11 +59,6 @@ const Template = ({
                     imageUrls: [
                         "https://picsum.photos/1280/720",
                         "https://picsum.photos/300/400",
-                        "https://picsum.photos/400/600",
-                    ],
-                    thumbnailUrls: [
-                        "https://picsum.photos/300/400",
-                        "https://picsum.photos/1280/720",
                         "https://picsum.photos/400/600",
                     ],
                     estimatedStayDuration: 30,

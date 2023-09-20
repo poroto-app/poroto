@@ -27,12 +27,6 @@ export const mockPlan: Plan = {
                 "https://picsum.photos/400/600",
                 "https://picsum.photos/400/650",
             ],
-            thumbnailUrls: [
-                "https://picsum.photos/300/400",
-                "https://picsum.photos/1280/720",
-                "https://picsum.photos/400/600",
-                "https://picsum.photos/400/650",
-            ],
             tags: [],
             location: {
                 latitude: 35.6809591,
@@ -45,12 +39,6 @@ export const mockPlan: Plan = {
             googlePlaceId: "2",
             name: "東京駅丸の内駅前広場",
             imageUrls: [
-                "https://picsum.photos/400/400",
-                "https://picsum.photos/1280/700",
-                "https://picsum.photos/400/500",
-                "https://picsum.photos/450/600",
-            ],
-            thumbnailUrls: [
                 "https://picsum.photos/400/400",
                 "https://picsum.photos/1280/700",
                 "https://picsum.photos/400/500",
