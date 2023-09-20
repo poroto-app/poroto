@@ -9,7 +9,16 @@ query PlansByLocation($latitude: Float!, $longitude: Float!, $limit: Int, $pageK
                 googlePlaceId
                 name
                 photos
-                thumbnails
+                images {
+                    default
+                    small
+                    large
+                }
+                images {
+                    default
+                    small
+                    large
+                }
                 location {
                     longitude
                     latitude

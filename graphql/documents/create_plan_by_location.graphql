@@ -27,7 +27,16 @@ mutation CreatePlanByLocation(
                 googlePlaceId
                 name
                 photos
-                thumbnails
+                images {
+                    default
+                    small
+                    large
+                }
+                images {
+                    default
+                    small
+                    large
+                }
                 location {
                     longitude
                     latitude

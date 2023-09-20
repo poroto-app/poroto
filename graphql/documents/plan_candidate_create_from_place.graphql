@@ -11,7 +11,11 @@ mutation CreatePlanByPlace($sessionId: String!, $placeId: String!) {
                 googlePlaceId
                 name
                 photos
-                thumbnails
+                images {
+                    default
+                    small
+                    large
+                }
                 location {
                     longitude
                     latitude
