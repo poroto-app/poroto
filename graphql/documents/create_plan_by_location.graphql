@@ -32,11 +32,6 @@ mutation CreatePlanByLocation(
                     small
                     large
                 }
-                images {
-                    default
-                    small
-                    large
-                }
                 location {
                     longitude
                     latitude

@@ -14,11 +14,6 @@ query PlansByLocation($latitude: Float!, $longitude: Float!, $limit: Int, $pageK
                     small
                     large
                 }
-                images {
-                    default
-                    small
-                    large
-                }
                 location {
                     longitude
                     latitude
