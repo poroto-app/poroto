@@ -23,7 +23,7 @@ export function SearchRouteByGoogleMapButton({
     return (
         <Link
             href={generateGoogleMapUrl({
-                locations: plan.places.map((place) => place.location),
+                places: plan.places,
                 startLocation: startLocationOfRoute,
             })}
             target="_blank"

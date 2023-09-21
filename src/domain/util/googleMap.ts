@@ -1,18 +1,24 @@
 import { GeoLocation } from "src/domain/models/GeoLocation";
 
+export type GoogleMapPlaceParam = {
+    name: string;
+    googlePlaceId?: string;
+    location: GeoLocation;
+};
+
 export const generateGoogleMapUrl = ({
-    locations,
+    places,
     startLocation,
 }: {
-    locations: GeoLocation[];
+    places: GoogleMapPlaceParam[];
     startLocation?: GeoLocation;
 }): string => {
     // SEE: https://developers.google.com/maps/documentation/urls/get-started?hl=ja#directions-action
     const url = new URL("https://www.google.com/maps/dir/");
     url.searchParams.set("api", "1");
 
-    const locationsWaypoints = locations.slice(0, locations.length - 1);
-    const locationDestination = locations[locations.length - 1];
+    const placesWaypoints = places.slice(0, places.length - 1);
+    const placeDestination = places[places.length - 1];
 
     if (startLocation) {
         url.searchParams.set(
@@ -21,17 +27,32 @@ export const generateGoogleMapUrl = ({
         );
     }
 
-    if (locationsWaypoints.length > 0) {
-        const waypoints = locationsWaypoints
-            .map((waypoint) => `${waypoint.latitude},${waypoint.longitude}`)
+    if (placesWaypoints.length > 0) {
+        const waypoints = placesWaypoints
+            .map((waypoint) => waypoint.name)
             .join("|");
         url.searchParams.set("waypoints", waypoints);
+
+        const allWaypointsHasGooglePlaceId = placesWaypoints.every(
+            (waypoint) => waypoint.googlePlaceId
+        );
+        if (allWaypointsHasGooglePlaceId) {
+            const waypointsPlaceIds = placesWaypoints
+                .map((waypoint) => waypoint.googlePlaceId)
+                .join("|");
+            url.searchParams.set("waypoint_place_ids", waypointsPlaceIds);
+        }
     }
 
-    url.searchParams.set(
-        "destination",
-        `${locationDestination.latitude},${locationDestination.longitude}`
-    );
+    if (placeDestination.googlePlaceId) {
+        url.searchParams.set("destination", placeDestination.name);
+        url.searchParams.set(
+            "destination_place_id",
+            placeDestination.googlePlaceId
+        );
+    } else{
+        url.searchParams.set("destination", `${placeDestination.location.latitude},${placeDestination.location.longitude}`)
+    }
 
     return encodeURI(decodeURIComponent(url.toString()));
 };
