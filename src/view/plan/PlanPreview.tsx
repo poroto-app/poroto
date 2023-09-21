@@ -3,13 +3,25 @@ import { HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Plan } from "src/domain/models/Plan";
 import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
+import styled from "styled-components";
 
 type Props = {
-    plan: Plan;
+    plan: Plan | null;
     link?: string;
 };
 
+export function PlaceHolder() {
+    return (
+        <VStack w="100%" maxW="600px" alignItems="flex-start">
+            <PlaceHolderBox height={300} />
+            <PlaceHolderBox height={20} width={200} />
+        </VStack>
+    );
+}
+
 export function PlanPreview({ plan, link }: Props) {
+    if (!plan) return <PlaceHolder />;
+
     const thumbnails = plan.places
         .map((place) =>
             place.imageUrls.length > 0 ? place.imageUrls[0] : null
@@ -48,3 +60,11 @@ function LinkWrapper({
         );
     return <>{children}</>;
 }
+
+const PlaceHolderBox = styled.div<{ width?: number; height: number }>`
+    width: ${({ width }) => (width ? width + "px" : "100%")};
+    max-width: 100%;
+    height: ${({ height }) => height + "px"};
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.1);
+`;

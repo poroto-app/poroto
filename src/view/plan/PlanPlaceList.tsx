@@ -18,6 +18,7 @@ export function PlanPlaceList({ plan, createdBasedOnCurrentLocation }: Props) {
                     key={i}
                     name={place.name}
                     imageUrls={place.imageUrls}
+                    googlePlaceReviews={place.googlePlaceReviews}
                 />
             ))}
         </VStack>

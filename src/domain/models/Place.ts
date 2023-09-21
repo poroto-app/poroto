@@ -1,4 +1,5 @@
 import { GeoLocation } from "src/domain/models/GeoLocation";
+import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 
 export type Place = {
     id: string;
@@ -6,4 +7,5 @@ export type Place = {
     imageUrls: string[];
     location: GeoLocation;
     estimatedStayDuration: number;
+    googlePlaceReviews?: GooglePlaceReview[];
 };
