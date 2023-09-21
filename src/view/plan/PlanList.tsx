@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { Plan } from "src/domain/models/Plan";
 import { Routes } from "src/view/constants/router";
 import { PlanPreview } from "src/view/plan/PlanPreview";
+import styled from "styled-components";
 
 type Props = {
     children?: ReactNode;
@@ -11,9 +12,9 @@ type Props = {
 
 export function PlanList({ plans, children }: Props) {
     return (
-        <VStack w="100%" spacing={4}>
+        <VStack w="100%" spacing={4} alignItems="center">
             {children}
-            <VStack spacing={16} w="100%">
+            <GridLayout>
                 {plans &&
                     plans.map((plan, index) => (
                         <PlanPreview
@@ -22,7 +23,24 @@ export function PlanList({ plans, children }: Props) {
                             plan={plan}
                         />
                     ))}
-            </VStack>
+            </GridLayout>
         </VStack>
     );
 }
+
+const GridLayout = styled.div`
+    display: grid;
+    width: 100%;
+    column-gap: 24px;
+    row-gap: 48px;
+
+    grid-template-columns: 1fr;
+
+    @media (min-width: calc(600px + 16px + 16px)) {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    @media (min-width: calc(900px + 32px + 16px)) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+`;
