@@ -19,6 +19,14 @@ query PlansByLocation($latitude: Float!, $longitude: Float!, $limit: Int, $pageK
                     latitude
                 }
                 estimatedStayDuration
+                googleReviews {
+                    rating
+                    text
+                    authorName
+                    authorPhotoUrl
+                    authorUrl
+                    time
+                }
             }
             timeInMinutes
             transitions {

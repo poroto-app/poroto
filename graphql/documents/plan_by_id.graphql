@@ -17,6 +17,14 @@ query FetchPlanById($planId: String!) {
                 latitude
             }
             estimatedStayDuration
+            googleReviews {
+                rating
+                text
+                authorName
+                authorPhotoUrl
+                authorUrl
+                time
+            }
         }
         timeInMinutes
         transitions {

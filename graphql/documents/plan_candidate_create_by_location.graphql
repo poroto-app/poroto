@@ -37,6 +37,14 @@ mutation CreatePlanByLocation(
                     latitude
                 }
                 estimatedStayDuration
+                googleReviews {
+                    rating
+                    text
+                    authorName
+                    authorPhotoUrl
+                    authorUrl
+                    time
+                }
             }
             timeInMinutes
             transitions {

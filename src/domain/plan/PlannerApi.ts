@@ -49,9 +49,6 @@ export interface PlannerApi {
 export type PlanEntity = {
     id: string;
     title: string;
-    tags: {
-        content: string;
-    }[];
     places: PlaceEntity[];
     timeInMinutes: number;
     transitions: {
@@ -76,6 +73,16 @@ export type PlaceEntity = {
         longitude: number;
     };
     estimatedStayDuration: number;
+    googlePlaceReviews: GooglePlaceReviewEntity[] | null;
+};
+
+export type GooglePlaceReviewEntity = {
+    rating: number;
+    text?: string;
+    time: number;
+    authorName: string;
+    authorUrl?: string;
+    authorPhotoUrl?: string;
 };
 
 export function createPlanFromPlanEntity(
@@ -85,7 +92,6 @@ export function createPlanFromPlanEntity(
     return {
         id: entity.id,
         title: entity.title,
-        tags: entity.tags,
         places: entity.places.map((place) => createPlaceFromPlaceEntity(place)),
         timeInMinutes: entity.timeInMinutes,
         transitions: entity.transitions.map((transition) => ({
@@ -104,8 +110,16 @@ export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
         name: entity.name,
         imageUrls: entity.imageUrls,
         location: entity.location,
-        tags: [],
         estimatedStayDuration: entity.estimatedStayDuration,
+        googlePlaceReviews:
+            entity.googlePlaceReviews?.map((review) => ({
+                rating: review.rating,
+                text: review.text,
+                authorName: review.authorName,
+                authorUrl: review.authorUrl,
+                authorPhotoUrl: review.authorPhotoUrl,
+                timeInMilliSec: review.time,
+            })) ?? null,
     };
 }
 
