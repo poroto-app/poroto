@@ -70,6 +70,16 @@ export type PlaceEntity = {
         longitude: number;
     };
     estimatedStayDuration: number;
+    googlePlaceReviews: GooglePlaceReviewEntity[] | null;
+};
+
+export type GooglePlaceReviewEntity = {
+    rating: number;
+    text?: string;
+    time: number;
+    authorName: string;
+    authorUrl?: string;
+    authorPhotoUrl?: string;
 };
 
 export function createPlanFromPlanEntity(
@@ -99,6 +109,15 @@ export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
         location: entity.location,
         tags: [],
         estimatedStayDuration: entity.estimatedStayDuration,
+        googlePlaceReviews:
+            entity.googlePlaceReviews?.map((review) => ({
+                rating: review.rating,
+                text: review.text,
+                authorName: review.authorName,
+                authorUrl: review.authorUrl,
+                authorPhotoUrl: review.authorPhotoUrl,
+                timeInMilliSec: review.time,
+            })) ?? null,
     };
 }
 

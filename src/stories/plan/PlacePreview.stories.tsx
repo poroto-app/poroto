@@ -1,61 +1,50 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
+import { mockPlaces } from "src/stories/mock/place";
 import { PlacePreview } from "src/view/plan/PlacePreview";
 
 export default {
     title: "plan/PlacePreview",
     component: PlacePreview,
-} as ComponentMeta<typeof PlacePreview>;
+    tags: ["autodocs"],
+    parameters: {},
+} as Meta<typeof PlacePreview>;
 
-const Template: ComponentStory<typeof PlacePreview> = (args) => (
-    <PlacePreview {...args} />
-);
+type Story = StoryObj<typeof PlacePreview>;
 
-export const PlacePreviewStoryBook = Template.bind({});
-PlacePreviewStoryBook.args = {
-    name: "poroto書店",
-    tags: ["書店", "駅チカ", "品揃え"],
-    imageUrls: [
-        "https://picsum.photos/300/400",
-        "https://picsum.photos/1280/720",
-        "https://picsum.photos/400/600",
-        "https://picsum.photos/400/600",
-        "https://picsum.photos/300/400",
-        "https://picsum.photos/1280/720",
-        "https://picsum.photos/400/600",
-    ],
+export const Primary: Story = {
+    args: {
+        name: mockPlaces.bookStore.name,
+        imageUrls: mockPlaces.bookStore.imageUrls,
+        tags: mockPlaces.bookStore.tags,
+        googlePlaceReviews: mockPlaces.bookStore.googlePlaceReviews,
+    },
 };
 
-export const Loading = Template.bind({});
-Loading.args = {
-    name: "poroto書店",
-    tags: ["書店", "駅チカ", "品揃え"],
-    imageUrls: [
-        "https://example.com/photo/a",
-        "https://example.com/photo/b",
-        "https://example.com/photo/c",
-        "https://example.com/photo/d",
-        "https://example.com/photo/e",
-    ],
+export const Loading: Story = {
+    args: {
+        name: mockPlaces.bookStore.name,
+        tags: mockPlaces.bookStore.tags,
+        imageUrls: [
+            "https://example.com/photo/a",
+            "https://example.com/photo/b",
+            "https://example.com/photo/c",
+            "https://example.com/photo/d",
+        ],
+    },
 };
 
-export const EmptyImages = Template.bind({});
-EmptyImages.args = {
-    name: "poroto書店",
-    tags: ["書店", "駅チカ", "品揃え"],
-    imageUrls: [],
+export const EmptyImages: Story = {
+    args: {
+        name: mockPlaces.bookStore.name,
+        tags: mockPlaces.bookStore.tags,
+        imageUrls: [],
+    },
 };
 
-export const EmptyTags = Template.bind({});
-EmptyTags.args = {
-    name: "poroto書店",
-    tags: [],
-    imageUrls: [
-        "https://picsum.photos/300/400",
-        "https://picsum.photos/1280/720",
-        "https://picsum.photos/400/600",
-        "https://picsum.photos/400/600",
-        "https://picsum.photos/300/400",
-        "https://picsum.photos/1280/720",
-        "https://picsum.photos/400/600",
-    ],
+export const EmptyTags: Story = {
+    args: {
+        name: mockPlaces.bookStore.name,
+        tags: [],
+        imageUrls: mockPlaces.bookStore.imageUrls,
+    },
 };
