@@ -1,6 +1,7 @@
 import { VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Plan } from "src/domain/models/Plan";
+import { createArrayWithSize } from "src/domain/util/array";
 import { Routes } from "src/view/constants/router";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 import styled from "styled-components";
@@ -15,14 +16,17 @@ export function PlanList({ plans, children }: Props) {
         <VStack w="100%" spacing={4} alignItems="center">
             {children}
             <GridLayout>
-                {plans &&
-                    plans.map((plan, index) => (
-                        <PlanPreview
-                            key={index}
-                            link={Routes.plans.plan(plan.id)}
-                            plan={plan}
-                        />
-                    ))}
+                {plans
+                    ? plans.map((plan, index) => (
+                          <PlanPreview
+                              key={index}
+                              link={Routes.plans.plan(plan.id)}
+                              plan={plan}
+                          />
+                      ))
+                    : createArrayWithSize(6).map((i) => (
+                          <PlanPreview key={i} plan={null} />
+                      ))}
             </GridLayout>
         </VStack>
     );
