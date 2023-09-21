@@ -17,7 +17,6 @@ export const Primary: Story = {
             title: "プランタイトル",
             timeInMinutes: 30,
             author: null,
-            tags: [],
             transitions: [
                 {
                     fromPlaceId: "place1",
@@ -29,7 +28,6 @@ export const Primary: Story = {
                 {
                     id: "place1",
                     name: "poroto書店",
-                    tags: ["書店", "駅チカ", "品揃え"],
                     location: {
                         latitude: 35.681236,
                         longitude: 139.767125,
@@ -46,7 +44,6 @@ export const Primary: Story = {
                 {
                     id: "place2",
                     name: "スターバックスコーヒー",
-                    tags: ["カフェ", "駅チカ", "コーヒー"],
                     location: {
                         latitude: 35.681236,
                         longitude: 139.767125,

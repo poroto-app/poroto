@@ -6,12 +6,7 @@ export type Plan = {
     id: string;
     title: string;
     places: Place[];
-    tags: PlanTag[];
     timeInMinutes: number;
     transitions: Transition[];
     author: User | null;
-};
-
-export type PlanTag = {
-    content: string;
 };

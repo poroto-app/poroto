@@ -17,14 +17,12 @@ import styled from "styled-components";
 type Props = {
     name: string;
     imageUrls: string[];
-    tags: string[];
     googlePlaceReviews?: GooglePlaceReview[];
 };
 
 export const PlacePreview = ({
     name,
     imageUrls,
-    tags,
     googlePlaceReviews,
 }: Props) => {
     return (
@@ -47,7 +45,6 @@ export const PlacePreview = ({
                 />
                 <Text fontSize="1.15rem">{name}</Text>
             </HStack>
-            {tags.length > 0 && <TagList tags={tags} />}
             {/* TODO: すべてのレビューの情報を表示する */}
             {googlePlaceReviews &&
                 googlePlaceReviews.length > 0 &&
@@ -61,24 +58,6 @@ export const PlacePreview = ({
         </VStack>
     );
 };
-
-function TagList({ tags }: { tags: string[] }) {
-    return (
-        <HStack>
-            {tags.map((tag, i) => (
-                <Box
-                    key={i}
-                    border="1px solid rgba(0, 0, 0, .1)"
-                    borderRadius="5px"
-                    px="4px"
-                    py="2px"
-                >
-                    <Text fontSize="0.95rem">{tag}</Text>
-                </Box>
-            ))}
-        </HStack>
-    );
-}
 
 const ImageWithSkeleton = ({ src }: { src: string }) => {
     const [isLoading, setIsLoading] = useState(true);

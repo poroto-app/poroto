@@ -15,7 +15,6 @@ export const Primary: Story = {
     args: {
         name: mockPlaces.bookStore.name,
         imageUrls: mockPlaces.bookStore.imageUrls,
-        tags: mockPlaces.bookStore.tags,
         googlePlaceReviews: mockPlaces.bookStore.googlePlaceReviews,
     },
 };
@@ -23,7 +22,6 @@ export const Primary: Story = {
 export const Loading: Story = {
     args: {
         name: mockPlaces.bookStore.name,
-        tags: mockPlaces.bookStore.tags,
         imageUrls: [
             "https://example.com/photo/a",
             "https://example.com/photo/b",
@@ -36,7 +34,6 @@ export const Loading: Story = {
 export const EmptyImages: Story = {
     args: {
         name: mockPlaces.bookStore.name,
-        tags: mockPlaces.bookStore.tags,
         imageUrls: [],
     },
 };
@@ -44,7 +41,6 @@ export const EmptyImages: Story = {
 export const EmptyTags: Story = {
     args: {
         name: mockPlaces.bookStore.name,
-        tags: [],
         imageUrls: mockPlaces.bookStore.imageUrls,
     },
 };
