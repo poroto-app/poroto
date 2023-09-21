@@ -50,8 +50,11 @@ export const generateGoogleMapUrl = ({
             "destination_place_id",
             placeDestination.googlePlaceId
         );
-    } else{
-        url.searchParams.set("destination", `${placeDestination.location.latitude},${placeDestination.location.longitude}`)
+    } else {
+        url.searchParams.set(
+            "destination",
+            `${placeDestination.location.latitude},${placeDestination.location.longitude}`
+        );
     }
 
     return encodeURI(decodeURIComponent(url.toString()));
