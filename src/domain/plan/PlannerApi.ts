@@ -60,8 +60,14 @@ export type PlanEntity = {
 
 export type PlaceEntity = {
     id: string;
+    googlePlaceId: string | null;
     name: string;
     imageUrls: string[];
+    images: {
+        default: string;
+        small: string | null;
+        large: string | null;
+    }[];
     location: {
         latitude: number;
         longitude: number;
@@ -100,6 +106,7 @@ export function createPlanFromPlanEntity(
 export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
     return {
         id: entity.id,
+        googlePlaceId: entity.googlePlaceId,
         name: entity.name,
         imageUrls: entity.imageUrls,
         location: entity.location,

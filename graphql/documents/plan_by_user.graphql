@@ -5,8 +5,14 @@ query PlansByUser($userId: String!) {
             name
             places {
                 id
+                googlePlaceId
                 name
                 photos
+                images {
+                    default
+                    small
+                    large
+                }
                 location {
                     longitude
                     latitude

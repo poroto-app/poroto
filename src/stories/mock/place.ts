@@ -3,6 +3,7 @@ import { Place } from "src/domain/models/Place";
 export const mockPlaces: { [key: string]: Place } = {
     bookStore: {
         id: "bookStore",
+        googlePlaceId: "poroto_book_store",
         name: "poroto書店",
         imageUrls: [
             "https://picsum.photos/300/400",
@@ -39,6 +40,7 @@ export const mockPlaces: { [key: string]: Place } = {
     },
     tokyo: {
         id: "tokyo",
+        googlePlaceId: "tokyo_station",
         name: "東京駅",
         imageUrls: [
             "https://picsum.photos/300/400",
@@ -72,6 +74,7 @@ export const mockPlaces: { [key: string]: Place } = {
     },
     marunouchi: {
         id: "marunouchi",
+        googlePlaceId: "marunouchi_station",
         name: "東京駅丸の内駅前広場",
         imageUrls: [
             "https://picsum.photos/400/400",

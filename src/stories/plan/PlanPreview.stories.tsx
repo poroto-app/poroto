@@ -27,6 +27,7 @@ export const Primary: Story = {
             places: [
                 {
                     id: "place1",
+                    googlePlaceId: "googlePlaceId",
                     name: "poroto書店",
                     location: {
                         latitude: 35.681236,
@@ -43,6 +44,7 @@ export const Primary: Story = {
                 },
                 {
                     id: "place2",
+                    googlePlaceId: "googlePlaceId",
                     name: "スターバックスコーヒー",
                     location: {
                         latitude: 35.681236,

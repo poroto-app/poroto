@@ -24,8 +24,14 @@ mutation CreatePlanByLocation(
             name
             places {
                 id
+                googlePlaceId
                 name
                 photos
+                images {
+                    default
+                    small
+                    large
+                }
                 location {
                     longitude
                     latitude
