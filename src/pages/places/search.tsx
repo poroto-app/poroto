@@ -60,6 +60,7 @@ function PlaceSearchPage() {
         getCurrentLocation,
         location,
         resetLocationState,
+        checkGeolocationPermission,
     } = useLocation();
     const [mapCenter, setMapCenter] = useState<GeoLocation>(
         locationSinjukuStation
@@ -69,7 +70,15 @@ function PlaceSearchPage() {
     // MEMO: 位置情報が利用できないと、Google Mapを表示しようとしたときにエラーになる
     useEffect(() => {
         resetLocationState();
-        getCurrentLocation().then();
+
+        const fetchCurrentLocation = async () => {
+            // 権限がある場合のみ、現在地を取得する
+            const isGranted = await checkGeolocationPermission();
+            if (!isGranted) return;
+
+            await getCurrentLocation();
+        };
+        fetchCurrentLocation().then();
     }, []);
 
     // 現在地が取得できたら、地図の中心を現在地にする
@@ -129,7 +138,7 @@ function PlaceSearchPage() {
         await router.push(Routes.plans.interest(true));
     };
 
-    if (!location)
+    if (fetchCurrentLocationStatus && !location)
         return (
             <FetchLocationDialog
                 fetchLocationRequestStatus={

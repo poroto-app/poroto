@@ -4,13 +4,27 @@ query FetchPlanById($planId: String!) {
         name
         places {
             id
+            googlePlaceId
             name
             photos
+            images {
+                default
+                small
+                large
+            }
             location {
                 longitude
                 latitude
             }
             estimatedStayDuration
+            googleReviews {
+                rating
+                text
+                authorName
+                authorPhotoUrl
+                authorUrl
+                time
+            }
         }
         timeInMinutes
         transitions {

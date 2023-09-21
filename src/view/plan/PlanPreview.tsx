@@ -1,18 +1,27 @@
 import { Link } from "@chakra-ui/next-js";
-import { HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { MdSchedule } from "react-icons/md";
 import { Plan } from "src/domain/models/Plan";
-import { DateHelper } from "src/domain/util/date";
-import { Colors } from "src/view/constants/color";
 import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
+import styled from "styled-components";
 
 type Props = {
-    plan: Plan;
+    plan: Plan | null;
     link?: string;
 };
 
+export function PlaceHolder() {
+    return (
+        <VStack w="100%" maxW="600px" alignItems="flex-start">
+            <PlaceHolderBox height={300} />
+            <PlaceHolderBox height={20} width={200} />
+        </VStack>
+    );
+}
+
 export function PlanPreview({ plan, link }: Props) {
+    if (!plan) return <PlaceHolder />;
+
     const thumbnails = plan.places
         .map((place) =>
             place.imageUrls.length > 0 ? place.imageUrls[0] : null
@@ -29,21 +38,6 @@ export function PlanPreview({ plan, link }: Props) {
                     </Text>
                     <HStack w="100%" justifyContent="flex-start">
                         {/* TODO: 最初の地点までの徒歩時間を移動距離を表示 */}
-                        <TagContainer
-                            tag={DateHelper.formatHHMM(
-                                DateHelper.roundMinute(plan.timeInMinutes, 30)
-                            )}
-                        >
-                            <Icon
-                                w="24px"
-                                h="24px"
-                                color={Colors.primary["500"]}
-                                as={MdSchedule}
-                            />
-                        </TagContainer>
-                        {plan.tags.map((tag, i) => (
-                            <TagContainer key={i} tag={tag.content} />
-                        ))}
                     </HStack>
                 </VStack>
             </LinkWrapper>
@@ -67,26 +61,10 @@ function LinkWrapper({
     return <>{children}</>;
 }
 
-function TagContainer({
-    tag,
-    children,
-}: {
-    tag: string;
-    children?: ReactNode;
-}) {
-    return (
-        <HStack
-            spacing={1}
-            alignItems="center"
-            justifyContent="center"
-            border="1px solid rgba(0, 0, 0, .1)"
-            borderRadius="5px"
-            h="100%"
-            px="4px"
-            py="2px"
-        >
-            {children}
-            <Text>{tag}</Text>
-        </HStack>
-    );
-}
+const PlaceHolderBox = styled.div<{ width?: number; height: number }>`
+    width: ${({ width }) => (width ? width + "px" : "100%")};
+    max-width: 100%;
+    height: ${({ height }) => height + "px"};
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.1);
+`;

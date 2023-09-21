@@ -245,7 +245,6 @@ function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
     return {
         id: plan.id,
         title: plan.name,
-        tags: [], // TODO: APIから取得する,
         places: plan.places.map((place) => fromGraphqlPlaceEntity(place)),
         timeInMinutes: plan.timeInMinutes,
         transitions: plan.transitions.map((transition) => ({
@@ -259,12 +258,27 @@ function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
 function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
     return {
         id: place.id,
+        googlePlaceId: place.googlePlaceId ?? null,
         name: place.name,
         imageUrls: place.photos,
+        images: place.images.map((image) => ({
+            default: image.default,
+            small: image.small ?? null,
+            large: image.large ?? null,
+        })),
         location: {
             latitude: place.location.latitude,
             longitude: place.location.longitude,
         },
         estimatedStayDuration: place.estimatedStayDuration,
+        googlePlaceReviews:
+            place.googleReviews?.map((review) => ({
+                rating: review.rating,
+                text: review.text,
+                time: review.time,
+                authorName: review.authorName,
+                authorUrl: review.authorUrl,
+                authorPhotoUrl: review.authorPhotoUrl,
+            })) ?? null,
     };
 }

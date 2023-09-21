@@ -6,13 +6,27 @@ query PlansByLocation($latitude: Float!, $longitude: Float!, $limit: Int, $pageK
             name
             places {
                 id
+                googlePlaceId
                 name
                 photos
+                images {
+                    default
+                    small
+                    large
+                }
                 location {
                     longitude
                     latitude
                 }
                 estimatedStayDuration
+                googleReviews {
+                    rating
+                    text
+                    authorName
+                    authorPhotoUrl
+                    authorUrl
+                    time
+                }
             }
             timeInMinutes
             transitions {

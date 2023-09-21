@@ -5,8 +5,14 @@ mutation ChangePlacesOrderInPlanCandidate($input: ChangePlacesOrderInPlanCandida
             name
             places {
                 id
+                googlePlaceId
                 name
                 photos
+                images {
+                    default
+                    small
+                    large
+                }
                 location {
                     longitude
                     latitude
