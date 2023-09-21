@@ -1,4 +1,4 @@
-import { Center, VStack } from "@chakra-ui/react";
+import { Center, Text, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
@@ -23,6 +23,10 @@ import { Size } from "src/view/constants/size";
 import { useLocation } from "src/view/hooks/useLocation";
 import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
+import {
+    PlanListSectionTitle,
+    PlanSections,
+} from "src/view/top/PlanListSectionTitle";
 
 type Props = {
     plansRecentlyCreated: Plan[];
@@ -88,14 +92,25 @@ const IndexPage = (props: Props) => {
                     spacing="24px"
                 >
                     {user && (
-                        <PlanList title="保存したプラン" plans={plansByUser} />
+                        <PlanList plans={plansByUser}>
+                            <Text
+                                as="h2"
+                                fontSize="20px"
+                                fontWeight="bold"
+                                w="100%"
+                                maxW="600px"
+                                textAlign="center"
+                                py="16x"
+                            >
+                                保存したプラン
+                            </Text>
+                        </PlanList>
                     )}
                     {/* TODO: 位置情報をONにすると近くのプランを取得できることを伝えるボタンを配置 */}
                     {/* TODO: 取得中のときはプレースホルダーを表示 */}
-                    <PlanList
-                        title={"近くで作られたプラン"}
-                        plans={plansNearby}
-                    />
+                    <PlanList plans={plansNearby}>
+                        <PlanListSectionTitle section={PlanSections.NearBy} />
+                    </PlanList>
                     {/* TODO: React 18に対応 */}
                     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                     {/* @ts-ignore */}
@@ -103,10 +118,11 @@ const IndexPage = (props: Props) => {
                         loadMore={() => dispatch(fetchPlansRecentlyCreated())}
                         hasMore={nextPageTokenPlansRecentlyCreated !== null}
                     >
-                        <PlanList
-                            title="最近作られたプラン"
-                            plans={plansRecentlyCreated}
-                        />
+                        <PlanList plans={plansRecentlyCreated}>
+                            <PlanListSectionTitle
+                                section={PlanSections.Recent}
+                            />
+                        </PlanList>
                     </InfiniteScroll>
                 </VStack>
             </Center>
