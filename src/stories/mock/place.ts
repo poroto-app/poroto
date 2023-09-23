@@ -5,15 +5,6 @@ export const mockPlaces: { [key: string]: Place } = {
         id: "bookStore",
         googlePlaceId: "poroto_book_store",
         name: "poroto書店",
-        imageUrls: [
-            "https://picsum.photos/300/400",
-            "https://picsum.photos/1280/720",
-            "https://picsum.photos/400/600",
-            "https://picsum.photos/400/600",
-            "https://picsum.photos/300/400",
-            "https://picsum.photos/1280/720",
-            "https://picsum.photos/400/600",
-        ],
         images: [
             {
                 default: "https://picsum.photos/300/400",
@@ -79,12 +70,6 @@ export const mockPlaces: { [key: string]: Place } = {
         id: "tokyo",
         googlePlaceId: "tokyo_station",
         name: "東京駅",
-        imageUrls: [
-            "https://picsum.photos/300/400",
-            "https://picsum.photos/1280/720",
-            "https://picsum.photos/400/600",
-            "https://picsum.photos/400/650",
-        ],
         images: [
             {
                 default: "https://picsum.photos/300/400",
@@ -135,12 +120,6 @@ export const mockPlaces: { [key: string]: Place } = {
         id: "marunouchi",
         googlePlaceId: "marunouchi_station",
         name: "東京駅丸の内駅前広場",
-        imageUrls: [
-            "https://picsum.photos/400/400",
-            "https://picsum.photos/1280/700",
-            "https://picsum.photos/400/500",
-            "https://picsum.photos/450/600",
-        ],
         images: [
             {
                 default: "https://picsum.photos/400/400",
