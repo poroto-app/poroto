@@ -260,7 +260,7 @@ function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
         id: place.id,
         googlePlaceId: place.googlePlaceId ?? null,
         name: place.name,
-        imageUrls: place.photos,
+        imageUrls: place.images.map((image) => image.default),
         images: place.images.map((image) => ({
             default: image.default,
             small: image.small ?? null,

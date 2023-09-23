@@ -7,7 +7,6 @@ query PlansByUser($userId: String!) {
                 id
                 googlePlaceId
                 name
-                photos
                 images {
                     default
                     small
