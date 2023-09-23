@@ -108,6 +108,7 @@ export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
         googlePlaceId: entity.googlePlaceId,
         name: entity.name,
         imageUrls: entity.images.map((image) => image.default),
+        images: entity.images,
         location: entity.location,
         estimatedStayDuration: entity.estimatedStayDuration,
         googlePlaceReviews:

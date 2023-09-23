@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
+import { mockPlaces } from "src/stories/mock/place";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 
 export default {
@@ -19,45 +20,12 @@ export const Primary: Story = {
             author: null,
             transitions: [
                 {
-                    fromPlaceId: "place1",
-                    toPlaceId: "place2",
+                    fromPlaceId: mockPlaces.bookStore.id,
+                    toPlaceId: mockPlaces.tokyo.id,
                     durationInMinutes: 10,
                 },
             ],
-            places: [
-                {
-                    id: "place1",
-                    googlePlaceId: "googlePlaceId",
-                    name: "poroto書店",
-                    location: {
-                        latitude: 35.681236,
-                        longitude: 139.767125,
-                    },
-                    imageUrls: [
-                        "https://picsum.photos/300/400",
-                        "https://picsum.photos/1280/720",
-                        "https://picsum.photos/400/600",
-                        "https://picsum.photos/400/600",
-                        "https://picsum.photos/300/400",
-                    ],
-                    estimatedStayDuration: 30,
-                },
-                {
-                    id: "place2",
-                    googlePlaceId: "googlePlaceId",
-                    name: "スターバックスコーヒー",
-                    location: {
-                        latitude: 35.681236,
-                        longitude: 139.767125,
-                    },
-                    imageUrls: [
-                        "https://picsum.photos/1280/720",
-                        "https://picsum.photos/300/400",
-                        "https://picsum.photos/400/600",
-                    ],
-                    estimatedStayDuration: 30,
-                },
-            ],
+            places: [mockPlaces.bookStore, mockPlaces.tokyo],
         },
     },
 };
