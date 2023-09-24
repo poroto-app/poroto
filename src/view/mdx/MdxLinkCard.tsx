@@ -55,7 +55,7 @@ export function MdxLinkCard({ href }: Props) {
                     flex="4 1 180px"
                     p="16px"
                 >
-                    <Text>{ogData && ogData.title}</Text>
+                    <Text fontWeight="bold">{ogData && ogData.title}</Text>
                     <Text
                         color="rgba(0,0,0,.6)"
                         maxH="3em"
