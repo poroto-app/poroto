@@ -1,6 +1,6 @@
+import { Box } from "@chakra-ui/react";
 import { MDXProvider } from "@mdx-js/react";
 import { ReactNode } from "react";
-import {Box} from "@chakra-ui/react";
 
 type ComponentProps = {
     children?: ReactNode;
@@ -43,18 +43,9 @@ const components = {
     img: (props: ComponentProps) => (
         <Box w="100%" my="30px">
             <a href={props["src"]} target="_blank">
-                <img{...props} loading="lazy"/>
+                <img {...props} loading="lazy" />
             </a>
         </Box>
-    ),
-    a: (props: ComponentProps) => (
-        <a
-            style={{
-                color: "rgb(8, 19, 26)",
-                textDecoration: "underline",
-            }}
-            {...props}
-        />
     ),
 };
 
