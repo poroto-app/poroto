@@ -1,11 +1,11 @@
 import { Box, HStack } from "@chakra-ui/react";
+import Link from "next/link";
 import { ReactNode } from "react";
 import AppLogoImage from "src/view/assets/svg/horizontal.svg";
+import { Routes } from "src/view/constants/router";
 import { useAuth } from "src/view/hooks/useAuth";
 import { NavBarUser } from "src/view/user/NavBarUser";
 import styled from "styled-components";
-import Link from "next/link";
-import {Routes} from "src/view/constants/router";
 
 export const NavBar = () => {
     const { user, signInWithGoogle, logout } = useAuth();
@@ -60,7 +60,7 @@ const Container = styled.div`
 
 const AppLogo = () => {
     return (
-        <Link href={Routes.home} style={{height: "100%"}}>
+        <Link href={Routes.home} style={{ height: "100%" }}>
             <Box h="100%">
                 <AppLogoImage
                     viewBox={
