@@ -114,7 +114,7 @@ const SelectPlanPage = () => {
         );
 
     return (
-        <Layout navBar={<NavBar title="プランを選ぶ" />}>
+        <Layout navBar={<NavBar />}>
             {[RequestStatuses.PENDING, RequestStatuses.REJECTED].includes(
                 createPlanFromPlaceRequestStatus
             ) && (

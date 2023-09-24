@@ -127,7 +127,7 @@ const PlanDetail = () => {
     return (
         <>
             <Center flexDirection="column" pb={`${FooterHeight}px`}>
-                <NavBar title={plan.title} />
+                <NavBar />
                 <VStack
                     maxWidth="990px"
                     w="100%"

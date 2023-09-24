@@ -16,11 +16,7 @@ export const Primary: Story = {
         user: null,
     },
     render: (args) => (
-        <NavBarComponent
-            canBack={false}
-            onBack={() => 0}
-            userComponent={<NavBarUser {...args} />}
-        />
+        <NavBarComponent userComponent={<NavBarUser {...args} />} />
     ),
 };
 
@@ -34,10 +30,6 @@ export const LoggedIn: Story = {
         },
     },
     render: (args) => (
-        <NavBarComponent
-            canBack={false}
-            onBack={() => 0}
-            userComponent={<NavBarUser {...args} />}
-        />
+        <NavBarComponent userComponent={<NavBarUser {...args} />} />
     ),
 };

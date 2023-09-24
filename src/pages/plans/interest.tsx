@@ -191,7 +191,7 @@ function PlanInterestPage() {
             handleAcceptCategory={handleAcceptCategory}
             handleRejectCategory={handleRejectCategory}
             onSelectTime={handleSelectTime}
-            navBar={<NavBar title="今の気分を教えてください" />}
+            navBar={<NavBar />}
         />
     );
 }
