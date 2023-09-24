@@ -20,6 +20,7 @@ import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSec
 import { GeneratingPlanDialog } from "src/view/plan/candidate/GeneratingPlanDialog";
 import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure";
 import { PlanPreview } from "src/view/plan/PlanPreview";
+import {MessageCard} from "src/view/plan/MessageCard";
 
 const SelectPlanPage = () => {
     const dispatch = useAppDispatch();
@@ -129,6 +130,7 @@ const SelectPlanPage = () => {
                 />
             )}
             <VStack w="100%" px="16px" py="16px" spacing={8}>
+                <MessageCard message="プランを作成しました！"/>
                 <VStack w="100%" spacing={8}>
                     {plansCreated.map((plan, i) => (
                         <PlanPreview
