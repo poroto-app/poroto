@@ -1,5 +1,10 @@
-const runtimeCaching = require('next-pwa/cache');
-const withPWA = require('next-pwa')({
+import remarkUnwrapImages from 'remark-unwrap-images';
+import runtimeCaching  from 'next-pwa/cache.js';
+import pwa from "next-pwa"
+import mdx from '@next/mdx';
+
+
+const withPWA = pwa({
     dest: 'public',
     fallbacks: {
         document: "/",
@@ -9,9 +14,12 @@ const withPWA = require('next-pwa')({
     disable: process.env.NODE_ENV === 'development',
 });
 
-const withMDX = require('@next/mdx')({
+const withMDX = mdx({
     extension: /\.mdx?$/,
     options: {
+        remarkPlugins: [
+            remarkUnwrapImages,
+        ],
       providerImportSource: '@mdx-js/react',
     },
 });
@@ -54,4 +62,4 @@ const nextConfig = {
     }
 }
 
-module.exports = withPWA(withMDX(nextConfig));
+export default withPWA(withMDX(nextConfig));
