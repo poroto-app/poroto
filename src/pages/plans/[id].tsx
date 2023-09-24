@@ -11,6 +11,7 @@ import { NotFound } from "src/view/common/NotFound";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
+import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { FooterHeight, PlanShareFooter } from "src/view/plan/PlanShareFooter";
@@ -50,6 +51,7 @@ export default function PlanPage() {
                 spacing="16px"
                 pb="32px"
             >
+                <PlanPageThumbnail plan={plan} />
                 <PlanPageSectionSummary
                     planDurationInMinutes={plan.timeInMinutes}
                 />
