@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
-import {PlanPageThumbnail} from "src/view/plan/PlanPageThumbnail";
-import {mockPlan} from "src/stories/mock/plan";
+import { mockPlan } from "src/stories/mock/plan";
+import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
 
 export default {
     title: "plan/PlanPageThumbnail",
@@ -22,6 +22,6 @@ export const LongTitle: Story = {
         plan: {
             ...mockPlan,
             title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget ultricies aliquam, nunc nisl aliquet nunc, vitae aliquam nisl nunc eu nisl. Donec euismod, nisl eget ultricies aliquam, nunc nisl aliquet nunc, vitae aliquam nisl nunc eu nisl.",
-        }
-    }
-}
+        },
+    },
+};

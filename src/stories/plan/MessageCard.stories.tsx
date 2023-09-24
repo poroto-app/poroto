@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import {MessageCard} from "src/view/plan/MessageCard";
+import { MessageCard } from "src/view/plan/MessageCard";
 
 export default {
     title: "plan/MessageCard",
