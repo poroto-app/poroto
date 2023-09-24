@@ -65,13 +65,24 @@ export function MdxLinkCard({ href }: Props) {
                         {ogData && ogData.description}
                     </Text>
                 </VStack>
-                <Box backgroundColor="gray" flex="1 1 180px">
+                <Box
+                    backgroundColor="gray"
+                    flex="1 1 180px"
+                    position="relative"
+                    minH="140px"
+                >
                     {ogData && ogData.image && (
                         <Image
                             src={ogData.image}
                             alt="og image"
+                            position="absolute"
+                            objectFit="cover"
                             w="100%"
                             h="100%"
+                            top="0"
+                            right="0"
+                            bottom="0"
+                            left="0"
                         />
                     )}
                 </Box>
