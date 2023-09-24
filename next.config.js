@@ -9,7 +9,15 @@ const withPWA = require('next-pwa')({
     disable: process.env.NODE_ENV === 'development',
 });
 
-module.exports = withPWA({
+const withMDX = require('@next/mdx')({
+    extension: /\.mdx?$/,
+    options: {
+      providerImportSource: '@mdx-js/react',
+    },
+});
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
     distDir: 'build',  // Google App Engineが.nextディレクトリを読み込め無いため、buildに変更する必要がある。
     eslint: {
         ignoreDuringBuilds: true,
@@ -33,6 +41,7 @@ module.exports = withPWA({
         FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
 
     },
+    pageExtensions: ['tsx', 'mdx'],
     webpack: (config) => {
         config.module.rules.push({
             test: /\.svg$/,
@@ -43,4 +52,6 @@ module.exports = withPWA({
     compiler: {
         styledComponents: true,
     }
-});
+}
+
+module.exports = withPWA(withMDX(nextConfig));
