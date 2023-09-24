@@ -130,7 +130,7 @@ const SelectPlanPage = () => {
                 />
             )}
             <VStack w="100%" px="16px" py="16px" spacing={8}>
-                <MessageCard message="プランを作成しました！"/>
+                <MessageCard message="プランを比較してみましょう！"/>
                 <VStack w="100%" spacing={8}>
                     {plansCreated.map((plan, i) => (
                         <PlanPreview
