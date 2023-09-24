@@ -4,6 +4,8 @@ import AppLogoImage from "src/view/assets/svg/horizontal.svg";
 import { useAuth } from "src/view/hooks/useAuth";
 import { NavBarUser } from "src/view/user/NavBarUser";
 import styled from "styled-components";
+import Link from "next/link";
+import {Routes} from "src/view/constants/router";
 
 export const NavBar = () => {
     const { user, signInWithGoogle, logout } = useAuth();
@@ -58,14 +60,16 @@ const Container = styled.div`
 
 const AppLogo = () => {
     return (
-        <Box h="100%">
-            <AppLogoImage
-                viewBox={
-                    "0 0 200 50" /*オリジナルのSVGのviewBoxと合わせている*/
-                }
-                width="calc(33 / 50 * 200)px"
-                height="100%"
-            />
-        </Box>
+        <Link href={Routes.home} style={{height: "100%"}}>
+            <Box h="100%">
+                <AppLogoImage
+                    viewBox={
+                        "0 0 200 50" /*オリジナルのSVGのviewBoxと合わせている*/
+                    }
+                    width="calc(33 / 50 * 200)px"
+                    height="100%"
+                />
+            </Box>
+        </Link>
     );
 };
