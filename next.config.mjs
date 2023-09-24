@@ -49,7 +49,6 @@ const nextConfig = {
         FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
 
     },
-    pageExtensions: ['tsx', 'mdx'],
     webpack: (config) => {
         config.module.rules.push({
             test: /\.svg$/,
