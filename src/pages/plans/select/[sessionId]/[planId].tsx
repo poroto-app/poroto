@@ -29,11 +29,11 @@ import {
     FooterHeight,
     PlanCandidateFooter,
 } from "src/view/plan/PlanCandidateFooter";
+import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
-import {PlanPageThumbnail} from "src/view/plan/PlanPageThumbnail";
 
 const PlanDetail = () => {
     const router = useRouter();
@@ -128,7 +128,7 @@ const PlanDetail = () => {
     return (
         <>
             <Center flexDirection="column" pb={`${FooterHeight}px`}>
-                <NavBar />
+                <NavBar canGoBack />
                 <VStack
                     maxWidth="990px"
                     w="100%"

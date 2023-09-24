@@ -11,3 +11,9 @@ type Story = StoryObj<typeof NavBarComponent>;
 export const Primary: Story = {
     args: {},
 };
+
+export const CanGoBack: Story = {
+    args: {
+        canGoBack: true,
+    },
+};
