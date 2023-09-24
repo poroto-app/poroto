@@ -5,7 +5,7 @@ type Props = {
     message: string;
 };
 
-export const AskInterestMessage = ({ message }: Props) => {
+export const MessageCard = ({ message }: Props) => {
     return (
         <Container>
             <Text userSelect="none">{message}</Text>
