@@ -19,7 +19,7 @@ const Container = styled.div`
     justify-content: center;
     width: 100%;
     padding: 32px 16px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     background-color: white;
-    box-shadow: 10px 10px 20px #e6e6e6, -10px -10px 20px #ffffff;
 `;
