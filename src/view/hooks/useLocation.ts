@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import {
     RequestStatus,
@@ -31,12 +31,16 @@ export const useLocation = () => {
     const [requestStatus, setRequestStatus] = useState<RequestStatus | null>(
         null
     );
+    const [isPermissionGranted, setIsPermissionGranted] = useState<
+        boolean | null
+    >(null);
 
     const checkGeolocationPermission = async (): Promise<boolean> => {
         const result = await navigator.permissions.query({
             name: "geolocation",
         });
         const isGranted = result.state === "granted";
+        setIsPermissionGranted(isGranted);
         return isGranted;
     };
 
@@ -47,10 +51,12 @@ export const useLocation = () => {
                 const currentLocation = await fetchCurrentLocation();
                 setLocation(currentLocation);
                 setRequestStatus(RequestStatuses.FULFILLED);
+                setIsPermissionGranted(true);
                 return currentLocation;
             } catch (e) {
                 setLocation(null);
                 setRequestStatus(RequestStatuses.REJECTED);
+                setIsPermissionGranted(false);
                 return null;
             }
         };
@@ -58,9 +64,17 @@ export const useLocation = () => {
     const resetLocationState = () => {
         setLocation(null);
         setRequestStatus(null);
+        setIsPermissionGranted(false);
     };
 
+    useEffect(() => {
+        checkGeolocationPermission().then((v) => {
+            setIsPermissionGranted(v);
+        });
+    }, []);
+
     return {
+        isLocationPermissionGranted: isPermissionGranted,
         fetchCurrentLocationStatus: requestStatus,
         location,
         getCurrentLocation: fetchCurrentLocationWithHook,
