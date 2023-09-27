@@ -31,12 +31,15 @@ export const useLocation = () => {
     const [requestStatus, setRequestStatus] = useState<RequestStatus | null>(
         null
     );
+    const [isPermissionGranted, setIsPermissionGranted] =
+        useState<boolean>(false);
 
     const checkGeolocationPermission = async (): Promise<boolean> => {
         const result = await navigator.permissions.query({
             name: "geolocation",
         });
         const isGranted = result.state === "granted";
+        setIsPermissionGranted(isGranted);
         return isGranted;
     };
 
@@ -47,10 +50,14 @@ export const useLocation = () => {
                 const currentLocation = await fetchCurrentLocation();
                 setLocation(currentLocation);
                 setRequestStatus(RequestStatuses.FULFILLED);
+                setIsPermissionGranted(true);
+                console.log("currentLocation", currentLocation);
                 return currentLocation;
             } catch (e) {
                 setLocation(null);
                 setRequestStatus(RequestStatuses.REJECTED);
+                setIsPermissionGranted(false);
+                console.log("error", e);
                 return null;
             }
         };
@@ -58,9 +65,11 @@ export const useLocation = () => {
     const resetLocationState = () => {
         setLocation(null);
         setRequestStatus(null);
+        setIsPermissionGranted(false);
     };
 
     return {
+        isLocationPermissionGranted: isPermissionGranted,
         fetchCurrentLocationStatus: requestStatus,
         location,
         getCurrentLocation: fetchCurrentLocationWithHook,
