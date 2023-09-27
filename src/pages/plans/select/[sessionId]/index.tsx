@@ -18,6 +18,7 @@ import { NotFound } from "src/view/common/NotFound";
 import { Routes } from "src/view/constants/router";
 import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSection";
 import { GeneratingPlanDialog } from "src/view/plan/candidate/GeneratingPlanDialog";
+import { MessageCard } from "src/view/plan/MessageCard";
 import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 
@@ -114,7 +115,7 @@ const SelectPlanPage = () => {
         );
 
     return (
-        <Layout navBar={<NavBar title="プランを選ぶ" />}>
+        <Layout navBar={<NavBar />}>
             {[RequestStatuses.PENDING, RequestStatuses.REJECTED].includes(
                 createPlanFromPlaceRequestStatus
             ) && (
@@ -129,6 +130,7 @@ const SelectPlanPage = () => {
                 />
             )}
             <VStack w="100%" px="16px" py="16px" spacing={8}>
+                <MessageCard message="プランを比較してみましょう！" />
                 <VStack w="100%" spacing={8}>
                     {plansCreated.map((plan, i) => (
                         <PlanPreview
