@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { Plan } from "src/domain/models/Plan";
+import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
     createPlanFromPlanEntity,
     PlannerApi,
@@ -23,6 +24,7 @@ import { Size } from "src/view/constants/size";
 import { useLocation } from "src/view/hooks/useLocation";
 import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
+import { LocationUnavailable } from "src/view/top/LocationUnavailable";
 import {
     PlanListSectionTitle,
     PlanSections,
@@ -41,18 +43,27 @@ const IndexPage = (props: Props) => {
         plansNearby,
         plansByUser,
     } = reduxPlanSelector();
-    const { checkGeolocationPermission, getCurrentLocation } = useLocation();
+    const {
+        fetchCurrentLocationStatus,
+        isLocationPermissionGranted,
+        checkGeolocationPermission,
+        getCurrentLocation,
+    } = useLocation();
     const { user } = reduxAuthSelector();
+
+    const handleOnFetchNearByPlans = async () => {
+        const currentLocation = await getCurrentLocation();
+        if (!currentLocation) return;
+        dispatch(fetchNearbyPlans({ currentLocation, limit: 5 }));
+    };
 
     // 位置情報が利用可能な場合は付近で作成されたプランを取得する
     useEffect(() => {
         const fetchNearbyPlansWithCurrentLocation = async () => {
-            const isGranted = checkGeolocationPermission();
+            const isGranted = await checkGeolocationPermission();
             if (!isGranted) return;
 
-            const currentLocation = await getCurrentLocation();
-            if (!currentLocation) return;
-            dispatch(fetchNearbyPlans({ currentLocation, limit: 5 }));
+            await handleOnFetchNearByPlans();
         };
 
         fetchNearbyPlansWithCurrentLocation().then();
@@ -113,9 +124,26 @@ const IndexPage = (props: Props) => {
                             </Text>
                         </PlanList>
                     )}
-                    {/* TODO: 位置情報をONにすると近くのプランを取得できることを伝えるボタンを配置 */}
-                    {/* TODO: 取得中のときはプレースホルダーを表示 */}
-                    <PlanList plans={plansNearby}>
+                    {/* TODO: 拒否設定されている場合の対処をする */}
+                    <PlanList
+                        plans={plansNearby}
+                        empty={
+                            isLocationPermissionGranted === false && (
+                                <LocationUnavailable
+                                    isUpdating={
+                                        fetchCurrentLocationStatus ===
+                                        RequestStatuses.PENDING
+                                    }
+                                    isLocationAvailable={
+                                        isLocationPermissionGranted
+                                    }
+                                    onClickSwitch={() =>
+                                        handleOnFetchNearByPlans()
+                                    }
+                                />
+                            )
+                        }
+                    >
                         <PlanListSectionTitle section={PlanSections.NearBy} />
                     </PlanList>
                     {/* TODO: React 18に対応 */}
