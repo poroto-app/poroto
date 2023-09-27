@@ -4,7 +4,10 @@ import { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { Plan } from "src/domain/models/Plan";
-import { RequestStatuses } from "src/domain/models/RequestStatus";
+import {
+    RequestStatus,
+    RequestStatuses,
+} from "src/domain/models/RequestStatus";
 import {
     createPlanFromPlanEntity,
     PlannerApi,
@@ -129,24 +132,21 @@ const IndexPage = (props: Props) => {
                     <PlanList
                         plans={plansNearby}
                         empty={
-                            isLocationPermissionGranted !== null &&
-                            // plansNearby !== null &&
-                            (!isLocationPermissionGranted ? (
-                                <LocationUnavailable
-                                    isUpdating={
-                                        fetchCurrentLocationStatus ===
-                                        RequestStatuses.PENDING
-                                    }
-                                    isLocationAvailable={
+                            plansNearby !== null && // プラン取得中
+                            isLocationPermissionGranted !== null && ( // 位置情報権限確認中
+                                <EmptyNearByPlans
+                                    plansNearby={plansNearby}
+                                    isLocationPermissionGranted={
                                         isLocationPermissionGranted
                                     }
-                                    onClickSwitch={() =>
-                                        handleOnFetchNearByPlans()
+                                    fetchCurrentLocationStatus={
+                                        fetchCurrentLocationStatus
+                                    }
+                                    onClickSwitchLocation={
+                                        handleOnFetchNearByPlans
                                     }
                                 />
-                            ) : (
-                                <NearbyPlansNotFound />
-                            ))
+                            )
                         }
                     >
                         <PlanListSectionTitle section={PlanSections.NearBy} />
@@ -169,6 +169,36 @@ const IndexPage = (props: Props) => {
             </Center>
         </VStack>
     );
+};
+
+const EmptyNearByPlans = ({
+    plansNearby,
+    isLocationPermissionGranted,
+    fetchCurrentLocationStatus,
+    onClickSwitchLocation,
+}: {
+    plansNearby: Plan[];
+    isLocationPermissionGranted: boolean;
+    fetchCurrentLocationStatus: RequestStatus;
+    onClickSwitchLocation: () => void;
+}) => {
+    if (isLocationPermissionGranted === false) {
+        return (
+            <LocationUnavailable
+                isUpdating={
+                    fetchCurrentLocationStatus === RequestStatuses.PENDING
+                }
+                isLocationAvailable={isLocationPermissionGranted}
+                onClickSwitch={onClickSwitchLocation}
+            />
+        );
+    }
+
+    if (plansNearby.length === 0) {
+        return <NearbyPlansNotFound />;
+    }
+
+    return null;
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
