@@ -1,4 +1,6 @@
 import {MdxLinkCard} from "src/view/mdx/MdxLinkCard";
+import { Button } from "@chakra-ui/react";
+import { Colors } from "src/view/constants/color";
 
 今、zacker, benny, ole, doyer, Siva, Ouranosでporotoっていうアプリを開発しています！
 
@@ -31,4 +33,15 @@ porotoは暇つぶしのしおりを自動で作ってくれるアプリです
 
 以下がフィードバック用のページですが、直接言う方がよかったらもちろんそっちでも大丈夫です！
 
-<MdxLinkCard href="https://poroto.app/"/>
+<MdxLinkCard href="https://forms.gle/jiQe8dXTMLCgT7tL7"/>
+
+<Button
+    as="a"
+    href="https://poroto.app"
+    backgroundColor={Colors.primary["400"]}
+    borderRadius="50px"
+    color="white"
+    size="lg"
+    w="100%"
+    mt={10}
+>porotoを使ってみる</Button>
