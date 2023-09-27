@@ -25,6 +25,7 @@ import { useLocation } from "src/view/hooks/useLocation";
 import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { LocationUnavailable } from "src/view/top/LocationUnavailable";
+import { NearbyPlansNotFound } from "src/view/top/NearbyPlansNotFound";
 import {
     PlanListSectionTitle,
     PlanSections,
@@ -128,7 +129,9 @@ const IndexPage = (props: Props) => {
                     <PlanList
                         plans={plansNearby}
                         empty={
-                            isLocationPermissionGranted === false && (
+                            isLocationPermissionGranted !== null &&
+                            // plansNearby !== null &&
+                            (!isLocationPermissionGranted ? (
                                 <LocationUnavailable
                                     isUpdating={
                                         fetchCurrentLocationStatus ===
@@ -141,7 +144,9 @@ const IndexPage = (props: Props) => {
                                         handleOnFetchNearByPlans()
                                     }
                                 />
-                            )
+                            ) : (
+                                <NearbyPlansNotFound />
+                            ))
                         }
                     >
                         <PlanListSectionTitle section={PlanSections.NearBy} />
