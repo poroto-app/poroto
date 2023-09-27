@@ -4,10 +4,7 @@ import { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { Plan } from "src/domain/models/Plan";
-import {
-    RequestStatus,
-    RequestStatuses,
-} from "src/domain/models/RequestStatus";
+import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
     createPlanFromPlanEntity,
     PlannerApi,
@@ -44,34 +41,9 @@ const IndexPage = (props: Props) => {
     const {
         plansRecentlyCreated,
         nextPageTokenPlansRecentlyCreated,
-        plansNearby,
         plansByUser,
     } = reduxPlanSelector();
-    const {
-        fetchCurrentLocationStatus,
-        isLocationPermissionGranted,
-        checkGeolocationPermission,
-        getCurrentLocation,
-    } = useLocation();
     const { user } = reduxAuthSelector();
-
-    const handleOnFetchNearByPlans = async () => {
-        const currentLocation = await getCurrentLocation();
-        if (!currentLocation) return;
-        dispatch(fetchNearbyPlans({ currentLocation, limit: 5 }));
-    };
-
-    // 位置情報が利用可能な場合は付近で作成されたプランを取得する
-    useEffect(() => {
-        const fetchNearbyPlansWithCurrentLocation = async () => {
-            const isGranted = await checkGeolocationPermission();
-            if (!isGranted) return;
-
-            await handleOnFetchNearByPlans();
-        };
-
-        fetchNearbyPlansWithCurrentLocation().then();
-    }, []);
 
     useEffect(() => {
         // すでにプランを取得済みの場合は何もしない
@@ -129,28 +101,7 @@ const IndexPage = (props: Props) => {
                         </PlanList>
                     )}
                     {/* TODO: 拒否設定されている場合の対処をする */}
-                    <PlanList
-                        plans={plansNearby}
-                        empty={
-                            plansNearby !== null && // プラン取得中
-                            isLocationPermissionGranted !== null && ( // 位置情報権限確認中
-                                <EmptyNearByPlans
-                                    plansNearby={plansNearby}
-                                    isLocationPermissionGranted={
-                                        isLocationPermissionGranted
-                                    }
-                                    fetchCurrentLocationStatus={
-                                        fetchCurrentLocationStatus
-                                    }
-                                    onClickSwitchLocation={
-                                        handleOnFetchNearByPlans
-                                    }
-                                />
-                            )
-                        }
-                    >
-                        <PlanListSectionTitle section={PlanSections.NearBy} />
-                    </PlanList>
+                    <NearByPlans />
                     {/* TODO: React 18に対応 */}
                     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                     {/* @ts-ignore */}
@@ -171,34 +122,60 @@ const IndexPage = (props: Props) => {
     );
 };
 
-const EmptyNearByPlans = ({
-    plansNearby,
-    isLocationPermissionGranted,
-    fetchCurrentLocationStatus,
-    onClickSwitchLocation,
-}: {
-    plansNearby: Plan[];
-    isLocationPermissionGranted: boolean;
-    fetchCurrentLocationStatus: RequestStatus;
-    onClickSwitchLocation: () => void;
-}) => {
-    if (isLocationPermissionGranted === false) {
-        return (
-            <LocationUnavailable
-                isUpdating={
-                    fetchCurrentLocationStatus === RequestStatuses.PENDING
-                }
-                isLocationAvailable={isLocationPermissionGranted}
-                onClickSwitch={onClickSwitchLocation}
-            />
-        );
-    }
+const NearByPlans = () => {
+    const dispatch = useAppDispatch();
+    const { plansNearby } = reduxPlanSelector();
+    const {
+        fetchCurrentLocationStatus,
+        isLocationPermissionGranted,
+        checkGeolocationPermission,
+        getCurrentLocation,
+    } = useLocation();
 
-    if (plansNearby.length === 0) {
-        return <NearbyPlansNotFound />;
-    }
+    const handleOnFetchNearByPlans = async () => {
+        const currentLocation = await getCurrentLocation();
+        if (!currentLocation) return;
+        dispatch(fetchNearbyPlans({ currentLocation, limit: 5 }));
+    };
 
-    return null;
+    // 位置情報が利用可能な場合は付近で作成されたプランを取得する
+    useEffect(() => {
+        const fetchNearbyPlansWithCurrentLocation = async () => {
+            const isGranted = await checkGeolocationPermission();
+            if (!isGranted) return;
+
+            await handleOnFetchNearByPlans();
+        };
+
+        fetchNearbyPlansWithCurrentLocation().then();
+    }, []);
+
+    const emptyComponent = () => {
+        if (
+            // 位置情報取得が拒否されていることを確認した場合のみ表示する
+            isLocationPermissionGranted === false
+        ) {
+            return (
+                <LocationUnavailable
+                    isUpdating={
+                        fetchCurrentLocationStatus === RequestStatuses.PENDING
+                    }
+                    isLocationAvailable={isLocationPermissionGranted}
+                    onClickSwitch={handleOnFetchNearByPlans}
+                />
+            );
+        }
+
+        if (plansNearby !== null && plansNearby.length === 0) {
+            return <NearbyPlansNotFound />;
+        }
+    };
+
+    return (
+        <PlanList plans={plansNearby} empty={emptyComponent()}>
+            <PlanListSectionTitle section={PlanSections.NearBy} />
+        </PlanList>
+    );
 };
 
 export const getStaticProps: GetStaticProps<Props> = async () => {
