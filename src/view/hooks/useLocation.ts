@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import {
     RequestStatus,
@@ -31,8 +31,9 @@ export const useLocation = () => {
     const [requestStatus, setRequestStatus] = useState<RequestStatus | null>(
         null
     );
-    const [isPermissionGranted, setIsPermissionGranted] =
-        useState<boolean>(false);
+    const [isPermissionGranted, setIsPermissionGranted] = useState<
+        boolean | null
+    >(null);
 
     const checkGeolocationPermission = async (): Promise<boolean> => {
         const result = await navigator.permissions.query({
@@ -51,13 +52,11 @@ export const useLocation = () => {
                 setLocation(currentLocation);
                 setRequestStatus(RequestStatuses.FULFILLED);
                 setIsPermissionGranted(true);
-                console.log("currentLocation", currentLocation);
                 return currentLocation;
             } catch (e) {
                 setLocation(null);
                 setRequestStatus(RequestStatuses.REJECTED);
                 setIsPermissionGranted(false);
-                console.log("error", e);
                 return null;
             }
         };
@@ -67,6 +66,12 @@ export const useLocation = () => {
         setRequestStatus(null);
         setIsPermissionGranted(false);
     };
+
+    useEffect(() => {
+        checkGeolocationPermission().then((v) => {
+            setIsPermissionGranted(v);
+        });
+    }, []);
 
     return {
         isLocationPermissionGranted: isPermissionGranted,
