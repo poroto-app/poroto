@@ -6,6 +6,7 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
+import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 
 type Props = {
@@ -32,7 +33,10 @@ export function AvailablePlace({ place, onClick }: Props) {
                         right={0}
                         w="100%"
                         h="100%"
-                        src={place.imageUrls[0]}
+                        src={
+                            place.images.length > 0 &&
+                            getImageSizeOf(ImageSizes.Small, place.images[0])
+                        }
                         alt={place.name}
                         objectFit="cover"
                     />

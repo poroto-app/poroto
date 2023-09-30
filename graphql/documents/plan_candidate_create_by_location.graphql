@@ -26,7 +26,6 @@ mutation CreatePlanByLocation(
                 id
                 googlePlaceId
                 name
-                photos
                 images {
                     default
                     small

@@ -5,6 +5,7 @@ import {
 } from "@dnd-kit/core";
 import { forwardRef } from "react";
 import { MdDragIndicator } from "react-icons/md";
+import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import styled from "styled-components";
 
@@ -25,7 +26,10 @@ export const PlaceListItem = forwardRef<HTMLDivElement, Props>(
                     <img
                         width={48}
                         height={48}
-                        src={place.imageUrls[0]}
+                        src={
+                            place.images.length > 0 &&
+                            getImageSizeOf(ImageSizes.Small, place.images[0])
+                        }
                         alt="place_thumbnail"
                         style={{
                             objectFit: "cover",

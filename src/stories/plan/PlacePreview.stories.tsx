@@ -14,7 +14,7 @@ type Story = StoryObj<typeof PlacePreview>;
 export const Primary: Story = {
     args: {
         name: mockPlaces.bookStore.name,
-        imageUrls: mockPlaces.bookStore.imageUrls,
+        images: mockPlaces.bookStore.images,
         googlePlaceReviews: mockPlaces.bookStore.googlePlaceReviews,
     },
 };
@@ -22,25 +22,29 @@ export const Primary: Story = {
 export const Loading: Story = {
     args: {
         name: mockPlaces.bookStore.name,
-        imageUrls: [
+        images: [
             "https://example.com/photo/a",
             "https://example.com/photo/b",
             "https://example.com/photo/c",
             "https://example.com/photo/d",
-        ],
+        ].map((url) => ({
+            default: url,
+            small: url,
+            large: url,
+        })),
     },
 };
 
 export const EmptyImages: Story = {
     args: {
         name: mockPlaces.bookStore.name,
-        imageUrls: [],
+        images: [],
     },
 };
 
 export const EmptyTags: Story = {
     args: {
         name: mockPlaces.bookStore.name,
-        imageUrls: mockPlaces.bookStore.imageUrls,
+        images: mockPlaces.bookStore.images,
     },
 };
