@@ -7,7 +7,7 @@ import styled from "styled-components";
 
 type Props = {
     imageUrls: string[];
-    link: string;
+    link?: string;
 };
 
 export const PlanThumbnail = ({ imageUrls, link }: Props) => {
@@ -23,9 +23,13 @@ export const PlanThumbnail = ({ imageUrls, link }: Props) => {
             {imageUrls.map((url, i) => (
                 <SlideItem key={i}>
                     {/*ページングのボタンを押したときにページ遷移しないようにするため*/}
-                    <LinkWrapper href={link}>
+                    {link ? (
+                        <LinkWrapper href={link}>
+                            <Thumbnail src={url} />
+                        </LinkWrapper>
+                    ) : (
                         <Thumbnail src={url} />
-                    </LinkWrapper>
+                    )}
                 </SlideItem>
             ))}
             {/*TODO: 画像が無いときのプレースホルダーを用意する*/}

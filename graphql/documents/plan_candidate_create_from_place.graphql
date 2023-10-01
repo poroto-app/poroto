@@ -10,7 +10,6 @@ mutation CreatePlanByPlace($sessionId: String!, $placeId: String!) {
                 id
                 googlePlaceId
                 name
-                photos
                 images {
                     default
                     small
