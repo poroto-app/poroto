@@ -279,5 +279,9 @@ function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
                 authorUrl: review.authorUrl,
                 authorPhotoUrl: review.authorPhotoUrl,
             })) ?? null,
+        categories:
+            place.categories?.map((category) => ({
+                id: category.id,
+            })) ?? [],
     };
 }
