@@ -17,6 +17,9 @@ query PlansByUser($userId: String!) {
                     latitude
                 }
                 estimatedStayDuration
+                categories {
+                    id
+                }
             }
             timeInMinutes
             transitions {

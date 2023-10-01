@@ -28,6 +28,9 @@ mutation CreatePlanByPlace($sessionId: String!, $placeId: String!) {
                     authorUrl
                     time
                 }
+                categories {
+                    id
+                }
             }
             timeInMinutes
             transitions {

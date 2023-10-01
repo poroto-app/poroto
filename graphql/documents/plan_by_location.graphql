@@ -26,6 +26,9 @@ query PlansByLocation($latitude: Float!, $longitude: Float!, $limit: Int, $pageK
                     authorUrl
                     time
                 }
+                categories {
+                    id
+                }
             }
             timeInMinutes
             transitions {

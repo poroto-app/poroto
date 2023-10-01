@@ -16,6 +16,9 @@ query FetchPlans($pageKey: String) {
                 latitude
             }
             estimatedStayDuration
+            categories {
+                id
+            }
         }
         timeInMinutes
         transitions {

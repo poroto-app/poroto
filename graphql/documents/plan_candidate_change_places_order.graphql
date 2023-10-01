@@ -17,6 +17,9 @@ mutation ChangePlacesOrderInPlanCandidate($input: ChangePlacesOrderInPlanCandida
                     latitude
                 }
                 estimatedStayDuration
+                categories {
+                    id
+                }
             }
             timeInMinutes
             transitions {

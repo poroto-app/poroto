@@ -14,6 +14,9 @@ query FetchAvailablePlacesForPlanCandidate($session: String!) {
                 large
             }
             estimatedStayDuration
+            categories {
+                id
+            }
         }
     }
 }
