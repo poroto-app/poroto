@@ -6,7 +6,6 @@ query FetchPlanById($planId: String!) {
             id
             googlePlaceId
             name
-            photos
             images {
                 default
                 small

@@ -1,6 +1,6 @@
 import { VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { AskInterestMessage } from "src/view/plan/AskInterestMessage";
+import { MessageCard } from "src/view/plan/MessageCard";
 
 type Props = {
     message: string;
@@ -25,7 +25,7 @@ export function MatchInterestPageTemplate({
                 pt="8px"
                 pb="32px"
             >
-                <AskInterestMessage message={message} />
+                <MessageCard message={message} />
                 {children}
             </VStack>
         </VStack>

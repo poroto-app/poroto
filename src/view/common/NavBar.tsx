@@ -1,26 +1,24 @@
-import { Box, HStack, Icon, Text } from "@chakra-ui/react";
+import { Box, HStack, Icon } from "@chakra-ui/react";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode } from "react";
 import { MdArrowBack } from "react-icons/md";
 import { reduxHistorySelector } from "src/redux/history";
 import AppLogoImage from "src/view/assets/svg/horizontal.svg";
+import { Routes } from "src/view/constants/router";
 import { useAuth } from "src/view/hooks/useAuth";
 import { NavBarUser } from "src/view/user/NavBarUser";
 import styled from "styled-components";
 
 type Props = {
-    title?: string;
+    canGoBack?: boolean;
+    onBack?: () => void;
 };
 
-export const NavBar = ({ title }: Props) => {
+export const NavBar = ({ canGoBack }: Props) => {
     const router = useRouter();
-    const [isHome, setIsHome] = useState(false);
     const { historyStack } = reduxHistorySelector();
     const { user, signInWithGoogle, logout } = useAuth();
-
-    useEffect(() => {
-        setIsHome(router.pathname === "/");
-    }, [router.pathname]);
 
     const handleOnBack = async () => {
         const isHome = router.pathname === "/";
@@ -37,8 +35,7 @@ export const NavBar = ({ title }: Props) => {
 
     return (
         <NavBarComponent
-            title={title}
-            canBack={!isHome}
+            canGoBack={canGoBack}
             onBack={handleOnBack}
             userComponent={
                 process.env.APP_ENV !== "production" && (
@@ -54,19 +51,16 @@ export const NavBar = ({ title }: Props) => {
 };
 
 export const NavBarComponent = ({
-    title,
-    canBack,
-    userComponent,
+    canGoBack,
     onBack,
+    userComponent,
 }: Props & {
-    canBack: boolean;
-    onBack: () => void;
     userComponent?: ReactNode;
 }) => {
     return (
         <Container>
             <HStack w="100%" maxW="990px" spacing={4}>
-                {canBack && (
+                {canGoBack && (
                     <Icon
                         w="20px"
                         h="20px"
@@ -81,21 +75,8 @@ export const NavBarComponent = ({
                     justifyContent="flex-start"
                     overflow="hidden"
                 >
-                    {!title && <AppLogo />}
-                    {title && (
-                        <Text
-                            flex={1}
-                            fontSize="18px"
-                            userSelect="none"
-                            textOverflow="ellipsis"
-                            whiteSpace="nowrap"
-                            overflow="hidden"
-                        >
-                            {title}
-                        </Text>
-                    )}
+                    <AppLogo />
                 </HStack>
-
                 {userComponent && userComponent}
             </HStack>
         </Container>
@@ -115,14 +96,16 @@ const Container = styled.div`
 
 const AppLogo = () => {
     return (
-        <Box h="100%">
-            <AppLogoImage
-                viewBox={
-                    "0 0 200 50" /*オリジナルのSVGのviewBoxと合わせている*/
-                }
-                width="calc(33 / 50 * 200)px"
-                height="100%"
-            />
-        </Box>
+        <Link href={Routes.home} style={{ height: "100%" }}>
+            <Box h="100%">
+                <AppLogoImage
+                    viewBox={
+                        "0 0 200 50" /*オリジナルのSVGのviewBoxと合わせている*/
+                    }
+                    width="calc(33 / 50 * 200)px"
+                    height="100%"
+                />
+            </Box>
+        </Link>
     );
 };

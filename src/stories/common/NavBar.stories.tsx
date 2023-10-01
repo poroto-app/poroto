@@ -9,21 +9,11 @@ export default {
 type Story = StoryObj<typeof NavBarComponent>;
 
 export const Primary: Story = {
-    args: {
-        title: "Navigation Bar Title",
-        canBack: true,
-    },
+    args: {},
 };
 
-export const LongTitle: Story = {
+export const CanGoBack: Story = {
     args: {
-        title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies ultricies, nunc nisl ult",
-        canBack: true,
-    },
-};
-
-export const Home: Story = {
-    args: {
-        canBack: false,
+        canGoBack: true,
     },
 };
