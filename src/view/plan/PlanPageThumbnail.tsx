@@ -1,4 +1,5 @@
 import { Text, VStack } from "@chakra-ui/react";
+import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
 import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
 
@@ -9,7 +10,9 @@ type Props = {
 export function PlanPageThumbnail({ plan }: Props) {
     const thumbnails = plan.places
         .map((place) =>
-            place.imageUrls.length > 0 ? place.imageUrls[0] : null
+            place.images.length > 0
+                ? getImageSizeOf(ImageSizes.Large, place.images[0])
+                : null
         )
         .filter((v) => v !== null);
 
