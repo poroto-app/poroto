@@ -31,6 +31,12 @@ export default function PlanPage() {
     useEffect(() => {
         if (typeof id !== "string") return;
         dispatch(fetchPlan({ planId: id }));
+
+        return () => {
+            // 他のページに遷移するときにモーダルを閉じる
+            // (戻るボタンでトップページに遷移したときの対応)
+            dispatch(setShowPlanCreatedModal(false));
+        };
     }, [id]);
 
     if (
