@@ -26,6 +26,9 @@ query CachedCreatedPlans($session: String!) {
                     authorUrl
                     time
                 }
+                categories {
+                    id
+                }
             }
             timeInMinutes
             transitions {
