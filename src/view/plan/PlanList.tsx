@@ -9,25 +9,34 @@ import styled from "styled-components";
 type Props = {
     children?: ReactNode;
     plans: Plan[] | null;
+    empty?: ReactNode;
 };
 
-export function PlanList({ plans, children }: Props) {
+export function PlanList({ plans, children, empty }: Props) {
     return (
         <VStack w="100%" spacing={4} alignItems="center">
             {children}
-            <GridLayout>
-                {plans
-                    ? plans.map((plan, index) => (
-                          <PlanPreview
-                              key={index}
-                              link={Routes.plans.plan(plan.id)}
-                              plan={plan}
-                          />
-                      ))
-                    : createArrayWithSize(6).map((i) => (
-                          <PlanPreview key={i} plan={null} />
-                      ))}
-            </GridLayout>
+            {plans === null || plans.length === 0 ? (
+                empty ? (
+                    empty
+                ) : (
+                    <GridLayout>
+                        {createArrayWithSize(6).map((i) => (
+                            <PlanPreview key={i} plan={null} />
+                        ))}
+                    </GridLayout>
+                )
+            ) : (
+                <GridLayout>
+                    {plans.map((plan, index) => (
+                        <PlanPreview
+                            key={index}
+                            link={Routes.plans.plan(plan.id)}
+                            plan={plan}
+                        />
+                    ))}
+                </GridLayout>
+            )}
         </VStack>
     );
 }

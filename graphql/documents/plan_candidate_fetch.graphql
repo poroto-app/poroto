@@ -8,7 +8,6 @@ query CachedCreatedPlans($session: String!) {
                 id
                 googlePlaceId
                 name
-                photos
                 images {
                     default
                     small

@@ -6,7 +6,6 @@ query FetchPlans($pageKey: String) {
             id
             googlePlaceId
             name
-            photos
             images {
                 default
                 small

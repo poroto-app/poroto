@@ -11,21 +11,10 @@ export default {
 const Template: ComponentStory<typeof MatchInterestPageTemplate> = ({
     message,
 }) => (
-    <MatchInterestPageTemplate
-        message={message}
-        navBar={
-            <NavBarComponent
-                title="今の気分を教えてください"
-                canBack={true}
-                onBack={() => 0}
-            />
-        }
-    >
+    <MatchInterestPageTemplate message={message} navBar={<NavBarComponent />}>
         <Box w="100%" h="100%" backgroundColor="gray" />
     </MatchInterestPageTemplate>
 );
 
 export const MatchInterestPageTemplateStoryBook = Template.bind({});
-MatchInterestPageTemplateStoryBook.args = {
-    message: "あなたの行きたい場所を教えてください。",
-};
+MatchInterestPageTemplateStoryBook.args = {};
