@@ -8,13 +8,31 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { MdOutlineLocationOn } from "react-icons/md";
+import { IconType } from "react-icons";
+import {
+    MdOutlineAttractions,
+    MdOutlineCottage,
+    MdOutlineImportContacts,
+    MdOutlineLocalCafe,
+    MdOutlineLocalLibrary,
+    MdOutlineLocationOn,
+    MdOutlineMuseum,
+    MdOutlinePark,
+    MdOutlinePets,
+    MdOutlineRestaurant,
+    MdOutlineShoppingBag,
+    MdOutlineTakeoutDining,
+} from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
     getImageSizeOf,
     Image as ImageType,
     ImageSizes,
 } from "src/domain/models/Image";
+import {
+    PlaceCategory,
+    PlaceCategoryTypes,
+} from "src/domain/models/PlaceCategory";
 import { Colors } from "src/view/constants/color";
 import { PlaceReview } from "src/view/plan/PlaceReview";
 import styled from "styled-components";
@@ -23,9 +41,15 @@ type Props = {
     name: string;
     images: ImageType[];
     googlePlaceReviews?: GooglePlaceReview[];
+    categories: PlaceCategory[];
 };
 
-export const PlacePreview = ({ name, images, googlePlaceReviews }: Props) => {
+export const PlacePreview = ({
+    name,
+    images,
+    googlePlaceReviews,
+    categories,
+}: Props) => {
     return (
         <VStack alignItems="flex-start" w="100%">
             {images.length > 0 && (
@@ -41,11 +65,8 @@ export const PlacePreview = ({ name, images, googlePlaceReviews }: Props) => {
                 </ImagePreviewer>
             )}
             <HStack>
-                <Icon
-                    w="24px"
-                    h="24px"
-                    color={Colors.primary["600"]}
-                    as={MdOutlineLocationOn}
+                <PlaceIcon
+                    category={categories.length > 0 ? categories[0] : null}
                 />
                 <Text fontSize="1.15rem">{name}</Text>
             </HStack>
@@ -60,6 +81,42 @@ export const PlacePreview = ({ name, images, googlePlaceReviews }: Props) => {
                     />
                 )}
         </VStack>
+    );
+};
+
+export const PlaceIcon = ({ category }: { category: PlaceCategory | null }) => {
+    const icons: {
+        [key in
+            | (typeof PlaceCategoryTypes)[keyof typeof PlaceCategoryTypes]
+            | "null"]: IconType;
+    } = {
+        [PlaceCategoryTypes.Amusements]: MdOutlineAttractions,
+        [PlaceCategoryTypes.BookStores]: MdOutlineImportContacts,
+        [PlaceCategoryTypes.Cafe]: MdOutlineLocalCafe,
+        [PlaceCategoryTypes.Camp]: MdOutlineCottage,
+        [PlaceCategoryTypes.Culture]: MdOutlineMuseum,
+        [PlaceCategoryTypes.Natural]: MdOutlinePets,
+        [PlaceCategoryTypes.Park]: MdOutlinePark,
+        [PlaceCategoryTypes.Restaurant]: MdOutlineRestaurant,
+        [PlaceCategoryTypes.Library]: MdOutlineLocalLibrary,
+        [PlaceCategoryTypes.MealTakeaway]: MdOutlineTakeoutDining,
+        [PlaceCategoryTypes.Shopping]: MdOutlineShoppingBag,
+    };
+
+    const getIcon = (category: PlaceCategory | null) => {
+        const defaultIcon = MdOutlineLocationOn;
+        if (category === null) return defaultIcon;
+        if (Object.keys(icons).includes(category.id)) return icons[category.id];
+        return defaultIcon;
+    };
+
+    return (
+        <Icon
+            w="24px"
+            h="24px"
+            color={Colors.primary["600"]}
+            as={getIcon(category)}
+        />
     );
 };
 
