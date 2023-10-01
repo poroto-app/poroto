@@ -26,7 +26,11 @@ import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSum
 export default function PlanPage() {
     const { id } = useRouter().query;
     const dispatch = useAppDispatch();
-    const { preview: plan, fetchPlanRequestStatus, showPlanCreatedModal } = reduxPlanSelector();
+    const {
+        preview: plan,
+        fetchPlanRequestStatus,
+        showPlanCreatedModal,
+    } = reduxPlanSelector();
 
     useEffect(() => {
         if (typeof id !== "string") return;
@@ -84,11 +88,10 @@ export default function PlanPage() {
                 </VStack>
             </VStack>
             <PlanShareFooter />
-            {
-                showPlanCreatedModal && <PlanCreatedDialog
-                    onClickClose={() => dispatch(setShowPlanCreatedModal(false))}
-                />
-            }
+            <PlanCreatedDialog
+                visible={showPlanCreatedModal}
+                onClickClose={() => dispatch(setShowPlanCreatedModal(false))}
+            />
         </Center>
     );
 }

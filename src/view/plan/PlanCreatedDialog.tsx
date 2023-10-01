@@ -3,12 +3,13 @@ import HappyNewsIcon from "src/view/assets/svg/happy_news.svg";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 
 export type Props = {
+    visible: boolean;
     onClickClose: () => void;
 };
 
-export function PlanCreatedDialog({ onClickClose }: Props) {
+export function PlanCreatedDialog({ onClickClose, visible }: Props) {
     return (
-        <FullscreenDialog onClickOutside={onClickClose}>
+        <FullscreenDialog onClickOutside={onClickClose} visible={visible}>
             <VStack
                 backgroundColor="#FFF8F3"
                 borderRadius="30px"
