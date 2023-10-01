@@ -8,7 +8,6 @@ query FetchAvailablePlacesForPlanCandidate($session: String!) {
                 latitude
                 longitude
             }
-            photos
             images {
                 default
                 small

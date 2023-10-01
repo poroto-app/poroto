@@ -62,7 +62,6 @@ export type PlaceEntity = {
     id: string;
     googlePlaceId: string | null;
     name: string;
-    imageUrls: string[];
     images: {
         default: string;
         small: string | null;
@@ -108,7 +107,7 @@ export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
         id: entity.id,
         googlePlaceId: entity.googlePlaceId,
         name: entity.name,
-        imageUrls: entity.imageUrls,
+        images: entity.images,
         location: entity.location,
         estimatedStayDuration: entity.estimatedStayDuration,
         googlePlaceReviews:

@@ -7,7 +7,6 @@ mutation ChangePlacesOrderInPlanCandidate($input: ChangePlacesOrderInPlanCandida
                 id
                 googlePlaceId
                 name
-                photos
                 images {
                     default
                     small
