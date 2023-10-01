@@ -6,6 +6,7 @@ import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { copyObject } from "src/domain/util/object";
+import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
     fetchCachedCreatedPlans,
     fetchPlanDetail,
@@ -78,6 +79,7 @@ const PlanDetail = () => {
         if (!plan) return;
         if (savePlanFromCandidateRequestStatus === RequestStatuses.FULFILLED) {
             router.push(Routes.plans.plan(plan.id)).then();
+            dispatch(setShowPlanCreatedModal(true));
             // 戻ったときに再リダイレクトされないようにする
             dispatch(resetPlanCandidates());
         }
