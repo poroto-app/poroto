@@ -163,6 +163,7 @@ export type MutationSavePlanFromCandidateArgs = {
 
 export type Place = {
   __typename?: 'Place';
+  categories: Array<PlaceCategory>;
   estimatedStayDuration: Scalars['Int'];
   googlePlaceId?: Maybe<Scalars['String']>;
   googleReviews?: Maybe<Array<GooglePlaceReview>>;
@@ -171,6 +172,12 @@ export type Place = {
   location: GeoLocation;
   name: Scalars['String'];
   photos: Array<Scalars['String']>;
+};
+
+export type PlaceCategory = {
+  __typename?: 'PlaceCategory';
+  id: Scalars['String'];
+  name: Scalars['String'];
 };
 
 export type Plan = {
