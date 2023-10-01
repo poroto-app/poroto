@@ -150,7 +150,7 @@ function PlaceSearchPage() {
 
     return (
         <Layout
-            navBar={<NavBar title="場所を指定してプランを作成" />}
+            navBar={<NavBar />}
             fillComponent={
                 <MapPinSelector
                     center={mapCenter}

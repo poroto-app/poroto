@@ -10,28 +10,32 @@ import {
 import { useState } from "react";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
+import {
+    getImageSizeOf,
+    Image as ImageType,
+    ImageSizes,
+} from "src/domain/models/Image";
 import { Colors } from "src/view/constants/color";
 import { PlaceReview } from "src/view/plan/PlaceReview";
 import styled from "styled-components";
 
 type Props = {
     name: string;
-    imageUrls: string[];
+    images: ImageType[];
     googlePlaceReviews?: GooglePlaceReview[];
 };
 
-export const PlacePreview = ({
-    name,
-    imageUrls,
-    googlePlaceReviews,
-}: Props) => {
+export const PlacePreview = ({ name, images, googlePlaceReviews }: Props) => {
     return (
         <VStack alignItems="flex-start" w="100%">
-            {imageUrls.length > 0 && (
+            {images.length > 0 && (
                 <ImagePreviewer>
                     <HStack h="100%">
-                        {imageUrls.map((imageUrl, i) => (
-                            <ImageWithSkeleton key={i} src={imageUrl} />
+                        {images.map((image, i) => (
+                            <ImageWithSkeleton
+                                key={i}
+                                src={getImageSizeOf(ImageSizes.Small, image)}
+                            />
                         ))}
                     </HStack>
                 </ImagePreviewer>

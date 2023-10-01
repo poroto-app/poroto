@@ -1,5 +1,10 @@
-const runtimeCaching = require('next-pwa/cache');
-const withPWA = require('next-pwa')({
+import remarkUnwrapImages from 'remark-unwrap-images';
+import runtimeCaching  from 'next-pwa/cache.js';
+import pwa from "next-pwa"
+import mdx from '@next/mdx';
+
+
+const withPWA = pwa({
     dest: 'public',
     fallbacks: {
         document: "/",
@@ -9,7 +14,18 @@ const withPWA = require('next-pwa')({
     disable: process.env.NODE_ENV === 'development',
 });
 
-module.exports = withPWA({
+const withMDX = mdx({
+    extension: /\.mdx?$/,
+    options: {
+        remarkPlugins: [
+            remarkUnwrapImages,
+        ],
+      providerImportSource: '@mdx-js/react',
+    },
+});
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
     distDir: 'build',  // Google App Engineが.nextディレクトリを読み込め無いため、buildに変更する必要がある。
     eslint: {
         ignoreDuringBuilds: true,
@@ -43,4 +59,6 @@ module.exports = withPWA({
     compiler: {
         styledComponents: true,
     }
-});
+}
+
+export default withPWA(withMDX(nextConfig));

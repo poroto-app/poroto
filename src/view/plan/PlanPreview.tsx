@@ -1,6 +1,7 @@
 import { Link } from "@chakra-ui/next-js";
 import { HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
 import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
 import styled from "styled-components";
@@ -23,10 +24,12 @@ export function PlanPreview({ plan, link }: Props) {
     if (!plan) return <PlaceHolder />;
 
     const thumbnails = plan.places
-        .map((place) =>
-            place.imageUrls.length > 0 ? place.imageUrls[0] : null
+        .map(
+            (place) =>
+                place.images.length > 0 &&
+                getImageSizeOf(ImageSizes.Small, place.images[0])
         )
-        .filter((v) => v !== null);
+        .filter((v) => v !== null || v !== undefined);
 
     return (
         <VStack w="100%" maxW="600px">

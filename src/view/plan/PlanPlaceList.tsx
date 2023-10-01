@@ -11,13 +11,13 @@ export function PlanPlaceList({ plan, createdBasedOnCurrentLocation }: Props) {
     return (
         <VStack spacing={4} w="100%" divider={<Divider />}>
             {createdBasedOnCurrentLocation && (
-                <PlacePreview name="現在地" imageUrls={[]} />
+                <PlacePreview name="現在地" images={[]} />
             )}
             {plan.places.map((place, i) => (
                 <PlacePreview
                     key={i}
                     name={place.name}
-                    imageUrls={place.imageUrls}
+                    images={place.images}
                     googlePlaceReviews={place.googlePlaceReviews}
                 />
             ))}

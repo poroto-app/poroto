@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { Plan } from "src/domain/models/Plan";
+import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
     createPlanFromPlanEntity,
     PlannerApi,
@@ -23,6 +24,8 @@ import { Size } from "src/view/constants/size";
 import { useLocation } from "src/view/hooks/useLocation";
 import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
+import { LocationUnavailable } from "src/view/top/LocationUnavailable";
+import { NearbyPlansNotFound } from "src/view/top/NearbyPlansNotFound";
 import {
     PlanListSectionTitle,
     PlanSections,
@@ -38,25 +41,9 @@ const IndexPage = (props: Props) => {
     const {
         plansRecentlyCreated,
         nextPageTokenPlansRecentlyCreated,
-        plansNearby,
         plansByUser,
     } = reduxPlanSelector();
-    const { checkGeolocationPermission, getCurrentLocation } = useLocation();
     const { user } = reduxAuthSelector();
-
-    // 位置情報が利用可能な場合は付近で作成されたプランを取得する
-    useEffect(() => {
-        const fetchNearbyPlansWithCurrentLocation = async () => {
-            const isGranted = checkGeolocationPermission();
-            if (!isGranted) return;
-
-            const currentLocation = await getCurrentLocation();
-            if (!currentLocation) return;
-            dispatch(fetchNearbyPlans({ currentLocation, limit: 5 }));
-        };
-
-        fetchNearbyPlansWithCurrentLocation().then();
-    }, []);
 
     useEffect(() => {
         // すでにプランを取得済みの場合は何もしない
@@ -113,11 +100,8 @@ const IndexPage = (props: Props) => {
                             </Text>
                         </PlanList>
                     )}
-                    {/* TODO: 位置情報をONにすると近くのプランを取得できることを伝えるボタンを配置 */}
-                    {/* TODO: 取得中のときはプレースホルダーを表示 */}
-                    <PlanList plans={plansNearby}>
-                        <PlanListSectionTitle section={PlanSections.NearBy} />
-                    </PlanList>
+                    {/* TODO: 拒否設定されている場合の対処をする */}
+                    <NearByPlans />
                     {/* TODO: React 18に対応 */}
                     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                     {/* @ts-ignore */}
@@ -135,6 +119,62 @@ const IndexPage = (props: Props) => {
                 </VStack>
             </Center>
         </VStack>
+    );
+};
+
+const NearByPlans = () => {
+    const dispatch = useAppDispatch();
+    const { plansNearby } = reduxPlanSelector();
+    const {
+        fetchCurrentLocationStatus,
+        isLocationPermissionGranted,
+        checkGeolocationPermission,
+        getCurrentLocation,
+    } = useLocation();
+
+    const handleOnFetchNearByPlans = async () => {
+        const currentLocation = await getCurrentLocation();
+        if (!currentLocation) return;
+        dispatch(fetchNearbyPlans({ currentLocation, limit: 5 }));
+    };
+
+    // 位置情報が利用可能な場合は付近で作成されたプランを取得する
+    useEffect(() => {
+        const fetchNearbyPlansWithCurrentLocation = async () => {
+            const isGranted = await checkGeolocationPermission();
+            if (!isGranted) return;
+
+            await handleOnFetchNearByPlans();
+        };
+
+        fetchNearbyPlansWithCurrentLocation().then();
+    }, []);
+
+    const emptyComponent = () => {
+        if (
+            // 位置情報取得が拒否されていることを確認した場合のみ表示する
+            isLocationPermissionGranted === false
+        ) {
+            return (
+                <LocationUnavailable
+                    isUpdating={
+                        fetchCurrentLocationStatus === RequestStatuses.PENDING
+                    }
+                    isLocationAvailable={isLocationPermissionGranted}
+                    onClickSwitch={handleOnFetchNearByPlans}
+                />
+            );
+        }
+
+        if (plansNearby !== null && plansNearby.length === 0) {
+            return <NearbyPlansNotFound />;
+        }
+    };
+
+    return (
+        <PlanList plans={plansNearby} empty={emptyComponent()}>
+            <PlanListSectionTitle section={PlanSections.NearBy} />
+        </PlanList>
     );
 };
 
