@@ -73,6 +73,9 @@ export type PlaceEntity = {
     };
     estimatedStayDuration: number;
     googlePlaceReviews: GooglePlaceReviewEntity[] | null;
+    categories: {
+        id: string;
+    }[];
 };
 
 export type GooglePlaceReviewEntity = {
