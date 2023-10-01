@@ -11,7 +11,7 @@ export function PlanPageThumbnail({ plan }: Props) {
     const thumbnails = plan.places
         .map((place) =>
             place.images.length > 0
-                ? getImageSizeOf(ImageSizes.Small, place.images[0])
+                ? getImageSizeOf(ImageSizes.Large, place.images[0])
                 : null
         )
         .filter((v) => v !== null);
