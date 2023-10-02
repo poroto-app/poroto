@@ -59,7 +59,7 @@
     "@graphql-codegen/typed-document-node": "^4.0.0",
     "@graphql-codegen/typescript": "^3.0.4",
     "@graphql-codegen/typescript-operations": "^3.0.3",
-    "@storybook/addon-essentials": "^7.1.1",
+    "@storybook/addon-essentials": "^7.4.5",
     "@storybook/addon-interactions": "^7.4.5",
     "@storybook/addon-links": "^7.4.5",
     "@storybook/blocks": "^7.1.1",
