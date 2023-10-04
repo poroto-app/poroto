@@ -2,7 +2,11 @@ import { Box, Center, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
-import { fetchPlan, reduxPlanSelector } from "src/redux/plan";
+import {
+    fetchPlan,
+    reduxPlanSelector,
+    setShowPlanCreatedModal,
+} from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
@@ -11,6 +15,7 @@ import { NotFound } from "src/view/common/NotFound";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
+import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
 import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
@@ -21,11 +26,21 @@ import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSum
 export default function PlanPage() {
     const { id } = useRouter().query;
     const dispatch = useAppDispatch();
-    const { preview: plan, fetchPlanRequestStatus } = reduxPlanSelector();
+    const {
+        preview: plan,
+        fetchPlanRequestStatus,
+        showPlanCreatedModal,
+    } = reduxPlanSelector();
 
     useEffect(() => {
         if (typeof id !== "string") return;
         dispatch(fetchPlan({ planId: id }));
+
+        return () => {
+            // 他のページに遷移するときにモーダルを閉じる
+            // (戻るボタンでトップページに遷移したときの対応)
+            dispatch(setShowPlanCreatedModal(false));
+        };
     }, [id]);
 
     if (
@@ -73,6 +88,10 @@ export default function PlanPage() {
                 </VStack>
             </VStack>
             <PlanShareFooter />
+            <PlanCreatedDialog
+                visible={showPlanCreatedModal}
+                onClickClose={() => dispatch(setShowPlanCreatedModal(false))}
+            />
         </Center>
     );
 }

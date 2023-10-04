@@ -26,6 +26,9 @@ export type PlanState = {
 
     preview: Plan | null;
 
+    // プラン完成時に表示されるモーダルの表示フラグ
+    showPlanCreatedModal: boolean;
+
     fetchPlanRequestStatus: RequestStatus | null;
     fetchPlansByUserRequestStatus: RequestStatus | null;
 };
@@ -41,6 +44,8 @@ const initialState: PlanState = {
     plansByUser: null,
 
     preview: null,
+
+    showPlanCreatedModal: false,
 
     fetchPlanRequestStatus: null,
     fetchPlansByUserRequestStatus: null,
@@ -151,6 +156,12 @@ export const slice = createSlice({
             state.nextPageTokenPlansRecentlyCreated =
                 payload.nextPageTokenPlansRecentlyCreated;
         },
+        setShowPlanCreatedModal: (
+            state,
+            { payload }: PayloadAction<boolean>
+        ) => {
+            state.showPlanCreatedModal = payload;
+        },
         resetPlansByUser: (state) => {
             state.plansByUser = null;
         },
@@ -211,7 +222,11 @@ export const slice = createSlice({
     },
 });
 
-export const { pushPlansRecentlyCreated, resetPlansByUser } = slice.actions;
+export const {
+    pushPlansRecentlyCreated,
+    setShowPlanCreatedModal,
+    resetPlansByUser,
+} = slice.actions;
 
 export const reduxPlanSelector = () =>
     useSelector((state: RootState) => state.plan);
