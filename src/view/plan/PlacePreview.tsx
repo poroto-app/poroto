@@ -8,14 +8,15 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { MdOutlineLocationOn } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
     getImageSizeOf,
     Image as ImageType,
     ImageSizes,
 } from "src/domain/models/Image";
+import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { Colors } from "src/view/constants/color";
+import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { PlaceReview } from "src/view/plan/PlaceReview";
 import styled from "styled-components";
 
@@ -23,9 +24,15 @@ type Props = {
     name: string;
     images: ImageType[];
     googlePlaceReviews?: GooglePlaceReview[];
+    categories: PlaceCategory[];
 };
 
-export const PlacePreview = ({ name, images, googlePlaceReviews }: Props) => {
+export const PlacePreview = ({
+    name,
+    images,
+    googlePlaceReviews,
+    categories,
+}: Props) => {
     return (
         <VStack alignItems="flex-start" w="100%">
             {images.length > 0 && (
@@ -41,11 +48,8 @@ export const PlacePreview = ({ name, images, googlePlaceReviews }: Props) => {
                 </ImagePreviewer>
             )}
             <HStack>
-                <Icon
-                    w="24px"
-                    h="24px"
-                    color={Colors.primary["600"]}
-                    as={MdOutlineLocationOn}
+                <PlaceIcon
+                    category={categories.length > 0 ? categories[0] : null}
                 />
                 <Text fontSize="1.15rem">{name}</Text>
             </HStack>
@@ -60,6 +64,17 @@ export const PlacePreview = ({ name, images, googlePlaceReviews }: Props) => {
                     />
                 )}
         </VStack>
+    );
+};
+
+export const PlaceIcon = ({ category }: { category: PlaceCategory | null }) => {
+    return (
+        <Icon
+            w="24px"
+            h="24px"
+            color={Colors.primary["600"]}
+            as={getPlaceCategoryIcon(category)}
+        />
     );
 };
 

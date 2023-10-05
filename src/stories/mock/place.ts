@@ -1,4 +1,5 @@
 import { Place } from "src/domain/models/Place";
+import { PlaceCategoryTypes } from "src/domain/models/PlaceCategory";
 
 export const mockPlaces: { [key: string]: Place } = {
     bookStore: {
@@ -65,6 +66,7 @@ export const mockPlaces: { [key: string]: Place } = {
                 timeInMilliSec: 1600000000000,
             },
         ],
+        categories: [{ id: PlaceCategoryTypes.BookStores }],
     },
     tokyo: {
         id: "tokyo",
@@ -115,6 +117,7 @@ export const mockPlaces: { [key: string]: Place } = {
                 timeInMilliSec: 1600000000000,
             },
         ],
+        categories: [],
     },
     marunouchi: {
         id: "marunouchi",
@@ -147,5 +150,6 @@ export const mockPlaces: { [key: string]: Place } = {
             longitude: 139.764954,
         },
         estimatedStayDuration: 60,
+        categories: [{ id: PlaceCategoryTypes.Park }],
     },
 };

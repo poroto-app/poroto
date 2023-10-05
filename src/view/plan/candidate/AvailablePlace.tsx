@@ -1,5 +1,7 @@
 import {
     Box,
+    HStack,
+    Icon,
     Image,
     Skeleton,
     SkeletonText,
@@ -8,6 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
+import { Colors } from "src/view/constants/color";
+import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 
 type Props = {
     place: Place | null;
@@ -45,9 +49,21 @@ export function AvailablePlace({ place, onClick }: Props) {
                 )}
             </Box>
             {place ? (
-                <Text py="4px" w="100%">
-                    {place.name}
-                </Text>
+                <HStack w="100%">
+                    <Icon
+                        w="24px"
+                        h="24px"
+                        color={Colors.primary["600"]}
+                        as={getPlaceCategoryIcon(
+                            place.categories.length > 0
+                                ? place.categories[0]
+                                : null
+                        )}
+                    />
+                    <Text py="4px" w="100%">
+                        {place.name}
+                    </Text>
+                </HStack>
             ) : (
                 <SkeletonText
                     py="4px"

@@ -73,6 +73,9 @@ export type PlaceEntity = {
     };
     estimatedStayDuration: number;
     googlePlaceReviews: GooglePlaceReviewEntity[] | null;
+    categories: {
+        id: string;
+    }[];
 };
 
 export type GooglePlaceReviewEntity = {
@@ -119,6 +122,9 @@ export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
                 authorPhotoUrl: review.authorPhotoUrl,
                 timeInMilliSec: review.time,
             })) ?? null,
+        categories: entity.categories.map((category) => ({
+            id: category.id,
+        })),
     };
 }
 

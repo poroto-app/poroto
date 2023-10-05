@@ -65,7 +65,7 @@
     "@storybook/blocks": "^7.1.1",
     "@storybook/nextjs": "^7.1.1",
     "@storybook/react": "^7.4.5",
-    "@storybook/testing-library": "^0.2.1",
+    "@storybook/testing-library": "^0.2.2",
     "@svgr/webpack": "^8.1.0",
     "@types/google.maps": "^3.53.5",
     "@types/jest": "^29.5.3",

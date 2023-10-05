@@ -11,7 +11,7 @@ export function PlanPlaceList({ plan, createdBasedOnCurrentLocation }: Props) {
     return (
         <VStack spacing={4} w="100%" divider={<Divider />}>
             {createdBasedOnCurrentLocation && (
-                <PlacePreview name="現在地" images={[]} />
+                <PlacePreview name="現在地" images={[]} categories={[]} />
             )}
             {plan.places.map((place, i) => (
                 <PlacePreview
@@ -19,6 +19,7 @@ export function PlanPlaceList({ plan, createdBasedOnCurrentLocation }: Props) {
                     name={place.name}
                     images={place.images}
                     googlePlaceReviews={place.googlePlaceReviews}
+                    categories={place.categories}
                 />
             ))}
         </VStack>
