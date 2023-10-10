@@ -6,6 +6,11 @@ import {
     Skeleton,
     Text,
     VStack,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalBody,
+    ModalCloseButton,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
@@ -33,6 +38,19 @@ export const PlacePreview = ({
     googlePlaceReviews,
     categories,
 }: Props) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+    const openModal = (imageSrc: string) => {
+        setSelectedImage(imageSrc);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setSelectedImage(null);
+        setIsModalOpen(false);
+    };
+
     return (
         <VStack alignItems="flex-start" w="100%">
             {images.length > 0 && (
@@ -41,7 +59,18 @@ export const PlacePreview = ({
                         {images.map((image, i) => (
                             <ImageWithSkeleton
                                 key={i}
-                                src={getImageSizeOf(ImageSizes.Small, image)}
+                                src={getImageSizeOf(
+                                    ImageSizes.Small,
+                                    image
+                                )}
+                                onClick={() =>
+                                    openModal(
+                                        getImageSizeOf(
+                                            ImageSizes.Large,
+                                            image
+                                        )
+                                    )
+                                }
                             />
                         ))}
                     </HStack>
@@ -63,6 +92,24 @@ export const PlacePreview = ({
                         text={googlePlaceReviews[0].text}
                     />
                 )}
+
+            {/* 画像を拡大表示するためのモーダル */}
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        {selectedImage && (
+                            <Image
+                                src={selectedImage}
+                                objectFit="contain"
+                                w="100%"
+                                maxH="80vh"
+                            />
+                        )}
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
         </VStack>
     );
 };
@@ -78,7 +125,7 @@ export const PlaceIcon = ({ category }: { category: PlaceCategory | null }) => {
     );
 };
 
-const ImageWithSkeleton = ({ src }: { src: string }) => {
+const ImageWithSkeleton = ({ src, onClick }: { src: string; onClick?: () => void }) => {
     const [isLoading, setIsLoading] = useState(true);
     return (
         <Box
@@ -87,6 +134,8 @@ const ImageWithSkeleton = ({ src }: { src: string }) => {
             position="relative"
             overflow="hidden"
             borderRadius="5px"
+            onClick={onClick}
+            style={{ cursor: 'pointer' }} 
         >
             <Skeleton
                 position="absolute"
