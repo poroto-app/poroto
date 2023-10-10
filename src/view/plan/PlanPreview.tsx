@@ -23,6 +23,11 @@ export function PlaceHolder() {
 export function PlanPreview({ plan, link }: Props) {
 
     const [modalImageUrl, setModalImageUrl] = useState<string | null>(null);
+
+    const openModal = (imageUrl: string) => {
+        setModalImageUrl(imageUrl);
+    };
+    
     if (!plan) return <PlaceHolder />;
 
     const thumbnails = plan.places
