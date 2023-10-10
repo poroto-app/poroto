@@ -27,20 +27,21 @@ export function PlanPreview({ plan, link }: Props) {
     const openModal = (imageUrl: string) => {
         setModalImageUrl(imageUrl);
     };
-    
+
     if (!plan) return <PlaceHolder />;
 
     const thumbnails = plan.places
-        .map(
-            (place) =>
-                place.images.length > 0 &&
-                getImageSizeOf(ImageSizes.Small, place.images[0])
-        )
-        .filter((v) => v !== null || v !== undefined);
+        .map((place) => {
+            if (place.images.length > 0) {
+                return getImageSizeOf(ImageSizes.Small, place.images[0]);
+            }
+            return null;
+        })
+        .filter((v) => v !== null);
 
     return (
         <VStack w="100%" maxW="600px">
-            <PlanThumbnail imageUrls={thumbnails} link={link} />
+            <PlanThumbnail imageUrls={thumbnails} link={link} onClick={openModal}/>
             <LinkWrapper href={link}>
                 <VStack w="100%" alignItems="flex-start" spacing={1}>
                     <Text fontWeight="bold" fontSize="1.1rem" color="#222222">
@@ -51,7 +52,30 @@ export function PlanPreview({ plan, link }: Props) {
                     </HStack>
                 </VStack>
             </LinkWrapper>
+            {modalImageUrl && (
+                <ImageModal
+                    imageUrl={modalImageUrl}
+                    onClose={() => setModalImageUrl(null)}
+                />
+            )}
         </VStack>
+    );
+}
+
+function ImageModal({
+    imageUrl,
+    onClose,
+}: {
+    imageUrl: string;
+    onClose: () => void;
+}) {
+    return (
+        <div>
+            <div>
+                <img src={imageUrl} alt="拡大画像" />
+            </div>
+            <button onClick={onClose}>閉じる</button>
+        </div>
     );
 }
 
