@@ -1,6 +1,6 @@
 import { Link } from "@chakra-ui/next-js";
 import { HStack, Text, VStack } from "@chakra-ui/react";
-import { ReactNode, useState} from "react";
+import { ReactNode, useState } from "react";
 import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
 import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
@@ -21,7 +21,6 @@ export function PlaceHolder() {
 }
 
 export function PlanPreview({ plan, link }: Props) {
-
     const [modalImageUrl, setModalImageUrl] = useState<string | null>(null);
 
     const openModal = (imageUrl: string) => {
@@ -41,7 +40,11 @@ export function PlanPreview({ plan, link }: Props) {
 
     return (
         <VStack w="100%" maxW="600px">
-            <PlanThumbnail imageUrls={thumbnails} link={link} onClick={openModal}/>
+            <PlanThumbnail
+                imageUrls={thumbnails}
+                link={link}
+                onClick={openModal}
+            />
             <LinkWrapper href={link}>
                 <VStack w="100%" alignItems="flex-start" spacing={1}>
                     <Text fontWeight="bold" fontSize="1.1rem" color="#222222">

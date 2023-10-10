@@ -3,14 +3,14 @@ import {
     HStack,
     Icon,
     Image,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalOverlay,
     Skeleton,
     Text,
     VStack,
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalBody,
-    ModalCloseButton,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
@@ -59,16 +59,10 @@ export const PlacePreview = ({
                         {images.map((image, i) => (
                             <ImageWithSkeleton
                                 key={i}
-                                src={getImageSizeOf(
-                                    ImageSizes.Small,
-                                    image
-                                )}
+                                src={getImageSizeOf(ImageSizes.Small, image)}
                                 onClick={() =>
                                     openModal(
-                                        getImageSizeOf(
-                                            ImageSizes.Large,
-                                            image
-                                        )
+                                        getImageSizeOf(ImageSizes.Large, image)
                                     )
                                 }
                             />
@@ -125,7 +119,13 @@ export const PlaceIcon = ({ category }: { category: PlaceCategory | null }) => {
     );
 };
 
-const ImageWithSkeleton = ({ src, onClick }: { src: string; onClick?: () => void }) => {
+const ImageWithSkeleton = ({
+    src,
+    onClick,
+}: {
+    src: string;
+    onClick?: () => void;
+}) => {
     const [isLoading, setIsLoading] = useState(true);
     return (
         <Box
@@ -135,7 +135,7 @@ const ImageWithSkeleton = ({ src, onClick }: { src: string; onClick?: () => void
             overflow="hidden"
             borderRadius="5px"
             onClick={onClick}
-            style={{ cursor: 'pointer' }} 
+            style={{ cursor: "pointer" }}
         >
             <Skeleton
                 position="absolute"
