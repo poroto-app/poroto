@@ -38,17 +38,14 @@ export const PlacePreview = ({
     googlePlaceReviews,
     categories,
 }: Props) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
     const openModal = (imageSrc: string) => {
         setSelectedImage(imageSrc);
-        setIsModalOpen(true);
     };
 
     const closeModal = () => {
         setSelectedImage(null);
-        setIsModalOpen(false);
     };
 
     return (
@@ -88,7 +85,7 @@ export const PlacePreview = ({
                 )}
 
             {/* 画像を拡大表示するためのモーダル */}
-            <Modal isOpen={isModalOpen} onClose={closeModal} size="xl">
+            <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
                 <ModalOverlay />
                 <ModalContent>
                     <ModalCloseButton />
