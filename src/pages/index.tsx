@@ -82,7 +82,8 @@ const IndexPage = (props: Props) => {
                     w="100%"
                     maxW={Size.mainContentWidth}
                     px="16px"
-                    py="48px"
+                    pt="16px"
+                    pb="48px"
                     spacing="24px"
                 >
                     {user && (
