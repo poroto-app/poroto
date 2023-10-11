@@ -24,12 +24,13 @@ export function PlanPreview({ plan, link }: Props) {
     if (!plan) return <PlaceHolder />;
 
     const thumbnails = plan.places
-        .map(
-            (place) =>
-                place.images.length > 0 &&
-                getImageSizeOf(ImageSizes.Small, place.images[0])
-        )
-        .filter((v) => v !== null || v !== undefined);
+        .map((place) => {
+            if (place.images.length > 0) {
+                return getImageSizeOf(ImageSizes.Small, place.images[0]);
+            }
+            return null;
+        })
+        .filter((v) => v !== null);
 
     return (
         <VStack w="100%" maxW="600px">
