@@ -17,9 +17,15 @@ export function CreatePlanSection() {
                 w="100%"
                 maxW="600px"
                 spacing={{ base: "32px", sm: "64px" }}
+                alignItems="center"
             >
                 <HangoutIcon />
-                <VStack w="100%" alignItems="flex-start" spacing="16px">
+                <VStack
+                    w="100%"
+                    maxW="400px"
+                    alignItems="flex-start"
+                    spacing="16px"
+                >
                     <Text
                         as="h1"
                         color="white"
