@@ -6,8 +6,18 @@ import { CreatePlanButton } from "./CreatePlanButton";
 
 export function CreatePlanSection() {
     return (
-        <Center w="100%" backgroundColor="#BD9F8E" pt="32px" pb="64px" px="24px">
-            <VStack w="100%" maxW="600px" spacing="64px">
+        <Center
+            w="100%"
+            backgroundColor="#BD9F8E"
+            pt="32px"
+            pb="64px"
+            px="24px"
+        >
+            <VStack
+                w="100%"
+                maxW="600px"
+                spacing={{ base: "32px", sm: "64px" }}
+            >
                 <HangoutIcon />
                 <VStack w="100%" alignItems="flex-start" spacing="16px">
                     <Text
