@@ -38,7 +38,7 @@ export function CreatePlanSection() {
                     <Grid
                         w="100%"
                         templateColumns="repeat(2, 1fr)"
-                        gap="8px"
+                        gap="16px"
                         filter="drop-shadow(20px 20px 60px #a18779)"
                         transform="translateZ(0px)"
                     >
