@@ -13,12 +13,7 @@ export function CreatePlanSection() {
             pb="64px"
             px="24px"
         >
-            <VStack
-                w="100%"
-                maxW="600px"
-                spacing={{ base: "32px", sm: "64px" }}
-                alignItems="center"
-            >
+            <VStack w="100%" maxW="600px" spacing="64px" alignItems="center">
                 <HangoutIcon />
                 <VStack
                     w="100%"
@@ -62,7 +57,12 @@ export function CreatePlanSection() {
 const HangoutIcon = () => {
     // MEMO: 上方向の余白を消すために200px分の高さを小さくしている
     return (
-        <Box position="relative" w="100%" maxW="500px" pt="calc(600px - 200px)">
+        <Box
+            position="relative"
+            w="100%"
+            maxW="500px"
+            pt={{ base: "calc(500px - 200px)", sm: "calc(100% - 200px)" }}
+        >
             <HangOut
                 viewBox="0 0 785.77114 658"
                 style={{
