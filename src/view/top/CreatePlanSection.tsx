@@ -44,8 +44,9 @@ export function CreatePlanSection() {
 }
 
 const HangoutIcon = () => {
+    // MEMO: 上方向の余白を消すために200px分の高さを小さくしている
     return (
-        <Box position="relative" w="100%" maxW="500px" pt="100%">
+        <Box position="relative" w="100%" maxW="500px" pt="calc(600px - 200px)">
             <HangOut
                 viewBox="0 0 785.77114 658"
                 style={{
