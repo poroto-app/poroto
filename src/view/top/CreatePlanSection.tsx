@@ -2,6 +2,7 @@ import { Box, Center, Grid, Text, VStack } from "@chakra-ui/react";
 import { MdOutlineLocationOn, MdOutlineMap } from "react-icons/md";
 import HangOut from "src/view/assets/svg/hangout.svg";
 import { Routes } from "src/view/constants/router";
+import styled from "styled-components";
 import { CreatePlanButton } from "./CreatePlanButton";
 
 export function CreatePlanSection() {
@@ -10,14 +11,15 @@ export function CreatePlanSection() {
             w="100%"
             backgroundColor="#BD9F8E"
             pt="32px"
-            pb="64px"
+            pb="32px"
             px="24px"
+            overflow="hidden"
         >
-            <VStack w="100%" maxW="600px" spacing="64px" alignItems="center">
+            <Container>
                 <HangoutIcon />
                 <VStack
                     w="100%"
-                    maxW="400px"
+                    maxW="500px"
                     alignItems="flex-start"
                     spacing="16px"
                 >
@@ -49,7 +51,7 @@ export function CreatePlanSection() {
                         />
                     </Grid>
                 </VStack>
-            </VStack>
+            </Container>
         </Center>
     );
 }
@@ -61,7 +63,7 @@ const HangoutIcon = () => {
             position="relative"
             w="100%"
             maxW="500px"
-            pt={{ base: "calc(500px - 200px)", sm: "calc(100% - 200px)" }}
+            pt={{ base: "calc(500px - 200px)", sm: "300px" }}
         >
             <HangOut
                 viewBox="0 0 785.77114 658"
@@ -76,3 +78,16 @@ const HangoutIcon = () => {
         </Box>
     );
 };
+
+const Container = styled.div`
+    display: flex;
+    gap: 64px;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+
+    @media (min-width: 700px) {
+        flex-direction: row;
+    }
+`;
