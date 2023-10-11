@@ -88,11 +88,11 @@ export const PlacePreview = ({
                 )}
 
             {/* 画像を拡大表示するためのモーダル */}
-            <Modal isOpen={isModalOpen} onClose={closeModal}>
+            <Modal isOpen={isModalOpen} onClose={closeModal} size="xl">
                 <ModalOverlay />
                 <ModalContent>
                     <ModalCloseButton />
-                    <ModalBody>
+                    <ModalBody py="48px" px="16px">
                         {selectedImage && (
                             <Image
                                 src={selectedImage}
