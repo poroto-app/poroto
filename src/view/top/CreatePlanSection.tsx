@@ -88,6 +88,8 @@ const Container = styled.div`
     max-width: 800px;
 
     @media (min-width: 700px) {
+        padding-top: 32px;
+        padding-bottom: 32px;
         flex-direction: row;
     }
 `;
