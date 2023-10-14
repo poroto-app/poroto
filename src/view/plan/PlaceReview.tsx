@@ -17,7 +17,6 @@ export function PlaceReview({
     return (
         <HStack
             w="100%"
-            backgroundColor="rgb(46 46 64 / 3%)"
             px="8px"
             py="8px"
             borderRadius="15px"
