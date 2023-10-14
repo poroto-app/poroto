@@ -15,13 +15,7 @@ export function PlaceReview({
     text,
 }: Props) {
     return (
-        <HStack
-            w="100%"
-            px="8px"
-            py="8px"
-            borderRadius="15px"
-            alignItems="flex-start"
-        >
+        <HStack w="100%" borderRadius="15px" alignItems="flex-start">
             <Link href={authorUrl}>
                 <Avatar
                     size="sm"
