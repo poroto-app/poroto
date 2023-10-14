@@ -13,6 +13,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/splide/css";
 import { useState } from "react";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
