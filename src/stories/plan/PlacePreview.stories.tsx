@@ -1,3 +1,4 @@
+import { Box } from "@chakra-ui/react";
 import { Meta, StoryObj } from "@storybook/react";
 import { PlaceCategoryTypes } from "src/domain/models/PlaceCategory";
 import { mockPlaces } from "src/stories/mock/place";
@@ -18,6 +19,20 @@ export const Primary: Story = {
         images: mockPlaces.bookStore.images,
         googlePlaceReviews: mockPlaces.bookStore.googlePlaceReviews,
         categories: mockPlaces.bookStore.categories,
+    },
+};
+
+export const Sp: Story = {
+    args: {
+        name: mockPlaces.bookStore.name,
+        images: mockPlaces.bookStore.images,
+        googlePlaceReviews: mockPlaces.bookStore.googlePlaceReviews,
+        categories: mockPlaces.bookStore.categories,
+    },
+    parameters: {
+        viewport: {
+            defaultViewport: "iphonex",
+        },
     },
 };
 
