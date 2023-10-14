@@ -123,19 +123,19 @@ const SelectPlanPage = () => {
 
     return (
         <Layout navBar={<NavBar />}>
-            {[RequestStatuses.PENDING, RequestStatuses.REJECTED].includes(
-                createPlanFromPlaceRequestStatus
-            ) && (
-                <GeneratingPlanDialog
-                    onClose={() =>
-                        dispatch(resetCreatePlanFromPlaceRequestStatus())
-                    }
-                    failed={
-                        createPlanFromPlaceRequestStatus ===
-                        RequestStatuses.REJECTED
-                    }
-                />
-            )}
+            <GeneratingPlanDialog
+                visible={[
+                    RequestStatuses.PENDING,
+                    RequestStatuses.REJECTED,
+                ].includes(createPlanFromPlaceRequestStatus)}
+                onClose={() =>
+                    dispatch(resetCreatePlanFromPlaceRequestStatus())
+                }
+                failed={
+                    createPlanFromPlaceRequestStatus ===
+                    RequestStatuses.REJECTED
+                }
+            />
             <VStack w="100%" px="16px" py="16px" spacing={8}>
                 <MessageCard message="プランを比較してみましょう！" />
                 <VStack w="100%" spacing={8}>
