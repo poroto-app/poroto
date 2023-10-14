@@ -87,14 +87,21 @@ const SelectPlanPage = () => {
     };
 
     if (!plansCreated) {
+        // ページ読み込み直後
+        const isLoadingPlan =
+            !fetchCachedCreatedPlansRequestStatus &&
+            !createPlanFromLocationRequestStatus;
+        // プラン作成中
+        const isCreatingPlanFromLocation =
+            createPlanFromLocationRequestStatus === RequestStatuses.PENDING;
+        // プラン候補取得中
+        const isFetchingPlanCandidate =
+            fetchCachedCreatedPlansRequestStatus === RequestStatuses.PENDING;
+
         if (
-            // ページ読み込み直後
-            (!fetchCachedCreatedPlansRequestStatus &&
-                !createPlanFromLocationRequestStatus) ||
-            // プラン作成中
-            createPlanFromLocationRequestStatus === RequestStatuses.PENDING ||
-            // プラン候補取得中
-            fetchCachedCreatedPlansRequestStatus === RequestStatuses.PENDING
+            isLoadingPlan ||
+            isCreatingPlanFromLocation ||
+            isFetchingPlanCandidate
         )
             return <LoadingModal title="プランを作成しています" />;
 
