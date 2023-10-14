@@ -32,7 +32,7 @@ export function PlaceReview({
             </Link>
             <VStack alignItems="flex-start" spacing={0}>
                 <Text color="rgba(0,0,0,.6)">{authorName}</Text>
-                <Text>{text}</Text>
+                <Text color="rgba(0,0,0,.8)">{text}</Text>
             </VStack>
         </HStack>
     );
