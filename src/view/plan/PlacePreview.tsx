@@ -49,7 +49,13 @@ export const PlacePreview = ({
     };
 
     return (
-        <VStack alignItems="flex-start" w="100%">
+        <VStack
+            alignItems="flex-start"
+            w="100%"
+            backgroundColor="#FBF2E7"
+            p="16px"
+            borderRadius="20px"
+        >
             {images.length > 0 && (
                 <ImagePreviewer>
                     <HStack h="100%">
