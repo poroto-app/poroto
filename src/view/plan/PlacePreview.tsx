@@ -50,7 +50,7 @@ export const PlacePreview = ({
 
     return (
         <Container>
-            <ImagePreviewContainer>
+            <ImagePreviewContainer hasImage={images.length > 0}>
                 {images.length > 0 && (
                     <PlaceImagesPreview
                         images={images}
@@ -162,14 +162,13 @@ const ImageWithSkeleton = ({
     );
 };
 
-const ImagePreviewContainer = styled.div`
+const ImagePreviewContainer = styled.div<{ hasImage: boolean }>`
     width: 100%;
-    height: 200px;
+    height: ${({ hasImage }) => (hasImage ? "200px" : "0")};
     @media screen and (min-width: 700px) {
         align-self: center;
         flex: 0.75;
         width: 350px;
-        height: 200px;
         min-height: 100%;
     }
 `;
