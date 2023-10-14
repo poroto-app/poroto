@@ -1,9 +1,9 @@
-import { Box, Center, Image, Text } from "@chakra-ui/react";
+import { Box, Center, Text } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { useRef, useState } from "react";
-import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
+import { StoryImagePreview } from "src/view/plan/StoryImagePreview";
 import { styled } from "styled-components";
 
 export type Props = {
@@ -34,6 +34,7 @@ export function PlanCandidatesGallery({ planCandidates }: Props) {
                     width: "100%",
                     height: "100%",
                     autoWidth: true,
+                    speed: 800,
                     gap: "32px",
                 }}
             >
@@ -57,6 +58,10 @@ function PlanCandidateCard({
     plan: Plan;
     isActive: boolean;
 }) {
+    const images = plan.places
+        .map((place) => (place.images.length > 0 ? place.images[0] : null))
+        .filter((image) => image !== null);
+
     return (
         <Center h="500px">
             <Box
@@ -71,15 +76,7 @@ function PlanCandidateCard({
                     isActive ? "0px 0px 60px 0px rgba(0, 0, 0, 0.25)" : "none"
                 }
             >
-                <Image
-                    objectFit="cover"
-                    w="100%"
-                    h="100%"
-                    src={getImageSizeOf(
-                        ImageSizes.Large,
-                        plan.places[0].images[0]
-                    )}
-                />
+                <StoryImagePreview images={images} slideable={isActive} />
                 <Box
                     position="absolute"
                     left={0}
