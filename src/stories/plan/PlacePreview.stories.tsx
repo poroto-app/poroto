@@ -1,4 +1,3 @@
-import { Box } from "@chakra-ui/react";
 import { Meta, StoryObj } from "@storybook/react";
 import { PlaceCategoryTypes } from "src/domain/models/PlaceCategory";
 import { mockPlaces } from "src/stories/mock/place";
