@@ -1,4 +1,4 @@
-import { Box, Center, Image } from "@chakra-ui/react";
+import { Box, Center, Image, Text } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { useRef, useState } from "react";
@@ -17,7 +17,7 @@ export function PlanCandidatesGallery({ planCandidates }: Props) {
 
     const onClickCard = (i: number) => {
         refSplide.current?.go(i);
-    }
+    };
 
     return (
         <Center w="100%" h="100%">
@@ -67,7 +67,9 @@ function PlanCandidateCard({
                 overflow="hidden"
                 position="relative"
                 filter={isActive ? "none" : "blur(1px)"}
-                boxShadow={isActive ? "0px 0px 60px 0px rgba(0, 0, 0, 0.25)" : "none"}
+                boxShadow={
+                    isActive ? "0px 0px 60px 0px rgba(0, 0, 0, 0.25)" : "none"
+                }
             >
                 <Image
                     objectFit="cover"
@@ -78,6 +80,25 @@ function PlanCandidateCard({
                         plan.places[0].images[0]
                     )}
                 />
+                <Box
+                    position="absolute"
+                    left={0}
+                    right={0}
+                    bottom={0}
+                    px="16px"
+                    pb="16px"
+                    pt="32px"
+                    background="linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.10) 23.96%, rgba(0, 0, 0, 0.20) 100%)"
+                >
+                    <Text
+                        color="white"
+                        fontWeight="bold"
+                        fontSize="16px"
+                        as="h2"
+                    >
+                        {plan.title}
+                    </Text>
+                </Box>
             </Box>
         </Center>
     );
