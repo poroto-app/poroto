@@ -21,6 +21,7 @@ export function PlanCandidateFooter({ onSave, onEdit }: Props) {
             bottom={0}
             left={0}
             right={0}
+            zIndex={10}
         >
             <HStack w="100%" maxW="var(--max-page-width)" h="100%">
                 {process.env.APP_ENV !== "production" && (
