@@ -50,7 +50,7 @@ export const PlacePreview = ({
     };
 
     return (
-        <Container>
+        <Container hasImages={images.length > 0}>
             <ImagePreviewContainer hasImage={images.length > 0}>
                 {images.length > 0 && (
                     <PlaceImagesPreview
@@ -105,14 +105,14 @@ export const PlacePreview = ({
     );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ hasImages: boolean }>`
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
     padding: 16px;
-    gap: 16px;
+    gap: ${({ hasImages }) => (hasImages ? "16px" : "0")};
     background-color: #fbf2e7;
 
     // pcレイアウトの場合は横並びにする
@@ -170,7 +170,7 @@ const ImagePreviewContainer = styled.div<{ hasImage: boolean }>`
         align-self: center;
         flex: 0.75;
         width: 350px;
-        height: 250px;
+        height: ${({ hasImage }) => (hasImage ? "250px" : "0")};
     }
 `;
 
