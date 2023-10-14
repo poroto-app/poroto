@@ -167,7 +167,7 @@ const ImagePreviewContainer = styled.div<{ hasImage: boolean }>`
     height: ${({ hasImage }) => (hasImage ? "200px" : "0")};
     @media screen and (min-width: 700px) {
         align-self: center;
-        flex: 0.75;
+        flex: 1.25;
         width: 350px;
         min-height: 100%;
     }
