@@ -63,7 +63,14 @@ export const PlacePreview = ({
                     <PlaceIcon
                         category={categories.length > 0 ? categories[0] : null}
                     />
-                    <Text fontSize="1.15rem">{name}</Text>
+                    <Text
+                        fontSize="1.15rem"
+                        as="h2"
+                        fontWeight="bold"
+                        color="#222222"
+                    >
+                        {name}
+                    </Text>
                 </HStack>
                 {/* TODO: すべてのレビューの情報を表示する */}
                 {googlePlaceReviews &&
@@ -98,7 +105,7 @@ export const PlacePreview = ({
 };
 
 const Container = styled.div`
-border-radius: 20px;
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
