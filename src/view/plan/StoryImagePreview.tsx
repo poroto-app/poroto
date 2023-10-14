@@ -25,7 +25,6 @@ export function StoryImagePreview({
 
     const onClickNext = () => {
         if (!refSplide.current || !slideable) return;
-        console.log(refSplide.current.splide.index);
         refSplide.current.go(refSplide.current.splide.index + 1);
     };
 
