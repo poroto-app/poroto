@@ -49,33 +49,33 @@ export const PlacePreview = ({
     };
 
     return (
-        <VStack
-            alignItems="flex-start"
-            w="100%"
-            backgroundColor="#FBF2E7"
-            p="16px"
-            borderRadius="20px"
-        >
-            {images.length > 0 && (
-                <PlaceImagesPreview images={images} onClickImage={openModal} />
-            )}
-            <HStack>
-                <PlaceIcon
-                    category={categories.length > 0 ? categories[0] : null}
-                />
-                <Text fontSize="1.15rem">{name}</Text>
-            </HStack>
-            {/* TODO: すべてのレビューの情報を表示する */}
-            {googlePlaceReviews &&
-                googlePlaceReviews.length > 0 &&
-                googlePlaceReviews[0].text && (
-                    <PlaceReview
-                        authorName={googlePlaceReviews[0].authorName}
-                        authorUrl={googlePlaceReviews[0].authorUrl}
-                        text={googlePlaceReviews[0].text}
+        <Container>
+            <ImagePreviewContainer>
+                {images.length > 0 && (
+                    <PlaceImagesPreview
+                        images={images}
+                        onClickImage={openModal}
                     />
                 )}
-
+            </ImagePreviewContainer>
+            <VStack flex={1} alignItems="flex-start">
+                <HStack>
+                    <PlaceIcon
+                        category={categories.length > 0 ? categories[0] : null}
+                    />
+                    <Text fontSize="1.15rem">{name}</Text>
+                </HStack>
+                {/* TODO: すべてのレビューの情報を表示する */}
+                {googlePlaceReviews &&
+                    googlePlaceReviews.length > 0 &&
+                    googlePlaceReviews[0].text && (
+                        <PlaceReview
+                            authorName={googlePlaceReviews[0].authorName}
+                            authorUrl={googlePlaceReviews[0].authorUrl}
+                            text={googlePlaceReviews[0].text}
+                        />
+                    )}
+            </VStack>
             {/* 画像を拡大表示するためのモーダル */}
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
                 <ModalOverlay />
@@ -93,9 +93,25 @@ export const PlacePreview = ({
                     </ModalBody>
                 </ModalContent>
             </Modal>
-        </VStack>
+        </Container>
     );
 };
+
+const Container = styled.div`
+border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 16px;
+    gap: 16px;
+    background-color: #fbf2e7;
+
+    // pcレイアウトの場合は横並びにする
+    @media screen and (min-width: 700px) {
+        flex-direction: row-reverse;
+    }
+`;
 
 export const PlaceIcon = ({ category }: { category: PlaceCategory | null }) => {
     return <Icon w="24px" h="24px" as={getPlaceCategoryIcon(category)} />;
@@ -139,6 +155,18 @@ const ImageWithSkeleton = ({
     );
 };
 
+const ImagePreviewContainer = styled.div`
+    width: 100%;
+    height: 200px;
+    @media screen and (min-width: 700px) {
+        align-self: center;
+        flex: 0.75;
+        width: 350px;
+        height: 200px;
+        min-height: 100%;
+    }
+`;
+
 function PlaceImagesPreview({
     images,
     onClickImage,
@@ -169,7 +197,7 @@ function PlaceImagesPreview({
 
 const SlideContainer = styled(Splide)`
     width: 100%;
-    height: 200px;
+    height: 100%;
     border-radius: 10px;
     cursor: pointer;
 
