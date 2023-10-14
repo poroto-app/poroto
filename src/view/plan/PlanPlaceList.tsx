@@ -1,4 +1,4 @@
-import { Divider, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import { Plan } from "src/domain/models/Plan";
 import { PlacePreview } from "src/view/plan/PlacePreview";
 
@@ -9,7 +9,7 @@ type Props = {
 
 export function PlanPlaceList({ plan, createdBasedOnCurrentLocation }: Props) {
     return (
-        <VStack spacing={4} w="100%" divider={<Divider />}>
+        <VStack spacing={4} w="100%">
             {createdBasedOnCurrentLocation && (
                 <PlacePreview name="現在地" images={[]} categories={[]} />
             )}
