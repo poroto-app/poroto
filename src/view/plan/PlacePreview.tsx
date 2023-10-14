@@ -116,7 +116,6 @@ export const PlaceIcon = ({ category }: { category: PlaceCategory | null }) => {
         <Icon
             w="24px"
             h="24px"
-            color={Colors.primary["600"]}
             as={getPlaceCategoryIcon(category)}
         />
     );
