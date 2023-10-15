@@ -13,6 +13,18 @@ export type Scalars = {
   Float: number;
 };
 
+export type AddPlaceToPlanCandidateInput = {
+  placeId: Scalars['String'];
+  planCandidateId: Scalars['String'];
+  planId: Scalars['String'];
+};
+
+export type AddPlaceToPlanCandidateOutput = {
+  __typename?: 'AddPlaceToPlanCandidateOutput';
+  plan: Plan;
+  planCandidateId: Scalars['String'];
+};
+
 export type AvailablePlacesForPlan = {
   __typename?: 'AvailablePlacesForPlan';
   places: Array<Place>;
@@ -73,6 +85,30 @@ export type CreatePlanByPlaceOutput = {
   session: Scalars['String'];
 };
 
+export type DeletePlaceFromPlanCandidateInput = {
+  placeId: Scalars['String'];
+  planCandidateId: Scalars['String'];
+  planId: Scalars['String'];
+};
+
+export type DeletePlaceFromPlanCandidateOutput = {
+  __typename?: 'DeletePlaceFromPlanCandidateOutput';
+  plan: Plan;
+  planCandidateId: Scalars['String'];
+};
+
+export type EditPlanTitleOfPlanCandidateInput = {
+  planCandidateId: Scalars['String'];
+  planId: Scalars['String'];
+  title: Scalars['String'];
+};
+
+export type EditPlanTitleOfPlanCandidateOutput = {
+  __typename?: 'EditPlanTitleOfPlanCandidateOutput';
+  plan: Plan;
+  planCandidateId: Scalars['String'];
+};
+
 export type FirebaseUserInput = {
   firebaseAuthToken: Scalars['String'];
   firebaseUserId: Scalars['String'];
@@ -129,11 +165,20 @@ export type MatchInterestsInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addPlaceToPlanCandidate: AddPlaceToPlanCandidateOutput;
   changePlacesOrderInPlanCandidate: ChangePlacesOrderInPlanCandidateOutput;
   createPlanByLocation: CreatePlanByLocationOutput;
   createPlanByPlace: CreatePlanByPlaceOutput;
+  deletePlaceFromPlanCandidate: DeletePlaceFromPlanCandidateOutput;
+  editPlanTitleOfPlanCandidate: EditPlanTitleOfPlanCandidateOutput;
   ping: Scalars['String'];
+  replacePlaceOfPlanCandidate: ReplacePlaceOfPlanCandidateOutput;
   savePlanFromCandidate: SavePlanFromCandidateOutput;
+};
+
+
+export type MutationAddPlaceToPlanCandidateArgs = {
+  input: AddPlaceToPlanCandidateInput;
 };
 
 
@@ -152,8 +197,23 @@ export type MutationCreatePlanByPlaceArgs = {
 };
 
 
+export type MutationDeletePlaceFromPlanCandidateArgs = {
+  input: DeletePlaceFromPlanCandidateInput;
+};
+
+
+export type MutationEditPlanTitleOfPlanCandidateArgs = {
+  input: EditPlanTitleOfPlanCandidateInput;
+};
+
+
 export type MutationPingArgs = {
   message: Scalars['String'];
+};
+
+
+export type MutationReplacePlaceOfPlanCandidateArgs = {
+  input: ReplacePlaceOfPlanCandidateInput;
 };
 
 
@@ -171,13 +231,33 @@ export type Place = {
   images: Array<Image>;
   location: GeoLocation;
   name: Scalars['String'];
-  photos: Array<Scalars['String']>;
 };
 
 export type PlaceCategory = {
   __typename?: 'PlaceCategory';
   id: Scalars['String'];
   name: Scalars['String'];
+};
+
+export type PlacesToAddForPlanCandidateInput = {
+  planCandidateId: Scalars['ID'];
+  planId: Scalars['ID'];
+};
+
+export type PlacesToAddForPlanCandidateOutput = {
+  __typename?: 'PlacesToAddForPlanCandidateOutput';
+  places: Array<Place>;
+};
+
+export type PlacesToReplaceForPlanCandidateInput = {
+  placeId: Scalars['ID'];
+  planCandidateId: Scalars['ID'];
+  planId: Scalars['ID'];
+};
+
+export type PlacesToReplaceForPlanCandidateOutput = {
+  __typename?: 'PlacesToReplaceForPlanCandidateOutput';
+  places: Array<Place>;
 };
 
 export type Plan = {
@@ -220,6 +300,8 @@ export type Query = {
   cachedCreatedPlans: CachedCreatedPlans;
   firebaseUser: User;
   matchInterests: InterestCandidate;
+  placesToAddForPlanCandidate: PlacesToAddForPlanCandidateOutput;
+  placesToReplaceForPlanCandidate: PlacesToReplaceForPlanCandidateOutput;
   plan?: Maybe<Plan>;
   plans: Array<Plan>;
   plansByLocation: PlansByLocationOutput;
@@ -248,6 +330,16 @@ export type QueryMatchInterestsArgs = {
 };
 
 
+export type QueryPlacesToAddForPlanCandidateArgs = {
+  input: PlacesToAddForPlanCandidateInput;
+};
+
+
+export type QueryPlacesToReplaceForPlanCandidateArgs = {
+  input: PlacesToReplaceForPlanCandidateInput;
+};
+
+
 export type QueryPlanArgs = {
   id: Scalars['String'];
 };
@@ -265,6 +357,19 @@ export type QueryPlansByLocationArgs = {
 
 export type QueryPlansByUserArgs = {
   input: PlansByUserInput;
+};
+
+export type ReplacePlaceOfPlanCandidateInput = {
+  placeIdToRemove: Scalars['String'];
+  placeIdToReplace: Scalars['String'];
+  planCandidateId: Scalars['String'];
+  planId: Scalars['String'];
+};
+
+export type ReplacePlaceOfPlanCandidateOutput = {
+  __typename?: 'ReplacePlaceOfPlanCandidateOutput';
+  plan: Plan;
+  planCandidateId: Scalars['String'];
 };
 
 export type SavePlanFromCandidateInput = {
