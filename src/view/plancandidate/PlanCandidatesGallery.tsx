@@ -92,7 +92,7 @@ function PlanCandidateCard({
                     px="16px"
                     pb="16px"
                     pt="32px"
-                    background="linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.10) 23.96%, rgba(0, 0, 0, 0.20) 100%)"
+                    background="linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.30) 30%, rgba(0, 0, 0, 0.50) 100%)"
                 >
                     <VStack w="100%" alignItems="flex-start">
                         <HStack>
