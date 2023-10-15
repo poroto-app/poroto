@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, useEffect } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 import styled from "styled-components";
 
@@ -43,6 +43,38 @@ export function FullscreenDialog({
     padding,
     children,
 }: Props) {
+    // スクロールしたときに画面が動かないようにする
+    const fixScroll = () => {
+        document.body.style.overflow = "hidden";
+        document.body.style.position = "fixed";
+        document.body.style.inset = "0";
+    };
+
+    const resetFixScroll = () => {
+        document.body.style.overflow = "initial";
+        document.body.style.position = "initial";
+        document.body.style.inset = "initial";
+    };
+
+    useEffect(() => {
+        resetFixScroll();
+        return () => {
+            resetFixScroll();
+        };
+    }, []);
+
+    useEffect(() => {
+        if (visible) {
+            fixScroll();
+        } else {
+            resetFixScroll();
+        }
+
+        return () => {
+            resetFixScroll();
+        };
+    }, [visible]);
+
     return (
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
