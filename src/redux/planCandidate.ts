@@ -291,6 +291,19 @@ export const slice = createSlice({
             );
         },
 
+        updatePlanOfPlanCandidate: (
+            state,
+            { payload }: PayloadAction<{ plan: Plan }>
+        ) => {
+            if (!state.plansCreated) return;
+            const planIndexToUpdate = state.plansCreated.findIndex(
+                (plan) => plan.id === payload.plan.id
+            );
+            if (planIndexToUpdate < 0) return;
+
+            state.plansCreated[planIndexToUpdate] = payload.plan;
+        },
+
         pushAcceptedCategory: (
             state,
             { payload }: PayloadAction<{ category: LocationCategory }>
@@ -504,6 +517,7 @@ export const {
     fetchPlanDetail,
 
     setCreatedPlans,
+    updatePlanOfPlanCandidate,
 
     pushAcceptedCategory,
     pushRejectedCategory,
