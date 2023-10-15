@@ -23,6 +23,7 @@ import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
+import { usePlanEdit } from "src/view/hooks/usePlanEdit";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlanEditorDialog } from "src/view/plan/edit/PlanEditorDialog";
 import { PlaceMap } from "src/view/plan/PlaceMap";
@@ -35,12 +36,26 @@ import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
+import { DialogRelatedPlaces } from "src/view/plancandidate/DialogRelatedPlaces";
 
 const PlanDetail = () => {
     const router = useRouter();
     const { sessionId, planId } = router.query;
     const dispatch = useAppDispatch();
     const { getCurrentLocation, location: currentLocation } = useLocation();
+
+    const {
+        showRelatedPlaces,
+        resetReplacePlaceState,
+        replacePlace,
+        placeIdToReplace,
+        placesToReplace,
+        isReplacingPlace,
+        isDialogRelatedPlacesVisible,
+    } = usePlanEdit({
+        planCandidateId: sessionId as string,
+        planId: planId as string,
+    });
 
     const [isEditingPlan, setIsEditingPlan] = useState(false);
     const {
@@ -149,6 +164,9 @@ const PlanDetail = () => {
                             createdBasedOnCurrentLocation={
                                 createdBasedOnCurrentLocation
                             }
+                            onClickShowRelatedPlaces={(placeId) =>
+                                showRelatedPlaces(placeId)
+                            }
                         />
                     </Box>
                     <AdInArticle
@@ -200,6 +218,22 @@ const PlanDetail = () => {
                     />
                 )
             }
+            <DialogRelatedPlaces
+                visible={isDialogRelatedPlacesVisible}
+                placeNameToBeReplaced={
+                    plan.places.find((p) => p.id === placeIdToReplace)?.name
+                }
+                places={placesToReplace}
+                replacing={isReplacingPlace}
+                onClickRelatedPlace={(placeId) =>
+                    placeIdToReplace &&
+                    replacePlace({
+                        placeIdToReplace: placeIdToReplace,
+                        placeIdToAdd: placeId,
+                    })
+                }
+                onClose={() => resetReplacePlaceState()}
+            />
         </>
     );
 };
