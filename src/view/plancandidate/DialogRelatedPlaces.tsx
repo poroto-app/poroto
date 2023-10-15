@@ -5,6 +5,7 @@ import {
     AccordionItem,
     AccordionPanel,
     Box,
+    Button,
     Center,
     HStack,
     Icon,
@@ -13,9 +14,14 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { MdClose } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
-import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
+import {
+    getImageSizeOf,
+    Image as ImageType,
+    ImageSizes,
+} from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
@@ -24,19 +30,37 @@ import { PlaceReview } from "src/view/plan/PlaceReview";
 
 type Props = {
     visible: boolean;
-    title: string;
+    placeNameToBeReplaced: string;
     places: Place[] | null;
+    replacing: boolean;
     onClose: () => void;
     onClickRelatedPlace: (placeId: string) => void;
 };
 
 export function DialogRelatedPlaces({
     visible,
-    title,
+    placeNameToBeReplaced,
     places,
+    replacing,
     onClose,
     onClickRelatedPlace,
 }: Props) {
+    const [selectedPlaceToReplace, setSelectedPlaceToReplace] =
+        useState<Place | null>();
+
+    const handleOnSelectPlaceToReplace = (placeId: string) => {
+        setSelectedPlaceToReplace(places.find((p) => p.id === placeId) || null);
+    };
+
+    const handleOnReplacePlace = () => {
+        onClickRelatedPlace(selectedPlaceToReplace.id);
+        setSelectedPlaceToReplace(null);
+    };
+
+    const handleOnCancelReplacePlace = () => {
+        setSelectedPlaceToReplace(null);
+    };
+
     return (
         <FullscreenDialog
             position="bottom"
@@ -47,30 +71,71 @@ export function DialogRelatedPlaces({
             <Center
                 backgroundColor="white"
                 w="100%"
-                h="600px"
-                maxH="100%"
+                h="900px"
+                maxH="80vh"
                 borderTopRadius="20px"
+                overflowY="scroll"
+                sx={{
+                    "::-webkit-scrollbar": {
+                        display: "none",
+                    },
+                }}
             >
-                {places == null ? (
-                    <Spinner
-                        thickness="4px"
-                        speed="0.65s"
-                        emptyColor="gray.200"
-                        color="#84A6FF"
-                        size="xl"
+                {replacing ? (
+                    <LoadingScreen />
+                ) : selectedPlaceToReplace == null ? (
+                    <SelectPlaceToReplaceScreen
+                        name={placeNameToBeReplaced}
+                        places={places}
+                        onClickReplace={handleOnSelectPlaceToReplace}
+                        onClose={onClose}
                     />
                 ) : (
-                    <PlaceList
-                        title={title}
-                        places={places}
-                        onClickRelatedPlace={(placeId) =>
-                            onClickRelatedPlace(placeId)
-                        }
-                        onClose={onClose}
+                    <ConfirmReplaceScreen
+                        placeNameToBeReplaced={placeNameToBeReplaced}
+                        placeNameToReplace={selectedPlaceToReplace.name}
+                        image={selectedPlaceToReplace.images[0]}
+                        onClickReplace={handleOnReplacePlace}
+                        onCancel={handleOnCancelReplacePlace}
                     />
                 )}
             </Center>
         </FullscreenDialog>
+    );
+}
+
+function LoadingScreen() {
+    return (
+        <Spinner
+            thickness="4px"
+            speed="0.65s"
+            emptyColor="gray.200"
+            color="#84A6FF"
+            size="xl"
+        />
+    );
+}
+
+function SelectPlaceToReplaceScreen({
+    name,
+    places,
+    onClickReplace,
+    onClose,
+}: {
+    name: string;
+    places: Place[] | null;
+    onClickReplace: (placeId: string) => void;
+    onClose: () => void;
+}) {
+    if (places == null) return <LoadingScreen />;
+
+    return (
+        <PlaceList
+            title={`「${name}」に関連する場所`}
+            places={places}
+            onClickRelatedPlace={onClickReplace}
+            onClose={onClose}
+        />
     );
 }
 
@@ -92,12 +157,6 @@ function PlaceList({
             py="32px"
             px="16px"
             maxW="500px"
-            overflowY="scroll"
-            sx={{
-                "::-webkit-scrollbar": {
-                    display: "none",
-                },
-            }}
             spacing="16px"
         >
             <HStack w="100%">
@@ -113,31 +172,23 @@ function PlaceList({
                     <Icon width="24px" height="24px" as={MdClose} />
                 </Box>
             </HStack>
-            <Accordion w="100%" allowToggle borderColor="transparent">
+            <Accordion w="100%" allowToggle borderColor="transparent" pb="32px">
                 <VStack w="100%">
-                    {/*TODO: 画像がない場合の対応*/}
-                    {places.map((place, i) => (
-                        <PlaceListItem
-                            key={i}
-                            name={place.name}
-                            image={
-                                place.images &&
-                                getImageSizeOf(
-                                    ImageSizes.Small,
-                                    place.images[0]
-                                )
-                            }
-                            category={
-                                place.categories.length > 0
-                                    ? place.categories[0]
-                                    : null
-                            }
-                            reviews={place.googlePlaceReviews}
-                            onClickReplacePlace={() =>
-                                onClickRelatedPlace(place.id)
-                            }
-                        />
-                    ))}
+                    {places
+                        .filter((p) => p.images.length > 0)
+                        .filter((p) => p.categories.length > 0)
+                        .map((place, i) => (
+                            <PlaceListItem
+                                key={i}
+                                name={place.name}
+                                images={place.images}
+                                categories={place.categories}
+                                reviews={place.googlePlaceReviews}
+                                onClickReplacePlace={() =>
+                                    onClickRelatedPlace(place.id)
+                                }
+                            />
+                        ))}
                 </VStack>
             </Accordion>
         </VStack>
@@ -146,14 +197,14 @@ function PlaceList({
 
 export function PlaceListItem({
     name,
-    category,
-    image,
+    categories,
+    images,
     reviews,
     onClickReplacePlace,
 }: {
     name: string;
-    category: PlaceCategory | null;
-    image: string;
+    categories: PlaceCategory[];
+    images: ImageType[];
     reviews: GooglePlaceReview[] | null;
     onClickReplacePlace: () => void;
 }) {
@@ -166,14 +217,24 @@ export function PlaceListItem({
         >
             <HStack w="100%">
                 <Box w="80px" h="80px" overflow="hidden" borderRadius="5px">
-                    <Image w="100%" h="100%" objectFit="cover" src={image} />
+                    <Image
+                        w="100%"
+                        h="100%"
+                        objectFit="cover"
+                        src={
+                            images.length > 0 &&
+                            getImageSizeOf(ImageSizes.Small, images[0])
+                        }
+                    />
                 </Box>
                 <VStack alignItems="flex-start" flex={1}>
                     <HStack>
                         <Icon
                             w="24px"
                             h="24px"
-                            as={getPlaceCategoryIcon(category)}
+                            as={getPlaceCategoryIcon(
+                                categories.length > 0 ? categories[0] : null
+                            )}
                         />
                         <Text>{name}</Text>
                     </HStack>
@@ -206,5 +267,54 @@ export function PlaceListItem({
                 </VStack>
             </AccordionPanel>
         </AccordionItem>
+    );
+}
+
+export function ConfirmReplaceScreen({
+    placeNameToBeReplaced,
+    placeNameToReplace,
+    image,
+    onClickReplace,
+    onCancel,
+}: {
+    placeNameToBeReplaced: string;
+    placeNameToReplace: string;
+    image: ImageType;
+    onClickReplace: () => void;
+    onCancel: () => void;
+}) {
+    return (
+        <VStack w="100%" h="100%" px="16px" py="16px">
+            <Center flex={1} w="100%">
+                <VStack spacing="16px">
+                    <Box
+                        w="200px"
+                        h="200px"
+                        borderRadius="20px"
+                        overflow="hidden"
+                    >
+                        <Image
+                            w="100%"
+                            h="100%"
+                            objectFit="cover"
+                            src={getImageSizeOf(ImageSizes.Small, image)}
+                        />
+                    </Box>
+
+                    <Text fontSize="18px">
+                        「<b>{placeNameToBeReplaced}</b>」 を 「
+                        <b>{placeNameToReplace}</b>」 と入れ替えますか？
+                    </Text>
+                </VStack>
+            </Center>
+            <HStack mt="auto" pb="48px">
+                <Button onClick={onCancel} colorScheme="red" variant="outline">
+                    キャンセル
+                </Button>
+                <Button onClick={onClickReplace} colorScheme="blue">
+                    入れ替える
+                </Button>
+            </HStack>
+        </VStack>
     );
 }
