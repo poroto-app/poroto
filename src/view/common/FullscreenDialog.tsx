@@ -45,15 +45,15 @@ export function FullscreenDialog({
 }: Props) {
     // スクロールしたときに画面が動かないようにする
     const fixScroll = () => {
+        document.body.style.top = `-${window.scrollY}px`;
         document.body.style.overflow = "hidden";
         document.body.style.position = "fixed";
-        document.body.style.inset = "0";
     };
 
     const resetFixScroll = () => {
-        document.body.style.overflow = "initial";
-        document.body.style.position = "initial";
-        document.body.style.inset = "initial";
+        document.body.style.overflow = "";
+        document.body.style.position = "";
+        document.body.style.inset = "";
     };
 
     useEffect(() => {
