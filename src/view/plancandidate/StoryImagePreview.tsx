@@ -114,6 +114,8 @@ const SlideContainer = styled(Splide)`
     & > .splide__pagination {
         top: 0.5em;
         bottom: initial !important;
+        // :not(is-overflow) となっても表示されるようにする
+        display: flex !important;
     }
 
     & > .splide__pagination > li {
