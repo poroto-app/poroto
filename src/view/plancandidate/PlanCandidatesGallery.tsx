@@ -31,6 +31,7 @@ export function PlanCandidatesGallery({ planCandidates }: Props) {
                     pagination: false,
                     rewind: false,
                     focus: "center",
+                    trimSpace: false, // 表示される対象が中央に来るようにする
                     start: defaultActiveIndex,
                     width: "100%",
                     height: "100%",
