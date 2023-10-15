@@ -46,22 +46,24 @@ export function FullscreenDialog({
     // スクロールしたときに画面が動かないようにする
     const fixScroll = () => {
         document.body.style.top = `-${window.scrollY}px`;
+        document.body.style.right = "0";
+        document.body.style.left = "0";
+        document.body.style.bottom = "0";
         document.body.style.overflow = "hidden";
         document.body.style.position = "fixed";
     };
 
     const resetFixScroll = () => {
+        const scrollY = parseInt(document.body.style.top || "0");
         document.body.style.overflow = "";
         document.body.style.position = "";
-        document.body.style.inset = "";
+        document.body.style.top = "";
+        document.body.style.right = "";
+        document.body.style.left = "";
+        document.body.style.bottom = "";
+        // MEMO: これをやらないと、スクロール位置が元に戻らない
+        window.scrollTo(0,scrollY * -1);
     };
-
-    useEffect(() => {
-        resetFixScroll();
-        return () => {
-            resetFixScroll();
-        };
-    }, []);
 
     useEffect(() => {
         if (visible) {
@@ -69,10 +71,6 @@ export function FullscreenDialog({
         } else {
             resetFixScroll();
         }
-
-        return () => {
-            resetFixScroll();
-        };
     }, [visible]);
 
     return (
