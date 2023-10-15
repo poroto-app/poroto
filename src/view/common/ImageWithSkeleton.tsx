@@ -9,7 +9,13 @@ type Props = {
 export function ImageWithSkeleton({ src, onClick }: Props) {
     const [isLoading, setIsLoading] = useState(true);
     return (
-        <Box w="100%" h="100%" onClick={onClick} style={{ cursor: "pointer" }} position="relative">
+        <Box
+            w="100%"
+            h="100%"
+            onClick={onClick}
+            style={{ cursor: "pointer" }}
+            position="relative"
+        >
             <Skeleton
                 position="absolute"
                 top={0}

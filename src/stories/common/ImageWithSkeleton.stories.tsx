@@ -1,6 +1,6 @@
+import { Box } from "@chakra-ui/react";
 import { Meta, StoryObj } from "@storybook/react";
-import {ImageWithSkeleton} from "src/view/common/ImageWithSkeleton";
-import {Box} from "@chakra-ui/react";
+import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 
 export default {
     title: "common/ImageWithSkeleton",
@@ -15,16 +15,20 @@ export const Primary: Story = {
     args: {
         src: "https://placehold.jp/150x150.png",
     },
-    render: (args) => <Box w="300px" h="100px">
-        <ImageWithSkeleton {...args} />
-    </Box>
+    render: (args) => (
+        <Box w="300px" h="100px">
+            <ImageWithSkeleton {...args} />
+        </Box>
+    ),
 };
 
 export const Loading: Story = {
     args: {
         src: "https://dammy.example.com/150x150.png",
     },
-    render: (args) => <Box w="300px" h="100px">
-        <ImageWithSkeleton {...args} />
-    </Box>
-}
+    render: (args) => (
+        <Box w="300px" h="100px">
+            <ImageWithSkeleton {...args} />
+        </Box>
+    ),
+};

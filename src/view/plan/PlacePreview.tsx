@@ -19,11 +19,11 @@ import {
     ImageSizes,
 } from "src/domain/models/Image";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
+import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { Colors } from "src/view/constants/color";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { PlaceReview } from "src/view/plan/PlaceReview";
 import styled from "styled-components";
-import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 
 type Props = {
     name: string;
