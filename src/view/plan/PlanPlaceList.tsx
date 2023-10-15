@@ -5,9 +5,14 @@ import { PlacePreview } from "src/view/plan/PlacePreview";
 type Props = {
     plan: Plan;
     createdBasedOnCurrentLocation?: boolean;
+    onClickShowRelatedPlaces?: (placeId: string) => void;
 };
 
-export function PlanPlaceList({ plan, createdBasedOnCurrentLocation }: Props) {
+export function PlanPlaceList({
+    plan,
+    createdBasedOnCurrentLocation,
+    onClickShowRelatedPlaces,
+}: Props) {
     return (
         <VStack spacing={4} w="100%">
             {createdBasedOnCurrentLocation && (
@@ -20,6 +25,11 @@ export function PlanPlaceList({ plan, createdBasedOnCurrentLocation }: Props) {
                     images={place.images}
                     googlePlaceReviews={place.googlePlaceReviews}
                     categories={place.categories}
+                    onClickShowRelatedPlaces={
+                        onClickShowRelatedPlaces
+                            ? () => onClickShowRelatedPlaces(place.id)
+                            : undefined
+                    }
                 />
             ))}
         </VStack>
