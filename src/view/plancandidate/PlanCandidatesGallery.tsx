@@ -9,15 +9,16 @@ import { styled } from "styled-components";
 
 export type Props = {
     planCandidates: Plan[];
+    defaultActivePlanIndex?: number;
     onActiveIndexChange?: (index: number) => void;
 };
 
 export function PlanCandidatesGallery({
     planCandidates,
+    defaultActivePlanIndex = 0,
     onActiveIndexChange,
 }: Props) {
-    const defaultActiveIndex = Math.floor(planCandidates.length / 2);
-    const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
+    const [activeIndex, setActiveIndex] = useState(defaultActivePlanIndex);
     const refSplide = useRef<Splide | null>(null);
 
     const onClickCard = (i: number) => {
@@ -40,7 +41,7 @@ export function PlanCandidatesGallery({
                     rewind: false,
                     focus: "center",
                     trimSpace: false, // 表示される対象が中央に来るようにする
-                    start: defaultActiveIndex,
+                    start: defaultActivePlanIndex,
                     width: "100%",
                     height: "100%",
                     autoWidth: true,
