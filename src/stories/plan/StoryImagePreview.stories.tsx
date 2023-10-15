@@ -32,7 +32,25 @@ export const NoImage: Story = {
             <StoryImagePreview {...args} />
         </Box>
     ),
-}
+};
+
+export const Loading: Story = {
+    args: {
+        images: [
+            "https://dammy.example.com/150x150.png",
+            "https://dammy.example.com/150x150.png",
+        ].map((src) => ({
+            default: src,
+            small: src,
+            large: src,
+        })),
+    },
+    render: (args) => (
+        <Box w="300px" h="400px">
+            <StoryImagePreview {...args} />
+        </Box>
+    ),
+};
 
 export const DisableTapControl: Story = {
     args: {
@@ -44,7 +62,7 @@ export const DisableTapControl: Story = {
             <StoryImagePreview {...args} />
         </Box>
     ),
-}
+};
 
 export const DisableSlide: Story = {
     args: {
@@ -56,4 +74,4 @@ export const DisableSlide: Story = {
             <StoryImagePreview {...args} />
         </Box>
     ),
-}
+};

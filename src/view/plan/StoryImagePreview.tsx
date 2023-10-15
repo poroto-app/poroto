@@ -1,4 +1,4 @@
-import { Box, HStack, Image } from "@chakra-ui/react";
+import { Box, HStack } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { useRef } from "react";
@@ -8,6 +8,7 @@ import {
     ImageSize,
     ImageSizes,
 } from "src/domain/models/Image";
+import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { styled } from "styled-components";
 
 export function StoryImagePreview({
@@ -50,14 +51,9 @@ export function StoryImagePreview({
             >
                 {images.map((image, i) => (
                     <SplideSlide key={i}>
-                        <Box w="100%" h="100%">
-                            <Image
-                                src={getImageSizeOf(imageSize, image)}
-                                w="100%"
-                                h="100%"
-                                objectFit="cover"
-                            />
-                        </Box>
+                        <ImageWithSkeleton
+                            src={getImageSizeOf(imageSize, image)}
+                        />
                     </SplideSlide>
                 ))}
             </SlideContainer>
