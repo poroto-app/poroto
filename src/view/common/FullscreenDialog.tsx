@@ -62,7 +62,7 @@ export function FullscreenDialog({
         document.body.style.left = "";
         document.body.style.bottom = "";
         // MEMO: これをやらないと、スクロール位置が元に戻らない
-        window.scrollTo(0,scrollY * -1);
+        window.scrollTo(0, scrollY * -1);
     };
 
     useEffect(() => {
