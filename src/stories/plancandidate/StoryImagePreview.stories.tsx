@@ -1,10 +1,10 @@
 import { Box } from "@chakra-ui/react";
 import { Meta, StoryObj } from "@storybook/react";
 import { mockPlaces } from "src/stories/mock/place";
-import { StoryImagePreview } from "src/view/plan/StoryImagePreview";
+import { StoryImagePreview } from "src/view/plancandidate/StoryImagePreview";
 
 export default {
-    title: "plan/StoryImagePreview",
+    title: "plan_candidate/StoryImagePreview",
     component: StoryImagePreview,
     tags: ["autodocs"],
     parameters: {},

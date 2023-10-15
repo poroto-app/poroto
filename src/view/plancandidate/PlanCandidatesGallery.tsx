@@ -3,7 +3,7 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { useRef, useState } from "react";
 import { Plan } from "src/domain/models/Plan";
-import { StoryImagePreview } from "src/view/plan/StoryImagePreview";
+import { StoryImagePreview } from "src/view/plancandidate/StoryImagePreview";
 import { styled } from "styled-components";
 
 export type Props = {
