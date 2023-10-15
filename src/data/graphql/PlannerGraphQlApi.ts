@@ -1,26 +1,35 @@
 import {
+    AddPlaceToPlanCandidateDocument,
     CachedCreatedPlansDocument,
     ChangePlacesOrderInPlanCandidateDocument,
     CreatePlanByLocationDocument,
     CreatePlanByPlaceDocument,
+    DeletePlaceFromPlanCandidateDocument,
+    EditPlanTitleOfPlanCandidateDocument,
     FetchAvailablePlacesForPlanCandidateDocument,
     FetchPlanByIdDocument,
     FetchPlanByIdQuery,
     FetchPlansDocument,
     MatchInterestsDocument,
+    PlacesToAddForPlanOfPlanCandidateDocument,
     PlansByLocationDocument,
     PlansByUserDocument,
+    ReplacePlaceOfPlanCandidateDocument,
     SavePlanFromCandidateDocument,
 } from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
 import {
+    AddPlaceToPlanOfPlanCandidateRequest,
     CreatePlanFromLocationRequest,
     CreatePlanFromLocationResponse,
     CreatePlanFromPlaceRequest,
     CreatePlanFromPlaceResponse,
+    DeletePlaceFromPlanOfPlanCandidateRequest,
+    EditPlanTitleOfPlanCandidateRequest,
     FetchAvailablePlacesForPlanRequest,
     FetchCachedCreatedPlansRequest,
     FetchCachedCreatedPlansResponse,
+    FetchPlacesToAddForPlanOfPlanCandidateRequest,
     FetchPlanRequest,
     FetchPlanResponse,
     FetchPlansByLocationRequest,
@@ -32,6 +41,7 @@ import {
     PlaceEntity,
     PlanEntity,
     PlannerApi,
+    ReplacePlaceInPlanOfPlanCandidateRequest,
     SavePlanFromCandidateRequest,
     SavePlanFromCandidateResponse,
     UpdatePlanCandidatePlacesOrderRequest,
@@ -174,6 +184,119 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             plans: data.cachedCreatedPlans.plans.map((plan) =>
                 fromGraphqlPlanEntity(plan)
             ),
+        };
+    }
+
+    async fetchPlacesToAddForPlanOfPlanCandidate(
+        request: FetchPlacesToAddForPlanOfPlanCandidateRequest
+    ) {
+        const { data } = await this.client.query({
+            query: PlacesToAddForPlanOfPlanCandidateDocument,
+            variables: {
+                input: {
+                    planCandidateId: request.planCandidateId,
+                    planId: request.planId,
+                },
+            },
+        });
+        return {
+            places: data.placesToAddForPlanCandidate.places.map((place) =>
+                fromGraphqlPlaceEntity(place)
+            ),
+        };
+    }
+
+    async fetchPlacesToReplaceForPlanOfPlanCandidate(
+        request: FetchPlacesToAddForPlanOfPlanCandidateRequest
+    ) {
+        const { data } = await this.client.query({
+            query: PlacesToAddForPlanOfPlanCandidateDocument,
+            variables: {
+                input: {
+                    planCandidateId: request.planCandidateId,
+                    planId: request.planId,
+                },
+            },
+        });
+        return {
+            places: data.placesToAddForPlanCandidate.places.map((place) =>
+                fromGraphqlPlaceEntity(place)
+            ),
+        };
+    }
+
+    async addPlaceToPlanOfPlanCandidate(
+        request: AddPlaceToPlanOfPlanCandidateRequest
+    ) {
+        const { data } = await this.client.mutate({
+            mutation: AddPlaceToPlanCandidateDocument,
+            variables: {
+                input: {
+                    planCandidateId: request.planCandidateId,
+                    planId: request.planId,
+                    placeId: request.placeId,
+                },
+            },
+        });
+        return {
+            plan: fromGraphqlPlanEntity(data.addPlaceToPlanCandidate.plan),
+        };
+    }
+
+    async deletePlaceFromPlanOfPlanCandidate(
+        request: DeletePlaceFromPlanOfPlanCandidateRequest
+    ) {
+        const { data } = await this.client.mutate({
+            mutation: DeletePlaceFromPlanCandidateDocument,
+            variables: {
+                input: {
+                    planCandidateId: request.planCandidateId,
+                    planId: request.planId,
+                    placeId: request.placeId,
+                },
+            },
+        });
+        return {
+            plan: fromGraphqlPlanEntity(data.deletePlaceFromPlanCandidate.plan),
+        };
+    }
+
+    async replacePlaceInPlanOfPlanCandidate(
+        request: ReplacePlaceInPlanOfPlanCandidateRequest
+    ) {
+        const { data } = await this.client.mutate({
+            mutation: ReplacePlaceOfPlanCandidateDocument,
+            variables: {
+                input: {
+                    planCandidateId: request.planCandidateId,
+                    planId: request.planId,
+                    placeIdToRemove: request.placeIdToReplace,
+                    placeIdToReplace: request.placeIdToAdd,
+                },
+            },
+        });
+
+        return {
+            plan: fromGraphqlPlanEntity(data.replacePlaceOfPlanCandidate.plan),
+        };
+    }
+
+    async editPlanTitleOfPlanCandidate(
+        request: EditPlanTitleOfPlanCandidateRequest
+    ) {
+        const { data } = await this.client.mutate({
+            mutation: EditPlanTitleOfPlanCandidateDocument,
+            variables: {
+                input: {
+                    planCandidateId: request.planCandidateId,
+                    planId: request.planId,
+                    title: request.title,
+                },
+            },
+        });
+
+        return {
+            plan: fromGraphqlPlanEntity(data.editPlanTitleOfPlanCandidate.plan),
         };
     }
 
