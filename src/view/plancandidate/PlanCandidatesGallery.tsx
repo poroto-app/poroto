@@ -1,7 +1,7 @@
 import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Plan } from "src/domain/models/Plan";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { StoryImagePreview } from "src/view/plancandidate/StoryImagePreview";
@@ -9,9 +9,13 @@ import { styled } from "styled-components";
 
 export type Props = {
     planCandidates: Plan[];
+    onActiveIndexChange?: (index: number) => void;
 };
 
-export function PlanCandidatesGallery({ planCandidates }: Props) {
+export function PlanCandidatesGallery({
+    planCandidates,
+    onActiveIndexChange,
+}: Props) {
     const defaultActiveIndex = Math.floor(planCandidates.length / 2);
     const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
     const refSplide = useRef<Splide | null>(null);
@@ -19,6 +23,10 @@ export function PlanCandidatesGallery({ planCandidates }: Props) {
     const onClickCard = (i: number) => {
         refSplide.current?.go(i);
     };
+
+    useEffect(() => {
+        onActiveIndexChange?.(activeIndex);
+    }, [activeIndex]);
 
     return (
         <Center w="100%" h="100%">
