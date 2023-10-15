@@ -14,7 +14,7 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
@@ -24,6 +24,7 @@ import {
 } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
+import { copyObject } from "src/domain/util/object";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { PlaceReview } from "src/view/plan/PlaceReview";
@@ -60,6 +61,10 @@ export function DialogRelatedPlaces({
     const handleOnCancelReplacePlace = () => {
         setSelectedPlaceToReplace(null);
     };
+
+    useEffect(() => {
+        if (places === null) setSelectedPlaceToReplace(null);
+    }, [copyObject(places)]);
 
     return (
         <FullscreenDialog
