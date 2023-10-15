@@ -1,7 +1,7 @@
 import { Box, HStack } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import {
     getImageSizeOf,
     Image as ImageType,
@@ -11,18 +11,36 @@ import {
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { styled } from "styled-components";
 
+type Props = {
+    images: ImageType[];
+    imageSize?: ImageSize;
+    tapControl?: boolean;
+    slideable?: boolean;
+    onActiveIndexChange?: (index: number) => void;
+};
+
 export function StoryImagePreview({
     images,
     imageSize = ImageSizes.Large,
     tapControl = true,
     slideable = true,
-}: {
-    images: ImageType[];
-    imageSize?: ImageSize;
-    tapControl?: boolean;
-    slideable?: boolean;
-}) {
+    onActiveIndexChange,
+}: Props) {
     const refSplide = useRef<Splide | null>(null);
+
+    useEffect(() => {
+        if (!refSplide.current || !onActiveIndexChange) return;
+
+        const onUpdateIndex = (index: number, prev: number, dest: number) => {
+            onActiveIndexChange(index);
+        };
+
+        const splide = refSplide.current.splide.on("move", onUpdateIndex);
+
+        return () => {
+            splide.off("move");
+        };
+    }, [refSplide.current, onActiveIndexChange]);
 
     const onClickNext = () => {
         if (!refSplide.current || !slideable) return;

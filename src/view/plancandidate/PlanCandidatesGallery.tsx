@@ -1,8 +1,9 @@
-import { Box, Center, Text } from "@chakra-ui/react";
+import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { useRef, useState } from "react";
 import { Plan } from "src/domain/models/Plan";
+import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { StoryImagePreview } from "src/view/plancandidate/StoryImagePreview";
 import { styled } from "styled-components";
 
@@ -58,6 +59,7 @@ function PlanCandidateCard({
     plan: Plan;
     isActive: boolean;
 }) {
+    const [currentPlaceIndex, setCurrentPlaceIndex] = useState<number>(0);
     const images = plan.places
         .map((place) => (place.images.length > 0 ? place.images[0] : null))
         .filter((image) => image !== null);
@@ -76,7 +78,11 @@ function PlanCandidateCard({
                     isActive ? "0px 0px 60px 0px rgba(0, 0, 0, 0.25)" : "none"
                 }
             >
-                <StoryImagePreview images={images} slideable={isActive} />
+                <StoryImagePreview
+                    images={images}
+                    slideable={isActive}
+                    onActiveIndexChange={setCurrentPlaceIndex}
+                />
                 <Box
                     position="absolute"
                     left={0}
@@ -87,14 +93,33 @@ function PlanCandidateCard({
                     pt="32px"
                     background="linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.10) 23.96%, rgba(0, 0, 0, 0.20) 100%)"
                 >
-                    <Text
-                        color="white"
-                        fontWeight="bold"
-                        fontSize="16px"
-                        as="h2"
-                    >
-                        {plan.title}
-                    </Text>
+                    <VStack w="100%" alignItems="flex-start">
+                        <HStack>
+                            <Icon
+                                w="24px"
+                                h="24px"
+                                color="white"
+                                as={getPlaceCategoryIcon(
+                                    plan.places[currentPlaceIndex].categories
+                                        .length > 0
+                                        ? plan.places[currentPlaceIndex]
+                                              .categories[0]
+                                        : null
+                                )}
+                            />
+                            <Text color="white">
+                                {plan.places[currentPlaceIndex].name}
+                            </Text>
+                        </HStack>
+                        <Text
+                            color="white"
+                            fontWeight="bold"
+                            fontSize="18px"
+                            as="h2"
+                        >
+                            {plan.title}
+                        </Text>
+                    </VStack>
                 </Box>
             </Box>
         </Center>
