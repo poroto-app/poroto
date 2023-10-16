@@ -50,7 +50,12 @@ export const PlacePreview = ({
     };
 
     return (
-        <Container hasImages={images.length > 0}>
+        <Container
+            hasImages={images.length > 0}
+            backgroundColor="#fbf2e7"
+            borderRadius="20px"
+            w="100%"
+        >
             <ImagePreviewContainer hasImage={images.length > 0}>
                 {images.length > 0 && (
                     <PlaceImagesPreview
@@ -59,7 +64,7 @@ export const PlacePreview = ({
                     />
                 )}
             </ImagePreviewContainer>
-            <VStack flex={1} alignItems="flex-start">
+            <VStack flex={1} alignItems="flex-start" p="16px">
                 <HStack>
                     <PlaceIcon
                         category={categories.length > 0 ? categories[0] : null}
@@ -105,15 +110,10 @@ export const PlacePreview = ({
     );
 };
 
-const Container = styled.div<{ hasImages: boolean }>`
-    border-radius: 20px;
+const Container = styled(Box)`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    width: 100%;
-    padding: 16px;
-    gap: ${({ hasImages }) => (hasImages ? "16px" : "0")};
-    background-color: #fbf2e7;
 
     // pcレイアウトの場合は横並びにする
     @media screen and (min-width: 700px) {
@@ -166,11 +166,13 @@ const ImageWithSkeleton = ({
 const ImagePreviewContainer = styled.div<{ hasImage: boolean }>`
     width: 100%;
     height: ${({ hasImage }) => (hasImage ? "200px" : "0")};
+
     @media screen and (min-width: 700px) {
         align-self: center;
         flex: 0.75;
         width: 350px;
         height: ${({ hasImage }) => (hasImage ? "250px" : "0")};
+        padding: 16px;
     }
 `;
 
@@ -210,6 +212,31 @@ const SlideContainer = styled(Splide)`
 
     & > .splide__track {
         height: 100%;
+    }
+
+    & > .splide__arrows {
+        opacity: 0;
+
+        & > .splide__arrow {
+            background-color: white;
+            box-shadow: 0 0 0 1px transparent, 0 0 0 4px transparent,
+                0 2px 4px rgba(0, 0, 0, 0.18);
+            z-index: 1;
+
+            &:disabled {
+                opacity: 0;
+            }
+
+            &:hover {
+                opacity: 1;
+                z-index: 99;
+            }
+
+            > svg {
+                width: 12px;
+                height: 12px;
+            }
+        }
     }
 
     // pcでホバーをしたときだけ矢印を表示する
