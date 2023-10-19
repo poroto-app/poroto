@@ -11,6 +11,8 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/splide/css";
 import { useState } from "react";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
@@ -20,7 +22,6 @@ import {
 } from "src/domain/models/Image";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
-import { Colors } from "src/view/constants/color";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { PlaceReview } from "src/view/plan/PlaceReview";
 import styled from "styled-components";
@@ -40,8 +41,8 @@ export const PlacePreview = ({
 }: Props) => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-    const openModal = (imageSrc: string) => {
-        setSelectedImage(imageSrc);
+    const openModal = (image: ImageType) => {
+        setSelectedImage(getImageSizeOf(ImageSizes.Large, image));
     };
 
     const closeModal = () => {
@@ -49,55 +50,46 @@ export const PlacePreview = ({
     };
 
     return (
-        <VStack alignItems="flex-start" w="100%">
-            {images.length > 0 && (
-                <ImagePreviewer>
-                    <HStack h="100%">
-                        {images.map((image, i) => (
-                            <Box
-                                key={i}
-                                w="200px"
-                                h="100%"
-                                position="relative"
-                                overflow="hidden"
-                                borderRadius="5px"
-                            >
-                                <ImageWithSkeleton
-                                    src={getImageSizeOf(
-                                        ImageSizes.Small,
-                                        image
-                                    )}
-                                    onClick={() =>
-                                        openModal(
-                                            getImageSizeOf(
-                                                ImageSizes.Large,
-                                                image
-                                            )
-                                        )
-                                    }
-                                />
-                            </Box>
-                        ))}
-                    </HStack>
-                </ImagePreviewer>
-            )}
-            <HStack>
-                <PlaceIcon
-                    category={categories.length > 0 ? categories[0] : null}
-                />
-                <Text fontSize="1.15rem">{name}</Text>
-            </HStack>
-            {/* TODO: すべてのレビューの情報を表示する */}
-            {googlePlaceReviews &&
-                googlePlaceReviews.length > 0 &&
-                googlePlaceReviews[0].text && (
-                    <PlaceReview
-                        authorName={googlePlaceReviews[0].authorName}
-                        authorUrl={googlePlaceReviews[0].authorUrl}
-                        text={googlePlaceReviews[0].text}
+        <Container
+            hasImages={images.length > 0}
+            backgroundColor="#fbf2e7"
+            borderRadius="20px"
+            w="100%"
+            overflow="hidden"
+        >
+            <ImagePreviewContainer hasImage={images.length > 0}>
+                {images.length > 0 && (
+                    <PlaceImagesPreview
+                        images={images}
+                        onClickImage={openModal}
                     />
                 )}
-
+            </ImagePreviewContainer>
+            <VStack flex={1} alignItems="flex-start" p="16px">
+                <HStack>
+                    <PlaceIcon
+                        category={categories.length > 0 ? categories[0] : null}
+                    />
+                    <Text
+                        fontSize="1.15rem"
+                        as="h2"
+                        fontWeight="bold"
+                        color="#222222"
+                    >
+                        {name}
+                    </Text>
+                </HStack>
+                {/* TODO: すべてのレビューの情報を表示する */}
+                {googlePlaceReviews &&
+                    googlePlaceReviews.length > 0 &&
+                    googlePlaceReviews[0].text && (
+                        <PlaceReview
+                            authorName={googlePlaceReviews[0].authorName}
+                            authorUrl={googlePlaceReviews[0].authorUrl}
+                            text={googlePlaceReviews[0].text}
+                        />
+                    )}
+            </VStack>
             {/* 画像を拡大表示するためのモーダル */}
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
                 <ModalOverlay />
@@ -115,31 +107,114 @@ export const PlacePreview = ({
                     </ModalBody>
                 </ModalContent>
             </Modal>
-        </VStack>
+        </Container>
     );
 };
+
+const Container = styled(Box)`
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    // pcレイアウトの場合は横並びにする
+    @media screen and (min-width: 700px) {
+        flex-direction: row-reverse;
+    }
+`;
 
 export const PlaceIcon = ({ category }: { category: PlaceCategory | null }) => {
-    return (
-        <Icon
-            w="24px"
-            h="24px"
-            color={Colors.primary["600"]}
-            as={getPlaceCategoryIcon(category)}
-        />
-    );
+    return <Icon w="24px" h="24px" as={getPlaceCategoryIcon(category)} />;
 };
 
-const ImagePreviewer = styled.div`
-    display: flex;
-    column-gap: 4px;
-
+const ImagePreviewContainer = styled.div<{ hasImage: boolean }>`
     width: 100%;
-    height: 200px;
-    overflow-x: scroll;
-    scroll-snap-type: x proximity;
+    height: ${({ hasImage }) => (hasImage ? "200px" : "0")};
 
-    &::-webkit-scrollbar {
-        display: none;
+    @media screen and (min-width: 700px) {
+        align-self: center;
+        flex: 0.75;
+        width: 350px;
+        height: ${({ hasImage }) => (hasImage ? "250px" : "0")};
+        padding: 16px;
     }
+`;
+
+function PlaceImagesPreview({
+    images,
+    onClickImage,
+}: {
+    images: ImageType[];
+    onClickImage: (image: ImageType) => void;
+}) {
+    return (
+        <SlideContainer
+            options={{
+                drag: images.length > 1,
+                arrows: images.length > 1,
+                lazyLoad: "nearby",
+            }}
+        >
+            {images.map((image, i) => (
+                <SlideItem key={i}>
+                    <ImageWithSkeleton
+                        key={i}
+                        src={getImageSizeOf(ImageSizes.Large, image)}
+                        onClick={() => onClickImage(image)}
+                    />
+                </SlideItem>
+            ))}
+        </SlideContainer>
+    );
+}
+
+const SlideContainer = styled(Splide)`
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+
+    & > .splide__track {
+        height: 100%;
+    }
+
+    & > .splide__arrows {
+        opacity: 0;
+
+        & > .splide__arrow {
+            background-color: white;
+            box-shadow: 0 0 0 1px transparent, 0 0 0 4px transparent,
+                0 2px 4px rgba(0, 0, 0, 0.18);
+            z-index: 1;
+
+            &:disabled {
+                opacity: 0;
+            }
+
+            &:hover {
+                opacity: 1;
+                z-index: 99;
+            }
+
+            > svg {
+                width: 12px;
+                height: 12px;
+            }
+        }
+    }
+
+    // pcでホバーをしたときだけ矢印を表示する
+    @media screen and (min-width: 700px) {
+        &:hover {
+            & > .splide__arrows {
+                opacity: 1;
+            }
+        }
+
+        border-radius: 10px;
+        overflow: hidden;
+    }
+`;
+
+const SlideItem = styled(SplideSlide)`
+    width: 100%;
+    height: 100%;
 `;

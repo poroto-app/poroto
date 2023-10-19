@@ -1,5 +1,6 @@
 import {ChakraProvider} from "@chakra-ui/react";
 import {Theme} from "../src/view/common/Theme";
+import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport'
 
 const withChakra = (StoryFn) => {
     return (
@@ -17,6 +18,10 @@ export const parameters = {
             color: /(background|color)$/,
             date: /Date$/,
         },
+    },
+    viewport: {
+        viewports: INITIAL_VIEWPORTS,
+        defaultViewport: 'responsive',
     },
 }
 

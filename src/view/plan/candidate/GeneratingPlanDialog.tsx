@@ -9,9 +9,10 @@ import animationDataFailed from "src/view/lottie/fail.json";
 type Props = {
     onClose: () => void;
     failed: boolean;
+    visible: boolean;
 };
 
-export function GeneratingPlanDialog({ failed, onClose }: Props) {
+export function GeneratingPlanDialog({ visible, failed, onClose }: Props) {
     const handleOnClickOutside = () => {
         if (failed) {
             onClose();
@@ -20,6 +21,7 @@ export function GeneratingPlanDialog({ failed, onClose }: Props) {
 
     return (
         <FullscreenDialog
+            visible={visible}
             onClickOutside={handleOnClickOutside}
             width="100%"
             height="500px"

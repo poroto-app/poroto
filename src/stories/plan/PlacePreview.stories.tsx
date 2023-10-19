@@ -21,6 +21,20 @@ export const Primary: Story = {
     },
 };
 
+export const Sp: Story = {
+    args: {
+        name: mockPlaces.bookStore.name,
+        images: mockPlaces.bookStore.images,
+        googlePlaceReviews: mockPlaces.bookStore.googlePlaceReviews,
+        categories: mockPlaces.bookStore.categories,
+    },
+    parameters: {
+        viewport: {
+            defaultViewport: "iphonex",
+        },
+    },
+};
+
 export const Loading: Story = {
     args: {
         name: mockPlaces.bookStore.name,
