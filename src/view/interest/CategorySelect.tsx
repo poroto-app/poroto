@@ -20,13 +20,9 @@ export const CategorySelect = ({ category, onClickYes, onClickNo }: Props) => {
                     position="relative"
                     overflow="hidden"
                 >
-                    {category.thumbnail ? (
-                        <Thumbnail src={category.thumbnail} />
-                    ) : (
-                        <DefaultThumbnail
-                            imageUrl={category.defaultThumbnailUrl}
-                        />
-                    )}
+                    <DefaultThumbnail
+                        imageUrl={category.defaultThumbnailUrl}
+                    />
                 </Box>
                 <Text fontSize="1.25rem" py={4}>
                     {category.displayName}
