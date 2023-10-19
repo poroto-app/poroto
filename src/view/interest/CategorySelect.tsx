@@ -79,7 +79,7 @@ const Thumbnail = styled.img`
 const DefaultThumbnail = ({ imageUrl }: { imageUrl: string }) => {
     return (
         <Center w="100%" h="100%" px="32px" py="32px">
-            <Image src={imageUrl} maxW="600px" maxH="100%" h="100%" w="100%" />
+            <Image src={imageUrl} maxW="600px" maxH="400px" h="100%" w="100%" />
         </Center>
     );
 };
