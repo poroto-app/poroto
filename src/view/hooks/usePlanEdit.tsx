@@ -68,10 +68,6 @@ export const usePlanEdit = ({
     };
 
     useEffect(() => {
-        console.log(
-            requestStatusFetchPlacesToReplace,
-            requestStatusReplacePlaceOfPlanCandidate
-        );
         // エラー時にはダイアログを閉じる
         if (
             requestStatusFetchPlacesToReplace === RequestStatuses.REJECTED ||
