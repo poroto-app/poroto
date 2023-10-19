@@ -71,7 +71,9 @@ export function DialogRelatedPlaces({
             position="bottom"
             width="100%"
             visible={visible}
-            onClickOutside={!replacing && onClose}
+            onClickOutside={() => {
+                if (!replacing) onClose();
+            }}
         >
             <Center
                 backgroundColor="white"
