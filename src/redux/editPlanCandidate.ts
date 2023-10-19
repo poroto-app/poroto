@@ -117,7 +117,7 @@ export const slice = createSlice({
             })
             // Replace Place Of Plan Candidate
             .addCase(replacePlaceOfPlanCandidate.pending, (state) => {
-                state.requestStatusFetchPlacesToReplace =
+                state.requestStatusReplacePlaceOfPlanCandidate =
                     RequestStatuses.PENDING;
                 state.placesToReplace = null;
             })
