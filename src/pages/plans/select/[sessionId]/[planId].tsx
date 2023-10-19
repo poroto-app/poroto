@@ -46,7 +46,7 @@ const PlanDetail = () => {
 
     const {
         showRelatedPlaces,
-        resetReplacePlaceState,
+        onCloseDialogRelatedPlaces,
         replacePlace,
         placeIdToReplace,
         placesToReplace,
@@ -232,7 +232,7 @@ const PlanDetail = () => {
                         placeIdToAdd: placeId,
                     })
                 }
-                onClose={() => resetReplacePlaceState()}
+                onClose={() => onCloseDialogRelatedPlaces()}
             />
         </>
     );

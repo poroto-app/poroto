@@ -25,6 +25,8 @@ export const usePlanEdit = ({
     // Replace
     // ========================================================================
     const [placeIdToReplace, setPlaceIdToReplace] = useState<string | null>();
+    const [isDialogRelatedPlacesVisible, setIsDialogRelatedPlacesVisible] =
+        useState(false);
     const {
         placesToReplace,
         requestStatusFetchPlacesToReplace,
@@ -42,8 +44,9 @@ export const usePlanEdit = ({
         setPlaceIdToReplace(placeId);
     };
 
-    const resetReplacePlaceState = () => {
+    const onCloseDialogRelatedPlaces = () => {
         setPlaceIdToReplace(null);
+        setIsDialogRelatedPlacesVisible(false);
         dispatch(resetEditPlanCandidateState());
     };
 
@@ -65,33 +68,52 @@ export const usePlanEdit = ({
     };
 
     useEffect(() => {
-        // 更新が終了したら、状態をリセットする（ダイアログを閉じる）
-        // TODO: エラー時の対応をする
+        console.log(
+            requestStatusFetchPlacesToReplace,
+            requestStatusReplacePlaceOfPlanCandidate
+        );
+        // エラー時にはダイアログを閉じる
         if (
-            [RequestStatuses.FULFILLED, RequestStatuses.REJECTED].includes(
-                requestStatusReplacePlaceOfPlanCandidate
-            )
+            requestStatusFetchPlacesToReplace === RequestStatuses.REJECTED ||
+            requestStatusReplacePlaceOfPlanCandidate ===
+                RequestStatuses.REJECTED
         ) {
-            resetReplacePlaceState();
+            // TODO: エラー対応をする
+            onCloseDialogRelatedPlaces();
+            setIsDialogRelatedPlacesVisible(false);
+            return;
         }
-    }, [requestStatusReplacePlaceOfPlanCandidate]);
+
+        // 並び替えが終了したら、ダイアログを閉じる
+        if (
+            requestStatusReplacePlaceOfPlanCandidate ===
+            RequestStatuses.FULFILLED
+        ) {
+            setIsDialogRelatedPlacesVisible(false);
+            onCloseDialogRelatedPlaces();
+            return;
+        }
+
+        //　並び替えが開始したら、ダイアログを表示する
+        if (requestStatusFetchPlacesToReplace === RequestStatuses.PENDING) {
+            setIsDialogRelatedPlacesVisible(true);
+            return;
+        }
+    }, [
+        requestStatusFetchPlacesToReplace,
+        requestStatusReplacePlaceOfPlanCandidate,
+    ]);
     // ========================================================================
 
     return {
         showRelatedPlaces,
-        resetReplacePlaceState,
+        onCloseDialogRelatedPlaces,
         replacePlace,
         placeIdToReplace,
         placesToReplace,
         isReplacingPlace:
             requestStatusReplacePlaceOfPlanCandidate ===
             RequestStatuses.PENDING,
-        isDialogRelatedPlacesVisible:
-            [RequestStatuses.PENDING, RequestStatuses.FULFILLED].includes(
-                requestStatusFetchPlacesToReplace
-            ) ||
-            [RequestStatuses.PENDING, RequestStatuses.FULFILLED].includes(
-                requestStatusReplacePlaceOfPlanCandidate
-            ),
+        isDialogRelatedPlacesVisible,
     };
 };
