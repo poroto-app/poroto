@@ -20,14 +20,14 @@ export function FetchLocationDialog({
     fetchLocationRequestStatus,
     onRetry,
 }: Props) {
-    if (
-        !fetchLocationRequestStatus ||
-        fetchLocationRequestStatus === RequestStatuses.FULFILLED
-    )
-        return <></>;
-
     return (
-        <FullscreenDialog padding="16px">
+        <FullscreenDialog
+            visible={[
+                RequestStatuses.PENDING,
+                RequestStatuses.REJECTED,
+            ].includes(fetchLocationRequestStatus)}
+            padding="16px"
+        >
             <RoundedDialog>
                 <Box p="16px" w="100%">
                     {fetchLocationRequestStatus === RequestStatuses.PENDING && (

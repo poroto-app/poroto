@@ -1,20 +1,27 @@
-import { Box } from "@chakra-ui/react";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
+
+import { Box } from "@chakra-ui/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 
 export default {
     title: "common/FullscreenDialog",
     component: FullscreenDialog,
-} as ComponentMeta<typeof FullscreenDialog>;
+    tags: ["autodocs"],
+    parameters: {},
+} as Meta<typeof FullscreenDialog>;
 
-const Template: ComponentStory<typeof FullscreenDialog> = (args) => (
-    <FullscreenDialog onClickOutside={() => alert("clicked outside")}>
-        <RoundedDialog>
-            <Box h="100px" />
-        </RoundedDialog>
-    </FullscreenDialog>
-);
+type Story = StoryObj<typeof FullscreenDialog>;
 
-export const FullscreenDialogStoryBook = Template.bind({});
-FullscreenDialogStoryBook.args = {};
+export const Primary: Story = {
+    render: (args) => (
+        <FullscreenDialog {...args}>
+            <RoundedDialog>
+                <Box h="100px" />
+            </RoundedDialog>
+        </FullscreenDialog>
+    ),
+    args: {
+        visible: true,
+    },
+};

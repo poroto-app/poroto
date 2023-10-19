@@ -9,7 +9,7 @@ type Props = {
 
 export function PlanPlaceList({ plan, createdBasedOnCurrentLocation }: Props) {
     return (
-        <VStack spacing={4} w="100%">
+        <VStack spacing="16px" w="100%">
             {createdBasedOnCurrentLocation && (
                 <PlacePreview name="現在地" images={[]} categories={[]} />
             )}
