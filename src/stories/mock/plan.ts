@@ -19,3 +19,27 @@ export const mockPlan: Plan = {
     places: [mockPlaces.tokyo, mockPlaces.marunouchi],
     author: null,
 };
+
+const mockPlanBookStore: Plan = {
+    id: "bookStore",
+    title: "本屋さんでゆっくり",
+    timeInMinutes: 60,
+    places: [mockPlaces.bookStore, mockPlaces.marunouchi],
+    transitions: [],
+    author: null,
+};
+
+const mockPlanTokyo: Plan = {
+    id: "tokyo",
+    title: "東京観光",
+    timeInMinutes: 60,
+    places: [mockPlaces.tokyo, mockPlaces.marunouchi],
+    transitions: [],
+    author: null,
+};
+
+export const mockPlans = {
+    cafe: mockPlan,
+    bookStore: mockPlanBookStore,
+    tokyo: mockPlanTokyo,
+};

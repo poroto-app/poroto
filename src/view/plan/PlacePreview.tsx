@@ -8,7 +8,6 @@ import {
     ModalCloseButton,
     ModalContent,
     ModalOverlay,
-    Skeleton,
     Text,
     VStack,
 } from "@chakra-ui/react";
@@ -22,6 +21,7 @@ import {
     ImageSizes,
 } from "src/domain/models/Image";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
+import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { PlaceReview } from "src/view/plan/PlaceReview";
 import styled from "styled-components";
@@ -55,6 +55,7 @@ export const PlacePreview = ({
             backgroundColor="#fbf2e7"
             borderRadius="20px"
             w="100%"
+            overflow="hidden"
         >
             <ImagePreviewContainer hasImage={images.length > 0}>
                 {images.length > 0 && (
@@ -125,44 +126,6 @@ export const PlaceIcon = ({ category }: { category: PlaceCategory | null }) => {
     return <Icon w="24px" h="24px" as={getPlaceCategoryIcon(category)} />;
 };
 
-const ImageWithSkeleton = ({
-    src,
-    onClick,
-}: {
-    src: string;
-    onClick?: () => void;
-}) => {
-    const [isLoading, setIsLoading] = useState(true);
-    return (
-        <Box
-            h="100%"
-            position="relative"
-            overflow="hidden"
-            borderRadius="5px"
-            onClick={onClick}
-            style={{ cursor: "pointer" }}
-        >
-            <Skeleton
-                position="absolute"
-                top={0}
-                right={0}
-                bottom={0}
-                left={0}
-                transition="opacity .3s"
-                opacity={isLoading ? 1 : 0}
-            />
-            <Image
-                src={src}
-                objectFit="cover"
-                w={isLoading ? "0" : "100%"}
-                h="100%"
-                onLoad={() => setIsLoading(false)}
-                scrollSnapAlign="start"
-            />
-        </Box>
-    );
-};
-
 const ImagePreviewContainer = styled.div<{ hasImage: boolean }>`
     width: 100%;
     height: ${({ hasImage }) => (hasImage ? "200px" : "0")};
@@ -207,7 +170,6 @@ function PlaceImagesPreview({
 const SlideContainer = styled(Splide)`
     width: 100%;
     height: 100%;
-    border-radius: 10px;
     cursor: pointer;
 
     & > .splide__track {
@@ -246,6 +208,9 @@ const SlideContainer = styled(Splide)`
                 opacity: 1;
             }
         }
+
+        border-radius: 10px;
+        overflow: hidden;
     }
 `;
 

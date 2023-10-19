@@ -16,6 +16,7 @@ export function Layout({ navBar, children, fillComponent }: Props) {
             display="flex"
             flexDirection="column"
             justifyContent="flex-start"
+            overflow="hidden"
         >
             {navBar && navBar}
             <Center

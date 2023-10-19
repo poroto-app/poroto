@@ -1,6 +1,7 @@
-import { Center, VStack } from "@chakra-ui/react";
+import { Link } from "@chakra-ui/next-js";
+import { Center, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
     createPlanFromPlace,
@@ -10,6 +11,7 @@ import {
     resetCreatePlanFromPlaceRequestStatus,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
+import { ButtonWithBlur } from "src/view/common/ButtonWithBlur";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { Layout } from "src/view/common/Layout";
 import { LoadingModal } from "src/view/common/LoadingModal";
@@ -18,9 +20,8 @@ import { NotFound } from "src/view/common/NotFound";
 import { Routes } from "src/view/constants/router";
 import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSection";
 import { GeneratingPlanDialog } from "src/view/plan/candidate/GeneratingPlanDialog";
-import { MessageCard } from "src/view/plan/MessageCard";
 import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure";
-import { PlanPreview } from "src/view/plan/PlanPreview";
+import { PlanCandidatesGallery } from "src/view/plancandidate/PlanCandidatesGallery";
 
 const SelectPlanPage = () => {
     const dispatch = useAppDispatch();
@@ -36,6 +37,7 @@ const SelectPlanPage = () => {
 
     const router = useRouter();
     const { sessionId } = router.query;
+    const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
 
     useEffect(() => {
         // ページをリロードしたときのみキャッシュを取得する
@@ -137,18 +139,32 @@ const SelectPlanPage = () => {
                 }
             />
             <VStack w="100%" px="16px" py="16px" spacing={8}>
-                <MessageCard message="プランを比較してみましょう！" />
-                <VStack w="100%" spacing={8}>
-                    {plansCreated.map((plan, i) => (
-                        <PlanPreview
-                            plan={plan}
-                            key={i}
-                            link={Routes.plans.planCandidate(
-                                createPlanSession,
-                                plan.id
-                            )}
-                        />
-                    ))}
+                <VStack spacing="32px" my="32px">
+                    <PlanCandidatesGallery
+                        planCandidates={plansCreated}
+                        onActiveIndexChange={setSelectedPlanIndex}
+                    />
+                    <Link
+                        href={Routes.plans.planCandidate(
+                            createPlanSession,
+                            plansCreated[selectedPlanIndex].id
+                        )}
+                    >
+                        <ButtonWithBlur
+                            px="16px"
+                            py="16px"
+                            backgroundColor="#84A6FF"
+                            borderRadius="50px"
+                        >
+                            <Text
+                                color="white"
+                                fontWeight="bold"
+                                fontSize="18px"
+                            >
+                                プランをみてみる
+                            </Text>
+                        </ButtonWithBlur>
+                    </Link>
                 </VStack>
                 <AvailablePlaceSection
                     places={placesAvailableForPlan}
