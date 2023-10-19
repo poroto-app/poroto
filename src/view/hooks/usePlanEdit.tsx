@@ -90,7 +90,7 @@ export const usePlanEdit = ({
             return;
         }
 
-        //　並び替えが開始したら、ダイアログを表示する
+        // 並び替えが開始したら、ダイアログを表示する
         if (requestStatusFetchPlacesToReplace === RequestStatuses.PENDING) {
             setIsDialogRelatedPlacesVisible(true);
             return;
