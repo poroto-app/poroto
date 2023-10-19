@@ -302,6 +302,9 @@ export const slice = createSlice({
             if (planIndexToUpdate < 0) return;
 
             state.plansCreated[planIndexToUpdate] = payload.plan;
+            if (state.preview?.id === payload.plan.id) {
+                state.preview = payload.plan;
+            }
         },
 
         pushAcceptedCategory: (
