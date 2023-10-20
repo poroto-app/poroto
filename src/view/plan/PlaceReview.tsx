@@ -15,14 +15,7 @@ export function PlaceReview({
     text,
 }: Props) {
     return (
-        <HStack
-            w="100%"
-            backgroundColor="rgb(46 46 64 / 3%)"
-            px="8px"
-            py="8px"
-            borderRadius="15px"
-            alignItems="flex-start"
-        >
+        <HStack w="100%" borderRadius="15px" alignItems="flex-start">
             <Link href={authorUrl}>
                 <Avatar
                     size="sm"
@@ -33,7 +26,7 @@ export function PlaceReview({
             </Link>
             <VStack alignItems="flex-start" spacing={0}>
                 <Text color="rgba(0,0,0,.6)">{authorName}</Text>
-                <Text>{text}</Text>
+                <Text color="rgba(0,0,0,.8)">{text}</Text>
             </VStack>
         </HStack>
     );

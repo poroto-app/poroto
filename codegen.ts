@@ -19,7 +19,7 @@ const config: CodegenConfig = {
     overwrite: true,
     // @ts-ignore
     schema: process.env.CONTEXT === "CI" ? schema.repository : schema.localServer,
-    documents: "graphql/documents/**.graphql",
+    documents: "graphql/documents/**/**.graphql",
     generates: {
         "src/data/graphql/generated.ts": {
             plugins: [

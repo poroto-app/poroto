@@ -1,11 +1,11 @@
 import { Box } from "@chakra-ui/react";
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, useEffect } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 import styled from "styled-components";
 
 type Props = {
     position?: DialogPosition;
-    visible?: boolean;
+    visible: boolean;
     children: ReactNode;
     onClickOutside?: () => void;
     padding?: string;
@@ -34,7 +34,7 @@ const transitionStyles: {
 
 export function FullscreenDialog({
     position = DialogPositions.CENTER,
-    visible = false,
+    visible,
     width,
     height,
     maxHeight = "100%",
@@ -43,6 +43,36 @@ export function FullscreenDialog({
     padding,
     children,
 }: Props) {
+    // スクロールしたときに画面が動かないようにする
+    const fixScroll = () => {
+        document.body.style.top = `-${window.scrollY}px`;
+        document.body.style.right = "0";
+        document.body.style.left = "0";
+        document.body.style.bottom = "0";
+        document.body.style.overflow = "hidden";
+        document.body.style.position = "fixed";
+    };
+
+    const resetFixScroll = () => {
+        const scrollY = parseInt(document.body.style.top || "0");
+        document.body.style.overflow = "";
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.right = "";
+        document.body.style.left = "";
+        document.body.style.bottom = "";
+        // MEMO: これをやらないと、スクロール位置が元に戻らない
+        window.scrollTo(0, scrollY * -1);
+    };
+
+    useEffect(() => {
+        if (visible) {
+            fixScroll();
+        } else {
+            resetFixScroll();
+        }
+    }, [visible]);
+
     return (
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore

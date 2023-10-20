@@ -1,0 +1,30 @@
+query PlacesToAddForPlanOfPlanCandidate($input: PlacesToAddForPlanCandidateInput!) {
+    placesToAddForPlanCandidate(input: $input) {
+        places {
+            id
+            googlePlaceId
+            name
+            images {
+                default
+                small
+                large
+            }
+            location {
+                longitude
+                latitude
+            }
+            estimatedStayDuration
+            googleReviews {
+                rating
+                text
+                authorName
+                authorPhotoUrl
+                authorUrl
+                time
+            }
+            categories {
+                id
+            }
+        }
+    }
+}

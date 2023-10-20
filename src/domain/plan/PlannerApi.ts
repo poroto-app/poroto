@@ -33,6 +33,30 @@ export interface PlannerApi {
         request: FetchAvailablePlacesForPlanRequest
     ): Promise<FetchAvailablePlacesForPlanResponse>;
 
+    fetchPlacesToAddForPlanOfPlanCandidate(
+        request: FetchPlacesToAddForPlanOfPlanCandidateRequest
+    ): Promise<FetchPlacesToAddForPlanOfPlanCandidateResponse>;
+
+    fetchPlacesToReplaceForPlanOfPlanCandidate(
+        request: FetchPlacesToReplaceForPlanOfPlanCandidateRequest
+    ): Promise<FetchPlacesToReplaceForPlanOfPlanCandidateResponse>;
+
+    addPlaceToPlanOfPlanCandidate(
+        request: AddPlaceToPlanOfPlanCandidateRequest
+    ): Promise<AddPlaceToPlanOfPlanCandidateResponse>;
+
+    deletePlaceFromPlanOfPlanCandidate(
+        request: DeletePlaceFromPlanOfPlanCandidateRequest
+    ): Promise<DeletePlaceFromPlanOfPlanCandidateResponse>;
+
+    replacePlaceInPlanOfPlanCandidate(
+        request: ReplacePlaceInPlanOfPlanCandidateRequest
+    ): Promise<ReplacePlaceInPlanOfPlanCandidateResponse>;
+
+    editPlanTitleOfPlanCandidate(
+        request: EditPlanTitleOfPlanCandidateRequest
+    ): Promise<EditPlanTitleOfPlanCandidateResponse>;
+
     matchInterest(
         request: MatchInterestRequest
     ): Promise<MatchInterestResponse>;
@@ -208,6 +232,66 @@ export type FetchCachedCreatedPlansRequest = {
 export type FetchCachedCreatedPlansResponse = {
     createdBasedOnCurrentLocation: boolean;
     plans: PlanEntity[] | null;
+};
+
+export type FetchPlacesToAddForPlanOfPlanCandidateRequest = {
+    planCandidateId: string;
+    planId: string;
+};
+
+export type FetchPlacesToAddForPlanOfPlanCandidateResponse = {
+    places: PlaceEntity[];
+};
+
+export type FetchPlacesToReplaceForPlanOfPlanCandidateRequest = {
+    planCandidateId: string;
+    planId: string;
+    placeId: string;
+};
+
+export type FetchPlacesToReplaceForPlanOfPlanCandidateResponse = {
+    places: PlaceEntity[];
+};
+
+export type AddPlaceToPlanOfPlanCandidateRequest = {
+    planCandidateId: string;
+    planId: string;
+    placeId: string;
+};
+
+export type AddPlaceToPlanOfPlanCandidateResponse = {
+    plan: PlanEntity;
+};
+
+export type DeletePlaceFromPlanOfPlanCandidateRequest = {
+    planCandidateId: string;
+    planId: string;
+    placeId: string;
+};
+
+export type DeletePlaceFromPlanOfPlanCandidateResponse = {
+    plan: PlanEntity;
+};
+
+export type ReplacePlaceInPlanOfPlanCandidateRequest = {
+    planCandidateId: string;
+    planId: string;
+    placeIdToReplace: string;
+    placeIdToAdd: string;
+};
+
+export type ReplacePlaceInPlanOfPlanCandidateResponse = {
+    plan: PlanEntity;
+};
+
+export type EditPlanTitleOfPlanCandidateRequest = {
+    planCandidateId: string;
+    planId: string;
+    title: string;
+};
+
+export type EditPlanTitleOfPlanCandidateResponse = {
+    plan: PlanEntity;
 };
 
 export type MatchInterestRequest = {
