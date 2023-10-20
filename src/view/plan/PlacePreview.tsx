@@ -31,6 +31,8 @@ type Props = {
     images: ImageType[];
     googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
+    showRelatedPlaces?: boolean;
+    onClickShowRelatedPlaces?: () => void;
 };
 
 export const PlacePreview = ({
@@ -38,6 +40,7 @@ export const PlacePreview = ({
     images,
     googlePlaceReviews,
     categories,
+    onClickShowRelatedPlaces,
 }: Props) => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
@@ -65,7 +68,7 @@ export const PlacePreview = ({
                     />
                 )}
             </ImagePreviewContainer>
-            <VStack flex={1} alignItems="flex-start" p="16px">
+            <VStack flex={1} alignItems="flex-start" w="100%" p="16px">
                 <HStack>
                     <PlaceIcon
                         category={categories.length > 0 ? categories[0] : null}
@@ -89,6 +92,19 @@ export const PlacePreview = ({
                             text={googlePlaceReviews[0].text}
                         />
                     )}
+                <VStack w="100%" mt="auto">
+                    {onClickShowRelatedPlaces && (
+                        <Box
+                            color="#AB7129"
+                            as="button"
+                            fontWeight="bold"
+                            fontSize="16px"
+                            onClick={onClickShowRelatedPlaces}
+                        >
+                            関連した場所を表示
+                        </Box>
+                    )}
+                </VStack>
             </VStack>
             {/* 画像を拡大表示するためのモーダル */}
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
@@ -119,6 +135,7 @@ const Container = styled(Box)`
     // pcレイアウトの場合は横並びにする
     @media screen and (min-width: 700px) {
         flex-direction: row-reverse;
+        align-items: stretch;
     }
 `;
 

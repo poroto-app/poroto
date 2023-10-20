@@ -24,6 +24,7 @@ export type PlanCandidateState = {
 
     // TODO: 取得中か存在しないのかを見分けられるようにする
     //  （画面に大きく依存するもののため、専用のsliceを作成する）
+    // TODO: preview id等で対象のplan idを指定し、`plansCreated`の更新に反応できるようにする
     preview: Plan | null;
 
     categoryCandidates: LocationCategory[] | null;
@@ -291,6 +292,22 @@ export const slice = createSlice({
             );
         },
 
+        updatePlanOfPlanCandidate: (
+            state,
+            { payload }: PayloadAction<{ plan: Plan }>
+        ) => {
+            if (!state.plansCreated) return;
+            const planIndexToUpdate = state.plansCreated.findIndex(
+                (plan) => plan.id === payload.plan.id
+            );
+            if (planIndexToUpdate < 0) return;
+
+            state.plansCreated[planIndexToUpdate] = payload.plan;
+            if (state.preview?.id === payload.plan.id) {
+                state.preview = payload.plan;
+            }
+        },
+
         pushAcceptedCategory: (
             state,
             { payload }: PayloadAction<{ category: LocationCategory }>
@@ -504,6 +521,7 @@ export const {
     fetchPlanDetail,
 
     setCreatedPlans,
+    updatePlanOfPlanCandidate,
 
     pushAcceptedCategory,
     pushRejectedCategory,

@@ -49,7 +49,8 @@ export function Theme() {
                         height: 100%;
                         margin: 0;
                         padding: 0;
-                        scroll-behavior: smooth;
+                        // FullScreenDialog でダイアログを閉じるときに、もとの位置にスクロールするために必要
+                        //scroll-behavior: smooth;
                     }
 
                     h1,
