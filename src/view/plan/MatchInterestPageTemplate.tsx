@@ -23,7 +23,7 @@ export function MatchInterestPageTemplate({
                 maxWidth="990px"
                 px="16px"
                 pt="8px"
-                pb="32px"
+                pb={{ base: "64px", sm: "32px" }}
             >
                 <MessageCard message={message} />
                 {children}

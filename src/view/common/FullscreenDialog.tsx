@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 type Props = {
     position?: DialogPosition;
-    visible?: boolean;
+    visible: boolean;
     children: ReactNode;
     onClickOutside?: () => void;
     padding?: string;
@@ -34,7 +34,7 @@ const transitionStyles: {
 
 export function FullscreenDialog({
     position = DialogPositions.CENTER,
-    visible = false,
+    visible,
     width,
     height,
     maxHeight = "100%",
