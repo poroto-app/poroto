@@ -1,7 +1,7 @@
 import { Link } from "@chakra-ui/next-js";
 import { Box, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
     createPlanFromPlace,
@@ -38,6 +38,7 @@ const SelectPlanPage = () => {
     const router = useRouter();
     const { sessionId } = router.query;
     const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
+    const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         // ページをリロードしたときのみキャッシュを取得する
@@ -66,6 +67,9 @@ const SelectPlanPage = () => {
 
         dispatch(resetCreatePlanFromPlaceRequestStatus());
         setSelectedPlanIndex(plansCreated.length - 1);
+
+        // プラン一覧の上部にスクロールする
+        refPlanCandidateGallery.current?.scrollIntoView();
     }, [
         createPlanFromPlaceRequestStatus,
         plansCreated?.length,
@@ -172,7 +176,13 @@ const SelectPlanPage = () => {
                     RequestStatuses.REJECTED
                 }
             />
-            <VStack w="100%" px="16px" py="16px" spacing={8}>
+            <VStack
+                w="100%"
+                px="16px"
+                py="16px"
+                spacing={8}
+                ref={refPlanCandidateGallery}
+            >
                 <VStack spacing="32px" my="32px">
                     <PlanCandidatesGallery
                         planCandidates={plansCreated}
