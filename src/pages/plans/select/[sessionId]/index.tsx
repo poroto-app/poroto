@@ -1,5 +1,5 @@
 import { Link } from "@chakra-ui/next-js";
-import {Center, Text, VStack, Icon, Box} from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
@@ -11,6 +11,7 @@ import {
     resetCreatePlanFromPlaceRequestStatus,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
+import EmptyIcon from "src/view/assets/svg/empty.svg";
 import { ButtonWithBlur } from "src/view/common/ButtonWithBlur";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { Layout } from "src/view/common/Layout";
@@ -20,9 +21,7 @@ import { NotFound } from "src/view/common/NotFound";
 import { Routes } from "src/view/constants/router";
 import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSection";
 import { GeneratingPlanDialog } from "src/view/plan/candidate/GeneratingPlanDialog";
-import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure";
 import { PlanCandidatesGallery } from "src/view/plancandidate/PlanCandidatesGallery";
-import EmptyIcon from "src/view/assets/svg/empty.svg";
 
 const SelectPlanPage = () => {
     const dispatch = useAppDispatch();
@@ -120,6 +119,19 @@ const SelectPlanPage = () => {
     if (plansCreated.length === 0)
         return (
             <Layout navBar={<NavBar />}>
+                <GeneratingPlanDialog
+                    visible={[
+                        RequestStatuses.PENDING,
+                        RequestStatuses.REJECTED,
+                    ].includes(createPlanFromPlaceRequestStatus)}
+                    onClose={() =>
+                        dispatch(resetCreatePlanFromPlaceRequestStatus())
+                    }
+                    failed={
+                        createPlanFromPlaceRequestStatus ===
+                        RequestStatuses.REJECTED
+                    }
+                />
                 <VStack pb="48px" px="16px" w="100%">
                     <VStack py="48px" spacing="32px">
                         <Box w="100%" maxW="300px">
@@ -132,8 +144,12 @@ const SelectPlanPage = () => {
                             />
                         </Box>
                         <VStack spacing="8px">
-                            <Text fontSize="1.2rem" fontWeight="bold">プランを作成できませんでした</Text>
-                            <Text>他の場所からプランを作成してみませんか？</Text>
+                            <Text fontSize="1.2rem" fontWeight="bold">
+                                プランを作成できませんでした
+                            </Text>
+                            <Text>
+                                他の場所からプランを作成してみませんか？
+                            </Text>
                         </VStack>
                     </VStack>
                     <AvailablePlaceSection
