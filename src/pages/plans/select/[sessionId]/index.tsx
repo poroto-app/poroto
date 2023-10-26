@@ -52,6 +52,9 @@ const SelectPlanPage = () => {
     useEffect(() => {
         if (!sessionId || typeof sessionId !== "string") return;
 
+        // プラン取得中は何もしない
+        if (!plansCreated) return;
+
         dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
     }, [sessionId, plansCreated?.length]);
 
