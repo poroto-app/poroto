@@ -57,7 +57,7 @@ const SelectPlanPage = () => {
         dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
     }, [sessionId, plansCreated]);
 
-    // 指定した場所からプランを作成できたら、そのページへ遷移する
+    // 指定した場所からプランを作成できたら、そのプランが選択されている状態にする
     useEffect(() => {
         if (createPlanFromPlaceRequestStatus !== RequestStatuses.FULFILLED)
             return;
@@ -65,14 +65,7 @@ const SelectPlanPage = () => {
         if (!createPlanSession) return;
 
         dispatch(resetCreatePlanFromPlaceRequestStatus());
-        router
-            .push(
-                Routes.plans.planCandidate(
-                    createPlanSession,
-                    plansCreated[plansCreated.length - 1].id
-                )
-            )
-            .then();
+        setSelectedPlanIndex(plansCreated.length - 1);
     }, [
         createPlanFromPlaceRequestStatus,
         plansCreated?.length,
@@ -183,6 +176,7 @@ const SelectPlanPage = () => {
                 <VStack spacing="32px" my="32px">
                     <PlanCandidatesGallery
                         planCandidates={plansCreated}
+                        activePlanIndex={selectedPlanIndex}
                         onActiveIndexChange={setSelectedPlanIndex}
                     />
                     <Link
