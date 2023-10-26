@@ -27,8 +27,15 @@ export const PlanDurationSelector = ({
     const minDuration = 0;
     const maxDuration = 60 * 5;
     const [, setFlame] = useState(10);
-    // MEMO: 意図せず最小時間の10分で確定しないように、デフォルト値をnullにしておく
-    const [duration, setDuration] = useState<number | null>(null);
+    const [duration, setDuration] = useState<number>(120);
+
+    const handleOnClickNext = () => {
+        if (duration === 0) {
+            onClickNext(null);
+        } else {
+            onClickNext(duration);
+        }
+    };
 
     const { View: LottieView, goToAndStop } = useLottie({
         animationData,
@@ -78,7 +85,9 @@ export const PlanDurationSelector = ({
         <VStack w="100%" h="100%">
             <VStack w="100%" spacing="48px" flex="1" justifyContent="center">
                 <Text fontSize="2rem">
-                    {duration ? DateHelper.formatHHMM(duration) : "0分"}
+                    {duration == 0
+                        ? "時間は気にしない"
+                        : DateHelper.formatHHMM(duration)}
                 </Text>
                 <Box
                     w="100%"
@@ -94,8 +103,8 @@ export const PlanDurationSelector = ({
                         w="100%"
                         min={minDuration}
                         max={maxDuration}
-                        value={duration ?? minDuration}
-                        defaultValue={minDuration}
+                        value={duration}
+                        defaultValue={60}
                         onChange={setDuration}
                         step={60}
                     >
@@ -110,9 +119,7 @@ export const PlanDurationSelector = ({
                 </Box>
             </VStack>
             <VStack w="100%">
-                <RoundedButton onClick={() => onClickNext(duration)}>
-                    次へ
-                </RoundedButton>
+                <RoundedButton onClick={handleOnClickNext}>次へ</RoundedButton>
                 <Button
                     color={Colors.primary["400"]}
                     variant="ghost"
