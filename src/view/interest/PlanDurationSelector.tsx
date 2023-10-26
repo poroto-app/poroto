@@ -24,7 +24,7 @@ export const PlanDurationSelector = ({
     onClickNext,
     onClickIgnoreDuration,
 }: Props) => {
-    const minDuration = 10;
+    const minDuration = 0;
     const maxDuration = 60 * 5;
     const [, setFlame] = useState(10);
     // MEMO: 意図せず最小時間の10分で確定しないように、デフォルト値をnullにしておく
@@ -97,7 +97,7 @@ export const PlanDurationSelector = ({
                         value={duration ?? minDuration}
                         defaultValue={minDuration}
                         onChange={setDuration}
-                        step={10}
+                        step={60}
                     >
                         <SliderTrack>
                             <SliderFilledTrack bg={Colors.primary["400"]} />
