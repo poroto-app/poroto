@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useLottie } from "lottie-react";
 import { useEffect, useState } from "react";
+import { MdGraphicEq } from "react-icons/md";
 import { DateHelper } from "src/domain/util/date";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { Colors } from "src/view/constants/color";
@@ -114,7 +115,12 @@ export const PlanDurationSelector = ({
                         <SliderThumb
                             boxSize={6}
                             border="1px solid rgba(0,0,0,.2)"
-                        />
+                        >
+                            <Box
+                                color={Colors.primary["500"]}
+                                as={MdGraphicEq}
+                            />
+                        </SliderThumb>
                     </Slider>
                 </Box>
             </VStack>
