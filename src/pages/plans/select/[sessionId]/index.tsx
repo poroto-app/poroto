@@ -1,5 +1,5 @@
 import { Link } from "@chakra-ui/next-js";
-import { Center, Text, VStack } from "@chakra-ui/react";
+import {Center, Text, VStack, Icon, Box} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
@@ -22,6 +22,7 @@ import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSec
 import { GeneratingPlanDialog } from "src/view/plan/candidate/GeneratingPlanDialog";
 import { PlanGenerationFailure } from "src/view/plan/PlanGenerationFailure";
 import { PlanCandidatesGallery } from "src/view/plancandidate/PlanCandidatesGallery";
+import EmptyIcon from "src/view/assets/svg/empty.svg";
 
 const SelectPlanPage = () => {
     const dispatch = useAppDispatch();
@@ -52,7 +53,7 @@ const SelectPlanPage = () => {
         if (!sessionId || typeof sessionId !== "string") return;
 
         // プラン作成完了前にリクエストが送信されないようにする
-        if (!plansCreated || plansCreated.length === 0) return;
+        if (!plansCreated) return;
 
         dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
     }, [sessionId, plansCreated]);
@@ -115,12 +116,36 @@ const SelectPlanPage = () => {
         return <NotFound />;
     }
 
-    // TODO: プラン作成失敗 or 直接このページに来たときははじく
+    // プラン生成に失敗した場合、他の場所からプランを作成できるようにする
     if (plansCreated.length === 0)
         return (
-            <Center h="100%" w="100%">
-                <PlanGenerationFailure />
-            </Center>
+            <Layout navBar={<NavBar />}>
+                <VStack pb="48px" px="16px" w="100%">
+                    <VStack py="48px" spacing="32px">
+                        <Box w="100%" maxW="300px">
+                            <EmptyIcon
+                                viewBox="0 0 862.70323 644.78592"
+                                style={{
+                                    width: "100%",
+                                    height: "100%",
+                                }}
+                            />
+                        </Box>
+                        <VStack spacing="8px">
+                            <Text fontSize="1.2rem" fontWeight="bold">プランを作成できませんでした</Text>
+                            <Text>他の場所からプランを作成してみませんか？</Text>
+                        </VStack>
+                    </VStack>
+                    <AvailablePlaceSection
+                        places={placesAvailableForPlan}
+                        isFetching={
+                            fetchAvailablePlacesForPlanRequestStatus ===
+                            RequestStatuses.PENDING
+                        }
+                        onClickPlace={handleOnClickPlaceCandidate}
+                    />
+                </VStack>
+            </Layout>
         );
 
     return (
