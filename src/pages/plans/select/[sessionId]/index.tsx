@@ -52,11 +52,8 @@ const SelectPlanPage = () => {
     useEffect(() => {
         if (!sessionId || typeof sessionId !== "string") return;
 
-        // プラン作成完了前にリクエストが送信されないようにする
-        if (!plansCreated) return;
-
         dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
-    }, [sessionId, plansCreated]);
+    }, [sessionId, plansCreated?.length]);
 
     // 指定した場所からプランを作成できたら、そのプランが選択されている状態にする
     useEffect(() => {
