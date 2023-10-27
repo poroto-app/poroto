@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useLottie } from "lottie-react";
 import { useEffect, useState } from "react";
+import { MdGraphicEq } from "react-icons/md";
 import { DateHelper } from "src/domain/util/date";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { Colors } from "src/view/constants/color";
@@ -24,11 +25,18 @@ export const PlanDurationSelector = ({
     onClickNext,
     onClickIgnoreDuration,
 }: Props) => {
-    const minDuration = 10;
+    const minDuration = 0;
     const maxDuration = 60 * 5;
     const [, setFlame] = useState(10);
-    // MEMO: 意図せず最小時間の10分で確定しないように、デフォルト値をnullにしておく
-    const [duration, setDuration] = useState<number | null>(null);
+    const [duration, setDuration] = useState<number>(120);
+
+    const handleOnClickNext = () => {
+        if (duration === 0) {
+            onClickNext(null);
+        } else {
+            onClickNext(duration);
+        }
+    };
 
     const { View: LottieView, goToAndStop } = useLottie({
         animationData,
@@ -78,7 +86,9 @@ export const PlanDurationSelector = ({
         <VStack w="100%" h="100%">
             <VStack w="100%" spacing="48px" flex="1" justifyContent="center">
                 <Text fontSize="2rem">
-                    {duration ? DateHelper.formatHHMM(duration) : "0分"}
+                    {duration == 0
+                        ? "時間は気にしない"
+                        : DateHelper.formatHHMM(duration)}
                 </Text>
                 <Box
                     w="100%"
@@ -94,10 +104,10 @@ export const PlanDurationSelector = ({
                         w="100%"
                         min={minDuration}
                         max={maxDuration}
-                        value={duration ?? minDuration}
-                        defaultValue={minDuration}
+                        value={duration}
+                        defaultValue={60}
                         onChange={setDuration}
-                        step={10}
+                        step={60}
                     >
                         <SliderTrack>
                             <SliderFilledTrack bg={Colors.primary["400"]} />
@@ -105,14 +115,17 @@ export const PlanDurationSelector = ({
                         <SliderThumb
                             boxSize={6}
                             border="1px solid rgba(0,0,0,.2)"
-                        />
+                        >
+                            <Box
+                                color={Colors.primary["500"]}
+                                as={MdGraphicEq}
+                            />
+                        </SliderThumb>
                     </Slider>
                 </Box>
             </VStack>
             <VStack w="100%">
-                <RoundedButton onClick={() => onClickNext(duration)}>
-                    次へ
-                </RoundedButton>
+                <RoundedButton onClick={handleOnClickNext}>次へ</RoundedButton>
                 <Button
                     color={Colors.primary["400"]}
                     variant="ghost"
