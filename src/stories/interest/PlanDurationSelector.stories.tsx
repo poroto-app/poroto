@@ -1,17 +1,20 @@
 import { Box } from "@chakra-ui/react";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { PlanDurationSelector } from "src/view/interest/PlanDurationSelector";
 
 export default {
     title: "interest/PlanDurationSelector",
     component: PlanDurationSelector,
-} as ComponentMeta<typeof PlanDurationSelector>;
+    tags: ["autodocs"],
+    parameters: {},
+} as Meta<typeof PlanDurationSelector>;
 
-const Template: ComponentStory<typeof PlanDurationSelector> = (args) => (
-    <Box w="100%" maxW="900px">
-        <PlanDurationSelector {...args} />
-    </Box>
-);
+type Story = StoryObj<typeof PlanDurationSelector>;
 
-export const PlanDurationSelectorStoryBook = Template.bind({});
-PlanDurationSelectorStoryBook.args = {};
+export const Primary: Story = {
+    render: (args) => (
+        <Box w="400px" h="400px">
+            <PlanDurationSelector {...args} />
+        </Box>
+    ),
+};
