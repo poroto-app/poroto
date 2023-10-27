@@ -9,12 +9,14 @@ import { styled } from "styled-components";
 export type Props = {
     planCandidates: Plan[];
     defaultActivePlanIndex?: number;
+    activePlanIndex?: number;
     onActiveIndexChange?: (index: number) => void;
 };
 
 export function PlanCandidatesGallery({
     planCandidates,
     defaultActivePlanIndex = 0,
+    activePlanIndex,
     onActiveIndexChange,
 }: Props) {
     const [activeIndex, setActiveIndex] = useState(defaultActivePlanIndex);
@@ -23,6 +25,13 @@ export function PlanCandidatesGallery({
     const onClickCard = (i: number) => {
         refSplide.current?.go(i);
     };
+
+    useEffect(() => {
+        if (!activePlanIndex) return;
+        if (activePlanIndex === activeIndex) return;
+        setActiveIndex(activePlanIndex);
+        refSplide.current?.go(activePlanIndex);
+    }, [activePlanIndex, refSplide.current]);
 
     useEffect(() => {
         onActiveIndexChange?.(activeIndex);
