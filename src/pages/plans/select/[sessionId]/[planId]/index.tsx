@@ -1,11 +1,10 @@
+import { Link } from "@chakra-ui/next-js";
 import { Box, Button, Center, VStack } from "@chakra-ui/react";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Place } from "src/domain/models/Place";
+import { useEffect } from "react";
 import { Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
-import { copyObject } from "src/domain/util/object";
 import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
     fetchCachedCreatedPlans,
@@ -13,7 +12,6 @@ import {
     reduxPlanCandidateSelector,
     resetPlanCandidates,
     savePlanFromCandidate,
-    updatePlacesOrderInPlanCandidate,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { AdInArticle } from "src/view/ad/AdInArticle";
@@ -26,7 +24,6 @@ import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
-import { PlanEditorDialog } from "src/view/plan/edit/PlanEditorDialog";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
@@ -55,7 +52,6 @@ const PlanDetail = () => {
         planId: planId as string,
     });
 
-    const [isEditingPlan, setIsEditingPlan] = useState(false);
     const {
         preview: plan,
         createdBasedOnCurrentLocation,
@@ -109,22 +105,6 @@ const PlanDetail = () => {
         const authToken = await auth.currentUser?.getIdToken(true);
         dispatch(
             savePlanFromCandidate({ session, planId: plan.id, authToken })
-        );
-    };
-
-    const handleOnReorderPlaces = ({
-        session,
-        places,
-    }: {
-        session: string;
-        places: Place[];
-    }) => {
-        dispatch(
-            updatePlacesOrderInPlanCandidate({
-                session,
-                planId: plan.id,
-                placeIds: places.map((place) => place.id),
-            })
         );
     };
 
@@ -195,18 +175,24 @@ const PlanDetail = () => {
                 </VStack>
             </Center>
             <PlanFooter>
-                {process.env.APP_ENV !== "production" && (
+                <Link
+                    href={Routes.plans.planCandidate.edit(
+                        createPlanSession,
+                        plan.id
+                    )}
+                    flex={1}
+                >
                     <Button
                         variant="outline"
-                        flex={1}
+                        w="100%"
                         borderColor={Colors.primary["400"]}
                         color={Colors.primary["400"]}
                         borderRadius={10}
-                        onClick={() => setIsEditingPlan(true)}
+                        borderWidth="2px"
                     >
                         編集
                     </Button>
-                )}
+                </Link>
                 <Button
                     variant="solid"
                     flex={1}
@@ -220,22 +206,6 @@ const PlanDetail = () => {
                     しおりとして保存
                 </Button>
             </PlanFooter>
-            {
-                // TODO: productionでも利用できるようにする
-                process.env.APP_ENV !== "production" && (
-                    <PlanEditorDialog
-                        visible={isEditingPlan}
-                        onClosed={() => setIsEditingPlan(false)}
-                        places={copyObject(plan.places)}
-                        onSave={(places) =>
-                            handleOnReorderPlaces({
-                                session: createPlanSession,
-                                places,
-                            })
-                        }
-                    />
-                )
-            }
             <DialogReplacePlace
                 placesInPlan={plan.places}
                 placesToReplace={placesToReplace}
