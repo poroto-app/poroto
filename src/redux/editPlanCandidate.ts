@@ -149,10 +149,15 @@ export const slice = createSlice({
     name: "editPlanCandidate",
     initialState,
     reducers: {
-        resetEditPlanCandidateState: (state) => {
+        resetReorderPlaceOfPlanCandidateState: (state) => {
             state.placesToReplace = null;
             state.requestStatusFetchPlacesToReplace = null;
             state.requestStatusReplacePlaceOfPlanCandidate = null;
+        },
+        resetAddPlaceToPlanCandidateState: (state) => {
+            state.placesToAdd = null;
+            state.requestStatusFetchPlacesToAdd = null;
+            state.requestStatusAddPlaceToPlanCandidate = null;
         },
     },
     extraReducers: (builder) => {
@@ -234,7 +239,10 @@ export const slice = createSlice({
     },
 });
 
-export const { resetEditPlanCandidateState } = slice.actions;
+export const {
+    resetReorderPlaceOfPlanCandidateState,
+    resetAddPlaceToPlanCandidateState,
+} = slice.actions;
 
 export const reduxEditPlanCandidateSelector = () =>
     useSelector((state: RootState) => state.editPlanCandidate);
