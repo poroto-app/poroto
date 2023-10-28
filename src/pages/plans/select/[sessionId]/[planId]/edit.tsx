@@ -1,6 +1,7 @@
-import { Center, VStack } from "@chakra-ui/react";
+import { Center, Icon, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { MdAdd } from "react-icons/md";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
     fetchCachedCreatedPlans,
@@ -12,6 +13,7 @@ import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
+import { Colors } from "src/view/constants/color";
 import { useLocation } from "src/view/hooks/useLocation";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
@@ -96,13 +98,29 @@ const PlanEdit = () => {
                     alignItems="flex-start"
                 >
                     <PlanPageSection title="Edit">
-                        <VStack>
+                        <VStack spacing="16px">
                             {plan.places.map((place, i) => (
-                                <EditPlanCandidatePlaceListItem
-                                    key={i}
-                                    place={place}
-                                    onClickShowRelatedPlaces={showRelatedPlaces}
-                                />
+                                <VStack key={i} w="100%" spacing="16px">
+                                    <EditPlanCandidatePlaceListItem
+                                        place={place}
+                                        onClickShowRelatedPlaces={
+                                            showRelatedPlaces
+                                        }
+                                    />
+                                    <Center
+                                        w="100%"
+                                        px="16px"
+                                        py="4px"
+                                        as="button"
+                                        border={`2px solid ${Colors.primary["400"]}`}
+                                        borderRadius="20px"
+                                    >
+                                        <Icon
+                                            as={MdAdd}
+                                            color={Colors.primary["700"]}
+                                        />
+                                    </Center>
+                                </VStack>
                             ))}
                         </VStack>
                     </PlanPageSection>
