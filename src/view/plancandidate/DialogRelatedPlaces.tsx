@@ -14,7 +14,7 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
@@ -32,21 +32,21 @@ import { PlaceReview } from "src/view/plan/PlaceReview";
 type Props = {
     visible: boolean;
     dialogTitle: string;
-    placeNameToBeUpdated: string;
     places: Place[] | null;
     updating: boolean;
     onClose: () => void;
     onClickRelatedPlace: (placeId: string) => void;
+    titleConfirmUpdate: (props: { selectedPlaceId: string }) => ReactNode;
 };
 
 export function DialogRelatedPlaces({
     visible,
     dialogTitle,
-    placeNameToBeUpdated,
     places,
     updating,
     onClose,
     onClickRelatedPlace,
+    titleConfirmUpdate,
 }: Props) {
     const [selectedPlaceToUpdate, setSelectedPlaceToUpdate] =
         useState<Place | null>();
@@ -101,8 +101,9 @@ export function DialogRelatedPlaces({
                     />
                 ) : (
                     <ConfirmReplaceScreen
-                        placeNameToBeReplaced={placeNameToBeUpdated}
-                        placeNameToReplace={selectedPlaceToUpdate.name}
+                        title={titleConfirmUpdate({
+                            selectedPlaceId: selectedPlaceToUpdate.id,
+                        })}
                         image={selectedPlaceToUpdate.images[0]}
                         onClickReplace={handleOnUpdatePlace}
                         onCancel={handleOnCancelReplacePlace}
@@ -280,14 +281,12 @@ export function PlaceListItem({
 }
 
 export function ConfirmReplaceScreen({
-    placeNameToBeReplaced,
-    placeNameToReplace,
+    title,
     image,
     onClickReplace,
     onCancel,
 }: {
-    placeNameToBeReplaced: string;
-    placeNameToReplace: string;
+    title: ReactNode;
     image: ImageType;
     onClickReplace: () => void;
     onCancel: () => void;
@@ -310,10 +309,7 @@ export function ConfirmReplaceScreen({
                         />
                     </Box>
 
-                    <Text fontSize="18px">
-                        「<b>{placeNameToBeReplaced}</b>」 を 「
-                        <b>{placeNameToReplace}</b>」 と入れ替えますか？
-                    </Text>
+                    <Text fontSize="18px">{title}</Text>
                 </VStack>
             </Center>
             <HStack mt="auto" pb="48px">

@@ -15,6 +15,7 @@ import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
 import { Colors } from "src/view/constants/color";
 import { useLocation } from "src/view/hooks/useLocation";
+import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
@@ -22,6 +23,7 @@ import { FooterHeight } from "src/view/plan/PlanCandidateFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { DialogRelatedPlaces } from "src/view/plancandidate/DialogRelatedPlaces";
 import { EditPlanCandidatePlaceListItem } from "src/view/plancandidate/EditPlanCandidatePlaceListItem";
+import {DialogReplacePlace} from "src/view/plancandidate/DialogReplacePlace";
 
 const PlanEdit = () => {
     const router = useRouter();
@@ -136,24 +138,19 @@ const PlanEdit = () => {
                 </VStack>
             </Center>
             {/*Dialogs*/}
-            <DialogRelatedPlaces
-                visible={isDialogRelatedPlacesVisible}
-                dialogTitle={`「${
-                    plan.places.find((p) => p.id === placeIdToReplace)?.name
-                }」に関連する場所`}
-                placeNameToBeUpdated={
-                    plan.places.find((p) => p.id === placeIdToReplace)?.name
-                }
-                places={placesToReplace}
-                updating={isReplacingPlace}
-                onClickRelatedPlace={(placeId) =>
-                    placeIdToReplace &&
+            <DialogReplacePlace
+                placesInPlan={plan.places}
+                placesToReplace={placesToReplace}
+                placeIdToReplace={placeIdToReplace}
+                isReplacingPlace={isReplacingPlace}
+                isDialogVisible={isDialogRelatedPlacesVisible}
+                onReplacePlace={({ placeIdToBeReplaced, placeIdToReplace }) =>
                     replacePlace({
-                        placeIdToReplace: placeIdToReplace,
-                        placeIdToAdd: placeId,
+                        placeIdToReplace: placeIdToBeReplaced,
+                        placeIdToAdd: placeIdToReplace,
                     })
                 }
-                onClose={() => onCloseDialogRelatedPlaces()}
+                onCloseDialog={onCloseDialogRelatedPlaces}
             />
         </>
     );

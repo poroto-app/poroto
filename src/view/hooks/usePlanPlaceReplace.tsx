@@ -4,7 +4,7 @@ import {
     fetchPlacesToReplace,
     reduxEditPlanCandidateSelector,
     replacePlaceOfPlanCandidate,
-    resetEditPlanCandidateState,
+    resetReorderPlaceOfPlanCandidateState,
 } from "src/redux/editPlanCandidate";
 import { useAppDispatch } from "src/redux/redux";
 
@@ -39,7 +39,7 @@ export const usePlanPlaceReplace = ({
     const onCloseDialogRelatedPlaces = () => {
         setPlaceIdToReplace(null);
         setIsDialogRelatedPlacesVisible(false);
-        dispatch(resetEditPlanCandidateState());
+        dispatch(resetReorderPlaceOfPlanCandidateState());
     };
 
     const replacePlace = ({
@@ -60,7 +60,7 @@ export const usePlanPlaceReplace = ({
     };
 
     useEffect(() => {
-        dispatch(resetEditPlanCandidateState());
+        dispatch(resetReorderPlaceOfPlanCandidateState());
     }, []);
 
     useEffect(() => {

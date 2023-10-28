@@ -36,7 +36,7 @@ import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
-import { DialogRelatedPlaces } from "src/view/plancandidate/DialogRelatedPlaces";
+import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
 
 const PlanDetail = () => {
     const router = useRouter();
@@ -218,24 +218,19 @@ const PlanDetail = () => {
                     />
                 )
             }
-            <DialogRelatedPlaces
-                visible={isDialogRelatedPlacesVisible}
-                dialogTitle={`「${
-                    plan.places.find((p) => p.id === placeIdToReplace)?.name
-                }」に関連する場所`}
-                placeNameToBeUpdated={
-                    plan.places.find((p) => p.id === placeIdToReplace)?.name
-                }
-                places={placesToReplace}
-                updating={isReplacingPlace}
-                onClickRelatedPlace={(placeId) =>
-                    placeIdToReplace &&
+            <DialogReplacePlace
+                placesInPlan={plan.places}
+                placesToReplace={placesToReplace}
+                placeIdToReplace={placeIdToReplace}
+                isReplacingPlace={isReplacingPlace}
+                isDialogVisible={isDialogRelatedPlacesVisible}
+                onReplacePlace={({ placeIdToBeReplaced, placeIdToReplace }) =>
                     replacePlace({
-                        placeIdToReplace: placeIdToReplace,
-                        placeIdToAdd: placeId,
+                        placeIdToReplace: placeIdToBeReplaced,
+                        placeIdToAdd: placeIdToReplace,
                     })
                 }
-                onClose={() => onCloseDialogRelatedPlaces()}
+                onCloseDialog={onCloseDialogRelatedPlaces}
             />
         </>
     );
