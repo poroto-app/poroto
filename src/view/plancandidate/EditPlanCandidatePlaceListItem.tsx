@@ -22,7 +22,7 @@ export function EditPlanCandidatePlaceListItem({
             overflow="hidden"
         >
             <Box w="100%" h="150px">
-                <ImageSliderPreview images={place.images}/>
+                <ImageSliderPreview images={place.images} />
             </Box>
             <HStack px="16px">
                 <PlaceIcon
@@ -39,7 +39,7 @@ export function EditPlanCandidatePlaceListItem({
                     {place.name}
                 </Text>
             </HStack>
-            <VStack w="100%" mt="auto">
+            <VStack w="100%" mt="auto" alignItems="flex-end" px="16px">
                 <Box
                     color="#AB7129"
                     as="button"
