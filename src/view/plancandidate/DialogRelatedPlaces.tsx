@@ -31,39 +31,41 @@ import { PlaceReview } from "src/view/plan/PlaceReview";
 
 type Props = {
     visible: boolean;
-    placeNameToBeReplaced: string;
+    dialogTitle: string;
+    placeNameToBeUpdated: string;
     places: Place[] | null;
-    replacing: boolean;
+    updating: boolean;
     onClose: () => void;
     onClickRelatedPlace: (placeId: string) => void;
 };
 
 export function DialogRelatedPlaces({
     visible,
-    placeNameToBeReplaced,
+    dialogTitle,
+    placeNameToBeUpdated,
     places,
-    replacing,
+    updating,
     onClose,
     onClickRelatedPlace,
 }: Props) {
-    const [selectedPlaceToReplace, setSelectedPlaceToReplace] =
+    const [selectedPlaceToUpdate, setSelectedPlaceToUpdate] =
         useState<Place | null>();
 
-    const handleOnSelectPlaceToReplace = (placeId: string) => {
-        setSelectedPlaceToReplace(places.find((p) => p.id === placeId) || null);
+    const handleOnSelectPlaceToUpdate = (placeId: string) => {
+        setSelectedPlaceToUpdate(places.find((p) => p.id === placeId) || null);
     };
 
-    const handleOnReplacePlace = () => {
-        onClickRelatedPlace(selectedPlaceToReplace.id);
-        setSelectedPlaceToReplace(null);
+    const handleOnUpdatePlace = () => {
+        onClickRelatedPlace(selectedPlaceToUpdate.id);
+        setSelectedPlaceToUpdate(null);
     };
 
     const handleOnCancelReplacePlace = () => {
-        setSelectedPlaceToReplace(null);
+        setSelectedPlaceToUpdate(null);
     };
 
     useEffect(() => {
-        if (places === null) setSelectedPlaceToReplace(null);
+        if (places === null) setSelectedPlaceToUpdate(null);
     }, [copyObject(places)]);
 
     return (
@@ -72,7 +74,7 @@ export function DialogRelatedPlaces({
             width="100%"
             visible={visible}
             onClickOutside={() => {
-                if (!replacing) onClose();
+                if (!updating) onClose();
             }}
         >
             <Center
@@ -88,21 +90,21 @@ export function DialogRelatedPlaces({
                     },
                 }}
             >
-                {replacing ? (
+                {updating ? (
                     <LoadingScreen />
-                ) : selectedPlaceToReplace == null ? (
+                ) : selectedPlaceToUpdate == null ? (
                     <SelectPlaceToReplaceScreen
-                        name={placeNameToBeReplaced}
+                        dialogTitle={dialogTitle}
                         places={places}
-                        onClickReplace={handleOnSelectPlaceToReplace}
+                        onClickReplace={handleOnSelectPlaceToUpdate}
                         onClose={onClose}
                     />
                 ) : (
                     <ConfirmReplaceScreen
-                        placeNameToBeReplaced={placeNameToBeReplaced}
-                        placeNameToReplace={selectedPlaceToReplace.name}
-                        image={selectedPlaceToReplace.images[0]}
-                        onClickReplace={handleOnReplacePlace}
+                        placeNameToBeReplaced={placeNameToBeUpdated}
+                        placeNameToReplace={selectedPlaceToUpdate.name}
+                        image={selectedPlaceToUpdate.images[0]}
+                        onClickReplace={handleOnUpdatePlace}
                         onCancel={handleOnCancelReplacePlace}
                     />
                 )}
@@ -124,12 +126,12 @@ function LoadingScreen() {
 }
 
 function SelectPlaceToReplaceScreen({
-    name,
+    dialogTitle,
     places,
     onClickReplace,
     onClose,
 }: {
-    name: string;
+    dialogTitle: string;
     places: Place[] | null;
     onClickReplace: (placeId: string) => void;
     onClose: () => void;
@@ -138,7 +140,7 @@ function SelectPlaceToReplaceScreen({
 
     return (
         <PlaceList
-            title={`「${name}」に関連する場所`}
+            title={dialogTitle}
             places={places}
             onClickRelatedPlace={onClickReplace}
             onClose={onClose}

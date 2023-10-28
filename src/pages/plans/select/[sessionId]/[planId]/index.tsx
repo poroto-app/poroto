@@ -220,11 +220,14 @@ const PlanDetail = () => {
             }
             <DialogRelatedPlaces
                 visible={isDialogRelatedPlacesVisible}
-                placeNameToBeReplaced={
+                dialogTitle={`「${
+                    plan.places.find((p) => p.id === placeIdToReplace)?.name
+                }」に関連する場所`}
+                placeNameToBeUpdated={
                     plan.places.find((p) => p.id === placeIdToReplace)?.name
                 }
                 places={placesToReplace}
-                replacing={isReplacingPlace}
+                updating={isReplacingPlace}
                 onClickRelatedPlace={(placeId) =>
                     placeIdToReplace &&
                     replacePlace({

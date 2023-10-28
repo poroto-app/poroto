@@ -14,9 +14,9 @@ type Story = StoryObj<typeof DialogRelatedPlaces>;
 
 export const Primary: Story = {
     args: {
-        placeNameToBeReplaced: "横浜駅",
+        placeNameToBeUpdated: "横浜駅",
         visible: true,
-        replacing: false,
+        updating: false,
         places: [mockPlaces.bookStore, mockPlaces.tokyo, mockPlaces.marunouchi],
     },
     render: (args) => (
@@ -28,9 +28,10 @@ export const Primary: Story = {
 
 export const Loading: Story = {
     args: {
-        placeNameToBeReplaced: "横浜駅",
+        dialogTitle: "「横浜駅」に関連する場所",
+        placeNameToBeUpdated: "横浜駅",
         visible: true,
-        replacing: false,
+        updating: false,
         places: null,
     },
     render: (args) => (
@@ -42,13 +43,13 @@ export const Loading: Story = {
 
 export const Replacing: Story = {
     args: {
-        placeNameToBeReplaced: "横浜駅",
+        placeNameToBeUpdated: "横浜駅",
         visible: true,
         places: [mockPlaces.bookStore, mockPlaces.tokyo, mockPlaces.marunouchi],
     },
     render: (args) => (
         <Box w="100%" h="800px">
-            <DialogRelatedPlaces {...args} replacing />
+            <DialogRelatedPlaces {...args} updating />
         </Box>
     ),
 };
