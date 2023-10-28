@@ -223,14 +223,11 @@ export const slice = createSlice({
                     RequestStatuses.PENDING;
                 state.placesToAdd = null;
             })
-            .addCase(
-                addPlaceToPlanOfPlanCandidate.fulfilled,
-                (state, { payload: {} }) => {
-                    state.requestStatusAddPlaceToPlanCandidate =
-                        RequestStatuses.FULFILLED;
-                    state.placesToAdd = null;
-                }
-            )
+            .addCase(addPlaceToPlanOfPlanCandidate.fulfilled, (state) => {
+                state.requestStatusAddPlaceToPlanCandidate =
+                    RequestStatuses.FULFILLED;
+                state.placesToAdd = null;
+            })
             .addCase(addPlaceToPlanOfPlanCandidate.rejected, (state) => {
                 state.requestStatusAddPlaceToPlanCandidate =
                     RequestStatuses.REJECTED;
