@@ -100,28 +100,25 @@ const PlanEdit = () => {
                     <PlanPageSection title="Edit">
                         <VStack spacing="16px">
                             {plan.places.map((place, i) => (
-                                <VStack key={i} w="100%" spacing="16px">
-                                    <EditPlanCandidatePlaceListItem
-                                        place={place}
-                                        onClickShowRelatedPlaces={
-                                            showRelatedPlaces
-                                        }
-                                    />
-                                    <Center
-                                        w="100%"
-                                        px="16px"
-                                        py="4px"
-                                        as="button"
-                                        border={`2px solid ${Colors.primary["400"]}`}
-                                        borderRadius="20px"
-                                    >
-                                        <Icon
-                                            as={MdAdd}
-                                            color={Colors.primary["700"]}
-                                        />
-                                    </Center>
-                                </VStack>
+                                <EditPlanCandidatePlaceListItem
+                                    key={place.id}
+                                    place={place}
+                                    onClickShowRelatedPlaces={showRelatedPlaces}
+                                />
                             ))}
+                            <Center
+                                w="100%"
+                                px="16px"
+                                py="4px"
+                                as="button"
+                                border={`2px solid ${Colors.primary["400"]}`}
+                                borderRadius="20px"
+                            >
+                                <Icon
+                                    as={MdAdd}
+                                    color={Colors.primary["700"]}
+                                />
+                            </Center>
                         </VStack>
                     </PlanPageSection>
                     <PlanPageSection title="プラン内の場所">
