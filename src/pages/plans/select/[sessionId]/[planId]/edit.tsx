@@ -1,4 +1,5 @@
-import { Center, Icon, VStack } from "@chakra-ui/react";
+import { Link } from "@chakra-ui/next-js";
+import { Button, Center, Icon, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { MdAdd } from "react-icons/md";
@@ -14,12 +15,13 @@ import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
 import { Colors } from "src/view/constants/color";
+import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
-import { FooterHeight } from "src/view/plan/PlanFooter";
+import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
 import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
@@ -162,6 +164,27 @@ const PlanEdit = () => {
                 }
                 onCloseDialog={onCloseDialogToAddPlace}
             />
+            {/*Footer*/}
+            <PlanFooter>
+                <Link
+                    flex={1}
+                    href={Routes.plans.planCandidate(
+                        createPlanSession,
+                        plan.id
+                    )}
+                >
+                    <Button
+                        w="100%"
+                        variant="outline"
+                        borderWidth="2px"
+                        borderColor={Colors.primary["400"]}
+                        color={Colors.primary["400"]}
+                        borderRadius={10}
+                    >
+                        保存
+                    </Button>
+                </Link>
+            </PlanFooter>
         </>
     );
 };
