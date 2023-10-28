@@ -21,9 +21,9 @@ import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteBy
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { FooterHeight } from "src/view/plan/PlanCandidateFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
-import { DialogRelatedPlaces } from "src/view/plancandidate/DialogRelatedPlaces";
+import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
+import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
 import { EditPlanCandidatePlaceListItem } from "src/view/plancandidate/EditPlanCandidatePlaceListItem";
-import {DialogReplacePlace} from "src/view/plancandidate/DialogReplacePlace";
 
 const PlanEdit = () => {
     const router = useRouter();
@@ -40,6 +40,18 @@ const PlanEdit = () => {
         isReplacingPlace,
         isDialogRelatedPlacesVisible,
     } = usePlanPlaceReplace({
+        planCandidateId: sessionId as string,
+        planId: planId as string,
+    });
+
+    const {
+        addPlaceToPlan,
+        showPlacesToAdd,
+        onCloseDialogToAddPlace,
+        isDialogToAddPlaceVisible,
+        placesToAdd,
+        isAddingPlace,
+    } = usePlanPlaceAdd({
         planCandidateId: sessionId as string,
         planId: planId as string,
     });
@@ -108,19 +120,8 @@ const PlanEdit = () => {
                                     onClickShowRelatedPlaces={showRelatedPlaces}
                                 />
                             ))}
-                            <Center
-                                w="100%"
-                                px="16px"
-                                py="4px"
-                                as="button"
-                                border={`2px solid ${Colors.primary["400"]}`}
-                                borderRadius="20px"
-                            >
-                                <Icon
-                                    as={MdAdd}
-                                    color={Colors.primary["700"]}
-                                />
-                            </Center>
+                            {/*TODO: すべての箇所で場所を追加できるようにする*/}
+                            <AddPlaceButton onClick={showPlacesToAdd} />
                         </VStack>
                     </PlanPageSection>
                     <PlanPageSection title="プラン内の場所">
@@ -152,7 +153,32 @@ const PlanEdit = () => {
                 }
                 onCloseDialog={onCloseDialogRelatedPlaces}
             />
+            <DialogAddPlace
+                placesToAdd={placesToAdd}
+                isDialogVisible={isDialogToAddPlaceVisible}
+                isAddingPlace={isAddingPlace}
+                onAddPlaceToPlan={({ placeIdToAdd }) =>
+                    addPlaceToPlan({ placeIdToAdd })
+                }
+                onCloseDialog={onCloseDialogToAddPlace}
+            />
         </>
+    );
+};
+
+const AddPlaceButton = ({ onClick }: { onClick: () => void }) => {
+    return (
+        <Center
+            w="100%"
+            px="16px"
+            py="4px"
+            as="button"
+            border={`2px solid ${Colors.primary["400"]}`}
+            borderRadius="20px"
+            onClick={onClick}
+        >
+            <Icon as={MdAdd} color={Colors.primary["700"]} />
+        </Center>
     );
 };
 
