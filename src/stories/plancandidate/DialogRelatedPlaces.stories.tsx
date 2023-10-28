@@ -20,7 +20,7 @@ export const Primary: Story = {
         updating: false,
         buttonLabelSelectPlace: "この場所を入れ替える",
         buttonLabelUpdatePlace: "入れ替える",
-        titleConfirmUpdate:()=> "「A」を「B」と入れ替えますか？"
+        titleConfirmUpdate: () => "「A」を「B」と入れ替えますか？",
     },
     render: (args) => (
         <Box w="100%" h="800px">
@@ -37,7 +37,7 @@ export const Loading: Story = {
         places: null,
         buttonLabelSelectPlace: "この場所を入れ替える",
         buttonLabelUpdatePlace: "入れ替える",
-        titleConfirmUpdate:()=> "「A」を「B」と入れ替えますか？"
+        titleConfirmUpdate: () => "「A」を「B」と入れ替えますか？",
     },
     render: (args) => (
         <Box w="100%" h="800px">
@@ -53,7 +53,7 @@ export const Replacing: Story = {
         places: [mockPlaces.bookStore, mockPlaces.tokyo, mockPlaces.marunouchi],
         buttonLabelSelectPlace: "この場所を入れ替える",
         buttonLabelUpdatePlace: "入れ替える",
-        titleConfirmUpdate:()=> "「A」を「B」と入れ替えますか？"
+        titleConfirmUpdate: () => "「A」を「B」と入れ替えますか？",
     },
     render: (args) => (
         <Box w="100%" h="800px">

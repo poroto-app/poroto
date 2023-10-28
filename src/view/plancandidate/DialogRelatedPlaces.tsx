@@ -64,7 +64,7 @@ export function DialogRelatedPlaces({
         setSelectedPlaceToUpdate(null);
     };
 
-    const handleOnCancelReplacePlace = () => {
+    const handleOnCancelUpdate = () => {
         setSelectedPlaceToUpdate(null);
     };
 
@@ -97,22 +97,22 @@ export function DialogRelatedPlaces({
                 {updating ? (
                     <LoadingScreen />
                 ) : selectedPlaceToUpdate == null ? (
-                    <SelectPlaceToReplaceScreen
+                    <SelectPlaceToUpdateScreen
                         dialogTitle={dialogTitle}
                         places={places}
                         buttonLabelSelectPlace={buttonLabelSelectPlace}
-                        onClickReplace={handleOnSelectPlaceToUpdate}
+                        onClickUpdate={handleOnSelectPlaceToUpdate}
                         onClose={onClose}
                     />
                 ) : (
-                    <ConfirmReplaceScreen
+                    <ConfirmToUpdateScreen
                         title={titleConfirmUpdate({
                             selectedPlaceId: selectedPlaceToUpdate.id,
                         })}
                         image={selectedPlaceToUpdate.images[0]}
                         buttonLabelUpdatePlace={buttonLabelUpdatePlace}
-                        onClickReplace={handleOnUpdatePlace}
-                        onCancel={handleOnCancelReplacePlace}
+                        onClickUpdate={handleOnUpdatePlace}
+                        onCancel={handleOnCancelUpdate}
                     />
                 )}
             </Center>
@@ -132,17 +132,17 @@ function LoadingScreen() {
     );
 }
 
-function SelectPlaceToReplaceScreen({
+function SelectPlaceToUpdateScreen({
     dialogTitle,
     places,
     buttonLabelSelectPlace,
-    onClickReplace,
+    onClickUpdate,
     onClose,
 }: {
     dialogTitle: string;
     places: Place[] | null;
     buttonLabelSelectPlace: string;
-    onClickReplace: (placeId: string) => void;
+    onClickUpdate: (placeId: string) => void;
     onClose: () => void;
 }) {
     if (places == null) return <LoadingScreen />;
@@ -152,7 +152,7 @@ function SelectPlaceToReplaceScreen({
             title={dialogTitle}
             places={places}
             buttonLabelSelectPlace={buttonLabelSelectPlace}
-            onClickRelatedPlace={onClickReplace}
+            onClickRelatedPlace={onClickUpdate}
             onClose={onClose}
         />
     );
@@ -206,7 +206,7 @@ function PlaceList({
                                 categories={place.categories}
                                 reviews={place.googlePlaceReviews}
                                 buttonLabelSelectPlace={buttonLabelSelectPlace}
-                                onClickReplacePlace={() =>
+                                onClickUpdatePlace={() =>
                                     onClickRelatedPlace(place.id)
                                 }
                             />
@@ -223,14 +223,14 @@ export function PlaceListItem({
     images,
     reviews,
     buttonLabelSelectPlace,
-    onClickReplacePlace,
+    onClickUpdatePlace,
 }: {
     name: string;
     categories: PlaceCategory[];
     images: ImageType[];
     reviews: GooglePlaceReview[] | null;
     buttonLabelSelectPlace: string;
-    onClickReplacePlace: () => void;
+    onClickUpdatePlace: () => void;
 }) {
     return (
         <AccordionItem
@@ -266,7 +266,7 @@ export function PlaceListItem({
                         color="#4A66B5"
                         fontWeight="bold"
                         as="button"
-                        onClick={onClickReplacePlace}
+                        onClick={onClickUpdatePlace}
                     >
                         {buttonLabelSelectPlace}
                     </Box>
@@ -294,17 +294,17 @@ export function PlaceListItem({
     );
 }
 
-export function ConfirmReplaceScreen({
+export function ConfirmToUpdateScreen({
     title,
     image,
     buttonLabelUpdatePlace,
-    onClickReplace,
+    onClickUpdate,
     onCancel,
 }: {
     title: ReactNode;
     image: ImageType;
     buttonLabelUpdatePlace: string;
-    onClickReplace: () => void;
+    onClickUpdate: () => void;
     onCancel: () => void;
 }) {
     return (
@@ -332,7 +332,7 @@ export function ConfirmReplaceScreen({
                 <Button onClick={onCancel} colorScheme="red" variant="outline">
                     キャンセル
                 </Button>
-                <Button onClick={onClickReplace} colorScheme="blue">
+                <Button onClick={onClickUpdate} colorScheme="blue">
                     {buttonLabelUpdatePlace}
                 </Button>
             </HStack>
