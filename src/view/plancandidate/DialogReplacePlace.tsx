@@ -51,6 +51,8 @@ export function DialogReplacePlace({
             )}
             places={placesToReplace}
             updating={isReplacingPlace}
+            buttonLabelSelectPlace="この場所と入れ替える"
+            buttonLabelUpdatePlace="入れ替える"
             onClickRelatedPlace={(placeId) =>
                 placeIdToReplace &&
                 onReplacePlace({

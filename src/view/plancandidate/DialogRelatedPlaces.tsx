@@ -34,6 +34,8 @@ type Props = {
     dialogTitle: string;
     places: Place[] | null;
     updating: boolean;
+    buttonLabelUpdatePlace: string;
+    buttonLabelSelectPlace: string;
     onClose: () => void;
     onClickRelatedPlace: (placeId: string) => void;
     titleConfirmUpdate: (props: { selectedPlaceId: string }) => ReactNode;
@@ -44,6 +46,8 @@ export function DialogRelatedPlaces({
     dialogTitle,
     places,
     updating,
+    buttonLabelUpdatePlace,
+    buttonLabelSelectPlace,
     onClose,
     onClickRelatedPlace,
     titleConfirmUpdate,
@@ -96,6 +100,7 @@ export function DialogRelatedPlaces({
                     <SelectPlaceToReplaceScreen
                         dialogTitle={dialogTitle}
                         places={places}
+                        buttonLabelSelectPlace={buttonLabelSelectPlace}
                         onClickReplace={handleOnSelectPlaceToUpdate}
                         onClose={onClose}
                     />
@@ -105,6 +110,7 @@ export function DialogRelatedPlaces({
                             selectedPlaceId: selectedPlaceToUpdate.id,
                         })}
                         image={selectedPlaceToUpdate.images[0]}
+                        buttonLabelUpdatePlace={buttonLabelUpdatePlace}
                         onClickReplace={handleOnUpdatePlace}
                         onCancel={handleOnCancelReplacePlace}
                     />
@@ -129,11 +135,13 @@ function LoadingScreen() {
 function SelectPlaceToReplaceScreen({
     dialogTitle,
     places,
+    buttonLabelSelectPlace,
     onClickReplace,
     onClose,
 }: {
     dialogTitle: string;
     places: Place[] | null;
+    buttonLabelSelectPlace: string;
     onClickReplace: (placeId: string) => void;
     onClose: () => void;
 }) {
@@ -143,6 +151,7 @@ function SelectPlaceToReplaceScreen({
         <PlaceList
             title={dialogTitle}
             places={places}
+            buttonLabelSelectPlace={buttonLabelSelectPlace}
             onClickRelatedPlace={onClickReplace}
             onClose={onClose}
         />
@@ -152,11 +161,13 @@ function SelectPlaceToReplaceScreen({
 function PlaceList({
     title,
     places,
+    buttonLabelSelectPlace,
     onClickRelatedPlace,
     onClose,
 }: {
     title: string;
     places: Place[];
+    buttonLabelSelectPlace: string;
     onClickRelatedPlace: (placeId: string) => void;
     onClose: () => void;
 }) {
@@ -194,6 +205,7 @@ function PlaceList({
                                 images={place.images}
                                 categories={place.categories}
                                 reviews={place.googlePlaceReviews}
+                                buttonLabelSelectPlace={buttonLabelSelectPlace}
                                 onClickReplacePlace={() =>
                                     onClickRelatedPlace(place.id)
                                 }
@@ -210,12 +222,14 @@ export function PlaceListItem({
     categories,
     images,
     reviews,
+    buttonLabelSelectPlace,
     onClickReplacePlace,
 }: {
     name: string;
     categories: PlaceCategory[];
     images: ImageType[];
     reviews: GooglePlaceReview[] | null;
+    buttonLabelSelectPlace: string;
     onClickReplacePlace: () => void;
 }) {
     return (
@@ -254,7 +268,7 @@ export function PlaceListItem({
                         as="button"
                         onClick={onClickReplacePlace}
                     >
-                        この場所と入れ替える
+                        {buttonLabelSelectPlace}
                     </Box>
                 </VStack>
                 {reviews && reviews.length > 0 && (
@@ -283,11 +297,13 @@ export function PlaceListItem({
 export function ConfirmReplaceScreen({
     title,
     image,
+    buttonLabelUpdatePlace,
     onClickReplace,
     onCancel,
 }: {
     title: ReactNode;
     image: ImageType;
+    buttonLabelUpdatePlace: string;
     onClickReplace: () => void;
     onCancel: () => void;
 }) {
@@ -317,7 +333,7 @@ export function ConfirmReplaceScreen({
                     キャンセル
                 </Button>
                 <Button onClick={onClickReplace} colorScheme="blue">
-                    入れ替える
+                    {buttonLabelUpdatePlace}
                 </Button>
             </HStack>
         </VStack>

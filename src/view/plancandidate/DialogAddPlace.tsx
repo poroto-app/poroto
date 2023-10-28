@@ -22,6 +22,8 @@ export function DialogAddPlace({
             dialogTitle="プランに新しい場所を追加する"
             places={placesToAdd}
             updating={isAddingPlace}
+            buttonLabelSelectPlace="この場所を追加する"
+            buttonLabelUpdatePlace="追加"
             onClose={onCloseDialog}
             onClickRelatedPlace={(placeId) =>
                 onAddPlaceToPlan({
