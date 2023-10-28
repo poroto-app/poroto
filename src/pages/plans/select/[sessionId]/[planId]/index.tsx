@@ -217,7 +217,7 @@ const PlanDetail = () => {
                         handleOnSavePlan({ session: createPlanSession, plan })
                     }
                 >
-                    保存
+                    しおりとして保存
                 </Button>
             </PlanFooter>
             {
