@@ -231,6 +231,7 @@ export type Place = {
   images: Array<Image>;
   location: GeoLocation;
   name: Scalars['String'];
+  priceRange?: Maybe<PriceRange>;
 };
 
 export type PlaceCategory = {
@@ -292,6 +293,13 @@ export type PlansByUserOutput = {
   __typename?: 'PlansByUserOutput';
   author: User;
   plans: Array<Plan>;
+};
+
+export type PriceRange = {
+  __typename?: 'PriceRange';
+  googlePriceLevel: Scalars['Int'];
+  priceRangeMax: Scalars['Int'];
+  priceRangeMin: Scalars['Int'];
 };
 
 export type Query = {
