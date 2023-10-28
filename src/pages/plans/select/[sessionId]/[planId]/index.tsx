@@ -23,7 +23,7 @@ import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
-import { usePlanEdit } from "src/view/hooks/usePlanEdit";
+import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlanEditorDialog } from "src/view/plan/edit/PlanEditorDialog";
 import { PlaceMap } from "src/view/plan/PlaceMap";
@@ -52,7 +52,7 @@ const PlanDetail = () => {
         placesToReplace,
         isReplacingPlace,
         isDialogRelatedPlacesVisible,
-    } = usePlanEdit({
+    } = usePlanPlaceReplace({
         planCandidateId: sessionId as string,
         planId: planId as string,
     });

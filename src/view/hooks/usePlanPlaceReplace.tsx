@@ -8,7 +8,7 @@ import {
 } from "src/redux/editPlanCandidate";
 import { useAppDispatch } from "src/redux/redux";
 
-export const usePlanEdit = ({
+export const usePlanPlaceReplace = ({
     planCandidateId,
     planId,
 }: {
@@ -16,14 +16,6 @@ export const usePlanEdit = ({
     planId: string;
 }) => {
     const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        dispatch(resetEditPlanCandidateState());
-    }, []);
-
-    // ========================================================================
-    // Replace
-    // ========================================================================
     const [placeIdToReplace, setPlaceIdToReplace] = useState<string | null>();
     const [isDialogRelatedPlacesVisible, setIsDialogRelatedPlacesVisible] =
         useState(false);
@@ -68,6 +60,10 @@ export const usePlanEdit = ({
     };
 
     useEffect(() => {
+        dispatch(resetEditPlanCandidateState());
+    }, []);
+
+    useEffect(() => {
         // エラー時にはダイアログを閉じる
         if (
             requestStatusFetchPlacesToReplace === RequestStatuses.REJECTED ||
@@ -99,7 +95,6 @@ export const usePlanEdit = ({
         requestStatusFetchPlacesToReplace,
         requestStatusReplacePlaceOfPlanCandidate,
     ]);
-    // ========================================================================
 
     return {
         showRelatedPlaces,
