@@ -3,27 +3,7 @@ query FetchPlans($pageKey: String) {
         id
         name
         places {
-            id
-            googlePlaceId
-            name
-            images {
-                default
-                small
-                large
-            }
-            location {
-                longitude
-                latitude
-            }
-            estimatedStayDuration
-            categories {
-                id
-            }
-            priceRange {
-                priceRangeMin
-                priceRangeMax
-                googlePriceLevel
-            }
+            ...PlaceFullFragment
         }
         timeInMinutes
         transitions {

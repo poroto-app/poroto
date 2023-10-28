@@ -1,27 +1,7 @@
 query FetchAvailablePlacesForPlanCandidate($session: String!) {
     availablePlacesForPlan(input: {session: $session}) {
         places {
-            id
-            googlePlaceId
-            name
-            location {
-                latitude
-                longitude
-            }
-            images {
-                default
-                small
-                large
-            }
-            estimatedStayDuration
-            categories {
-                id
-            }
-            priceRange {
-                priceRangeMin
-                priceRangeMax
-                googlePriceLevel
-            }
+            ...PlaceFullFragment
         }
     }
 }

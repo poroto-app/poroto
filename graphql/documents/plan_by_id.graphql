@@ -3,35 +3,7 @@ query FetchPlanById($planId: String!) {
         id
         name
         places {
-            id
-            googlePlaceId
-            name
-            images {
-                default
-                small
-                large
-            }
-            location {
-                longitude
-                latitude
-            }
-            estimatedStayDuration
-            googleReviews {
-                rating
-                text
-                authorName
-                authorPhotoUrl
-                authorUrl
-                time
-            }
-            categories {
-                id
-            }
-            priceRange {
-                priceRangeMin
-                priceRangeMax
-                googlePriceLevel
-            }
+            ...PlaceFullFragment
         }
         timeInMinutes
         transitions {
