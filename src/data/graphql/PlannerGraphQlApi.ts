@@ -406,5 +406,12 @@ function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
             place.categories?.map((category) => ({
                 id: category.id,
             })) ?? [],
+        priceRange: place.priceRange
+            ? {
+                  min: place.priceRange.priceRangeMin,
+                  max: place.priceRange.priceRangeMax,
+                  googlePriceLevel: place.priceRange.googlePriceLevel,
+              }
+            : null,
     };
 }

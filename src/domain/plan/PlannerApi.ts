@@ -100,6 +100,11 @@ export type PlaceEntity = {
     categories: {
         id: string;
     }[];
+    priceRange?: {
+        min: number;
+        max: number;
+        googlePriceLevel: number;
+    };
 };
 
 export type GooglePlaceReviewEntity = {
