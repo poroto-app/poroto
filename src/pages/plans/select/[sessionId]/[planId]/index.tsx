@@ -1,4 +1,4 @@
-import { Box, Center, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, VStack } from "@chakra-ui/react";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -21,16 +21,14 @@ import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
+import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlanEditorDialog } from "src/view/plan/edit/PlanEditorDialog";
 import { PlaceMap } from "src/view/plan/PlaceMap";
-import {
-    FooterHeight,
-    PlanCandidateFooter,
-} from "src/view/plan/PlanCandidateFooter";
+import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
@@ -196,12 +194,32 @@ const PlanDetail = () => {
                     </VStack>
                 </VStack>
             </Center>
-            <PlanCandidateFooter
-                onSave={() =>
-                    handleOnSavePlan({ session: createPlanSession, plan })
-                }
-                onEdit={() => setIsEditingPlan(true)}
-            />
+            <PlanFooter>
+                {process.env.APP_ENV !== "production" && (
+                    <Button
+                        variant="outline"
+                        flex={1}
+                        borderColor={Colors.primary["400"]}
+                        color={Colors.primary["400"]}
+                        borderRadius={10}
+                        onClick={() => setIsEditingPlan(true)}
+                    >
+                        編集
+                    </Button>
+                )}
+                <Button
+                    variant="solid"
+                    flex={1}
+                    color="white"
+                    backgroundColor={Colors.primary["400"]}
+                    borderRadius={10}
+                    onClick={() =>
+                        handleOnSavePlan({ session: createPlanSession, plan })
+                    }
+                >
+                    保存
+                </Button>
+            </PlanFooter>
             {
                 // TODO: productionでも利用できるようにする
                 process.env.APP_ENV !== "production" && (

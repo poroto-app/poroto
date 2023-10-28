@@ -19,7 +19,7 @@ import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
-import { FooterHeight } from "src/view/plan/PlanCandidateFooter";
+import { FooterHeight } from "src/view/plan/PlanFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
 import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
