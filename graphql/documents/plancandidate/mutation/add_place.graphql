@@ -29,6 +29,11 @@ mutation AddPlaceToPlanCandidate($input: AddPlaceToPlanCandidateInput!) {
                 categories {
                     id
                 }
+                priceRange {
+                    priceRangeMin
+                    priceRangeMax
+                    googlePriceLevel
+                }
             }
             timeInMinutes
             transitions {

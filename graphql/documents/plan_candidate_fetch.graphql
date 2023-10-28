@@ -29,6 +29,11 @@ query CachedCreatedPlans($session: String!) {
                 categories {
                     id
                 }
+                priceRange {
+                    priceRangeMin
+                    priceRangeMax
+                    googlePriceLevel
+                }
             }
             timeInMinutes
             transitions {

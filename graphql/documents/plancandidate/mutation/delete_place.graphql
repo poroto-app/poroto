@@ -29,6 +29,11 @@ mutation DeletePlaceFromPlanCandidate($input: DeletePlaceFromPlanCandidateInput!
                 categories {
                     id
                 }
+                priceRange {
+                    priceRangeMin
+                    priceRangeMax
+                    googlePriceLevel
+                }
             }
             timeInMinutes
             transitions {

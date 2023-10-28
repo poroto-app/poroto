@@ -29,6 +29,11 @@ mutation ReplacePlaceOfPlanCandidate($input: ReplacePlaceOfPlanCandidateInput!) 
                 categories {
                     id
                 }
+                priceRange {
+                    priceRangeMin
+                    priceRangeMax
+                    googlePriceLevel
+                }
             }
             timeInMinutes
             transitions {

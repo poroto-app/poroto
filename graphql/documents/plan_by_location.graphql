@@ -29,6 +29,11 @@ query PlansByLocation($latitude: Float!, $longitude: Float!, $limit: Int, $pageK
                 categories {
                     id
                 }
+                priceRange {
+                    priceRangeMin
+                    priceRangeMax
+                    googlePriceLevel
+                }
             }
             timeInMinutes
             transitions {

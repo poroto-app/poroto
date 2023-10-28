@@ -17,6 +17,11 @@ query FetchAvailablePlacesForPlanCandidate($session: String!) {
             categories {
                 id
             }
+            priceRange {
+                priceRangeMin
+                priceRangeMax
+                googlePriceLevel
+            }
         }
     }
 }

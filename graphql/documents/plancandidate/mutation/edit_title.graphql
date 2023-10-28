@@ -29,6 +29,11 @@ mutation EditPlanTitleOfPlanCandidate($input: EditPlanTitleOfPlanCandidateInput!
                 categories {
                     id
                 }
+                priceRange {
+                    priceRangeMin
+                    priceRangeMax
+                    googlePriceLevel
+                }
             }
             timeInMinutes
             transitions {

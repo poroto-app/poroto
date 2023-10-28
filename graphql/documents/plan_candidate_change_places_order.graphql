@@ -20,6 +20,11 @@ mutation ChangePlacesOrderInPlanCandidate($input: ChangePlacesOrderInPlanCandida
                 categories {
                     id
                 }
+                priceRange {
+                    priceRangeMin
+                    priceRangeMax
+                    googlePriceLevel
+                }
             }
             timeInMinutes
             transitions {

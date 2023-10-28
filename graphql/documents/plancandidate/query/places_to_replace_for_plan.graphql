@@ -25,6 +25,11 @@ query PlacesToReplaceForPlanOfPlanCandidate($input: PlacesToReplaceForPlanCandid
             categories {
                 id
             }
+            priceRange {
+                priceRangeMin
+                priceRangeMax
+                googlePriceLevel
+            }
         }
     }
 }
