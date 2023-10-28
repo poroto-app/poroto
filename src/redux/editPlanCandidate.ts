@@ -18,12 +18,20 @@ export type EditPlanCandidateState = {
     placesToReplace: Place[] | null;
     requestStatusFetchPlacesToReplace: RequestStatus | null;
     requestStatusReplacePlaceOfPlanCandidate: RequestStatus | null;
+
+    placesToAdd: Place[] | null;
+    requestStatusFetchPlacesToAdd: RequestStatus | null;
+    requestStatusAddPlaceToPlanCandidate: RequestStatus | null;
 };
 
 const initialState: EditPlanCandidateState = {
     placesToReplace: null,
     requestStatusFetchPlacesToReplace: null,
     requestStatusReplacePlaceOfPlanCandidate: null,
+
+    placesToAdd: null,
+    requestStatusFetchPlacesToAdd: null,
+    requestStatusAddPlaceToPlanCandidate: null,
 };
 
 type FetchPlacesToReplaceProps = {
@@ -70,6 +78,59 @@ export const replacePlaceOfPlanCandidate = createAsyncThunk(
             planId,
             placeIdToReplace,
             placeIdToAdd,
+        });
+
+        dispatch(
+            updatePlanOfPlanCandidate({
+                plan: createPlanFromPlanEntity(plan, null),
+            })
+        );
+
+        return {
+            plan: createPlanFromPlanEntity(plan, null),
+        };
+    }
+);
+
+type FetchPlacesToAddForPlanOfPlanCandidateProps = {
+    planCandidateId: string;
+    planId: string;
+};
+export const fetchPlacesToAddToPlanCandidate = createAsyncThunk(
+    "editPlanCandidate/FetchPlacesToAddForPlanOfPlanCandidate",
+    async ({
+        planCandidateId,
+        planId,
+    }: FetchPlacesToAddForPlanOfPlanCandidateProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const { places } =
+            await plannerApi.fetchPlacesToAddForPlanOfPlanCandidate({
+                planCandidateId,
+                planId,
+            });
+
+        return {
+            places: places.map((place) => createPlaceFromPlaceEntity(place)),
+        };
+    }
+);
+
+type AddPlaceToPlanCandidateProps = {
+    planCandidateId: string;
+    planId: string;
+    placeId: string;
+};
+export const addPlaceToPlanOfPlanCandidate = createAsyncThunk(
+    "editPlanCandidate/AddPlaceToPlanOfPlanCandidate",
+    async (
+        { planCandidateId, planId, placeId }: AddPlaceToPlanCandidateProps,
+        { dispatch }
+    ) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const { plan } = await plannerApi.addPlaceToPlanOfPlanCandidate({
+            planCandidateId,
+            planId,
+            placeId,
         });
 
         dispatch(
@@ -133,6 +194,42 @@ export const slice = createSlice({
                 state.requestStatusReplacePlaceOfPlanCandidate =
                     RequestStatuses.REJECTED;
                 state.placesToReplace = null;
+            })
+            // Fetch Places To Add To Plan Candidate
+            .addCase(fetchPlacesToAddToPlanCandidate.pending, (state) => {
+                state.requestStatusFetchPlacesToAdd = RequestStatuses.PENDING;
+                state.placesToAdd = null;
+            })
+            .addCase(
+                fetchPlacesToAddToPlanCandidate.fulfilled,
+                (state, { payload: { places } }) => {
+                    state.requestStatusFetchPlacesToAdd =
+                        RequestStatuses.FULFILLED;
+                    state.placesToAdd = places;
+                }
+            )
+            .addCase(fetchPlacesToAddToPlanCandidate.rejected, (state) => {
+                state.requestStatusFetchPlacesToAdd = RequestStatuses.REJECTED;
+                state.placesToAdd = null;
+            })
+            // Add Place To Plan Of Plan Candidate
+            .addCase(addPlaceToPlanOfPlanCandidate.pending, (state) => {
+                state.requestStatusAddPlaceToPlanCandidate =
+                    RequestStatuses.PENDING;
+                state.placesToAdd = null;
+            })
+            .addCase(
+                addPlaceToPlanOfPlanCandidate.fulfilled,
+                (state, { payload: {} }) => {
+                    state.requestStatusAddPlaceToPlanCandidate =
+                        RequestStatuses.FULFILLED;
+                    state.placesToAdd = null;
+                }
+            )
+            .addCase(addPlaceToPlanOfPlanCandidate.rejected, (state) => {
+                state.requestStatusAddPlaceToPlanCandidate =
+                    RequestStatuses.REJECTED;
+                state.placesToAdd = null;
             });
     },
 });
