@@ -168,7 +168,7 @@ const PlanEdit = () => {
             <PlanFooter>
                 <Link
                     flex={1}
-                    href={Routes.plans.planCandidate(
+                    href={Routes.plans.planCandidate.plan(
                         createPlanSession,
                         plan.id
                     )}
