@@ -1,7 +1,6 @@
 import { GeoLocation } from "src/domain/models/GeoLocation";
-import { Place } from "src/domain/models/Place";
-import { Plan } from "src/domain/models/Plan";
-import { User } from "src/domain/models/User";
+import { PlaceEntity } from "src/domain/models/PlaceEntity";
+import { PlanEntity } from "src/domain/models/PlanEntity";
 import { UserEntity } from "src/domain/user/UserApi";
 
 export interface PlannerApi {
@@ -68,93 +67,6 @@ export interface PlannerApi {
     updatePlanCandidatePlacesOrder(
         request: UpdatePlanCandidatePlacesOrderRequest
     ): Promise<UpdatePlanCandidatePlacesOrderResponse>;
-}
-
-export type PlanEntity = {
-    id: string;
-    title: string;
-    places: PlaceEntity[];
-    timeInMinutes: number;
-    transitions: {
-        fromPlaceId?: string;
-        toPlaceId: string;
-        durationInMinutes: number;
-    }[];
-};
-
-export type PlaceEntity = {
-    id: string;
-    googlePlaceId: string | null;
-    name: string;
-    images: {
-        default: string;
-        small: string | null;
-        large: string | null;
-    }[];
-    location: {
-        latitude: number;
-        longitude: number;
-    };
-    estimatedStayDuration: number;
-    googlePlaceReviews: GooglePlaceReviewEntity[] | null;
-    categories: {
-        id: string;
-    }[];
-    priceRange?: {
-        min: number;
-        max: number;
-        googlePriceLevel: number;
-    };
-};
-
-export type GooglePlaceReviewEntity = {
-    rating: number;
-    text?: string;
-    time: number;
-    authorName: string;
-    authorUrl?: string;
-    authorPhotoUrl?: string;
-};
-
-export function createPlanFromPlanEntity(
-    entity: PlanEntity,
-    author: User | null
-): Plan {
-    return {
-        id: entity.id,
-        title: entity.title,
-        places: entity.places.map((place) => createPlaceFromPlaceEntity(place)),
-        timeInMinutes: entity.timeInMinutes,
-        transitions: entity.transitions.map((transition) => ({
-            fromPlaceId: transition.fromPlaceId,
-            toPlaceId: transition.toPlaceId,
-            durationInMinutes: transition.durationInMinutes,
-        })),
-        author,
-    };
-}
-
-export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
-    return {
-        id: entity.id,
-        googlePlaceId: entity.googlePlaceId,
-        name: entity.name,
-        images: entity.images,
-        location: entity.location,
-        estimatedStayDuration: entity.estimatedStayDuration,
-        googlePlaceReviews:
-            entity.googlePlaceReviews?.map((review) => ({
-                rating: review.rating,
-                text: review.text,
-                authorName: review.authorName,
-                authorUrl: review.authorUrl,
-                authorPhotoUrl: review.authorPhotoUrl,
-                timeInMilliSec: review.time,
-            })) ?? null,
-        categories: entity.categories.map((category) => ({
-            id: category.id,
-        })),
-    };
 }
 
 export type FetchPlanRequest = {

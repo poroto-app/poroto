@@ -18,6 +18,8 @@ import {
     SavePlanFromCandidateDocument,
 } from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
+import { PlaceEntity } from "src/domain/models/PlaceEntity";
+import { PlanEntity } from "src/domain/models/PlanEntity";
 import {
     AddPlaceToPlanOfPlanCandidateRequest,
     CreatePlanFromLocationRequest,
@@ -38,8 +40,6 @@ import {
     FetchPlansByUserResponse,
     MatchInterestRequest,
     MatchInterestResponse,
-    PlaceEntity,
-    PlanEntity,
     PlannerApi,
     ReplacePlaceInPlanOfPlanCandidateRequest,
     SavePlanFromCandidateRequest,
