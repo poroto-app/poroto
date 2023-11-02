@@ -69,6 +69,8 @@ export default function PlanPage() {
                 <PlanPageThumbnail plan={plan} />
                 <PlanPageSectionSummary
                     planDurationInMinutes={plan.timeInMinutes}
+                    planMinBudget={plan.priceRangeMin}
+                    planMaxBudget={plan.priceRangeMax}
                 />
                 <Box w="100%" px="20px">
                     <PlanPlaceList plan={plan} />
