@@ -225,6 +225,7 @@ export type FetchNearbyPlaceCategoriesResponse = {
         displayName: string;
         photo?: string;
         defaultPhotoUrl: string;
+        places: PlaceEntity[];
     }[];
 };
 

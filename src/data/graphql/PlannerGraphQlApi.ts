@@ -11,6 +11,7 @@ import {
     FetchPlanByIdQuery,
     FetchPlansDocument,
     MatchInterestsDocument,
+    NearbyPlaceCategoriesDocument,
     PlacesToAddForPlanOfPlanCandidateDocument,
     PlansByLocationDocument,
     PlansByUserDocument,
@@ -304,7 +305,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         request: FetchNearbyPlaceCategoriesRequest
     ): Promise<FetchNearbyPlaceCategoriesResponse> {
         const { data } = await this.client.query({
-            query: MatchInterestsDocument,
+            query: NearbyPlaceCategoriesDocument,
             variables: {
                 latitude: request.location.latitude,
                 longitude: request.location.longitude,
@@ -312,12 +313,14 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         });
 
         return {
-            session: data.matchInterests.session,
-            categories: data.matchInterests.categories.map((category) => ({
-                name: category.name,
+            session: data.nearbyPlaceCategories.planCandidateId,
+            categories: data.nearbyPlaceCategories.categories.map((category) => ({
+                name: category.id,
                 displayName: category.displayName,
-                photo: category.photo,
                 defaultPhotoUrl: category.defaultPhotoUrl,
+                places: category.places.map((place) =>
+                    fromGraphqlPlaceEntity(place)
+                ),
             })),
         };
     }
