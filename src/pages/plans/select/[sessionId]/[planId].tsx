@@ -37,6 +37,7 @@ import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 import { DialogRelatedPlaces } from "src/view/plancandidate/DialogRelatedPlaces";
+import { getPlanPriceRange } from "src/domain/models/Plan";
 
 const PlanDetail = () => {
     const router = useRouter();
@@ -142,6 +143,8 @@ const PlanDetail = () => {
         return <LoadingModal title="素敵なプランを読み込んでいます" />;
     }
 
+    const priceRange = getPlanPriceRange(plan.places); 
+
     return (
         <>
             <Center flexDirection="column" pb={`${FooterHeight}px`}>
@@ -157,6 +160,8 @@ const PlanDetail = () => {
                     <PlanPageThumbnail plan={plan} />
                     <PlanPageSectionSummary
                         planDurationInMinutes={plan.timeInMinutes}
+                        planMinBudget={priceRange.priceRangeMin}
+                        planMaxBudget={priceRange.priceRangeMax}
                     />
                     <Box w="100%" px="20px">
                         <PlanPlaceList
