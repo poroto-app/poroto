@@ -10,9 +10,4 @@ export type PlanEntity = {
         toPlaceId: string;
         durationInMinutes: number;
     }[];
-    priceRange?: {
-        priceRangeMin: number;
-        priceRangeMax: number;
-        googlePriceLevel: number;
-    };
 };
