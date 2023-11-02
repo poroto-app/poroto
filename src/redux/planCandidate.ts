@@ -5,6 +5,7 @@ import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import { LocationCategory } from "src/domain/models/LocationCategory";
+import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import {
@@ -25,7 +26,7 @@ export type PlanCandidateState = {
     // TODO: preview id等で対象のplan idを指定し、`plansCreated`の更新に反応できるようにする
     preview: Plan | null;
 
-    categoryCandidates: LocationCategory[] | null;
+    categoryCandidates: LocationCategoryWithPlace[] | null;
     categoriesAccepted: LocationCategory[] | null;
     categoriesRejected: LocationCategory[] | null;
     // 直前に発火したリクエストの結果と、新しく行ったリクエストの結果を区別できるようにするために利用する
@@ -199,15 +200,21 @@ export const matchInterest = createAsyncThunk(
     async ({ location, requestId }: MatchInterestProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.fetchNearbyPlaceCategories({ location });
-        return {
-            requestId,
-            createPlanSession: response.session,
-            categories: response.categories.map((category) => ({
+        const categriesWithPlace: LocationCategoryWithPlace[] = response.categories.map(
+            (category) => ({
                 name: category.name,
                 displayName: category.displayName,
                 thumbnail: category.photo,
                 defaultThumbnailUrl: category.defaultPhotoUrl,
-            })),
+                places: category.places.map((place) =>
+                    createPlaceFromPlaceEntity(place)
+                ),
+            })
+        );
+        return {
+            requestId,
+            planCandidateId: response.session,
+            categories: categriesWithPlace,
         };
     }
 );
@@ -507,7 +514,7 @@ export const slice = createSlice({
                 state.categoriesRejected = [];
                 state.fetchLocationCategoryRequestId = payload.requestId;
 
-                state.createPlanSession = payload.createPlanSession;
+                state.createPlanSession = payload.planCandidateId;
             })
             .addCase(matchInterest.rejected, (state) => {
                 state.matchInterestRequestStatus = RequestStatuses.REJECTED;
