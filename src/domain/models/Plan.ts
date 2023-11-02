@@ -9,7 +9,4 @@ export type Plan = {
     timeInMinutes: number;
     transitions: Transition[];
     author: User | null;
-    priceRangeMin: number;
-    priceRangeMax: number;
-    googlePriceLevel: number;
 };

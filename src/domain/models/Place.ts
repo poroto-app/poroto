@@ -12,7 +12,4 @@ export type Place = {
     estimatedStayDuration: number;
     googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
-    priceRangeMin: number;
-    priceRangeMax: number;
-    googlePriceLevel: number;
 };
