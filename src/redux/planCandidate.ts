@@ -198,7 +198,7 @@ export const matchInterest = createAsyncThunk(
     "planCandidate/matchInterest",
     async ({ location, requestId }: MatchInterestProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const response = await plannerApi.matchInterest({ location });
+        const response = await plannerApi.fetchNearbyPlaceCategories({ location });
         return {
             requestId,
             createPlanSession: response.session,

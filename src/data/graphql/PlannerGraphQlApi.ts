@@ -38,8 +38,8 @@ import {
     FetchPlansByLocationResponse,
     FetchPlansByUserRequest,
     FetchPlansByUserResponse,
-    MatchInterestRequest,
-    MatchInterestResponse,
+    FetchNearbyPlaceCategoriesRequest,
+    FetchNearbyPlaceCategoriesResponse,
     PlannerApi,
     ReplacePlaceInPlanOfPlanCandidateRequest,
     SavePlanFromCandidateRequest,
@@ -300,9 +300,9 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         };
     }
 
-    async matchInterest(
-        request: MatchInterestRequest
-    ): Promise<MatchInterestResponse> {
+    async fetchNearbyPlaceCategories(
+        request: FetchNearbyPlaceCategoriesRequest
+    ): Promise<FetchNearbyPlaceCategoriesResponse> {
         const { data } = await this.client.query({
             query: MatchInterestsDocument,
             variables: {
