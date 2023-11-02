@@ -13,7 +13,7 @@ import {
 } from "src/redux/location";
 import {
     createPlanFromLocation,
-    matchInterest,
+    fetchNearbyPlaceCategories,
     pushAcceptedCategory,
     pushRejectedCategory,
     reduxPlanCandidateSelector,
@@ -75,7 +75,7 @@ function PlanInterestPage() {
         categoryCandidates,
         createPlanSession,
         fetchLocationCategoryRequestId,
-        matchInterestRequestStatus,
+        fetchNearbyPlaceCategoriesRequestStatus: matchInterestRequestStatus,
     } = reduxPlanCandidateSelector();
     const { searchLocation, searchPlaceId } = reduxLocationSelector();
 
@@ -132,7 +132,7 @@ function PlanInterestPage() {
         if (searchLocation) {
             const requestId = Date.now().toString();
             setMatchInterestRequestId(requestId);
-            dispatch(matchInterest({ location: searchLocation, requestId }));
+            dispatch(fetchNearbyPlaceCategories({ location: searchLocation, requestId }));
         }
     }, [searchLocation]);
 

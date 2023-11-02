@@ -40,7 +40,7 @@ export type PlanCandidateState = {
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
     fetchCachedCreatedPlansRequestStatus: RequestStatus | null;
     fetchAvailablePlacesForPlanRequestStatus: RequestStatus | null;
-    matchInterestRequestStatus: RequestStatus | null;
+    fetchNearbyPlaceCategoriesRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanCandidateState = {
@@ -63,7 +63,7 @@ const initialState: PlanCandidateState = {
     updatePlacesOrderInPlanCandidateRequestStatus: null,
     fetchCachedCreatedPlansRequestStatus: null,
     fetchAvailablePlacesForPlanRequestStatus: null,
-    matchInterestRequestStatus: null,
+    fetchNearbyPlaceCategoriesRequestStatus: null,
 };
 
 type CreatePlanFromCurrentLocationProps = {
@@ -188,16 +188,16 @@ export const fetchAvailablePlacesForPlan = createAsyncThunk(
     }
 );
 
-type MatchInterestProps = {
+type FetchNearbyPlaceCategoriesProps = {
     requestId: string;
     location: {
         latitude: number;
         longitude: number;
     };
 };
-export const matchInterest = createAsyncThunk(
-    "planCandidate/matchInterest",
-    async ({ location, requestId }: MatchInterestProps) => {
+export const fetchNearbyPlaceCategories = createAsyncThunk(
+    "planCandidate/fetchNearbyPlaceCategories",
+    async ({ location, requestId }: FetchNearbyPlaceCategoriesProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.fetchNearbyPlaceCategories({ location });
         const categriesWithPlace: LocationCategoryWithPlace[] = response.categories.map(
@@ -502,12 +502,12 @@ export const slice = createSlice({
                 state.fetchAvailablePlacesForPlanRequestStatus =
                     RequestStatuses.REJECTED;
             })
-            // Match Interest
-            .addCase(matchInterest.pending, (state) => {
-                state.matchInterestRequestStatus = RequestStatuses.PENDING;
+            // Fetch Nearby Place Categories
+            .addCase(fetchNearbyPlaceCategories.pending, (state) => {
+                state.fetchNearbyPlaceCategoriesRequestStatus = RequestStatuses.PENDING;
             })
-            .addCase(matchInterest.fulfilled, (state, { payload }) => {
-                state.matchInterestRequestStatus = RequestStatuses.FULFILLED;
+            .addCase(fetchNearbyPlaceCategories.fulfilled, (state, { payload }) => {
+                state.fetchNearbyPlaceCategoriesRequestStatus = RequestStatuses.FULFILLED;
 
                 state.categoryCandidates = payload.categories;
                 state.categoriesAccepted = [];
@@ -516,8 +516,8 @@ export const slice = createSlice({
 
                 state.createPlanSession = payload.planCandidateId;
             })
-            .addCase(matchInterest.rejected, (state) => {
-                state.matchInterestRequestStatus = RequestStatuses.REJECTED;
+            .addCase(fetchNearbyPlaceCategories.rejected, (state) => {
+                state.fetchNearbyPlaceCategoriesRequestStatus = RequestStatuses.REJECTED;
             });
     },
 });
