@@ -21,5 +21,11 @@ export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
         categories: entity.categories.map((category) => ({
             id: category.id,
         })),
+        priceRange: {
+            priceRangeMin: entity.priceRange.priceRangeMin,
+            priceRangeMax: entity.priceRange.priceRangeMax,
+            googlePriceLevel: entity.priceRange.googlePriceLevel,
+        }
+
     };
 }
