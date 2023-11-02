@@ -1,0 +1,12 @@
+query NearbyPlaceCategories($latitude: Float!, $longitude: Float!) {
+    nearbyPlaceCategories(input: {latitude: $latitude, longitude: $longitude}) {
+        categories {
+            id
+            displayName
+            defaultPhotoUrl
+            places {
+                ...PlaceFullFragment
+            }
+        }
+    }
+}
