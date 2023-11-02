@@ -2,6 +2,7 @@ import { GeoLocation } from "src/domain/models/GeoLocation";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import { Image } from "src/domain/models/Image";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
+import { PriceRange } from "./PriceRange";
 
 export type Place = {
     id: string;
@@ -12,7 +13,5 @@ export type Place = {
     estimatedStayDuration: number;
     googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
-    priceRangeMin: number;
-    priceRangeMax: number;
-    googlePriceLevel: number;
+    priceRange: PriceRange | null;
 };
