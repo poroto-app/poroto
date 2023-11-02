@@ -1,6 +1,7 @@
 import { Box, Center, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
     fetchPlan,
@@ -22,7 +23,6 @@ import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { FooterHeight, PlanShareFooter } from "src/view/plan/PlanShareFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
-import { getPlanPriceRange } from "src/domain/models/Plan";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -55,7 +55,7 @@ export default function PlanPage() {
 
     if (!plan) return <NotFound />;
 
-    const priceRange = getPlanPriceRange(plan.places); 
+    const priceRange = getPlanPriceRange(plan.places);
 
     return (
         <Center flexDirection="column" pb={`${FooterHeight}px`}>
