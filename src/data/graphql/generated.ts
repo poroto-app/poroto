@@ -237,6 +237,7 @@ export type NearbyPlaceCategoriesInput = {
 export type NearbyPlaceCategoryOutput = {
   __typename?: 'NearbyPlaceCategoryOutput';
   categories: Array<NearbyLocationCategory>;
+  planCandidateId: Scalars['ID'];
 };
 
 export type Place = {
