@@ -13,5 +13,5 @@ export type Place = {
     estimatedStayDuration: number;
     googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
-    priceRange: PriceRange | null;
+    priceRange?: PriceRange | null;
 };
