@@ -3,7 +3,7 @@ import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Place } from "src/domain/models/Place";
-import { Plan } from "src/domain/models/Plan";
+import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { copyObject } from "src/domain/util/object";
 import { setShowPlanCreatedModal } from "src/redux/plan";
@@ -37,7 +37,6 @@ import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 import { DialogRelatedPlaces } from "src/view/plancandidate/DialogRelatedPlaces";
-import { getPlanPriceRange } from "src/domain/models/Plan";
 
 const PlanDetail = () => {
     const router = useRouter();
@@ -143,7 +142,7 @@ const PlanDetail = () => {
         return <LoadingModal title="素敵なプランを読み込んでいます" />;
     }
 
-    const priceRange = getPlanPriceRange(plan.places); 
+    const priceRange = getPlanPriceRange(plan.places);
 
     return (
         <>
