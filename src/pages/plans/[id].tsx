@@ -22,6 +22,7 @@ import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { FooterHeight, PlanShareFooter } from "src/view/plan/PlanShareFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
+import { getPlanPriceRange } from "src/domain/models/Plan";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -54,6 +55,8 @@ export default function PlanPage() {
 
     if (!plan) return <NotFound />;
 
+    const priceRange = getPlanPriceRange(plan.places); 
+
     return (
         <Center flexDirection="column" pb={`${FooterHeight}px`}>
             <NavBar />
@@ -69,8 +72,8 @@ export default function PlanPage() {
                 <PlanPageThumbnail plan={plan} />
                 <PlanPageSectionSummary
                     planDurationInMinutes={plan.timeInMinutes}
-                    planMinBudget={plan.priceRangeMin}
-                    planMaxBudget={plan.priceRangeMax}
+                    planMinBudget={priceRange.priceRangeMin}
+                    planMaxBudget={priceRange.priceRangeMax}
                 />
                 <Box w="100%" px="20px">
                     <PlanPlaceList plan={plan} />
