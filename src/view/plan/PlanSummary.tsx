@@ -1,7 +1,7 @@
 import { Box, Icon, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
-import { MdAttachMoney, MdSchedule } from "react-icons/md";
+import { MdSchedule } from "react-icons/md";
 import { DateHelper } from "src/domain/util/date";
 import styled from "styled-components";
 
@@ -54,23 +54,6 @@ export const PlanSummaryDuration = ({
             <VStack alignItems="flex-start" w="100%" spacing={0}>
                 <Text>{DateHelper.formatHHMM(durationInMinutes)}</Text>
                 <Text color="gray">~ {DateHelper.dateToHHMM(endPlanDate)}</Text>
-            </VStack>
-        </PlanSummary>
-    );
-};
-
-export const PlanSummaryBudget = ({
-    MinBudget,
-    MaxBudget,
-}: {
-    MinBudget: number;
-    MaxBudget: number;
-}) => {
-    return (
-        <PlanSummary title="予算" icon={MdAttachMoney}>
-            <VStack alignItems="flex-start" w="100%" spacing={0}>
-                <Text>{`${MinBudget}`}</Text>
-                <Text>{`~${MaxBudget}円`}</Text>
             </VStack>
         </PlanSummary>
     );
