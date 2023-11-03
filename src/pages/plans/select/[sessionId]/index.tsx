@@ -190,7 +190,7 @@ const SelectPlanPage = () => {
                         onActiveIndexChange={setSelectedPlanIndex}
                     />
                     <Link
-                        href={Routes.plans.planCandidate(
+                        href={Routes.plans.planCandidate.plan(
                             createPlanSession,
                             plansCreated[selectedPlanIndex].id
                         )}
