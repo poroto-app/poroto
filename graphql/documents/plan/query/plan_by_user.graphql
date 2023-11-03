@@ -4,22 +4,7 @@ query PlansByUser($userId: String!) {
             id
             name
             places {
-                id
-                googlePlaceId
-                name
-                images {
-                    default
-                    small
-                    large
-                }
-                location {
-                    longitude
-                    latitude
-                }
-                estimatedStayDuration
-                categories {
-                    id
-                }
+                ...PlaceFullFragment
             }
             timeInMinutes
             transitions {
