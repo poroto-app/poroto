@@ -43,17 +43,17 @@ export const usePlanPlaceReplace = ({
     };
 
     const replacePlace = ({
-        placeIdToReplace,
+        placeIdToDelete,
         placeIdToAdd,
     }: {
-        placeIdToReplace: string;
+        placeIdToDelete: string;
         placeIdToAdd: string;
     }) => {
         dispatch(
             replacePlaceOfPlanCandidate({
                 planCandidateId,
                 planId,
-                placeIdToReplace,
+                placeIdToReplace: placeIdToDelete,
                 placeIdToAdd,
             })
         );

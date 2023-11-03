@@ -4,12 +4,12 @@ import { DialogRelatedPlaces } from "src/view/plancandidate/DialogRelatedPlaces"
 type Props = {
     placesInPlan: Place[];
     placesToReplace: Place[] | null;
-    placeIdToReplace: string | null;
+    placeIdToBeReplaced: string | null;
     isDialogVisible: boolean;
     isReplacingPlace: boolean;
     onReplacePlace: (props: {
-        placeIdToBeReplaced: string;
-        placeIdToReplace: string;
+        placeIdToDeleted: string;
+        placeIdToAdd: string;
     }) => void;
     onCloseDialog;
 };
@@ -17,7 +17,7 @@ type Props = {
 export function DialogReplacePlace({
     placesInPlan,
     placesToReplace,
-    placeIdToReplace,
+    placeIdToBeReplaced,
     isDialogVisible,
     isReplacingPlace,
     onReplacePlace,
@@ -27,14 +27,14 @@ export function DialogReplacePlace({
         <DialogRelatedPlaces
             visible={isDialogVisible}
             dialogTitle={`「${
-                placesInPlan.find((p) => p.id === placeIdToReplace)?.name
+                placesInPlan.find((p) => p.id === placeIdToBeReplaced)?.name
             }」に関連する場所`}
             titleConfirmUpdate={({ selectedPlaceId }) => (
                 <>
                     「
                     <b>
                         {
-                            placesInPlan.find((p) => p.id === placeIdToReplace)
+                            placesInPlan.find((p) => p.id === placeIdToBeReplaced)
                                 ?.name
                         }
                     </b>
@@ -54,10 +54,10 @@ export function DialogReplacePlace({
             buttonLabelSelectPlace="この場所と入れ替える"
             buttonLabelUpdatePlace="入れ替える"
             onClickRelatedPlace={(placeId) =>
-                placeIdToReplace &&
+                placeIdToBeReplaced &&
                 onReplacePlace({
-                    placeIdToReplace: placeIdToReplace,
-                    placeIdToBeReplaced: placeId,
+                    placeIdToAdd: placeId,
+                    placeIdToDeleted: placeIdToBeReplaced,
                 })
             }
             onClose={onCloseDialog}

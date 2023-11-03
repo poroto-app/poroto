@@ -209,13 +209,13 @@ const PlanDetail = () => {
             <DialogReplacePlace
                 placesInPlan={plan.places}
                 placesToReplace={placesToReplace}
-                placeIdToReplace={placeIdToReplace}
+                placeIdToBeReplaced={placeIdToReplace}
                 isReplacingPlace={isReplacingPlace}
                 isDialogVisible={isDialogRelatedPlacesVisible}
-                onReplacePlace={({ placeIdToBeReplaced, placeIdToReplace }) =>
+                onReplacePlace={({ placeIdToDeleted, placeIdToAdd }) =>
                     replacePlace({
-                        placeIdToReplace: placeIdToBeReplaced,
-                        placeIdToAdd: placeIdToReplace,
+                        placeIdToDelete: placeIdToDeleted,
+                        placeIdToAdd: placeIdToAdd,
                     })
                 }
                 onCloseDialog={onCloseDialogRelatedPlaces}
