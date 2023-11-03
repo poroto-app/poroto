@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
 import { LocationCategory } from "src/domain/models/LocationCategory";
+import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
 import {
     RequestStatus,
     RequestStatuses,
@@ -33,7 +34,6 @@ import { CouldNotFindAnyPlace } from "src/view/interest/CouldNotFindAnyPlace";
 import { PlanDurationSelector } from "src/view/interest/PlanDurationSelector";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
 import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTemplate";
-import {LocationCategoryWithPlace} from "src/domain/models/LocationCategoryWithPlace";
 
 const MatchInterestPages = {
     TIME: "TIME",

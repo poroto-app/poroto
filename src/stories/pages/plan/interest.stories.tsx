@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { PlanInterestPageComponent } from "src/pages/plans/interest";
-import {mockPlaces} from "src/stories/mock/place";
+import { mockPlaces } from "src/stories/mock/place";
 
 export default {
     title: "interest/PlanInterestPageComponent",
