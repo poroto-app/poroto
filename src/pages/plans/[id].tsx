@@ -55,8 +55,6 @@ export default function PlanPage() {
 
     if (!plan) return <NotFound />;
 
-    const priceRange = getPlanPriceRange(plan.places);
-
     return (
         <Center flexDirection="column" pb={`${FooterHeight}px`}>
             <NavBar />
@@ -72,8 +70,7 @@ export default function PlanPage() {
                 <PlanPageThumbnail plan={plan} />
                 <PlanPageSectionSummary
                     planDurationInMinutes={plan.timeInMinutes}
-                    planMinBudget={priceRange.min}
-                    planMaxBudget={priceRange.max}
+                    planRange={getPlanPriceRange(plan.places)}
                 />
                 <Box w="100%" px="20px">
                     <PlanPlaceList plan={plan} />

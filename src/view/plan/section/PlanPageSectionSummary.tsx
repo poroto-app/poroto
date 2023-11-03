@@ -4,17 +4,17 @@ import {
     PlanSummaryDuration,
 } from "src/view/plan/PlanSummary";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
+import { PriceRange } from "src/domain/models/PriceRange";
+
 
 type Props = {
     planDurationInMinutes: number;
-    planMinBudget: number;
-    planMaxBudget: number;
+    planRange: PriceRange;
 };
 
 export function PlanPageSectionSummary({
     planDurationInMinutes,
-    planMinBudget,
-    planMaxBudget,
+    planRange,
 }: Props) {
     return (
         <PlanPageSection title="プランの情報">
@@ -23,8 +23,8 @@ export function PlanPageSectionSummary({
                     durationInMinutes={planDurationInMinutes}
                 />
                 <PlanSummaryBudget
-                    MinBudget={planMinBudget}
-                    MaxBudget={planMaxBudget}
+                    MinBudget={planRange.min}
+                    MaxBudget={planRange.max}
                 />
             </HStack>
         </PlanPageSection>
