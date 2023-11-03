@@ -33,6 +33,7 @@ import { CouldNotFindAnyPlace } from "src/view/interest/CouldNotFindAnyPlace";
 import { PlanDurationSelector } from "src/view/interest/PlanDurationSelector";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
 import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTemplate";
+import {LocationCategoryWithPlace} from "src/domain/models/LocationCategoryWithPlace";
 
 const MatchInterestPages = {
     TIME: "TIME",
@@ -67,7 +68,7 @@ function PlanInterestPage() {
     const { getCurrentLocation, location, fetchCurrentLocationStatus } =
         useLocation();
     const [currentCategory, setCurrentCategory] =
-        useState<LocationCategory | null>(null);
+        useState<LocationCategoryWithPlace | null>(null);
     const [matchInterestRequestId, setMatchInterestRequestId] = useState<
         string | null
     >(null);
@@ -204,7 +205,7 @@ function PlanInterestPage() {
 }
 
 type Props = {
-    currentCategory: LocationCategory | null;
+    currentCategory: LocationCategoryWithPlace | null;
     matchInterestRequestStatus: RequestStatus | null;
     handleAcceptCategory: (category: LocationCategory) => void;
     handleRejectCategory: (category: LocationCategory) => void;
