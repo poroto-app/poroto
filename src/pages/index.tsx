@@ -3,12 +3,10 @@ import { GetStaticProps } from "next";
 import { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
+import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import { Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
-import {
-    createPlanFromPlanEntity,
-    PlannerApi,
-} from "src/domain/plan/PlannerApi";
+import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { reduxAuthSelector } from "src/redux/auth";
 import {
     fetchNearbyPlans,

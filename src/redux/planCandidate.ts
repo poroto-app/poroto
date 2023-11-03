@@ -2,6 +2,8 @@ import { getAnalytics, logEvent } from "@firebase/analytics";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
+import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
+import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
@@ -9,11 +11,7 @@ import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
-import {
-    createPlaceFromPlaceEntity,
-    createPlanFromPlanEntity,
-    PlannerApi,
-} from "src/domain/plan/PlannerApi";
+import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { RootState } from "src/redux/redux";
 
 export type PlanCandidateState = {

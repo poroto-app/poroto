@@ -1,16 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
+import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
+import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import { Place } from "src/domain/models/Place";
 import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
-import {
-    createPlaceFromPlaceEntity,
-    createPlanFromPlanEntity,
-    PlannerApi,
-} from "src/domain/plan/PlannerApi";
+import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { updatePlanOfPlanCandidate } from "src/redux/planCandidate";
 import { RootState } from "src/redux/redux";
 

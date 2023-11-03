@@ -1,7 +1,7 @@
-mutation DeletePlaceFromPlanCandidate($input: DeletePlaceFromPlanCandidateInput!) {
-    deletePlaceFromPlanCandidate(input: $input) {
-        planCandidateId
-        plan {
+query CachedCreatedPlans($session: String!) {
+    cachedCreatedPlans(input: {session: $session}) {
+        createdBasedOnCurrentLocation,
+        plans {
             id
             name
             places {

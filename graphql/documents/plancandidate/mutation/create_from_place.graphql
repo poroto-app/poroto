@@ -1,6 +1,8 @@
-mutation DeletePlaceFromPlanCandidate($input: DeletePlaceFromPlanCandidateInput!) {
-    deletePlaceFromPlanCandidate(input: $input) {
-        planCandidateId
+mutation CreatePlanByPlace($sessionId: String!, $placeId: String!) {
+    createPlanByPlace(
+        input: {session: $sessionId, placeId: $placeId}
+    ) {
+        session
         plan {
             id
             name

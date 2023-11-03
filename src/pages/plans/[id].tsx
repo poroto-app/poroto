@@ -2,6 +2,7 @@ import { Box, Button, Center, Icon, useToast, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { RiShareForwardLine } from "react-icons/ri";
+import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
     fetchPlan,
@@ -85,6 +86,7 @@ export default function PlanPage() {
                 <PlanPageThumbnail plan={plan} />
                 <PlanPageSectionSummary
                     planDurationInMinutes={plan.timeInMinutes}
+                    planRange={getPlanPriceRange(plan.places)}
                 />
                 <Box w="100%" px="20px">
                     <PlanPlaceList plan={plan} />

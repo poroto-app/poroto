@@ -3,7 +3,7 @@ import { Box, Button, Center, VStack } from "@chakra-ui/react";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { Plan } from "src/domain/models/Plan";
+import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
@@ -135,6 +135,7 @@ const PlanDetail = () => {
                     <PlanPageThumbnail plan={plan} />
                     <PlanPageSectionSummary
                         planDurationInMinutes={plan.timeInMinutes}
+                        planRange={getPlanPriceRange(plan.places)}
                     />
                     <Box w="100%" px="20px">
                         <PlanPlaceList
