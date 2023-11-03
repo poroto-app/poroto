@@ -36,7 +36,7 @@ const PlanSummaryContainer = styled.div`
     flex-direction: column;
     min-width: 120px;
     width: 120px;
-    height: 100%;
+    height: 145px;
     padding: 16px;
 `;
 
