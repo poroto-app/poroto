@@ -7,7 +7,9 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Splide, SplideSlide } from "@splidejs/react-splide";
+import "@splidejs/splide/css";
+import { useEffect, useRef } from "react";
 import { MdCheck, MdClose } from "react-icons/md";
 import { ImageSize } from "src/data/graphql/generated";
 import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
@@ -17,6 +19,7 @@ import { Place } from "src/domain/models/Place";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { SelectButton } from "src/view/interest/SelectButton";
+import { styled } from "styled-components";
 import { getPlaceCategoryIcon } from "../plan/PlaceCategoryIcon";
 
 type Props = {
@@ -29,71 +32,14 @@ export const CategorySelect = ({ category, onClickYes, onClickNo }: Props) => {
     const placesOfCategory = category.places.filter(
         (place) => place.images.length > 0
     );
-    const [visiblePlaceIndex, setVisiblePlaceIndex] = useState<number>(null);
+    const refSplide = useRef<Splide | null>(null);
 
-    const getNextPlaceIndex = () => {
-        if (visiblePlaceIndex === null) {
-            return 0;
-        } else if (visiblePlaceIndex === placesOfCategory.length - 1) {
-            return null;
-        } else {
-            return visiblePlaceIndex + 1;
-        }
-    };
-
-    const getPrevPlaceIndex = () => {
-        if (visiblePlaceIndex === null) {
-            return placesOfCategory.length - 1;
-        } else if (visiblePlaceIndex === 0) {
-            return null;
-        } else {
-            return visiblePlaceIndex - 1;
-        }
-    };
-
-    const handleOnClickNextPlace = () => {
-        setVisiblePlaceIndex(getNextPlaceIndex());
-    };
-
-    const handleOnClickPrevPlace = () => {
-        setVisiblePlaceIndex(getPrevPlaceIndex());
-    };
-
-    // サムネイル画像を prefetch する
     useEffect(() => {
-        if (placesOfCategory.length === 0) return;
-
-        const nextIndex = getNextPlaceIndex();
-        const prevIndex = getPrevPlaceIndex();
-
-        if (prevIndex)
-            console.log(
-                getImageSizeOf(
-                    thumbnailImageSize,
-                    placesOfCategory[prevIndex].images[0]
-                )
-            );
-        if (nextIndex)
-            console.log(
-                getImageSizeOf(
-                    thumbnailImageSize,
-                    placesOfCategory[nextIndex].images[0]
-                )
-            );
-
-        if (prevIndex) {
-            new Image().src = getImageSizeOf(
-                thumbnailImageSize,
-                placesOfCategory[prevIndex].images[0]
-            );
-        }
-        if (nextIndex) {
-            new Image().src = getImageSizeOf(
-                thumbnailImageSize,
-                placesOfCategory[nextIndex].images[0]
-            );
-        }
-    }, [visiblePlaceIndex]);
+        if (!refSplide.current) return;
+        const { speed } = refSplide.current.splide.options;
+        refSplide.current.go(0);
+        refSplide.current.splide.options.speed = speed;
+    }, [category.name]);
 
     return (
         <VStack h="100%" w="100%" spacing={6}>
@@ -115,21 +61,32 @@ export const CategorySelect = ({ category, onClickYes, onClickNo }: Props) => {
                     position="relative"
                     overflow="hidden"
                 >
-                    <TouchDetector
-                        onClickNext={handleOnClickNextPlace}
-                        onClickPrev={handleOnClickPrevPlace}
-                    />
-                    {visiblePlaceIndex !== null ? (
-                        <PlaceThumbnail
-                            place={placesOfCategory[visiblePlaceIndex]}
-                            category={{ id: category.name }}
-                            imageSize={thumbnailImageSize}
-                        />
-                    ) : (
-                        <DefaultThumbnail
-                            imageUrl={category.defaultThumbnailUrl}
-                        />
-                    )}
+                    <SplideContainer
+                        ref={(splide) => (refSplide.current = splide)}
+                        options={{
+                            type: "loop",
+                            arrows: placesOfCategory.length > 0,
+                            drag: placesOfCategory.length > 0,
+                            pagination: false,
+                            rewind: false,
+                            lazyLoad: "nearby",
+                        }}
+                    >
+                        <SplideSlide>
+                            <DefaultThumbnail
+                                imageUrl={category.defaultThumbnailUrl}
+                            />
+                        </SplideSlide>
+                        {placesOfCategory.map((place, index) => (
+                            <SplideSlide key={index}>
+                                <PlaceThumbnail
+                                    place={place}
+                                    category={{ id: category.name }}
+                                    imageSize={thumbnailImageSize}
+                                />
+                            </SplideSlide>
+                        ))}
+                    </SplideContainer>
                 </Box>
                 <Text fontSize="1.25rem" py={4}>
                     {category.displayName}
@@ -151,32 +108,29 @@ export const CategorySelect = ({ category, onClickYes, onClickNo }: Props) => {
     );
 };
 
-function TouchDetector({
-    onClickNext,
-    onClickPrev,
-}: {
-    onClickNext: () => void;
-    onClickPrev: () => void;
-}) {
-    return (
-        <HStack
-            position="absolute"
-            top={0}
-            right={0}
-            bottom={0}
-            left={0}
-            w="100%"
-            h="100%"
-            zIndex={10}
-            onClick={(e) => {
-                e.stopPropagation();
-            }}
-        >
-            <Box flex={1} h="100%" onClick={onClickPrev} />
-            <Box flex={1} h="100%" onClick={onClickNext} />
-        </HStack>
-    );
-}
+const SplideContainer = styled(Splide)`
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+
+    & > .splide__track {
+        width: 100%;
+        height: 100%;
+    }
+
+    & > .splide__track > .splide__list {
+        width: 100%;
+        height: 100%;
+    }
+
+    & > .splide__track > .splide__list > .splide__slide {
+        width: 100%;
+        height: 100%;
+    }
+`;
 
 function PlaceThumbnail({
     place,
@@ -228,6 +182,7 @@ const DefaultThumbnail = ({ imageUrl }: { imageUrl: string }) => {
             right="0"
             bottom="0"
             left="0"
+            userSelect="none"
         >
             <ChakraImage
                 src={imageUrl}
