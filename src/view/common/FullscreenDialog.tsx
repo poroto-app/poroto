@@ -2,6 +2,7 @@ import { Box } from "@chakra-ui/react";
 import { CSSProperties, ReactNode, useEffect } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 import styled from "styled-components";
+import {zIndex} from "src/view/constants/zIndex";
 
 type Props = {
     position?: DialogPosition;
@@ -116,7 +117,7 @@ const FullscreenDialogWrapper = styled.div`
     left: 0;
     bottom: 0;
     right: 0;
-    z-index: 10;
+    z-index: ${zIndex.dialog};
     transition: all 0.2s linear;
 `;
 

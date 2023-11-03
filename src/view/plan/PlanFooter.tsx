@@ -1,5 +1,6 @@
 import { Center, HStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import {zIndex} from "src/view/constants/zIndex";
 
 type Props = {
     children?: ReactNode;
@@ -20,7 +21,7 @@ export function PlanFooter({ children }: Props) {
             bottom={0}
             left={0}
             right={0}
-            zIndex={10}
+            zIndex={zIndex.footer}
         >
             <HStack w="100%" maxW="var(--max-page-width)" h="100%">
                 {children}
