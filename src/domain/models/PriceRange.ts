@@ -1,5 +1,5 @@
 export type PriceRange = {
-    priceRangeMin: number;
-    priceRangeMax: number;
+    min: number;
+    max: number;
     googlePriceLevel: number;
 };

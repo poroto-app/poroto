@@ -21,15 +21,15 @@ export function getPlanPriceRange(places: Place[]): PriceRange {
 
     for (const place of places) {
         if (place.priceRange) {
-            totalMinPrice += place.priceRange.priceRangeMin;
-            totalMaxPrice += place.priceRange.priceRangeMax;
+            totalMinPrice += place.priceRange.min;
+            totalMaxPrice += place.priceRange.max;
             totalGooglePriceLevel += place.priceRange.googlePriceLevel;
         }
     }
 
     const totalPriceRange: PriceRange = {
-        priceRangeMin: totalMinPrice,
-        priceRangeMax: totalMaxPrice,
+        min: totalMinPrice,
+        max: totalMaxPrice,
         googlePriceLevel: totalGooglePriceLevel,
     };
 

@@ -159,8 +159,8 @@ const PlanDetail = () => {
                     <PlanPageThumbnail plan={plan} />
                     <PlanPageSectionSummary
                         planDurationInMinutes={plan.timeInMinutes}
-                        planMinBudget={priceRange.priceRangeMin}
-                        planMaxBudget={priceRange.priceRangeMax}
+                        planMinBudget={priceRange.min}
+                        planMaxBudget={priceRange.max}
                     />
                     <Box w="100%" px="20px">
                         <PlanPlaceList
