@@ -60,17 +60,17 @@ export const PlanSummaryDuration = ({
 };
 
 export const PlanSummaryBudget = ({
-    MinBudget,
-    MaxBudget,
+    minBudget,
+    maxBudget,
 }: {
-    MinBudget: number;
-    MaxBudget: number;
+    minBudget: number;
+    maxBudget: number;
 }) => {
     return (
         <PlanSummary title="予算" icon={MdAttachMoney}>
             <VStack alignItems="flex-start" w="100%" spacing={0}>
-                {MinBudget > 0 && <Text>{`${MinBudget}`}</Text>}
-                {MaxBudget > 0 && <Text>{`~${MaxBudget}円`}</Text>}
+                {minBudget > 0 && <Text>{`${minBudget}`}</Text>}
+                {maxBudget > 0 && <Text>{`~${maxBudget}円`}</Text>}
             </VStack>
         </PlanSummary>
     );
