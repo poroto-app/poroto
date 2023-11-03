@@ -13,7 +13,6 @@ export type Plan = {
 };
 
 export function getPlanPriceRange(places: Place[]): PriceRange {
-    // const placesWithPrice = places.filter(place => place.priceRange !== null);
 
     let totalMinPrice = 0;
     let totalMaxPrice = 0;
