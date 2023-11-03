@@ -1,11 +1,10 @@
-import { Box, Center, VStack } from "@chakra-ui/react";
+import { Link } from "@chakra-ui/next-js";
+import { Box, Button, Center, VStack } from "@chakra-ui/react";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { Place } from "src/domain/models/Place";
-import { Plan } from "src/domain/models/Plan";
+import { useEffect } from "react";
+import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
-import { copyObject } from "src/domain/util/object";
 import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
     fetchCachedCreatedPlans,
@@ -13,7 +12,6 @@ import {
     reduxPlanCandidateSelector,
     resetPlanCandidates,
     savePlanFromCandidate,
-    updatePlacesOrderInPlanCandidate,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { AdInArticle } from "src/view/ad/AdInArticle";
@@ -21,22 +19,19 @@ import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
+import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
-import { usePlanEdit } from "src/view/hooks/usePlanEdit";
+import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
-import { PlanEditorDialog } from "src/view/plan/edit/PlanEditorDialog";
 import { PlaceMap } from "src/view/plan/PlaceMap";
-import {
-    FooterHeight,
-    PlanCandidateFooter,
-} from "src/view/plan/PlanCandidateFooter";
+import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
-import { DialogRelatedPlaces } from "src/view/plancandidate/DialogRelatedPlaces";
+import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
 
 const PlanDetail = () => {
     const router = useRouter();
@@ -52,12 +47,11 @@ const PlanDetail = () => {
         placesToReplace,
         isReplacingPlace,
         isDialogRelatedPlacesVisible,
-    } = usePlanEdit({
+    } = usePlanPlaceReplace({
         planCandidateId: sessionId as string,
         planId: planId as string,
     });
 
-    const [isEditingPlan, setIsEditingPlan] = useState(false);
     const {
         preview: plan,
         createdBasedOnCurrentLocation,
@@ -114,22 +108,6 @@ const PlanDetail = () => {
         );
     };
 
-    const handleOnReorderPlaces = ({
-        session,
-        places,
-    }: {
-        session: string;
-        places: Place[];
-    }) => {
-        dispatch(
-            updatePlacesOrderInPlanCandidate({
-                session,
-                planId: plan.id,
-                placeIds: places.map((place) => place.id),
-            })
-        );
-    };
-
     if (!plan) {
         // プラン候補取得失敗
         if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.REJECTED)
@@ -157,6 +135,7 @@ const PlanDetail = () => {
                     <PlanPageThumbnail plan={plan} />
                     <PlanPageSectionSummary
                         planDurationInMinutes={plan.timeInMinutes}
+                        planRange={getPlanPriceRange(plan.places)}
                     />
                     <Box w="100%" px="20px">
                         <PlanPlaceList
@@ -196,43 +175,51 @@ const PlanDetail = () => {
                     </VStack>
                 </VStack>
             </Center>
-            <PlanCandidateFooter
-                onSave={() =>
-                    handleOnSavePlan({ session: createPlanSession, plan })
-                }
-                onEdit={() => setIsEditingPlan(true)}
-            />
-            {
-                // TODO: productionでも利用できるようにする
-                process.env.APP_ENV !== "production" && (
-                    <PlanEditorDialog
-                        visible={isEditingPlan}
-                        onClosed={() => setIsEditingPlan(false)}
-                        places={copyObject(plan.places)}
-                        onSave={(places) =>
-                            handleOnReorderPlaces({
-                                session: createPlanSession,
-                                places,
-                            })
-                        }
-                    />
-                )
-            }
-            <DialogRelatedPlaces
-                visible={isDialogRelatedPlacesVisible}
-                placeNameToBeReplaced={
-                    plan.places.find((p) => p.id === placeIdToReplace)?.name
-                }
-                places={placesToReplace}
-                replacing={isReplacingPlace}
-                onClickRelatedPlace={(placeId) =>
-                    placeIdToReplace &&
+            <PlanFooter>
+                <Link
+                    href={Routes.plans.planCandidate.edit(
+                        createPlanSession,
+                        plan.id
+                    )}
+                    flex={1}
+                >
+                    <Button
+                        variant="outline"
+                        w="100%"
+                        borderColor={Colors.primary["400"]}
+                        color={Colors.primary["400"]}
+                        borderRadius={10}
+                        borderWidth="2px"
+                    >
+                        編集
+                    </Button>
+                </Link>
+                <Button
+                    variant="solid"
+                    flex={1}
+                    color="white"
+                    backgroundColor={Colors.primary["400"]}
+                    borderRadius={10}
+                    onClick={() =>
+                        handleOnSavePlan({ session: createPlanSession, plan })
+                    }
+                >
+                    しおりとして保存
+                </Button>
+            </PlanFooter>
+            <DialogReplacePlace
+                placesInPlan={plan.places}
+                placesToReplace={placesToReplace}
+                placeIdToBeReplaced={placeIdToReplace}
+                isReplacingPlace={isReplacingPlace}
+                isDialogVisible={isDialogRelatedPlacesVisible}
+                onReplacePlace={({ placeIdToDeleted, placeIdToAdd }) =>
                     replacePlace({
-                        placeIdToReplace: placeIdToReplace,
-                        placeIdToAdd: placeId,
+                        placeIdToDelete: placeIdToDeleted,
+                        placeIdToAdd: placeIdToAdd,
                     })
                 }
-                onClose={() => onCloseDialogRelatedPlaces()}
+                onCloseDialog={onCloseDialogRelatedPlaces}
             />
         </>
     );

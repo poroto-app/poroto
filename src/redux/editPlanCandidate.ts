@@ -1,16 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
+import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
+import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import { Place } from "src/domain/models/Place";
 import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
-import {
-    createPlaceFromPlaceEntity,
-    createPlanFromPlanEntity,
-    PlannerApi,
-} from "src/domain/plan/PlannerApi";
+import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { updatePlanOfPlanCandidate } from "src/redux/planCandidate";
 import { RootState } from "src/redux/redux";
 
@@ -18,12 +16,20 @@ export type EditPlanCandidateState = {
     placesToReplace: Place[] | null;
     requestStatusFetchPlacesToReplace: RequestStatus | null;
     requestStatusReplacePlaceOfPlanCandidate: RequestStatus | null;
+
+    placesToAdd: Place[] | null;
+    requestStatusFetchPlacesToAdd: RequestStatus | null;
+    requestStatusAddPlaceToPlanCandidate: RequestStatus | null;
 };
 
 const initialState: EditPlanCandidateState = {
     placesToReplace: null,
     requestStatusFetchPlacesToReplace: null,
     requestStatusReplacePlaceOfPlanCandidate: null,
+
+    placesToAdd: null,
+    requestStatusFetchPlacesToAdd: null,
+    requestStatusAddPlaceToPlanCandidate: null,
 };
 
 type FetchPlacesToReplaceProps = {
@@ -84,14 +90,72 @@ export const replacePlaceOfPlanCandidate = createAsyncThunk(
     }
 );
 
+type FetchPlacesToAddForPlanOfPlanCandidateProps = {
+    planCandidateId: string;
+    planId: string;
+};
+export const fetchPlacesToAddToPlanCandidate = createAsyncThunk(
+    "editPlanCandidate/FetchPlacesToAddForPlanOfPlanCandidate",
+    async ({
+        planCandidateId,
+        planId,
+    }: FetchPlacesToAddForPlanOfPlanCandidateProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const { places } =
+            await plannerApi.fetchPlacesToAddForPlanOfPlanCandidate({
+                planCandidateId,
+                planId,
+            });
+
+        return {
+            places: places.map((place) => createPlaceFromPlaceEntity(place)),
+        };
+    }
+);
+
+type AddPlaceToPlanCandidateProps = {
+    planCandidateId: string;
+    planId: string;
+    placeId: string;
+};
+export const addPlaceToPlanOfPlanCandidate = createAsyncThunk(
+    "editPlanCandidate/AddPlaceToPlanOfPlanCandidate",
+    async (
+        { planCandidateId, planId, placeId }: AddPlaceToPlanCandidateProps,
+        { dispatch }
+    ) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const { plan } = await plannerApi.addPlaceToPlanOfPlanCandidate({
+            planCandidateId,
+            planId,
+            placeId,
+        });
+
+        dispatch(
+            updatePlanOfPlanCandidate({
+                plan: createPlanFromPlanEntity(plan, null),
+            })
+        );
+
+        return {
+            plan: createPlanFromPlanEntity(plan, null),
+        };
+    }
+);
+
 export const slice = createSlice({
     name: "editPlanCandidate",
     initialState,
     reducers: {
-        resetEditPlanCandidateState: (state) => {
+        resetReorderPlaceOfPlanCandidateState: (state) => {
             state.placesToReplace = null;
             state.requestStatusFetchPlacesToReplace = null;
             state.requestStatusReplacePlaceOfPlanCandidate = null;
+        },
+        resetAddPlaceToPlanCandidateState: (state) => {
+            state.placesToAdd = null;
+            state.requestStatusFetchPlacesToAdd = null;
+            state.requestStatusAddPlaceToPlanCandidate = null;
         },
     },
     extraReducers: (builder) => {
@@ -133,11 +197,47 @@ export const slice = createSlice({
                 state.requestStatusReplacePlaceOfPlanCandidate =
                     RequestStatuses.REJECTED;
                 state.placesToReplace = null;
+            })
+            // Fetch Places To Add To Plan Candidate
+            .addCase(fetchPlacesToAddToPlanCandidate.pending, (state) => {
+                state.requestStatusFetchPlacesToAdd = RequestStatuses.PENDING;
+                state.placesToAdd = null;
+            })
+            .addCase(
+                fetchPlacesToAddToPlanCandidate.fulfilled,
+                (state, { payload: { places } }) => {
+                    state.requestStatusFetchPlacesToAdd =
+                        RequestStatuses.FULFILLED;
+                    state.placesToAdd = places;
+                }
+            )
+            .addCase(fetchPlacesToAddToPlanCandidate.rejected, (state) => {
+                state.requestStatusFetchPlacesToAdd = RequestStatuses.REJECTED;
+                state.placesToAdd = null;
+            })
+            // Add Place To Plan Of Plan Candidate
+            .addCase(addPlaceToPlanOfPlanCandidate.pending, (state) => {
+                state.requestStatusAddPlaceToPlanCandidate =
+                    RequestStatuses.PENDING;
+                state.placesToAdd = null;
+            })
+            .addCase(addPlaceToPlanOfPlanCandidate.fulfilled, (state) => {
+                state.requestStatusAddPlaceToPlanCandidate =
+                    RequestStatuses.FULFILLED;
+                state.placesToAdd = null;
+            })
+            .addCase(addPlaceToPlanOfPlanCandidate.rejected, (state) => {
+                state.requestStatusAddPlaceToPlanCandidate =
+                    RequestStatuses.REJECTED;
+                state.placesToAdd = null;
             });
     },
 });
 
-export const { resetEditPlanCandidateState } = slice.actions;
+export const {
+    resetReorderPlaceOfPlanCandidateState,
+    resetAddPlaceToPlanCandidateState,
+} = slice.actions;
 
 export const reduxEditPlanCandidateSelector = () =>
     useSelector((state: RootState) => state.editPlanCandidate);

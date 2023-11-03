@@ -149,7 +149,9 @@ function PlanInterestPage() {
                     googlePlaceId: searchPlaceId,
                 })
             );
-            router.push(Routes.plans.select(createPlanSession)).then();
+            router
+                .push(Routes.plans.planCandidate.index(createPlanSession))
+                .then();
             return;
         }
         setCurrentCategory(categoryCandidates[0]);

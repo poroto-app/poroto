@@ -1,0 +1,19 @@
+query FetchPlanById($planId: String!) {
+    plan(id: $planId) {
+        id
+        name
+        places {
+            ...PlaceFullFragment
+        }
+        timeInMinutes
+        transitions {
+            duration
+            from {
+                id
+            }
+            to {
+                id
+            }
+        }
+    }
+}

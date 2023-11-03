@@ -14,7 +14,7 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
@@ -31,39 +31,45 @@ import { PlaceReview } from "src/view/plan/PlaceReview";
 
 type Props = {
     visible: boolean;
-    placeNameToBeReplaced: string;
+    dialogTitle: string;
     places: Place[] | null;
-    replacing: boolean;
+    updating: boolean;
+    buttonLabelUpdatePlace: string;
+    buttonLabelSelectPlace: string;
     onClose: () => void;
     onClickRelatedPlace: (placeId: string) => void;
+    titleConfirmUpdate: (props: { selectedPlaceId: string }) => ReactNode;
 };
 
 export function DialogRelatedPlaces({
     visible,
-    placeNameToBeReplaced,
+    dialogTitle,
     places,
-    replacing,
+    updating,
+    buttonLabelUpdatePlace,
+    buttonLabelSelectPlace,
     onClose,
     onClickRelatedPlace,
+    titleConfirmUpdate,
 }: Props) {
-    const [selectedPlaceToReplace, setSelectedPlaceToReplace] =
+    const [selectedPlaceToUpdate, setSelectedPlaceToUpdate] =
         useState<Place | null>();
 
-    const handleOnSelectPlaceToReplace = (placeId: string) => {
-        setSelectedPlaceToReplace(places.find((p) => p.id === placeId) || null);
+    const handleOnSelectPlaceToUpdate = (placeId: string) => {
+        setSelectedPlaceToUpdate(places.find((p) => p.id === placeId) || null);
     };
 
-    const handleOnReplacePlace = () => {
-        onClickRelatedPlace(selectedPlaceToReplace.id);
-        setSelectedPlaceToReplace(null);
+    const handleOnUpdatePlace = () => {
+        onClickRelatedPlace(selectedPlaceToUpdate.id);
+        setSelectedPlaceToUpdate(null);
     };
 
-    const handleOnCancelReplacePlace = () => {
-        setSelectedPlaceToReplace(null);
+    const handleOnCancelUpdate = () => {
+        setSelectedPlaceToUpdate(null);
     };
 
     useEffect(() => {
-        if (places === null) setSelectedPlaceToReplace(null);
+        if (places === null) setSelectedPlaceToUpdate(null);
     }, [copyObject(places)]);
 
     return (
@@ -72,7 +78,7 @@ export function DialogRelatedPlaces({
             width="100%"
             visible={visible}
             onClickOutside={() => {
-                if (!replacing) onClose();
+                if (!updating) onClose();
             }}
         >
             <Center
@@ -88,22 +94,25 @@ export function DialogRelatedPlaces({
                     },
                 }}
             >
-                {replacing ? (
+                {updating ? (
                     <LoadingScreen />
-                ) : selectedPlaceToReplace == null ? (
-                    <SelectPlaceToReplaceScreen
-                        name={placeNameToBeReplaced}
+                ) : selectedPlaceToUpdate == null ? (
+                    <SelectPlaceToUpdateScreen
+                        dialogTitle={dialogTitle}
                         places={places}
-                        onClickReplace={handleOnSelectPlaceToReplace}
+                        buttonLabelSelectPlace={buttonLabelSelectPlace}
+                        onClickUpdate={handleOnSelectPlaceToUpdate}
                         onClose={onClose}
                     />
                 ) : (
-                    <ConfirmReplaceScreen
-                        placeNameToBeReplaced={placeNameToBeReplaced}
-                        placeNameToReplace={selectedPlaceToReplace.name}
-                        image={selectedPlaceToReplace.images[0]}
-                        onClickReplace={handleOnReplacePlace}
-                        onCancel={handleOnCancelReplacePlace}
+                    <ConfirmToUpdateScreen
+                        title={titleConfirmUpdate({
+                            selectedPlaceId: selectedPlaceToUpdate.id,
+                        })}
+                        image={selectedPlaceToUpdate.images[0]}
+                        buttonLabelUpdatePlace={buttonLabelUpdatePlace}
+                        onClickUpdate={handleOnUpdatePlace}
+                        onCancel={handleOnCancelUpdate}
                     />
                 )}
             </Center>
@@ -123,24 +132,27 @@ function LoadingScreen() {
     );
 }
 
-function SelectPlaceToReplaceScreen({
-    name,
+function SelectPlaceToUpdateScreen({
+    dialogTitle,
     places,
-    onClickReplace,
+    buttonLabelSelectPlace,
+    onClickUpdate,
     onClose,
 }: {
-    name: string;
+    dialogTitle: string;
     places: Place[] | null;
-    onClickReplace: (placeId: string) => void;
+    buttonLabelSelectPlace: string;
+    onClickUpdate: (placeId: string) => void;
     onClose: () => void;
 }) {
     if (places == null) return <LoadingScreen />;
 
     return (
         <PlaceList
-            title={`「${name}」に関連する場所`}
+            title={dialogTitle}
             places={places}
-            onClickRelatedPlace={onClickReplace}
+            buttonLabelSelectPlace={buttonLabelSelectPlace}
+            onClickRelatedPlace={onClickUpdate}
             onClose={onClose}
         />
     );
@@ -149,11 +161,13 @@ function SelectPlaceToReplaceScreen({
 function PlaceList({
     title,
     places,
+    buttonLabelSelectPlace,
     onClickRelatedPlace,
     onClose,
 }: {
     title: string;
     places: Place[];
+    buttonLabelSelectPlace: string;
     onClickRelatedPlace: (placeId: string) => void;
     onClose: () => void;
 }) {
@@ -191,7 +205,8 @@ function PlaceList({
                                 images={place.images}
                                 categories={place.categories}
                                 reviews={place.googlePlaceReviews}
-                                onClickReplacePlace={() =>
+                                buttonLabelSelectPlace={buttonLabelSelectPlace}
+                                onClickUpdatePlace={() =>
                                     onClickRelatedPlace(place.id)
                                 }
                             />
@@ -207,13 +222,15 @@ export function PlaceListItem({
     categories,
     images,
     reviews,
-    onClickReplacePlace,
+    buttonLabelSelectPlace,
+    onClickUpdatePlace,
 }: {
     name: string;
     categories: PlaceCategory[];
     images: ImageType[];
     reviews: GooglePlaceReview[] | null;
-    onClickReplacePlace: () => void;
+    buttonLabelSelectPlace: string;
+    onClickUpdatePlace: () => void;
 }) {
     return (
         <AccordionItem
@@ -249,9 +266,9 @@ export function PlaceListItem({
                         color="#4A66B5"
                         fontWeight="bold"
                         as="button"
-                        onClick={onClickReplacePlace}
+                        onClick={onClickUpdatePlace}
                     >
-                        この場所と入れ替える
+                        {buttonLabelSelectPlace}
                     </Box>
                 </VStack>
                 {reviews && reviews.length > 0 && (
@@ -277,17 +294,17 @@ export function PlaceListItem({
     );
 }
 
-export function ConfirmReplaceScreen({
-    placeNameToBeReplaced,
-    placeNameToReplace,
+export function ConfirmToUpdateScreen({
+    title,
     image,
-    onClickReplace,
+    buttonLabelUpdatePlace,
+    onClickUpdate,
     onCancel,
 }: {
-    placeNameToBeReplaced: string;
-    placeNameToReplace: string;
+    title: ReactNode;
     image: ImageType;
-    onClickReplace: () => void;
+    buttonLabelUpdatePlace: string;
+    onClickUpdate: () => void;
     onCancel: () => void;
 }) {
     return (
@@ -308,18 +325,15 @@ export function ConfirmReplaceScreen({
                         />
                     </Box>
 
-                    <Text fontSize="18px">
-                        「<b>{placeNameToBeReplaced}</b>」 を 「
-                        <b>{placeNameToReplace}</b>」 と入れ替えますか？
-                    </Text>
+                    <Text fontSize="18px">{title}</Text>
                 </VStack>
             </Center>
             <HStack mt="auto" pb="48px">
                 <Button onClick={onCancel} colorScheme="red" variant="outline">
                     キャンセル
                 </Button>
-                <Button onClick={onClickReplace} colorScheme="blue">
-                    入れ替える
+                <Button onClick={onClickUpdate} colorScheme="blue">
+                    {buttonLabelUpdatePlace}
                 </Button>
             </HStack>
         </VStack>

@@ -1,7 +1,7 @@
-mutation DeletePlaceFromPlanCandidate($input: DeletePlaceFromPlanCandidateInput!) {
-    deletePlaceFromPlanCandidate(input: $input) {
-        planCandidateId
-        plan {
+query PlansByLocation($latitude: Float!, $longitude: Float!, $limit: Int, $pageKey: String) {
+    plansByLocation(input: {latitude: $latitude, longitude: $longitude, limit: $limit, pageKey: $pageKey}) {
+        pageKey
+        plans {
             id
             name
             places {

@@ -25,6 +25,11 @@ query PlacesToAddForPlanOfPlanCandidate($input: PlacesToAddForPlanCandidateInput
             categories {
                 id
             }
+            priceRange {
+                priceRangeMin
+                priceRangeMax
+                googlePriceLevel
+            }
         }
     }
 }
