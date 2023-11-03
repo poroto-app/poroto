@@ -10,6 +10,7 @@ import {
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { useEffect, useRef } from "react";
+import { isMobile, isTablet } from "react-device-detect";
 import { MdCheck, MdClose } from "react-icons/md";
 import { ImageSize } from "src/data/graphql/generated";
 import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
@@ -29,6 +30,7 @@ type Props = {
 };
 export const CategorySelect = ({ category, onClickYes, onClickNo }: Props) => {
     const thumbnailImageSize: ImageSize = ImageSizes.Large as ImageSize;
+    const isPC = !isMobile && !isTablet;
     const placesOfCategory = category.places.filter(
         (place) => place.images.length > 0
     );
@@ -65,11 +67,13 @@ export const CategorySelect = ({ category, onClickYes, onClickNo }: Props) => {
                         ref={(splide) => (refSplide.current = splide)}
                         options={{
                             type: "loop",
-                            arrows: placesOfCategory.length > 0,
+                            arrows: placesOfCategory.length > 0 && isPC,
                             drag: placesOfCategory.length > 0,
                             pagination: false,
                             rewind: false,
                             lazyLoad: "nearby",
+                            perPage: 1,
+                            perMove: 1,
                         }}
                     >
                         <SplideSlide>
@@ -129,6 +133,44 @@ const SplideContainer = styled(Splide)`
     & > .splide__track > .splide__list > .splide__slide {
         width: 100%;
         height: 100%;
+    }
+
+    & > .splide__arrows {
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        position: absolute;
+        z-index: 99;
+      
+        &:hover {
+            opacity: 1;
+        }
+
+        & > .splide__arrow--prev {
+            justify-content: flex-start;
+        }
+        & > .splide__arrow--next {
+            justify-content: flex-end;
+        }
+        & > .splide__arrow {
+            position: initial;
+            transform: none;
+            background-color: transparent;
+            z-index: 1;
+            flex: 1;
+            height: 100%;
+            padding: 32px;
+
+            &:disabled {
+                opacity: 0;
+            }
+
+            > svg {
+                width: 12px;
+                height: 12px;
+            }
+        }
     }
 `;
 
