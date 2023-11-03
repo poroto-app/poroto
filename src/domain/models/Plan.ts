@@ -22,7 +22,7 @@ export function getPlanPriceRange(places: Place[]): PriceRange {
         if (place.priceRange) {
             totalMinPrice += place.priceRange.min;
             totalMaxPrice += place.priceRange.max;
-            totalGooglePriceLevel += place.priceRange.googlePriceLevel;
+            totalGooglePriceLevel = place.priceRange.googlePriceLevel;
         }
     }
 
