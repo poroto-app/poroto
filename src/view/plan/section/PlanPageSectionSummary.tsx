@@ -16,6 +16,9 @@ export function PlanPageSectionSummary({
     planDurationInMinutes,
     planRange,
 }: Props) {
+    if (planRange.min === 0 && planRange.max === 0) {
+        return <></>;
+    }
     return (
         <PlanPageSection title="プランの情報">
             <HStack w="100%" overflowX="auto" pb={4}>
