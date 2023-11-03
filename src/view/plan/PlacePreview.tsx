@@ -9,10 +9,9 @@ import {
     ModalContent,
     ModalOverlay,
     Text,
+    useMediaQuery,
     VStack,
 } from "@chakra-ui/react";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
-import "@splidejs/splide/css";
 import { useState } from "react";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
@@ -21,7 +20,7 @@ import {
     ImageSizes,
 } from "src/domain/models/Image";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
-import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
+import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { PlaceReview } from "src/view/plan/PlaceReview";
 import styled from "styled-components";
@@ -43,6 +42,7 @@ export const PlacePreview = ({
     onClickShowRelatedPlaces,
 }: Props) => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
+    const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
 
     const openModal = (image: ImageType) => {
         setSelectedImage(getImageSizeOf(ImageSizes.Large, image));
@@ -62,9 +62,10 @@ export const PlacePreview = ({
         >
             <ImagePreviewContainer hasImage={images.length > 0}>
                 {images.length > 0 && (
-                    <PlaceImagesPreview
+                    <ImageSliderPreview
                         images={images}
                         onClickImage={openModal}
+                        borderRadius={isLargerThan700 ? 20 : 0}
                     />
                 )}
             </ImagePreviewContainer>
@@ -154,84 +155,4 @@ const ImagePreviewContainer = styled.div<{ hasImage: boolean }>`
         height: ${({ hasImage }) => (hasImage ? "250px" : "0")};
         padding: 16px;
     }
-`;
-
-function PlaceImagesPreview({
-    images,
-    onClickImage,
-}: {
-    images: ImageType[];
-    onClickImage: (image: ImageType) => void;
-}) {
-    return (
-        <SlideContainer
-            options={{
-                drag: images.length > 1,
-                arrows: images.length > 1,
-                lazyLoad: "nearby",
-            }}
-        >
-            {images.map((image, i) => (
-                <SlideItem key={i}>
-                    <ImageWithSkeleton
-                        key={i}
-                        src={getImageSizeOf(ImageSizes.Large, image)}
-                        onClick={() => onClickImage(image)}
-                    />
-                </SlideItem>
-            ))}
-        </SlideContainer>
-    );
-}
-
-const SlideContainer = styled(Splide)`
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-
-    & > .splide__track {
-        height: 100%;
-    }
-
-    & > .splide__arrows {
-        opacity: 0;
-
-        & > .splide__arrow {
-            background-color: white;
-            box-shadow: 0 0 0 1px transparent, 0 0 0 4px transparent,
-                0 2px 4px rgba(0, 0, 0, 0.18);
-            z-index: 1;
-
-            &:disabled {
-                opacity: 0;
-            }
-
-            &:hover {
-                opacity: 1;
-                z-index: 99;
-            }
-
-            > svg {
-                width: 12px;
-                height: 12px;
-            }
-        }
-    }
-
-    // pcでホバーをしたときだけ矢印を表示する
-    @media screen and (min-width: 700px) {
-        &:hover {
-            & > .splide__arrows {
-                opacity: 1;
-            }
-        }
-
-        border-radius: 10px;
-        overflow: hidden;
-    }
-`;
-
-const SlideItem = styled(SplideSlide)`
-    width: 100%;
-    height: 100%;
 `;

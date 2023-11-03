@@ -7,9 +7,14 @@ export const Routes = {
             if (byLocation) url += "?location=true";
             return url;
         },
-        select: (session: string) => `/plans/select/${session}`,
-        planCandidate: (session: string, planId: string) =>
-            `/plans/select/${session}/${planId}`,
+        planCandidate: {
+            index: (planCandidateId: string) =>
+                `/plans/select/${planCandidateId}`,
+            plan: (planCandidateId: string, planId: string) =>
+                `/plans/select/${planCandidateId}/${planId}`,
+            edit: (planCandidateId: string, planId: string) =>
+                `/plans/select/${planCandidateId}/${planId}/edit`,
+        },
     },
     places: {
         search: "/places/search",

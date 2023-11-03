@@ -4,11 +4,11 @@ import {
     fetchPlacesToReplace,
     reduxEditPlanCandidateSelector,
     replacePlaceOfPlanCandidate,
-    resetEditPlanCandidateState,
+    resetReorderPlaceOfPlanCandidateState,
 } from "src/redux/editPlanCandidate";
 import { useAppDispatch } from "src/redux/redux";
 
-export const usePlanEdit = ({
+export const usePlanPlaceReplace = ({
     planCandidateId,
     planId,
 }: {
@@ -16,14 +16,6 @@ export const usePlanEdit = ({
     planId: string;
 }) => {
     const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        dispatch(resetEditPlanCandidateState());
-    }, []);
-
-    // ========================================================================
-    // Replace
-    // ========================================================================
     const [placeIdToReplace, setPlaceIdToReplace] = useState<string | null>();
     const [isDialogRelatedPlacesVisible, setIsDialogRelatedPlacesVisible] =
         useState(false);
@@ -47,25 +39,29 @@ export const usePlanEdit = ({
     const onCloseDialogRelatedPlaces = () => {
         setPlaceIdToReplace(null);
         setIsDialogRelatedPlacesVisible(false);
-        dispatch(resetEditPlanCandidateState());
+        dispatch(resetReorderPlaceOfPlanCandidateState());
     };
 
     const replacePlace = ({
-        placeIdToReplace,
+        placeIdToDelete,
         placeIdToAdd,
     }: {
-        placeIdToReplace: string;
+        placeIdToDelete: string;
         placeIdToAdd: string;
     }) => {
         dispatch(
             replacePlaceOfPlanCandidate({
                 planCandidateId,
                 planId,
-                placeIdToReplace,
+                placeIdToReplace: placeIdToDelete,
                 placeIdToAdd,
             })
         );
     };
+
+    useEffect(() => {
+        dispatch(resetReorderPlaceOfPlanCandidateState());
+    }, []);
 
     useEffect(() => {
         // エラー時にはダイアログを閉じる
@@ -99,7 +95,6 @@ export const usePlanEdit = ({
         requestStatusFetchPlacesToReplace,
         requestStatusReplacePlaceOfPlanCandidate,
     ]);
-    // ========================================================================
 
     return {
         showRelatedPlaces,

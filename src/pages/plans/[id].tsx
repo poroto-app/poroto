@@ -1,6 +1,8 @@
-import { Box, Center, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, Icon, useToast, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { RiShareForwardLine } from "react-icons/ri";
+import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
     fetchPlan,
@@ -12,14 +14,15 @@ import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
+import { Colors } from "src/view/constants/color";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
+import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
 import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
-import { FooterHeight, PlanShareFooter } from "src/view/plan/PlanShareFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 
@@ -31,6 +34,20 @@ export default function PlanPage() {
         fetchPlanRequestStatus,
         showPlanCreatedModal,
     } = reduxPlanSelector();
+    const toast = useToast();
+
+    const handleOnCopyPlanUrl = () => {
+        const url: string = location.href;
+        navigator.clipboard.writeText(url);
+
+        toast({
+            title: "URLを共有",
+            description: "URLがクリップボードにコピーされました。",
+            status: "success",
+            duration: 3000, // ポップアップが表示される時間（ミリ秒）
+            isClosable: true,
+        });
+    };
 
     useEffect(() => {
         if (typeof id !== "string") return;
@@ -69,6 +86,7 @@ export default function PlanPage() {
                 <PlanPageThumbnail plan={plan} />
                 <PlanPageSectionSummary
                     planDurationInMinutes={plan.timeInMinutes}
+                    planRange={getPlanPriceRange(plan.places)}
                 />
                 <Box w="100%" px="20px">
                     <PlanPlaceList plan={plan} />
@@ -87,7 +105,19 @@ export default function PlanPage() {
                     />
                 </VStack>
             </VStack>
-            <PlanShareFooter />
+            <PlanFooter>
+                <Button
+                    variant="solid"
+                    flex={1}
+                    color="white"
+                    backgroundColor={Colors.primary["400"]}
+                    borderRadius={10}
+                    onClick={handleOnCopyPlanUrl}
+                    leftIcon={<Icon as={RiShareForwardLine} boxSize={6} />}
+                >
+                    共有
+                </Button>
+            </PlanFooter>
             <PlanCreatedDialog
                 visible={showPlanCreatedModal}
                 onClickClose={() => dispatch(setShowPlanCreatedModal(false))}
