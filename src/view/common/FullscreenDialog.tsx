@@ -1,8 +1,8 @@
 import { Box } from "@chakra-ui/react";
 import { CSSProperties, ReactNode, useEffect } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
+import { zIndex } from "src/view/constants/zIndex";
 import styled from "styled-components";
-import {zIndex} from "src/view/constants/zIndex";
 
 type Props = {
     position?: DialogPosition;

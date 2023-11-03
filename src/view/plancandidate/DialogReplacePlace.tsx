@@ -34,8 +34,9 @@ export function DialogReplacePlace({
                     「
                     <b>
                         {
-                            placesInPlan.find((p) => p.id === placeIdToBeReplaced)
-                                ?.name
+                            placesInPlan.find(
+                                (p) => p.id === placeIdToBeReplaced
+                            )?.name
                         }
                     </b>
                     」 を 「

@@ -1,6 +1,6 @@
 import { Center, HStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import {zIndex} from "src/view/constants/zIndex";
+import { zIndex } from "src/view/constants/zIndex";
 
 type Props = {
     children?: ReactNode;
