@@ -408,8 +408,8 @@ function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
             })) ?? [],
         priceRange: place.priceRange
             ? {
-                  min: place.priceRange.priceRangeMin,
-                  max: place.priceRange.priceRangeMax,
+                  priceRangeMin: place.priceRange.priceRangeMin,
+                  priceRangeMax: place.priceRange.priceRangeMax,
                   googlePriceLevel: place.priceRange.googlePriceLevel,
               }
             : null,

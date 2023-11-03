@@ -3,7 +3,7 @@ import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { Place } from "src/domain/models/Place";
-import { Plan } from "src/domain/models/Plan";
+import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { copyObject } from "src/domain/util/object";
 import { setShowPlanCreatedModal } from "src/redux/plan";
@@ -157,6 +157,7 @@ const PlanDetail = () => {
                     <PlanPageThumbnail plan={plan} />
                     <PlanPageSectionSummary
                         planDurationInMinutes={plan.timeInMinutes}
+                        planRange={getPlanPriceRange(plan.places)}
                     />
                     <Box w="100%" px="20px">
                         <PlanPlaceList

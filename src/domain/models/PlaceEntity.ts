@@ -19,8 +19,8 @@ export type PlaceEntity = {
         id: string;
     }[];
     priceRange?: {
-        min: number;
-        max: number;
+        priceRangeMin: number;
+        priceRangeMax: number;
         googlePriceLevel: number;
     };
 };
