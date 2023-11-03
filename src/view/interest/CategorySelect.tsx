@@ -1,18 +1,64 @@
-import { Box, Center, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import {
+    Box,
+    Center,
+    HStack,
+    Icon,
+    Image,
+    Text,
+    VStack,
+} from "@chakra-ui/react";
+import { useState } from "react";
 import { MdCheck, MdClose } from "react-icons/md";
+import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
 import { LocationCategory } from "src/domain/models/LocationCategory";
+import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
+import { Place } from "src/domain/models/Place";
+import { PlaceCategory } from "src/domain/models/PlaceCategory";
+import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { SelectButton } from "src/view/interest/SelectButton";
-import styled from "styled-components";
+import { getPlaceCategoryIcon } from "../plan/PlaceCategoryIcon";
 
 type Props = {
-    category: LocationCategory;
+    category: LocationCategoryWithPlace;
     onClickYes: (category: LocationCategory) => void;
     onClickNo: (category: LocationCategory) => void;
 };
 export const CategorySelect = ({ category, onClickYes, onClickNo }: Props) => {
+    const [visiblePlaceIndex, setVisiblePlaceIndex] = useState<number>(null);
+
+    const handleOnClickNextPlace = () => {
+        if (visiblePlaceIndex === null) {
+            setVisiblePlaceIndex(0);
+        } else if (visiblePlaceIndex == category.places.length - 1) {
+            setVisiblePlaceIndex(null);
+        } else {
+            setVisiblePlaceIndex(visiblePlaceIndex + 1);
+        }
+    };
+
+    const handleOnClickPrevPlace = () => {
+        if (visiblePlaceIndex === null) {
+            setVisiblePlaceIndex(category.places.length - 1);
+        } else if (visiblePlaceIndex == 0) {
+            setVisiblePlaceIndex(null);
+        } else {
+            setVisiblePlaceIndex(visiblePlaceIndex - 1);
+        }
+    };
+
     return (
         <VStack h="100%" w="100%" spacing={6}>
-            <ThumbnailCard>
+            <VStack
+                w="100%"
+                h="100%"
+                maxH="100%"
+                border="1.5px solid rgba(0, 0, 0, 0.15)"
+                boxShadow="0 0 60px 20px rgba(187, 160, 166, 0.1)"
+                borderRadius="15px"
+                flex={1}
+                overflow="hidden"
+                pos="relative"
+            >
                 <Box
                     w="100%"
                     h="100%"
@@ -20,12 +66,25 @@ export const CategorySelect = ({ category, onClickYes, onClickNo }: Props) => {
                     position="relative"
                     overflow="hidden"
                 >
-                    <DefaultThumbnail imageUrl={category.defaultThumbnailUrl} />
+                    <TouchDetector
+                        onClickNext={handleOnClickNextPlace}
+                        onClickPrev={handleOnClickPrevPlace}
+                    />
+                    {visiblePlaceIndex !== null ? (
+                        <PlaceThumbnail
+                            place={category.places[visiblePlaceIndex]}
+                            category={{ id: category.name }}
+                        />
+                    ) : (
+                        <DefaultThumbnail
+                            imageUrl={category.defaultThumbnailUrl}
+                        />
+                    )}
                 </Box>
                 <Text fontSize="1.25rem" py={4}>
                     {category.displayName}
                 </Text>
-            </ThumbnailCard>
+            </VStack>
             <HStack w="100%">
                 <SelectButton
                     color="#E96479"
@@ -42,33 +101,68 @@ export const CategorySelect = ({ category, onClickYes, onClickNo }: Props) => {
     );
 };
 
-const ThumbnailCard = styled.div`
-    border: 1.5px solid rgba(0, 0, 0, 0.15);
-    box-shadow: 0 0 60px 20px rgba(187, 160, 166, 0.1);
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-    max-height: 100%;
-`;
+function TouchDetector({
+    onClickNext,
+    onClickPrev,
+}: {
+    onClickNext: () => void;
+    onClickPrev: () => void;
+}) {
+    return (
+        <HStack
+            position="absolute"
+            top={0}
+            right={0}
+            bottom={0}
+            left={0}
+            w="100%"
+            h="100%"
+            zIndex={10}
+            onClick={(e) => {
+                e.stopPropagation();
+            }}
+        >
+            <Box flex={1} h="100%" onClick={onClickPrev} />
+            <Box flex={1} h="100%" onClick={onClickNext} />
+        </HStack>
+    );
+}
 
-// MEMO: 画像が読み込まれたときに、画像のアスペクト比に応じてコンポーネントの高さが変化してしまうのを防ぐために
-// 親要素に対してposition: relativeを指定して、子要素に対してposition: absoluteを指定している
-const Thumbnail = styled.img`
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    overflow: hidden;
-`;
+function PlaceThumbnail({
+    place,
+    category,
+}: {
+    place: Place;
+    category: PlaceCategory;
+}) {
+    return (
+        <Box w="100%" h="100%" position="relative">
+            <ImageWithSkeleton
+                src={getImageSizeOf(ImageSizes.Large, place.images[0])}
+            />
+            <Box
+                position="absolute"
+                right={0}
+                bottom={0}
+                left={0}
+                px="16px"
+                pb="16px"
+                pt="32px"
+                background="linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.30) 30%, rgba(0, 0, 0, 0.50) 100%)"
+            >
+                <HStack>
+                    <Icon
+                        w="24px"
+                        h="24px"
+                        color="white"
+                        as={getPlaceCategoryIcon(category)}
+                    />
+                    <Text color="white">{place.name}</Text>
+                </HStack>
+            </Box>
+        </Box>
+    );
+}
 
 const DefaultThumbnail = ({ imageUrl }: { imageUrl: string }) => {
     return (
