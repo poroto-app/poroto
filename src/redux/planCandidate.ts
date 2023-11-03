@@ -199,9 +199,11 @@ export const fetchNearbyPlaceCategories = createAsyncThunk(
     "planCandidate/fetchNearbyPlaceCategories",
     async ({ location, requestId }: FetchNearbyPlaceCategoriesProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const response = await plannerApi.fetchNearbyPlaceCategories({ location });
-        const categriesWithPlace: LocationCategoryWithPlace[] = response.categories.map(
-            (category) => ({
+        const response = await plannerApi.fetchNearbyPlaceCategories({
+            location,
+        });
+        const categriesWithPlace: LocationCategoryWithPlace[] =
+            response.categories.map((category) => ({
                 name: category.name,
                 displayName: category.displayName,
                 thumbnail: category.photo,
@@ -209,8 +211,7 @@ export const fetchNearbyPlaceCategories = createAsyncThunk(
                 places: category.places.map((place) =>
                     createPlaceFromPlaceEntity(place)
                 ),
-            })
-        );
+            }));
         return {
             requestId,
             planCandidateId: response.session,
@@ -504,20 +505,26 @@ export const slice = createSlice({
             })
             // Fetch Nearby Place Categories
             .addCase(fetchNearbyPlaceCategories.pending, (state) => {
-                state.fetchNearbyPlaceCategoriesRequestStatus = RequestStatuses.PENDING;
+                state.fetchNearbyPlaceCategoriesRequestStatus =
+                    RequestStatuses.PENDING;
             })
-            .addCase(fetchNearbyPlaceCategories.fulfilled, (state, { payload }) => {
-                state.fetchNearbyPlaceCategoriesRequestStatus = RequestStatuses.FULFILLED;
+            .addCase(
+                fetchNearbyPlaceCategories.fulfilled,
+                (state, { payload }) => {
+                    state.fetchNearbyPlaceCategoriesRequestStatus =
+                        RequestStatuses.FULFILLED;
 
-                state.categoryCandidates = payload.categories;
-                state.categoriesAccepted = [];
-                state.categoriesRejected = [];
-                state.fetchLocationCategoryRequestId = payload.requestId;
+                    state.categoryCandidates = payload.categories;
+                    state.categoriesAccepted = [];
+                    state.categoriesRejected = [];
+                    state.fetchLocationCategoryRequestId = payload.requestId;
 
-                state.createPlanSession = payload.planCandidateId;
-            })
+                    state.createPlanSession = payload.planCandidateId;
+                }
+            )
             .addCase(fetchNearbyPlaceCategories.rejected, (state) => {
-                state.fetchNearbyPlaceCategoriesRequestStatus = RequestStatuses.REJECTED;
+                state.fetchNearbyPlaceCategoriesRequestStatus =
+                    RequestStatuses.REJECTED;
             });
     },
 });

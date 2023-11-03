@@ -1,4 +1,5 @@
 import { Box } from "@chakra-ui/react";
+import { mockPlaces } from "src/stories/mock/place";
 import { CategorySelect } from "src/view/interest/CategorySelect";
 
 export default {
@@ -27,13 +28,14 @@ export default {
 };
 
 const Template = ({ category, thumbnail, defaultThumbnailUrl }) => (
-    <Box w="100%" h="100%" p={8}>
+    <Box w="100%" h="600px" p={8}>
         <CategorySelect
             category={{
                 name: "category",
                 displayName: category,
                 thumbnail,
                 defaultThumbnailUrl,
+                places: Object.values(mockPlaces),
             }}
             onClickYes={() => 0}
             onClickNo={() => 0}

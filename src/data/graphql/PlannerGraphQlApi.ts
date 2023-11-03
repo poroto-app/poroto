@@ -10,7 +10,6 @@ import {
     FetchPlanByIdDocument,
     FetchPlanByIdQuery,
     FetchPlansDocument,
-    MatchInterestsDocument,
     NearbyPlaceCategoriesDocument,
     PlacesToAddForPlanOfPlanCandidateDocument,
     PlansByLocationDocument,
@@ -32,6 +31,8 @@ import {
     FetchAvailablePlacesForPlanRequest,
     FetchCachedCreatedPlansRequest,
     FetchCachedCreatedPlansResponse,
+    FetchNearbyPlaceCategoriesRequest,
+    FetchNearbyPlaceCategoriesResponse,
     FetchPlacesToAddForPlanOfPlanCandidateRequest,
     FetchPlanRequest,
     FetchPlanResponse,
@@ -39,8 +40,6 @@ import {
     FetchPlansByLocationResponse,
     FetchPlansByUserRequest,
     FetchPlansByUserResponse,
-    FetchNearbyPlaceCategoriesRequest,
-    FetchNearbyPlaceCategoriesResponse,
     PlannerApi,
     ReplacePlaceInPlanOfPlanCandidateRequest,
     SavePlanFromCandidateRequest,
@@ -314,14 +313,16 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
 
         return {
             session: data.nearbyPlaceCategories.planCandidateId,
-            categories: data.nearbyPlaceCategories.categories.map((category) => ({
-                name: category.id,
-                displayName: category.displayName,
-                defaultPhotoUrl: category.defaultPhotoUrl,
-                places: category.places.map((place) =>
-                    fromGraphqlPlaceEntity(place)
-                ),
-            })),
+            categories: data.nearbyPlaceCategories.categories.map(
+                (category) => ({
+                    name: category.id,
+                    displayName: category.displayName,
+                    defaultPhotoUrl: category.defaultPhotoUrl,
+                    places: category.places.map((place) =>
+                        fromGraphqlPlaceEntity(place)
+                    ),
+                })
+            ),
         };
     }
 

@@ -132,7 +132,12 @@ function PlanInterestPage() {
         if (searchLocation) {
             const requestId = Date.now().toString();
             setMatchInterestRequestId(requestId);
-            dispatch(fetchNearbyPlaceCategories({ location: searchLocation, requestId }));
+            dispatch(
+                fetchNearbyPlaceCategories({
+                    location: searchLocation,
+                    requestId,
+                })
+            );
         }
     }, [searchLocation]);
 
