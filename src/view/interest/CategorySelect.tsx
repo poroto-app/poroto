@@ -249,8 +249,8 @@ function PlaceThumbnail({
                 left={0}
                 px="16px"
                 pb="16px"
-                pt="32px"
-                background="linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.30) 30%, rgba(0, 0, 0, 0.50) 100%)"
+                pt="48px"
+                background="linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.20) 20%, rgba(0, 0, 0, 0.50) 40%, rgba(0, 0, 0, 0.80) 100%)"
             >
                 <HStack>
                     <Icon
