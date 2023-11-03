@@ -50,10 +50,14 @@ export const CategorySelect = ({
     );
     const refSplide = useRef<Splide | null>(null);
 
-    const playInteractiveAnimation = async (splide: SplideCore) => {
+    const getSplideList = (splide: SplideCore) => {
         const splideLists = splide.root.getElementsByClassName("splide__list");
-        if (splideLists.length === 0) return;
-        const splideList = splideLists.item(0) as HTMLUListElement;
+        if (splideLists.length === 0) return null;
+        return splideLists.item(0) as HTMLUListElement;
+    };
+
+    const playInteractiveAnimation = async (splide: SplideCore) => {
+        const splideList = getSplideList(splide);
 
         const initialTransform = splideList.style.transform;
         const currentTransformValue =
@@ -86,9 +90,14 @@ export const CategorySelect = ({
     useEffect(() => {
         // カテゴリが切り替わったときは、初期ページに戻るようにする
         if (!refSplide.current) return;
-        const { speed } = refSplide.current.splide.options;
+
+        const splideList = getSplideList(refSplide.current.splide);
+        if (!splideList) return;
+
+        const { transition } = splideList.style;
+        splideList.style.transition = "";
         refSplide.current.go(0);
-        refSplide.current.splide.options.speed = speed;
+        splideList.style.transition = transition;
     }, [category.name]);
 
     return (
