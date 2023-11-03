@@ -8,8 +8,9 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
+import { Splide as SplideCore } from "@splidejs/splide";
 import "@splidejs/splide/css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { isMobile, isTablet } from "react-device-detect";
 import { MdCheck, MdClose } from "react-icons/md";
 import { ImageSize } from "src/data/graphql/generated";
@@ -23,12 +24,25 @@ import { SelectButton } from "src/view/interest/SelectButton";
 import { styled } from "styled-components";
 import { getPlaceCategoryIcon } from "../plan/PlaceCategoryIcon";
 
+/**
+ * @param interactiveAnimation trueの場合、スライドして切り替わることを示すためのアニメーションを表示する
+ */
 type Props = {
     category: LocationCategoryWithPlace;
+    interactiveAnimation?: boolean;
     onClickYes: (category: LocationCategory) => void;
     onClickNo: (category: LocationCategory) => void;
 };
-export const CategorySelect = ({ category, onClickYes, onClickNo }: Props) => {
+export const CategorySelect = ({
+    category,
+    interactiveAnimation = true,
+    onClickYes,
+    onClickNo,
+}: Props) => {
+    const [
+        isInteractiveAnimationAlreadyPlayed,
+        setIsInteractiveAnimationAlreadyPlayed,
+    ] = useState(false);
     const thumbnailImageSize: ImageSize = ImageSizes.Large as ImageSize;
     const isPC = !isMobile && !isTablet;
     const placesOfCategory = category.places.filter(
@@ -36,7 +50,41 @@ export const CategorySelect = ({ category, onClickYes, onClickNo }: Props) => {
     );
     const refSplide = useRef<Splide | null>(null);
 
+    const playInteractiveAnimation = async (splide: SplideCore) => {
+        const splideLists = splide.root.getElementsByClassName("splide__list");
+        if (splideLists.length === 0) return;
+        const splideList = splideLists.item(0) as HTMLUListElement;
+
+        const initialTransform = splideList.style.transform;
+        const currentTransformValue =
+            initialTransform.match(/translateX\((.*)px\)/);
+        if (currentTransformValue === null) return;
+        const initialTransformX = Number(currentTransformValue[1]);
+
+        const sleep = (msec: number) =>
+            new Promise((resolve) => setTimeout(resolve, msec));
+
+        splideList.style.transition = "transform 0.5s ease-in-out";
+        await sleep(500);
+        splideList.style.transform = `translateX(${initialTransformX - 100}px)`;
+        await sleep(500);
+        splideList.style.transform = `translateX(${initialTransformX}px)`;
+        await sleep(500);
+        splideList.style.transition = "";
+
+        setIsInteractiveAnimationAlreadyPlayed(true);
+    };
+
     useEffect(() => {
+        if (!refSplide.current) return;
+        if (!interactiveAnimation || isInteractiveAnimationAlreadyPlayed)
+            return;
+        if (placesOfCategory.length === 0) return;
+        playInteractiveAnimation(refSplide.current.splide);
+    }, [refSplide.current, category.name]);
+
+    useEffect(() => {
+        // カテゴリが切り替わったときは、初期ページに戻るようにする
         if (!refSplide.current) return;
         const { speed } = refSplide.current.splide.options;
         refSplide.current.go(0);
@@ -142,7 +190,7 @@ const SplideContainer = styled(Splide)`
         display: flex;
         position: absolute;
         z-index: 99;
-      
+
         &:hover {
             opacity: 1;
         }
@@ -161,9 +209,15 @@ const SplideContainer = styled(Splide)`
             flex: 1;
             height: 100%;
             padding: 32px;
+            border-radius: 0;
+            transition: background-color 0.2s ease-in-out;
 
             &:disabled {
                 opacity: 0;
+            }
+
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.05);
             }
 
             > svg {
