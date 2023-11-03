@@ -33,7 +33,6 @@ const Template = ({ category, thumbnail, defaultThumbnailUrl }) => (
             category={{
                 name: "category",
                 displayName: category,
-                thumbnail,
                 defaultThumbnailUrl,
                 places: Object.values(mockPlaces),
             }}

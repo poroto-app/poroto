@@ -17,7 +17,6 @@ export const Primary: Story = {
         currentCategory: {
             name: "cafe",
             displayName: "カフェ",
-            thumbnail: "https://picsum.photos/1280/720",
             defaultThumbnailUrl: "https://picsum.photos/1280/720",
             places: Object.values(mockPlaces),
         },
