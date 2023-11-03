@@ -142,8 +142,6 @@ const PlanDetail = () => {
         return <LoadingModal title="素敵なプランを読み込んでいます" />;
     }
 
-    const priceRange = getPlanPriceRange(plan.places);
-
     return (
         <>
             <Center flexDirection="column" pb={`${FooterHeight}px`}>
