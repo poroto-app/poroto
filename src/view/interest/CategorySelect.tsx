@@ -3,12 +3,13 @@ import {
     Center,
     HStack,
     Icon,
-    Image,
+    Image as ChakraImage,
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdCheck, MdClose } from "react-icons/md";
+import { ImageSize } from "src/data/graphql/generated";
 import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
@@ -24,27 +25,75 @@ type Props = {
     onClickNo: (category: LocationCategory) => void;
 };
 export const CategorySelect = ({ category, onClickYes, onClickNo }: Props) => {
+    const thumbnailImageSize: ImageSize = ImageSizes.Large as ImageSize;
+    const placesOfCategory = category.places.filter(
+        (place) => place.images.length > 0
+    );
     const [visiblePlaceIndex, setVisiblePlaceIndex] = useState<number>(null);
 
-    const handleOnClickNextPlace = () => {
+    const getNextPlaceIndex = () => {
         if (visiblePlaceIndex === null) {
-            setVisiblePlaceIndex(0);
-        } else if (visiblePlaceIndex == category.places.length - 1) {
-            setVisiblePlaceIndex(null);
+            return 0;
+        } else if (visiblePlaceIndex === placesOfCategory.length - 1) {
+            return null;
         } else {
-            setVisiblePlaceIndex(visiblePlaceIndex + 1);
+            return visiblePlaceIndex + 1;
         }
+    };
+
+    const getPrevPlaceIndex = () => {
+        if (visiblePlaceIndex === null) {
+            return placesOfCategory.length - 1;
+        } else if (visiblePlaceIndex === 0) {
+            return null;
+        } else {
+            return visiblePlaceIndex - 1;
+        }
+    };
+
+    const handleOnClickNextPlace = () => {
+        setVisiblePlaceIndex(getNextPlaceIndex());
     };
 
     const handleOnClickPrevPlace = () => {
-        if (visiblePlaceIndex === null) {
-            setVisiblePlaceIndex(category.places.length - 1);
-        } else if (visiblePlaceIndex == 0) {
-            setVisiblePlaceIndex(null);
-        } else {
-            setVisiblePlaceIndex(visiblePlaceIndex - 1);
-        }
+        setVisiblePlaceIndex(getPrevPlaceIndex());
     };
+
+    // サムネイル画像を prefetch する
+    useEffect(() => {
+        if (placesOfCategory.length === 0) return;
+
+        const nextIndex = getNextPlaceIndex();
+        const prevIndex = getPrevPlaceIndex();
+
+        if (prevIndex)
+            console.log(
+                getImageSizeOf(
+                    thumbnailImageSize,
+                    placesOfCategory[prevIndex].images[0]
+                )
+            );
+        if (nextIndex)
+            console.log(
+                getImageSizeOf(
+                    thumbnailImageSize,
+                    placesOfCategory[nextIndex].images[0]
+                )
+            );
+
+        if (prevIndex) {
+            new Image().src = getImageSizeOf(
+                thumbnailImageSize,
+                placesOfCategory[prevIndex].images[0]
+            );
+        }
+        if (nextIndex) {
+            new Image().src = getImageSizeOf(
+                thumbnailImageSize,
+                placesOfCategory[nextIndex].images[0]
+            );
+        }
+    }, [visiblePlaceIndex]);
 
     return (
         <VStack h="100%" w="100%" spacing={6}>
@@ -72,8 +121,9 @@ export const CategorySelect = ({ category, onClickYes, onClickNo }: Props) => {
                     />
                     {visiblePlaceIndex !== null ? (
                         <PlaceThumbnail
-                            place={category.places[visiblePlaceIndex]}
+                            place={placesOfCategory[visiblePlaceIndex]}
                             category={{ id: category.name }}
+                            imageSize={thumbnailImageSize}
                         />
                     ) : (
                         <DefaultThumbnail
@@ -131,14 +181,16 @@ function TouchDetector({
 function PlaceThumbnail({
     place,
     category,
+    imageSize,
 }: {
     place: Place;
     category: PlaceCategory;
+    imageSize: ImageSize;
 }) {
     return (
         <Box w="100%" h="100%" position="relative">
             <ImageWithSkeleton
-                src={getImageSizeOf(ImageSizes.Large, place.images[0])}
+                src={getImageSizeOf(imageSize, place.images[0])}
             />
             <Box
                 position="absolute"
@@ -177,7 +229,13 @@ const DefaultThumbnail = ({ imageUrl }: { imageUrl: string }) => {
             bottom="0"
             left="0"
         >
-            <Image src={imageUrl} maxW="600px" maxH="400px" h="100%" w="100%" />
+            <ChakraImage
+                src={imageUrl}
+                maxW="600px"
+                maxH="400px"
+                h="100%"
+                w="100%"
+            />
         </Center>
     );
 };
