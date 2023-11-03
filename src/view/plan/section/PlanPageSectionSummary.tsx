@@ -23,8 +23,8 @@ export function PlanPageSectionSummary({
                 />
                 {(planRange.min !== 0 || planRange.max !== 0) && (
                     <PlanSummaryBudget
-                        MinBudget={planRange.min}
-                        MaxBudget={planRange.max}
+                        minBudget={planRange.min}
+                        maxBudget={planRange.max}
                     />
                 )}
             </HStack>
