@@ -13,7 +13,6 @@ export type Plan = {
 };
 
 export function getPlanPriceRange(places: Place[]): PriceRange {
-
     let totalMinPrice = 0;
     let totalMaxPrice = 0;
     let totalGooglePriceLevel = 0;
