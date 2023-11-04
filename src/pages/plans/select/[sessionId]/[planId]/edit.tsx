@@ -50,6 +50,7 @@ const PlanEdit = () => {
         addPlaceToPlan,
         showPlacesToAdd,
         onCloseDialogToAddPlace,
+        basePlaceIdToAdd,
         isDialogToAddPlaceVisible,
         placesToAdd,
         isAddingPlace,
@@ -116,14 +117,22 @@ const PlanEdit = () => {
                     <PlanPageSection title="Edit">
                         <VStack spacing="16px">
                             {plan.places.map((place, i) => (
-                                <EditPlanCandidatePlaceListItem
-                                    key={place.id}
-                                    place={place}
-                                    onClickShowRelatedPlaces={showRelatedPlaces}
-                                />
+                                <VStack key={place.id} w="100%" spacing="16px">
+                                    <EditPlanCandidatePlaceListItem
+                                        place={place}
+                                        onClickShowRelatedPlaces={
+                                            showRelatedPlaces
+                                        }
+                                    />
+                                    <AddPlaceButton
+                                        onClick={() =>
+                                            showPlacesToAdd({
+                                                basePlaceIdToAdd: place.id,
+                                            })
+                                        }
+                                    />
+                                </VStack>
                             ))}
-                            {/*TODO: すべての箇所で場所を追加できるようにする*/}
-                            <AddPlaceButton onClick={showPlacesToAdd} />
                         </VStack>
                     </PlanPageSection>
                     <PlanPageSection title="プラン内の場所">
@@ -160,7 +169,11 @@ const PlanEdit = () => {
                 isDialogVisible={isDialogToAddPlaceVisible}
                 isAddingPlace={isAddingPlace}
                 onAddPlaceToPlan={({ placeIdToAdd }) =>
-                    addPlaceToPlan({ placeIdToAdd })
+                    basePlaceIdToAdd &&
+                    addPlaceToPlan({
+                        placeIdToAdd,
+                        previousPlaceId: basePlaceIdToAdd,
+                    })
                 }
                 onCloseDialog={onCloseDialogToAddPlace}
             />
