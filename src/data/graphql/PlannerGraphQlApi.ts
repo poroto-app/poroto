@@ -234,12 +234,15 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                 input: {
                     planCandidateId: request.planCandidateId,
                     planId: request.planId,
+                    previousPlaceId: request.previousPlaceId,
                     placeId: request.placeId,
                 },
             },
         });
         return {
-            plan: fromGraphqlPlanEntity(data.addPlaceToPlanCandidate.plan),
+            plan: fromGraphqlPlanEntity(
+                data.addPlaceToPlanCandidateAfterPlace.plan
+            ),
         };
     }
 

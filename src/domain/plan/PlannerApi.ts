@@ -173,6 +173,7 @@ export type FetchPlacesToReplaceForPlanOfPlanCandidateResponse = {
 export type AddPlaceToPlanOfPlanCandidateRequest = {
     planCandidateId: string;
     planId: string;
+    previousPlaceId: string;
     placeId: string;
 };
 
