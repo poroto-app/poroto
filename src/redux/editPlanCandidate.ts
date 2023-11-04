@@ -20,6 +20,7 @@ export type EditPlanCandidateState = {
     placesToAdd: Place[] | null;
     requestStatusFetchPlacesToAdd: RequestStatus | null;
     requestStatusAddPlaceToPlanCandidate: RequestStatus | null;
+    requestStatusDeletePlaceFromPlanOfPlanCandidate: RequestStatus | null;
 };
 
 const initialState: EditPlanCandidateState = {
@@ -30,6 +31,7 @@ const initialState: EditPlanCandidateState = {
     placesToAdd: null,
     requestStatusFetchPlacesToAdd: null,
     requestStatusAddPlaceToPlanCandidate: null,
+    requestStatusDeletePlaceFromPlanOfPlanCandidate: null,
 };
 
 type FetchPlacesToReplaceProps = {
@@ -150,6 +152,40 @@ export const addPlaceToPlanOfPlanCandidate = createAsyncThunk(
     }
 );
 
+type DeletePlaceFromPlanOfPlanCandidateProps = {
+    planCandidateId: string;
+    planId: string;
+    placeId: string;
+};
+export const deletePlaceFromPlanOfPlanCandidate = createAsyncThunk(
+    "editPlanCandidate/deletePlaceFromPlanOfPlanCandidate",
+    async (
+        {
+            planCandidateId,
+            planId,
+            placeId,
+        }: DeletePlaceFromPlanOfPlanCandidateProps,
+        { dispatch }
+    ) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const { plan } = await plannerApi.deletePlaceFromPlanOfPlanCandidate({
+            planCandidateId,
+            planId,
+            placeId,
+        });
+
+        dispatch(
+            updatePlanOfPlanCandidate({
+                plan: createPlanFromPlanEntity(plan, null),
+            })
+        );
+
+        return {
+            plan: createPlanFromPlanEntity(plan, null),
+        };
+    }
+);
+
 export const slice = createSlice({
     name: "editPlanCandidate",
     initialState,
@@ -237,6 +273,19 @@ export const slice = createSlice({
                 state.requestStatusAddPlaceToPlanCandidate =
                     RequestStatuses.REJECTED;
                 state.placesToAdd = null;
+            })
+            // Delete Place From Plan Of Plan Candidate
+            .addCase(deletePlaceFromPlanOfPlanCandidate.pending, (state) => {
+                state.requestStatusDeletePlaceFromPlanOfPlanCandidate =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(deletePlaceFromPlanOfPlanCandidate.fulfilled, (state) => {
+                state.requestStatusDeletePlaceFromPlanOfPlanCandidate =
+                    RequestStatuses.FULFILLED;
+            })
+            .addCase(deletePlaceFromPlanOfPlanCandidate.rejected, (state) => {
+                state.requestStatusDeletePlaceFromPlanOfPlanCandidate =
+                    RequestStatuses.REJECTED;
             });
     },
 });
