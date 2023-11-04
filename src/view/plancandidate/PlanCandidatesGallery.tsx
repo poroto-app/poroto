@@ -26,6 +26,23 @@ export function PlanCandidatesGallery({
         refSplide.current?.go(i);
     };
 
+    // 横スクロール対応
+    useEffect(() => {
+        if (!refSplide.current) return;
+        refSplide.current.splide.root.addEventListener("wheel", (e) => {
+            if(e.deltaX===0)return;
+            e.preventDefault();
+
+            if (e.deltaX > 0) {
+                refSplide.current.go(">");
+                setActiveIndex(refSplide.current.splide.index);
+            } else {
+                refSplide.current.go("<");
+                setActiveIndex(refSplide.current.splide.index);
+            }
+        });
+    }, [refSplide.current]);
+
     useEffect(() => {
         if (!activePlanIndex) return;
         if (activePlanIndex === activeIndex) return;
@@ -53,8 +70,9 @@ export function PlanCandidatesGallery({
                     width: "100%",
                     height: "100%",
                     autoWidth: true,
-                    speed: 800,
+                    speed: 600,
                     gap: "32px",
+                    waitForTransition: true,
                 }}
             >
                 {planCandidates.map((plan, i) => (
