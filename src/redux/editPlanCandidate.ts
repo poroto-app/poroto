@@ -116,18 +116,25 @@ export const fetchPlacesToAddToPlanCandidate = createAsyncThunk(
 type AddPlaceToPlanCandidateProps = {
     planCandidateId: string;
     planId: string;
+    previousPlaceId: string;
     placeId: string;
 };
 export const addPlaceToPlanOfPlanCandidate = createAsyncThunk(
     "editPlanCandidate/AddPlaceToPlanOfPlanCandidate",
     async (
-        { planCandidateId, planId, placeId }: AddPlaceToPlanCandidateProps,
+        {
+            planCandidateId,
+            planId,
+            previousPlaceId,
+            placeId,
+        }: AddPlaceToPlanCandidateProps,
         { dispatch }
     ) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const { plan } = await plannerApi.addPlaceToPlanOfPlanCandidate({
             planCandidateId,
             planId,
+            previousPlaceId,
             placeId,
         });
 

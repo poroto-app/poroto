@@ -37,11 +37,18 @@ export const usePlanPlaceAdd = ({
         dispatch(resetAddPlaceToPlanCandidateState());
     };
 
-    const addPlaceToPlan = ({ placeIdToAdd }: { placeIdToAdd: string }) => {
+    const addPlaceToPlan = ({
+        previousPlaceId,
+        placeIdToAdd,
+    }: {
+        previousPlaceId: string;
+        placeIdToAdd: string;
+    }) => {
         dispatch(
             addPlaceToPlanOfPlanCandidate({
                 planCandidateId,
                 planId,
+                previousPlaceId,
                 placeId: placeIdToAdd,
             })
         );
