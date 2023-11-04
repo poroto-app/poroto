@@ -64,15 +64,19 @@ export function PlanCandidatesGallery({
                     arrows: false,
                     pagination: false,
                     rewind: false,
+                    snap: true,
                     focus: "center",
                     trimSpace: false, // 表示される対象が中央に来るようにする
                     start: defaultActivePlanIndex,
                     width: "100%",
                     height: "100%",
                     autoWidth: true,
-                    speed: 600,
+                    speed: 400,
                     gap: "32px",
                     waitForTransition: true,
+                    // フリック操作で複数ページ移動しないようにする
+                    flickMaxPages: 1,
+                    flickPower: 100,
                 }}
             >
                 {planCandidates.map((plan, i) => (
