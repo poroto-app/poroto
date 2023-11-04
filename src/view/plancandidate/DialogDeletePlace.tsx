@@ -64,6 +64,8 @@ export function DialogDeletePlace({
                     <VStack
                         flex={1}
                         w="100%"
+                        px="16px"
+                        py="16px"
                         alignItems="center"
                         spacing="32px"
                     >
