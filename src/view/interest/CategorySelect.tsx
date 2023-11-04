@@ -75,8 +75,6 @@ export const CategorySelect = ({
         splideList.style.transform = `translateX(${initialTransformX}px)`;
         await sleep(500);
         splideList.style.transition = "";
-
-        setIsInteractiveAnimationAlreadyPlayed(true);
     };
 
     useEffect(() => {
@@ -84,7 +82,12 @@ export const CategorySelect = ({
         if (!interactiveAnimation || isInteractiveAnimationAlreadyPlayed)
             return;
         if (placesOfCategory.length === 0) return;
+
+        // 初めて複数の場所が表示されたときにのみ、アニメーションを表示する
         playInteractiveAnimation(refSplide.current.splide);
+
+        // 再生し終える前に終了したとしても、再生済みとして扱う（連続クリックしたときに再生されないようにするため）
+        setIsInteractiveAnimationAlreadyPlayed(true);
     }, [refSplide.current, category.name]);
 
     useEffect(() => {
