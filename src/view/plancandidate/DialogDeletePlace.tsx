@@ -37,7 +37,10 @@ export function DialogDeletePlace({
             position="bottom"
             width="100%"
             visible={isDialogVisible}
-            onClickOutside={onClose}
+            onClickOutside={() => {
+                // 削除中は閉じないようにする
+                if (!isDeleting) onClose();
+            }}
         >
             <Center
                 backgroundColor="white"
