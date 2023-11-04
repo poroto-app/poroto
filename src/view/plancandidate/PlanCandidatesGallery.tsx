@@ -33,6 +33,10 @@ export function PlanCandidatesGallery({
             if(e.deltaX===0)return;
             e.preventDefault();
 
+            // スクロール操作時は１ページずつ移動するようにする（移動中に新しいスクロール操作で移動が発生しないようにする）
+            const { waitForTransition } = refSplide.current.splide.options;
+            refSplide.current.splide.options.waitForTransition = true;
+
             if (e.deltaX > 0) {
                 refSplide.current.go(">");
                 setActiveIndex(refSplide.current.splide.index);
@@ -40,6 +44,8 @@ export function PlanCandidatesGallery({
                 refSplide.current.go("<");
                 setActiveIndex(refSplide.current.splide.index);
             }
+
+            refSplide.current.splide.options.waitForTransition = waitForTransition;
         });
     }, [refSplide.current]);
 
@@ -74,8 +80,6 @@ export function PlanCandidatesGallery({
                     gap: "32px",
                     // 表示される対象が中央に来るようにする
                     trimSpace: false,
-                    // スクロール操作時に１ページずつ遷移するようにする
-                    waitForTransition: true,
                     // フリック操作で複数ページ移動しないようにする
                     flickMaxPages: 1,
                     flickPower: 100,
