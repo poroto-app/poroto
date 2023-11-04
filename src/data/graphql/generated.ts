@@ -13,6 +13,19 @@ export type Scalars = {
   Float: number;
 };
 
+export type AddPlaceToPlanCandidateAfterPlaceInput = {
+  placeId: Scalars['String'];
+  planCandidateId: Scalars['String'];
+  planId: Scalars['String'];
+  previousPlaceId: Scalars['String'];
+};
+
+export type AddPlaceToPlanCandidateAfterPlaceOutput = {
+  __typename?: 'AddPlaceToPlanCandidateAfterPlaceOutput';
+  plan: Plan;
+  planCandidateId: Scalars['String'];
+};
+
 export type AddPlaceToPlanCandidateInput = {
   placeId: Scalars['String'];
   planCandidateId: Scalars['String'];
@@ -166,6 +179,7 @@ export type MatchInterestsInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   addPlaceToPlanCandidate: AddPlaceToPlanCandidateOutput;
+  addPlaceToPlanCandidateAfterPlace: AddPlaceToPlanCandidateAfterPlaceOutput;
   changePlacesOrderInPlanCandidate: ChangePlacesOrderInPlanCandidateOutput;
   createPlanByLocation: CreatePlanByLocationOutput;
   createPlanByPlace: CreatePlanByPlaceOutput;
@@ -179,6 +193,11 @@ export type Mutation = {
 
 export type MutationAddPlaceToPlanCandidateArgs = {
   input: AddPlaceToPlanCandidateInput;
+};
+
+
+export type MutationAddPlaceToPlanCandidateAfterPlaceArgs = {
+  input?: InputMaybe<AddPlaceToPlanCandidateAfterPlaceInput>;
 };
 
 
@@ -219,6 +238,25 @@ export type MutationReplacePlaceOfPlanCandidateArgs = {
 
 export type MutationSavePlanFromCandidateArgs = {
   input: SavePlanFromCandidateInput;
+};
+
+export type NearbyLocationCategory = {
+  __typename?: 'NearbyLocationCategory';
+  defaultPhotoUrl: Scalars['String'];
+  displayName: Scalars['String'];
+  id: Scalars['String'];
+  places: Array<Place>;
+};
+
+export type NearbyPlaceCategoriesInput = {
+  latitude: Scalars['Float'];
+  longitude: Scalars['Float'];
+};
+
+export type NearbyPlaceCategoryOutput = {
+  __typename?: 'NearbyPlaceCategoryOutput';
+  categories: Array<NearbyLocationCategory>;
+  planCandidateId: Scalars['ID'];
 };
 
 export type Place = {
@@ -308,6 +346,7 @@ export type Query = {
   cachedCreatedPlans: CachedCreatedPlans;
   firebaseUser: User;
   matchInterests: InterestCandidate;
+  nearbyPlaceCategories: NearbyPlaceCategoryOutput;
   placesToAddForPlanCandidate: PlacesToAddForPlanCandidateOutput;
   placesToReplaceForPlanCandidate: PlacesToReplaceForPlanCandidateOutput;
   plan?: Maybe<Plan>;
@@ -335,6 +374,11 @@ export type QueryFirebaseUserArgs = {
 
 export type QueryMatchInterestsArgs = {
   input?: InputMaybe<MatchInterestsInput>;
+};
+
+
+export type QueryNearbyPlaceCategoriesArgs = {
+  input: NearbyPlaceCategoriesInput;
 };
 
 
