@@ -65,14 +65,16 @@ export function PlanCandidatesGallery({
                     pagination: false,
                     rewind: false,
                     snap: true,
+                    speed: 400,
                     focus: "center",
-                    trimSpace: false, // 表示される対象が中央に来るようにする
                     start: defaultActivePlanIndex,
                     width: "100%",
                     height: "100%",
                     autoWidth: true,
-                    speed: 400,
                     gap: "32px",
+                    // 表示される対象が中央に来るようにする
+                    trimSpace: false,
+                    // スクロール操作時に１ページずつ遷移するようにする
                     waitForTransition: true,
                     // フリック操作で複数ページ移動しないようにする
                     flickMaxPages: 1,
