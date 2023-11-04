@@ -30,7 +30,7 @@ export function PlanCandidatesGallery({
     useEffect(() => {
         if (!refSplide.current) return;
         refSplide.current.splide.root.addEventListener("wheel", (e) => {
-            if(e.deltaX===0)return;
+            if (e.deltaX === 0) return;
             e.preventDefault();
 
             // スクロール操作時は１ページずつ移動するようにする（移動中に新しいスクロール操作で移動が発生しないようにする）
@@ -45,7 +45,8 @@ export function PlanCandidatesGallery({
                 setActiveIndex(refSplide.current.splide.index);
             }
 
-            refSplide.current.splide.options.waitForTransition = waitForTransition;
+            refSplide.current.splide.options.waitForTransition =
+                waitForTransition;
         });
     }, [refSplide.current]);
 
