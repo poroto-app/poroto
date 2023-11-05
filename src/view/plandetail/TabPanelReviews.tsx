@@ -23,6 +23,8 @@ export const TabPanelReviews = ({ googlePlaceReviews }: Props) => {
                 arrows: false,
                 pagination: false,
                 height: "100%",
+                flickMaxPages: 1,
+                flickPower: 10,
             }}
             hasTrack={false}
             onMove={(splide) => setCurrentPage(splide.index)}
