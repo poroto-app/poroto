@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { PlaceReview } from "src/view/plan/PlaceReview";
+import { PlaceReview } from "src/view/plandetail/PlaceReview";
 
 export default {
-    title: "plan/PlaceReview",
+    title: "plan_detail/PlaceReview",
     component: PlaceReview,
     tags: ["autodocs"],
     parameters: {},

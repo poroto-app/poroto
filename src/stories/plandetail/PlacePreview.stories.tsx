@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { PlaceCategoryTypes } from "src/domain/models/PlaceCategory";
 import { mockPlaces } from "src/stories/mock/place";
-import { PlacePreview } from "src/view/plan/PlacePreview";
+import { PlacePreview } from "src/view/plandetail/PlacePreview";
 
 export default {
-    title: "plan/PlacePreview",
+    title: "plan_detail/PlacePreview",
     component: PlacePreview,
     tags: ["autodocs"],
     parameters: {},

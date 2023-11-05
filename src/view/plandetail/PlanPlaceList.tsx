@@ -1,6 +1,6 @@
 import { VStack } from "@chakra-ui/react";
 import { Plan } from "src/domain/models/Plan";
-import { PlacePreview } from "src/view/plan/PlacePreview";
+import { PlacePreview } from "src/view/plandetail/PlacePreview";
 
 type Props = {
     plan: Plan;

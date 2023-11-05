@@ -22,7 +22,7 @@ import {
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
-import { PlaceReview } from "src/view/plan/PlaceReview";
+import { PlaceReview } from "src/view/plandetail/PlaceReview";
 import styled from "styled-components";
 
 type Props = {

@@ -21,10 +21,10 @@ import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
 import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
-import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
+import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
