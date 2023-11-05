@@ -129,7 +129,7 @@ const Container = styled(Box)`
 
     // pcレイアウトの場合は横並びにする
     @media screen and (min-width: 700px) {
-        flex-direction: row-reverse;
+        flex-direction: row;
         align-items: stretch;
     }
 `;
