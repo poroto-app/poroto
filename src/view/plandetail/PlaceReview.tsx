@@ -22,7 +22,7 @@ export function PlaceReview({
             py="8px"
             borderRadius="10px"
             alignItems="flex-start"
-            backgroundColor="#FEF4E6"
+            backgroundColor="#FCE9D3"
         >
             <HStack w="100%" spacing="8px">
                 <Link href={authorUrl}>
