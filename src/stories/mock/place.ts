@@ -66,7 +66,7 @@ export const mockPlaces: { [key: string]: Place } = {
                 timeInMilliSec: 1600000000000,
             },
         ],
-        categories: [{ id: PlaceCategoryTypes.BookStores }],
+        categories: [{ id: PlaceCategoryTypes.BookStores, displayName: "書店" }],
     },
     tokyo: {
         id: "tokyo",
@@ -150,6 +150,6 @@ export const mockPlaces: { [key: string]: Place } = {
             longitude: 139.764954,
         },
         estimatedStayDuration: 60,
-        categories: [{ id: PlaceCategoryTypes.Park }],
+        categories: [{ id: PlaceCategoryTypes.Park, displayName: "公園" }],
     },
 };

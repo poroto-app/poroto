@@ -16,6 +16,7 @@ describe("getPlaceCategoryType", () => {
             name: "should return null when category is not in PlaceCategoryTypes",
             category: {
                 id: "not_in_place_category_types",
+                displayName: "not_in_place_category_types",
             },
             expected: null,
         },
@@ -23,6 +24,7 @@ describe("getPlaceCategoryType", () => {
             name: "should return category id when category is in PlaceCategoryTypes",
             category: {
                 id: "amusements",
+                displayName: "amusements",
             },
             expected: PlaceCategoryTypes.Amusements,
         },

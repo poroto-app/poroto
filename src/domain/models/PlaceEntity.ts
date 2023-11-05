@@ -17,6 +17,7 @@ export type PlaceEntity = {
     googlePlaceReviews: GooglePlaceReviewEntity[] | null;
     categories: {
         id: string;
+        displayName: string;
     }[];
     priceRange?: {
         priceRangeMin: number;

@@ -20,6 +20,7 @@ export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
             })) ?? null,
         categories: entity.categories.map((category) => ({
             id: category.id,
+            displayName: category.displayName,
         })),
         priceRange: {
             min: entity.priceRange.priceRangeMin,

@@ -1,5 +1,6 @@
 export type PlaceCategory = {
     id: string;
+    displayName: string;
 };
 
 // SEE: https://github.com/poroto-app/planner/blob/develop/internal/domain/models/category.go
