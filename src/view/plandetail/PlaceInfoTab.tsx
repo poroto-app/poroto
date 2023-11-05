@@ -71,8 +71,14 @@ export const Tab = ({
     onClick: (tab: PlaceInfoTab) => void;
 }) => {
     return (
-        <VStack onClick={() => onClick(tab)} flex={1} alignItems="flex-start">
-            <Text>{label}</Text>
+        <VStack
+            flex={1}
+            alignItems="flex-start"
+            as="button"
+            spacing="0"
+            onClick={() => onClick(tab)}
+        >
+            <Text userSelect="none">{label}</Text>
             <Box
                 w={active ? "40px" : "20px"}
                 h="8px"
