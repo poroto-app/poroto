@@ -103,7 +103,7 @@ export const PlacePreview = ({
                 >
                     {name}
                 </Text>
-                <Box w="100%" h="180px">
+                <Box w="100%" h="230px">
                     <PlaceInfoTab
                         categories={categories}
                         googlePlaceReviews={googlePlaceReviews}
