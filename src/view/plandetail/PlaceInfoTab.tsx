@@ -28,8 +28,22 @@ export const PlaceInfoTab = ({
     const [activeTab, setActiveTab] = useState<PlaceInfoTab>(
         PlaceInfoTabs.Information
     );
+
+    const tabHeight = {
+        [PlaceInfoTabs.Information]:
+            categories.length > 0 || (priceRange && priceRange.max !== 0)
+                ? 180
+                : 50,
+        [PlaceInfoTabs.Reviews]: googlePlaceReviews.length > 0 ? 300 : 50,
+    };
+
     return (
-        <VStack w="100%" h="100%" spacing="16px">
+        <VStack
+            w="100%"
+            spacing="16px"
+            h={tabHeight[activeTab]}
+            transition="height 0.4s ease"
+        >
             <HStack w="100%" alignItems="flex-start">
                 <Tab
                     active={activeTab === PlaceInfoTabs.Information}

@@ -103,13 +103,11 @@ export const PlacePreview = ({
                 >
                     {name}
                 </Text>
-                <Box w="100%" h="230px">
-                    <PlaceInfoTab
-                        categories={categories}
-                        googlePlaceReviews={googlePlaceReviews}
-                        priceRange={priceRange}
-                    />
-                </Box>
+                <PlaceInfoTab
+                    categories={categories}
+                    googlePlaceReviews={googlePlaceReviews}
+                    priceRange={priceRange}
+                />
                 <VStack w="100%" mt="auto">
                     {onClickShowRelatedPlaces && (
                         <Box
