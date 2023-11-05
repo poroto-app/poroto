@@ -1,5 +1,5 @@
 import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 import { IconType } from "react-icons";
 import { MdCurrencyYen } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
@@ -59,17 +59,17 @@ export const PlaceInfoTab = ({
                 />
             </HStack>
             <Center w="100%" h="100%" flex={1} overflow="hidden">
-                {activeTab === PlaceInfoTabs.Information && (
+                <TabPanel active={activeTab === PlaceInfoTabs.Information}>
                     <TabPanelInformation
                         categories={categories}
                         priceRange={priceRange}
                     />
-                )}
-                {activeTab === PlaceInfoTabs.Reviews && (
+                </TabPanel>
+                <TabPanel active={activeTab === PlaceInfoTabs.Reviews}>
                     <PlaceInfoTabPanelReviews
                         googlePlaceReviews={googlePlaceReviews}
                     />
-                )}
+                </TabPanel>
             </Center>
         </VStack>
     );
@@ -103,6 +103,25 @@ export const Tab = ({
                 transition="all 0.2s ease"
             />
         </VStack>
+    );
+};
+
+export const TabPanel = ({
+    active,
+    children,
+}: {
+    active: boolean;
+    children?: ReactNode;
+}) => {
+    return (
+        <Box
+            w="100%"
+            h="100%"
+            opacity={active ? 1 : 0.5}
+            transition="all 0.2s ease"
+        >
+            {active && children}
+        </Box>
     );
 };
 
