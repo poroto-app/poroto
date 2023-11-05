@@ -25,7 +25,7 @@ export const TabPanelReviews = ({ googlePlaceReviews }: Props) => {
                 height: "100%",
             }}
             hasTrack={false}
-            onMoved={(splide) => setCurrentPage(splide.index)}
+            onMove={(splide) => setCurrentPage(splide.index)}
         >
             <HStack w="100%" h="100%" alignItems="center" flex={1}>
                 <PageButton
@@ -69,13 +69,13 @@ const PageButton = ({
     disabled: boolean;
     onClick: () => void;
 }) => {
-    console.log(disabled);
     return (
         <Center
             as="button"
-            onClick={onClick}
-            backgroundColor={`rgba(0,0,0,0.1)`}
-            opacity={disabled ? 0.5 : 1}
+            onClick={() => !disabled && onClick()}
+            cursor={disabled ? "default" : "pointer"}
+            backgroundColor="#efd8be"
+            opacity={disabled ? 0 : 1}
             borderRadius="100%"
             w="24px"
             h="24px"
