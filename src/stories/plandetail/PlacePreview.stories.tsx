@@ -18,6 +18,7 @@ export const Primary: Story = {
         images: mockPlaces.bookStore.images,
         googlePlaceReviews: mockPlaces.bookStore.googlePlaceReviews,
         categories: mockPlaces.bookStore.categories,
+        priceRange: mockPlaces.bookStore.priceRange,
     },
 };
 
