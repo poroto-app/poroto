@@ -1,4 +1,4 @@
-import { Box, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import {Box, Center, HStack, Icon, Text, VStack} from "@chakra-ui/react";
 import { useState } from "react";
 import { IconType } from "react-icons";
 import { MdCurrencyYen } from "react-icons/md";
@@ -44,7 +44,7 @@ export const PlaceInfoTab = ({
                     onClick={setActiveTab}
                 />
             </HStack>
-            <Box w="100%" h="100%" flex={1} overflow="hidden">
+            <Center w="100%" h="100%" flex={1} overflow="hidden">
                 {activeTab === PlaceInfoTabs.Information && (
                     <TabPanelInformation
                         categories={categories}
@@ -54,7 +54,7 @@ export const PlaceInfoTab = ({
                 {activeTab === PlaceInfoTabs.Reviews && (
                     <TabPanelReviews googlePlaceReviews={googlePlaceReviews} />
                 )}
-            </Box>
+            </Center>
         </VStack>
     );
 };
