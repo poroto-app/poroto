@@ -15,19 +15,27 @@ export function PlaceReview({
     text,
 }: Props) {
     return (
-        <HStack w="100%" borderRadius="15px" alignItems="flex-start">
-            <Link href={authorUrl}>
-                <Avatar
-                    size="sm"
-                    src={authorPhotoUrl}
-                    name={authorName}
-                    my="4px"
-                />
-            </Link>
-            <VStack alignItems="flex-start" spacing={0}>
+        <VStack
+            w="100%"
+            h="100%"
+            px="16px"
+            py="8px"
+            borderRadius="10px"
+            alignItems="flex-start"
+            backgroundColor="#FEF4E6"
+        >
+            <HStack w="100%" spacing="8px">
+                <Link href={authorUrl}>
+                    <Avatar
+                        size="sm"
+                        src={authorPhotoUrl}
+                        name={authorName}
+                        my="4px"
+                    />
+                </Link>
                 <Text color="rgba(0,0,0,.6)">{authorName}</Text>
-                <Text color="rgba(0,0,0,.8)">{text}</Text>
-            </VStack>
-        </HStack>
+            </HStack>
+            <Text color="rgba(0,0,0,.8)">{text}</Text>
+        </VStack>
     );
 }

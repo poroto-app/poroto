@@ -1,9 +1,10 @@
 import { Box, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { IconType } from "react-icons";
+import { MdCurrencyYen } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
-import {MdCurrencyYen} from "react-icons/md";
+import { TabPanelReviews } from "src/view/plandetail/TabPanelReviews";
 
 type Props = {
     place: Place;
@@ -37,6 +38,9 @@ export const PlaceInfoTab = ({ place }: Props) => {
             </HStack>
             {activeTab === PlaceInfoTabs.Information && (
                 <TabPanelInformation place={place} />
+            )}
+            {activeTab === PlaceInfoTabs.Reviews && (
+                <TabPanelReviews place={place} />
             )}
         </VStack>
     );
