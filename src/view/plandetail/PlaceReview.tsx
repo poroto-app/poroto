@@ -23,6 +23,12 @@ export function PlaceReview({
             borderRadius="10px"
             alignItems="flex-start"
             backgroundColor="#FCE9D3"
+            overflowY="scroll"
+            sx={{
+                "::-webkit-scrollbar": {
+                    display: "none",
+                },
+            }}
         >
             <HStack w="100%" spacing="8px">
                 <Link href={authorUrl}>
@@ -35,18 +41,7 @@ export function PlaceReview({
                 </Link>
                 <Text color="rgba(0,0,0,.6)">{authorName}</Text>
             </HStack>
-            <Text
-                color="rgba(0,0,0,.8)"
-                h="100%"
-                overflowY="scroll"
-                sx={{
-                    "::-webkit-scrollbar": {
-                        display: "none",
-                    },
-                }}
-            >
-                {text}
-            </Text>
+            <Text color="rgba(0,0,0,.8)">{text}</Text>
         </VStack>
     );
 }
