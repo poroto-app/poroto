@@ -22,15 +22,15 @@ export const WoCategory: Story = {
         place: {
             ...mockPlaces.bookStore,
             categories: [],
-        }
-    }
-}
+        },
+    },
+};
 
 export const WoPriceRange: Story = {
     args: {
         place: {
             ...mockPlaces.bookStore,
             priceRange: null,
-        }
-    }
-}
+        },
+    },
+};
