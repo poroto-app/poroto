@@ -32,6 +32,7 @@ export const PlaceInfoTabPanelReviews = ({ googlePlaceReviews }: Props) => {
                 height: "100%",
                 flickMaxPages: 1,
                 flickPower: 10,
+                gap: "16px",
             }}
             hasTrack={false}
             onMove={(splide) => setCurrentPage(splide.index)}
