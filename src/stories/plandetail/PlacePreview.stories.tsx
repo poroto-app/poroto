@@ -98,3 +98,19 @@ export const Category: Story = {
         category: PlaceCategoryTypes.BookStore,
     },
 };
+
+export const LongReview: Story = {
+    args: {
+        ...mockPlaces.bookStore,
+        googlePlaceReviews: [
+            {
+                rating: 5,
+                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl vitae nisl. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl vitae nisl. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl vitae nisl. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl vitae nisl. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl vitae nisl. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl vitae nisl. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl vitae nisl.",
+                authorName: "authorName",
+                authorUrl: "authorUrl",
+                authorPhotoUrl: "authorPhotoUrl",
+                timeInMilliSec: 0,
+            },
+        ],
+    },
+};
