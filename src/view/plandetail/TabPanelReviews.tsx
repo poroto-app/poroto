@@ -4,16 +4,16 @@ import "@splidejs/splide/css";
 import { useRef, useState } from "react";
 import { IconType } from "react-icons";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
-import { Place } from "src/domain/models/Place";
+import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import { PlaceReview } from "src/view/plandetail/PlaceReview";
 import { styled } from "styled-components";
 
 type Props = {
-    place: Place;
+    googlePlaceReviews: GooglePlaceReview[];
 };
-export const TabPanelReviews = ({ place }: Props) => {
+export const TabPanelReviews = ({ googlePlaceReviews }: Props) => {
     const refSplide = useRef<Splide>(null);
-    const reviews = place.googlePlaceReviews;
+    const reviews = googlePlaceReviews;
     const [currentPage, setCurrentPage] = useState(0);
 
     return (
@@ -21,43 +21,39 @@ export const TabPanelReviews = ({ place }: Props) => {
             ref={refSplide}
             options={{
                 arrows: false,
-                height: "200px",
+                height: "100%",
             }}
             hasTrack={false}
             onMoved={(splide) => setCurrentPage(splide.index)}
         >
-            <VStack w="100%">
-                <HStack w="100%" alignItems="center" flex={1}>
+            <VStack w="100%" h="100%" spacing="0">
+                <HStack w="100%" h="100%" alignItems="center" flex={1}>
                     <PageButton
                         icon={MdArrowBackIos}
                         disabled={currentPage === 0}
                         onClick={() => refSplide.current?.go("<")}
                     />
-                    <Box w="100%" h="100%" flex={1}>
-                        <SplideTrack>
-                            {place.googlePlaceReviews.map((review, index) => {
-                                return (
-                                    <SplideSlide key={index}>
-                                        <PlaceReview
-                                            text={review.text}
-                                            authorName={review.authorName}
-                                            authorUrl={review.authorUrl}
-                                            authorPhotoUrl={
-                                                review.authorPhotoUrl
-                                            }
-                                        />
-                                    </SplideSlide>
-                                );
-                            })}
-                        </SplideTrack>
-                    </Box>
+                    <SplideTrack>
+                        {reviews.map((review, index) => {
+                            return (
+                                <SplideSlide key={index} style={{height: "100%", width: "100%"}}>
+                                    <PlaceReview
+                                        text={review.text}
+                                        authorName={review.authorName}
+                                        authorUrl={review.authorUrl}
+                                        authorPhotoUrl={review.authorPhotoUrl}
+                                    />
+                                </SplideSlide>
+                            );
+                        })}
+                    </SplideTrack>
                     <PageButton
                         icon={MdArrowForwardIos}
                         disabled={currentPage === reviews.length - 1}
                         onClick={() => refSplide.current?.go(">")}
                     />
                 </HStack>
-                <Box as="ul" className="splide__pagination" />
+                <Box as="ul" className="splide__pagination" style={{position: "initial"}} />
             </VStack>
         </SplideContainer>
     );
@@ -90,23 +86,10 @@ const PageButton = ({
 
 const SplideContainer = styled(Splide)`
     width: 100%;
+    height: 100%;
     overflow: hidden;
-
-    & > .splide__pagination {
-        position: initial;
-    }
-
-    & > .splide__track {
-        width: 100%;
-        height: 100%;
-    }
-
-    & > .splide__track > .splide__list {
-        width: 100%;
-        height: 100%;
-    }
-
-    & > .splide__track > .splide__list > .splide__slide {
+  
+    & > div > div > .splide__track {
         width: 100%;
         height: 100%;
     }

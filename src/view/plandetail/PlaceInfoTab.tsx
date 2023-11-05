@@ -2,12 +2,16 @@ import { Box, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { IconType } from "react-icons";
 import { MdCurrencyYen } from "react-icons/md";
-import { Place } from "src/domain/models/Place";
+import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
+import { PlaceCategory } from "src/domain/models/PlaceCategory";
+import { PriceRange } from "src/domain/models/PriceRange";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { TabPanelReviews } from "src/view/plandetail/TabPanelReviews";
 
 type Props = {
-    place: Place;
+    priceRange: PriceRange | null;
+    categories: PlaceCategory[];
+    googlePlaceReviews: GooglePlaceReview[];
 };
 
 export const PlaceInfoTabs = {
@@ -16,12 +20,16 @@ export const PlaceInfoTabs = {
 };
 export type PlaceInfoTab = (typeof PlaceInfoTabs)[keyof typeof PlaceInfoTabs];
 
-export const PlaceInfoTab = ({ place }: Props) => {
+export const PlaceInfoTab = ({
+    categories,
+    priceRange,
+    googlePlaceReviews,
+}: Props) => {
     const [activeTab, setActiveTab] = useState<PlaceInfoTab>(
         PlaceInfoTabs.Information
     );
     return (
-        <VStack w="100%" spacing="16px">
+        <VStack w="100%" h="100%" spacing="16px">
             <HStack w="100%" alignItems="flex-start">
                 <Tab
                     active={activeTab === PlaceInfoTabs.Information}
@@ -36,12 +44,17 @@ export const PlaceInfoTab = ({ place }: Props) => {
                     onClick={setActiveTab}
                 />
             </HStack>
-            {activeTab === PlaceInfoTabs.Information && (
-                <TabPanelInformation place={place} />
-            )}
-            {activeTab === PlaceInfoTabs.Reviews && (
-                <TabPanelReviews place={place} />
-            )}
+            <Box w="100%" h="100%" flex={1}>
+                {activeTab === PlaceInfoTabs.Information && (
+                    <TabPanelInformation
+                        categories={categories}
+                        priceRange={priceRange}
+                    />
+                )}
+                {activeTab === PlaceInfoTabs.Reviews && (
+                    <TabPanelReviews googlePlaceReviews={googlePlaceReviews} />
+                )}
+            </Box>
         </VStack>
     );
 };
@@ -71,20 +84,26 @@ export const Tab = ({
     );
 };
 
-const TabPanelInformation = ({ place }: Props) => {
+const TabPanelInformation = ({
+    categories,
+    priceRange,
+}: {
+    categories: PlaceCategory[];
+    priceRange: PriceRange | null;
+}) => {
     return (
-        <VStack w="100%" spacing="16px">
+        <VStack w="100%" spacing="8px">
             <HStack w="100%" alignItems="stretch">
-                {place.categories.length > 0 && (
+                {categories.length > 0 && (
                     <InformationTag
-                        icon={getPlaceCategoryIcon(place.categories[0])}
-                        label={place.categories[0].displayName}
+                        icon={getPlaceCategoryIcon(categories[0])}
+                        label={categories[0].displayName}
                     />
                 )}
-                {place.priceRange && place.priceRange.max !== 0 && (
+                {priceRange && priceRange.max !== 0 && (
                     <InformationTag
                         icon={MdCurrencyYen}
-                        label={`${place.priceRange.min}~\n${place.priceRange.max} 円`}
+                        label={`${priceRange.min}~\n${priceRange.max} 円`}
                     />
                 )}
             </HStack>

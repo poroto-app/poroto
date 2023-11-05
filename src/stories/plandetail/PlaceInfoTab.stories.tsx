@@ -13,24 +13,20 @@ type Story = StoryObj<typeof PlaceInfoTab>;
 
 export const Primary: Story = {
     args: {
-        place: mockPlaces.bookStore,
+        ...mockPlaces.bookStore,
     },
 };
 
 export const WoCategory: Story = {
     args: {
-        place: {
-            ...mockPlaces.bookStore,
-            categories: [],
-        },
+        ...mockPlaces.bookStore,
+        categories: [],
     },
 };
 
 export const WoPriceRange: Story = {
     args: {
-        place: {
-            ...mockPlaces.bookStore,
-            priceRange: null,
-        },
+        ...mockPlaces.bookStore,
+        priceRange: null,
     },
 };

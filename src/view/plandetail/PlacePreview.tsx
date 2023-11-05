@@ -1,6 +1,5 @@
 import {
     Box,
-    HStack,
     Icon,
     Image,
     Modal,
@@ -20,9 +19,10 @@ import {
     ImageSizes,
 } from "src/domain/models/Image";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
+import { PriceRange } from "src/domain/models/PriceRange";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
-import { PlaceReview } from "src/view/plandetail/PlaceReview";
+import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import styled from "styled-components";
 
 type Props = {
@@ -30,6 +30,7 @@ type Props = {
     images: ImageType[];
     googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
+    priceRange: PriceRange | null;
     showRelatedPlaces?: boolean;
     onClickShowRelatedPlaces?: () => void;
 };
@@ -39,6 +40,7 @@ export const PlacePreview = ({
     images,
     googlePlaceReviews,
     categories,
+    priceRange,
     onClickShowRelatedPlaces,
 }: Props) => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -70,29 +72,21 @@ export const PlacePreview = ({
                 )}
             </ImagePreviewContainer>
             <VStack flex={1} alignItems="flex-start" w="100%" p="16px">
-                <HStack>
-                    <PlaceIcon
-                        category={categories.length > 0 ? categories[0] : null}
+                <Text
+                    fontSize="1.15rem"
+                    as="h2"
+                    fontWeight="bold"
+                    color="#222222"
+                >
+                    {name}
+                </Text>
+                <Box w="100%" h="180px">
+                    <PlaceInfoTab
+                        categories={categories}
+                        googlePlaceReviews={googlePlaceReviews}
+                        priceRange={priceRange}
                     />
-                    <Text
-                        fontSize="1.15rem"
-                        as="h2"
-                        fontWeight="bold"
-                        color="#222222"
-                    >
-                        {name}
-                    </Text>
-                </HStack>
-                {/* TODO: すべてのレビューの情報を表示する */}
-                {googlePlaceReviews &&
-                    googlePlaceReviews.length > 0 &&
-                    googlePlaceReviews[0].text && (
-                        <PlaceReview
-                            authorName={googlePlaceReviews[0].authorName}
-                            authorUrl={googlePlaceReviews[0].authorUrl}
-                            text={googlePlaceReviews[0].text}
-                        />
-                    )}
+                </Box>
                 <VStack w="100%" mt="auto">
                     {onClickShowRelatedPlaces && (
                         <Box
