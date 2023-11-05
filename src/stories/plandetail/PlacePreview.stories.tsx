@@ -75,6 +75,7 @@ export const Category: Story = {
             categories={[
                 {
                     id: args["category"],
+                    displayName: "カテゴリー",
                 },
             ]}
         />
