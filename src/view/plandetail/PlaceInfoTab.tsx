@@ -44,7 +44,7 @@ export const PlaceInfoTab = ({
                     onClick={setActiveTab}
                 />
             </HStack>
-            <Box w="100%" h="100%" flex={1}>
+            <Box w="100%" h="100%" flex={1} overflow="hidden">
                 {activeTab === PlaceInfoTabs.Information && (
                     <TabPanelInformation
                         categories={categories}
