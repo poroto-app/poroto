@@ -66,7 +66,14 @@ export const mockPlaces: { [key: string]: Place } = {
                 timeInMilliSec: 1600000000000,
             },
         ],
-        categories: [{ id: PlaceCategoryTypes.BookStores, displayName: "書店" }],
+        categories: [
+            { id: PlaceCategoryTypes.BookStores, displayName: "書店" },
+        ],
+        priceRange: {
+            min: 1000,
+            max: 2000,
+            googlePriceLevel: 2,
+        },
     },
     tokyo: {
         id: "tokyo",
