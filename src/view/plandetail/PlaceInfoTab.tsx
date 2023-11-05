@@ -1,4 +1,4 @@
-import {Box, Center, HStack, Icon, Text, VStack} from "@chakra-ui/react";
+import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
 import { IconType } from "react-icons";
 import { MdCurrencyYen } from "react-icons/md";
@@ -6,7 +6,7 @@ import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
-import { TabPanelReviews } from "src/view/plandetail/TabPanelReviews";
+import { PlaceInfoTabPanelReviews } from "src/view/plandetail/PlaceInfoTabPanelReviews";
 
 type Props = {
     priceRange: PriceRange | null;
@@ -52,7 +52,9 @@ export const PlaceInfoTab = ({
                     />
                 )}
                 {activeTab === PlaceInfoTabs.Reviews && (
-                    <TabPanelReviews googlePlaceReviews={googlePlaceReviews} />
+                    <PlaceInfoTabPanelReviews
+                        googlePlaceReviews={googlePlaceReviews}
+                    />
                 )}
             </Center>
         </VStack>

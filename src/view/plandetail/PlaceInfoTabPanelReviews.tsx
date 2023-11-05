@@ -9,12 +9,19 @@ import { PlaceReview } from "src/view/plandetail/PlaceReview";
 import { styled } from "styled-components";
 
 type Props = {
-    googlePlaceReviews: GooglePlaceReview[];
+    googlePlaceReviews: GooglePlaceReview[] | null;
 };
-export const TabPanelReviews = ({ googlePlaceReviews }: Props) => {
+export const PlaceInfoTabPanelReviews = ({ googlePlaceReviews }: Props) => {
     const refSplide = useRef<Splide>(null);
     const reviews = googlePlaceReviews;
     const [currentPage, setCurrentPage] = useState(0);
+
+    if (!reviews || reviews.length === 0)
+        return (
+            <Center w="100%" h="100%">
+                レビューはありません
+            </Center>
+        );
 
     return (
         <SplideContainer

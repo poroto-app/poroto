@@ -30,3 +30,10 @@ export const WoPriceRange: Story = {
         priceRange: null,
     },
 };
+
+export const NoReview: Story = {
+    args: {
+        ...mockPlaces.bookStore,
+        googlePlaceReviews: [],
+    },
+};
