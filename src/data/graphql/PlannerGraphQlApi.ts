@@ -405,6 +405,7 @@ function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
         categories:
             place.categories?.map((category) => ({
                 id: category.id,
+                displayName: category.name,
             })) ?? [],
         priceRange: place.priceRange
             ? {
