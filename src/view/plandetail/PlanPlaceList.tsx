@@ -16,7 +16,13 @@ export function PlanPlaceList({
     return (
         <VStack spacing="16px" w="100%">
             {createdBasedOnCurrentLocation && (
-                <PlacePreview name="現在地" images={[]} categories={[]} />
+                <PlacePreview
+                    name="現在地"
+                    images={[]}
+                    categories={[]}
+                    googlePlaceReviews={[]}
+                    priceRange={null}
+                />
             )}
             {plan.places.map((place, i) => (
                 <PlacePreview
@@ -25,6 +31,7 @@ export function PlanPlaceList({
                     images={place.images}
                     googlePlaceReviews={place.googlePlaceReviews}
                     categories={place.categories}
+                    priceRange={place.priceRange}
                     onClickShowRelatedPlaces={
                         onClickShowRelatedPlaces
                             ? () => onClickShowRelatedPlaces(place.id)

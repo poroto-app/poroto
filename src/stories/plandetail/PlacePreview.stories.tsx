@@ -36,6 +36,16 @@ export const Sp: Story = {
     },
 };
 
+export const CurrentLocation: Story = {
+    args: {
+        name: "現在地",
+        categories: [],
+        googlePlaceReviews: [],
+        images: [],
+        priceRange: null,
+    },
+};
+
 export const Loading: Story = {
     args: {
         name: mockPlaces.bookStore.name,
@@ -111,6 +121,7 @@ export const LongReview: Story = {
                 authorPhotoUrl: "authorPhotoUrl",
                 timeInMilliSec: 0,
             },
+            ...mockPlaces.bookStore.googlePlaceReviews,
         ],
     },
 };

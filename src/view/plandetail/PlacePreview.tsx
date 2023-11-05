@@ -1,5 +1,6 @@
 import {
     Box,
+    HStack,
     Icon,
     Image,
     Modal,
@@ -45,6 +46,11 @@ export const PlacePreview = ({
 }: Props) => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+    const isEmptyLocation =
+        images.length === 0 &&
+        googlePlaceReviews.length == 0 &&
+        categories.length === 0 &&
+        !priceRange;
 
     const openModal = (image: ImageType) => {
         setSelectedImage(getImageSizeOf(ImageSizes.Large, image));
@@ -54,14 +60,25 @@ export const PlacePreview = ({
         setSelectedImage(null);
     };
 
+    if (isEmptyLocation) {
+        return (
+            <Container p="16px" w="100%">
+                <HStack>
+                    <Text
+                        fontSize="1.15rem"
+                        as="h2"
+                        fontWeight="bold"
+                        color="#222222"
+                    >
+                        {name}
+                    </Text>
+                </HStack>
+            </Container>
+        );
+    }
+
     return (
-        <Container
-            hasImages={images.length > 0}
-            backgroundColor="#fbf2e7"
-            borderRadius="20px"
-            w="100%"
-            overflow="hidden"
-        >
+        <Container>
             <ImagePreviewContainer hasImage={images.length > 0}>
                 {images.length > 0 && (
                     <ImageSliderPreview
@@ -71,7 +88,13 @@ export const PlacePreview = ({
                     />
                 )}
             </ImagePreviewContainer>
-            <VStack flex={1} alignItems="flex-start" w="100%" p="16px">
+            <VStack
+                flex={1}
+                alignItems="flex-start"
+                w="100%"
+                p="16px"
+                overflow="hidden"
+            >
                 <Text
                     fontSize="1.15rem"
                     as="h2"
@@ -123,6 +146,10 @@ export const PlacePreview = ({
 };
 
 const Container = styled(Box)`
+    border-radius: 20px;
+    width: 100%;
+    overflow: hidden;
+    background-color: #fbf2e7;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
