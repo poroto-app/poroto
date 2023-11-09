@@ -1,4 +1,5 @@
 import { Box, Button, Center, Icon, useToast, VStack } from "@chakra-ui/react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { RiShareForwardLine } from "react-icons/ri";
@@ -25,8 +26,6 @@ import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
-import Head from "next/head";
-import { Plan } from "src/domain/models/Plan";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
