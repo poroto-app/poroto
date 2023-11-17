@@ -1,8 +1,8 @@
 import { Link } from "@chakra-ui/next-js";
-import { Button, Center, Icon, VStack } from "@chakra-ui/react";
+import { Button, Center, HStack, Icon, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { MdAdd } from "react-icons/md";
+import { MdAdd, MdDeleteOutline } from "react-icons/md";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
     fetchCachedCreatedPlans,
@@ -18,12 +18,14 @@ import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
+import { usePlanPlaceDelete } from "src/view/hooks/usePlanPlaceDelete";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
+import { DialogDeletePlace } from "src/view/plancandidate/DialogDeletePlace";
 import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
 import { EditPlanCandidatePlaceListItem } from "src/view/plancandidate/EditPlanCandidatePlaceListItem";
 
@@ -55,6 +57,18 @@ const PlanEdit = () => {
         placesToAdd,
         isAddingPlace,
     } = usePlanPlaceAdd({
+        planCandidateId: sessionId as string,
+        planId: planId as string,
+    });
+
+    const {
+        deletePlaceFromPlan,
+        showDialogToDelete,
+        closeDialogToDelete,
+        isDialogToDeletePlaceVisible,
+        isDeletingPlace,
+        placeToDelete,
+    } = usePlanPlaceDelete({
         planCandidateId: sessionId as string,
         planId: planId as string,
     });
@@ -118,12 +132,31 @@ const PlanEdit = () => {
                         <VStack spacing="16px">
                             {plan.places.map((place, i) => (
                                 <VStack key={place.id} w="100%" spacing="16px">
-                                    <EditPlanCandidatePlaceListItem
-                                        place={place}
-                                        onClickShowRelatedPlaces={
-                                            showRelatedPlaces
+                                    <HStack w="100%">
+                                        <EditPlanCandidatePlaceListItem
+                                            place={place}
+                                            onClickShowRelatedPlaces={
+                                                showRelatedPlaces
+                                            }
+                                        />
+                                        {
+                                            // プランには最低1つの場所が必要
+                                            plan.places.length > 1 && (
+                                                <Icon
+                                                    as={MdDeleteOutline}
+                                                    w="24px"
+                                                    h="24px"
+                                                    color="rgba(0,0,0,.6)"
+                                                    onClick={() =>
+                                                        showDialogToDelete({
+                                                            placeIdToDelete:
+                                                                place.id,
+                                                        })
+                                                    }
+                                                />
+                                            )
                                         }
-                                    />
+                                    </HStack>
                                     <AddPlaceButton
                                         onClick={() =>
                                             showPlacesToAdd({
@@ -176,6 +209,13 @@ const PlanEdit = () => {
                     })
                 }
                 onCloseDialog={onCloseDialogToAddPlace}
+            />
+            <DialogDeletePlace
+                placeToDelete={placeToDelete}
+                isDialogVisible={isDialogToDeletePlaceVisible}
+                isDeleting={isDeletingPlace}
+                onDelete={deletePlaceFromPlan}
+                onClose={closeDialogToDelete}
             />
             {/*Footer*/}
             <PlanFooter>
