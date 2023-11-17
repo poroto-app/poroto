@@ -1,4 +1,5 @@
 import { Box, Button, Center, Icon, useToast, VStack } from "@chakra-ui/react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { RiShareForwardLine } from "react-icons/ri";
@@ -73,6 +74,9 @@ export default function PlanPage() {
 
     return (
         <Center flexDirection="column" pb={`${FooterHeight}px`}>
+            <Head>
+                <title>{plan.title} | poroto</title>
+            </Head>
             <NavBar />
             <VStack
                 maxWidth="990px"
