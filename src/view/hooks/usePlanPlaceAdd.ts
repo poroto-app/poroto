@@ -16,6 +16,7 @@ export const usePlanPlaceAdd = ({
     planId: string;
 }) => {
     const dispatch = useAppDispatch();
+    const [basePlaceIdToAdd, setBasePlaceIdToAdd] = useState<string>(null);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
     const {
         placesToAdd,
@@ -23,7 +24,12 @@ export const usePlanPlaceAdd = ({
         requestStatusAddPlaceToPlanCandidate,
     } = reduxEditPlanCandidateSelector();
 
-    const showPlacesToAdd = () => {
+    const showPlacesToAdd = ({
+        basePlaceIdToAdd,
+    }: {
+        basePlaceIdToAdd: string;
+    }) => {
+        setBasePlaceIdToAdd(basePlaceIdToAdd);
         dispatch(
             fetchPlacesToAddToPlanCandidate({
                 planCandidateId,
@@ -37,11 +43,18 @@ export const usePlanPlaceAdd = ({
         dispatch(resetAddPlaceToPlanCandidateState());
     };
 
-    const addPlaceToPlan = ({ placeIdToAdd }: { placeIdToAdd: string }) => {
+    const addPlaceToPlan = ({
+        previousPlaceId,
+        placeIdToAdd,
+    }: {
+        previousPlaceId: string;
+        placeIdToAdd: string;
+    }) => {
         dispatch(
             addPlaceToPlanOfPlanCandidate({
                 planCandidateId,
                 planId,
+                previousPlaceId,
                 placeId: placeIdToAdd,
             })
         );
@@ -77,10 +90,15 @@ export const usePlanPlaceAdd = ({
         }
     }, [requestStatusFetchPlacesToAdd, requestStatusAddPlaceToPlanCandidate]);
 
+    useEffect(() => {
+        if (!isDialogVisible) setBasePlaceIdToAdd(null);
+    }, [isDialogVisible]);
+
     return {
         addPlaceToPlan,
         onCloseDialogToAddPlace: onCloseDialog,
         showPlacesToAdd,
+        basePlaceIdToAdd,
         placesToAdd,
         isAddingPlace:
             requestStatusAddPlaceToPlanCandidate === RequestStatuses.PENDING,

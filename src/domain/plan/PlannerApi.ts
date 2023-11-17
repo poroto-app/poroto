@@ -56,9 +56,9 @@ export interface PlannerApi {
         request: EditPlanTitleOfPlanCandidateRequest
     ): Promise<EditPlanTitleOfPlanCandidateResponse>;
 
-    matchInterest(
-        request: MatchInterestRequest
-    ): Promise<MatchInterestResponse>;
+    fetchNearbyPlaceCategories(
+        request: FetchNearbyPlaceCategoriesRequest
+    ): Promise<FetchNearbyPlaceCategoriesResponse>;
 
     savePlanFromCandidate(
         request: SavePlanFromCandidateRequest
@@ -173,6 +173,7 @@ export type FetchPlacesToReplaceForPlanOfPlanCandidateResponse = {
 export type AddPlaceToPlanOfPlanCandidateRequest = {
     planCandidateId: string;
     planId: string;
+    previousPlaceId: string;
     placeId: string;
 };
 
@@ -211,20 +212,21 @@ export type EditPlanTitleOfPlanCandidateResponse = {
     plan: PlanEntity;
 };
 
-export type MatchInterestRequest = {
+export type FetchNearbyPlaceCategoriesRequest = {
     location: {
         latitude: number;
         longitude: number;
     };
 };
 
-export type MatchInterestResponse = {
+export type FetchNearbyPlaceCategoriesResponse = {
     session: string;
     categories: {
         name: string;
         displayName: string;
         photo?: string;
         defaultPhotoUrl: string;
+        places: PlaceEntity[];
     }[];
 };
 

@@ -1,5 +1,5 @@
-mutation AddPlaceToPlanCandidate($input: AddPlaceToPlanCandidateInput!) {
-    addPlaceToPlanCandidate(input: $input) {
+mutation AddPlaceToPlanCandidate($input: AddPlaceToPlanCandidateAfterPlaceInput!) {
+    addPlaceToPlanCandidateAfterPlace(input: $input) {
         planCandidateId
         plan {
             id
