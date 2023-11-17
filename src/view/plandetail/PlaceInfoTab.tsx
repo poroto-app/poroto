@@ -30,11 +30,8 @@ export const PlaceInfoTab = ({
     );
 
     const tabHeight = {
-        [PlaceInfoTabs.Information]:
-            categories.length > 0 || (priceRange && priceRange.max !== 0)
-                ? 180
-                : 50,
-        [PlaceInfoTabs.Reviews]: googlePlaceReviews.length > 0 ? 300 : 50,
+        [PlaceInfoTabs.Information]: 180,
+        [PlaceInfoTabs.Reviews]: googlePlaceReviews.length > 0 ? 300 : 180,
     };
 
     return (
@@ -115,10 +112,10 @@ export const TabPanel = ({
 }) => {
     return (
         <Box
-            w="100%"
+            w={active ? "100%" : "0"}
             h="100%"
             opacity={active ? 1 : 0.5}
-            transition="all 0.2s ease"
+            transition="opacity 0.2s ease, height 0.2s ease"
         >
             {active && children}
         </Box>
@@ -132,16 +129,27 @@ const TabPanelInformation = ({
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
 }) => {
+    const isCategoryEmpty = categories.length === 0;
+    const isPriceRangeEmpty = !priceRange || priceRange.max === 0;
+
+    if (isCategoryEmpty && isPriceRangeEmpty) {
+        return (
+            <Center w="100%" h="100%">
+                <Text color="#574836">情報がありません</Text>
+            </Center>
+        );
+    }
+
     return (
         <VStack w="100%" spacing="8px">
             <HStack w="100%" alignItems="stretch">
-                {categories.length > 0 && (
+                {!isCategoryEmpty && (
                     <InformationTag
                         icon={getPlaceCategoryIcon(categories[0])}
                         label={categories[0].displayName}
                     />
                 )}
-                {priceRange && priceRange.max !== 0 && (
+                {!isPriceRangeEmpty && (
                     <InformationTag
                         icon={MdCurrencyYen}
                         label={`${priceRange.min}~\n${priceRange.max} 円`}
