@@ -10,7 +10,7 @@ import {
     FetchPlanByIdDocument,
     FetchPlanByIdQuery,
     FetchPlansDocument,
-    MatchInterestsDocument,
+    NearbyPlaceCategoriesDocument,
     PlacesToAddForPlanOfPlanCandidateDocument,
     PlansByLocationDocument,
     PlansByUserDocument,
@@ -31,6 +31,8 @@ import {
     FetchAvailablePlacesForPlanRequest,
     FetchCachedCreatedPlansRequest,
     FetchCachedCreatedPlansResponse,
+    FetchNearbyPlaceCategoriesRequest,
+    FetchNearbyPlaceCategoriesResponse,
     FetchPlacesToAddForPlanOfPlanCandidateRequest,
     FetchPlanRequest,
     FetchPlanResponse,
@@ -38,8 +40,6 @@ import {
     FetchPlansByLocationResponse,
     FetchPlansByUserRequest,
     FetchPlansByUserResponse,
-    MatchInterestRequest,
-    MatchInterestResponse,
     PlannerApi,
     ReplacePlaceInPlanOfPlanCandidateRequest,
     SavePlanFromCandidateRequest,
@@ -303,11 +303,11 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         };
     }
 
-    async matchInterest(
-        request: MatchInterestRequest
-    ): Promise<MatchInterestResponse> {
+    async fetchNearbyPlaceCategories(
+        request: FetchNearbyPlaceCategoriesRequest
+    ): Promise<FetchNearbyPlaceCategoriesResponse> {
         const { data } = await this.client.query({
-            query: MatchInterestsDocument,
+            query: NearbyPlaceCategoriesDocument,
             variables: {
                 latitude: request.location.latitude,
                 longitude: request.location.longitude,
@@ -315,13 +315,17 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         });
 
         return {
-            session: data.matchInterests.session,
-            categories: data.matchInterests.categories.map((category) => ({
-                name: category.name,
-                displayName: category.displayName,
-                photo: category.photo,
-                defaultPhotoUrl: category.defaultPhotoUrl,
-            })),
+            session: data.nearbyPlaceCategories.planCandidateId,
+            categories: data.nearbyPlaceCategories.categories.map(
+                (category) => ({
+                    name: category.id,
+                    displayName: category.displayName,
+                    defaultPhotoUrl: category.defaultPhotoUrl,
+                    places: category.places.map((place) =>
+                        fromGraphqlPlaceEntity(place)
+                    ),
+                })
+            ),
         };
     }
 

@@ -2,6 +2,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
 import { LocationCategory } from "src/domain/models/LocationCategory";
+import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
 import {
     RequestStatus,
     RequestStatuses,
@@ -13,7 +14,7 @@ import {
 } from "src/redux/location";
 import {
     createPlanFromLocation,
-    matchInterest,
+    fetchNearbyPlaceCategories,
     pushAcceptedCategory,
     pushRejectedCategory,
     reduxPlanCandidateSelector,
@@ -67,7 +68,7 @@ function PlanInterestPage() {
     const { getCurrentLocation, location, fetchCurrentLocationStatus } =
         useLocation();
     const [currentCategory, setCurrentCategory] =
-        useState<LocationCategory | null>(null);
+        useState<LocationCategoryWithPlace | null>(null);
     const [matchInterestRequestId, setMatchInterestRequestId] = useState<
         string | null
     >(null);
@@ -75,7 +76,7 @@ function PlanInterestPage() {
         categoryCandidates,
         createPlanSession,
         fetchLocationCategoryRequestId,
-        matchInterestRequestStatus,
+        fetchNearbyPlaceCategoriesRequestStatus: matchInterestRequestStatus,
     } = reduxPlanCandidateSelector();
     const { searchLocation, searchPlaceId } = reduxLocationSelector();
 
@@ -132,7 +133,12 @@ function PlanInterestPage() {
         if (searchLocation) {
             const requestId = Date.now().toString();
             setMatchInterestRequestId(requestId);
-            dispatch(matchInterest({ location: searchLocation, requestId }));
+            dispatch(
+                fetchNearbyPlaceCategories({
+                    location: searchLocation,
+                    requestId,
+                })
+            );
         }
     }, [searchLocation]);
 
@@ -199,7 +205,7 @@ function PlanInterestPage() {
 }
 
 type Props = {
-    currentCategory: LocationCategory | null;
+    currentCategory: LocationCategoryWithPlace | null;
     matchInterestRequestStatus: RequestStatus | null;
     handleAcceptCategory: (category: LocationCategory) => void;
     handleRejectCategory: (category: LocationCategory) => void;
