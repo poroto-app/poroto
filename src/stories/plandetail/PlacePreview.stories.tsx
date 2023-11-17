@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { PlaceCategoryTypes } from "src/domain/models/PlaceCategory";
 import { mockPlaces } from "src/stories/mock/place";
-import { PlacePreview } from "src/view/plan/PlacePreview";
+import { PlacePreview } from "src/view/plandetail/PlacePreview";
 
 export default {
-    title: "plan/PlacePreview",
+    title: "plan_detail/PlacePreview",
     component: PlacePreview,
     tags: ["autodocs"],
     parameters: {},
@@ -18,6 +18,7 @@ export const Primary: Story = {
         images: mockPlaces.bookStore.images,
         googlePlaceReviews: mockPlaces.bookStore.googlePlaceReviews,
         categories: mockPlaces.bookStore.categories,
+        priceRange: mockPlaces.bookStore.priceRange,
     },
 };
 
@@ -32,6 +33,16 @@ export const Sp: Story = {
         viewport: {
             defaultViewport: "iphonex",
         },
+    },
+};
+
+export const CurrentLocation: Story = {
+    args: {
+        name: "現在地",
+        categories: [],
+        googlePlaceReviews: [],
+        images: [],
+        priceRange: null,
     },
 };
 
@@ -75,6 +86,7 @@ export const Category: Story = {
             categories={[
                 {
                     id: args["category"],
+                    displayName: "カテゴリー",
                 },
             ]}
         />
@@ -94,5 +106,22 @@ export const Category: Story = {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         category: PlaceCategoryTypes.BookStore,
+    },
+};
+
+export const LongReview: Story = {
+    args: {
+        ...mockPlaces.bookStore,
+        googlePlaceReviews: [
+            {
+                rating: 5,
+                text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl vitae nisl. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl vitae nisl. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl vitae nisl. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl vitae nisl. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl vitae nisl. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl vitae nisl. Donec euismod, nisl eget ultricies ultrices, nunc nisl ultricies nunc, vitae ultricies nisl nisl vitae nisl.",
+                authorName: "authorName",
+                authorUrl: "authorUrl",
+                authorPhotoUrl: "authorPhotoUrl",
+                timeInMilliSec: 0,
+            },
+            ...mockPlaces.bookStore.googlePlaceReviews,
+        ],
     },
 };

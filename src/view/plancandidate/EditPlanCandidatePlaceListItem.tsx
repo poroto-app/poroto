@@ -1,7 +1,7 @@
 import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 import { Place } from "src/domain/models/Place";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
-import { PlaceIcon } from "src/view/plan/PlacePreview";
+import { PlaceIcon } from "src/view/plandetail/PlacePreview";
 
 type Props = {
     place: Place;

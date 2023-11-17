@@ -1,4 +1,5 @@
 import { Box, Button, Center, Icon, useToast, VStack } from "@chakra-ui/react";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { RiShareForwardLine } from "react-icons/ri";
@@ -21,10 +22,10 @@ import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
 import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
-import { PlanPlaceList } from "src/view/plan/PlanPlaceList";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
+import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -73,6 +74,9 @@ export default function PlanPage() {
 
     return (
         <Center flexDirection="column" pb={`${FooterHeight}px`}>
+            <Head>
+                <title>{plan.title} | poroto</title>
+            </Head>
             <NavBar />
             <VStack
                 maxWidth="990px"

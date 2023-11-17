@@ -5,6 +5,7 @@ import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import { LocationCategory } from "src/domain/models/LocationCategory";
+import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import {
@@ -25,7 +26,7 @@ export type PlanCandidateState = {
     // TODO: preview id等で対象のplan idを指定し、`plansCreated`の更新に反応できるようにする
     preview: Plan | null;
 
-    categoryCandidates: LocationCategory[] | null;
+    categoryCandidates: LocationCategoryWithPlace[] | null;
     categoriesAccepted: LocationCategory[] | null;
     categoriesRejected: LocationCategory[] | null;
     // 直前に発火したリクエストの結果と、新しく行ったリクエストの結果を区別できるようにするために利用する
@@ -39,7 +40,7 @@ export type PlanCandidateState = {
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
     fetchCachedCreatedPlansRequestStatus: RequestStatus | null;
     fetchAvailablePlacesForPlanRequestStatus: RequestStatus | null;
-    matchInterestRequestStatus: RequestStatus | null;
+    fetchNearbyPlaceCategoriesRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanCandidateState = {
@@ -62,7 +63,7 @@ const initialState: PlanCandidateState = {
     updatePlacesOrderInPlanCandidateRequestStatus: null,
     fetchCachedCreatedPlansRequestStatus: null,
     fetchAvailablePlacesForPlanRequestStatus: null,
-    matchInterestRequestStatus: null,
+    fetchNearbyPlaceCategoriesRequestStatus: null,
 };
 
 type CreatePlanFromCurrentLocationProps = {
@@ -187,27 +188,34 @@ export const fetchAvailablePlacesForPlan = createAsyncThunk(
     }
 );
 
-type MatchInterestProps = {
+type FetchNearbyPlaceCategoriesProps = {
     requestId: string;
     location: {
         latitude: number;
         longitude: number;
     };
 };
-export const matchInterest = createAsyncThunk(
-    "planCandidate/matchInterest",
-    async ({ location, requestId }: MatchInterestProps) => {
+export const fetchNearbyPlaceCategories = createAsyncThunk(
+    "planCandidate/fetchNearbyPlaceCategories",
+    async ({ location, requestId }: FetchNearbyPlaceCategoriesProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const response = await plannerApi.matchInterest({ location });
-        return {
-            requestId,
-            createPlanSession: response.session,
-            categories: response.categories.map((category) => ({
+        const response = await plannerApi.fetchNearbyPlaceCategories({
+            location,
+        });
+        const categriesWithPlace: LocationCategoryWithPlace[] =
+            response.categories.map((category) => ({
                 name: category.name,
                 displayName: category.displayName,
                 thumbnail: category.photo,
                 defaultThumbnailUrl: category.defaultPhotoUrl,
-            })),
+                places: category.places.map((place) =>
+                    createPlaceFromPlaceEntity(place)
+                ),
+            }));
+        return {
+            requestId,
+            planCandidateId: response.session,
+            categories: categriesWithPlace,
         };
     }
 );
@@ -495,22 +503,28 @@ export const slice = createSlice({
                 state.fetchAvailablePlacesForPlanRequestStatus =
                     RequestStatuses.REJECTED;
             })
-            // Match Interest
-            .addCase(matchInterest.pending, (state) => {
-                state.matchInterestRequestStatus = RequestStatuses.PENDING;
+            // Fetch Nearby Place Categories
+            .addCase(fetchNearbyPlaceCategories.pending, (state) => {
+                state.fetchNearbyPlaceCategoriesRequestStatus =
+                    RequestStatuses.PENDING;
             })
-            .addCase(matchInterest.fulfilled, (state, { payload }) => {
-                state.matchInterestRequestStatus = RequestStatuses.FULFILLED;
+            .addCase(
+                fetchNearbyPlaceCategories.fulfilled,
+                (state, { payload }) => {
+                    state.fetchNearbyPlaceCategoriesRequestStatus =
+                        RequestStatuses.FULFILLED;
 
-                state.categoryCandidates = payload.categories;
-                state.categoriesAccepted = [];
-                state.categoriesRejected = [];
-                state.fetchLocationCategoryRequestId = payload.requestId;
+                    state.categoryCandidates = payload.categories;
+                    state.categoriesAccepted = [];
+                    state.categoriesRejected = [];
+                    state.fetchLocationCategoryRequestId = payload.requestId;
 
-                state.createPlanSession = payload.createPlanSession;
-            })
-            .addCase(matchInterest.rejected, (state) => {
-                state.matchInterestRequestStatus = RequestStatuses.REJECTED;
+                    state.createPlanSession = payload.planCandidateId;
+                }
+            )
+            .addCase(fetchNearbyPlaceCategories.rejected, (state) => {
+                state.fetchNearbyPlaceCategoriesRequestStatus =
+                    RequestStatuses.REJECTED;
             });
     },
 });
