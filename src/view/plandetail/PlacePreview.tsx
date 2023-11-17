@@ -20,9 +20,10 @@ import {
     ImageSizes,
 } from "src/domain/models/Image";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
+import { PriceRange } from "src/domain/models/PriceRange";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
-import { PlaceReview } from "src/view/plan/PlaceReview";
+import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import styled from "styled-components";
 
 type Props = {
@@ -30,6 +31,7 @@ type Props = {
     images: ImageType[];
     googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
+    priceRange: PriceRange | null;
     showRelatedPlaces?: boolean;
     onClickShowRelatedPlaces?: () => void;
 };
@@ -39,10 +41,16 @@ export const PlacePreview = ({
     images,
     googlePlaceReviews,
     categories,
+    priceRange,
     onClickShowRelatedPlaces,
 }: Props) => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+    const isEmptyLocation =
+        images.length === 0 &&
+        googlePlaceReviews.length == 0 &&
+        categories.length === 0 &&
+        !priceRange;
 
     const openModal = (image: ImageType) => {
         setSelectedImage(getImageSizeOf(ImageSizes.Large, image));
@@ -52,28 +60,10 @@ export const PlacePreview = ({
         setSelectedImage(null);
     };
 
-    return (
-        <Container
-            hasImages={images.length > 0}
-            backgroundColor="#fbf2e7"
-            borderRadius="20px"
-            w="100%"
-            overflow="hidden"
-        >
-            <ImagePreviewContainer hasImage={images.length > 0}>
-                {images.length > 0 && (
-                    <ImageSliderPreview
-                        images={images}
-                        onClickImage={openModal}
-                        borderRadius={isLargerThan700 ? 20 : 0}
-                    />
-                )}
-            </ImagePreviewContainer>
-            <VStack flex={1} alignItems="flex-start" w="100%" p="16px">
+    if (isEmptyLocation) {
+        return (
+            <Container p="16px" w="100%">
                 <HStack>
-                    <PlaceIcon
-                        category={categories.length > 0 ? categories[0] : null}
-                    />
                     <Text
                         fontSize="1.15rem"
                         as="h2"
@@ -83,16 +73,41 @@ export const PlacePreview = ({
                         {name}
                     </Text>
                 </HStack>
-                {/* TODO: すべてのレビューの情報を表示する */}
-                {googlePlaceReviews &&
-                    googlePlaceReviews.length > 0 &&
-                    googlePlaceReviews[0].text && (
-                        <PlaceReview
-                            authorName={googlePlaceReviews[0].authorName}
-                            authorUrl={googlePlaceReviews[0].authorUrl}
-                            text={googlePlaceReviews[0].text}
-                        />
-                    )}
+            </Container>
+        );
+    }
+
+    return (
+        <Container>
+            <ImagePreviewContainer hasImage={images.length > 0}>
+                {images.length > 0 && (
+                    <ImageSliderPreview
+                        images={images}
+                        onClickImage={openModal}
+                        borderRadius={isLargerThan700 ? 20 : 0}
+                    />
+                )}
+            </ImagePreviewContainer>
+            <VStack
+                flex={1}
+                alignItems="flex-start"
+                w="100%"
+                p="16px"
+                overflow="hidden"
+            >
+                <Text
+                    fontSize="1.15rem"
+                    as="h2"
+                    fontWeight="bold"
+                    color="#222222"
+                >
+                    {name}
+                </Text>
+                <PlaceInfoTab
+                    categories={categories}
+                    googlePlaceReviews={googlePlaceReviews}
+                    priceRange={priceRange}
+                />
                 <VStack w="100%" mt="auto">
                     {onClickShowRelatedPlaces && (
                         <Box
@@ -129,13 +144,17 @@ export const PlacePreview = ({
 };
 
 const Container = styled(Box)`
+    border-radius: 20px;
+    width: 100%;
+    overflow: hidden;
+    background-color: #fbf2e7;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 
     // pcレイアウトの場合は横並びにする
     @media screen and (min-width: 700px) {
-        flex-direction: row-reverse;
+        flex-direction: row;
         align-items: stretch;
     }
 `;

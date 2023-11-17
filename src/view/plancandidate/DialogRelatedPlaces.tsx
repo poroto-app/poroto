@@ -27,7 +27,7 @@ import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { copyObject } from "src/domain/util/object";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
-import { PlaceReview } from "src/view/plan/PlaceReview";
+import { PlaceReview } from "src/view/plandetail/PlaceReview";
 
 type Props = {
     visible: boolean;

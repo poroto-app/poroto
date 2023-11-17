@@ -65,7 +65,7 @@ const bookStore: Place = {
             timeInMilliSec: 1600000000000,
         },
     ],
-    categories: [{ id: PlaceCategoryTypes.BookStores }],
+    categories: [{ id: PlaceCategoryTypes.BookStores, displayName: "本屋" }],
 };
 
 const tokyo: Place = {
@@ -73,11 +73,6 @@ const tokyo: Place = {
     googlePlaceId: "tokyo_station",
     name: "東京駅",
     images: [
-        {
-            default: "https://picsum.photos/300/400",
-            small: "https://picsum.photos/300/400",
-            large: "https://picsum.photos/300/400",
-        },
         {
             default: "https://picsum.photos/1280/720",
             small: "https://picsum.photos/1280/720",
@@ -104,7 +99,6 @@ const tokyo: Place = {
             rating: 4.5,
             text: "とてもきれいな駅です。",
             authorName: "山田太郎",
-            authorUrl: "https://example.com",
             authorPhotoUrl: "https://picsum.photos/200/300",
             timeInMilliSec: 1600000000000,
         },
@@ -151,7 +145,7 @@ const marunouchi: Place = {
         longitude: 139.764954,
     },
     estimatedStayDuration: 60,
-    categories: [{ id: PlaceCategoryTypes.Park }],
+    categories: [{ id: PlaceCategoryTypes.Park, displayName: "公園" }],
 };
 
 export const mockPlaces = {
