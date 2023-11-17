@@ -145,7 +145,10 @@ export const CategorySelect = ({
                             <SplideSlide key={index}>
                                 <PlaceThumbnail
                                     place={place}
-                                    category={{ id: category.name, displayName: category.displayName }}
+                                    category={{
+                                        id: category.name,
+                                        displayName: category.displayName,
+                                    }}
                                     imageSize={thumbnailImageSize}
                                 />
                             </SplideSlide>
