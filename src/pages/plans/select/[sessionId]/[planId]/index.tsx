@@ -22,6 +22,7 @@ import { NotFound } from "src/view/common/NotFound";
 import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
+import { usePlanPlaceDelete } from "src/view/hooks/usePlanPlaceDelete";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
@@ -30,6 +31,7 @@ import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
+import { DialogDeletePlace } from "src/view/plancandidate/DialogDeletePlace";
 import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
@@ -52,6 +54,17 @@ const PlanDetail = () => {
         planId: planId as string,
     });
 
+    const {
+        deletePlaceFromPlan,
+        showDialogToDelete,
+        closeDialogToDelete,
+        isDialogToDeletePlaceVisible,
+        isDeletingPlace,
+        placeToDelete,
+    } = usePlanPlaceDelete({
+        planCandidateId: sessionId as string,
+        planId: planId as string,
+    });
     const {
         preview: plan,
         createdBasedOnCurrentLocation,
@@ -146,6 +159,9 @@ const PlanDetail = () => {
                             onClickShowRelatedPlaces={(placeId) =>
                                 showRelatedPlaces(placeId)
                             }
+                            onClickDeletePlace={(placeId) =>
+                                showDialogToDelete({ placeIdToDelete: placeId })
+                            }
                         />
                     </Box>
                     <AdInArticle
@@ -207,6 +223,7 @@ const PlanDetail = () => {
                     しおりとして保存
                 </Button>
             </PlanFooter>
+            {/*Dialog*/}
             <DialogReplacePlace
                 placesInPlan={plan.places}
                 placesToReplace={placesToReplace}
@@ -220,6 +237,13 @@ const PlanDetail = () => {
                     })
                 }
                 onCloseDialog={onCloseDialogRelatedPlaces}
+            />
+            <DialogDeletePlace
+                placeToDelete={placeToDelete}
+                isDialogVisible={isDialogToDeletePlaceVisible}
+                isDeleting={isDeletingPlace}
+                onDelete={deletePlaceFromPlan}
+                onClose={closeDialogToDelete}
             />
         </>
     );

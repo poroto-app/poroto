@@ -6,12 +6,14 @@ type Props = {
     plan: Plan;
     createdBasedOnCurrentLocation?: boolean;
     onClickShowRelatedPlaces?: (placeId: string) => void;
+    onClickDeletePlace?: (placeId: string) => void;
 };
 
 export function PlanPlaceList({
     plan,
     createdBasedOnCurrentLocation,
     onClickShowRelatedPlaces,
+    onClickDeletePlace,
 }: Props) {
     return (
         <VStack spacing="16px" w="100%">
@@ -35,6 +37,11 @@ export function PlanPlaceList({
                     onClickShowRelatedPlaces={
                         onClickShowRelatedPlaces
                             ? () => onClickShowRelatedPlaces(place.id)
+                            : undefined
+                    }
+                    onClickDeletePlace={
+                        onClickDeletePlace
+                            ? () => onClickDeletePlace(place.id)
                             : undefined
                     }
                 />
