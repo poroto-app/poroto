@@ -1,4 +1,3 @@
-import { Link } from "@chakra-ui/next-js";
 import { Box, Button, Center, VStack } from "@chakra-ui/react";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
@@ -213,24 +212,6 @@ const PlanDetail = () => {
                 </VStack>
             </Center>
             <PlanFooter>
-                <Link
-                    href={Routes.plans.planCandidate.edit(
-                        createPlanSession,
-                        plan.id
-                    )}
-                    flex={1}
-                >
-                    <Button
-                        variant="outline"
-                        w="100%"
-                        borderColor={Colors.primary["400"]}
-                        color={Colors.primary["400"]}
-                        borderRadius={10}
-                        borderWidth="2px"
-                    >
-                        編集
-                    </Button>
-                </Link>
                 <Button
                     variant="solid"
                     flex={1}
