@@ -13,6 +13,8 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { IconType } from "react-icons";
+import { MdOutlineLocationOn } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
     getImageSizeOf,
@@ -108,19 +110,15 @@ export const PlacePreview = ({
                     googlePlaceReviews={googlePlaceReviews}
                     priceRange={priceRange}
                 />
-                <VStack w="100%" mt="auto">
+                <HStack w="100%" mt="auto">
                     {onClickShowRelatedPlaces && (
-                        <Box
-                            color="#AB7129"
-                            as="button"
-                            fontWeight="bold"
-                            fontSize="16px"
+                        <ChipAction
+                            label="関連した場所を表示"
+                            icon={MdOutlineLocationOn}
                             onClick={onClickShowRelatedPlaces}
-                        >
-                            関連した場所を表示
-                        </Box>
+                        />
                     )}
-                </VStack>
+                </HStack>
             </VStack>
             {/* 画像を拡大表示するためのモーダル */}
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
@@ -175,3 +173,28 @@ const ImagePreviewContainer = styled.div<{ hasImage: boolean }>`
         padding: 16px;
     }
 `;
+
+const ChipAction = ({
+    label,
+    icon,
+    onClick,
+}: {
+    label: string;
+    icon: IconType;
+    onClick: () => void;
+}) => {
+    return (
+        <HStack
+            backgroundColor="#F8E7D3"
+            color="#483216"
+            onClick={onClick}
+            as="button"
+            px="8px"
+            py="4px"
+            borderRadius="20px"
+        >
+            <Icon w="16px" h="16px" as={icon} />
+            <Text fontSize="0.8rem">{label}</Text>
+        </HStack>
+    );
+};
