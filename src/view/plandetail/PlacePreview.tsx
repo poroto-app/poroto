@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { IconType } from "react-icons";
-import { MdOutlineLocationOn } from "react-icons/md";
+import { MdOutlineDeleteOutline, MdOutlineLocationOn } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
     getImageSizeOf,
@@ -36,6 +36,7 @@ type Props = {
     priceRange: PriceRange | null;
     showRelatedPlaces?: boolean;
     onClickShowRelatedPlaces?: () => void;
+    onClickDeletePlace?: () => void;
 };
 
 export const PlacePreview = ({
@@ -45,6 +46,7 @@ export const PlacePreview = ({
     categories,
     priceRange,
     onClickShowRelatedPlaces,
+    onClickDeletePlace,
 }: Props) => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
@@ -116,6 +118,13 @@ export const PlacePreview = ({
                             label="関連した場所を表示"
                             icon={MdOutlineLocationOn}
                             onClick={onClickShowRelatedPlaces}
+                        />
+                    )}
+                    {onClickDeletePlace && (
+                        <ChipAction
+                            label="削除"
+                            icon={MdOutlineDeleteOutline}
+                            onClick={onClickDeletePlace}
                         />
                     )}
                 </HStack>
