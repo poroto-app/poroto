@@ -6,7 +6,7 @@ on:
       - develop 
 
 jobs:
-  deploy-production:
+  deploy-staging:
     name: "Deploy Staging"
     uses: "./.github/workflows/deploy_workflow.yaml"
     with:
