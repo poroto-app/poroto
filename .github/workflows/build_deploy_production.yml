@@ -13,5 +13,5 @@ jobs:
       environment: production
     secrets:
       GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-      GOOGLE_CREDENTIAL_KMS: ${{ secrets.GOOGLE_CREDENTIAL }}
-      GOOGLE_CREDENTIAL: ${{ secrets.GOOGLE_CREDENTIAL }}
+      GOOGLE_CREDENTIALS_KMS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
