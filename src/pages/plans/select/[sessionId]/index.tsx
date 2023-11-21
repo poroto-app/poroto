@@ -1,5 +1,5 @@
 import { Link } from "@chakra-ui/next-js";
-import { Box, Text, VStack } from "@chakra-ui/react";
+import { Box, Center, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
@@ -163,24 +163,11 @@ const SelectPlanPage = () => {
 
     return (
         <Layout navBar={<NavBar />}>
-            <GeneratingPlanDialog
-                visible={[
-                    RequestStatuses.PENDING,
-                    RequestStatuses.REJECTED,
-                ].includes(createPlanFromPlaceRequestStatus)}
-                onClose={() =>
-                    dispatch(resetCreatePlanFromPlaceRequestStatus())
-                }
-                failed={
-                    createPlanFromPlaceRequestStatus ===
-                    RequestStatuses.REJECTED
-                }
-            />
-            <VStack
+            <Center
                 w="100%"
+                h="100%"
                 px="16px"
                 py="16px"
-                spacing={8}
                 ref={refPlanCandidateGallery}
             >
                 <VStack spacing="32px" my="32px">
@@ -211,7 +198,7 @@ const SelectPlanPage = () => {
                         </ButtonWithBlur>
                     </Link>
                 </VStack>
-            </VStack>
+            </Center>
         </Layout>
     );
 };
