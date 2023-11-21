@@ -56,7 +56,7 @@ const SelectPlanPage = () => {
         if (!plansCreated) return;
 
         // プランが存在しない場合、プランの候補となる場所を取得する
-        if(plansCreated.length === 0) {
+        if (plansCreated.length === 0) {
             dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
         }
     }, [sessionId, plansCreated?.length]);
