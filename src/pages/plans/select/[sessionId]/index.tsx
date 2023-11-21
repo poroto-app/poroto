@@ -211,14 +211,6 @@ const SelectPlanPage = () => {
                         </ButtonWithBlur>
                     </Link>
                 </VStack>
-                <AvailablePlaceSection
-                    places={placesAvailableForPlan}
-                    isFetching={
-                        fetchAvailablePlacesForPlanRequestStatus ===
-                        RequestStatuses.PENDING
-                    }
-                    onClickPlace={handleOnClickPlaceCandidate}
-                />
             </VStack>
         </Layout>
     );
