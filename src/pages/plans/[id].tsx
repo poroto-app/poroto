@@ -125,6 +125,10 @@ export default function PlanPage() {
             <PlanCreatedDialog
                 visible={showPlanCreatedModal}
                 onClickClose={() => dispatch(setShowPlanCreatedModal(false))}
+                onClickCopyUrl={() => {
+                    dispatch(setShowPlanCreatedModal(false));
+                    handleOnCopyPlanUrl();
+                }}
             />
         </Center>
     );
