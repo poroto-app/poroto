@@ -38,7 +38,7 @@ export function Layout({ navBar, children, fillComponent }: Props) {
                         {fillComponent}
                     </Box>
                 )}
-                <Box maxWidth={Size.mainContentWidth} w="100%">
+                <Box maxWidth={Size.mainContentWidth} w="100%" h="100%">
                     {children}
                 </Box>
             </Center>
