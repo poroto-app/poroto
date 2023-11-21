@@ -133,7 +133,7 @@ const SelectPlanPage = () => {
                     }
                 />
                 <VStack pb="48px" px="16px" w="100%">
-                    <VStack py="48px" spacing="32px">
+                    <VStack py="100px" spacing="32px">
                         <Box w="100%" maxW="300px">
                             <EmptyIcon
                                 viewBox="0 0 862.70323 644.78592"
