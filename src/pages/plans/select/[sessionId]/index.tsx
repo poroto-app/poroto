@@ -55,7 +55,10 @@ const SelectPlanPage = () => {
         // プラン取得中は何もしない
         if (!plansCreated) return;
 
-        dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
+        // プランが存在しない場合、プランの候補となる場所を取得する
+        if(plansCreated.length === 0) {
+            dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
+        }
     }, [sessionId, plansCreated?.length]);
 
     // 指定した場所からプランを作成できたら、そのプランが選択されている状態にする
