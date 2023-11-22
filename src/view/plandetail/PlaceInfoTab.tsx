@@ -1,6 +1,7 @@
 import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { ReactNode, useState } from "react";
 import { IconType } from "react-icons";
+import { FaRegStar } from "react-icons/fa6";
 import { MdCurrencyYen } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
@@ -60,6 +61,7 @@ export const PlaceInfoTab = ({
                     <TabPanelInformation
                         categories={categories}
                         priceRange={priceRange}
+                        googlePlaceReviews={googlePlaceReviews}
                     />
                 </TabPanel>
                 <TabPanel active={activeTab === PlaceInfoTabs.Reviews}>
@@ -125,14 +127,18 @@ export const TabPanel = ({
 const TabPanelInformation = ({
     categories,
     priceRange,
+    googlePlaceReviews,
 }: {
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
+    googlePlaceReviews: GooglePlaceReview[] | null;
 }) => {
     const isCategoryEmpty = categories.length === 0;
     const isPriceRangeEmpty = !priceRange || priceRange.max === 0;
+    const reviews = googlePlaceReviews;
+    const isGooglePlaceReviews = !reviews || reviews.length === 0;
 
-    if (isCategoryEmpty && isPriceRangeEmpty) {
+    if (isCategoryEmpty && isPriceRangeEmpty && isGooglePlaceReviews) {
         return (
             <Center w="100%" h="100%">
                 <Text color="#574836">情報がありません</Text>
@@ -155,6 +161,10 @@ const TabPanelInformation = ({
                         label={`${priceRange.min}~\n${priceRange.max} 円`}
                     />
                 )}
+                <InformationTag
+                    icon={FaRegStar}
+                    label={averageStars.toFixed(1)}
+                />
             </HStack>
         </VStack>
     );
