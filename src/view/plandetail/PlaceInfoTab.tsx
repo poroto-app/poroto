@@ -170,10 +170,10 @@ const TabPanelInformation = ({
                         label={`${priceRange.min}~\n${priceRange.max} 円`}
                     />
                 )}
-                <InformationTag
+                {!isGooglePlaceReviewsEmpty && <InformationTag
                     icon={FaRegStar}
                     label={averageRating.toFixed(1)}
-                />
+                />}
             </HStack>
         </VStack>
     );
