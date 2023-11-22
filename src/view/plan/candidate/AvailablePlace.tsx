@@ -20,7 +20,13 @@ type Props = {
 
 export function AvailablePlace({ place, onClick }: Props) {
     return (
-        <VStack as="button" w="100%" overflow="hidden" spacing={0} onClick={onClick}>
+        <VStack
+            as="button"
+            w="100%"
+            overflow="hidden"
+            spacing={0}
+            onClick={onClick}
+        >
             <Box
                 position="relative"
                 w="100%"
@@ -60,9 +66,7 @@ export function AvailablePlace({ place, onClick }: Props) {
                                 : null
                         )}
                     />
-                    <Text py="4px">
-                        {place.name}
-                    </Text>
+                    <Text py="4px">{place.name}</Text>
                 </HStack>
             ) : (
                 <SkeletonText
