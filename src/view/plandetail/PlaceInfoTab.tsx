@@ -135,15 +135,17 @@ const TabPanelInformation = ({
 }) => {
     const isCategoryEmpty = categories.length === 0;
     const isPriceRangeEmpty = !priceRange || priceRange.max === 0;
-    const isGooglePlaceReviewsEmpty = !googlePlaceReviews || googlePlaceReviews.length === 0;
+    const isGooglePlaceReviewsEmpty =
+        !googlePlaceReviews || googlePlaceReviews.length === 0;
 
     const average = (values: number[]) => {
         const sum = values.reduce((acc, rating) => acc + rating, 0);
         return sum / values.length;
-    }
-    
-    const averageRating= average(googlePlaceReviews.map((review) => review.rating));
-    
+    };
+
+    const averageRating = average(
+        googlePlaceReviews.map((review) => review.rating)
+    );
 
     if (isCategoryEmpty && isPriceRangeEmpty && isGooglePlaceReviewsEmpty) {
         return (
