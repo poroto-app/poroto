@@ -6,24 +6,13 @@ on:
       - main
 
 jobs:
-  build:
-    uses: ./.github/workflows/build_workflow.yaml
-  # SEE: https://github.com/google-github-actions/deploy-appengine
-  deploy:
-    name: GAE Production deploy
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: ./.github/actions/decrypt_secrets
-        with:
-          google_credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-          gh_personal_access_token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
-          environment: production
-      - name: 'Authenticate to Google Cloud'
-        uses: 'google-github-actions/auth@v1'
-        with:
-          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
-      # SEE: https://github.com/google-github-actions/deploy-appengine#authorization
-      - name: Deploy an App Engine app
-        uses: google-github-actions/deploy-appengine@v1
+  deploy-production:
+    name: "Deploy Production"
+    uses: "./.github/workflows/deploy_workflow.yaml"
+    with:
+      environment: production
+      app_yaml: "app.yaml"
+    secrets:
+      GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
+      GOOGLE_CREDENTIALS_KMS: ${{ secrets.GOOGLE_CREDENTIALS }}
+      GOOGLE_CREDENTIALS: ${{ secrets.GOOGLE_CREDENTIALS }}
