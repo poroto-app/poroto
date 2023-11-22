@@ -137,6 +137,8 @@ const TabPanelInformation = ({
     const isPriceRangeEmpty = !priceRange || priceRange.max === 0;
     const reviews = googlePlaceReviews;
     const isGooglePlaceReviews = !reviews || reviews.length === 0;
+    const totalStars = googlePlaceReviews.reduce((acc, review) => { return acc + review.rating; }, 0); 
+    const averageStars = totalStars / googlePlaceReviews.length;
 
     if (isCategoryEmpty && isPriceRangeEmpty && isGooglePlaceReviews) {
         return (
