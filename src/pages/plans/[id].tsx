@@ -42,8 +42,8 @@ export default function PlanPage() {
         navigator.clipboard.writeText(url);
 
         toast({
-            title: "URLを共有",
-            description: "URLがクリップボードにコピーされました。",
+            title: "しおりのURLをコピーしました",
+            description: "作ったしおりを共有してみましょう！",
             status: "success",
             duration: 3000, // ポップアップが表示される時間（ミリ秒）
             isClosable: true,
@@ -125,6 +125,10 @@ export default function PlanPage() {
             <PlanCreatedDialog
                 visible={showPlanCreatedModal}
                 onClickClose={() => dispatch(setShowPlanCreatedModal(false))}
+                onClickCopyUrl={() => {
+                    dispatch(setShowPlanCreatedModal(false));
+                    handleOnCopyPlanUrl();
+                }}
             />
         </Center>
     );
