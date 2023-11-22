@@ -136,10 +136,14 @@ const TabPanelInformation = ({
     const isCategoryEmpty = categories.length === 0;
     const isPriceRangeEmpty = !priceRange || priceRange.max === 0;
     const isGooglePlaceReviewsEmpty = !googlePlaceReviews || googlePlaceReviews.length === 0;
-    const totalStars = googlePlaceReviews.reduce((acc, review) => {
-        return acc + review.rating;
-    }, 0);
-    const averageStars = totalStars / googlePlaceReviews.length;
+
+    const average = (values: number[]) => {
+        const sum = values.reduce((acc, rating) => acc + rating, 0);
+        return sum / values.length;
+    }
+    
+    const averageRating= average(googlePlaceReviews.map((review) => review.rating));
+    
 
     if (isCategoryEmpty && isPriceRangeEmpty && isGooglePlaceReviewsEmpty) {
         return (
@@ -166,7 +170,7 @@ const TabPanelInformation = ({
                 )}
                 <InformationTag
                     icon={FaRegStar}
-                    label={averageStars.toFixed(1)}
+                    label={averageRating.toFixed(1)}
                 />
             </HStack>
         </VStack>
