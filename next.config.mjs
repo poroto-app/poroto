@@ -48,6 +48,8 @@ const nextConfig = {
         FIREBASE_MESSAGING_SENDER_ID: process.env.FIREBASE_MESSAGING_SENDER_ID,
         FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
 
+        BASIC_AUTH_USERNAME: process.env.BASIC_AUTH_USERNAME,
+        BASIC_AUTH_PASSWORD: process.env.BASIC_AUTH_PASSWORD,
     },
     webpack: (config) => {
         config.module.rules.push({

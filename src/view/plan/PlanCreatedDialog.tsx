@@ -4,10 +4,15 @@ import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 
 export type Props = {
     visible: boolean;
+    onClickCopyUrl: () => void;
     onClickClose: () => void;
 };
 
-export function PlanCreatedDialog({ onClickClose, visible }: Props) {
+export function PlanCreatedDialog({
+    onClickCopyUrl,
+    onClickClose,
+    visible,
+}: Props) {
     return (
         <FullscreenDialog onClickOutside={onClickClose} visible={visible}>
             <VStack
@@ -15,7 +20,7 @@ export function PlanCreatedDialog({ onClickClose, visible }: Props) {
                 borderRadius="30px"
                 maxW="100%"
                 px="32px"
-                py="48px"
+                py="16px"
                 spacing="24px"
             >
                 <HappyNewsIcon
@@ -23,24 +28,38 @@ export function PlanCreatedDialog({ onClickClose, visible }: Props) {
                     style={{
                         width: "100%",
                         height: "300px",
+                        marginTop: "32px",
                     }}
                 />
                 <Text fontSize="24px" fontWeight="bold">
-                    プランが完成しました!
+                    しおりが完成しました!
                 </Text>
-                <Box
-                    as="button"
-                    w="100%"
-                    px="16px"
-                    py="8px"
-                    border="3px solid black"
-                    borderRadius="20px"
-                    fontWeight="bold"
-                    fontSize="16px"
-                    onClick={onClickClose}
-                >
-                    とじる
-                </Box>
+                <VStack spacing="8px" w="100%">
+                    <Box
+                        as="button"
+                        w="100%"
+                        px="16px"
+                        py="8px"
+                        border="3px solid black"
+                        borderRadius="20px"
+                        fontWeight="bold"
+                        fontSize="16px"
+                        onClick={onClickCopyUrl}
+                    >
+                        しおりのURLをコピー
+                    </Box>
+                    <Box
+                        as="button"
+                        w="100%"
+                        px="16px"
+                        py="8px"
+                        fontWeight="bold"
+                        fontSize="16px"
+                        onClick={onClickClose}
+                    >
+                        とじる
+                    </Box>
+                </VStack>
             </VStack>
         </FullscreenDialog>
     );

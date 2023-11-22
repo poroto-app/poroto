@@ -16,21 +16,26 @@ function encrypt() {
    echo ">> Encrypted ${target}!"
 }
 
-crypt_targets_dev=(".env.development.local")
-crypt_targets_stg=(".env.staging.local")
-crypt_targets_prd=(".env.production.local")
+# 環境設定（デフォルトはdevelopment）
+env=$1
+if [ -z "${env}" ]; then
+  env="development"
+fi
 
-for target in "${crypt_targets_dev[@]}"
-do
-  encrypt "development" "${target}"
-done
+# 環境ごとのシークレットを暗号化
+case "$env" in
+"development")
+  encrypt_targets=(".env.development.local")
+  ;;
+"staging")
+  encrypt_targets=(".env.staging.local")
+  ;;
+"production")
+  encrypt_targets=(".env.production.local")
+  ;;
+esac
 
-for target in "${crypt_targets_stg[@]}"
+for target in "${encrypt_targets[@]}"
 do
-  encrypt "staging" "${target}"
-done
-
-for target in "${crypt_targets_prd[@]}"
-do
-  encrypt "production" "${target}"
+  encrypt "${env}" "${target}"
 done
