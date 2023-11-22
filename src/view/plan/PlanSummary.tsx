@@ -1,7 +1,7 @@
 import { Box, Icon, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
-import { MdAttachMoney, MdSchedule } from "react-icons/md";
+import { MdCurrencyYen, MdSchedule } from "react-icons/md";
 import { DateHelper } from "src/domain/util/date";
 import styled from "styled-components";
 
@@ -67,7 +67,7 @@ export const PlanSummaryBudget = ({
     maxBudget: number;
 }) => {
     return (
-        <PlanSummary title="予算" icon={MdAttachMoney}>
+        <PlanSummary title="予算" icon={MdCurrencyYen}>
             <VStack alignItems="flex-start" w="100%" spacing={0}>
                 {minBudget > 0 && <Text>{`${minBudget}`}</Text>}
                 {maxBudget > 0 && <Text>{`~${maxBudget}円`}</Text>}
