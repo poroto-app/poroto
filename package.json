@@ -28,7 +28,7 @@
     "@googlemaps/js-api-loader": "^1.16.2",
     "@mdx-js/loader": "^2.3.0",
     "@mdx-js/react": "^2.3.0",
-    "@next/mdx": "^13.5.2",
+    "@next/mdx": "^13.5.6",
     "@react-google-maps/api": "^2.18.1",
     "@reduxjs/toolkit": "^1.9.3",
     "@splidejs/react-splide": "^0.7.12",
