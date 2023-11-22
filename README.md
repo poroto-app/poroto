@@ -45,10 +45,18 @@ yarn install
 - 暗号化し、[poroto-app/infrastructure](https://github.com/poroto-app/infrastructure)で管理してください
 - `scripts/encrypt.sh` を実行することで暗号化できます
 
-### 起動方法
+## 起動方法
 
 ```shell
 yarn dev
+```
+
+### 環境を指定してビルド & 起動する
+```shell
+ENV=your-env yarn build-env
+# ENV=staging yarn build-env
+
+PORT=3000 yarn start
 ```
 
 ## ディレクトリ構造
