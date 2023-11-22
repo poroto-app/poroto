@@ -12,8 +12,6 @@ export const Routes = {
                 `/plans/select/${planCandidateId}`,
             plan: (planCandidateId: string, planId: string) =>
                 `/plans/select/${planCandidateId}/${planId}`,
-            edit: (planCandidateId: string, planId: string) =>
-                `/plans/select/${planCandidateId}/${planId}/edit`,
         },
     },
     places: {

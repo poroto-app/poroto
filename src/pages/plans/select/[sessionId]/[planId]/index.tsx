@@ -1,4 +1,3 @@
-import { Link } from "@chakra-ui/next-js";
 import { Box, Button, Center, VStack } from "@chakra-ui/react";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
@@ -22,6 +21,7 @@ import { NotFound } from "src/view/common/NotFound";
 import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
+import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
 import { usePlanPlaceDelete } from "src/view/hooks/usePlanPlaceDelete";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
@@ -31,6 +31,7 @@ import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
 import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
+import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
 import { DialogDeletePlace } from "src/view/plancandidate/DialogDeletePlace";
 import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
@@ -65,6 +66,20 @@ const PlanDetail = () => {
         planCandidateId: sessionId as string,
         planId: planId as string,
     });
+
+    const {
+        addPlaceToPlan,
+        showPlacesToAdd,
+        onCloseDialogToAddPlace,
+        basePlaceIdToAdd,
+        isDialogToAddPlaceVisible,
+        placesToAdd,
+        isAddingPlace,
+    } = usePlanPlaceAdd({
+        planCandidateId: sessionId as string,
+        planId: planId as string,
+    });
+
     const {
         preview: plan,
         createdBasedOnCurrentLocation,
@@ -156,6 +171,11 @@ const PlanDetail = () => {
                             createdBasedOnCurrentLocation={
                                 createdBasedOnCurrentLocation
                             }
+                            onClickAddPlace={({ previousPlaceId }) =>
+                                showPlacesToAdd({
+                                    basePlaceIdToAdd: previousPlaceId,
+                                })
+                            }
                             onClickShowRelatedPlaces={(placeId) =>
                                 showRelatedPlaces(placeId)
                             }
@@ -192,24 +212,6 @@ const PlanDetail = () => {
                 </VStack>
             </Center>
             <PlanFooter>
-                <Link
-                    href={Routes.plans.planCandidate.edit(
-                        createPlanSession,
-                        plan.id
-                    )}
-                    flex={1}
-                >
-                    <Button
-                        variant="outline"
-                        w="100%"
-                        borderColor={Colors.primary["400"]}
-                        color={Colors.primary["400"]}
-                        borderRadius={10}
-                        borderWidth="2px"
-                    >
-                        編集
-                    </Button>
-                </Link>
                 <Button
                     variant="solid"
                     flex={1}
@@ -237,6 +239,19 @@ const PlanDetail = () => {
                     })
                 }
                 onCloseDialog={onCloseDialogRelatedPlaces}
+            />
+            <DialogAddPlace
+                placesToAdd={placesToAdd}
+                isDialogVisible={isDialogToAddPlaceVisible}
+                isAddingPlace={isAddingPlace}
+                onAddPlaceToPlan={({ placeIdToAdd }) =>
+                    basePlaceIdToAdd &&
+                    addPlaceToPlan({
+                        placeIdToAdd,
+                        previousPlaceId: basePlaceIdToAdd,
+                    })
+                }
+                onCloseDialog={onCloseDialogToAddPlace}
             />
             <DialogDeletePlace
                 placeToDelete={placeToDelete}
