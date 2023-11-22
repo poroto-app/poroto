@@ -43,6 +43,11 @@ const bookStore: Place = {
         },
     ],
     estimatedStayDuration: 60,
+    priceRange: {
+        min: 1000,
+        max: 2000,
+        googlePriceLevel: 2,
+    },
     location: {
         latitude: 35.681616,
         longitude: 139.764954,
