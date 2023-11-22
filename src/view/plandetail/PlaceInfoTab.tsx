@@ -173,7 +173,7 @@ const TabPanelInformation = ({
                 {!isPriceRangeEmpty && (
                     <InformationTag
                         icon={MdCurrencyYen}
-                        label={`${priceRange.min}~\n${priceRange.max} 円`}
+                        label={`${priceRange.min}~${priceRange.max} 円`}
                     />
                 )}
                 {!isGooglePlaceReviewsEmpty && (
