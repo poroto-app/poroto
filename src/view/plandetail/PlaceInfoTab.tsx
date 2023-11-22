@@ -2,13 +2,13 @@ import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { ReactNode, useState } from "react";
 import { IconType } from "react-icons";
 import { FaRegStar } from "react-icons/fa6";
-import {MdCurrencyYen, MdSchedule} from "react-icons/md";
+import { MdCurrencyYen, MdSchedule } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
+import { DateHelper } from "src/domain/util/date";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { PlaceInfoTabPanelReviews } from "src/view/plandetail/PlaceInfoTabPanelReviews";
-import {DateHelper} from "src/domain/util/date";
 
 type Props = {
     priceRange: PriceRange | null;
@@ -138,7 +138,7 @@ const TabPanelInformation = ({
     priceRange,
     googlePlaceReviews,
     estimatedStayDuration,
-} :{
+}: {
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
     googlePlaceReviews: GooglePlaceReview[] | null;
@@ -153,7 +153,12 @@ const TabPanelInformation = ({
         googlePlaceReviews.map((review) => review.rating)
     );
 
-    if (isCategoryEmpty && isPriceRangeEmpty && isGooglePlaceReviewsEmpty&&isEstimatedStayDurationEmpty) {
+    if (
+        isCategoryEmpty &&
+        isPriceRangeEmpty &&
+        isGooglePlaceReviewsEmpty &&
+        isEstimatedStayDurationEmpty
+    ) {
         return (
             <Center w="100%" h="100%">
                 <Text color="#574836">情報がありません</Text>
@@ -162,30 +167,44 @@ const TabPanelInformation = ({
     }
 
     return (
-        <VStack w="100%" spacing="8px">
-            <HStack w="100%" alignItems="stretch">
+        <VStack w="100%" spacing="8px" overflowX="hidden">
+            <HStack
+                w="100%"
+                alignItems="stretch"
+                overflowX="scroll"
+                overflowY="hidden"
+                sx={{
+                    "::-webkit-scrollbar": {
+                        display: "none",
+                    },
+                }}
+            >
                 {!isCategoryEmpty && (
                     <InformationTag
                         icon={getPlaceCategoryIcon(categories[0])}
-                        label={categories[0].displayName}
+                        value={categories[0].displayName}
+                        label="カテゴリ"
                     />
                 )}
                 {!isPriceRangeEmpty && (
                     <InformationTag
                         icon={MdCurrencyYen}
-                        label={`${priceRange.min}~${priceRange.max} 円`}
+                        value={`${priceRange.min}~${priceRange.max} 円`}
+                        label="価格帯"
                     />
                 )}
                 {!isGooglePlaceReviewsEmpty && (
                     <InformationTag
                         icon={FaRegStar}
-                        label={averageRating.toFixed(1)}
+                        value={averageRating.toFixed(1)}
+                        label="評価"
                     />
                 )}
                 {!isEstimatedStayDurationEmpty && (
                     <InformationTag
                         icon={MdSchedule}
-                        label={DateHelper.formatHHMM(estimatedStayDuration)}
+                        value={DateHelper.formatHHMM(estimatedStayDuration)}
+                        label="予想滞在時間"
                     />
                 )}
             </HStack>
@@ -193,26 +212,39 @@ const TabPanelInformation = ({
     );
 };
 
-const InformationTag = ({ icon, label }: { icon: IconType; label: string }) => {
+const InformationTag = ({
+    icon,
+    value,
+    label,
+}: {
+    icon: IconType;
+    value: string;
+    label: string;
+}) => {
     return (
         <VStack
-            minW="80px"
-            px="16px"
+            px="20px"
             py="16px"
             spacing="16px"
             border="0.5px solid #CEB79B"
             borderRadius="10px"
             justifyContent="space-between"
+            alignItems="flex-start"
         >
             <Icon as={icon} w="24px" h="24px" color="#946A35" />
-            <Text color="#574836">
-                {label.split("\n").map((l) => (
-                    <>
-                        {l}
-                        <br />
-                    </>
-                ))}
-            </Text>
+            <VStack spacing={0} alignItems="flex-start">
+                <Text fontSize="0.8rem" color="#574836" whiteSpace="nowrap">
+                    {label}
+                </Text>
+                <Text color="#574836" whiteSpace="nowrap">
+                    {value.split("\n").map((l) => (
+                        <>
+                            {l}
+                            <br />
+                        </>
+                    ))}
+                </Text>
+            </VStack>
         </VStack>
     );
 };
