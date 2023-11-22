@@ -2,17 +2,19 @@ import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { ReactNode, useState } from "react";
 import { IconType } from "react-icons";
 import { FaRegStar } from "react-icons/fa6";
-import { MdCurrencyYen } from "react-icons/md";
+import {MdCurrencyYen, MdSchedule} from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { PlaceInfoTabPanelReviews } from "src/view/plandetail/PlaceInfoTabPanelReviews";
+import {DateHelper} from "src/domain/util/date";
 
 type Props = {
     priceRange: PriceRange | null;
     categories: PlaceCategory[];
     googlePlaceReviews: GooglePlaceReview[];
+    estimatedStayDuration: number;
 };
 
 export const PlaceInfoTabs = {
@@ -25,6 +27,7 @@ export const PlaceInfoTab = ({
     categories,
     priceRange,
     googlePlaceReviews,
+    estimatedStayDuration,
 }: Props) => {
     const [activeTab, setActiveTab] = useState<PlaceInfoTab>(
         PlaceInfoTabs.Information
@@ -62,6 +65,7 @@ export const PlaceInfoTab = ({
                         categories={categories}
                         priceRange={priceRange}
                         googlePlaceReviews={googlePlaceReviews}
+                        estimatedStayDuration={estimatedStayDuration}
                     />
                 </TabPanel>
                 <TabPanel active={activeTab === PlaceInfoTabs.Reviews}>
@@ -133,11 +137,14 @@ const TabPanelInformation = ({
     categories,
     priceRange,
     googlePlaceReviews,
-}: {
+    estimatedStayDuration,
+} :{
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
     googlePlaceReviews: GooglePlaceReview[] | null;
+    estimatedStayDuration: number;
 }) => {
+    const isEstimatedStayDurationEmpty = estimatedStayDuration === 0;
     const isCategoryEmpty = categories.length === 0;
     const isPriceRangeEmpty = !priceRange || priceRange.max === 0;
     const isGooglePlaceReviewsEmpty =
@@ -146,7 +153,7 @@ const TabPanelInformation = ({
         googlePlaceReviews.map((review) => review.rating)
     );
 
-    if (isCategoryEmpty && isPriceRangeEmpty && isGooglePlaceReviewsEmpty) {
+    if (isCategoryEmpty && isPriceRangeEmpty && isGooglePlaceReviewsEmpty&&isEstimatedStayDurationEmpty) {
         return (
             <Center w="100%" h="100%">
                 <Text color="#574836">情報がありません</Text>
@@ -173,6 +180,12 @@ const TabPanelInformation = ({
                     <InformationTag
                         icon={FaRegStar}
                         label={averageRating.toFixed(1)}
+                    />
+                )}
+                {!isEstimatedStayDurationEmpty && (
+                    <InformationTag
+                        icon={MdSchedule}
+                        label={DateHelper.formatHHMM(estimatedStayDuration)}
                     />
                 )}
             </HStack>

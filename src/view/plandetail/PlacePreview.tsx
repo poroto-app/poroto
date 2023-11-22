@@ -32,6 +32,7 @@ type Props = {
     googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
+    estimatedStayDuration: number;
     showRelatedPlaces?: boolean;
     onClickShowRelatedPlaces?: () => void;
 };
@@ -42,6 +43,7 @@ export const PlacePreview = ({
     googlePlaceReviews,
     categories,
     priceRange,
+    estimatedStayDuration,
     onClickShowRelatedPlaces,
 }: Props) => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -107,6 +109,7 @@ export const PlacePreview = ({
                     categories={categories}
                     googlePlaceReviews={googlePlaceReviews}
                     priceRange={priceRange}
+                    estimatedStayDuration={estimatedStayDuration}
                 />
                 <VStack w="100%" mt="auto">
                     {onClickShowRelatedPlaces && (
