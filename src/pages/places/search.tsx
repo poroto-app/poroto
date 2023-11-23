@@ -28,6 +28,7 @@ import { RoundedIconButton } from "src/view/common/RoundedIconButton";
 import { locationSinjukuStation } from "src/view/constants/location";
 import { PageMetaData } from "src/view/constants/meta";
 import { Routes } from "src/view/constants/router";
+import { zIndex } from "src/view/constants/zIndex";
 import { useLocation } from "src/view/hooks/useLocation";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
 import { MapPinSelector } from "src/view/place/MapPinSelector";
@@ -192,7 +193,14 @@ function PlaceSearchPage() {
             `space-between` で余白をつけようとすると、その部分を選択できなくなってしまうため、
             `position: fixed;` で位置を調整している
          */}
-            <Box position="fixed" left={0} bottom="32px" right={0} px="8px">
+            <Box
+                position="fixed"
+                left={0}
+                bottom="32px"
+                right={0}
+                px="8px"
+                zIndex={zIndex.footer}
+            >
                 <Head>
                     <title>好きな場所からプランを作る | poroto</title>
                 </Head>
