@@ -27,6 +27,7 @@ export function PlanPlaceList({
                     categories={[]}
                     googlePlaceReviews={[]}
                     priceRange={null}
+                    estimatedStayDuration={0}
                 />
             )}
             {plan.places.map((place, i) => (
@@ -37,6 +38,7 @@ export function PlanPlaceList({
                         googlePlaceReviews={place.googlePlaceReviews}
                         categories={place.categories}
                         priceRange={place.priceRange}
+                        estimatedStayDuration={place.estimatedStayDuration}
                         onClickShowRelatedPlaces={
                             onClickShowRelatedPlaces
                                 ? () => onClickShowRelatedPlaces(place.id)

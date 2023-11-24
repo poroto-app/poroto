@@ -34,6 +34,7 @@ type Props = {
     googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
+    estimatedStayDuration: number;
     showRelatedPlaces?: boolean;
     onClickShowRelatedPlaces?: () => void;
     onClickDeletePlace?: () => void;
@@ -45,6 +46,7 @@ export const PlacePreview = ({
     googlePlaceReviews,
     categories,
     priceRange,
+    estimatedStayDuration,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
 }: Props) => {
@@ -111,6 +113,7 @@ export const PlacePreview = ({
                     categories={categories}
                     googlePlaceReviews={googlePlaceReviews}
                     priceRange={priceRange}
+                    estimatedStayDuration={estimatedStayDuration}
                 />
                 <HStack w="100%" mt="auto">
                     {onClickShowRelatedPlaces && (

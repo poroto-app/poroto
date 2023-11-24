@@ -14,20 +14,13 @@ type Story = StoryObj<typeof PlacePreview>;
 
 export const Primary: Story = {
     args: {
-        name: mockPlaces.bookStore.name,
-        images: mockPlaces.bookStore.images,
-        googlePlaceReviews: mockPlaces.bookStore.googlePlaceReviews,
-        categories: mockPlaces.bookStore.categories,
-        priceRange: mockPlaces.bookStore.priceRange,
+        ...mockPlaces.bookStore,
     },
 };
 
 export const Sp: Story = {
     args: {
-        name: mockPlaces.bookStore.name,
-        images: mockPlaces.bookStore.images,
-        googlePlaceReviews: mockPlaces.bookStore.googlePlaceReviews,
-        categories: mockPlaces.bookStore.categories,
+        ...mockPlaces.bookStore,
     },
     parameters: {
         viewport: {
@@ -48,7 +41,7 @@ export const CurrentLocation: Story = {
 
 export const Loading: Story = {
     args: {
-        name: mockPlaces.bookStore.name,
+        ...mockPlaces.bookStore,
         images: [
             "https://example.com/photo/a",
             "https://example.com/photo/b",
@@ -59,13 +52,12 @@ export const Loading: Story = {
             small: url,
             large: url,
         })),
-        categories: [],
     },
 };
 
 export const EmptyImages: Story = {
     args: {
-        name: mockPlaces.bookStore.name,
+        ...mockPlaces.bookStore,
         images: [],
         categories: [],
     },
@@ -73,8 +65,7 @@ export const EmptyImages: Story = {
 
 export const EmptyTags: Story = {
     args: {
-        name: mockPlaces.bookStore.name,
-        images: mockPlaces.bookStore.images,
+        ...mockPlaces.bookStore,
         categories: [],
     },
 };
@@ -100,9 +91,7 @@ export const Category: Story = {
         },
     },
     args: {
-        name: mockPlaces.bookStore.name,
-        images: mockPlaces.bookStore.images,
-        categories: [],
+        ...mockPlaces.bookStore,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         category: PlaceCategoryTypes.BookStore,
