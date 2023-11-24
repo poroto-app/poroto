@@ -1,3 +1,0 @@
-dispatch:
-  - url: "poroto.app/*"
-    service: default
