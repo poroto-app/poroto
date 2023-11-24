@@ -12,6 +12,7 @@ jobs:
     with:
       environment: staging 
       app_yaml: app-staging.yaml
+      dispatch_yaml: dispatch-staging.yaml
     secrets:
       GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
       GOOGLE_CREDENTIALS_KMS: ${{ secrets.GOOGLE_CREDENTIALS }}

@@ -11,6 +11,10 @@ on:
         type: string
         description: Path to app.yaml file
         required: true
+      dispatch_yaml:
+        type: string
+        description: Path to dispatch.yaml file
+        required: false
     secrets:
       GOOGLE_CREDENTIALS:
         description: Google Cloud credentials for deployment
@@ -43,3 +47,6 @@ jobs:
         uses: google-github-actions/deploy-appengine@v1
         with:
           deliverables: '${{ inputs.app_yaml }}'
+      - name: "Dispatch App Engine"
+        if: ${{ inputs.dispatch_yaml != '' }}
+        run: cp ${{ inputs.dispatch_yaml }} dispatch.yaml && gcloud app deploy dispatch.yaml --quiet
