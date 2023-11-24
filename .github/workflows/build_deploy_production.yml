@@ -12,6 +12,7 @@ jobs:
     with:
       environment: production
       app_yaml: "app.yaml"
+      dispatch_yaml: "deploy-production.yaml"
     secrets:
       GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
       GOOGLE_CREDENTIALS_KMS: ${{ secrets.GOOGLE_CREDENTIALS }}
