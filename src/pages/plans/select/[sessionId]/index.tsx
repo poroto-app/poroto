@@ -1,5 +1,5 @@
 import { Link } from "@chakra-ui/next-js";
-import { Box, Text, VStack } from "@chakra-ui/react";
+import { Box, Center, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
@@ -55,7 +55,10 @@ const SelectPlanPage = () => {
         // プラン取得中は何もしない
         if (!plansCreated) return;
 
-        dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
+        // プランが存在しない場合、プランの候補となる場所を取得する
+        if (plansCreated.length === 0) {
+            dispatch(fetchAvailablePlacesForPlan({ session: sessionId }));
+        }
     }, [sessionId, plansCreated?.length]);
 
     // 指定した場所からプランを作成できたら、そのプランが選択されている状態にする
@@ -130,7 +133,7 @@ const SelectPlanPage = () => {
                     }
                 />
                 <VStack pb="48px" px="16px" w="100%">
-                    <VStack py="48px" spacing="32px">
+                    <VStack py="100px" spacing="32px">
                         <Box w="100%" maxW="300px">
                             <EmptyIcon
                                 viewBox="0 0 862.70323 644.78592"
@@ -163,24 +166,11 @@ const SelectPlanPage = () => {
 
     return (
         <Layout navBar={<NavBar />}>
-            <GeneratingPlanDialog
-                visible={[
-                    RequestStatuses.PENDING,
-                    RequestStatuses.REJECTED,
-                ].includes(createPlanFromPlaceRequestStatus)}
-                onClose={() =>
-                    dispatch(resetCreatePlanFromPlaceRequestStatus())
-                }
-                failed={
-                    createPlanFromPlaceRequestStatus ===
-                    RequestStatuses.REJECTED
-                }
-            />
-            <VStack
+            <Center
                 w="100%"
+                h="100%"
                 px="16px"
                 py="16px"
-                spacing={8}
                 ref={refPlanCandidateGallery}
             >
                 <VStack spacing="32px" my="32px">
@@ -211,15 +201,7 @@ const SelectPlanPage = () => {
                         </ButtonWithBlur>
                     </Link>
                 </VStack>
-                <AvailablePlaceSection
-                    places={placesAvailableForPlan}
-                    isFetching={
-                        fetchAvailablePlacesForPlanRequestStatus ===
-                        RequestStatuses.PENDING
-                    }
-                    onClickPlace={handleOnClickPlaceCandidate}
-                />
-            </VStack>
+            </Center>
         </Layout>
     );
 };

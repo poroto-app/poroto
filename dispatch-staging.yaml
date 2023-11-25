@@ -1,0 +1,9 @@
+dispatch:
+  - url: "planner.poroto.app/*"
+    service: default
+  
+  - url: "staging.poroto.app/*"
+    service: poroto-staging
+
+  - url: "staging.planner.poroto.app/*"
+    service: planner-staging
