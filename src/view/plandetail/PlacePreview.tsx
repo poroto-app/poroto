@@ -32,6 +32,7 @@ import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import styled from "styled-components";
+import { motion } from 'framer-motion';
 
 type Props = {
     name: string;
@@ -119,24 +120,26 @@ export const PlacePreview = ({
                 overflow="hidden"
             >
                 <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <button
-                            onClick={handleLikeClick}
-                            style={{
-                                marginRight: '10px', 
-                                border: 'none',
-                                backgroundColor: 'transparent',
-                                cursor: 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                fontSize: '1.6rem', 
-                            }}
-                        >
-                            {isLiked ? (
-                                <MdFavorite style={{ color: 'red' }} />
-                            ) : (
-                                <MdFavoriteBorder />
-                            )}
-                    </button>
+                    <motion.button
+                        onClick={handleLikeClick}
+                        style={{
+                            marginRight: '10px', 
+                            border: 'none',
+                            backgroundColor: 'transparent',
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            fontSize: '1.6rem', 
+                        }}
+                        whileTap={{ scale: 1.1 }} 
+                        whileHover={{ scale: 1.2 }} 
+                    >
+                        {isLiked ? (
+                            <MdFavorite style={{ color: 'red' }} />
+                        ) : (
+                            <MdFavoriteBorder />
+                        )}
+                    </motion.button>
                     <Text
                         fontSize="1.15rem"
                         as="h2"
