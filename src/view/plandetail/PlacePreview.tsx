@@ -14,7 +14,12 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { IconType } from "react-icons";
-import { MdFavorite, MdFavoriteBorder, MdOutlineDeleteOutline, MdOutlineLocationOn } from "react-icons/md";
+import {
+    MdFavorite,
+    MdFavoriteBorder,
+    MdOutlineDeleteOutline,
+    MdOutlineLocationOn,
+} from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
     getImageSizeOf,
@@ -71,7 +76,7 @@ export const PlacePreview = ({
     const handleLikeClick = () => {
         setIsLiked(!isLiked);
     };
-    
+
     if (isEmptyLocation) {
         return (
             <Container p="16px" w="100%">
@@ -137,7 +142,11 @@ export const PlacePreview = ({
                         />
                     )}
                 </HStack>
-                <ChipAction label={isLiked ? "いいね済み" : "いいね"} icon={isLiked ? MdFavorite : MdFavoriteBorder} onClick={handleLikeClick} />
+                <ChipAction
+                    label={isLiked ? "いいね済み" : "いいね"}
+                    icon={isLiked ? MdFavorite : MdFavoriteBorder}
+                    onClick={handleLikeClick}
+                />
             </VStack>
             {/* 画像を拡大表示するためのモーダル */}
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
