@@ -126,6 +126,24 @@ export const PlacePreview = ({
                 >
                     {name}
                 </Text>
+                <button
+                    onClick={handleLikeClick}
+                    style={{
+                        marginLeft: '10px', 
+                        border: 'none',
+                        backgroundColor: 'transparent',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        fontSize: '1.6rem', 
+                    }}
+                >
+                    {isLiked ? (
+                        <MdFavorite style={{ color: 'red' }} />
+                    ) : (
+                        <MdFavoriteBorder />
+                    )}
+                </button>
                 <PlaceInfoTab
                     categories={categories}
                     googlePlaceReviews={googlePlaceReviews}
@@ -148,11 +166,6 @@ export const PlacePreview = ({
                         />
                     )}
                 </HStack>
-                <ChipAction
-                    label={isLiked ? "いいね済み" : "いいね"}
-                    icon={isLiked ? MdFavorite : MdFavoriteBorder}
-                    onClick={handleLikeClick}
-                />
             </VStack>
             {/* 画像を拡大表示するためのモーダル */}
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
