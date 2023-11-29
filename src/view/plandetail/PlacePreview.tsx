@@ -12,6 +12,7 @@ import {
     useMediaQuery,
     VStack,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { IconType } from "react-icons";
 import {
@@ -32,7 +33,6 @@ import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import styled from "styled-components";
-import { motion } from 'framer-motion';
 
 type Props = {
     name: string;
@@ -84,6 +84,8 @@ export const PlacePreview = ({
         // ここでいいねが押されたことをバックエンドに送信する処理を追加する
     };
 
+    const [likeCount, setLikeCount] = useState(65000); // Mock count for demonstration
+
     if (isEmptyLocation) {
         return (
             <Container p="16px" w="100%">
@@ -119,36 +121,14 @@ export const PlacePreview = ({
                 p="16px"
                 overflow="hidden"
             >
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <motion.button
-                        onClick={handleLikeClick}
-                        style={{
-                            marginRight: '10px', 
-                            border: 'none',
-                            backgroundColor: 'transparent',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            fontSize: '1.6rem', 
-                        }}
-                        whileTap={{ scale: 1.1 }} 
-                        whileHover={{ scale: 1.2 }} 
-                    >
-                        {isLiked ? (
-                            <MdFavorite style={{ color: 'red' }} />
-                        ) : (
-                            <MdFavoriteBorder />
-                        )}
-                    </motion.button>
-                    <Text
-                        fontSize="1.15rem"
-                        as="h2"
-                        fontWeight="bold"
-                        color="#222222"
-                    >
-                        {name}
-                    </Text>
-                </div>
+                <Text
+                    fontSize="1.15rem"
+                    as="h2"
+                    fontWeight="bold"
+                    color="#222222"
+                >
+                    {name}
+                </Text>
                 <PlaceInfoTab
                     categories={categories}
                     googlePlaceReviews={googlePlaceReviews}
@@ -170,6 +150,34 @@ export const PlacePreview = ({
                             onClick={onClickDeletePlace}
                         />
                     )}
+                </HStack>
+                <HStack alignItems="center" marginTop="4px">
+                    <motion.button
+                        onClick={handleLikeClick}
+                        style={{
+                            marginRight: "10px",
+                            border: "none",
+                            backgroundColor: "transparent",
+                            cursor: "pointer",
+                            display: "flex",
+                            alignItems: "center",
+                            fontSize: "1.6rem",
+                        }}
+                        whileTap={{ scale: 1.1 }}
+                        whileHover={{ scale: 1.2 }}
+                    >
+                        {isLiked ? (
+                            <MdFavorite style={{ color: "red" }} />
+                        ) : (
+                            <MdFavoriteBorder />
+                        )}
+                    </motion.button>
+                    <Text
+                        fontSize="0.8rem"
+                        as="h2"
+                        fontWeight="bold"
+                        color="#222222"
+                    >{`いいね！${likeCount.toLocaleString()}件`}</Text>
                 </HStack>
             </VStack>
             {/* 画像を拡大表示するためのモーダル */}
