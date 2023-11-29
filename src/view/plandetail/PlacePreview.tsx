@@ -118,32 +118,34 @@ export const PlacePreview = ({
                 p="16px"
                 overflow="hidden"
             >
-                <Text
-                    fontSize="1.15rem"
-                    as="h2"
-                    fontWeight="bold"
-                    color="#222222"
-                >
-                    {name}
-                </Text>
-                <button
-                    onClick={handleLikeClick}
-                    style={{
-                        marginLeft: '10px', 
-                        border: 'none',
-                        backgroundColor: 'transparent',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        fontSize: '1.6rem', 
-                    }}
-                >
-                    {isLiked ? (
-                        <MdFavorite style={{ color: 'red' }} />
-                    ) : (
-                        <MdFavoriteBorder />
-                    )}
-                </button>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <button
+                            onClick={handleLikeClick}
+                            style={{
+                                marginRight: '10px', 
+                                border: 'none',
+                                backgroundColor: 'transparent',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                fontSize: '1.6rem', 
+                            }}
+                        >
+                            {isLiked ? (
+                                <MdFavorite style={{ color: 'red' }} />
+                            ) : (
+                                <MdFavoriteBorder />
+                            )}
+                    </button>
+                    <Text
+                        fontSize="1.15rem"
+                        as="h2"
+                        fontWeight="bold"
+                        color="#222222"
+                    >
+                        {name}
+                    </Text>
+                </div>
                 <PlaceInfoTab
                     categories={categories}
                     googlePlaceReviews={googlePlaceReviews}
