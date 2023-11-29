@@ -75,6 +75,12 @@ export const PlacePreview = ({
 
     const handleLikeClick = () => {
         setIsLiked(!isLiked);
+        // ここでいいねが押されたことをバックエンドに送信する処理を追加する
+    };
+
+    const handleDoubleClick = () => {
+        setIsLiked(true);
+        // ここでいいねが押されたことをバックエンドに送信する処理を追加する
     };
 
     if (isEmptyLocation) {
@@ -95,7 +101,7 @@ export const PlacePreview = ({
     }
 
     return (
-        <Container>
+        <Container onDoubleClick={handleDoubleClick}>
             <ImagePreviewContainer hasImage={images.length > 0}>
                 {images.length > 0 && (
                     <ImageSliderPreview
