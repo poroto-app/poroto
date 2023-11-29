@@ -66,6 +66,8 @@ export const PlacePreview = ({
         setSelectedImage(null);
     };
 
+    const [isliked, setIsLiked] = useState(false);
+
     if (isEmptyLocation) {
         return (
             <Container p="16px" w="100%">
