@@ -68,6 +68,10 @@ export const PlacePreview = ({
 
     const [isliked, setIsLiked] = useState(false);
 
+    const handleLikeClick = () => {
+        setIsLiked(!isliked);
+    };
+    
     if (isEmptyLocation) {
         return (
             <Container p="16px" w="100%">
