@@ -151,13 +151,16 @@ export const PlacePreview = ({
                         />
                     )}
                 </HStack>
-                <HStack alignItems="center" marginTop="4px">
-                    <LikeButton
-                        isLiked={isLiked}
-                        likeCount={likeCount}
-                        handleLikeClick={handleLikeClick}
-                    />
-                </HStack>
+                userComponent=
+                {process.env.APP_ENV !== "production" && (
+                    <HStack alignItems="center" marginTop="4px">
+                        <LikeButton
+                            isLiked={isLiked}
+                            likeCount={likeCount}
+                            handleLikeClick={handleLikeClick}
+                        />
+                    </HStack>
+                )}
             </VStack>
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
                 <ModalOverlay />
