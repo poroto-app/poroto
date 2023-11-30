@@ -151,7 +151,6 @@ export const PlacePreview = ({
                         />
                     )}
                 </HStack>
-                userComponent=
                 {process.env.APP_ENV !== "production" && (
                     <HStack alignItems="center" marginTop="4px">
                         <LikeButton
