@@ -76,12 +76,12 @@ export const PlacePreview = ({
 
     const handleLikeClick = () => {
         setIsLiked(!isLiked);
-        // ここでいいねが押されたことをバックエンドに送信する処理を追加する
+        //TODO: ここでいいねが押されたことをバックエンドに送信する処理を追加する
     };
 
     const handleDoubleClick = () => {
         setIsLiked(true);
-        // ここでいいねが押されたことをバックエンドに送信する処理を追加する
+        //TODO: ここでいいねが押されたことをバックエンドに送信する処理を追加する
     };
 
     const [likeCount, setLikeCount] = useState(65000); // Mock count for demonstration
@@ -180,7 +180,6 @@ export const PlacePreview = ({
                     >{`いいね！${likeCount.toLocaleString()}件`}</Text>
                 </HStack>
             </VStack>
-            {/* 画像を拡大表示するためのモーダル */}
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
                 <ModalOverlay />
                 <ModalContent>
