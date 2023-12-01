@@ -152,13 +152,11 @@ export const PlacePreview = ({
                     )}
                 </HStack>
                 {process.env.APP_ENV !== "production" && (
-                    <HStack alignItems="center" marginTop="4px">
-                        <LikeButton
-                            isLiked={isLiked}
-                            likeCount={likeCount}
-                            handleLikeClick={handleLikeClick}
-                        />
-                    </HStack>
+                    <LikeButton
+                        isLiked={isLiked}
+                        likeCount={likeCount}
+                        handleLikeClick={handleLikeClick}
+                    />
                 )}
             </VStack>
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
@@ -240,34 +238,32 @@ const ChipAction = ({
 };
 
 const LikeButton = ({ isLiked, likeCount, handleLikeClick }) => {
-    return (
-        <>
-            <motion.button
-                onClick={handleLikeClick}
-                style={{
-                    marginRight: "10px",
-                    border: "none",
-                    backgroundColor: "transparent",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    fontSize: "1.6rem",
-                }}
-                whileTap={{ scale: 1.1 }}
-                whileHover={{ scale: 1.2 }}
-            >
-                {isLiked ? (
-                    <MdFavorite style={{ color: "red" }} />
-                ) : (
-                    <MdFavoriteBorder />
-                )}
-            </motion.button>
-            <Text
-                fontSize="0.8rem"
-                as="h2"
-                fontWeight="bold"
-                color="#222222"
-            >{`いいね！${likeCount.toLocaleString()}件`}</Text>
-        </>
-    );
+    return <HStack alignItems="center" marginTop="4px">
+        <motion.button
+            onClick={handleLikeClick}
+            style={{
+                marginRight: "10px",
+                border: "none",
+                backgroundColor: "transparent",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                fontSize: "1.6rem",
+            }}
+            whileTap={{ scale: 1.1 }}
+            whileHover={{ scale: 1.2 }}
+        >
+            {isLiked ? (
+                <MdFavorite style={{ color: "red" }} />
+            ) : (
+                <MdFavoriteBorder />
+            )}
+        </motion.button>
+        <Text
+            fontSize="0.8rem"
+            as="h2"
+            fontWeight="bold"
+            color="#222222"
+        >{`いいね！${likeCount.toLocaleString()}件`}</Text>
+    </HStack>
 };
