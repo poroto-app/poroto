@@ -12,9 +12,15 @@ import {
     useMediaQuery,
     VStack,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import { useState } from "react";
 import { IconType } from "react-icons";
-import { MdOutlineDeleteOutline, MdOutlineLocationOn } from "react-icons/md";
+import {
+    MdFavorite,
+    MdFavoriteBorder,
+    MdOutlineDeleteOutline,
+    MdOutlineLocationOn,
+} from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
     getImageSizeOf,
@@ -66,6 +72,20 @@ export const PlacePreview = ({
         setSelectedImage(null);
     };
 
+    const [isLiked, setIsLiked] = useState(false);
+
+    const handleLikeClick = () => {
+        setIsLiked(!isLiked);
+        //TODO: ここでいいねが押されたことをバックエンドに送信する処理を追加する
+    };
+
+    const handleDoubleClick = () => {
+        setIsLiked(true);
+        //TODO: ここでいいねが押されたことをバックエンドに送信する処理を追加する
+    };
+
+    const [likeCount, setLikeCount] = useState(65000); // Mock count for demonstration
+
     if (isEmptyLocation) {
         return (
             <Container p="16px" w="100%">
@@ -84,7 +104,7 @@ export const PlacePreview = ({
     }
 
     return (
-        <Container>
+        <Container onDoubleClick={handleDoubleClick}>
             <ImagePreviewContainer hasImage={images.length > 0}>
                 {images.length > 0 && (
                     <ImageSliderPreview
@@ -131,8 +151,14 @@ export const PlacePreview = ({
                         />
                     )}
                 </HStack>
+                {process.env.APP_ENV !== "production" && (
+                    <LikeButton
+                        isLiked={isLiked}
+                        likeCount={likeCount}
+                        handleLikeClick={handleLikeClick}
+                    />
+                )}
             </VStack>
-            {/* 画像を拡大表示するためのモーダル */}
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
                 <ModalOverlay />
                 <ModalContent>
@@ -207,6 +233,39 @@ const ChipAction = ({
         >
             <Icon w="16px" h="16px" as={icon} />
             <Text fontSize="0.8rem">{label}</Text>
+        </HStack>
+    );
+};
+
+const LikeButton = ({ isLiked, likeCount, handleLikeClick }) => {
+    return (
+        <HStack alignItems="center" marginTop="4px">
+            <motion.button
+                onClick={handleLikeClick}
+                style={{
+                    marginRight: "10px",
+                    border: "none",
+                    backgroundColor: "transparent",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: "1.6rem",
+                }}
+                whileTap={{ scale: 1.1 }}
+                whileHover={{ scale: 1.2 }}
+            >
+                {isLiked ? (
+                    <MdFavorite style={{ color: "red" }} />
+                ) : (
+                    <MdFavoriteBorder />
+                )}
+            </motion.button>
+            <Text
+                fontSize="0.8rem"
+                as="h2"
+                fontWeight="bold"
+                color="#222222"
+            >{`いいね！${likeCount.toLocaleString()}件`}</Text>
         </HStack>
     );
 };
