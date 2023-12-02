@@ -16,6 +16,7 @@ export function PlanCandidateGalleryCard({ plan, isActive }: Props) {
 
     const getDefaultPlaceImage = (): Image => {
         return {
+            isGoogleImage: false,
             default: "/images/NotFound.jpg",
             small: "/images/NotFound.jpg",
             large: "/images/NotFound.jpg",

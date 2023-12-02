@@ -7,36 +7,43 @@ const bookStore: Place = {
     name: "poroto書店",
     images: [
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/300/400",
             small: "https://picsum.photos/300/400",
             large: "https://picsum.photos/300/400",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/1280/720",
             small: "https://picsum.photos/1280/720",
             large: "https://picsum.photos/1280/720",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/400/600",
             small: "https://picsum.photos/400/600",
             large: "https://picsum.photos/400/600",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/400/600",
             small: "https://picsum.photos/400/600",
             large: "https://picsum.photos/400/600",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/300/400",
             small: "https://picsum.photos/300/400",
             large: "https://picsum.photos/300/400",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/1280/720",
             small: "https://picsum.photos/1280/720",
             large: "https://picsum.photos/1280/720",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/400/600",
             small: "https://picsum.photos/400/600",
             large: "https://picsum.photos/400/600",
@@ -79,16 +86,19 @@ const tokyo: Place = {
     name: "東京駅",
     images: [
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/1280/720",
             small: "https://picsum.photos/1280/720",
             large: "https://picsum.photos/1280/720",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/400/600",
             small: "https://picsum.photos/400/600",
             large: "https://picsum.photos/400/600",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/400/650",
             small: "https://picsum.photos/400/650",
             large: "https://picsum.photos/400/650",
@@ -125,21 +135,25 @@ const marunouchi: Place = {
     name: "東京駅丸の内駅前広場",
     images: [
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/400/400",
             small: "https://picsum.photos/400/400",
             large: "https://picsum.photos/400/400",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/1280/700",
             small: "https://picsum.photos/1280/700",
             large: "https://picsum.photos/1280/700",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/400/500",
             small: "https://picsum.photos/400/500",
             large: "https://picsum.photos/400/500",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/450/600",
             small: "https://picsum.photos/450/600",
             large: "https://picsum.photos/450/600",

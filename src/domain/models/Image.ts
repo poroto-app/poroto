@@ -1,5 +1,6 @@
 export type Image = {
     default: string;
+    isGoogleImage: boolean;
     small: string | null;
     large: string | null;
 };
