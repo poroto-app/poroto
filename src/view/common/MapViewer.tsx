@@ -1,5 +1,5 @@
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
-import {ReactNode, useEffect, useState} from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { GooglePlacesApi } from "src/data/map/GooglePlacesApi";
 
 export type MapViewerProps = {
@@ -23,7 +23,9 @@ export function MapViewer({
 
     useEffect(() => {
         // 再描画を避けるため、同じ座標の場合は何もしない
-        if (center.lat == mapCenter?.lat && center.lng == mapCenter?.lng) return;
+        if (center.lat == mapCenter?.lat && center.lng == mapCenter?.lng) {
+            return;
+        }
         setMapCenter(center);
     }, [center]);
 
