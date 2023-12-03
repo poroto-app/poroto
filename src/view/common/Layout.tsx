@@ -5,10 +5,9 @@ import { Size } from "src/view/constants/size";
 type Props = {
     navBar?: ReactNode;
     children: ReactNode;
-    fillComponent?: ReactNode;
 };
 
-export function Layout({ navBar, children, fillComponent }: Props) {
+export function Layout({ navBar, children }: Props) {
     return (
         <Box
             w="100%"
@@ -26,18 +25,6 @@ export function Layout({ navBar, children, fillComponent }: Props) {
                 justifyContent="flex-start"
                 position="relative"
             >
-                {fillComponent && (
-                    <Box
-                        position="absolute"
-                        top={0}
-                        right={0}
-                        bottom={0}
-                        left={0}
-                        zIndex={0}
-                    >
-                        {fillComponent}
-                    </Box>
-                )}
                 <Box maxWidth={Size.mainContentWidth} w="100%" h="100%">
                     {children}
                 </Box>
