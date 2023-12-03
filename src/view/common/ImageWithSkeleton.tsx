@@ -1,13 +1,11 @@
 import { Box, Image, Skeleton } from "@chakra-ui/react";
 import { useState } from "react";
 import { Asset } from "src/view/constants/asset";
-import { zIndex } from "src/view/constants/zIndex";
 
 type Props = {
     src: string;
     isGoogleImage?: boolean;
-    attributionToLeft?: boolean;
-    attributionShadowBackground?: boolean;
+    attributionToBottom?: boolean;
     attributionPaddingY?: string;
     onClick?: () => void;
 };
@@ -15,11 +13,14 @@ type Props = {
 export function ImageWithSkeleton({
     src,
     isGoogleImage: isGooglePhoto,
-    attributionToLeft = true,
-    attributionShadowBackground = true,
-    attributionPaddingY = "32px",
+    attributionToBottom = true,
+    attributionPaddingY = "24px",
     onClick,
 }: Props) {
+    const gradationBackground = attributionToBottom
+        ? "linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.30) 30%, rgba(0, 0, 0, 0.50) 100%)"
+        : "linear-gradient(0deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.30) 30%, rgba(0, 0, 0, 0.50) 100%)";
+
     const [isLoading, setIsLoading] = useState(true);
     return (
         <Box
@@ -50,28 +51,18 @@ export function ImageWithSkeleton({
                 <Box
                     position="absolute"
                     display="flex"
-                    justifyContent={
-                        attributionToLeft ? "flex-start" : "flex-end"
-                    }
-                    bottom={0}
+                    top={attributionToBottom ? "auto" : 0}
+                    bottom={attributionToBottom ? 0 : "auto"}
                     left={0}
                     right={0}
-                    py={attributionPaddingY}
+                    pt={attributionToBottom ? "32px" : attributionPaddingY}
+                    pb={attributionToBottom ? attributionPaddingY : "32px"}
                     px="24px"
-                    background={
-                        attributionShadowBackground &&
-                        "linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.30) 30%, rgba(0, 0, 0, 0.50) 100%)"
-                    }
+                    background={gradationBackground}
                 >
                     {/*背景色を出さないように指定するときは、画像の上に別で文字を配置するために背景色を指定しているとき*/}
                     {/*その場合は、Googleのロゴがそれに隠れないようにｚIndexを指定する*/}
-                    <Image
-                        zIndex={
-                            !attributionShadowBackground &&
-                            zIndex.googleAttribution
-                        }
-                        src={Asset.image.googleOnNonWhite}
-                    />
+                    <Image src={Asset.image.googleOnNonWhite} />
                 </Box>
             )}
         </Box>

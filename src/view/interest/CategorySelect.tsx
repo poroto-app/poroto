@@ -264,9 +264,7 @@ function PlaceThumbnail({
         <Box w="100%" h="100%" position="relative">
             <ImageWithSkeleton
                 isGoogleImage={placeImage.isGoogleImage}
-                attributionShadowBackground={false}
-                attributionToLeft={false}
-                attributionPaddingY="16px"
+                attributionToBottom={false}
                 src={getImageSizeOf(imageSize, placeImage)}
             />
             <Box

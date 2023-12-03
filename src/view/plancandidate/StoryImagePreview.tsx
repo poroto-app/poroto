@@ -71,6 +71,8 @@ export function StoryImagePreview({
                     <SplideSlide key={i}>
                         <ImageWithSkeleton
                             isGoogleImage={image.isGoogleImage}
+                            attributionToBottom={false}
+                            attributionPaddingY="48px"
                             src={getImageSizeOf(imageSize, image)}
                         />
                     </SplideSlide>
