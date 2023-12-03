@@ -7,7 +7,7 @@ const bookStore: Place = {
     name: "poroto書店",
     images: [
         {
-            isGoogleImage: false,
+            isGoogleImage: true,
             default: "https://picsum.photos/300/400",
             small: "https://picsum.photos/300/400",
             large: "https://picsum.photos/300/400",
@@ -86,7 +86,7 @@ const tokyo: Place = {
     name: "東京駅",
     images: [
         {
-            isGoogleImage: false,
+            isGoogleImage: true,
             default: "https://picsum.photos/1280/720",
             small: "https://picsum.photos/1280/720",
             large: "https://picsum.photos/1280/720",
@@ -135,7 +135,7 @@ const marunouchi: Place = {
     name: "東京駅丸の内駅前広場",
     images: [
         {
-            isGoogleImage: false,
+            isGoogleImage: true,
             default: "https://picsum.photos/400/400",
             small: "https://picsum.photos/400/400",
             large: "https://picsum.photos/400/400",
