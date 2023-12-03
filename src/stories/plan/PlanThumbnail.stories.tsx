@@ -1,6 +1,6 @@
-import {Meta, StoryObj} from "@storybook/react";
-import {PlanThumbnail} from "src/view/plan/PlanThumbnail";
-import {Image} from "src/domain/models/Image";
+import { Meta, StoryObj } from "@storybook/react";
+import { Image } from "src/domain/models/Image";
+import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
 
 export default {
     title: "plan/PlanThumbnail",
@@ -18,12 +18,14 @@ export const Primary: Story = {
             "https://picsum.photos/1280/720",
             "https://picsum.photos/1400/600",
             "https://picsum.photos/800/1600",
-        ].map((url, i): Image => ({
-            isGoogleImage: i % 2 === 0,
-            default: url,
-            small: url,
-            large: url,
-        })),
+        ].map(
+            (url, i): Image => ({
+                isGoogleImage: i % 2 === 0,
+                default: url,
+                small: url,
+                large: url,
+            })
+        ),
     },
 };
 
