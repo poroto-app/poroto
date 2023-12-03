@@ -70,6 +70,7 @@ export function StoryImagePreview({
                 {images.map((image, i) => (
                     <SplideSlide key={i}>
                         <ImageWithSkeleton
+                            isGoogleImage={image.isGoogleImage}
                             src={getImageSizeOf(imageSize, image)}
                         />
                     </SplideSlide>

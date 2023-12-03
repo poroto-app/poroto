@@ -1,12 +1,15 @@
 import { Box, Image, Skeleton } from "@chakra-ui/react";
 import { useState } from "react";
+import { Asset } from "src/view/constants/asset";
 
 type Props = {
     src: string;
+    isGoogleImage?: boolean;
+    
     onClick?: () => void;
 };
 
-export function ImageWithSkeleton({ src, onClick }: Props) {
+export function ImageWithSkeleton({ src, isGoogleImage: isGooglePhoto, onClick }: Props) {
     const [isLoading, setIsLoading] = useState(true);
     return (
         <Box
@@ -33,6 +36,20 @@ export function ImageWithSkeleton({ src, onClick }: Props) {
                 onLoad={() => setIsLoading(false)}
                 scrollSnapAlign="start"
             />
+            {isGooglePhoto && (
+                <Box
+                    position="absolute"
+                    display="flex"
+                    bottom={0}
+                    left={0}
+                    right={0}
+                    py="32px"
+                    px="24px"
+                    background="linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.30) 30%, rgba(0, 0, 0, 0.50) 100%)"
+                >
+                    <Image src={Asset.image.googleOnNonWhite} />
+                </Box>
+            )}
         </Box>
     );
 }
