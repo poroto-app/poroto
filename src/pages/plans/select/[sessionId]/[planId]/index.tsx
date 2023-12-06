@@ -136,6 +136,10 @@ const PlanDetail = () => {
         );
     };
 
+    const handleOptimizeRoute = () => {
+        // TODO: プラン内の場所を歩く距離が最短になるように並び変える関数を呼び出す
+    };
+
     if (!plan) {
         // プラン候補取得失敗
         if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.REJECTED)
