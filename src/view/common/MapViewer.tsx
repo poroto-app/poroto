@@ -1,5 +1,5 @@
 import { GoogleMap, useLoadScript } from "@react-google-maps/api";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { GooglePlacesApi } from "src/data/map/GooglePlacesApi";
 
 export type MapViewerProps = {
@@ -19,6 +19,16 @@ export function MapViewer({
     onClick,
     children,
 }: MapViewerProps) {
+    const [mapCenter, setMapCenter] = useState(center);
+
+    useEffect(() => {
+        // 再描画を避けるため、同じ座標の場合は何もしない
+        if (center.lat == mapCenter?.lat && center.lng == mapCenter?.lng) {
+            return;
+        }
+        setMapCenter(center);
+    }, [center]);
+
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.GCP_API_KEY,
         // MEMO: GooglePlacesAPIと利用するGoogle Maps Javascript APIのバージョンは同じにする必要がある
@@ -34,7 +44,7 @@ export function MapViewer({
     return (
         <GoogleMap
             zoom={zoom}
-            center={center}
+            center={mapCenter}
             mapContainerStyle={{ width: "100%", height: "100%" }}
             options={options && options()}
             onClick={onClick}
