@@ -218,6 +218,16 @@ const PlanDetail = () => {
                     color="white"
                     backgroundColor={Colors.primary["400"]}
                     borderRadius={10}
+                    onClick={handleOptimizeRoute}
+                >
+                    歩く距離を最短にする
+                </Button>
+                <Button
+                    variant="solid"
+                    flex={1}
+                    color="white"
+                    backgroundColor={Colors.primary["400"]}
+                    borderRadius={10}
                     onClick={() =>
                         handleOnSavePlan({ session: createPlanSession, plan })
                     }
