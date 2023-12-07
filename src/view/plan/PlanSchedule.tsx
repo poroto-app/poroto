@@ -1,10 +1,11 @@
-import { Center, Divider, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { Center, Divider, HStack, Icon, Text, VStack, Box } from "@chakra-ui/react";
 import { MdOutlineDirectionsWalk, MdOutlineLocationOn } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import { Transition } from "src/domain/models/Transition";
 import { DateHelper } from "src/domain/util/date";
 import { Colors } from "src/view/constants/color";
+import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
 export type Props = {
     plan: Plan;
@@ -136,6 +137,15 @@ const ListItemPlace = ({
             />
             <VStack alignItems="flex-start" spacing={0}>
                 <Text>{place.name}</Text>
+                <Box w="100%" px="20px">
+                    <PlanPlaceList
+                        plan={{
+                            places: [place],
+                            transitions: [],
+                        }}
+                        createdBasedOnCurrentLocation={false}
+                    />
+                </Box>
                 <Text color="gray">
                     {DateHelper.dateToHHMM(startTime)} -{" "}
                     {DateHelper.dateToHHMM(endTime)}
