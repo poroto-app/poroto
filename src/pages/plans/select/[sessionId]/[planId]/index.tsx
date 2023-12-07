@@ -189,7 +189,7 @@ const PlanDetail = () => {
                             process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE
                         }
                     />
-                    <PlanPageSection title="スケジュール" accordion>
+                    <PlanPageSection title="プラン" accordion>
                         <PlanSchedule
                             plan={plan}
                             startFromCurrentLocation={
