@@ -38,12 +38,9 @@ export function PlanPlaceList({
     onClickDeletePlace,
 }: Props) {
     const schedules = generateSchedules({ places: plan.places, startTime });
-    const transitionFromCurrentLocation = plan.transitions.find(
-        (t) => !t.fromPlaceId
-    );
 
     return (
-        <VStack spacing="16px" w="100%">
+        <VStack spacing="0" w="100%">
             {createdBasedOnCurrentLocation && (
                 <PlacePreview
                     name="現在地"
@@ -55,64 +52,86 @@ export function PlanPlaceList({
                 />
             )}
             {plan.places.map((place, i) => (
-                <VStack key={i} w="100%">
-                    <VStack
-                        spacing="16px"
-                        w="100%"
-                        pl="24px"
-                        position="relative"
-                    >
-                        <PlacePreview
-                            name={place.name}
-                            images={place.images}
-                            googlePlaceReviews={place.googlePlaceReviews}
-                            categories={place.categories}
-                            priceRange={place.priceRange}
-                            estimatedStayDuration={place.estimatedStayDuration}
-                            onClickShowRelatedPlaces={
-                                onClickShowRelatedPlaces
-                                    ? () => onClickShowRelatedPlaces(place.id)
-                                    : undefined
-                            }
-                            onClickDeletePlace={
-                                onClickDeletePlace
-                                    ? () => onClickDeletePlace(place.id)
-                                    : undefined
-                            }
-                        />
-                        {onClickAddPlace && (
-                            <Center
-                                as="button"
-                                color="#BD9F8E"
-                                border="1.5px solid #BD9F8E"
-                                borderRadius="20px"
-                                w="100%"
-                                py="4px"
-                                onClick={() =>
-                                    onClickAddPlace({
-                                        previousPlaceId: place.id,
-                                    })
-                                }
-                            >
-                                <Icon as={MdAdd} />
-                            </Center>
-                        )}
-                        {/* スケジュールを表すバー */}
-                        <Box
-                            w="8px"
-                            backgroundColor="#ECCEAC"
-                            position="absolute"
-                            top="-16px"
-                            bottom="-16px"
-                            left="4px"
-                        />
-                    </VStack>
+                <VStack key={i} w="100%" spacing={0}>
+                    <ScheduleListItem time={schedules[i].startTime} />
+                    <PlaceListItem
+                        place={place}
+                        onClickAddPlace={onClickAddPlace}
+                        onClickShowRelatedPlaces={onClickShowRelatedPlaces}
+                        onClickDeletePlace={onClickDeletePlace}
+                    />
                     <ScheduleListItem time={schedules[i].endTime} />
+                    <ListItemWalk
+                        transition={plan.transitions.find(
+                            (t) => t.fromPlaceId == place.id
+                        )}
+                    />
                 </VStack>
             ))}
         </VStack>
     );
 }
+
+const PlaceListItem = ({
+    place,
+    onClickAddPlace,
+    onClickShowRelatedPlaces,
+    onClickDeletePlace,
+}: {
+    place: Place;
+    onClickAddPlace?: (props: { previousPlaceId: string }) => void;
+    onClickShowRelatedPlaces?: (placeId: string) => void;
+    onClickDeletePlace?: (placeId: string) => void;
+}) => {
+    return (
+        <VStack spacing="16px" w="100%" pl="24px" position="relative">
+            <PlacePreview
+                name={place.name}
+                images={place.images}
+                googlePlaceReviews={place.googlePlaceReviews}
+                categories={place.categories}
+                priceRange={place.priceRange}
+                estimatedStayDuration={place.estimatedStayDuration}
+                onClickShowRelatedPlaces={
+                    onClickShowRelatedPlaces
+                        ? () => onClickShowRelatedPlaces(place.id)
+                        : undefined
+                }
+                onClickDeletePlace={
+                    onClickDeletePlace
+                        ? () => onClickDeletePlace(place.id)
+                        : undefined
+                }
+            />
+            {onClickAddPlace && (
+                <Center
+                    as="button"
+                    color="#BD9F8E"
+                    border="1.5px solid #BD9F8E"
+                    borderRadius="20px"
+                    w="100%"
+                    py="4px"
+                    onClick={() =>
+                        onClickAddPlace({
+                            previousPlaceId: place.id,
+                        })
+                    }
+                >
+                    <Icon as={MdAdd} />
+                </Center>
+            )}
+            {/* スケジュールを表すバー */}
+            <Box
+                w="8px"
+                backgroundColor="#ECCEAC"
+                position="absolute"
+                top="-16px"
+                bottom="-16px"
+                left="4px"
+            />
+        </VStack>
+    );
+};
 
 function generateSchedules({
     places,
@@ -158,24 +177,30 @@ const ScheduleListItem = ({ time }: { time: Date }) => {
 };
 
 const ListItemWalk = ({ transition }: { transition: Transition }) => {
+    if (!transition) return <></>;
+
     return (
-        <HStack>
-            <Center w="20px" h="20px">
-                <Divider
-                    orientation="vertical"
-                    borderColor="rgba(0,0,0,.3)"
-                    borderStyle="dashed"
-                />
-            </Center>
-            <Icon
-                as={MdOutlineDirectionsWalk}
-                w="20px"
-                h="20px"
-                color={Colors.beige["400"]}
+        <HStack w="100%" position="relative">
+            <Divider
+                position="absolute"
+                left="8px"
+                top="0"
+                bottom="0"
+                orientation="vertical"
+                borderColor="rgba(0,0,0,.3)"
+                borderStyle="dashed"
             />
-            <VStack alignItems="flex-start" spacing={0}>
-                <Text>{transition.durationInMinutes}分</Text>
-            </VStack>
+            <HStack w="100%" py="12px" pl="20px">
+                <Icon
+                    as={MdOutlineDirectionsWalk}
+                    w="20px"
+                    h="20px"
+                    color={Colors.beige["400"]}
+                />
+                <VStack alignItems="flex-start" spacing={0}>
+                    <Text>{transition.durationInMinutes}分</Text>
+                </VStack>
+            </HStack>
         </HStack>
     );
 };
