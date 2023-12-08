@@ -151,7 +151,12 @@ const PlanDetail = () => {
     return (
         <>
             <Center flexDirection="column" pb={`${FooterHeight}px`}>
-                <NavBar canGoBack />
+                <NavBar
+                    canGoBack
+                    defaultPath={Routes.plans.planCandidate.index(
+                        sessionId as string
+                    )}
+                />
                 <VStack
                     maxWidth="990px"
                     w="100%"
