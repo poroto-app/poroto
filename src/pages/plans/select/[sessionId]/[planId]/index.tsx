@@ -1,4 +1,4 @@
-import { Box, Button, Center, VStack } from "@chakra-ui/react";
+import { Button, Center, VStack } from "@chakra-ui/react";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -34,7 +34,6 @@ import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSum
 import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
 import { DialogDeletePlace } from "src/view/plancandidate/DialogDeletePlace";
 import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
-import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
 const PlanDetail = () => {
     const router = useRouter();
