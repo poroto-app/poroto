@@ -37,30 +37,42 @@ export function PlanPlaceList({
     onClickShowRelatedPlaces,
     onClickDeletePlace,
 }: Props) {
-    const schedules = generateSchedules({ places: plan.places, startTime, transitions: plan.transitions });
+    const schedules = generateSchedules({
+        places: plan.places,
+        startTime,
+        transitions: plan.transitions,
+    });
 
     return (
         <VStack spacing="0" w="100%">
-            {createdBasedOnCurrentLocation && <VStack w="100%" spacing={0}>
-                <ScheduleListItem label="現在地" />
-                <ListItemWalk
+            {createdBasedOnCurrentLocation && (
+                <VStack w="100%" spacing={0}>
+                    <ScheduleListItem label="現在地" />
+                    <ListItemWalk
                         transition={plan.transitions.find(
                             // 現在地から最初の場所への移動ではPlaceがないので、fromPlaceIdがnullのものを取得する
                             (t) => t.fromPlaceId == null
                         )}
                     />
-            </VStack>}
+                </VStack>
+            )}
             {plan.places.map((place, i) => (
                 <VStack key={i} w="100%" spacing="0">
                     <VStack key={i} w="100%" spacing="16px">
-                        <ScheduleListItem label={DateHelper.dateToHHMM(schedules[i].startTime)} />
+                        <ScheduleListItem
+                            label={DateHelper.dateToHHMM(
+                                schedules[i].startTime
+                            )}
+                        />
                         <PlaceListItem
                             place={place}
                             onClickAddPlace={onClickAddPlace}
                             onClickShowRelatedPlaces={onClickShowRelatedPlaces}
                             onClickDeletePlace={onClickDeletePlace}
                         />
-                        <ScheduleListItem label={DateHelper.dateToHHMM(schedules[i].endTime)} />
+                        <ScheduleListItem
+                            label={DateHelper.dateToHHMM(schedules[i].endTime)}
+                        />
                     </VStack>
                     <ListItemWalk
                         transition={plan.transitions.find(
@@ -101,7 +113,6 @@ function generateSchedules({
         );
     }
 
-
     const schedules = [];
     for (const place of places) {
         const endTime = DateHelper.add(
@@ -113,7 +124,7 @@ function generateSchedules({
         // 次の場所の開始時間は、この場所からの移動時間を考慮する
         startTime = endTime;
         const transition = transitions.find((t) => t.fromPlaceId == place.id);
-        if(transition) {
+        if (transition) {
             startTime = DateHelper.add(
                 endTime,
                 transition.durationInMinutes * 60 * 1000
