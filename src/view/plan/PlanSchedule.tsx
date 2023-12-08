@@ -141,9 +141,7 @@ const ListItemPlace = ({
                 <PlanPlaceList
                     plan={{
                         places: [place],
-                        transitions: [],
                     }}
-                    createdBasedOnCurrentLocation={false}
                 />
             </Box>
             <HStack w="100%" spacing={4}>
