@@ -1,49 +1,40 @@
 import { Link } from "@chakra-ui/next-js";
-import { Skeleton } from "@chakra-ui/react";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
+import { Box } from "@chakra-ui/react";
 import "@splidejs/splide/css";
 import { ReactNode } from "react";
-import styled from "styled-components";
+import {
+    getDefaultPlaceImage,
+    Image,
+    ImageSize,
+    ImageSizes,
+} from "src/domain/models/Image";
+import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 
 type Props = {
-    imageUrls: string[];
+    images: Image[];
+    imageSize?: ImageSize;
     link?: string;
 };
 
-export const PlanThumbnail = ({ imageUrls, link }: Props) => {
-    imageUrls = imageUrls.slice(0, 4);
+export const PlanThumbnail = ({
+    images,
+    imageSize = ImageSizes.Small,
+    link,
+}: Props) => {
+    if (images.length === 0) {
+        images.push(getDefaultPlaceImage());
+    }
 
     return (
-        <SlideContainer
-            options={{
-                drag: imageUrls.length > 1,
-                arrows: imageUrls.length > 1,
-            }}
-        >
-            {imageUrls.map((url, i) => (
-                <SlideItem key={i}>
-                    {/*ページングのボタンを押したときにページ遷移しないようにするため*/}
-                    {link ? (
-                        <LinkWrapper href={link}>
-                            <Thumbnail src={url} />
-                        </LinkWrapper>
-                    ) : (
-                        <Thumbnail src={url} />
-                    )}
-                </SlideItem>
-            ))}
-            {/*TODO: 画像が無いときのプレースホルダーを用意する*/}
-            {imageUrls.length > 0 && (
-                <Skeleton
-                    position="absolute"
-                    top="0"
-                    right="0"
-                    bottom="0"
-                    left="0"
-                    zIndex="-1"
+        <Box w="100%" h="300px">
+            <LinkWrapper href={link}>
+                <ImageSliderPreview
+                    images={images}
+                    imageSize={imageSize}
+                    borderRadius="10px"
                 />
-            )}
-        </SlideContainer>
+            </LinkWrapper>
+        </Box>
     );
 };
 
@@ -62,68 +53,3 @@ function LinkWrapper({
         );
     return <>{children}</>;
 }
-
-const SlideContainer = styled(Splide)`
-    width: 100%;
-    height: 300px;
-    border-radius: 10px;
-    overflow: hidden;
-    cursor: pointer;
-    position: relative;
-
-    & > .splide__track {
-        height: 100%;
-    }
-
-    & > .splide__pagination > li > button {
-        opacity: 1;
-        box-shadow: 0 0 0 1px transparent, 0 0 0 4px transparent,
-            0 2px 4px rgba(0, 0, 0, 0.18);
-    }
-
-    & > .splide__arrows {
-        opacity: 0;
-
-        & > .splide__arrow {
-            background-color: white;
-            box-shadow: 0 0 0 1px transparent, 0 0 0 4px transparent,
-                0 2px 4px rgba(0, 0, 0, 0.18);
-            z-index: 1;
-
-            &:disabled {
-                opacity: 0;
-            }
-
-            &:hover {
-                opacity: 1;
-                z-index: 99;
-            }
-
-            > svg {
-                width: 12px;
-                height: 12px;
-            }
-        }
-    }
-
-    // pcでホバーをしたときだけ矢印を表示する
-    @media screen and (min-width: 700px) {
-        &:hover {
-            & > .splide__arrows {
-                opacity: 1;
-            }
-        }
-    }
-`;
-
-const SlideItem = styled(SplideSlide)`
-    width: 100%;
-    height: 100%;
-`;
-
-const Thumbnail = styled.img`
-    overflow: clip;
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-`;

@@ -1,4 +1,4 @@
-import { Box, Button, Center, VStack } from "@chakra-ui/react";
+import { Button, Center, VStack } from "@chakra-ui/react";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -28,7 +28,6 @@ import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteBy
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
-import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
@@ -151,7 +150,12 @@ const PlanDetail = () => {
     return (
         <>
             <Center flexDirection="column" pb={`${FooterHeight}px`}>
-                <NavBar canGoBack />
+                <NavBar
+                    canGoBack
+                    defaultPath={Routes.plans.planCandidate.index(
+                        sessionId as string
+                    )}
+                />
                 <VStack
                     maxWidth="990px"
                     w="100%"
@@ -165,7 +169,12 @@ const PlanDetail = () => {
                         planDurationInMinutes={plan.timeInMinutes}
                         planRange={getPlanPriceRange(plan.places)}
                     />
-                    <Box w="100%" px="20px">
+                    <AdInArticle
+                        adSlot={
+                            process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE
+                        }
+                    />
+                    <PlanPageSection title="プラン">
                         <PlanPlaceList
                             plan={plan}
                             createdBasedOnCurrentLocation={
@@ -181,19 +190,6 @@ const PlanDetail = () => {
                             }
                             onClickDeletePlace={(placeId) =>
                                 showDialogToDelete({ placeIdToDelete: placeId })
-                            }
-                        />
-                    </Box>
-                    <AdInArticle
-                        adSlot={
-                            process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE
-                        }
-                    />
-                    <PlanPageSection title="スケジュール" accordion>
-                        <PlanSchedule
-                            plan={plan}
-                            startFromCurrentLocation={
-                                createdBasedOnCurrentLocation
                             }
                         />
                     </PlanPageSection>

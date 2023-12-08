@@ -13,9 +13,11 @@ import styled from "styled-components";
 type Props = {
     canGoBack?: boolean;
     onBack?: () => void;
+    // 履歴がないときに戻るときのデフォルトのパス
+    defaultPath?: string;
 };
 
-export const NavBar = ({ canGoBack }: Props) => {
+export const NavBar = ({ canGoBack, defaultPath }: Props) => {
     const router = useRouter();
     const { historyStack } = reduxHistorySelector();
     const { user, signInWithGoogle, logout } = useAuth();
@@ -26,7 +28,8 @@ export const NavBar = ({ canGoBack }: Props) => {
 
         // 一つ前のページがporotoのページでない
         if (historyStack.length <= 1) {
-            await router.push("/");
+            if (defaultPath) await router.push(defaultPath);
+            else await router.push("/");
             return;
         }
 

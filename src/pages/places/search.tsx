@@ -1,4 +1,4 @@
-import { Box, VStack } from "@chakra-ui/react";
+import { Box, Center, VStack } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -22,12 +22,12 @@ import {
     setSelectedLocation,
 } from "src/redux/placeSearch";
 import { useAppDispatch } from "src/redux/redux";
-import { Layout } from "src/view/common/Layout";
 import { NavBar } from "src/view/common/NavBar";
 import { RoundedIconButton } from "src/view/common/RoundedIconButton";
 import { locationSinjukuStation } from "src/view/constants/location";
 import { PageMetaData } from "src/view/constants/meta";
 import { Routes } from "src/view/constants/router";
+import { Size } from "src/view/constants/size";
 import { zIndex } from "src/view/constants/zIndex";
 import { useLocation } from "src/view/hooks/useLocation";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
@@ -150,72 +150,87 @@ function PlaceSearchPage() {
         );
 
     return (
-        <Layout
-            navBar={<NavBar />}
-            fillComponent={
-                <MapPinSelector
-                    center={mapCenter}
-                    onSelectLocation={handleOnSelectLocation}
-                    pinnedLocation={placeSelected?.location}
-                />
-            }
-        >
-            <VStack
-                w="100%"
-                h="100%"
-                pt="24px"
-                px="8px"
-                spacing={4}
-                position="relative"
-                zIndex={10}
-            >
-                <Box w="100%">
-                    <PlaceSearchBar onSearch={handleOnSearch} />
-                </Box>
-                <Box
-                    w="100%"
-                    backgroundColor="white"
-                    borderRadius={5}
-                    boxShadow={
-                        placeSearchResults &&
-                        placeSearchResults.length !== 0 &&
-                        "0px 5px 20px 0px rgb(0 0 0 / 10%)"
-                    }
-                >
-                    <PlaceSearchResults
-                        places={(placeSearchResults || []).slice(0, 5)}
-                        onClickPlace={handleOnClickPlace}
+        <VStack w="100%" h="100%" spacing={0}>
+            <Head>
+                <title>好きな場所からプランを作る | poroto</title>
+            </Head>
+            <NavBar />
+            <VStack w="100%" h="100%" position="relative">
+                <Box position="absolute" top={0} right={0} bottom={0} left={0}>
+                    <MapPinSelector
+                        center={mapCenter}
+                        onSelectLocation={handleOnSelectLocation}
+                        pinnedLocation={placeSelected?.location}
                     />
                 </Box>
-            </VStack>
-            {/*
+                <VStack
+                    w="100%"
+                    maxW={Size.mainContentWidth}
+                    pt="24px"
+                    px="8px"
+                    spacing={4}
+                    position="relative"
+                    zIndex={10}
+                >
+                    <Box w="100%">
+                        <PlaceSearchBar onSearch={handleOnSearch} />
+                    </Box>
+                    <Box
+                        w="100%"
+                        backgroundColor="white"
+                        borderRadius={5}
+                        boxShadow={
+                            placeSearchResults &&
+                            placeSearchResults.length !== 0 &&
+                            "0px 5px 20px 0px rgb(0 0 0 / 10%)"
+                        }
+                    >
+                        <PlaceSearchResults
+                            places={(placeSearchResults || []).slice(0, 5)}
+                            onClickPlace={handleOnClickPlace}
+                        />
+                    </Box>
+                </VStack>
+                {/*
             MEMO:
             `space-between` で余白をつけようとすると、その部分を選択できなくなってしまうため、
             `position: fixed;` で位置を調整している
          */}
-            <Box
-                position="fixed"
-                left={0}
-                bottom="32px"
-                right={0}
-                px="8px"
-                zIndex={zIndex.footer}
-            >
-                <Head>
-                    <title>好きな場所からプランを作る | poroto</title>
-                </Head>
-                <Layout>
-                    <RoundedIconButton
-                        icon={placeSelected ? MdDone : MdOutlineTouchApp}
-                        disabled={placeSelected === null}
-                        onClick={handleOnCreatePlan}
-                    >
-                        {placeSelected
-                            ? "指定した場所からプランを作成"
-                            : "タップして場所を選択"}
-                    </RoundedIconButton>
-                </Layout>
-            </Box>
-        </Layout>
+                <SearchButton
+                    placeSelected={placeSelected !== null}
+                    onClick={handleOnCreatePlan}
+                />
+            </VStack>
+        </VStack>
     );
 }
+
+const SearchButton = ({
+    placeSelected,
+    onClick,
+}: {
+    placeSelected: boolean;
+    onClick: () => void;
+}) => {
+    return (
+        <Center
+            position="fixed"
+            left={0}
+            bottom={0}
+            right={0}
+            zIndex={zIndex.footer}
+        >
+            <Box px="8px" pb="32px" w="100%" maxW={Size.mainContentWidth}>
+                <RoundedIconButton
+                    icon={placeSelected ? MdDone : MdOutlineTouchApp}
+                    disabled={!placeSelected}
+                    onClick={onClick}
+                >
+                    {placeSelected
+                        ? "タップして場所を選択"
+                        : "指定した場所からプランを作成"}
+                </RoundedIconButton>
+            </Box>
+        </Center>
+    );
+};

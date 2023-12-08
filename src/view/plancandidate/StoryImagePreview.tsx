@@ -70,6 +70,9 @@ export function StoryImagePreview({
                 {images.map((image, i) => (
                     <SplideSlide key={i}>
                         <ImageWithSkeleton
+                            isGoogleImage={image.isGoogleImage}
+                            attributionToBottom={false}
+                            attributionPaddingY="48px"
                             src={getImageSizeOf(imageSize, image)}
                         />
                     </SplideSlide>
