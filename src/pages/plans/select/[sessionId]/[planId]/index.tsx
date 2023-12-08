@@ -165,31 +165,12 @@ const PlanDetail = () => {
                         planDurationInMinutes={plan.timeInMinutes}
                         planRange={getPlanPriceRange(plan.places)}
                     />
-                    <Box w="100%" px="20px">
-                        <PlanPlaceList
-                            plan={plan}
-                            createdBasedOnCurrentLocation={
-                                createdBasedOnCurrentLocation
-                            }
-                            onClickAddPlace={({ previousPlaceId }) =>
-                                showPlacesToAdd({
-                                    basePlaceIdToAdd: previousPlaceId,
-                                })
-                            }
-                            onClickShowRelatedPlaces={(placeId) =>
-                                showRelatedPlaces(placeId)
-                            }
-                            onClickDeletePlace={(placeId) =>
-                                showDialogToDelete({ placeIdToDelete: placeId })
-                            }
-                        />
-                    </Box>
                     <AdInArticle
                         adSlot={
                             process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE
                         }
                     />
-                    <PlanPageSection title="プラン" accordion>
+                    <PlanPageSection title="プラン">
                         <PlanSchedule
                             plan={plan}
                             startFromCurrentLocation={
