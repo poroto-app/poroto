@@ -91,7 +91,7 @@ export default function PlanPage() {
                     planDurationInMinutes={plan.timeInMinutes}
                     planRange={getPlanPriceRange(plan.places)}
                 />
-                <PlanPageSection title="プラン" accordion>
+                <PlanPageSection title="プラン">
                     <PlanSchedule plan={plan} />
                 </PlanPageSection>
                 <PlanPageSection title="プラン内の場所">
