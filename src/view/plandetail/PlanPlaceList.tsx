@@ -41,27 +41,26 @@ export function PlanPlaceList({
 
     return (
         <VStack spacing="0" w="100%">
-            {createdBasedOnCurrentLocation && (
-                <PlacePreview
-                    name="現在地"
-                    images={[]}
-                    categories={[]}
-                    googlePlaceReviews={[]}
-                    priceRange={null}
-                    estimatedStayDuration={0}
-                />
-            )}
+            {createdBasedOnCurrentLocation && <VStack w="100%" spacing={0}>
+                <ScheduleListItem label="現在地" />
+                <ListItemWalk
+                        transition={plan.transitions.find(
+                            // 現在地から最初の場所への移動ではPlaceがないので、fromPlaceIdがnullのものを取得する
+                            (t) => t.fromPlaceId == null
+                        )}
+                    />
+            </VStack>}
             {plan.places.map((place, i) => (
                 <VStack key={i} w="100%" spacing="0">
                     <VStack key={i} w="100%" spacing="16px">
-                        <ScheduleListItem time={schedules[i].startTime} />
+                        <ScheduleListItem label={DateHelper.dateToHHMM(schedules[i].startTime)} />
                         <PlaceListItem
                             place={place}
                             onClickAddPlace={onClickAddPlace}
                             onClickShowRelatedPlaces={onClickShowRelatedPlaces}
                             onClickDeletePlace={onClickDeletePlace}
                         />
-                        <ScheduleListItem time={schedules[i].endTime} />
+                        <ScheduleListItem label={DateHelper.dateToHHMM(schedules[i].endTime)} />
                     </VStack>
                     <ListItemWalk
                         transition={plan.transitions.find(
@@ -159,7 +158,7 @@ function generateSchedules({
     return schedules;
 }
 
-const ScheduleListItem = ({ time }: { time: Date }) => {
+const ScheduleListItem = ({ label }: { label }) => {
     return (
         <HStack w="100%" spacing={4}>
             <Box
@@ -172,7 +171,7 @@ const ScheduleListItem = ({ time }: { time: Date }) => {
                 zIndex={1}
             />
             <Text fontWeight="bold" fontSize="16px">
-                {DateHelper.dateToHHMM(time)}
+                {label}
             </Text>
         </HStack>
     );
