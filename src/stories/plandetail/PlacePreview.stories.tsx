@@ -48,6 +48,7 @@ export const Loading: Story = {
             "https://example.com/photo/c",
             "https://example.com/photo/d",
         ].map((url) => ({
+            isGoogleImage: false,
             default: url,
             small: url,
             large: url,

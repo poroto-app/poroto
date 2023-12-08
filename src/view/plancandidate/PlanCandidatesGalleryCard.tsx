@@ -1,7 +1,7 @@
 import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import "@splidejs/splide/css";
 import { useState } from "react";
-import { Image } from "src/domain/models/Image";
+import { getDefaultPlaceImage, Image } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { StoryImagePreview } from "src/view/plancandidate/StoryImagePreview";
@@ -14,15 +14,6 @@ type Props = {
 export function PlanCandidateGalleryCard({ plan, isActive }: Props) {
     const [currentPlaceIndex, setCurrentPlaceIndex] = useState<number>(0);
 
-    const getDefaultPlaceImage = (): Image => {
-        return {
-            default: "/images/NotFound.jpg",
-            small: "/images/NotFound.jpg",
-            large: "/images/NotFound.jpg",
-        };
-    };
-
-    // TODO: 画像がない場合の処理
     const images: Image[] = plan.places.map((place) =>
         place.images.length > 0 ? place.images[0] : getDefaultPlaceImage()
     );
