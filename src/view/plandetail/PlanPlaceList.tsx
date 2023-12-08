@@ -37,7 +37,7 @@ export function PlanPlaceList({
     onClickShowRelatedPlaces,
     onClickDeletePlace,
 }: Props) {
-    const schedules = generateSchedules({ places: plan.places, startTime });
+    const schedules = generateSchedules({ places: plan.places, startTime, transitions: plan.transitions });
 
     return (
         <VStack spacing="0" w="100%">
@@ -71,6 +71,56 @@ export function PlanPlaceList({
             ))}
         </VStack>
     );
+}
+
+/**
+ * 各場所の滞在開始時間・終了時間を計算する
+ */
+function generateSchedules({
+    places,
+    startTime,
+    transitions,
+}: {
+    places: Place[];
+    startTime: Date;
+    createdBasedOnCurrentLocation?: boolean;
+    transitions: Transition[];
+}): {
+    startTime: Date;
+    endTime: Date;
+}[] {
+    // 最初の場所の滞在開始時間は
+    // 現在地から最初の場所への移動がある場合は、その移動時間を考慮する
+    const transitionFromCurrentLocation = transitions.find(
+        (t) => t.fromPlaceId == null
+    );
+    if (transitionFromCurrentLocation) {
+        startTime = DateHelper.add(
+            startTime,
+            transitionFromCurrentLocation.durationInMinutes * 60 * 1000
+        );
+    }
+
+
+    const schedules = [];
+    for (const place of places) {
+        const endTime = DateHelper.add(
+            startTime,
+            place.estimatedStayDuration * 60 * 1000
+        );
+        schedules.push({ startTime, endTime });
+
+        // 次の場所の開始時間は、この場所からの移動時間を考慮する
+        startTime = endTime;
+        const transition = transitions.find((t) => t.fromPlaceId == place.id);
+        if(transition) {
+            startTime = DateHelper.add(
+                endTime,
+                transition.durationInMinutes * 60 * 1000
+            );
+        }
+    }
+    return schedules;
 }
 
 const PlaceListItem = ({
@@ -133,30 +183,6 @@ const PlaceListItem = ({
         </VStack>
     );
 };
-
-function generateSchedules({
-    places,
-    startTime,
-}: {
-    places: Place[];
-    startTime: Date;
-}): {
-    startTime: Date;
-    endTime: Date;
-}[] {
-    const schedules = [];
-    for (const place of places) {
-        const endTime = DateHelper.add(
-            startTime,
-            place.estimatedStayDuration * 60 * 1000
-        );
-        schedules.push({ startTime, endTime });
-
-        // TODO: 移動時間を考慮する
-        startTime = endTime;
-    }
-    return schedules;
-}
 
 const ScheduleListItem = ({ label }: { label }) => {
     return (
