@@ -1,4 +1,4 @@
-import { Center, Divider, HStack, Icon, Text, VStack, Box } from "@chakra-ui/react";
+import { Center, Divider, HStack, Icon, Text, VStack, Box, Circle} from "@chakra-ui/react";
 import { MdOutlineDirectionsWalk, MdOutlineLocationOn } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
@@ -6,6 +6,7 @@ import { Transition } from "src/domain/models/Transition";
 import { DateHelper } from "src/domain/util/date";
 import { Colors } from "src/view/constants/color";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
+import styled from 'styled-components';
 
 export type Props = {
     plan: Plan;
@@ -128,38 +129,38 @@ const ListItemPlace = ({
     endTime: Date;
 }) => {
     return (
-        <HStack spacing={4}>
-            <Icon
-                as={MdOutlineLocationOn}
-                w="20px"
-                h="20px"
-                color={Colors.beige["400"]}
-            />
-            <VStack alignItems="flex-start" spacing={0}>
-                <Text>{place.name}</Text>
-                <Box w="100%" px="20px">
-                    <PlanPlaceList
-                        plan={{
-                            places: [place],
-                            transitions: [],
-                        }}
-                        createdBasedOnCurrentLocation={false}
-                    />
-                </Box>
-                <Text color="gray">
-                    {DateHelper.dateToHHMM(startTime)} -{" "}
-                    {DateHelper.dateToHHMM(endTime)}
+        <VStack align="flex-start" w={"100%"}>
+            <HStack w="100%" spacing={4}>
+                <div><Donut /></div>
+                <Text fontWeight="bold" fontSize="16px">
+                        {DateHelper.dateToHHMM(startTime)}
+                </Text> 
+            </HStack>
+            <Box w="100%" alignItems="stretch" pl="24px" position="relative">
+                <Box w="8px" backgroundColor='#ECCEAC' position= 'absolute' top='-12px' bottom='-12px' left='4px'></Box>
+                <PlanPlaceList
+                    plan={{
+                        places: [place],
+                        transitions: [],
+                    }}
+                    createdBasedOnCurrentLocation={false}
+                />
+            </Box>
+            <HStack w="100%" spacing={4}>
+                <div><Donut /></div>
+                <Text fontWeight="bold" fontSize="16px">
+                        {DateHelper.dateToHHMM(endTime)}
                 </Text>
-            </VStack>
-        </HStack>
+            </HStack>
+        </VStack>
     );
-};
+}
 
 const ListItemWalk = ({ transition }: { transition: Transition }) => {
     return (
         <HStack>
             <Center w="20px" h="20px">
-                <Divider orientation="vertical" borderColor="rgba(0,0,0,.3)" />
+                <Divider orientation="vertical" borderColor="rgba(0,0,0,.3)" borderStyle="dashed" />
             </Center>
             <Icon
                 as={MdOutlineDirectionsWalk}
@@ -168,8 +169,17 @@ const ListItemWalk = ({ transition }: { transition: Transition }) => {
                 color={Colors.beige["400"]}
             />
             <VStack alignItems="flex-start" spacing={0}>
-                <Text color="gray">{transition.durationInMinutes}分</Text>
+                <Text>{transition.durationInMinutes}分</Text>
             </VStack>
         </HStack>
     );
 };
+
+const Donut = styled.div`
+  width: 16px;
+  height: 16px;
+  border: 4px solid transparent;
+  border-radius: 50%;
+  outline: 4px solid #ECCEAC;
+  background-color: white;
+`;
