@@ -175,6 +175,17 @@ const PlanDetail = () => {
                             createdBasedOnCurrentLocation={
                                 createdBasedOnCurrentLocation
                             }
+                            onClickAddPlace={({ previousPlaceId }) =>
+                                showPlacesToAdd({
+                                    basePlaceIdToAdd: previousPlaceId,
+                                })
+                            }
+                            onClickShowRelatedPlaces={(placeId) =>
+                                showRelatedPlaces(placeId)
+                            }
+                            onClickDeletePlace={(placeId) =>
+                                showDialogToDelete({ placeIdToDelete: placeId })
+                            }
                         />
                     </PlanPageSection>
                     <PlanPageSection title="プラン内の場所">
