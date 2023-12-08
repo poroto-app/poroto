@@ -22,9 +22,9 @@ import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
 import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
-import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
+import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -92,7 +92,7 @@ export default function PlanPage() {
                     planRange={getPlanPriceRange(plan.places)}
                 />
                 <PlanPageSection title="プラン">
-                    <PlanSchedule plan={plan} />
+                    <PlanPlaceList plan={plan} />
                 </PlanPageSection>
                 <PlanPageSection title="プラン内の場所">
                     <PlaceMap places={plan.places} />

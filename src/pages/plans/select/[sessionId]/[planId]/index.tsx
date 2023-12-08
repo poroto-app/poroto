@@ -28,12 +28,12 @@ import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteBy
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
-import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
 import { DialogDeletePlace } from "src/view/plancandidate/DialogDeletePlace";
 import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
+import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
 const PlanDetail = () => {
     const router = useRouter();
@@ -170,9 +170,9 @@ const PlanDetail = () => {
                         }
                     />
                     <PlanPageSection title="プラン">
-                        <PlanSchedule
+                        <PlanPlaceList
                             plan={plan}
-                            startFromCurrentLocation={
+                            createdBasedOnCurrentLocation={
                                 createdBasedOnCurrentLocation
                             }
                         />
