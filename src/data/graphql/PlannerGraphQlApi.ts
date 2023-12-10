@@ -12,6 +12,7 @@ import {
     FetchPlansDocument,
     NearbyPlaceCategoriesDocument,
     PlacesToAddForPlanOfPlanCandidateDocument,
+    PlacesToReplaceForPlanOfPlanCandidateDocument,
     PlansByLocationDocument,
     PlansByUserDocument,
     ReplacePlaceOfPlanCandidateDocument,
@@ -34,6 +35,8 @@ import {
     FetchNearbyPlaceCategoriesRequest,
     FetchNearbyPlaceCategoriesResponse,
     FetchPlacesToAddForPlanOfPlanCandidateRequest,
+    FetchPlacesToReplaceForPlanOfPlanCandidateRequest,
+    FetchPlacesToReplaceForPlanOfPlanCandidateResponse,
     FetchPlanRequest,
     FetchPlanResponse,
     FetchPlansByLocationRequest,
@@ -207,19 +210,20 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     }
 
     async fetchPlacesToReplaceForPlanOfPlanCandidate(
-        request: FetchPlacesToAddForPlanOfPlanCandidateRequest
-    ) {
+        request: FetchPlacesToReplaceForPlanOfPlanCandidateRequest
+    ): Promise<FetchPlacesToReplaceForPlanOfPlanCandidateResponse> {
         const { data } = await this.client.query({
-            query: PlacesToAddForPlanOfPlanCandidateDocument,
+            query: PlacesToReplaceForPlanOfPlanCandidateDocument,
             variables: {
                 input: {
                     planCandidateId: request.planCandidateId,
                     planId: request.planId,
+                    placeId: request.placeId,
                 },
             },
         });
         return {
-            places: data.placesToAddForPlanCandidate.places.map((place) =>
+            places: data.placesToReplaceForPlanCandidate.places.map((place) =>
                 fromGraphqlPlaceEntity(place)
             ),
         };
