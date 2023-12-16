@@ -11,6 +11,7 @@ import {
     reduxPlanCandidateSelector,
     resetPlanCandidates,
     savePlanFromCandidate,
+    updateLikeAtPlaceInPlanCandidate,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { AdInArticle } from "src/view/ad/AdInArticle";
@@ -190,6 +191,15 @@ const PlanDetail = () => {
                             }
                             onClickDeletePlace={(placeId) =>
                                 showDialogToDelete({ placeIdToDelete: placeId })
+                            }
+                            onUpdateLikeAtPlace={({ like, placeId }) =>
+                                dispatch(
+                                    updateLikeAtPlaceInPlanCandidate({
+                                        placeId,
+                                        like,
+                                        planCandidateId: sessionId as string,
+                                    })
+                                )
                             }
                         />
                     </PlanPageSection>

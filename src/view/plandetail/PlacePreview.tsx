@@ -35,6 +35,7 @@ import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import styled from "styled-components";
 
 type Props = {
+    placeId: string;
     name: string;
     images: ImageType[];
     googlePlaceReviews?: GooglePlaceReview[];
@@ -44,11 +45,15 @@ type Props = {
     showRelatedPlaces?: boolean;
     onClickShowRelatedPlaces?: () => void;
     onClickDeletePlace?: () => void;
-    onUpdateLikeAtPlace?: (input: { like: boolean }) => void;
+} & LikeProps;
+
+export type LikeProps = {
+    onUpdateLikeAtPlace?: (input: { like: boolean; placeId: string }) => void;
 };
 
 // TODO: Propsの型を共通して定義できるようにする
 export const PlacePreview = ({
+    placeId,
     name,
     images,
     googlePlaceReviews,
@@ -78,7 +83,7 @@ export const PlacePreview = ({
     const [isLiked, setIsLiked] = useState(false);
 
     const handleDoubleClick = () => {
-        onUpdateLikeAtPlace?.({ like: !isLiked });
+        onUpdateLikeAtPlace?.({ like: !isLiked, placeId });
         setIsLiked(!isLiked);
     };
 
@@ -153,7 +158,9 @@ export const PlacePreview = ({
                     <LikeButton
                         isLiked={isLiked}
                         likeCount={likeCount}
-                        onUpdateLike={(like) => onUpdateLikeAtPlace({ like })}
+                        onUpdateLike={(like) =>
+                            onUpdateLikeAtPlace({ like, placeId })
+                        }
                     />
                 )}
             </VStack>
@@ -243,7 +250,7 @@ const LikeButton = ({
 }: {
     isLiked: boolean;
     likeCount: number;
-    onUpdateLike: (like: book) => void;
+    onUpdateLike: (like: boolean) => void;
 }) => {
     return (
         <HStack alignItems="center" marginTop="4px">

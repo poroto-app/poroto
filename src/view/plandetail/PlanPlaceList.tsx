@@ -13,7 +13,7 @@ import { Plan } from "src/domain/models/Plan";
 import { Transition } from "src/domain/models/Transition";
 import { DateHelper } from "src/domain/util/date";
 import { Colors } from "src/view/constants/color";
-import { PlacePreview } from "src/view/plandetail/PlacePreview";
+import { LikeProps, PlacePreview } from "src/view/plandetail/PlacePreview";
 
 type Props = {
     plan: Plan;
@@ -21,14 +21,13 @@ type Props = {
     onClickAddPlace?: (props: { previousPlaceId: string }) => void;
     onClickShowRelatedPlaces?: (placeId: string) => void;
     onClickDeletePlace?: (placeId: string) => void;
-    onUpdateLikeAtPlace?: (input: { like: boolean }) => void;
 
     /**
      * プランを開始する時間
      * 滞在する時間を表示するために利用される
      */
     startTime?: Date;
-};
+} & LikeProps;
 
 export function PlanPlaceList({
     plan,
@@ -148,10 +147,11 @@ const PlaceListItem = ({
     onClickAddPlace?: (props: { previousPlaceId: string }) => void;
     onClickShowRelatedPlaces?: (placeId: string) => void;
     onClickDeletePlace?: (placeId: string) => void;
-}) => {
+} & LikeProps) => {
     return (
         <VStack spacing="16px" w="100%" pl="24px" position="relative">
             <PlacePreview
+                placeId={place.id}
                 name={place.name}
                 images={place.images}
                 googlePlaceReviews={place.googlePlaceReviews}
