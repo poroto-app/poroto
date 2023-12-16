@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { copyObject } from "src/domain/util/object";
 import { reduxPlanCandidateSelector, updateLikeAtPlaceInPlanCandidate } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 
@@ -7,21 +8,25 @@ export const usePlaceLikeInPlanCandidate = () => {
     const { likedPlaceIds, createPlanSession } = reduxPlanCandidateSelector();
 
     // 瞬時にlikeを反映できるようにするために、hooksでも管理する
-    const [likedPlaceIdsInPlanCandidate, setLikePlaceInPlanCandidate] = useState(likedPlaceIds);
+    const [likedPlaceIdsInPlanCandidate, setLikePlaceInPlanCandidate] = useState<string[]>([]);
 
     const updateLikeAtPlace = ({placeId, like}:{placeId: string, like: boolean}) => {
         if(!createPlanSession) return;
         dispatch(updateLikeAtPlaceInPlanCandidate({placeId, like, planCandidateId: createPlanSession}));
 
         if (like) {
-            setLikePlaceInPlanCandidate([...likedPlaceIdsInPlanCandidate, placeId]);
+            setLikePlaceInPlanCandidate(copyObject([...likedPlaceIdsInPlanCandidate, placeId]));
         } else {
-            setLikePlaceInPlanCandidate(likedPlaceIdsInPlanCandidate.filter((id) => id !== placeId));
+            setLikePlaceInPlanCandidate(copyObject(likedPlaceIdsInPlanCandidate.filter((id) => id !== placeId)));
         }
     }
 
     useEffect(() => {
-        setLikePlaceInPlanCandidate(likedPlaceIds);
+        if(!likedPlaceIds) {
+            setLikePlaceInPlanCandidate([]);
+        } else {
+            setLikePlaceInPlanCandidate(copyObject(likedPlaceIds));
+        }
     }, [likedPlaceIds]);
 
     return {
