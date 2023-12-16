@@ -169,6 +169,7 @@ const PlaceListItem = ({
                 priceRange={place.priceRange}
                 estimatedStayDuration={place.estimatedStayDuration}
                 like={like}
+                likeCount={place.likeCount}
                 onUpdateLikeAtPlace={onUpdateLikeAtPlace}
                 onClickShowRelatedPlaces={
                     onClickShowRelatedPlaces

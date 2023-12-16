@@ -42,6 +42,7 @@ type Props = {
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
     like: boolean;
+    likeCount: number,
     estimatedStayDuration: number;
     showRelatedPlaces?: boolean;
     onClickShowRelatedPlaces?: () => void;
@@ -61,6 +62,7 @@ export const PlacePreview = ({
     categories,
     priceRange,
     like,
+    likeCount,
     estimatedStayDuration,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
@@ -73,9 +75,6 @@ export const PlacePreview = ({
         googlePlaceReviews.length == 0 &&
         categories.length === 0 &&
         !priceRange;
-
-    // TODO: implement me!
-    const [likeCount, setLikeCount] = useState(65000); // Mock count for demonstration
 
     const openModal = (image: ImageType) => {
         setSelectedImage(getImageSizeOf(ImageSizes.Large, image));
