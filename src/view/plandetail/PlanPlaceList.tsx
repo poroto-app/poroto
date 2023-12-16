@@ -72,7 +72,7 @@ export function PlanPlaceList({
                         />
                         <PlaceListItem
                             place={place}
-                            defaultLiked={likePlaceIds.some(
+                            like={likePlaceIds.some(
                                 (placeId) => placeId === place.id
                             )}
                             onClickAddPlace={onClickAddPlace}
@@ -146,14 +146,14 @@ function generateSchedules({
 
 const PlaceListItem = ({
     place,
-    defaultLiked,
+    like,
     onClickAddPlace,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
     onUpdateLikeAtPlace,
 }: {
     place: Place;
-    defaultLiked: boolean;
+    like: boolean;
     onClickAddPlace?: (props: { previousPlaceId: string }) => void;
     onClickShowRelatedPlaces?: (placeId: string) => void;
     onClickDeletePlace?: (placeId: string) => void;
@@ -167,8 +167,8 @@ const PlaceListItem = ({
                 googlePlaceReviews={place.googlePlaceReviews}
                 categories={place.categories}
                 priceRange={place.priceRange}
-                defaultLiked={defaultLiked}
                 estimatedStayDuration={place.estimatedStayDuration}
+                like={like}
                 onUpdateLikeAtPlace={onUpdateLikeAtPlace}
                 onClickShowRelatedPlaces={
                     onClickShowRelatedPlaces

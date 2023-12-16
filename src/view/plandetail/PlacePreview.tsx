@@ -41,7 +41,7 @@ type Props = {
     googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
-    defaultLiked: boolean;
+    like: boolean;
     estimatedStayDuration: number;
     showRelatedPlaces?: boolean;
     onClickShowRelatedPlaces?: () => void;
@@ -60,7 +60,7 @@ export const PlacePreview = ({
     googlePlaceReviews,
     categories,
     priceRange,
-    defaultLiked,
+    like,
     estimatedStayDuration,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
@@ -74,7 +74,6 @@ export const PlacePreview = ({
         categories.length === 0 &&
         !priceRange;
 
-    const [isLiked, setIsLiked] = useState(defaultLiked);
     // TODO: implement me!
     const [likeCount, setLikeCount] = useState(65000); // Mock count for demonstration
 
@@ -87,8 +86,7 @@ export const PlacePreview = ({
     };
 
     const handleDoubleClick = () => {
-        onUpdateLikeAtPlace?.({ like: !isLiked, placeId });
-        setIsLiked(!isLiked);
+        onUpdateLikeAtPlace?.({ like: !like, placeId });
     };
 
     if (isEmptyLocation) {
@@ -158,7 +156,7 @@ export const PlacePreview = ({
                 </HStack>
                 {onUpdateLikeAtPlace && (
                     <LikeButton
-                        isLiked={isLiked}
+                        isLiked={like}
                         likeCount={likeCount}
                         onUpdateLike={(like) =>
                             onUpdateLikeAtPlace({ like, placeId })
