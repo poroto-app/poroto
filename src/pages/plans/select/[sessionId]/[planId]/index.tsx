@@ -80,10 +80,8 @@ const PlanDetail = () => {
         planId: planId as string,
     });
 
-    const {
-        likedPlaceIdsInPlanCandidate,
-        updateLikeAtPlace,
-    } = usePlaceLikeInPlanCandidate();
+    const { likedPlaceIdsInPlanCandidate, updateLikeAtPlace } =
+        usePlaceLikeInPlanCandidate();
 
     const {
         preview: plan,

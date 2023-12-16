@@ -394,10 +394,11 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         });
 
         return {
-            plans: data.likeToPlaceInPlanCandidate.planCandidate.plans.map((plan) =>
-                fromGraphqlPlanEntity(plan)
+            plans: data.likeToPlaceInPlanCandidate.planCandidate.plans.map(
+                (plan) => fromGraphqlPlanEntity(plan)
             ),
-            likedPlaceIds: data.likeToPlaceInPlanCandidate.planCandidate.likedPlaceIds,
+            likedPlaceIds:
+                data.likeToPlaceInPlanCandidate.planCandidate.likedPlaceIds,
         };
     }
 }
