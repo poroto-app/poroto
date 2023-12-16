@@ -26,6 +26,17 @@ export type AddPlaceToPlanCandidateAfterPlaceOutput = {
   planCandidateId: Scalars['String'];
 };
 
+export type AutoReorderPlacesInPlanCandidateInput = {
+  planCandidateId: Scalars['String'];
+  planId: Scalars['String'];
+};
+
+export type AutoReorderPlacesInPlanCandidateOutput = {
+  __typename?: 'AutoReorderPlacesInPlanCandidateOutput';
+  plan: Plan;
+  planCandidateId: Scalars['String'];
+};
+
 export type AvailablePlacesForPlan = {
   __typename?: 'AvailablePlacesForPlan';
   places: Array<Place>;
@@ -38,7 +49,7 @@ export type AvailablePlacesForPlanInput = {
 export type CachedCreatedPlans = {
   __typename?: 'CachedCreatedPlans';
   createdBasedOnCurrentLocation: Scalars['Boolean'];
-  plans?: Maybe<Array<Plan>>;
+  plans: Array<Plan>;
 };
 
 export type CachedCreatedPlansInput = {
@@ -145,6 +156,17 @@ export enum ImageSize {
   Small = 'SMALL'
 }
 
+export type LikeToPlaceInPlanCandidateInput = {
+  like: Scalars['Boolean'];
+  placeId: Scalars['String'];
+  planCandidateId: Scalars['String'];
+};
+
+export type LikeToPlaceInPlanCandidateOutput = {
+  __typename?: 'LikeToPlaceInPlanCandidateOutput';
+  plans: Array<Plan>;
+};
+
 export type LocationCategory = {
   __typename?: 'LocationCategory';
   defaultPhotoUrl: Scalars['String'];
@@ -156,11 +178,13 @@ export type LocationCategory = {
 export type Mutation = {
   __typename?: 'Mutation';
   addPlaceToPlanCandidateAfterPlace: AddPlaceToPlanCandidateAfterPlaceOutput;
+  autoReorderPlacesInPlanCandidate: AutoReorderPlacesInPlanCandidateOutput;
   changePlacesOrderInPlanCandidate: ChangePlacesOrderInPlanCandidateOutput;
   createPlanByLocation: CreatePlanByLocationOutput;
   createPlanByPlace: CreatePlanByPlaceOutput;
   deletePlaceFromPlanCandidate: DeletePlaceFromPlanCandidateOutput;
   editPlanTitleOfPlanCandidate: EditPlanTitleOfPlanCandidateOutput;
+  likeToPlaceInPlanCandidate: LikeToPlaceInPlanCandidateOutput;
   ping: Scalars['String'];
   replacePlaceOfPlanCandidate: ReplacePlaceOfPlanCandidateOutput;
   savePlanFromCandidate: SavePlanFromCandidateOutput;
@@ -169,6 +193,11 @@ export type Mutation = {
 
 export type MutationAddPlaceToPlanCandidateAfterPlaceArgs = {
   input?: InputMaybe<AddPlaceToPlanCandidateAfterPlaceInput>;
+};
+
+
+export type MutationAutoReorderPlacesInPlanCandidateArgs = {
+  input: AutoReorderPlacesInPlanCandidateInput;
 };
 
 
@@ -194,6 +223,11 @@ export type MutationDeletePlaceFromPlanCandidateArgs = {
 
 export type MutationEditPlanTitleOfPlanCandidateArgs = {
   input: EditPlanTitleOfPlanCandidateInput;
+};
+
+
+export type MutationLikeToPlaceInPlanCandidateArgs = {
+  input: LikeToPlaceInPlanCandidateInput;
 };
 
 
@@ -234,10 +268,11 @@ export type Place = {
   __typename?: 'Place';
   categories: Array<PlaceCategory>;
   estimatedStayDuration: Scalars['Int'];
-  googlePlaceId?: Maybe<Scalars['String']>;
-  googleReviews?: Maybe<Array<GooglePlaceReview>>;
+  googlePlaceId: Scalars['String'];
+  googleReviews: Array<GooglePlaceReview>;
   id: Scalars['String'];
   images: Array<Image>;
+  likeCount: Scalars['Int'];
   location: GeoLocation;
   name: Scalars['String'];
   priceRange?: Maybe<PriceRange>;
@@ -275,6 +310,7 @@ export type Plan = {
   authorId?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['String'];
+  likedPlaceIds: Array<Scalars['String']>;
   name: Scalars['String'];
   places: Array<Place>;
   timeInMinutes: Scalars['Int'];
@@ -414,21 +450,21 @@ export type User = {
   photoUrl?: Maybe<Scalars['String']>;
 };
 
-export type PlaceFullFragmentFragment = { __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null };
+export type PlaceFullFragmentFragment = { __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null };
 
 export type FetchPlansQueryVariables = Exact<{
   pageKey?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type FetchPlansQuery = { __typename?: 'Query', plans: Array<{ __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> }> };
+export type FetchPlansQuery = { __typename?: 'Query', plans: Array<{ __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> }> };
 
 export type FetchPlanByIdQueryVariables = Exact<{
   planId: Scalars['String'];
 }>;
 
 
-export type FetchPlanByIdQuery = { __typename?: 'Query', plan?: { __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> } | null };
+export type FetchPlanByIdQuery = { __typename?: 'Query', plan?: { __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> } | null };
 
 export type PlansByLocationQueryVariables = Exact<{
   latitude: Scalars['Float'];
@@ -438,21 +474,21 @@ export type PlansByLocationQueryVariables = Exact<{
 }>;
 
 
-export type PlansByLocationQuery = { __typename?: 'Query', plansByLocation: { __typename?: 'PlansByLocationOutput', pageKey?: string | null, plans: Array<{ __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> }> } };
+export type PlansByLocationQuery = { __typename?: 'Query', plansByLocation: { __typename?: 'PlansByLocationOutput', pageKey?: string | null, plans: Array<{ __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> }> } };
 
 export type PlansByUserQueryVariables = Exact<{
   userId: Scalars['String'];
 }>;
 
 
-export type PlansByUserQuery = { __typename?: 'Query', plansByUser: { __typename?: 'PlansByUserOutput', plans: Array<{ __typename?: 'Plan', id: string, name: string, timeInMinutes: number, authorId?: string | null, places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> }>, author: { __typename?: 'User', id: string, name: string, photoUrl?: string | null } } };
+export type PlansByUserQuery = { __typename?: 'Query', plansByUser: { __typename?: 'PlansByUserOutput', plans: Array<{ __typename?: 'Plan', id: string, name: string, timeInMinutes: number, authorId?: string | null, places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> }>, author: { __typename?: 'User', id: string, name: string, photoUrl?: string | null } } };
 
 export type AddPlaceToPlanCandidateMutationVariables = Exact<{
   input: AddPlaceToPlanCandidateAfterPlaceInput;
 }>;
 
 
-export type AddPlaceToPlanCandidateMutation = { __typename?: 'Mutation', addPlaceToPlanCandidateAfterPlace: { __typename?: 'AddPlaceToPlanCandidateAfterPlaceOutput', planCandidateId: string, plan: { __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> } } };
+export type AddPlaceToPlanCandidateMutation = { __typename?: 'Mutation', addPlaceToPlanCandidateAfterPlace: { __typename?: 'AddPlaceToPlanCandidateAfterPlaceOutput', planCandidateId: string, plan: { __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> } } };
 
 export type CreatePlanByLocationMutationVariables = Exact<{
   session?: InputMaybe<Scalars['String']>;
@@ -466,7 +502,7 @@ export type CreatePlanByLocationMutationVariables = Exact<{
 }>;
 
 
-export type CreatePlanByLocationMutation = { __typename?: 'Mutation', createPlanByLocation: { __typename?: 'CreatePlanByLocationOutput', session: string, plans: Array<{ __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> }> } };
+export type CreatePlanByLocationMutation = { __typename?: 'Mutation', createPlanByLocation: { __typename?: 'CreatePlanByLocationOutput', session: string, plans: Array<{ __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> }> } };
 
 export type CreatePlanByPlaceMutationVariables = Exact<{
   sessionId: Scalars['String'];
@@ -474,28 +510,28 @@ export type CreatePlanByPlaceMutationVariables = Exact<{
 }>;
 
 
-export type CreatePlanByPlaceMutation = { __typename?: 'Mutation', createPlanByPlace: { __typename?: 'CreatePlanByPlaceOutput', session: string, plan: { __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> } } };
+export type CreatePlanByPlaceMutation = { __typename?: 'Mutation', createPlanByPlace: { __typename?: 'CreatePlanByPlaceOutput', session: string, plan: { __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> } } };
 
 export type DeletePlaceFromPlanCandidateMutationVariables = Exact<{
   input: DeletePlaceFromPlanCandidateInput;
 }>;
 
 
-export type DeletePlaceFromPlanCandidateMutation = { __typename?: 'Mutation', deletePlaceFromPlanCandidate: { __typename?: 'DeletePlaceFromPlanCandidateOutput', planCandidateId: string, plan: { __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> } } };
+export type DeletePlaceFromPlanCandidateMutation = { __typename?: 'Mutation', deletePlaceFromPlanCandidate: { __typename?: 'DeletePlaceFromPlanCandidateOutput', planCandidateId: string, plan: { __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> } } };
 
 export type EditPlanTitleOfPlanCandidateMutationVariables = Exact<{
   input: EditPlanTitleOfPlanCandidateInput;
 }>;
 
 
-export type EditPlanTitleOfPlanCandidateMutation = { __typename?: 'Mutation', editPlanTitleOfPlanCandidate: { __typename?: 'EditPlanTitleOfPlanCandidateOutput', planCandidateId: string, plan: { __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> } } };
+export type EditPlanTitleOfPlanCandidateMutation = { __typename?: 'Mutation', editPlanTitleOfPlanCandidate: { __typename?: 'EditPlanTitleOfPlanCandidateOutput', planCandidateId: string, plan: { __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> } } };
 
 export type ReplacePlaceOfPlanCandidateMutationVariables = Exact<{
   input: ReplacePlaceOfPlanCandidateInput;
 }>;
 
 
-export type ReplacePlaceOfPlanCandidateMutation = { __typename?: 'Mutation', replacePlaceOfPlanCandidate: { __typename?: 'ReplacePlaceOfPlanCandidateOutput', planCandidateId: string, plan: { __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> } } };
+export type ReplacePlaceOfPlanCandidateMutation = { __typename?: 'Mutation', replacePlaceOfPlanCandidate: { __typename?: 'ReplacePlaceOfPlanCandidateOutput', planCandidateId: string, plan: { __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> } } };
 
 export type SavePlanFromCandidateMutationVariables = Exact<{
   session: Scalars['String'];
@@ -511,14 +547,14 @@ export type ChangePlacesOrderInPlanCandidateMutationVariables = Exact<{
 }>;
 
 
-export type ChangePlacesOrderInPlanCandidateMutation = { __typename?: 'Mutation', changePlacesOrderInPlanCandidate: { __typename?: 'ChangePlacesOrderInPlanCandidateOutput', plan: { __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> } } };
+export type ChangePlacesOrderInPlanCandidateMutation = { __typename?: 'Mutation', changePlacesOrderInPlanCandidate: { __typename?: 'ChangePlacesOrderInPlanCandidateOutput', plan: { __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> } } };
 
 export type FetchAvailablePlacesForPlanCandidateQueryVariables = Exact<{
   session: Scalars['String'];
 }>;
 
 
-export type FetchAvailablePlacesForPlanCandidateQuery = { __typename?: 'Query', availablePlacesForPlan: { __typename?: 'AvailablePlacesForPlan', places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }> } };
+export type FetchAvailablePlacesForPlanCandidateQuery = { __typename?: 'Query', availablePlacesForPlan: { __typename?: 'AvailablePlacesForPlan', places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }> } };
 
 export type NearbyPlaceCategoriesQueryVariables = Exact<{
   latitude: Scalars['Float'];
@@ -526,28 +562,28 @@ export type NearbyPlaceCategoriesQueryVariables = Exact<{
 }>;
 
 
-export type NearbyPlaceCategoriesQuery = { __typename?: 'Query', nearbyPlaceCategories: { __typename?: 'NearbyPlaceCategoryOutput', planCandidateId: string, categories: Array<{ __typename?: 'NearbyLocationCategory', id: string, displayName: string, defaultPhotoUrl: string, places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }> }> } };
+export type NearbyPlaceCategoriesQuery = { __typename?: 'Query', nearbyPlaceCategories: { __typename?: 'NearbyPlaceCategoryOutput', planCandidateId: string, categories: Array<{ __typename?: 'NearbyLocationCategory', id: string, displayName: string, defaultPhotoUrl: string, places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }> }> } };
 
 export type PlacesToAddForPlanOfPlanCandidateQueryVariables = Exact<{
   input: PlacesToAddForPlanCandidateInput;
 }>;
 
 
-export type PlacesToAddForPlanOfPlanCandidateQuery = { __typename?: 'Query', placesToAddForPlanCandidate: { __typename?: 'PlacesToAddForPlanCandidateOutput', places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }> } };
+export type PlacesToAddForPlanOfPlanCandidateQuery = { __typename?: 'Query', placesToAddForPlanCandidate: { __typename?: 'PlacesToAddForPlanCandidateOutput', places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }> } };
 
 export type PlacesToReplaceForPlanOfPlanCandidateQueryVariables = Exact<{
   input: PlacesToReplaceForPlanCandidateInput;
 }>;
 
 
-export type PlacesToReplaceForPlanOfPlanCandidateQuery = { __typename?: 'Query', placesToReplaceForPlanCandidate: { __typename?: 'PlacesToReplaceForPlanCandidateOutput', places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }> } };
+export type PlacesToReplaceForPlanOfPlanCandidateQuery = { __typename?: 'Query', placesToReplaceForPlanCandidate: { __typename?: 'PlacesToReplaceForPlanCandidateOutput', places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }> } };
 
 export type CachedCreatedPlansQueryVariables = Exact<{
   session: Scalars['String'];
 }>;
 
 
-export type CachedCreatedPlansQuery = { __typename?: 'Query', cachedCreatedPlans: { __typename?: 'CachedCreatedPlans', createdBasedOnCurrentLocation: boolean, plans?: Array<{ __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId?: string | null, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews?: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }> | null, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> }> | null } };
+export type CachedCreatedPlansQuery = { __typename?: 'Query', cachedCreatedPlans: { __typename?: 'CachedCreatedPlans', createdBasedOnCurrentLocation: boolean, plans: Array<{ __typename?: 'Plan', id: string, name: string, timeInMinutes: number, places: Array<{ __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null }>, transitions: Array<{ __typename?: 'Transition', duration: number, from?: { __typename?: 'Place', id: string } | null, to: { __typename?: 'Place', id: string } }> }> } };
 
 export type FirebaseUserQueryVariables = Exact<{
   firebaseUserId: Scalars['String'];
