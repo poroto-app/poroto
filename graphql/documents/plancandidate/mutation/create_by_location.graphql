@@ -20,21 +20,7 @@ mutation CreatePlanByLocation(
     }) {
         session
         plans {
-            id
-            name
-            places {
-                ...PlaceFullFragment
-            }
-            timeInMinutes
-            transitions {
-                duration
-                from {
-                    id
-                }
-                to {
-                    id
-                }
-            }
+            ...PlanFullFragment
         }
     }
 }

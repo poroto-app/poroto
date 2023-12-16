@@ -4,21 +4,7 @@ mutation CreatePlanByPlace($sessionId: String!, $placeId: String!) {
     ) {
         session
         plan {
-            id
-            name
-            places {
-                ...PlaceFullFragment
-            }
-            timeInMinutes
-            transitions {
-                duration
-                from {
-                    id
-                }
-                to {
-                    id
-                }
-            }
+            ...PlanFullFragment
         }
     }
 }
