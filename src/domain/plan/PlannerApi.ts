@@ -19,6 +19,9 @@ export interface PlannerApi {
         request: FetchPlansByLocationRequest
     ): Promise<FetchPlansByLocationResponse>;
 
+    // ==============================================================
+    // Plan Candidate
+    // ==============================================================
     createPlansFromLocation(
         request: CreatePlanFromLocationRequest
     ): Promise<CreatePlanFromLocationResponse>;
@@ -35,9 +38,6 @@ export interface PlannerApi {
         request: FetchAvailablePlacesForPlanRequest
     ): Promise<FetchAvailablePlacesForPlanResponse>;
 
-    // ==============================================================
-    // Plan Candidate
-    // ==============================================================
     fetchPlacesToAddForPlanOfPlanCandidate(
         request: FetchPlacesToAddForPlanOfPlanCandidateRequest
     ): Promise<FetchPlacesToAddForPlanOfPlanCandidateResponse>;
@@ -159,6 +159,7 @@ export type FetchCachedCreatedPlansRequest = {
 export type FetchCachedCreatedPlansResponse = {
     createdBasedOnCurrentLocation: boolean;
     plans: PlanEntity[] | null;
+    likedPlaceIds: string[];
 };
 
 export type FetchPlacesToAddForPlanOfPlanCandidateRequest = {
@@ -269,4 +270,5 @@ export type UpdateLikeAtPlaceInPlanCandidateRequest = {
 
 export type UpdateLikeAtPlaceInPlanCandidateResponse = {
     plans: PlanEntity[];
+    likedPlaceIds: string[];
 };

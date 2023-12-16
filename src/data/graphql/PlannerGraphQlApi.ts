@@ -182,13 +182,20 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         });
 
         if (!data.cachedCreatedPlans.plans)
-            return { plans: null, createdBasedOnCurrentLocation: false };
+            return {
+                plans: null,
+                createdBasedOnCurrentLocation: false,
+                likedPlaceIds: [],
+            };
 
         return {
             createdBasedOnCurrentLocation:
                 data.cachedCreatedPlans.createdBasedOnCurrentLocation,
             plans: data.cachedCreatedPlans.plans.map((plan) =>
                 fromGraphqlPlanEntity(plan)
+            ),
+            likedPlaceIds: data.cachedCreatedPlans.plans.flatMap(
+                (plan) => plan.likedPlaceIds
             ),
         };
     }
@@ -391,6 +398,9 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         return {
             plans: data.likeToPlaceInPlanCandidate.plans.map((plan) =>
                 fromGraphqlPlanEntity(plan)
+            ),
+            likedPlaceIds: data.likeToPlaceInPlanCandidate.plans.flatMap(
+                (plan) => plan.likedPlaceIds
             ),
         };
     }
