@@ -38,6 +38,7 @@ export type PlanCandidateState = {
     createPlanFromPlaceRequestStatus: RequestStatus | null;
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
+    updateLikeAtPlaceInPlanCandidateRequestStatus: RequestStatus | null;
     fetchCachedCreatedPlansRequestStatus: RequestStatus | null;
     fetchAvailablePlacesForPlanRequestStatus: RequestStatus | null;
     fetchNearbyPlaceCategoriesRequestStatus: RequestStatus | null;
@@ -61,6 +62,7 @@ const initialState: PlanCandidateState = {
     createPlanFromPlaceRequestStatus: null,
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
+    updateLikeAtPlaceInPlanCandidateRequestStatus: null,
     fetchCachedCreatedPlansRequestStatus: null,
     fetchAvailablePlacesForPlanRequestStatus: null,
     fetchNearbyPlaceCategoriesRequestStatus: null,
@@ -269,8 +271,32 @@ export const updatePlacesOrderInPlanCandidate = createAsyncThunk(
     }
 );
 
+type UpdateLikeAtPlaceInPlanCandidateProps = {
+    planCandidateId: string;
+    placeId: string;
+    like: boolean;
+};
+export const updateLikeAtPlaceInPlanCandidate = createAsyncThunk(
+    "planCandidate/updateLikeAtPlaceInPlanCandidate",
+    async ({
+        planCandidateId,
+        placeId,
+        like,
+    }: UpdateLikeAtPlaceInPlanCandidateProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const { plans } = await plannerApi.updateLikeAtPlaceInPlanCandidate({
+            planCandidateId,
+            placeId,
+            like,
+        });
+        return {
+            plans: plans.map((plan) => createPlanFromPlanEntity(plan, null)),
+        };
+    }
+);
+
 export const slice = createSlice({
-    name: "plan",
+    name: "planCandidate",
     initialState,
     reducers: {
         setCreatedPlans: (
@@ -462,6 +488,34 @@ export const slice = createSlice({
                     if (planIndexToUpdate < 0) return;
 
                     state.plansCreated[planIndexToUpdate] = payload.plan;
+                }
+            )
+            // Update Like At Place In Plan Candidate
+            .addCase(
+                updateLikeAtPlaceInPlanCandidate.pending,
+                (state, action) => {
+                    state.updateLikeAtPlaceInPlanCandidateRequestStatus =
+                        RequestStatuses.PENDING;
+                }
+            )
+            .addCase(
+                updateLikeAtPlaceInPlanCandidate.fulfilled,
+                (state, { payload: { plans } }) => {
+                    state.updateLikeAtPlaceInPlanCandidateRequestStatus =
+                        RequestStatuses.FULFILLED;
+                    state.plansCreated = plans;
+
+                    // TODO: previewはplansCreatedを更新すると自動的に更新されるようにする
+                    state.preview =
+                        plans.find((plan) => plan.id === state.preview?.id) ??
+                        null;
+                }
+            )
+            .addCase(
+                updateLikeAtPlaceInPlanCandidate.rejected,
+                (state, action) => {
+                    state.updateLikeAtPlaceInPlanCandidateRequestStatus =
+                        RequestStatuses.REJECTED;
                 }
             )
             // Fetch Cached Created Plans
