@@ -92,7 +92,8 @@ export default function PlanPage() {
                     planRange={getPlanPriceRange(plan.places)}
                 />
                 <PlanPageSection title="プラン">
-                    <PlanPlaceList plan={plan} />
+                    {/*TODO: ログインユーザーがLIKEした場所を反映できるようにする*/}
+                    <PlanPlaceList plan={plan} likePlaceIds={[]} />
                 </PlanPageSection>
                 <PlanPageSection title="プラン内の場所">
                     <PlaceMap places={plan.places} />

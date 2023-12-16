@@ -82,6 +82,7 @@ const PlanDetail = () => {
 
     const {
         preview: plan,
+        likedPlaceIds,
         createdBasedOnCurrentLocation,
         createPlanSession,
         savePlanFromCandidateRequestStatus,
@@ -178,6 +179,7 @@ const PlanDetail = () => {
                     <PlanPageSection title="プラン">
                         <PlanPlaceList
                             plan={plan}
+                            likePlaceIds={likedPlaceIds}
                             createdBasedOnCurrentLocation={
                                 createdBasedOnCurrentLocation
                             }

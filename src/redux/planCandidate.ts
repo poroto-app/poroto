@@ -508,7 +508,7 @@ export const slice = createSlice({
             )
             .addCase(
                 updateLikeAtPlaceInPlanCandidate.fulfilled,
-                (state, { payload: { plans , likedPlaceIds} }) => {
+                (state, { payload: { plans, likedPlaceIds } }) => {
                     state.updateLikeAtPlaceInPlanCandidateRequestStatus =
                         RequestStatuses.FULFILLED;
                     state.plansCreated = plans;

@@ -41,13 +41,14 @@ type Props = {
     googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
+    defaultLiked: boolean;
     estimatedStayDuration: number;
     showRelatedPlaces?: boolean;
     onClickShowRelatedPlaces?: () => void;
     onClickDeletePlace?: () => void;
-} & LikeProps;
+} & PlaceActionHandler;
 
-export type LikeProps = {
+export type PlaceActionHandler = {
     onUpdateLikeAtPlace?: (input: { like: boolean; placeId: string }) => void;
 };
 
@@ -59,6 +60,7 @@ export const PlacePreview = ({
     googlePlaceReviews,
     categories,
     priceRange,
+    defaultLiked,
     estimatedStayDuration,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
@@ -72,6 +74,10 @@ export const PlacePreview = ({
         categories.length === 0 &&
         !priceRange;
 
+    const [isLiked, setIsLiked] = useState(defaultLiked);
+    // TODO: implement me!
+    const [likeCount, setLikeCount] = useState(65000); // Mock count for demonstration
+
     const openModal = (image: ImageType) => {
         setSelectedImage(getImageSizeOf(ImageSizes.Large, image));
     };
@@ -80,14 +86,10 @@ export const PlacePreview = ({
         setSelectedImage(null);
     };
 
-    const [isLiked, setIsLiked] = useState(false);
-
     const handleDoubleClick = () => {
         onUpdateLikeAtPlace?.({ like: !isLiked, placeId });
         setIsLiked(!isLiked);
     };
-
-    const [likeCount, setLikeCount] = useState(65000); // Mock count for demonstration
 
     if (isEmptyLocation) {
         return (

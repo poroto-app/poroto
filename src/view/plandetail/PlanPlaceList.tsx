@@ -13,10 +13,14 @@ import { Plan } from "src/domain/models/Plan";
 import { Transition } from "src/domain/models/Transition";
 import { DateHelper } from "src/domain/util/date";
 import { Colors } from "src/view/constants/color";
-import { LikeProps, PlacePreview } from "src/view/plandetail/PlacePreview";
+import {
+    PlaceActionHandler,
+    PlacePreview,
+} from "src/view/plandetail/PlacePreview";
 
 type Props = {
     plan: Plan;
+    likePlaceIds: string[];
     createdBasedOnCurrentLocation?: boolean;
     onClickAddPlace?: (props: { previousPlaceId: string }) => void;
     onClickShowRelatedPlaces?: (placeId: string) => void;
@@ -27,10 +31,11 @@ type Props = {
      * 滞在する時間を表示するために利用される
      */
     startTime?: Date;
-} & LikeProps;
+} & PlaceActionHandler;
 
 export function PlanPlaceList({
     plan,
+    likePlaceIds,
     createdBasedOnCurrentLocation,
     startTime = new Date(Date.now()),
     onClickAddPlace,
@@ -67,6 +72,9 @@ export function PlanPlaceList({
                         />
                         <PlaceListItem
                             place={place}
+                            defaultLiked={likePlaceIds.some(
+                                (placeId) => placeId === place.id
+                            )}
                             onClickAddPlace={onClickAddPlace}
                             onClickShowRelatedPlaces={onClickShowRelatedPlaces}
                             onClickDeletePlace={onClickDeletePlace}
@@ -138,16 +146,18 @@ function generateSchedules({
 
 const PlaceListItem = ({
     place,
+    defaultLiked,
     onClickAddPlace,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
     onUpdateLikeAtPlace,
 }: {
     place: Place;
+    defaultLiked: boolean;
     onClickAddPlace?: (props: { previousPlaceId: string }) => void;
     onClickShowRelatedPlaces?: (placeId: string) => void;
     onClickDeletePlace?: (placeId: string) => void;
-} & LikeProps) => {
+} & PlaceActionHandler) => {
     return (
         <VStack spacing="16px" w="100%" pl="24px" position="relative">
             <PlacePreview
@@ -157,6 +167,7 @@ const PlaceListItem = ({
                 googlePlaceReviews={place.googlePlaceReviews}
                 categories={place.categories}
                 priceRange={place.priceRange}
+                defaultLiked={defaultLiked}
                 estimatedStayDuration={place.estimatedStayDuration}
                 onUpdateLikeAtPlace={onUpdateLikeAtPlace}
                 onClickShowRelatedPlaces={
