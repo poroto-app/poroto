@@ -17,6 +17,7 @@ import {
     PlansByUserDocument,
     ReplacePlaceOfPlanCandidateDocument,
     SavePlanFromCandidateDocument,
+    UpdateLikeAtPlaceInPlanCandidateDocument,
 } from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
@@ -47,6 +48,8 @@ import {
     ReplacePlaceInPlanOfPlanCandidateRequest,
     SavePlanFromCandidateRequest,
     SavePlanFromCandidateResponse,
+    UpdateLikeAtPlaceInPlanCandidateRequest,
+    UpdateLikeAtPlaceInPlanCandidateResponse,
     UpdatePlanCandidatePlacesOrderRequest,
     UpdatePlanCandidatePlacesOrderResponse,
 } from "src/domain/plan/PlannerApi";
@@ -367,6 +370,27 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         return {
             plan: fromGraphqlPlanEntity(
                 data.changePlacesOrderInPlanCandidate.plan
+            ),
+        };
+    }
+
+    async updateLikeAtPlaceInPlanCandidate(
+        request: UpdateLikeAtPlaceInPlanCandidateRequest
+    ): Promise<UpdateLikeAtPlaceInPlanCandidateResponse> {
+        const { data } = await this.client.mutate({
+            mutation: UpdateLikeAtPlaceInPlanCandidateDocument,
+            variables: {
+                input: {
+                    planCandidateId: request.planCandidateId,
+                    placeId: request.placeId,
+                    like: request.like,
+                },
+            },
+        });
+
+        return {
+            plans: data.likeToPlaceInPlanCandidate.plans.map((plan) =>
+                fromGraphqlPlanEntity(plan)
             ),
         };
     }

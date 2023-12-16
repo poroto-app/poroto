@@ -4,6 +4,9 @@ import { PlanEntity } from "src/domain/models/PlanEntity";
 import { UserEntity } from "src/domain/user/UserApi";
 
 export interface PlannerApi {
+    // ==============================================================
+    // Plan
+    // ==============================================================
     fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse>;
 
     fetchPlans(request: FetchPlansRequest): Promise<FetchPlansResponse>;
@@ -32,6 +35,9 @@ export interface PlannerApi {
         request: FetchAvailablePlacesForPlanRequest
     ): Promise<FetchAvailablePlacesForPlanResponse>;
 
+    // ==============================================================
+    // Plan Candidate
+    // ==============================================================
     fetchPlacesToAddForPlanOfPlanCandidate(
         request: FetchPlacesToAddForPlanOfPlanCandidateRequest
     ): Promise<FetchPlacesToAddForPlanOfPlanCandidateResponse>;
@@ -67,6 +73,10 @@ export interface PlannerApi {
     updatePlanCandidatePlacesOrder(
         request: UpdatePlanCandidatePlacesOrderRequest
     ): Promise<UpdatePlanCandidatePlacesOrderResponse>;
+
+    updateLikeAtPlaceInPlanCandidate(
+        request: UpdateLikeAtPlaceInPlanCandidateRequest
+    ): Promise<UpdateLikeAtPlaceInPlanCandidateResponse>;
 }
 
 export type FetchPlanRequest = {
@@ -249,4 +259,14 @@ export type UpdatePlanCandidatePlacesOrderRequest = {
 
 export type UpdatePlanCandidatePlacesOrderResponse = {
     plan: PlanEntity | null;
+};
+
+export type UpdateLikeAtPlaceInPlanCandidateRequest = {
+    planCandidateId: string;
+    placeId: string;
+    like: boolean;
+};
+
+export type UpdateLikeAtPlaceInPlanCandidateResponse = {
+    plans: PlanEntity[];
 };
