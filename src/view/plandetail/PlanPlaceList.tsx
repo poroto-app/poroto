@@ -195,6 +195,7 @@ const PlaceListItem = ({
     );
 };
 
+// TODO: コンポーネントとして切り出しする
 const ScheduleListItem = ({ label }: { label }) => {
     return (
         <HStack w="100%" spacing={4}>
@@ -214,6 +215,7 @@ const ScheduleListItem = ({ label }: { label }) => {
     );
 };
 
+// TODO: コンポーネントとして切り出しする
 const ListItemWalk = ({ transition }: { transition: Transition }) => {
     if (!transition) return <></>;
 
