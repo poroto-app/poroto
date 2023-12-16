@@ -24,4 +24,5 @@ export type PlaceEntity = {
         priceRangeMax: number;
         googlePriceLevel: number;
     };
+    likeCount: number,
 };

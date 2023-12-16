@@ -33,5 +33,6 @@ export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
             max: entity.priceRange.priceRangeMax,
             googlePriceLevel: entity.priceRange.googlePriceLevel,
         },
+        likeCount: entity.likeCount,
     };
 }

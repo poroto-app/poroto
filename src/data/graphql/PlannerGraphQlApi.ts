@@ -456,5 +456,6 @@ function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
                   googlePriceLevel: place.priceRange.googlePriceLevel,
               }
             : null,
+        likeCount: place.likeCount,
     };
 }
