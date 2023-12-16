@@ -4,5 +4,6 @@ query CachedCreatedPlans($session: String!) {
         plans {
             ...PlanFullFragment
         }
+        likedPlaceIds
     }
 }

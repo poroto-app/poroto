@@ -15,6 +15,5 @@ fragment PlanFullFragment on Plan {
             id
         }
     }
-    likedPlaceIds
     authorId
 }
