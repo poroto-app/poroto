@@ -11,7 +11,6 @@ import {
     reduxPlanCandidateSelector,
     resetPlanCandidates,
     savePlanFromCandidate,
-    updateLikeAtPlaceInPlanCandidate,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { AdInArticle } from "src/view/ad/AdInArticle";
@@ -22,6 +21,7 @@ import { NotFound } from "src/view/common/NotFound";
 import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
+import { usePlaceLikeInPlanCandidate } from "src/view/hooks/usePlaceLikeInPlanCandidate";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
 import { usePlanPlaceDelete } from "src/view/hooks/usePlanPlaceDelete";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
@@ -81,8 +81,12 @@ const PlanDetail = () => {
     });
 
     const {
+        likedPlaceIdsInPlanCandidate,
+        updateLikeAtPlace,
+    } = usePlaceLikeInPlanCandidate();
+
+    const {
         preview: plan,
-        likedPlaceIds,
         createdBasedOnCurrentLocation,
         createPlanSession,
         savePlanFromCandidateRequestStatus,
@@ -179,7 +183,7 @@ const PlanDetail = () => {
                     <PlanPageSection title="プラン">
                         <PlanPlaceList
                             plan={plan}
-                            likePlaceIds={likedPlaceIds}
+                            likePlaceIds={likedPlaceIdsInPlanCandidate}
                             createdBasedOnCurrentLocation={
                                 createdBasedOnCurrentLocation
                             }
@@ -194,15 +198,7 @@ const PlanDetail = () => {
                             onClickDeletePlace={(placeId) =>
                                 showDialogToDelete({ placeIdToDelete: placeId })
                             }
-                            onUpdateLikeAtPlace={({ like, placeId }) =>
-                                dispatch(
-                                    updateLikeAtPlaceInPlanCandidate({
-                                        placeId,
-                                        like,
-                                        planCandidateId: sessionId as string,
-                                    })
-                                )
-                            }
+                            onUpdateLikeAtPlace={updateLikeAtPlace}
                         />
                     </PlanPageSection>
                     <PlanPageSection title="プラン内の場所">
