@@ -14,5 +14,5 @@ export type Place = {
     googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
     priceRange?: PriceRange | null;
-    likeCount: number,
+    likeCount: number;
 };

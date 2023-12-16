@@ -42,7 +42,7 @@ type Props = {
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
     like: boolean;
-    likeCount: number,
+    likeCount: number;
     estimatedStayDuration: number;
     showRelatedPlaces?: boolean;
     onClickShowRelatedPlaces?: () => void;
