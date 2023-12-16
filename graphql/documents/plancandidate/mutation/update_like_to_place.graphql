@@ -1,0 +1,7 @@
+mutation UpdateLikeAtPlaceInPlanCandidate($input: LikeToPlaceInPlanCandidateInput!) {
+    likeToPlaceInPlanCandidate(input: $input) {
+        plans {
+            ...PlanFullFragment
+        }
+    }
+}
