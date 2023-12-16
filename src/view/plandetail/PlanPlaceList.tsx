@@ -21,6 +21,7 @@ type Props = {
     onClickAddPlace?: (props: { previousPlaceId: string }) => void;
     onClickShowRelatedPlaces?: (placeId: string) => void;
     onClickDeletePlace?: (placeId: string) => void;
+    onUpdateLikeAtPlace?: (input: { like: boolean }) => void;
 
     /**
      * プランを開始する時間
@@ -36,6 +37,7 @@ export function PlanPlaceList({
     onClickAddPlace,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
+    onUpdateLikeAtPlace,
 }: Props) {
     const schedules = generateSchedules({
         places: plan.places,
@@ -69,6 +71,7 @@ export function PlanPlaceList({
                             onClickAddPlace={onClickAddPlace}
                             onClickShowRelatedPlaces={onClickShowRelatedPlaces}
                             onClickDeletePlace={onClickDeletePlace}
+                            onUpdateLikeAtPlace={onUpdateLikeAtPlace}
                         />
                         <ScheduleListItem
                             label={DateHelper.dateToHHMM(schedules[i].endTime)}
@@ -139,6 +142,7 @@ const PlaceListItem = ({
     onClickAddPlace,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
+    onUpdateLikeAtPlace,
 }: {
     place: Place;
     onClickAddPlace?: (props: { previousPlaceId: string }) => void;
@@ -154,6 +158,7 @@ const PlaceListItem = ({
                 categories={place.categories}
                 priceRange={place.priceRange}
                 estimatedStayDuration={place.estimatedStayDuration}
+                onUpdateLikeAtPlace={onUpdateLikeAtPlace}
                 onClickShowRelatedPlaces={
                     onClickShowRelatedPlaces
                         ? () => onClickShowRelatedPlaces(place.id)
