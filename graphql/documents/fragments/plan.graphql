@@ -1,0 +1,18 @@
+# TODO: フラグメントを利用するようにする
+fragment PlanFullFragment on Plan {
+    id
+    name
+    places {
+        ...PlaceFullFragment
+    }
+    timeInMinutes
+    transitions {
+        duration
+        from {
+            id
+        }
+        to {
+            id
+        }
+    }
+}
