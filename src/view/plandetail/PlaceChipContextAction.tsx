@@ -1,10 +1,12 @@
 import { HStack, Icon, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
+import {MdOutlineDeleteOutline, MdOutlineLocationOn} from "react-icons/md";
+import {OnClickHandler} from "src/view/types/handler";
 
 type Props = {
     label: string;
     icon: IconType;
-    onClick: () => void;
+    onClick: OnClickHandler;
 };
 
 export const PlaceChipContextAction = ({ label, icon, onClick }: Props) => {
@@ -23,3 +25,19 @@ export const PlaceChipContextAction = ({ label, icon, onClick }: Props) => {
         </HStack>
     );
 };
+
+export const PlaceChipActionDelete = ({onClick}: {onClick: OnClickHandler}) => {
+    return <PlaceChipContextAction
+        label="削除"
+        icon={MdOutlineDeleteOutline}
+        onClick={onClick}
+    />
+}
+
+export const PlaceChipActionShowRelatedPlaces = ({onClick}: {onClick: OnClickHandler}) => {
+    return <PlaceChipContextAction
+        label="関連した場所を表示"
+        icon={MdOutlineLocationOn}
+        onClick={onClick}
+    />
+}

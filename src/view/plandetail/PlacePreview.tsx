@@ -13,7 +13,6 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { MdOutlineDeleteOutline, MdOutlineLocationOn } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
     getImageSizeOf,
@@ -25,7 +24,10 @@ import { PriceRange } from "src/domain/models/PriceRange";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
-import { PlaceChipContextAction } from "src/view/plandetail/PlaceChipContextAction";
+import {
+    PlaceChipActionDelete,
+    PlaceChipActionShowRelatedPlaces,
+} from "src/view/plandetail/PlaceChipContextAction";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
 import styled from "styled-components";
@@ -147,18 +149,12 @@ export const PlacePreview = ({
                 />
                 <HStack w="100%" mt="auto" px={Size.PlaceCardPaddingH}>
                     {onClickShowRelatedPlaces && (
-                        <PlaceChipContextAction
-                            label="関連した場所を表示"
-                            icon={MdOutlineLocationOn}
+                        <PlaceChipActionShowRelatedPlaces
                             onClick={onClickShowRelatedPlaces}
                         />
                     )}
                     {onClickDeletePlace && (
-                        <PlaceChipContextAction
-                            label="削除"
-                            icon={MdOutlineDeleteOutline}
-                            onClick={onClickDeletePlace}
-                        />
+                        <PlaceChipActionDelete onClick={onClickDeletePlace} />
                     )}
                 </HStack>
             </VStack>
