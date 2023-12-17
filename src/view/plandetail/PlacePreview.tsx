@@ -13,7 +13,6 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { IconType } from "react-icons";
 import { MdOutlineDeleteOutline, MdOutlineLocationOn } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
@@ -26,6 +25,7 @@ import { PriceRange } from "src/domain/models/PriceRange";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
+import { PlaceChipContextAction } from "src/view/plandetail/PlaceChipContextAction";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
 import styled from "styled-components";
@@ -147,14 +147,14 @@ export const PlacePreview = ({
                 />
                 <HStack w="100%" mt="auto" px={Size.PlaceCardPaddingH}>
                     {onClickShowRelatedPlaces && (
-                        <ChipAction
+                        <PlaceChipContextAction
                             label="関連した場所を表示"
                             icon={MdOutlineLocationOn}
                             onClick={onClickShowRelatedPlaces}
                         />
                     )}
                     {onClickDeletePlace && (
-                        <ChipAction
+                        <PlaceChipContextAction
                             label="削除"
                             icon={MdOutlineDeleteOutline}
                             onClick={onClickDeletePlace}
@@ -215,28 +215,3 @@ const ImagePreviewContainer = styled.div<{ hasImage: boolean }>`
         padding: 16px;
     }
 `;
-
-const ChipAction = ({
-    label,
-    icon,
-    onClick,
-}: {
-    label: string;
-    icon: IconType;
-    onClick: () => void;
-}) => {
-    return (
-        <HStack
-            backgroundColor="#F1F1F1"
-            color="#483216"
-            onClick={onClick}
-            as="button"
-            px="8px"
-            py="4px"
-            borderRadius="20px"
-        >
-            <Icon w="16px" h="16px" as={icon} />
-            <Text fontSize="0.8rem">{label}</Text>
-        </HStack>
-    );
-};
