@@ -1,7 +1,6 @@
 import {
     AspectRatio,
     Box,
-    Button,
     Center,
     HStack,
     Icon,
@@ -22,6 +21,8 @@ import { Place } from "src/domain/models/Place";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { copyObject } from "src/domain/util/object";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
+import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
+import { RoundedButton } from "src/view/common/RoundedButton";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import {
     PlaceChipActionGoogleMaps,
@@ -29,7 +30,6 @@ import {
 } from "src/view/plandetail/PlaceChipContextAction";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import { OnClickHandler } from "src/view/types/handler";
-import {ImageSliderPreview} from "src/view/common/ImageSliderPreview";
 
 type Props = {
     visible: boolean;
@@ -281,13 +281,13 @@ export function ConfirmToUpdateScreen({
                     />
                 </HStack>
             </VStack>
-            <HStack mt="auto" pb="48px">
-                <Button onClick={onCancel} colorScheme="red" variant="outline">
+            <HStack w="100%" pb="48px" px="20px">
+                <RoundedButton w="100%" outlined onClick={onCancel}>
                     キャンセル
-                </Button>
-                <Button onClick={onClickUpdate} colorScheme="blue">
+                </RoundedButton>
+                <RoundedButton w="100%" onClick={onClickUpdate}>
                     {buttonLabelUpdatePlace}
-                </Button>
+                </RoundedButton>
             </HStack>
         </VStack>
     );
