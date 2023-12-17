@@ -24,6 +24,7 @@ import {
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
+import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
@@ -115,10 +116,10 @@ export const PlacePreview = ({
                 flex={1}
                 alignItems="flex-start"
                 w="100%"
-                p="16px"
+                py="16px"
                 overflow="hidden"
             >
-                <HStack w="100%">
+                <HStack w="100%" px={Size.PlaceCardPaddingH}>
                     <Text
                         fontSize="1.15rem"
                         as="h2"
@@ -144,7 +145,7 @@ export const PlacePreview = ({
                     priceRange={priceRange}
                     estimatedStayDuration={estimatedStayDuration}
                 />
-                <HStack w="100%" mt="auto">
+                <HStack w="100%" mt="auto" px={Size.PlaceCardPaddingH}>
                     {onClickShowRelatedPlaces && (
                         <ChipAction
                             label="関連した場所を表示"
