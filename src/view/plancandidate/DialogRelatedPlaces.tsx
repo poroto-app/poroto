@@ -157,7 +157,6 @@ function SelectPlaceToUpdateScreen({
 function PlaceList({
     title,
     places,
-    buttonLabelSelectPlace,
     onClickRelatedPlace,
     onClose,
 }: {
@@ -177,14 +176,18 @@ function PlaceList({
             spacing="16px"
         >
             <HStack w="100%">
-                <Text
-                    flex={1}
-                    fontSize="20px"
-                    fontWeight="bold"
-                    color="#222222"
-                >
-                    {title}
-                </Text>
+                <VStack flex={1} spacing={0}>
+                    <Text
+                        fontSize="20px"
+                        fontWeight="bold"
+                        color="#574836"
+                    >
+                        {title}
+                    </Text>
+                    <Text color="#9F8D76" fontWeight="bold">
+                        気になった場所をタップ
+                    </Text>
+                </VStack>
                 <Box as="button" onClick={onClose}>
                     <Icon width="24px" height="24px" as={MdClose} />
                 </Box>
