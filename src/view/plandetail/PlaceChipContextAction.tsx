@@ -23,7 +23,7 @@ export const PlaceChipContextAction = ({ label, icon, onClick }: Props) => {
             borderRadius="20px"
         >
             <Icon w="16px" h="16px" as={icon} />
-            <Text fontSize="0.8rem">{label}</Text>
+            <Text fontSize="0.8rem" whiteSpace="nowrap">{label}</Text>
         </HStack>
     );
 };

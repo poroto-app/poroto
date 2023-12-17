@@ -150,7 +150,13 @@ export const PlacePreview = ({
                     priceRange={priceRange}
                     estimatedStayDuration={estimatedStayDuration}
                 />
-                <HStack w="100%" mt="auto" px={Size.PlaceCardPaddingH}>
+                <HStack
+                    w="100%"
+                    px={Size.PlaceCardPaddingH}
+                    flexWrap={isLargerThan700 ? "wrap" : "nowrap"}
+                    overflowX="auto"
+                    spacing="4px"
+                >
                     {onClickShowRelatedPlaces && (
                         <PlaceChipActionShowRelatedPlaces
                             onClick={onClickShowRelatedPlaces}
