@@ -48,11 +48,7 @@ export const PlaceInfoTab = ({
             h={tabHeight[activeTab]}
             transition="height 0.4s ease"
         >
-            <HStack
-                w="100%"
-                px={tabHSpaacing}
-                alignItems="flex-start"
-            >
+            <HStack w="100%" px={tabHSpaacing} alignItems="flex-start">
                 <Tab
                     active={activeTab === PlaceInfoTabs.Information}
                     tab={PlaceInfoTabs.Information}

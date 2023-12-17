@@ -11,7 +11,7 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
 import {
     getImageSizeOf,
@@ -23,6 +23,11 @@ import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { copyObject } from "src/domain/util/object";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
+import {
+    PlaceChipActionGoogleMaps,
+    PlaceChipActionInstagram,
+} from "src/view/plandetail/PlaceChipContextAction";
+import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import { OnClickHandler } from "src/view/types/handler";
 
 type Props = {
@@ -34,7 +39,6 @@ type Props = {
     buttonLabelSelectPlace: string;
     onClose: () => void;
     onClickRelatedPlace: (placeId: string) => void;
-    titleConfirmUpdate: (props: { selectedPlaceId: string }) => ReactNode;
 };
 
 export function DialogRelatedPlaces({
@@ -46,7 +50,6 @@ export function DialogRelatedPlaces({
     buttonLabelSelectPlace,
     onClose,
     onClickRelatedPlace,
-    titleConfirmUpdate,
 }: Props) {
     const [selectedPlaceToUpdate, setSelectedPlaceToUpdate] =
         useState<Place | null>();
@@ -102,10 +105,7 @@ export function DialogRelatedPlaces({
                     />
                 ) : (
                     <ConfirmToUpdateScreen
-                        title={titleConfirmUpdate({
-                            selectedPlaceId: selectedPlaceToUpdate.id,
-                        })}
-                        image={selectedPlaceToUpdate.images[0]}
+                        place={selectedPlaceToUpdate}
                         buttonLabelUpdatePlace={buttonLabelUpdatePlace}
                         onClickUpdate={handleOnUpdatePlace}
                         onCancel={handleOnCancelUpdate}
@@ -240,39 +240,47 @@ export function PlaceListItem({
 }
 
 export function ConfirmToUpdateScreen({
-    title,
-    image,
+    place,
     buttonLabelUpdatePlace,
     onClickUpdate,
     onCancel,
 }: {
-    title: ReactNode;
-    image: ImageType;
+    place: Place;
     buttonLabelUpdatePlace: string;
     onClickUpdate: () => void;
     onCancel: () => void;
 }) {
     return (
-        <VStack w="100%" h="100%" px="16px" py="16px">
-            <Center flex={1} w="100%">
-                <VStack spacing="16px">
-                    <Box
-                        w="200px"
-                        h="200px"
-                        borderRadius="20px"
-                        overflow="hidden"
-                    >
-                        <Image
-                            w="100%"
-                            h="100%"
-                            objectFit="cover"
-                            src={getImageSizeOf(ImageSizes.Small, image)}
-                        />
-                    </Box>
-
-                    <Text fontSize="18px">{title}</Text>
-                </VStack>
-            </Center>
+        <VStack w="100%" h="100%" py="16px" spacing="24px" maxW="600px">
+            <VStack alignItems="flex-start" spacing="8px" w="100%" px="16px">
+                <Box w="100%" h="200px" borderRadius="20px" overflow="hidden">
+                    {/*TODO: ImageWithSkeletonnで実装*/}
+                    <Image
+                        w="100%"
+                        h="100%"
+                        objectFit="cover"
+                        src={getImageSizeOf(ImageSizes.Small, place.images[0])}
+                    />
+                </Box>
+                <Text fontSize="18px" fontWeight="bold">
+                    {place.name}
+                </Text>
+            </VStack>
+            <VStack w="100%">
+                <PlaceInfoTab
+                    tabHSpaacing="16px"
+                    priceRange={place.priceRange}
+                    categories={place.categories}
+                    googlePlaceReviews={place.googlePlaceReviews}
+                    estimatedStayDuration={place.estimatedStayDuration}
+                />
+                <HStack w="100%" px="16px" alignItems="flex-stat">
+                    <PlaceChipActionInstagram placeName={place.name} />
+                    <PlaceChipActionGoogleMaps
+                        googlePlaceId={place.googlePlaceId}
+                    />
+                </HStack>
+            </VStack>
             <HStack mt="auto" pb="48px">
                 <Button onClick={onCancel} colorScheme="red" variant="outline">
                     キャンセル
