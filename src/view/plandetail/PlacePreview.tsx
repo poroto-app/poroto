@@ -226,7 +226,7 @@ const ChipAction = ({
 }) => {
     return (
         <HStack
-            backgroundColor="#F8E7D3"
+            backgroundColor="#F1F1F1"
             color="#483216"
             onClick={onClick}
             as="button"
