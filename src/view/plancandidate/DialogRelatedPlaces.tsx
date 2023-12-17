@@ -33,22 +33,22 @@ import { OnClickHandler } from "src/view/types/handler";
 
 type Props = {
     visible: boolean;
-    dialogTitle: string;
     places: Place[] | null;
     updating: boolean;
     buttonLabelUpdatePlace: string;
-    buttonLabelSelectPlace: string;
+    titleSelectScreen: string;
+    titleConfirmScreen: string;
     onClose: () => void;
     onClickRelatedPlace: (placeId: string) => void;
 };
 
 export function DialogRelatedPlaces({
     visible,
-    dialogTitle,
     places,
     updating,
     buttonLabelUpdatePlace,
-    buttonLabelSelectPlace,
+                                        titleSelectScreen,
+    titleConfirmScreen,
     onClose,
     onClickRelatedPlace,
 }: Props) {
@@ -98,15 +98,15 @@ export function DialogRelatedPlaces({
                     <LoadingScreen />
                 ) : selectedPlaceToUpdate == null ? (
                     <SelectPlaceToUpdateScreen
-                        dialogTitle={dialogTitle}
+                        dialogTitle={titleSelectScreen}
                         places={places}
-                        buttonLabelSelectPlace={buttonLabelSelectPlace}
                         onClickUpdate={handleOnSelectPlaceToUpdate}
                         onClose={onClose}
                     />
                 ) : (
                     <ConfirmToUpdateScreen
                         place={selectedPlaceToUpdate}
+                        title={titleConfirmScreen}
                         buttonLabelUpdatePlace={buttonLabelUpdatePlace}
                         onClickUpdate={handleOnUpdatePlace}
                         onCancel={handleOnCancelUpdate}
@@ -132,13 +132,11 @@ function LoadingScreen() {
 function SelectPlaceToUpdateScreen({
     dialogTitle,
     places,
-    buttonLabelSelectPlace,
     onClickUpdate,
     onClose,
 }: {
     dialogTitle: string;
     places: Place[] | null;
-    buttonLabelSelectPlace: string;
     onClickUpdate: (placeId: string) => void;
     onClose: () => void;
 }) {
@@ -242,17 +240,22 @@ export function PlaceListItem({
 
 export function ConfirmToUpdateScreen({
     place,
+    title,
     buttonLabelUpdatePlace,
     onClickUpdate,
     onCancel,
 }: {
     place: Place;
+    title: string,
     buttonLabelUpdatePlace: string;
     onClickUpdate: () => void;
     onCancel: () => void;
 }) {
     return (
-        <VStack w="100%" h="100%" py="16px" spacing="24px" maxW="600px">
+        <VStack w="100%" h="100%" pt="32px" spacing="24px" maxW="600px">
+            <Text fontSize="20px" fontWeight="bold" color="#222222">
+                {title}
+            </Text>
             <VStack alignItems="flex-start" spacing="16px" w="100%" px="16px">
                 <Box w="100%" h="200px" borderRadius="20px" overflow="hidden">
                     {place.images.length > 0 && (
