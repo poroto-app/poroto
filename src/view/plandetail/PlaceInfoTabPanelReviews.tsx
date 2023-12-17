@@ -2,6 +2,7 @@ import { Box, Center, HStack, Icon, VStack } from "@chakra-ui/react";
 import { Splide, SplideSlide, SplideTrack } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { useRef, useState } from "react";
+import { isMobile, isTablet } from "react-device-detect";
 import { IconType } from "react-icons";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
@@ -15,6 +16,7 @@ export const PlaceInfoTabPanelReviews = ({ googlePlaceReviews }: Props) => {
     const refSplide = useRef<Splide>(null);
     const reviews = googlePlaceReviews;
     const [currentPage, setCurrentPage] = useState(0);
+    const isPC = !isMobile && !isTablet;
 
     if (!reviews || reviews.length === 0)
         return (
@@ -43,11 +45,13 @@ export const PlaceInfoTabPanelReviews = ({ googlePlaceReviews }: Props) => {
                     flex={1}
                     overflow="hidden"
                 >
-                    <PageButton
-                        icon={MdArrowBackIos}
-                        disabled={currentPage === 0}
-                        onClick={() => refSplide.current?.go("<")}
-                    />
+                    {isPC && (
+                        <PageButton
+                            icon={MdArrowBackIos}
+                            disabled={currentPage === 0}
+                            onClick={() => refSplide.current?.go("<")}
+                        />
+                    )}
                     <SplideTrack>
                         {reviews.map((review, index) => {
                             return (
@@ -65,11 +69,13 @@ export const PlaceInfoTabPanelReviews = ({ googlePlaceReviews }: Props) => {
                             );
                         })}
                     </SplideTrack>
-                    <PageButton
-                        icon={MdArrowForwardIos}
-                        disabled={currentPage === reviews.length - 1}
-                        onClick={() => refSplide.current?.go(">")}
-                    />
+                    {isPC && (
+                        <PageButton
+                            icon={MdArrowForwardIos}
+                            disabled={currentPage === reviews.length - 1}
+                            onClick={() => refSplide.current?.go(">")}
+                        />
+                    )}
                 </HStack>
                 <Box
                     as="ul"
@@ -95,13 +101,11 @@ const PageButton = ({
             as="button"
             onClick={() => !disabled && onClick()}
             cursor={disabled ? "default" : "pointer"}
-            backgroundColor="#FEF4E6"
             opacity={disabled ? 0 : 1}
             borderRadius="100%"
-            w="24px"
-            h="24px"
+            p="8px"
         >
-            <Icon w="8px" y="8px" as={icon} />
+            <Icon w="20px" y="20px" as={icon} />
         </Center>
     );
 };
