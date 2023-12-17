@@ -144,29 +144,6 @@ function SelectPlaceToUpdateScreen({
     if (places == null) return <LoadingScreen />;
 
     return (
-        <PlaceList
-            title={dialogTitle}
-            places={places}
-            buttonLabelSelectPlace={buttonLabelSelectPlace}
-            onClickRelatedPlace={onClickUpdate}
-            onClose={onClose}
-        />
-    );
-}
-
-function PlaceList({
-    title,
-    places,
-    onClickRelatedPlace,
-    onClose,
-}: {
-    title: string;
-    places: Place[];
-    buttonLabelSelectPlace: string;
-    onClickRelatedPlace: (placeId: string) => void;
-    onClose: () => void;
-}) {
-    return (
         <VStack
             w="100%"
             h="100%"
@@ -179,7 +156,7 @@ function PlaceList({
             <HStack w="100%">
                 <VStack flex={1} spacing={0}>
                     <Text fontSize="20px" fontWeight="bold" color="#574836">
-                        {title}
+                        {dialogTitle}
                     </Text>
                     <Text color="#9F8D76" fontWeight="bold">
                         気になった場所をタップ
@@ -205,7 +182,7 @@ function PlaceList({
                             name={place.name}
                             images={place.images}
                             categories={place.categories}
-                            onClick={() => onClickRelatedPlace(place.id)}
+                            onClick={() => onClickUpdate(place.id)}
                         />
                     ))}
             </SimpleGrid>
