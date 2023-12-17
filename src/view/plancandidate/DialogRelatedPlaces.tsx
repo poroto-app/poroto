@@ -252,37 +252,39 @@ export function ConfirmToUpdateScreen({
     onCancel: () => void;
 }) {
     return (
-        <VStack w="100%" h="100%" pt="32px" spacing="24px" maxW="600px">
-            <Text fontSize="20px" fontWeight="bold" color="#222222">
-                {title}
-            </Text>
-            <VStack alignItems="flex-start" spacing="16px" w="100%" px="16px">
-                <Box w="100%" h="200px" borderRadius="20px" overflow="hidden">
-                    {place.images.length > 0 && (
-                        <ImageSliderPreview
-                            images={place.images}
-                            borderRadius={20}
-                        />
-                    )}
-                </Box>
-                <Text fontSize="18px" fontWeight="bold" px="4px">
-                    {place.name}
+        <VStack w="100%" h="100%" spacing="24px" maxW="600px">
+            <VStack w="100%" pt="32px" spacing="24px" flex={1}>
+                <Text fontSize="20px" fontWeight="bold" color="#222222">
+                    {title}
                 </Text>
-            </VStack>
-            <VStack w="100%">
-                <PlaceInfoTab
-                    tabHSpaacing="20px"
-                    priceRange={place.priceRange}
-                    categories={place.categories}
-                    googlePlaceReviews={place.googlePlaceReviews}
-                    estimatedStayDuration={place.estimatedStayDuration}
-                />
-                <HStack w="100%" px="20px" alignItems="flex-stat">
-                    <PlaceChipActionInstagram placeName={place.name} />
-                    <PlaceChipActionGoogleMaps
-                        googlePlaceId={place.googlePlaceId}
+                <VStack alignItems="flex-start" spacing="16px" w="100%" px="16px">
+                    <Box w="100%" h="200px" borderRadius="20px" overflow="hidden">
+                        {place.images.length > 0 && (
+                            <ImageSliderPreview
+                                images={place.images}
+                                borderRadius={20}
+                            />
+                        )}
+                    </Box>
+                    <Text fontSize="18px" fontWeight="bold" px="4px">
+                        {place.name}
+                    </Text>
+                </VStack>
+                <VStack w="100%">
+                    <PlaceInfoTab
+                        tabHSpaacing="20px"
+                        priceRange={place.priceRange}
+                        categories={place.categories}
+                        googlePlaceReviews={place.googlePlaceReviews}
+                        estimatedStayDuration={place.estimatedStayDuration}
                     />
-                </HStack>
+                    <HStack w="100%" px="20px" alignItems="flex-stat">
+                        <PlaceChipActionInstagram placeName={place.name} />
+                        <PlaceChipActionGoogleMaps
+                            googlePlaceId={place.googlePlaceId}
+                        />
+                    </HStack>
+                </VStack>
             </VStack>
             <HStack w="100%" pb="48px" px="20px">
                 <RoundedButton w="100%" outlined onClick={onCancel}>
