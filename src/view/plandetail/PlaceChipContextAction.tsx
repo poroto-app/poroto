@@ -14,7 +14,7 @@ type Props = {
 export const PlaceChipContextAction = ({ label, icon, onClick }: Props) => {
     return (
         <HStack
-            backgroundColor="#F1F1F1"
+            backgroundColor="#FCF2E4"
             color="#483216"
             onClick={onClick}
             as="button"
