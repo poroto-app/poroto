@@ -1,5 +1,5 @@
 import {
-    Accordion,
+    AspectRatio,
     Box,
     Button,
     Center,
@@ -174,14 +174,11 @@ function PlaceList({
             px="16px"
             maxW="500px"
             spacing="32px"
+            overflowY="auto"
         >
             <HStack w="100%">
                 <VStack flex={1} spacing={0}>
-                    <Text
-                        fontSize="20px"
-                        fontWeight="bold"
-                        color="#574836"
-                    >
+                    <Text fontSize="20px" fontWeight="bold" color="#574836">
                         {title}
                     </Text>
                     <Text color="#9F8D76" fontWeight="bold">
@@ -192,22 +189,26 @@ function PlaceList({
                     <Icon width="24px" height="24px" as={MdClose} />
                 </Box>
             </HStack>
-            <Accordion w="100%" allowToggle borderColor="transparent" pb="32px">
-                <SimpleGrid columns={2} w="100%">
-                    {places
-                        .filter((p) => p.images.length > 0)
-                        .filter((p) => p.categories.length > 0)
-                        .map((place, i) => (
-                            <PlaceListItem
-                                key={i}
-                                name={place.name}
-                                images={place.images}
-                                categories={place.categories}
-                                onClick={() => onClickRelatedPlace(place.id)}
-                            />
-                        ))}
-                </SimpleGrid>
-            </Accordion>
+            <SimpleGrid
+                columns={2}
+                w="100%"
+                spacingY="32px"
+                spacingX="16px"
+                px="16px"
+            >
+                {places
+                    .filter((p) => p.images.length > 0)
+                    .filter((p) => p.categories.length > 0)
+                    .map((place, i) => (
+                        <PlaceListItem
+                            key={i}
+                            name={place.name}
+                            images={place.images}
+                            categories={place.categories}
+                            onClick={() => onClickRelatedPlace(place.id)}
+                        />
+                    ))}
+            </SimpleGrid>
         </VStack>
     );
 }
@@ -225,10 +226,11 @@ export function PlaceListItem({
 }) {
     return (
         <VStack spacing="16px">
-            <Box
+            <AspectRatio
                 as="button"
-                w="120px"
-                h="120px"
+                w="100%"
+                maxW="180px"
+                ratio={1}
                 borderRadius="100%"
                 overflow="hidden"
                 onClick={onClick}
@@ -242,7 +244,7 @@ export function PlaceListItem({
                         getImageSizeOf(ImageSizes.Small, images[0])
                     }
                 />
-            </Box>
+            </AspectRatio>
             <HStack spacing="4px" alignItems="flex-start" onClick={onClick}>
                 <Icon
                     w="24px"
