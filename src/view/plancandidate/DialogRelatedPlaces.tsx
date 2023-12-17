@@ -29,6 +29,7 @@ import {
 } from "src/view/plandetail/PlaceChipContextAction";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import { OnClickHandler } from "src/view/types/handler";
+import {ImageSliderPreview} from "src/view/common/ImageSliderPreview";
 
 type Props = {
     visible: boolean;
@@ -252,29 +253,28 @@ export function ConfirmToUpdateScreen({
 }) {
     return (
         <VStack w="100%" h="100%" py="16px" spacing="24px" maxW="600px">
-            <VStack alignItems="flex-start" spacing="8px" w="100%" px="16px">
+            <VStack alignItems="flex-start" spacing="16px" w="100%" px="16px">
                 <Box w="100%" h="200px" borderRadius="20px" overflow="hidden">
-                    {/*TODO: ImageWithSkeletonnで実装*/}
-                    <Image
-                        w="100%"
-                        h="100%"
-                        objectFit="cover"
-                        src={getImageSizeOf(ImageSizes.Small, place.images[0])}
-                    />
+                    {place.images.length > 0 && (
+                        <ImageSliderPreview
+                            images={place.images}
+                            borderRadius={20}
+                        />
+                    )}
                 </Box>
-                <Text fontSize="18px" fontWeight="bold">
+                <Text fontSize="18px" fontWeight="bold" px="4px">
                     {place.name}
                 </Text>
             </VStack>
             <VStack w="100%">
                 <PlaceInfoTab
-                    tabHSpaacing="16px"
+                    tabHSpaacing="20px"
                     priceRange={place.priceRange}
                     categories={place.categories}
                     googlePlaceReviews={place.googlePlaceReviews}
                     estimatedStayDuration={place.estimatedStayDuration}
                 />
-                <HStack w="100%" px="16px" alignItems="flex-stat">
+                <HStack w="100%" px="20px" alignItems="flex-stat">
                     <PlaceChipActionInstagram placeName={place.name} />
                     <PlaceChipActionGoogleMaps
                         googlePlaceId={place.googlePlaceId}
