@@ -64,7 +64,8 @@ export const PlaceChipActionInstagram = ({
     return (
         <Link
             href={`https://www.instagram.com/explore/tags/${encodeURIComponent(
-                placeName
+                // タグ検索をするときはスペースを削除する
+                placeName.replaceAll(/\s+/g, "")
             )}/`}
         >
             <PlaceChipContextAction
