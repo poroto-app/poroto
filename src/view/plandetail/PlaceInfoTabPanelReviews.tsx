@@ -32,7 +32,13 @@ export const PlaceInfoTabPanelReviews = ({ googlePlaceReviews }: Props) => {
                 arrows: false,
                 flickMaxPages: 1,
                 flickPower: 10,
-                gap: "16px",
+                focus: "center",
+                gap: "8px",
+                padding: {
+                    right: "28px",
+                    left: "28px",
+                },
+                perPage: 1,
             }}
             hasTrack={false}
             onMove={(splide) => setCurrentPage(splide.index)}
@@ -57,7 +63,7 @@ export const PlaceInfoTabPanelReviews = ({ googlePlaceReviews }: Props) => {
                             return (
                                 <SplideSlide
                                     key={index}
-                                    style={{ height: "100%", width: "100%" }}
+                                    style={{ height: "100%" }}
                                 >
                                     <PlaceReview
                                         text={review.text}
