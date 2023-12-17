@@ -1,22 +1,18 @@
 import {
     Accordion,
-    AccordionButton,
-    AccordionIcon,
-    AccordionItem,
-    AccordionPanel,
     Box,
     Button,
     Center,
     HStack,
     Icon,
     Image,
+    SimpleGrid,
     Spinner,
     Text,
     VStack,
 } from "@chakra-ui/react";
 import { ReactNode, useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
-import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
     getImageSizeOf,
     Image as ImageType,
@@ -27,7 +23,7 @@ import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { copyObject } from "src/domain/util/object";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
-import { PlaceReview } from "src/view/plandetail/PlaceReview";
+import { OnClickHandler } from "src/view/types/handler";
 
 type Props = {
     visible: boolean;
@@ -194,7 +190,7 @@ function PlaceList({
                 </Box>
             </HStack>
             <Accordion w="100%" allowToggle borderColor="transparent" pb="32px">
-                <VStack w="100%">
+                <SimpleGrid columns={2} w="100%">
                     {places
                         .filter((p) => p.images.length > 0)
                         .filter((p) => p.categories.length > 0)
@@ -204,14 +200,10 @@ function PlaceList({
                                 name={place.name}
                                 images={place.images}
                                 categories={place.categories}
-                                reviews={place.googlePlaceReviews}
-                                buttonLabelSelectPlace={buttonLabelSelectPlace}
-                                onClickUpdatePlace={() =>
-                                    onClickRelatedPlace(place.id)
-                                }
+                                onClick={() => onClickRelatedPlace(place.id)}
                             />
                         ))}
-                </VStack>
+                </SimpleGrid>
             </Accordion>
         </VStack>
     );
@@ -221,76 +213,47 @@ export function PlaceListItem({
     name,
     categories,
     images,
-    reviews,
-    buttonLabelSelectPlace,
-    onClickUpdatePlace,
+    onClick,
 }: {
     name: string;
     categories: PlaceCategory[];
     images: ImageType[];
-    reviews: GooglePlaceReview[] | null;
-    buttonLabelSelectPlace: string;
-    onClickUpdatePlace: () => void;
+    onClick: OnClickHandler;
 }) {
     return (
-        <AccordionItem
-            w="100%"
-            backgroundColor="#F3F6FE"
-            borderRadius="5px"
-            borderColor="transparent"
-        >
-            <HStack w="100%">
-                <Box w="80px" h="80px" overflow="hidden" borderRadius="5px">
-                    <Image
-                        w="100%"
-                        h="100%"
-                        objectFit="cover"
-                        src={
-                            images.length > 0 &&
-                            getImageSizeOf(ImageSizes.Small, images[0])
-                        }
-                    />
-                </Box>
-                <VStack alignItems="flex-start" flex={1}>
-                    <HStack>
-                        <Icon
-                            w="24px"
-                            h="24px"
-                            as={getPlaceCategoryIcon(
-                                categories.length > 0 ? categories[0] : null
-                            )}
-                        />
-                        <Text>{name}</Text>
-                    </HStack>
-                    <Box
-                        color="#4A66B5"
-                        fontWeight="bold"
-                        as="button"
-                        onClick={onClickUpdatePlace}
-                    >
-                        {buttonLabelSelectPlace}
-                    </Box>
-                </VStack>
-                {reviews && reviews.length > 0 && (
-                    <AccordionButton px="8px" w="auto">
-                        <AccordionIcon />
-                    </AccordionButton>
-                )}
+        <VStack spacing="16px">
+            <Box
+                as="button"
+                w="120px"
+                h="120px"
+                borderRadius="100%"
+                overflow="hidden"
+                onClick={onClick}
+            >
+                <Image
+                    w="100%"
+                    h="100%"
+                    objectFit="cover"
+                    src={
+                        images.length > 0 &&
+                        getImageSizeOf(ImageSizes.Small, images[0])
+                    }
+                />
+            </Box>
+            <HStack spacing="4px" alignItems="flex-start" onClick={onClick}>
+                <Icon
+                    w="24px"
+                    h="24px"
+                    color="#946A35"
+                    as={getPlaceCategoryIcon(
+                        categories.length > 0 ? categories[0] : null
+                    )}
+                />
+                <Text fontWeight="bold" color="#574836">
+                    {name}
+                </Text>
             </HStack>
-            <AccordionPanel>
-                <VStack w="100%">
-                    {reviews &&
-                        reviews.map((review, i) => (
-                            <PlaceReview
-                                key={i}
-                                authorName={review.authorName}
-                                authorUrl={review.authorUrl}
-                                text={review.text}
-                            />
-                        ))}
-                </VStack>
-            </AccordionPanel>
-        </AccordionItem>
+        </VStack>
     );
 }
 

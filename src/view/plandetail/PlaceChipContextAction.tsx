@@ -1,13 +1,7 @@
 import { Link } from "@chakra-ui/next-js";
 import { HStack, Icon, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import {
-    MdOutlineCompare,
-    MdOutlineCompareArrows,
-    MdOutlineDeleteOutline,
-    MdOutlineFindReplace,
-    MdOutlineLocationOn
-} from "react-icons/md";
+import { MdOutlineDeleteOutline, MdOutlineFindReplace } from "react-icons/md";
 import { SiGooglemaps, SiInstagram } from "react-icons/si";
 import { OnClickHandler } from "src/view/types/handler";
 
@@ -29,7 +23,9 @@ export const PlaceChipContextAction = ({ label, icon, onClick }: Props) => {
             borderRadius="20px"
         >
             <Icon w="16px" h="16px" as={icon} />
-            <Text fontSize="0.8rem" whiteSpace="nowrap">{label}</Text>
+            <Text fontSize="0.8rem" whiteSpace="nowrap">
+                {label}
+            </Text>
         </HStack>
     );
 };

@@ -25,7 +25,8 @@ import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import {
-    PlaceChipActionDelete, PlaceChipActionGoogleMaps,
+    PlaceChipActionDelete,
+    PlaceChipActionGoogleMaps,
     PlaceChipActionInstagram,
     PlaceChipActionShowRelatedPlaces,
 } from "src/view/plandetail/PlaceChipContextAction";
