@@ -67,6 +67,7 @@ export const PlaceChipActionInstagram = ({
                 // タグ検索をするときはスペースを削除する
                 placeName.replaceAll(/\s+/g, "")
             )}/`}
+            target="_blank"
         >
             <PlaceChipContextAction
                 label="Instagramで検索"
@@ -83,6 +84,7 @@ export const PlaceChipActionGoogleMaps = ({
 }) => {
     return (
         <Link
+            target="_blank"
             href={`https://www.google.com/maps/place/?q=place_id:${encodeURIComponent(
                 googlePlaceId
             )}`}
