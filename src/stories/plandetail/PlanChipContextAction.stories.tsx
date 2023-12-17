@@ -1,10 +1,12 @@
 import { Meta, StoryObj } from "@storybook/react";
+import { MdOutlineDeleteOutline } from "react-icons/md";
 import {
     PlaceChipActionDelete,
+    PlaceChipActionGoogleMaps,
+    PlaceChipActionInstagram,
     PlaceChipActionShowRelatedPlaces,
-    PlaceChipContextAction
+    PlaceChipContextAction,
 } from "src/view/plandetail/PlaceChipContextAction";
-import {MdOutlineDeleteOutline} from "react-icons/md";
 
 export default {
     title: "plan_detail/PlaceChipContextAction",
@@ -24,9 +26,21 @@ export const Primary: Story = {
 };
 
 export const Delete: Story = {
-    render: (args) => <PlaceChipActionDelete {...args} />,
-}
+    render: (args) => <PlaceChipActionDelete onClick={() => 0} {...args} />,
+};
 
 export const ShowRelatedPlaces: Story = {
-    render: (args) => <PlaceChipActionShowRelatedPlaces {...args} />,
-}
+    render: (args) => (
+        <PlaceChipActionShowRelatedPlaces onClick={() => 0} {...args} />
+    ),
+};
+
+export const Instagram: Story = {
+    render: () => <PlaceChipActionInstagram placeName="東京駅" />,
+};
+
+export const GoogleMaps: Story = {
+    render: () => (
+        <PlaceChipActionGoogleMaps googlePlaceId="ChIJC3Cf2PuLGGAROO00ukl8JwA" />
+    ),
+};
