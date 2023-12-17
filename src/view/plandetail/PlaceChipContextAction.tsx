@@ -1,7 +1,13 @@
 import { Link } from "@chakra-ui/next-js";
 import { HStack, Icon, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import { MdOutlineDeleteOutline, MdOutlineLocationOn } from "react-icons/md";
+import {
+    MdOutlineCompare,
+    MdOutlineCompareArrows,
+    MdOutlineDeleteOutline,
+    MdOutlineFindReplace,
+    MdOutlineLocationOn
+} from "react-icons/md";
 import { SiGooglemaps, SiInstagram } from "react-icons/si";
 import { OnClickHandler } from "src/view/types/handler";
 
@@ -50,7 +56,7 @@ export const PlaceChipActionShowRelatedPlaces = ({
     return (
         <PlaceChipContextAction
             label="関連した場所を表示"
-            icon={MdOutlineLocationOn}
+            icon={MdOutlineFindReplace}
             onClick={onClick}
         />
     );
