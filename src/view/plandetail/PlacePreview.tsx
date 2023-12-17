@@ -25,7 +25,7 @@ import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import {
-    PlaceChipActionDelete,
+    PlaceChipActionDelete, PlaceChipActionGoogleMaps,
     PlaceChipActionInstagram,
     PlaceChipActionShowRelatedPlaces,
 } from "src/view/plandetail/PlaceChipContextAction";
@@ -35,6 +35,7 @@ import styled from "styled-components";
 
 type Props = {
     placeId: string;
+    googlePlaceId: string;
     name: string;
     images: ImageType[];
     googlePlaceReviews?: GooglePlaceReview[];
@@ -55,6 +56,7 @@ export type PlaceActionHandler = {
 // TODO: Propsの型を共通して定義できるようにする
 export const PlacePreview = ({
     placeId,
+    googlePlaceId,
     name,
     images,
     googlePlaceReviews,
@@ -155,6 +157,7 @@ export const PlacePreview = ({
                         />
                     )}
                     <PlaceChipActionInstagram placeName={name} />
+                    <PlaceChipActionGoogleMaps googlePlaceId={googlePlaceId} />
                     {onClickDeletePlace && (
                         <PlaceChipActionDelete onClick={onClickDeletePlace} />
                     )}
