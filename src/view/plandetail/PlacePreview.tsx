@@ -118,14 +118,26 @@ export const PlacePreview = ({
                 p="16px"
                 overflow="hidden"
             >
-                <Text
-                    fontSize="1.15rem"
-                    as="h2"
-                    fontWeight="bold"
-                    color="#222222"
-                >
-                    {name}
-                </Text>
+                <HStack w="100%">
+                    <Text
+                        fontSize="1.15rem"
+                        as="h2"
+                        fontWeight="bold"
+                        color="#222222"
+                        flex={1}
+                    >
+                        {name}
+                    </Text>
+                    {onUpdateLikeAtPlace && (
+                        <PlaceLikeButton
+                            isLiked={like}
+                            likeCount={likeCount}
+                            onUpdateLike={(like) =>
+                                onUpdateLikeAtPlace({ like, placeId })
+                            }
+                        />
+                    )}
+                </HStack>
                 <PlaceInfoTab
                     categories={categories}
                     googlePlaceReviews={googlePlaceReviews}
@@ -148,15 +160,6 @@ export const PlacePreview = ({
                         />
                     )}
                 </HStack>
-                {onUpdateLikeAtPlace && (
-                    <PlaceLikeButton
-                        isLiked={like}
-                        likeCount={likeCount}
-                        onUpdateLike={(like) =>
-                            onUpdateLikeAtPlace({ like, placeId })
-                        }
-                    />
-                )}
             </VStack>
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
                 <ModalOverlay />
