@@ -1,4 +1,4 @@
-import { HStack, Text } from "@chakra-ui/react";
+import { HStack, Icon, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { MdFavorite } from "react-icons/md";
 
@@ -14,27 +14,28 @@ export const PlaceLikeButton = ({
     onUpdateLike,
 }: Props) => {
     return (
-        <HStack
-            alignItems="center"
-            boxShadow="0px 0px 20px 0px rgba(220, 183, 141, 0.50)"
-            borderRadius="50px"
-            px="8px"
-            py="4px"
-            spacing="12px"
+        <motion.button
+            whileTap={{ scale: 1.1 }}
+            whileHover={{ scale: 1.2 }}
+            onClick={() => onUpdateLike(!isLiked)}
         >
-            <motion.button
-                onClick={() => onUpdateLike(!isLiked)}
-                style={{ fontSize: "1.6rem" }}
-                whileTap={{ scale: 1.1 }}
-                whileHover={{ scale: 1.2 }}
+            <HStack
+                alignItems="center"
+                boxShadow="0px 0px 20px 0px rgba(220, 183, 141, 0.50)"
+                borderRadius="50px"
+                backgroundColor="white"
+                px="8px"
+                py="4px"
+                spacing="8px"
             >
-                {isLiked ? (
-                    <MdFavorite style={{ color: "red" }} />
-                ) : (
-                    <MdFavorite style={{ color: "#767676" }} />
-                )}
-            </motion.button>
-            <Text fontWeight="bold">{likeCount}</Text>
-        </HStack>
+                <Icon
+                    w="20px"
+                    h="20px"
+                    color={isLiked ? "red" : "#767676"}
+                    as={isLiked ? MdFavorite : MdFavorite}
+                />
+                <Text fontWeight="bold">{likeCount}</Text>
+            </HStack>
+        </motion.button>
     );
 };
