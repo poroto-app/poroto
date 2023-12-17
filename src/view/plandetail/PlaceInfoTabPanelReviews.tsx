@@ -95,7 +95,7 @@ const PageButton = ({
             as="button"
             onClick={() => !disabled && onClick()}
             cursor={disabled ? "default" : "pointer"}
-            backgroundColor="#efd8be"
+            backgroundColor="#FEF4E6"
             opacity={disabled ? 0 : 1}
             borderRadius="100%"
             w="24px"

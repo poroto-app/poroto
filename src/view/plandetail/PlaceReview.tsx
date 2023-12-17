@@ -22,7 +22,7 @@ export function PlaceReview({
             py="8px"
             borderRadius="10px"
             alignItems="flex-start"
-            backgroundColor="#FCE9D3"
+            backgroundColor="#FEF4E6"
             overflowY="scroll"
             sx={{
                 "::-webkit-scrollbar": {
