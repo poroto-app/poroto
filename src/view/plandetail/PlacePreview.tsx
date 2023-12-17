@@ -185,7 +185,8 @@ const Container = styled(Box)`
     border-radius: 20px;
     width: 100%;
     overflow: hidden;
-    background-color: #fbf2e7;
+    background-color: white;
+    box-shadow: 0px 0px 20px 0px #f0dfca;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
