@@ -173,7 +173,7 @@ function PlaceList({
             py="32px"
             px="16px"
             maxW="500px"
-            spacing="16px"
+            spacing="32px"
         >
             <HStack w="100%">
                 <VStack flex={1} spacing={0}>
