@@ -26,6 +26,7 @@ import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import {
     PlaceChipActionDelete,
+    PlaceChipActionInstagram,
     PlaceChipActionShowRelatedPlaces,
 } from "src/view/plandetail/PlaceChipContextAction";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
@@ -153,6 +154,7 @@ export const PlacePreview = ({
                             onClick={onClickShowRelatedPlaces}
                         />
                     )}
+                    <PlaceChipActionInstagram placeName={name} />
                     {onClickDeletePlace && (
                         <PlaceChipActionDelete onClick={onClickDeletePlace} />
                     )}
