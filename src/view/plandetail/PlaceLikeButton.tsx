@@ -1,6 +1,6 @@
 import { HStack, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import { MdFavorite } from "react-icons/md";
 
 type Props = {
     isLiked: boolean;
@@ -8,35 +8,33 @@ type Props = {
     onUpdateLike: (like: boolean) => void;
 };
 
-export const PlaceLikeButton = ({ isLiked, likeCount, onUpdateLike }: Props) => {
+export const PlaceLikeButton = ({
+    isLiked,
+    likeCount,
+    onUpdateLike,
+}: Props) => {
     return (
-        <HStack alignItems="center" marginTop="4px">
+        <HStack
+            alignItems="center"
+            boxShadow="0px 0px 20px 0px rgba(220, 183, 141, 0.50)"
+            borderRadius="50px"
+            px="8px"
+            py="4px"
+            spacing="12px"
+        >
             <motion.button
                 onClick={() => onUpdateLike(!isLiked)}
-                style={{
-                    marginRight: "10px",
-                    border: "none",
-                    backgroundColor: "transparent",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    fontSize: "1.6rem",
-                }}
+                style={{ fontSize: "1.6rem" }}
                 whileTap={{ scale: 1.1 }}
                 whileHover={{ scale: 1.2 }}
             >
                 {isLiked ? (
                     <MdFavorite style={{ color: "red" }} />
                 ) : (
-                    <MdFavoriteBorder />
+                    <MdFavorite style={{ color: "#767676" }} />
                 )}
             </motion.button>
-            <Text
-                fontSize="0.8rem"
-                as="h2"
-                fontWeight="bold"
-                color="#222222"
-            >{`いいね！${likeCount.toLocaleString()}件`}</Text>
+            <Text fontWeight="bold">{likeCount}</Text>
         </HStack>
     );
 };
