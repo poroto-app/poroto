@@ -14,6 +14,7 @@ import { PlaceInfoTabPanelReviews } from "src/view/plandetail/PlaceInfoTabPanelR
 type Props = {
     priceRange: PriceRange | null;
     categories: PlaceCategory[];
+    tabHSpaacing?: string;
     googlePlaceReviews: GooglePlaceReview[];
     estimatedStayDuration: number;
 };
@@ -27,6 +28,7 @@ export type PlaceInfoTab = (typeof PlaceInfoTabs)[keyof typeof PlaceInfoTabs];
 export const PlaceInfoTab = ({
     categories,
     priceRange,
+    tabHSpaacing,
     googlePlaceReviews,
     estimatedStayDuration,
 }: Props) => {
@@ -46,11 +48,7 @@ export const PlaceInfoTab = ({
             h={tabHeight[activeTab]}
             transition="height 0.4s ease"
         >
-            <HStack
-                w="100%"
-                px={Size.PlaceCardPaddingH}
-                alignItems="flex-start"
-            >
+            <HStack w="100%" px={tabHSpaacing} alignItems="flex-start">
                 <Tab
                     active={activeTab === PlaceInfoTabs.Information}
                     tab={PlaceInfoTabs.Information}

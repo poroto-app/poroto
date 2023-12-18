@@ -146,6 +146,7 @@ export const PlacePreview = ({
                     )}
                 </HStack>
                 <PlaceInfoTab
+                    tabHSpaacing={Size.PlaceCardPaddingH}
                     categories={categories}
                     googlePlaceReviews={googlePlaceReviews}
                     priceRange={priceRange}

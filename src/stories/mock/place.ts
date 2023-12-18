@@ -127,7 +127,7 @@ const tokyo: Place = {
             timeInMilliSec: 1600000000000,
         },
     ],
-    categories: [],
+    categories: [{ id: PlaceCategoryTypes.Culture, displayName: "駅" }],
     likeCount: 10,
 };
 
