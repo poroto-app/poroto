@@ -161,6 +161,7 @@ const PlaceListItem = ({
     return (
         <VStack spacing="16px" w="100%" pl="24px" position="relative">
             <PlacePreview
+                googlePlaceId={place.googlePlaceId}
                 placeId={place.id}
                 name={place.name}
                 images={place.images}
