@@ -97,17 +97,19 @@ export const Tab = ({
             flex={1}
             alignItems="flex-start"
             as="button"
-            spacing="0"
             onClick={() => onClick(tab)}
         >
-            <Text userSelect="none">{label}</Text>
-            <Box
-                w={active ? "40px" : "20px"}
-                h="8px"
-                backgroundColor="#DCB78D"
-                opacity={active ? 1 : 0}
-                transition="all 0.2s ease"
-            />
+            <VStack alignItems="center" spacing="0">
+                <Text userSelect="none">{label}</Text>
+                <Box
+                    w="100%"
+                    h="6px"
+                    borderRadius="10px"
+                    backgroundColor="#DCB78D"
+                    opacity={active ? 1 : 0}
+                    transition="all 0.4s ease"
+                />
+            </VStack>
         </VStack>
     );
 };
