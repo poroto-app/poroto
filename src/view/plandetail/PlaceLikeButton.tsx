@@ -21,7 +21,7 @@ export const PlaceLikeButton = ({
         >
             <HStack
                 alignItems="center"
-                boxShadow="0px 0px 20px 0px rgba(220, 183, 141, 0.50)"
+                boxShadow="0px 0px 5px 0px rgba(220, 183, 141, 1)"
                 borderRadius="50px"
                 backgroundColor="white"
                 px="8px"
