@@ -19,10 +19,10 @@ export function DialogAddPlace({
     return (
         <DialogRelatedPlaces
             visible={isDialogVisible}
-            dialogTitle="プランに新しい場所を追加する"
+            titleConfirmScreen="この場所を追加しますか？"
+            titleSelectScreen="プランに新しい場所を追加する"
             places={placesToAdd}
             updating={isAddingPlace}
-            buttonLabelSelectPlace="この場所を追加する"
             buttonLabelUpdatePlace="追加"
             onClose={onCloseDialog}
             onClickRelatedPlace={(placeId) =>
@@ -30,12 +30,6 @@ export function DialogAddPlace({
                     placeIdToAdd: placeId,
                 })
             }
-            titleConfirmUpdate={({ selectedPlaceId }) => (
-                <>
-                    {placesToAdd.find((p) => p.id === selectedPlaceId)?.name}
-                    をプランに追加しますか？
-                </>
-            )}
         />
     );
 }

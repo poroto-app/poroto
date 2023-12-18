@@ -21,6 +21,7 @@ import { NotFound } from "src/view/common/NotFound";
 import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
+import { usePlaceLikeInPlanCandidate } from "src/view/hooks/usePlaceLikeInPlanCandidate";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
 import { usePlanPlaceDelete } from "src/view/hooks/usePlanPlaceDelete";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
@@ -78,6 +79,9 @@ const PlanDetail = () => {
         planCandidateId: sessionId as string,
         planId: planId as string,
     });
+
+    const { likedPlaceIdsInPlanCandidate, updateLikeAtPlace } =
+        usePlaceLikeInPlanCandidate();
 
     const {
         preview: plan,
@@ -177,6 +181,7 @@ const PlanDetail = () => {
                     <PlanPageSection title="プラン">
                         <PlanPlaceList
                             plan={plan}
+                            likePlaceIds={likedPlaceIdsInPlanCandidate}
                             createdBasedOnCurrentLocation={
                                 createdBasedOnCurrentLocation
                             }
@@ -191,6 +196,7 @@ const PlanDetail = () => {
                             onClickDeletePlace={(placeId) =>
                                 showDialogToDelete({ placeIdToDelete: placeId })
                             }
+                            onUpdateLikeAtPlace={updateLikeAtPlace}
                         />
                     </PlanPageSection>
                     <PlanPageSection title="プラン内の場所">

@@ -12,10 +12,12 @@ import {
     FetchPlansDocument,
     NearbyPlaceCategoriesDocument,
     PlacesToAddForPlanOfPlanCandidateDocument,
+    PlacesToReplaceForPlanOfPlanCandidateDocument,
     PlansByLocationDocument,
     PlansByUserDocument,
     ReplacePlaceOfPlanCandidateDocument,
     SavePlanFromCandidateDocument,
+    UpdateLikeAtPlaceInPlanCandidateDocument,
 } from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
@@ -34,6 +36,8 @@ import {
     FetchNearbyPlaceCategoriesRequest,
     FetchNearbyPlaceCategoriesResponse,
     FetchPlacesToAddForPlanOfPlanCandidateRequest,
+    FetchPlacesToReplaceForPlanOfPlanCandidateRequest,
+    FetchPlacesToReplaceForPlanOfPlanCandidateResponse,
     FetchPlanRequest,
     FetchPlanResponse,
     FetchPlansByLocationRequest,
@@ -44,6 +48,8 @@ import {
     ReplacePlaceInPlanOfPlanCandidateRequest,
     SavePlanFromCandidateRequest,
     SavePlanFromCandidateResponse,
+    UpdateLikeAtPlaceInPlanCandidateRequest,
+    UpdateLikeAtPlaceInPlanCandidateResponse,
     UpdatePlanCandidatePlacesOrderRequest,
     UpdatePlanCandidatePlacesOrderResponse,
 } from "src/domain/plan/PlannerApi";
@@ -176,7 +182,11 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         });
 
         if (!data.cachedCreatedPlans.plans)
-            return { plans: null, createdBasedOnCurrentLocation: false };
+            return {
+                plans: null,
+                createdBasedOnCurrentLocation: false,
+                likedPlaceIds: [],
+            };
 
         return {
             createdBasedOnCurrentLocation:
@@ -184,6 +194,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             plans: data.cachedCreatedPlans.plans.map((plan) =>
                 fromGraphqlPlanEntity(plan)
             ),
+            likedPlaceIds: data.cachedCreatedPlans.likedPlaceIds,
         };
     }
 
@@ -207,19 +218,20 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     }
 
     async fetchPlacesToReplaceForPlanOfPlanCandidate(
-        request: FetchPlacesToAddForPlanOfPlanCandidateRequest
-    ) {
+        request: FetchPlacesToReplaceForPlanOfPlanCandidateRequest
+    ): Promise<FetchPlacesToReplaceForPlanOfPlanCandidateResponse> {
         const { data } = await this.client.query({
-            query: PlacesToAddForPlanOfPlanCandidateDocument,
+            query: PlacesToReplaceForPlanOfPlanCandidateDocument,
             variables: {
                 input: {
                     planCandidateId: request.planCandidateId,
                     planId: request.planId,
+                    placeId: request.placeId,
                 },
             },
         });
         return {
-            places: data.placesToAddForPlanCandidate.places.map((place) =>
+            places: data.placesToReplaceForPlanCandidate.places.map((place) =>
                 fromGraphqlPlaceEntity(place)
             ),
         };
@@ -366,6 +378,29 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             ),
         };
     }
+
+    async updateLikeAtPlaceInPlanCandidate(
+        request: UpdateLikeAtPlaceInPlanCandidateRequest
+    ): Promise<UpdateLikeAtPlaceInPlanCandidateResponse> {
+        const { data } = await this.client.mutate({
+            mutation: UpdateLikeAtPlaceInPlanCandidateDocument,
+            variables: {
+                input: {
+                    planCandidateId: request.planCandidateId,
+                    placeId: request.placeId,
+                    like: request.like,
+                },
+            },
+        });
+
+        return {
+            plans: data.likeToPlaceInPlanCandidate.planCandidate.plans.map(
+                (plan) => fromGraphqlPlanEntity(plan)
+            ),
+            likedPlaceIds:
+                data.likeToPlaceInPlanCandidate.planCandidate.likedPlaceIds,
+        };
+    }
 }
 
 type GraphQlPlanEntity = FetchPlanByIdQuery["plan"];
@@ -421,5 +456,6 @@ function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
                   googlePriceLevel: place.priceRange.googlePriceLevel,
               }
             : null,
+        likeCount: place.likeCount,
     };
 }

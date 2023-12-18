@@ -78,6 +78,7 @@ const bookStore: Place = {
         },
     ],
     categories: [{ id: PlaceCategoryTypes.BookStores, displayName: "本屋" }],
+    likeCount: 5,
 };
 
 const tokyo: Place = {
@@ -126,7 +127,8 @@ const tokyo: Place = {
             timeInMilliSec: 1600000000000,
         },
     ],
-    categories: [],
+    categories: [{ id: PlaceCategoryTypes.Culture, displayName: "駅" }],
+    likeCount: 10,
 };
 
 const marunouchi: Place = {
@@ -165,6 +167,7 @@ const marunouchi: Place = {
     },
     estimatedStayDuration: 60,
     categories: [{ id: PlaceCategoryTypes.Park, displayName: "公園" }],
+    likeCount: 20,
 };
 
 export const mockPlaces = {

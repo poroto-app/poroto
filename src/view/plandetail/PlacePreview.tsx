@@ -12,15 +12,7 @@ import {
     useMediaQuery,
     VStack,
 } from "@chakra-ui/react";
-import { motion } from "framer-motion";
 import { useState } from "react";
-import { IconType } from "react-icons";
-import {
-    MdFavorite,
-    MdFavoriteBorder,
-    MdOutlineDeleteOutline,
-    MdOutlineLocationOn,
-} from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
     getImageSizeOf,
@@ -30,31 +22,53 @@ import {
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
+import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
+import {
+    PlaceChipActionDelete,
+    PlaceChipActionGoogleMaps,
+    PlaceChipActionInstagram,
+    PlaceChipActionShowRelatedPlaces,
+} from "src/view/plandetail/PlaceChipContextAction";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
+import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
 import styled from "styled-components";
 
 type Props = {
+    placeId: string;
+    googlePlaceId: string;
     name: string;
     images: ImageType[];
     googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
+    like: boolean;
+    likeCount: number;
     estimatedStayDuration: number;
     showRelatedPlaces?: boolean;
     onClickShowRelatedPlaces?: () => void;
     onClickDeletePlace?: () => void;
+} & PlaceActionHandler;
+
+export type PlaceActionHandler = {
+    onUpdateLikeAtPlace?: (input: { like: boolean; placeId: string }) => void;
 };
 
+// TODO: Propsの型を共通して定義できるようにする
 export const PlacePreview = ({
+    placeId,
+    googlePlaceId,
     name,
     images,
     googlePlaceReviews,
     categories,
     priceRange,
+    like,
+    likeCount,
     estimatedStayDuration,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
+    onUpdateLikeAtPlace,
 }: Props) => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
@@ -72,19 +86,9 @@ export const PlacePreview = ({
         setSelectedImage(null);
     };
 
-    const [isLiked, setIsLiked] = useState(false);
-
-    const handleLikeClick = () => {
-        setIsLiked(!isLiked);
-        //TODO: ここでいいねが押されたことをバックエンドに送信する処理を追加する
-    };
-
     const handleDoubleClick = () => {
-        setIsLiked(true);
-        //TODO: ここでいいねが押されたことをバックエンドに送信する処理を追加する
+        onUpdateLikeAtPlace?.({ like: !like, placeId });
     };
-
-    const [likeCount, setLikeCount] = useState(65000); // Mock count for demonstration
 
     if (isEmptyLocation) {
         return (
@@ -118,46 +122,54 @@ export const PlacePreview = ({
                 flex={1}
                 alignItems="flex-start"
                 w="100%"
-                p="16px"
+                py="16px"
                 overflow="hidden"
             >
-                <Text
-                    fontSize="1.15rem"
-                    as="h2"
-                    fontWeight="bold"
-                    color="#222222"
-                >
-                    {name}
-                </Text>
+                <HStack w="100%" px={Size.PlaceCardPaddingH}>
+                    <Text
+                        fontSize="1.15rem"
+                        as="h2"
+                        fontWeight="bold"
+                        color="#222222"
+                        flex={1}
+                    >
+                        {name}
+                    </Text>
+                    {onUpdateLikeAtPlace && (
+                        <PlaceLikeButton
+                            isLiked={like}
+                            likeCount={likeCount}
+                            onUpdateLike={(like) =>
+                                onUpdateLikeAtPlace({ like, placeId })
+                            }
+                        />
+                    )}
+                </HStack>
                 <PlaceInfoTab
+                    tabHSpaacing={Size.PlaceCardPaddingH}
                     categories={categories}
                     googlePlaceReviews={googlePlaceReviews}
                     priceRange={priceRange}
                     estimatedStayDuration={estimatedStayDuration}
                 />
-                <HStack w="100%" mt="auto">
+                <HStack
+                    w="100%"
+                    px={Size.PlaceCardPaddingH}
+                    flexWrap={isLargerThan700 ? "wrap" : "nowrap"}
+                    overflowX="auto"
+                    spacing="4px"
+                >
                     {onClickShowRelatedPlaces && (
-                        <ChipAction
-                            label="関連した場所を表示"
-                            icon={MdOutlineLocationOn}
+                        <PlaceChipActionShowRelatedPlaces
                             onClick={onClickShowRelatedPlaces}
                         />
                     )}
+                    <PlaceChipActionInstagram placeName={name} />
+                    <PlaceChipActionGoogleMaps googlePlaceId={googlePlaceId} />
                     {onClickDeletePlace && (
-                        <ChipAction
-                            label="削除"
-                            icon={MdOutlineDeleteOutline}
-                            onClick={onClickDeletePlace}
-                        />
+                        <PlaceChipActionDelete onClick={onClickDeletePlace} />
                     )}
                 </HStack>
-                {process.env.APP_ENV !== "production" && (
-                    <LikeButton
-                        isLiked={isLiked}
-                        likeCount={likeCount}
-                        handleLikeClick={handleLikeClick}
-                    />
-                )}
             </VStack>
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
                 <ModalOverlay />
@@ -183,7 +195,8 @@ const Container = styled(Box)`
     border-radius: 20px;
     width: 100%;
     overflow: hidden;
-    background-color: #fbf2e7;
+    background-color: white;
+    box-shadow: 0px 0px 20px 0px #f0dfca;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -211,61 +224,3 @@ const ImagePreviewContainer = styled.div<{ hasImage: boolean }>`
         padding: 16px;
     }
 `;
-
-const ChipAction = ({
-    label,
-    icon,
-    onClick,
-}: {
-    label: string;
-    icon: IconType;
-    onClick: () => void;
-}) => {
-    return (
-        <HStack
-            backgroundColor="#F8E7D3"
-            color="#483216"
-            onClick={onClick}
-            as="button"
-            px="8px"
-            py="4px"
-            borderRadius="20px"
-        >
-            <Icon w="16px" h="16px" as={icon} />
-            <Text fontSize="0.8rem">{label}</Text>
-        </HStack>
-    );
-};
-
-const LikeButton = ({ isLiked, likeCount, handleLikeClick }) => {
-    return (
-        <HStack alignItems="center" marginTop="4px">
-            <motion.button
-                onClick={handleLikeClick}
-                style={{
-                    marginRight: "10px",
-                    border: "none",
-                    backgroundColor: "transparent",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    fontSize: "1.6rem",
-                }}
-                whileTap={{ scale: 1.1 }}
-                whileHover={{ scale: 1.2 }}
-            >
-                {isLiked ? (
-                    <MdFavorite style={{ color: "red" }} />
-                ) : (
-                    <MdFavoriteBorder />
-                )}
-            </motion.button>
-            <Text
-                fontSize="0.8rem"
-                as="h2"
-                fontWeight="bold"
-                color="#222222"
-            >{`いいね！${likeCount.toLocaleString()}件`}</Text>
-        </HStack>
-    );
-};

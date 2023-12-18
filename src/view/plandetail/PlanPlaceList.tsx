@@ -13,10 +13,14 @@ import { Plan } from "src/domain/models/Plan";
 import { Transition } from "src/domain/models/Transition";
 import { DateHelper } from "src/domain/util/date";
 import { Colors } from "src/view/constants/color";
-import { PlacePreview } from "src/view/plandetail/PlacePreview";
+import {
+    PlaceActionHandler,
+    PlacePreview,
+} from "src/view/plandetail/PlacePreview";
 
 type Props = {
     plan: Plan;
+    likePlaceIds: string[];
     createdBasedOnCurrentLocation?: boolean;
     onClickAddPlace?: (props: { previousPlaceId: string }) => void;
     onClickShowRelatedPlaces?: (placeId: string) => void;
@@ -27,15 +31,17 @@ type Props = {
      * 滞在する時間を表示するために利用される
      */
     startTime?: Date;
-};
+} & PlaceActionHandler;
 
 export function PlanPlaceList({
     plan,
+    likePlaceIds,
     createdBasedOnCurrentLocation,
     startTime = new Date(Date.now()),
     onClickAddPlace,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
+    onUpdateLikeAtPlace,
 }: Props) {
     const schedules = generateSchedules({
         places: plan.places,
@@ -66,9 +72,13 @@ export function PlanPlaceList({
                         />
                         <PlaceListItem
                             place={place}
+                            like={likePlaceIds.some(
+                                (placeId) => placeId === place.id
+                            )}
                             onClickAddPlace={onClickAddPlace}
                             onClickShowRelatedPlaces={onClickShowRelatedPlaces}
                             onClickDeletePlace={onClickDeletePlace}
+                            onUpdateLikeAtPlace={onUpdateLikeAtPlace}
                         />
                         <ScheduleListItem
                             label={DateHelper.dateToHHMM(schedules[i].endTime)}
@@ -136,24 +146,32 @@ function generateSchedules({
 
 const PlaceListItem = ({
     place,
+    like,
     onClickAddPlace,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
+    onUpdateLikeAtPlace,
 }: {
     place: Place;
+    like: boolean;
     onClickAddPlace?: (props: { previousPlaceId: string }) => void;
     onClickShowRelatedPlaces?: (placeId: string) => void;
     onClickDeletePlace?: (placeId: string) => void;
-}) => {
+} & PlaceActionHandler) => {
     return (
         <VStack spacing="16px" w="100%" pl="24px" position="relative">
             <PlacePreview
+                googlePlaceId={place.googlePlaceId}
+                placeId={place.id}
                 name={place.name}
                 images={place.images}
                 googlePlaceReviews={place.googlePlaceReviews}
                 categories={place.categories}
                 priceRange={place.priceRange}
                 estimatedStayDuration={place.estimatedStayDuration}
+                like={like}
+                likeCount={place.likeCount}
+                onUpdateLikeAtPlace={onUpdateLikeAtPlace}
                 onClickShowRelatedPlaces={
                     onClickShowRelatedPlaces
                         ? () => onClickShowRelatedPlaces(place.id)
@@ -195,6 +213,7 @@ const PlaceListItem = ({
     );
 };
 
+// TODO: コンポーネントとして切り出しする
 const ScheduleListItem = ({ label }: { label }) => {
     return (
         <HStack w="100%" spacing={4}>
@@ -214,6 +233,7 @@ const ScheduleListItem = ({ label }: { label }) => {
     );
 };
 
+// TODO: コンポーネントとして切り出しする
 const ListItemWalk = ({ transition }: { transition: Transition }) => {
     if (!transition) return <></>;
 
