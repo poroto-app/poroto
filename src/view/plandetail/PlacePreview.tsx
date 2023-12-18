@@ -12,15 +12,9 @@ import {
     useMediaQuery,
     VStack,
 } from "@chakra-ui/react";
-import { motion } from "framer-motion";
 import { useState } from "react";
 import { IconType } from "react-icons";
-import {
-    MdFavorite,
-    MdFavoriteBorder,
-    MdOutlineDeleteOutline,
-    MdOutlineLocationOn,
-} from "react-icons/md";
+import { MdOutlineDeleteOutline, MdOutlineLocationOn } from "react-icons/md";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
     getImageSizeOf,
@@ -32,6 +26,7 @@ import { PriceRange } from "src/domain/models/PriceRange";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
+import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
 import styled from "styled-components";
 
 type Props = {
@@ -123,14 +118,26 @@ export const PlacePreview = ({
                 p="16px"
                 overflow="hidden"
             >
-                <Text
-                    fontSize="1.15rem"
-                    as="h2"
-                    fontWeight="bold"
-                    color="#222222"
-                >
-                    {name}
-                </Text>
+                <HStack w="100%">
+                    <Text
+                        fontSize="1.15rem"
+                        as="h2"
+                        fontWeight="bold"
+                        color="#222222"
+                        flex={1}
+                    >
+                        {name}
+                    </Text>
+                    {onUpdateLikeAtPlace && (
+                        <PlaceLikeButton
+                            isLiked={like}
+                            likeCount={likeCount}
+                            onUpdateLike={(like) =>
+                                onUpdateLikeAtPlace({ like, placeId })
+                            }
+                        />
+                    )}
+                </HStack>
                 <PlaceInfoTab
                     categories={categories}
                     googlePlaceReviews={googlePlaceReviews}
@@ -153,15 +160,6 @@ export const PlacePreview = ({
                         />
                     )}
                 </HStack>
-                {onUpdateLikeAtPlace && (
-                    <LikeButton
-                        isLiked={like}
-                        likeCount={likeCount}
-                        onUpdateLike={(like) =>
-                            onUpdateLikeAtPlace({ like, placeId })
-                        }
-                    />
-                )}
             </VStack>
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
                 <ModalOverlay />
@@ -237,48 +235,6 @@ const ChipAction = ({
         >
             <Icon w="16px" h="16px" as={icon} />
             <Text fontSize="0.8rem">{label}</Text>
-        </HStack>
-    );
-};
-
-// TODO: 別のファイルに切り出す
-const LikeButton = ({
-    isLiked,
-    likeCount,
-    onUpdateLike,
-}: {
-    isLiked: boolean;
-    likeCount: number;
-    onUpdateLike: (like: boolean) => void;
-}) => {
-    return (
-        <HStack alignItems="center" marginTop="4px">
-            <motion.button
-                onClick={() => onUpdateLike(!isLiked)}
-                style={{
-                    marginRight: "10px",
-                    border: "none",
-                    backgroundColor: "transparent",
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    fontSize: "1.6rem",
-                }}
-                whileTap={{ scale: 1.1 }}
-                whileHover={{ scale: 1.2 }}
-            >
-                {isLiked ? (
-                    <MdFavorite style={{ color: "red" }} />
-                ) : (
-                    <MdFavoriteBorder />
-                )}
-            </motion.button>
-            <Text
-                fontSize="0.8rem"
-                as="h2"
-                fontWeight="bold"
-                color="#222222"
-            >{`いいね！${likeCount.toLocaleString()}件`}</Text>
         </HStack>
     );
 };
