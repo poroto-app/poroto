@@ -1,21 +1,7 @@
 mutation ChangePlacesOrderInPlanCandidate($input: ChangePlacesOrderInPlanCandidateInput!) {
     changePlacesOrderInPlanCandidate(input: $input) {
         plan {
-            id
-            name
-            places {
-                ...PlaceFullFragment
-            }
-            timeInMinutes
-            transitions {
-                duration
-                from {
-                    id
-                }
-                to {
-                    id
-                }
-            }
+            ...PlanFullFragment
         }
     }
 }

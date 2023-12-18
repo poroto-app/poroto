@@ -2,21 +2,7 @@ mutation ReplacePlaceOfPlanCandidate($input: ReplacePlaceOfPlanCandidateInput!) 
     replacePlaceOfPlanCandidate(input: $input) {
         planCandidateId
         plan {
-            id
-            name
-            places {
-                ...PlaceFullFragment
-            }
-            timeInMinutes
-            transitions {
-                duration
-                from {
-                    id
-                }
-                to {
-                    id
-                }
-            }
+            ...PlanFullFragment
         }
     }
 }

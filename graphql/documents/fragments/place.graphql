@@ -29,4 +29,5 @@ fragment PlaceFullFragment on Place {
         priceRangeMax
         googlePriceLevel
     }
+    likeCount
 }

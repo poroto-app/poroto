@@ -35,26 +35,38 @@ import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import styled from "styled-components";
 
 type Props = {
+    placeId: string;
     name: string;
     images: ImageType[];
     googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
+    like: boolean;
+    likeCount: number;
     estimatedStayDuration: number;
     showRelatedPlaces?: boolean;
     onClickShowRelatedPlaces?: () => void;
     onClickDeletePlace?: () => void;
+} & PlaceActionHandler;
+
+export type PlaceActionHandler = {
+    onUpdateLikeAtPlace?: (input: { like: boolean; placeId: string }) => void;
 };
 
+// TODO: Propsの型を共通して定義できるようにする
 export const PlacePreview = ({
+    placeId,
     name,
     images,
     googlePlaceReviews,
     categories,
     priceRange,
+    like,
+    likeCount,
     estimatedStayDuration,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
+    onUpdateLikeAtPlace,
 }: Props) => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
@@ -72,19 +84,9 @@ export const PlacePreview = ({
         setSelectedImage(null);
     };
 
-    const [isLiked, setIsLiked] = useState(false);
-
-    const handleLikeClick = () => {
-        setIsLiked(!isLiked);
-        //TODO: ここでいいねが押されたことをバックエンドに送信する処理を追加する
-    };
-
     const handleDoubleClick = () => {
-        setIsLiked(true);
-        //TODO: ここでいいねが押されたことをバックエンドに送信する処理を追加する
+        onUpdateLikeAtPlace?.({ like: !like, placeId });
     };
-
-    const [likeCount, setLikeCount] = useState(65000); // Mock count for demonstration
 
     if (isEmptyLocation) {
         return (
@@ -151,11 +153,13 @@ export const PlacePreview = ({
                         />
                     )}
                 </HStack>
-                {process.env.APP_ENV !== "production" && (
+                {onUpdateLikeAtPlace && (
                     <LikeButton
-                        isLiked={isLiked}
+                        isLiked={like}
                         likeCount={likeCount}
-                        handleLikeClick={handleLikeClick}
+                        onUpdateLike={(like) =>
+                            onUpdateLikeAtPlace({ like, placeId })
+                        }
                     />
                 )}
             </VStack>
@@ -237,11 +241,20 @@ const ChipAction = ({
     );
 };
 
-const LikeButton = ({ isLiked, likeCount, handleLikeClick }) => {
+// TODO: 別のファイルに切り出す
+const LikeButton = ({
+    isLiked,
+    likeCount,
+    onUpdateLike,
+}: {
+    isLiked: boolean;
+    likeCount: number;
+    onUpdateLike: (like: boolean) => void;
+}) => {
     return (
         <HStack alignItems="center" marginTop="4px">
             <motion.button
-                onClick={handleLikeClick}
+                onClick={() => onUpdateLike(!isLiked)}
                 style={{
                     marginRight: "10px",
                     border: "none",
