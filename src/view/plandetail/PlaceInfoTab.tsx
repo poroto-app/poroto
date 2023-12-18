@@ -7,6 +7,7 @@ import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
 import { DateHelper } from "src/domain/util/date";
+import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { PlaceInfoTabPanelReviews } from "src/view/plandetail/PlaceInfoTabPanelReviews";
 
@@ -45,7 +46,11 @@ export const PlaceInfoTab = ({
             h={tabHeight[activeTab]}
             transition="height 0.4s ease"
         >
-            <HStack w="100%" alignItems="flex-start">
+            <HStack
+                w="100%"
+                px={Size.PlaceCardPaddingH}
+                alignItems="flex-start"
+            >
                 <Tab
                     active={activeTab === PlaceInfoTabs.Information}
                     tab={PlaceInfoTabs.Information}
@@ -167,7 +172,12 @@ const TabPanelInformation = ({
     }
 
     return (
-        <VStack w="100%" spacing="8px" overflowX="hidden">
+        <VStack
+            w="100%"
+            spacing="8px"
+            px={Size.PlaceCardPaddingH}
+            overflowX="hidden"
+        >
             <HStack
                 w="100%"
                 alignItems="stretch"
