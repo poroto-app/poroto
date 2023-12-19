@@ -41,6 +41,9 @@ export const Instagram: Story = {
 
 export const GoogleMaps: Story = {
     render: () => (
-        <PlaceChipActionGoogleMaps googlePlaceId="ChIJC3Cf2PuLGGAROO00ukl8JwA" />
+        <PlaceChipActionGoogleMaps
+            placeName="東京駅"
+            googlePlaceId="ChIJC3Cf2PuLGGAROO00ukl8JwA"
+        />
     ),
 };

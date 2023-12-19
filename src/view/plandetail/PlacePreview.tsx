@@ -165,7 +165,10 @@ export const PlacePreview = ({
                         />
                     )}
                     <PlaceChipActionInstagram placeName={name} />
-                    <PlaceChipActionGoogleMaps googlePlaceId={googlePlaceId} />
+                    <PlaceChipActionGoogleMaps
+                        placeName={name}
+                        googlePlaceId={googlePlaceId}
+                    />
                     {onClickDeletePlace && (
                         <PlaceChipActionDelete onClick={onClickDeletePlace} />
                     )}

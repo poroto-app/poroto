@@ -80,16 +80,20 @@ export const PlaceChipActionInstagram = ({
 };
 
 export const PlaceChipActionGoogleMaps = ({
+    placeName,
     googlePlaceId,
 }: {
+    placeName: string;
     googlePlaceId: string;
 }) => {
+    const url = new URL("https://www.google.com/maps/search/");
+    url.searchParams.set("api", "1");
+    url.searchParams.set("query", placeName);
+    url.searchParams.set("query_place_id", googlePlaceId);
     return (
         <Link
             target="_blank"
-            href={`https://www.google.com/maps/place/?q=place_id:${encodeURIComponent(
-                googlePlaceId
-            )}`}
+            href={encodeURI(decodeURIComponent(url.toString()))}
         >
             <PlaceChipContextAction
                 label="Google Mapsで検索"
