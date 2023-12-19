@@ -291,6 +291,7 @@ export function ConfirmToUpdateScreen({
                     <HStack w="100%" px="20px" alignItems="flex-stat">
                         <PlaceChipActionInstagram placeName={place.name} />
                         <PlaceChipActionGoogleMaps
+                            placeName={place.name}
                             googlePlaceId={place.googlePlaceId}
                         />
                     </HStack>
