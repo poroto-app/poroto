@@ -70,6 +70,19 @@ export type ChangePlacesOrderInPlanCandidateOutput = {
   plan: Plan;
 };
 
+export type CreatePlanByGooglePlaceIdInput = {
+  categoriesDisliked?: InputMaybe<Array<Scalars['String']>>;
+  categoriesPreferred?: InputMaybe<Array<Scalars['String']>>;
+  freeTime?: InputMaybe<Scalars['Int']>;
+  googlePlaceId: Scalars['String'];
+  planCandidateId?: InputMaybe<Scalars['String']>;
+};
+
+export type CreatePlanByGooglePlaceIdOutput = {
+  __typename?: 'CreatePlanByGooglePlaceIdOutput';
+  planCandidate: PlanCandidate;
+};
+
 export type CreatePlanByLocationInput = {
   categoriesDisliked?: InputMaybe<Array<Scalars['String']>>;
   categoriesPreferred?: InputMaybe<Array<Scalars['String']>>;
@@ -181,6 +194,7 @@ export type Mutation = {
   addPlaceToPlanCandidateAfterPlace: AddPlaceToPlanCandidateAfterPlaceOutput;
   autoReorderPlacesInPlanCandidate: AutoReorderPlacesInPlanCandidateOutput;
   changePlacesOrderInPlanCandidate: ChangePlacesOrderInPlanCandidateOutput;
+  createPlanByGooglePlaceId: CreatePlanByGooglePlaceIdOutput;
   createPlanByLocation: CreatePlanByLocationOutput;
   createPlanByPlace: CreatePlanByPlaceOutput;
   deletePlaceFromPlanCandidate: DeletePlaceFromPlanCandidateOutput;
@@ -204,6 +218,11 @@ export type MutationAutoReorderPlacesInPlanCandidateArgs = {
 
 export type MutationChangePlacesOrderInPlanCandidateArgs = {
   input: ChangePlacesOrderInPlanCandidateInput;
+};
+
+
+export type MutationCreatePlanByGooglePlaceIdArgs = {
+  input: CreatePlanByGooglePlaceIdInput;
 };
 
 
@@ -319,9 +338,19 @@ export type Plan = {
 
 export type PlanCandidate = {
   __typename?: 'PlanCandidate';
+  createdBasedOnCurrentLocation: Scalars['Boolean'];
   id: Scalars['String'];
   likedPlaceIds: Array<Scalars['String']>;
   plans: Array<Plan>;
+};
+
+export type PlanCandidateInput = {
+  planCandidateId: Scalars['ID'];
+};
+
+export type PlanCandidateOutput = {
+  __typename?: 'PlanCandidateOutput';
+  planCandidate?: Maybe<PlanCandidate>;
 };
 
 export type PlansByLocationInput = {
@@ -363,6 +392,7 @@ export type Query = {
   placesToAddForPlanCandidate: PlacesToAddForPlanCandidateOutput;
   placesToReplaceForPlanCandidate: PlacesToReplaceForPlanCandidateOutput;
   plan?: Maybe<Plan>;
+  planCandidate: PlanCandidateOutput;
   plans: Array<Plan>;
   plansByLocation: PlansByLocationOutput;
   plansByUser: PlansByUserOutput;
@@ -402,6 +432,11 @@ export type QueryPlacesToReplaceForPlanCandidateArgs = {
 
 export type QueryPlanArgs = {
   id: Scalars['String'];
+};
+
+
+export type QueryPlanCandidateArgs = {
+  input: PlanCandidateInput;
 };
 
 
