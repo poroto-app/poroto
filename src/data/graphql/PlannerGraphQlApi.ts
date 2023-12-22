@@ -139,14 +139,17 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         const { data } = await this.client.mutate({
             mutation: CreatePlanByLocationDocument,
             variables: {
-                session: request.session,
-                latitude: request.location.latitude,
-                longitude: request.location.longitude,
-                googlePlaceId: request.googlePlaceId ?? undefined,
-                categoriesPreferred: request.categoriesPreferred,
-                categoriesDisliked: request.categoriesDisliked,
-                planDuration: request.planDuration ?? undefined,
-                basedOnCurrentLocation: request.basedOnCurrentLocation,
+                input: {
+                    session: request.session,
+                    latitude: request.location.latitude,
+                    longitude: request.location.longitude,
+                    googlePlaceId: request.googlePlaceId ?? undefined,
+                    categoriesPreferred: request.categoriesPreferred,
+                    categoriesDisliked: request.categoriesDisliked,
+                    createdBasedOnCurrentLocation:
+                        request.basedOnCurrentLocation,
+                    freeTime: request.planDuration ?? undefined,
+                },
             },
         });
         return {
