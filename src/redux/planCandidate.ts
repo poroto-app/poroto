@@ -127,7 +127,6 @@ export const createPlanFromLocation = createAsyncThunk(
             const response = await plannerApi.createPlansFromLocation({
                 session: createPlanSession,
                 location: location,
-                googlePlaceId,
                 categoriesPreferred: (categoriesAccepted ?? []).map(
                     (category) => category.name
                 ),

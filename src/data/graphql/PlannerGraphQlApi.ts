@@ -153,7 +153,6 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                     session: request.session,
                     latitude: request.location.latitude,
                     longitude: request.location.longitude,
-                    googlePlaceId: request.googlePlaceId ?? undefined,
                     categoriesPreferred: request.categoriesPreferred,
                     categoriesDisliked: request.categoriesDisliked,
                     createdBasedOnCurrentLocation:
