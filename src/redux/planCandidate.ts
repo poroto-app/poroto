@@ -9,6 +9,7 @@ import { LocationCategory } from "src/domain/models/LocationCategory";
 import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
+import { PlanCandidate } from "src/domain/models/PlanCandidate";
 import {
     RequestStatus,
     RequestStatuses,
@@ -37,7 +38,6 @@ export type PlanCandidateState = {
     timeForPlan: number | null;
 
     createPlanFromLocationRequestStatus: RequestStatus | null;
-    createPlanCandidateByGooglePlaceIdRequestStatus: RequestStatus | null;
     createPlanFromPlaceRequestStatus: RequestStatus | null;
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
@@ -63,7 +63,6 @@ const initialState: PlanCandidateState = {
     timeForPlan: null,
 
     createPlanFromLocationRequestStatus: null,
-    createPlanCandidateByGooglePlaceIdRequestStatus: null,
     createPlanFromPlaceRequestStatus: null,
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
@@ -77,14 +76,14 @@ type CreatePlanFromCurrentLocationProps = {
     location: {
         latitude: number;
         longitude: number;
-    };
-    googlePlaceId?: string;
+    } | null;
+    googlePlaceId: string | null;
 };
 export const createPlanFromLocation = createAsyncThunk(
     "planCandidate/createPlanFromCurrentLocation",
     async (
         { location, googlePlaceId }: CreatePlanFromCurrentLocationProps,
-        { dispatch, getState }
+        { getState }
     ) => {
         logEvent(getAnalytics(), "create_plan");
 
@@ -102,56 +101,30 @@ export const createPlanFromLocation = createAsyncThunk(
             currentLocation?.latitude === location.latitude &&
             currentLocation?.longitude === location.longitude;
 
-        const response = await plannerApi.createPlansFromLocation({
-            session: createPlanSession,
-            location: location,
-            googlePlaceId,
-            categoriesPreferred: (categoriesAccepted ?? []).map(
-                (category) => category.name
-            ),
-            categoriesDisliked: (categoriesRejected ?? []).map(
-                (category) => category.name
-            ),
-            planDuration: timeForPlan,
-            basedOnCurrentLocation: isCurrentLocation,
-        });
-
-        const session = response.session;
-        const plans: Plan[] = response.plans.map((planEntity) =>
-            createPlanFromPlanEntity(planEntity, null)
-        );
-        dispatch(
-            setCreatedPlans({
-                session,
-                plans,
-                createdBasedOnCurrentLocation: isCurrentLocation,
-            })
-        );
-    }
-);
-
-type CreatePlanCandidateByGooglePlaceIdProps = {
-    googlePlaceId: string;
-};
-export const createPlanCandidateByGooglePlaceId = createAsyncThunk(
-    "planCandidate/createPlanCandidateByGooglePlaceId",
-    async (
-        { googlePlaceId }: CreatePlanCandidateByGooglePlaceIdProps,
-        { getState }
-    ) => {
-        logEvent(getAnalytics(), "create_plan_by_google_place_id");
-
-        const {
-            createPlanSession,
-            categoriesAccepted,
-            categoriesRejected,
-            timeForPlan,
-        } = (getState() as RootState).planCandidate;
-
-        const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const { planCandidate } =
-            await plannerApi.createPlanCandidateByGooglePlaceId({
-                planCandidateId: createPlanSession,
+        let planCandidate: PlanCandidate;
+        if (googlePlaceId) {
+            const { planCandidate: planCandidateEntity } =
+                await plannerApi.createPlanCandidateByGooglePlaceId({
+                    planCandidateId: createPlanSession,
+                    categoriesPreferred: (categoriesAccepted ?? []).map(
+                        (category) => category.name
+                    ),
+                    categoriesDisliked: (categoriesRejected ?? []).map(
+                        (category) => category.name
+                    ),
+                    planDuration: timeForPlan,
+                    googlePlaceId,
+                });
+            // TODO: ユーザー情報を取得する
+            planCandidate = createPlanCandidateFromPlanCandidateEntity(
+                planCandidateEntity,
+                null
+            );
+        } else {
+            const response = await plannerApi.createPlansFromLocation({
+                session: createPlanSession,
+                location: location,
+                googlePlaceId,
                 categoriesPreferred: (categoriesAccepted ?? []).map(
                     (category) => category.name
                 ),
@@ -159,18 +132,23 @@ export const createPlanCandidateByGooglePlaceId = createAsyncThunk(
                     (category) => category.name
                 ),
                 planDuration: timeForPlan,
-                googlePlaceId,
+                basedOnCurrentLocation: isCurrentLocation,
             });
 
-        return {
-            // TODO: ユーザー情報を取得する
-            planCandidate: createPlanCandidateFromPlanCandidateEntity(
-                planCandidate,
-                null
-            ),
-        };
+            planCandidate = {
+                id: response.session,
+                plans: response.plans.map((plan) =>
+                    createPlanFromPlanEntity(plan, null)
+                ),
+                likedPlaceIds: [],
+                createdBasedONCurrentLocation: isCurrentLocation,
+            };
+        }
+
+        return { planCandidate };
     }
 );
+
 type CreatePlanFromPlaceProps = {
     placeId: string;
     createPlanSessionId: string;
@@ -472,34 +450,18 @@ export const slice = createSlice({
                 state.createPlanFromLocationRequestStatus =
                     RequestStatuses.PENDING;
             })
-            .addCase(createPlanFromLocation.fulfilled, (state) => {
+            .addCase(createPlanFromLocation.fulfilled, (state, { payload }) => {
                 state.createPlanFromLocationRequestStatus =
                     RequestStatuses.FULFILLED;
+
+                state.createPlanSession = payload.planCandidate.id;
+                state.plansCreated = payload.planCandidate.plans;
+                state.createdBasedOnCurrentLocation =
+                    payload.planCandidate.createdBasedONCurrentLocation;
+                state.likedPlaceIds = payload.planCandidate.likedPlaceIds;
             })
             .addCase(createPlanFromLocation.rejected, (state) => {
                 state.createPlanFromLocationRequestStatus =
-                    RequestStatuses.REJECTED;
-            })
-            // Create Plan Candidate By Google Place Id
-            .addCase(createPlanCandidateByGooglePlaceId.pending, (state) => {
-                state.createPlanCandidateByGooglePlaceIdRequestStatus =
-                    RequestStatuses.PENDING;
-            })
-            .addCase(
-                createPlanCandidateByGooglePlaceId.fulfilled,
-                (state, { payload }) => {
-                    state.createPlanCandidateByGooglePlaceIdRequestStatus =
-                        RequestStatuses.FULFILLED;
-
-                    state.createPlanSession = payload.planCandidate.id;
-                    state.plansCreated = payload.planCandidate.plans;
-                    state.createdBasedOnCurrentLocation =
-                        payload.planCandidate.createdBasedONCurrentLocation;
-                    state.likedPlaceIds = payload.planCandidate.likedPlaceIds;
-                }
-            )
-            .addCase(createPlanCandidateByGooglePlaceId.rejected, (state) => {
-                state.createPlanCandidateByGooglePlaceIdRequestStatus =
                     RequestStatuses.REJECTED;
             })
             // Create Plan From Place
