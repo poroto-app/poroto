@@ -445,10 +445,6 @@ export const slice = createSlice({
             state.updatePlacesOrderInPlanCandidateRequestStatus = null;
         },
 
-        resetCreatePlanFromLocationRequestStatus: (state) => {
-            state.createPlanFromLocationRequestStatus = null;
-        },
-
         resetCreatePlanFromPlaceRequestStatus: (state) => {
             state.createPlanFromPlaceRequestStatus = null;
         },
@@ -672,7 +668,6 @@ export const {
 
     resetInterest,
     resetPlanCandidates,
-    resetCreatePlanFromLocationRequestStatus,
     resetCreatePlanFromPlaceRequestStatus,
 } = slice.actions;
 
