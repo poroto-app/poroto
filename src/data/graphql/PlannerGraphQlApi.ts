@@ -178,7 +178,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     ): Promise<FetchCachedCreatedPlansResponse> {
         const { data } = await this.client.query({
             query: PlanCandidateDocument,
-            variables: { planCandidateId: request.session },
+            variables: { planCandidateId: request.planCandidateId },
         });
 
         // TODO: PlanCandidate として return する
