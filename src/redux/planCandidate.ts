@@ -87,8 +87,11 @@ export const createPlanFromLocation = createAsyncThunk(
     ) => {
         logEvent(getAnalytics(), "create_plan");
 
-        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        if (!location && !googlePlaceId) {
+            throw new Error("location and googlePlaceId are null");
+        }
 
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const {
             createPlanSession,
             categoriesAccepted,
