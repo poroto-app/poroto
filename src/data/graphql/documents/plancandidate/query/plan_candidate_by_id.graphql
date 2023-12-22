@@ -1,9 +1,11 @@
-query CachedCreatedPlans($session: String!) {
-    cachedCreatedPlans(input: {session: $session}) {
-        createdBasedOnCurrentLocation,
-        plans {
-            ...PlanFullFragment
+query PlanCandidate($planCandidateId: ID!) {
+    planCandidate(input: {planCandidateId: $planCandidateId}) {
+        planCandidate {
+            plans {
+                ...PlanFullFragment
+            }
+            createdBasedOnCurrentLocation
+            likedPlaceIds
         }
-        likedPlaceIds
     }
 }
