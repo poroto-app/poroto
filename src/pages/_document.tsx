@@ -34,12 +34,14 @@ export default class AppDocument extends Document {
         return (
             <Html>
                 <Head>
-                    <Script
-                        async
-                        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_CLIENT}`}
-                        crossOrigin="anonymous"
-                        strategy="afterInteractive"
-                    />
+                    {process.env.APP_ENV === "production" && (
+                        <Script
+                            async
+                            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_CLIENT}`}
+                            crossOrigin="anonymous"
+                            strategy="afterInteractive"
+                        />
+                    )}
                 </Head>
                 <body>
                     <Main />
