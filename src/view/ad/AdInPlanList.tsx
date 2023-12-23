@@ -2,7 +2,7 @@ import { Center, Text } from "@chakra-ui/react";
 import { GoogleAdsense } from "./GoogleAdsense";
 
 export function AdInPlanList() {
-    if (process.env.NODE_ENV !== "production") {
+    if (process.env.APP_ENV !== "production") {
         return (
             <Center
                 w="100%"
