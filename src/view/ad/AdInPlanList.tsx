@@ -17,7 +17,7 @@ export function AdInPlanList() {
 
     return (
         <GoogleAdsense
-            format="auto"
+            format="fluid"
             layout="+22+s6-1h-2r+au"
             slot={process.env.ADSENSE_SLOT_TOP_INFEED}
         />
