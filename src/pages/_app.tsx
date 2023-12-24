@@ -2,7 +2,6 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import Script from "next/script";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
 import { copyObject } from "src/domain/util/object";
@@ -56,15 +55,6 @@ export default function App({ Component, pageProps }: AppProps) {
                     content="https://poroto.app/ogp/ogp.png"
                 />
                 <meta property="og:type" content="website" />
-                {/* Google Adsense */}
-                {process.env.APP_ENV === "production" && (
-                    <Script
-                        async
-                        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.ADSENSE_CLIENT}`}
-                        crossOrigin="anonymous"
-                        strategy="afterInteractive"
-                    />
-                )}
             </Head>
             <Theme />
             <ChakraProvider>
