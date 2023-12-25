@@ -31,7 +31,16 @@ export const GoogleAdsense = ({
     }, [asPath]);
 
     return (
-        <div key={asPath}>
+        // MEMO: レスポンシブ広告では最低250pxの幅が必要で、display: flex となっていると表示されないことがある
+        <div
+            key={asPath}
+            style={{
+                width: "100%",
+                height: "100%",
+                minWidth: "250px",
+                display: "block",
+            }}
+        >
             <ins
                 className="adsbygoogle"
                 style={style}
