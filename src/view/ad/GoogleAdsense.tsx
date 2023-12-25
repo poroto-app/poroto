@@ -43,7 +43,7 @@ export const GoogleAdsense = ({
         >
             <ins
                 className="adsbygoogle"
-                style={style}
+                style={{ ...style, display: "block" }}
                 data-ad-format={format}
                 data-ad-layout-key={layout}
                 data-ad-client={process.env.ADSENSE_CLIENT}
