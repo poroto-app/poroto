@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 type Props = {
     slot: string;
+    parentStyle?: React.CSSProperties;
     style?: React.CSSProperties;
     // https://support.google.com/adsense/answer/9183460
     format?: "auto" | "fluid" | "horizontal" | "rectangle" | "vertical";
@@ -13,6 +14,7 @@ type Props = {
 
 export const GoogleAdsense = ({
     slot,
+    parentStyle = { display: "block" },
     style = { display: "block" },
     format,
     layout,
@@ -35,8 +37,7 @@ export const GoogleAdsense = ({
         <div
             key={asPath}
             style={{
-                width: "100%",
-                height: "100%",
+                ...parentStyle,
                 minWidth: "250px",
                 display: "block",
             }}

@@ -18,7 +18,7 @@ export function AdInPlanList() {
     return (
         <GoogleAdsense
             format="fluid"
-            style={{ maxHeight: "400px" }}
+            parentStyle={{ maxHeight: "400px", width: "100%", height: "100%" }}
             layout="+22+s6-1h-2r+au"
             slot={process.env.ADSENSE_SLOT_TOP_INFEED}
         />
