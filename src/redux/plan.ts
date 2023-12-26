@@ -27,6 +27,7 @@ export type PlanState = {
     // プラン完成時に表示されるモーダルの表示フラグ
     showPlanCreatedModal: boolean;
 
+    fetchPlansRecentlyCreatedRequestStatus: RequestStatus | null;
     fetchPlanRequestStatus: RequestStatus | null;
     fetchPlansByUserRequestStatus: RequestStatus | null;
 };
@@ -45,6 +46,7 @@ const initialState: PlanState = {
 
     showPlanCreatedModal: false,
 
+    fetchPlansRecentlyCreatedRequestStatus: null,
     fetchPlanRequestStatus: null,
     fetchPlansByUserRequestStatus: null,
 };
@@ -189,9 +191,15 @@ export const slice = createSlice({
                 state.fetchPlansByUserRequestStatus = RequestStatuses.REJECTED;
             })
             // Fetch Plans Recently Created
+            .addCase(fetchPlansRecentlyCreated.pending, (state) => {
+                state.fetchPlansRecentlyCreatedRequestStatus =
+                    RequestStatuses.PENDING;
+            })
             .addCase(
                 fetchPlansRecentlyCreated.fulfilled,
                 (state, { payload }) => {
+                    state.fetchPlansRecentlyCreatedRequestStatus =
+                        RequestStatuses.FULFILLED;
                     if (!payload) return;
 
                     if (!state.plansRecentlyCreated)
@@ -202,6 +210,10 @@ export const slice = createSlice({
                         payload.nextPageToken;
                 }
             )
+            .addCase(fetchPlansRecentlyCreated.rejected, (state) => {
+                state.fetchPlansRecentlyCreatedRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
             // Fetch Nearby Plans
             .addCase(fetchNearbyPlans.pending, (state) => {
                 state.plansNearbyRequestStatus = RequestStatuses.PENDING;
