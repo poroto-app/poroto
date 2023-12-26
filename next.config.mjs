@@ -39,7 +39,7 @@ const nextConfig = {
         GCP_API_KEY: process.env.GCP_API_KEY,
 
         ADSENSE_CLIENT: process.env.ADSENSE_CLIENT,
-        ADSENSE_SLOT_TOP_INFEED: process.env.ADSENSE_SLOT_TOP_INFEED,
+        ADSENSE_SLOT_TOP_PAGE_IN_ARTICLE: process.env.ADSENSE_SLOT_TOP_PAGE_IN_ARTICLE,
 
         FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
         FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
