@@ -1,10 +1,12 @@
-import {Box, Center, Text} from "@chakra-ui/react";
+import { Box, Center, Text } from "@chakra-ui/react";
 import { GoogleAdsense } from "./GoogleAdsense";
 
 export function AdInPlanList() {
-    return <Box gridColumn="1 / -1">
-        <AdComponent />
-    </Box>
+    return (
+        <Box gridColumn="1 / -1">
+            <AdComponent />
+        </Box>
+    );
 }
 
 function AdComponent() {
