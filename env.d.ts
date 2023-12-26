@@ -27,7 +27,7 @@ declare global {
             // Google AdSense
             // ==============================
             ADSENSE_CLIENT: string
-            ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE: string
+            ADSENSE_SLOT_TOP_PAGE_INFEED: string
         }
     }
 }
