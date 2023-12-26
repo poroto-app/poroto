@@ -26,10 +26,15 @@ function AdComponent() {
     }
 
     return (
+        // 記事内広告では、最低50pxの高さが必要
         <GoogleAdsense
             format="fluid"
             parentStyle={{ width: "100%", height: "100%" }}
-            style={{ margin: "0 auto", textAlign: "center" }}
+            style={{
+                margin: "0 auto",
+                minHeight: "50px",
+                textAlign: "center",
+            }}
             layout="in-article"
             slot={process.env.ADSENSE_SLOT_TOP_PAGE_IN_ARTICLE}
         />
