@@ -1,4 +1,4 @@
-import { Center, Text, VStack } from "@chakra-ui/react";
+import { Center, Spinner, Text, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { useEffect } from "react";
 import InfiniteScroll from "react-infinite-scroller";
@@ -40,6 +40,7 @@ const IndexPage = (props: Props) => {
         plansRecentlyCreated,
         nextPageTokenPlansRecentlyCreated,
         plansByUser,
+        fetchPlansRecentlyCreatedRequestStatus,
     } = reduxPlanSelector();
     const { user } = reduxAuthSelector();
 
@@ -114,6 +115,12 @@ const IndexPage = (props: Props) => {
                                 section={PlanSections.Recent}
                             />
                         </PlanList>
+                        {fetchPlansRecentlyCreatedRequestStatus ===
+                            RequestStatuses.PENDING && (
+                            <Center w="100%" py="32px">
+                                <Spinner size="md" color="orange.600" />
+                            </Center>
+                        )}
                     </InfiniteScroll>
                 </VStack>
             </Center>
