@@ -15,7 +15,7 @@ function AdComponent() {
             <Center
                 w="100%"
                 h="100%"
-                minH="300px"
+                minH="200px"
                 maxW="100%"
                 backgroundColor="#EEEEEE"
                 userSelect="none"
@@ -32,7 +32,7 @@ function AdComponent() {
             parentStyle={{ width: "100%", height: "100%" }}
             style={{
                 margin: "0 auto",
-                minHeight: "50px",
+                minHeight: "200px",
                 textAlign: "center",
             }}
             layout="in-article"
