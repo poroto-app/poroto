@@ -1,6 +1,5 @@
 import {
     AddPlaceToPlanCandidateDocument,
-    CachedCreatedPlansDocument,
     ChangePlacesOrderInPlanCandidateDocument,
     CreatePlanByLocationDocument,
     CreatePlanByPlaceDocument,
@@ -14,6 +13,7 @@ import {
     NearbyPlaceCategoriesDocument,
     PlacesToAddForPlanOfPlanCandidateDocument,
     PlacesToReplaceForPlanOfPlanCandidateDocument,
+    PlanCandidateDocument,
     PlanCandidateFullFragmentFragment,
     PlansByLocationDocument,
     PlansByUserDocument,
@@ -212,24 +212,26 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         request: FetchCachedCreatedPlansRequest
     ): Promise<FetchCachedCreatedPlansResponse> {
         const { data } = await this.client.query({
-            query: CachedCreatedPlansDocument,
-            variables: { session: request.session },
+            query: PlanCandidateDocument,
+            variables: { planCandidateId: request.planCandidateId },
         });
 
-        if (!data.cachedCreatedPlans.plans)
+        // TODO: PlanCandidate として return する
+        if (!data.planCandidate) {
             return {
                 plans: null,
                 createdBasedOnCurrentLocation: false,
                 likedPlaceIds: [],
             };
+        }
 
         return {
             createdBasedOnCurrentLocation:
-                data.cachedCreatedPlans.createdBasedOnCurrentLocation,
-            plans: data.cachedCreatedPlans.plans.map((plan) =>
+                data.planCandidate.planCandidate.createdBasedOnCurrentLocation,
+            plans: data.planCandidate.planCandidate.plans.map((plan) =>
                 fromGraphqlPlanEntity(plan)
             ),
-            likedPlaceIds: data.cachedCreatedPlans.likedPlaceIds,
+            likedPlaceIds: data.planCandidate.planCandidate.likedPlaceIds,
         };
     }
 

@@ -13,7 +13,6 @@ import {
     savePlanFromCandidate,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
-import { AdInArticle } from "src/view/ad/AdInArticle";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
@@ -172,11 +171,6 @@ const PlanDetail = () => {
                     <PlanPageSectionSummary
                         planDurationInMinutes={plan.timeInMinutes}
                         planRange={getPlanPriceRange(plan.places)}
-                    />
-                    <AdInArticle
-                        adSlot={
-                            process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE
-                        }
                     />
                     <PlanPageSection title="プラン">
                         <PlanPlaceList
