@@ -74,15 +74,14 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         const { data } = await this.client.query({
             query: FetchPlansDocument,
             variables: {
-                pageKey: request.pageKey,
+                input: {
+                    pageToken: request.pageKey,
+                },
             },
         });
         return {
-            plans: data.plans.map((plan) => fromGraphqlPlanEntity(plan)),
-            nextPageKey:
-                data.plans.length === 0
-                    ? null
-                    : data.plans[data.plans.length - 1].id,
+            plans: data.plans.plans.map((plan) => fromGraphqlPlanEntity(plan)),
+            nextPageKey: data.plans.nextPageToken ?? null,
         };
     }
 
