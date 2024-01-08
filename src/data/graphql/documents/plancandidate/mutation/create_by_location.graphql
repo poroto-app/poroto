@@ -1,23 +1,5 @@
-mutation CreatePlanByLocation(
-    $session: String,
-    $latitude: Float!,
-    $longitude: Float!,
-    $googlePlaceId: String,
-    $categoriesPreferred: [String!],
-    $categoriesDisliked: [String!],
-    $planDuration: Int,
-    $basedOnCurrentLocation: Boolean!
-) {
-    createPlanByLocation(input: {
-        session: $session,
-        latitude: $latitude,
-        longitude: $longitude,
-        googlePlaceId: $googlePlaceId,
-        categoriesPreferred: $categoriesPreferred,
-        categoriesDisliked: $categoriesDisliked,
-        freeTime: $planDuration,
-        createdBasedOnCurrentLocation: $basedOnCurrentLocation,
-    }) {
+mutation CreatePlanByLocation($input: CreatePlanByLocationInput!) {
+    createPlanByLocation(input: $input) {
         session
         plans {
             ...PlanFullFragment
