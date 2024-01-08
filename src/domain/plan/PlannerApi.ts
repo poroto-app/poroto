@@ -153,7 +153,7 @@ export type CreatePlanFromPlaceResponse = {
 };
 
 export type FetchCachedCreatedPlansRequest = {
-    session: string;
+    planCandidateId: string;
 };
 
 export type FetchCachedCreatedPlansResponse = {

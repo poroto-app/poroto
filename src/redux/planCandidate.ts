@@ -155,7 +155,9 @@ export const fetchCachedCreatedPlans = createAsyncThunk(
         if (createPlanSession && session === createPlanSession) return null;
 
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const response = await plannerApi.fetchCachedCreatedPlans({ session });
+        const response = await plannerApi.fetchCachedCreatedPlans({
+            planCandidateId: session,
+        });
         if (response.plans === null) {
             return {
                 session,
