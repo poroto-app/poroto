@@ -1,18 +1,21 @@
-query FetchPlans($pageKey: String) {
-    plans(pageKey: $pageKey) {
-        id
-        name
-        places {
-            ...PlaceFullFragment
-        }
-        timeInMinutes
-        transitions {
-            duration
-            from {
-                id
+query FetchPlans($input: PlansInput!) {
+    plans(input: $input) {
+        nextPageToken
+        plans {
+            id
+            name
+            places {
+                ...PlaceFullFragment
             }
-            to {
-                id
+            timeInMinutes
+            transitions {
+                duration
+                from {
+                    id
+                }
+                to {
+                    id
+                }
             }
         }
     }
