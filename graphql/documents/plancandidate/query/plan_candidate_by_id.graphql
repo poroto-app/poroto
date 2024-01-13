@@ -1,9 +1,0 @@
-query CachedCreatedPlans($session: String!) {
-    cachedCreatedPlans(input: {session: $session}) {
-        createdBasedOnCurrentLocation,
-        plans {
-            ...PlanFullFragment
-        }
-        likedPlaceIds
-    }
-}

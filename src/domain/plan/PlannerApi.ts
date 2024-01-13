@@ -1,5 +1,6 @@
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
+import { PlanCandidateEntity } from "src/domain/models/PlanCandidateEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";
 import { UserEntity } from "src/domain/user/UserApi";
 
@@ -25,6 +26,10 @@ export interface PlannerApi {
     createPlansFromLocation(
         request: CreatePlanFromLocationRequest
     ): Promise<CreatePlanFromLocationResponse>;
+
+    createPlanCandidateByGooglePlaceId(
+        request: CreatePlanCandidateByGooglePlaceIdRequest
+    ): Promise<CreatePlanCandidateByGooglePlaceIdResponse>;
 
     createPlanFromPlace(
         request: CreatePlanFromPlaceRequest
@@ -137,6 +142,18 @@ export type CreatePlanFromLocationRequest = {
     basedOnCurrentLocation: boolean;
 };
 
+export type CreatePlanCandidateByGooglePlaceIdRequest = {
+    planCandidateId?: string;
+    googlePlaceId: string;
+    categoriesPreferred?: string[];
+    categoriesDisliked?: string[];
+    planDuration?: number;
+};
+
+export type CreatePlanCandidateByGooglePlaceIdResponse = {
+    planCandidate: PlanCandidateEntity;
+};
+
 export type CreatePlanFromLocationResponse = {
     session: string;
     plans: PlanEntity[];
@@ -153,7 +170,7 @@ export type CreatePlanFromPlaceResponse = {
 };
 
 export type FetchCachedCreatedPlansRequest = {
-    session: string;
+    planCandidateId: string;
 };
 
 export type FetchCachedCreatedPlansResponse = {

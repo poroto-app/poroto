@@ -1,0 +1,22 @@
+query FetchPlans($input: PlansInput!) {
+    plans(input: $input) {
+        nextPageToken
+        plans {
+            id
+            name
+            places {
+                ...PlaceFullFragment
+            }
+            timeInMinutes
+            transitions {
+                duration
+                from {
+                    id
+                }
+                to {
+                    id
+                }
+            }
+        }
+    }
+}

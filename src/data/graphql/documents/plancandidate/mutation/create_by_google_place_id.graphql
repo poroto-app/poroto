@@ -1,0 +1,7 @@
+mutation CreatePlanCandidateByGooglePlaceId($input: CreatePlanByGooglePlaceIdInput!) {
+    createPlanByGooglePlaceId(input: $input) {
+        planCandidate {
+            ...PlanCandidateFullFragment
+        }
+    }
+}

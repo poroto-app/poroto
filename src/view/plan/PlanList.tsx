@@ -36,7 +36,7 @@ export function PlanList({ plans, children, empty }: Props) {
                                 link={Routes.plans.plan(plan.id)}
                                 plan={plan}
                             />
-                            {index % 6 === 0 && <AdInPlanList />}
+                            {(index + 1) % 6 === 0 && <AdInPlanList />}
                         </>
                     ))}
                 </GridLayout>

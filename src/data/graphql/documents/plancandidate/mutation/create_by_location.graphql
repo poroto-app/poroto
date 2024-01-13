@@ -1,0 +1,8 @@
+mutation CreatePlanByLocation($input: CreatePlanByLocationInput!) {
+    createPlanByLocation(input: $input) {
+        session
+        plans {
+            ...PlanFullFragment
+        }
+    }
+}
