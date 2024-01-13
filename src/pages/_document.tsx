@@ -30,10 +30,11 @@ export default class AppDocument extends Document {
         }
     }
 
-    ender() {
+    render() {
         return (
             <Html>
                 <Head>
+                    {/* Google Adsense */}
                     {process.env.APP_ENV === "production" && (
                         <Script
                             async
