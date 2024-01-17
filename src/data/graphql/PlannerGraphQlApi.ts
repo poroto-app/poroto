@@ -3,7 +3,6 @@ import {
     ChangePlacesOrderInPlanCandidateDocument,
     CreatePlanByLocationDocument,
     CreatePlanByPlaceDocument,
-    CreatePlanCandidateByGooglePlaceIdDocument,
     DeletePlaceFromPlanCandidateDocument,
     EditPlanTitleOfPlanCandidateDocument,
     FetchAvailablePlacesForPlanCandidateDocument,
@@ -27,8 +26,6 @@ import { PlanCandidateEntity } from "src/domain/models/PlanCandidateEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";
 import {
     AddPlaceToPlanOfPlanCandidateRequest,
-    CreatePlanCandidateByGooglePlaceIdRequest,
-    CreatePlanCandidateByGooglePlaceIdResponse,
     CreatePlanFromLocationRequest,
     CreatePlanFromLocationResponse,
     CreatePlanFromPlaceRequest,
@@ -165,28 +162,6 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             session: data.createPlanByLocation.session,
             plans: data.createPlanByLocation.plans.map((plan) =>
                 fromGraphqlPlanEntity(plan)
-            ),
-        };
-    }
-
-    async createPlanCandidateByGooglePlaceId(
-        request: CreatePlanCandidateByGooglePlaceIdRequest
-    ): Promise<CreatePlanCandidateByGooglePlaceIdResponse> {
-        const { data } = await this.client.mutate({
-            mutation: CreatePlanCandidateByGooglePlaceIdDocument,
-            variables: {
-                input: {
-                    planCandidateId: request.planCandidateId,
-                    googlePlaceId: request.googlePlaceId,
-                    categoriesPreferred: request.categoriesPreferred,
-                    categoriesDisliked: request.categoriesDisliked,
-                    freeTime: request.planDuration ?? undefined,
-                },
-            },
-        });
-        return {
-            planCandidate: fromGraphqlPlanCandidateEntity(
-                data.createPlanByGooglePlaceId.planCandidate
             ),
         };
     }
