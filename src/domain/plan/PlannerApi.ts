@@ -1,3 +1,4 @@
+import { PlanCandidate } from './../../data/graphql/generated';
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";
@@ -73,6 +74,10 @@ export interface PlannerApi {
     updatePlanCandidatePlacesOrder(
         request: UpdatePlanCandidatePlacesOrderRequest
     ): Promise<UpdatePlanCandidatePlacesOrderResponse>;
+
+    autoReorderPlacesInPlanCandidate(
+        request: AutoReorderPlacesInPlanCandidateRequest
+    ): Promise<AutoReorderPlacesInPlanCandidateResponse>;
 
     updateLikeAtPlaceInPlanCandidate(
         request: UpdateLikeAtPlaceInPlanCandidateRequest
@@ -271,4 +276,14 @@ export type UpdateLikeAtPlaceInPlanCandidateRequest = {
 export type UpdateLikeAtPlaceInPlanCandidateResponse = {
     plans: PlanEntity[];
     likedPlaceIds: string[];
+};
+
+export type AutoReorderPlacesInPlanCandidateRequest = {
+    planCandidateId: string;
+    planId: string;
+};
+
+export type AutoReorderPlacesInPlanCandidateResponse = {
+    PlanCandidateId: string;
+    plan: PlanEntity;
 };
