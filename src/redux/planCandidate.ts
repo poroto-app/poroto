@@ -523,20 +523,14 @@ export const slice = createSlice({
                     state.plansCreated[planIndexToUpdate] = payload.plan;
                 }
             )
-            .addCase(
-                autoReorderPlacesInPlanCandidate.pending,
-                (state) => {
-                    state.autoReorderPlacesInPlanCandidateRequestStatus =
-                        RequestStatuses.PENDING;
-                }
-            )
-            .addCase(
-                autoReorderPlacesInPlanCandidate.rejected,
-                (state) => {
-                    state.autoReorderPlacesInPlanCandidateRequestStatus =
-                        RequestStatuses.REJECTED;
-                }
-            )
+            .addCase(autoReorderPlacesInPlanCandidate.pending, (state) => {
+                state.autoReorderPlacesInPlanCandidateRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(autoReorderPlacesInPlanCandidate.rejected, (state) => {
+                state.autoReorderPlacesInPlanCandidateRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
             .addCase(
                 autoReorderPlacesInPlanCandidate.fulfilled,
                 (state, { payload }) => {

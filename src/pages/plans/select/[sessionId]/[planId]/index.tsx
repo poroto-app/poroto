@@ -139,8 +139,14 @@ const PlanDetail = () => {
         );
     };
 
-    const handleOptimizeRoute = ({planCandidateId, planId}: {planCandidateId: string, planId: string}): void => {
-        dispatch(autoReorderPlacesInPlanCandidate({planId, planCandidateId}));
+    const handleOptimizeRoute = ({
+        planCandidateId,
+        planId,
+    }: {
+        planCandidateId: string;
+        planId: string;
+    }): void => {
+        dispatch(autoReorderPlacesInPlanCandidate({ planId, planCandidateId }));
     };
 
     if (!plan) {
@@ -219,7 +225,12 @@ const PlanDetail = () => {
                     color="white"
                     backgroundColor={Colors.primary["400"]}
                     borderRadius={10}
-                    onClick={() => handleOptimizeRoute({ planCandidateId: sessionId as string, planId: planId as string})}
+                    onClick={() =>
+                        handleOptimizeRoute({
+                            planCandidateId: sessionId as string,
+                            planId: planId as string,
+                        })
+                    }
                 >
                     歩く距離を最短にする
                 </Button>
