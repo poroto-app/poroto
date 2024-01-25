@@ -1,5 +1,6 @@
 export type Image = {
     default: string;
+    isGoogleImage: boolean;
     small: string | null;
     large: string | null;
 };
@@ -23,3 +24,12 @@ export function getImageSizeOf(size: ImageSize, image: Image): string {
             return image.default;
     }
 }
+
+export const getDefaultPlaceImage = (): Image => {
+    return {
+        isGoogleImage: false,
+        default: "/images/NotFound.jpg",
+        small: "/images/NotFound.jpg",
+        large: "/images/NotFound.jpg",
+    };
+};

@@ -1,0 +1,11 @@
+query PlanCandidate($planCandidateId: ID!) {
+    planCandidate(input: {planCandidateId: $planCandidateId}) {
+        planCandidate {
+            plans {
+                ...PlanFullFragment
+            }
+            createdBasedOnCurrentLocation
+            likedPlaceIds
+        }
+    }
+}

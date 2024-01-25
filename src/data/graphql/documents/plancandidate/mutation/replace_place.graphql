@@ -1,0 +1,8 @@
+mutation ReplacePlaceOfPlanCandidate($input: ReplacePlaceOfPlanCandidateInput!) {
+    replacePlaceOfPlanCandidate(input: $input) {
+        planCandidateId
+        plan {
+            ...PlanFullFragment
+        }
+    }
+}

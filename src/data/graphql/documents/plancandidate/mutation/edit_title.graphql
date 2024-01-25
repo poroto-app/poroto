@@ -1,0 +1,8 @@
+mutation EditPlanTitleOfPlanCandidate($input: EditPlanTitleOfPlanCandidateInput!) {
+    editPlanTitleOfPlanCandidate(input: $input) {
+        planCandidateId
+        plan {
+            ...PlanFullFragment
+        }
+    }
+}

@@ -4,6 +4,9 @@ import { PlanEntity } from "src/domain/models/PlanEntity";
 import { UserEntity } from "src/domain/user/UserApi";
 
 export interface PlannerApi {
+    // ==============================================================
+    // Plan
+    // ==============================================================
     fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse>;
 
     fetchPlans(request: FetchPlansRequest): Promise<FetchPlansResponse>;
@@ -16,6 +19,9 @@ export interface PlannerApi {
         request: FetchPlansByLocationRequest
     ): Promise<FetchPlansByLocationResponse>;
 
+    // ==============================================================
+    // Plan Candidate
+    // ==============================================================
     createPlansFromLocation(
         request: CreatePlanFromLocationRequest
     ): Promise<CreatePlanFromLocationResponse>;
@@ -67,6 +73,10 @@ export interface PlannerApi {
     updatePlanCandidatePlacesOrder(
         request: UpdatePlanCandidatePlacesOrderRequest
     ): Promise<UpdatePlanCandidatePlacesOrderResponse>;
+
+    updateLikeAtPlaceInPlanCandidate(
+        request: UpdateLikeAtPlaceInPlanCandidateRequest
+    ): Promise<UpdateLikeAtPlaceInPlanCandidateResponse>;
 }
 
 export type FetchPlanRequest = {
@@ -143,12 +153,13 @@ export type CreatePlanFromPlaceResponse = {
 };
 
 export type FetchCachedCreatedPlansRequest = {
-    session: string;
+    planCandidateId: string;
 };
 
 export type FetchCachedCreatedPlansResponse = {
     createdBasedOnCurrentLocation: boolean;
     plans: PlanEntity[] | null;
+    likedPlaceIds: string[];
 };
 
 export type FetchPlacesToAddForPlanOfPlanCandidateRequest = {
@@ -249,4 +260,15 @@ export type UpdatePlanCandidatePlacesOrderRequest = {
 
 export type UpdatePlanCandidatePlacesOrderResponse = {
     plan: PlanEntity | null;
+};
+
+export type UpdateLikeAtPlaceInPlanCandidateRequest = {
+    planCandidateId: string;
+    placeId: string;
+    like: boolean;
+};
+
+export type UpdateLikeAtPlaceInPlanCandidateResponse = {
+    plans: PlanEntity[];
+    likedPlaceIds: string[];
 };

@@ -1,6 +1,7 @@
-mutation ChangePlacesOrderInPlanCandidate($input: ChangePlacesOrderInPlanCandidateInput!) {
-    changePlacesOrderInPlanCandidate(input: $input) {
-        plan {
+query FetchPlans($input: PlansInput!) {
+    plans(input: $input) {
+        nextPageToken
+        plans {
             id
             name
             places {

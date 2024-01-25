@@ -17,6 +17,7 @@ import { RootState } from "src/redux/redux";
 
 export type PlanCandidateState = {
     createPlanSession: string | null;
+    likedPlaceIds: string[] | null;
     createdBasedOnCurrentLocation: boolean | null;
     plansCreated: Plan[] | null;
     placesAvailableForPlan: Place[] | null;
@@ -38,6 +39,7 @@ export type PlanCandidateState = {
     createPlanFromPlaceRequestStatus: RequestStatus | null;
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
+    updateLikeAtPlaceInPlanCandidateRequestStatus: RequestStatus | null;
     fetchCachedCreatedPlansRequestStatus: RequestStatus | null;
     fetchAvailablePlacesForPlanRequestStatus: RequestStatus | null;
     fetchNearbyPlaceCategoriesRequestStatus: RequestStatus | null;
@@ -46,6 +48,7 @@ export type PlanCandidateState = {
 const initialState: PlanCandidateState = {
     createPlanSession: null,
     createdBasedOnCurrentLocation: null,
+    likedPlaceIds: null,
     plansCreated: null,
     placesAvailableForPlan: null,
     preview: null,
@@ -61,6 +64,7 @@ const initialState: PlanCandidateState = {
     createPlanFromPlaceRequestStatus: null,
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
+    updateLikeAtPlaceInPlanCandidateRequestStatus: null,
     fetchCachedCreatedPlansRequestStatus: null,
     fetchAvailablePlacesForPlanRequestStatus: null,
     fetchNearbyPlaceCategoriesRequestStatus: null,
@@ -151,12 +155,15 @@ export const fetchCachedCreatedPlans = createAsyncThunk(
         if (createPlanSession && session === createPlanSession) return null;
 
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const response = await plannerApi.fetchCachedCreatedPlans({ session });
+        const response = await plannerApi.fetchCachedCreatedPlans({
+            planCandidateId: session,
+        });
         if (response.plans === null) {
             return {
                 session,
                 plans: null,
                 createdBasedOnCurrentLocation: null,
+                likedPlaceIds: response.likedPlaceIds,
             };
         }
 
@@ -168,6 +175,7 @@ export const fetchCachedCreatedPlans = createAsyncThunk(
             plans,
             createdBasedOnCurrentLocation:
                 response.createdBasedOnCurrentLocation,
+            likedPlaceIds: response.likedPlaceIds,
         };
     }
 );
@@ -269,8 +277,34 @@ export const updatePlacesOrderInPlanCandidate = createAsyncThunk(
     }
 );
 
+type UpdateLikeAtPlaceInPlanCandidateProps = {
+    planCandidateId: string;
+    placeId: string;
+    like: boolean;
+};
+export const updateLikeAtPlaceInPlanCandidate = createAsyncThunk(
+    "planCandidate/updateLikeAtPlaceInPlanCandidate",
+    async ({
+        planCandidateId,
+        placeId,
+        like,
+    }: UpdateLikeAtPlaceInPlanCandidateProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const { plans, likedPlaceIds } =
+            await plannerApi.updateLikeAtPlaceInPlanCandidate({
+                planCandidateId,
+                placeId,
+                like,
+            });
+        return {
+            likedPlaceIds,
+            plans: plans.map((plan) => createPlanFromPlanEntity(plan, null)),
+        };
+    }
+);
+
 export const slice = createSlice({
-    name: "plan",
+    name: "planCandidate",
     initialState,
     reducers: {
         setCreatedPlans: (
@@ -287,6 +321,7 @@ export const slice = createSlice({
             state.plansCreated = payload.plans;
             state.createdBasedOnCurrentLocation =
                 payload.createdBasedOnCurrentLocation;
+            state.likedPlaceIds = [];
         },
         fetchPlanDetail: (
             state,
@@ -355,6 +390,7 @@ export const slice = createSlice({
             state.createdBasedOnCurrentLocation = null;
             state.plansCreated = null;
             state.placesAvailableForPlan = null;
+            state.likedPlaceIds = null;
 
             state.preview = null;
 
@@ -464,6 +500,35 @@ export const slice = createSlice({
                     state.plansCreated[planIndexToUpdate] = payload.plan;
                 }
             )
+            // Update Like At Place In Plan Candidate
+            .addCase(
+                updateLikeAtPlaceInPlanCandidate.pending,
+                (state, action) => {
+                    state.updateLikeAtPlaceInPlanCandidateRequestStatus =
+                        RequestStatuses.PENDING;
+                }
+            )
+            .addCase(
+                updateLikeAtPlaceInPlanCandidate.fulfilled,
+                (state, { payload: { plans, likedPlaceIds } }) => {
+                    state.updateLikeAtPlaceInPlanCandidateRequestStatus =
+                        RequestStatuses.FULFILLED;
+                    state.plansCreated = plans;
+                    state.likedPlaceIds = likedPlaceIds;
+
+                    // TODO: previewはplansCreatedを更新すると自動的に更新されるようにする
+                    state.preview =
+                        plans.find((plan) => plan.id === state.preview?.id) ??
+                        null;
+                }
+            )
+            .addCase(
+                updateLikeAtPlaceInPlanCandidate.rejected,
+                (state, action) => {
+                    state.updateLikeAtPlaceInPlanCandidateRequestStatus =
+                        RequestStatuses.REJECTED;
+                }
+            )
             // Fetch Cached Created Plans
             .addCase(fetchCachedCreatedPlans.pending, (state, action) => {
                 state.fetchCachedCreatedPlansRequestStatus =
@@ -475,6 +540,7 @@ export const slice = createSlice({
                     if (!payload) return;
                     state.createPlanSession = payload.session;
                     state.plansCreated = payload.plans;
+                    state.likedPlaceIds = payload.likedPlaceIds;
                     state.createdBasedOnCurrentLocation =
                         payload.createdBasedOnCurrentLocation;
 

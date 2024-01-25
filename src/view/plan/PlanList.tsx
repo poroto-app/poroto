@@ -5,6 +5,7 @@ import { createArrayWithSize } from "src/domain/util/array";
 import { Routes } from "src/view/constants/router";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 import styled from "styled-components";
+import { AdInPlanList } from "../ad/AdInPlanList";
 
 type Props = {
     children?: ReactNode;
@@ -29,11 +30,14 @@ export function PlanList({ plans, children, empty }: Props) {
             ) : (
                 <GridLayout>
                     {plans.map((plan, index) => (
-                        <PlanPreview
-                            key={index}
-                            link={Routes.plans.plan(plan.id)}
-                            plan={plan}
-                        />
+                        <>
+                            <PlanPreview
+                                key={index}
+                                link={Routes.plans.plan(plan.id)}
+                                plan={plan}
+                            />
+                            {(index + 1) % 6 === 0 && <AdInPlanList />}
+                        </>
                     ))}
                 </GridLayout>
             )}

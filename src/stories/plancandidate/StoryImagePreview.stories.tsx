@@ -40,6 +40,7 @@ export const Loading: Story = {
             "https://dammy.example.com/150x150.png",
             "https://dammy.example.com/150x150.png",
         ].map((src) => ({
+            isGoogleImage: false,
             default: src,
             small: src,
             large: src,

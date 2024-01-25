@@ -1,0 +1,8 @@
+mutation DeletePlaceFromPlanCandidate($input: DeletePlaceFromPlanCandidateInput!) {
+    deletePlaceFromPlanCandidate(input: $input) {
+        planCandidateId
+        plan {
+            ...PlanFullFragment
+        }
+    }
+}

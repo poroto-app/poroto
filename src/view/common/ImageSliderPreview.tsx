@@ -35,6 +35,7 @@ export function ImageSliderPreview({
                     <ImageWithSkeleton
                         key={i}
                         src={getImageSizeOf(imageSize, image)}
+                        isGoogleImage={image.isGoogleImage}
                         onClick={() => onClickImage && onClickImage(image)}
                     />
                 </SlideItem>

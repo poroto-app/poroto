@@ -7,12 +7,14 @@ import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
 import { DateHelper } from "src/domain/util/date";
+import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { PlaceInfoTabPanelReviews } from "src/view/plandetail/PlaceInfoTabPanelReviews";
 
 type Props = {
     priceRange: PriceRange | null;
     categories: PlaceCategory[];
+    tabHSpaacing?: string;
     googlePlaceReviews: GooglePlaceReview[];
     estimatedStayDuration: number;
 };
@@ -26,6 +28,7 @@ export type PlaceInfoTab = (typeof PlaceInfoTabs)[keyof typeof PlaceInfoTabs];
 export const PlaceInfoTab = ({
     categories,
     priceRange,
+    tabHSpaacing,
     googlePlaceReviews,
     estimatedStayDuration,
 }: Props) => {
@@ -45,7 +48,7 @@ export const PlaceInfoTab = ({
             h={tabHeight[activeTab]}
             transition="height 0.4s ease"
         >
-            <HStack w="100%" alignItems="flex-start">
+            <HStack w="100%" px={tabHSpaacing} alignItems="flex-start">
                 <Tab
                     active={activeTab === PlaceInfoTabs.Information}
                     tab={PlaceInfoTabs.Information}
@@ -94,17 +97,19 @@ export const Tab = ({
             flex={1}
             alignItems="flex-start"
             as="button"
-            spacing="0"
             onClick={() => onClick(tab)}
         >
-            <Text userSelect="none">{label}</Text>
-            <Box
-                w={active ? "40px" : "20px"}
-                h="8px"
-                backgroundColor="#DCB78D"
-                opacity={active ? 1 : 0}
-                transition="all 0.2s ease"
-            />
+            <VStack alignItems="center" spacing="0">
+                <Text userSelect="none">{label}</Text>
+                <Box
+                    w="100%"
+                    h="6px"
+                    borderRadius="10px"
+                    backgroundColor="#DCB78D"
+                    opacity={active ? 1 : 0}
+                    transition="all 0.4s ease"
+                />
+            </VStack>
         </VStack>
     );
 };
@@ -167,7 +172,12 @@ const TabPanelInformation = ({
     }
 
     return (
-        <VStack w="100%" spacing="8px" overflowX="hidden">
+        <VStack
+            w="100%"
+            spacing="8px"
+            px={Size.PlaceCardPaddingH}
+            overflowX="hidden"
+        >
             <HStack
                 w="100%"
                 alignItems="stretch"

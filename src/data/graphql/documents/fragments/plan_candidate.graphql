@@ -1,0 +1,8 @@
+fragment PlanCandidateFullFragment on PlanCandidate {
+    id
+    plans {
+        ...PlanFullFragment
+    }
+    likedPlaceIds
+    createdBasedOnCurrentLocation
+}

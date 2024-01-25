@@ -1,4 +1,4 @@
-import { Box, Button, Center, Icon, useToast, VStack } from "@chakra-ui/react";
+import { Button, Center, Icon, useToast, VStack } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -22,7 +22,6 @@ import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
 import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
-import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
@@ -92,11 +91,9 @@ export default function PlanPage() {
                     planDurationInMinutes={plan.timeInMinutes}
                     planRange={getPlanPriceRange(plan.places)}
                 />
-                <Box w="100%" px="20px">
-                    <PlanPlaceList plan={plan} />
-                </Box>
-                <PlanPageSection title="スケジュール" accordion>
-                    <PlanSchedule plan={plan} />
+                <PlanPageSection title="プラン">
+                    {/*TODO: ログインユーザーがLIKEした場所を反映できるようにする*/}
+                    <PlanPlaceList plan={plan} likePlaceIds={[]} />
                 </PlanPageSection>
                 <PlanPageSection title="プラン内の場所">
                     <PlaceMap places={plan.places} />

@@ -14,7 +14,11 @@ import { useEffect, useRef, useState } from "react";
 import { isMobile, isTablet } from "react-device-detect";
 import { MdCheck, MdClose } from "react-icons/md";
 import { ImageSize } from "src/data/graphql/generated";
-import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
+import {
+    getDefaultPlaceImage,
+    getImageSizeOf,
+    ImageSizes,
+} from "src/domain/models/Image";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
 import { Place } from "src/domain/models/Place";
@@ -141,18 +145,20 @@ export const CategorySelect = ({
                                 imageUrl={category.defaultThumbnailUrl}
                             />
                         </SplideSlide>
-                        {placesOfCategory.map((place, index) => (
-                            <SplideSlide key={index}>
-                                <PlaceThumbnail
-                                    place={place}
-                                    category={{
-                                        id: category.name,
-                                        displayName: category.displayName,
-                                    }}
-                                    imageSize={thumbnailImageSize}
-                                />
-                            </SplideSlide>
-                        ))}
+                        {placesOfCategory
+                            .filter((p) => p.images.length > 0)
+                            .map((place, index) => (
+                                <SplideSlide key={index}>
+                                    <PlaceThumbnail
+                                        place={place}
+                                        category={{
+                                            id: category.name,
+                                            displayName: category.displayName,
+                                        }}
+                                        imageSize={thumbnailImageSize}
+                                    />
+                                </SplideSlide>
+                            ))}
                     </SplideContainer>
                 </Box>
                 <Text fontSize="1.25rem" py={4}>
@@ -252,10 +258,14 @@ function PlaceThumbnail({
     category: PlaceCategory;
     imageSize: ImageSize;
 }) {
+    const placeImage =
+        place.images.length > 0 ? place.images[0] : getDefaultPlaceImage();
     return (
         <Box w="100%" h="100%" position="relative">
             <ImageWithSkeleton
-                src={getImageSizeOf(imageSize, place.images[0])}
+                isGoogleImage={placeImage.isGoogleImage}
+                attributionToBottom={false}
+                src={getImageSizeOf(imageSize, placeImage)}
             />
             <Box
                 position="absolute"

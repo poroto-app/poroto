@@ -1,4 +1,4 @@
-import { Box, Button, Center, VStack } from "@chakra-ui/react";
+import { Button, Center, VStack } from "@chakra-ui/react";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -13,7 +13,6 @@ import {
     savePlanFromCandidate,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
-import { AdInArticle } from "src/view/ad/AdInArticle";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
@@ -21,6 +20,7 @@ import { NotFound } from "src/view/common/NotFound";
 import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
+import { usePlaceLikeInPlanCandidate } from "src/view/hooks/usePlaceLikeInPlanCandidate";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
 import { usePlanPlaceDelete } from "src/view/hooks/usePlanPlaceDelete";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
@@ -28,7 +28,6 @@ import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteBy
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
-import { PlanSchedule } from "src/view/plan/PlanSchedule";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
@@ -79,6 +78,9 @@ const PlanDetail = () => {
         planCandidateId: sessionId as string,
         planId: planId as string,
     });
+
+    const { likedPlaceIdsInPlanCandidate, updateLikeAtPlace } =
+        usePlaceLikeInPlanCandidate();
 
     const {
         preview: plan,
@@ -155,7 +157,12 @@ const PlanDetail = () => {
     return (
         <>
             <Center flexDirection="column" pb={`${FooterHeight}px`}>
-                <NavBar canGoBack />
+                <NavBar
+                    canGoBack
+                    defaultPath={Routes.plans.planCandidate.index(
+                        sessionId as string
+                    )}
+                />
                 <VStack
                     maxWidth="990px"
                     w="100%"
@@ -169,9 +176,10 @@ const PlanDetail = () => {
                         planDurationInMinutes={plan.timeInMinutes}
                         planRange={getPlanPriceRange(plan.places)}
                     />
-                    <Box w="100%" px="20px">
+                    <PlanPageSection title="プラン">
                         <PlanPlaceList
                             plan={plan}
+                            likePlaceIds={likedPlaceIdsInPlanCandidate}
                             createdBasedOnCurrentLocation={
                                 createdBasedOnCurrentLocation
                             }
@@ -186,19 +194,7 @@ const PlanDetail = () => {
                             onClickDeletePlace={(placeId) =>
                                 showDialogToDelete({ placeIdToDelete: placeId })
                             }
-                        />
-                    </Box>
-                    <AdInArticle
-                        adSlot={
-                            process.env.ADSENSE_SLOT_INARTICLE_PLAN_CANDIDATE
-                        }
-                    />
-                    <PlanPageSection title="スケジュール" accordion>
-                        <PlanSchedule
-                            plan={plan}
-                            startFromCurrentLocation={
-                                createdBasedOnCurrentLocation
-                            }
+                            onUpdateLikeAtPlace={updateLikeAtPlace}
                         />
                     </PlanPageSection>
                     <PlanPageSection title="プラン内の場所">

@@ -25,3 +25,9 @@ Disabled.args = {
     text: "ボタン",
     disabled: true,
 };
+
+export const Outlined = Template.bind({});
+Outlined.args = {
+    text: "ボタン",
+    outlined: true,
+};

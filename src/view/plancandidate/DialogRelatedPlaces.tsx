@@ -1,22 +1,17 @@
 import {
-    Accordion,
-    AccordionButton,
-    AccordionIcon,
-    AccordionItem,
-    AccordionPanel,
+    AspectRatio,
     Box,
-    Button,
     Center,
     HStack,
     Icon,
     Image,
+    SimpleGrid,
     Spinner,
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MdClose } from "react-icons/md";
-import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
     getImageSizeOf,
     Image as ImageType,
@@ -26,31 +21,36 @@ import { Place } from "src/domain/models/Place";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { copyObject } from "src/domain/util/object";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
+import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
+import { RoundedButton } from "src/view/common/RoundedButton";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
-import { PlaceReview } from "src/view/plandetail/PlaceReview";
+import {
+    PlaceChipActionGoogleMaps,
+    PlaceChipActionInstagram,
+} from "src/view/plandetail/PlaceChipContextAction";
+import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
+import { OnClickHandler } from "src/view/types/handler";
 
 type Props = {
     visible: boolean;
-    dialogTitle: string;
     places: Place[] | null;
     updating: boolean;
     buttonLabelUpdatePlace: string;
-    buttonLabelSelectPlace: string;
+    titleSelectScreen: string;
+    titleConfirmScreen: string;
     onClose: () => void;
     onClickRelatedPlace: (placeId: string) => void;
-    titleConfirmUpdate: (props: { selectedPlaceId: string }) => ReactNode;
 };
 
 export function DialogRelatedPlaces({
     visible,
-    dialogTitle,
     places,
     updating,
     buttonLabelUpdatePlace,
-    buttonLabelSelectPlace,
+    titleSelectScreen,
+    titleConfirmScreen,
     onClose,
     onClickRelatedPlace,
-    titleConfirmUpdate,
 }: Props) {
     const [selectedPlaceToUpdate, setSelectedPlaceToUpdate] =
         useState<Place | null>();
@@ -98,18 +98,15 @@ export function DialogRelatedPlaces({
                     <LoadingScreen />
                 ) : selectedPlaceToUpdate == null ? (
                     <SelectPlaceToUpdateScreen
-                        dialogTitle={dialogTitle}
+                        dialogTitle={titleSelectScreen}
                         places={places}
-                        buttonLabelSelectPlace={buttonLabelSelectPlace}
                         onClickUpdate={handleOnSelectPlaceToUpdate}
                         onClose={onClose}
                     />
                 ) : (
                     <ConfirmToUpdateScreen
-                        title={titleConfirmUpdate({
-                            selectedPlaceId: selectedPlaceToUpdate.id,
-                        })}
-                        image={selectedPlaceToUpdate.images[0]}
+                        place={selectedPlaceToUpdate}
+                        title={titleConfirmScreen}
                         buttonLabelUpdatePlace={buttonLabelUpdatePlace}
                         onClickUpdate={handleOnUpdatePlace}
                         onCancel={handleOnCancelUpdate}
@@ -135,42 +132,16 @@ function LoadingScreen() {
 function SelectPlaceToUpdateScreen({
     dialogTitle,
     places,
-    buttonLabelSelectPlace,
     onClickUpdate,
     onClose,
 }: {
     dialogTitle: string;
     places: Place[] | null;
-    buttonLabelSelectPlace: string;
     onClickUpdate: (placeId: string) => void;
     onClose: () => void;
 }) {
     if (places == null) return <LoadingScreen />;
 
-    return (
-        <PlaceList
-            title={dialogTitle}
-            places={places}
-            buttonLabelSelectPlace={buttonLabelSelectPlace}
-            onClickRelatedPlace={onClickUpdate}
-            onClose={onClose}
-        />
-    );
-}
-
-function PlaceList({
-    title,
-    places,
-    buttonLabelSelectPlace,
-    onClickRelatedPlace,
-    onClose,
-}: {
-    title: string;
-    places: Place[];
-    buttonLabelSelectPlace: string;
-    onClickRelatedPlace: (placeId: string) => void;
-    onClose: () => void;
-}) {
     return (
         <VStack
             w="100%"
@@ -178,41 +149,42 @@ function PlaceList({
             py="32px"
             px="16px"
             maxW="500px"
-            spacing="16px"
+            spacing="32px"
+            overflowY="auto"
         >
             <HStack w="100%">
-                <Text
-                    flex={1}
-                    fontSize="20px"
-                    fontWeight="bold"
-                    color="#222222"
-                >
-                    {title}
-                </Text>
+                <VStack flex={1} spacing={0}>
+                    <Text fontSize="20px" fontWeight="bold" color="#574836">
+                        {dialogTitle}
+                    </Text>
+                    <Text color="#9F8D76" fontWeight="bold">
+                        気になった場所をタップ
+                    </Text>
+                </VStack>
                 <Box as="button" onClick={onClose}>
                     <Icon width="24px" height="24px" as={MdClose} />
                 </Box>
             </HStack>
-            <Accordion w="100%" allowToggle borderColor="transparent" pb="32px">
-                <VStack w="100%">
-                    {places
-                        .filter((p) => p.images.length > 0)
-                        .filter((p) => p.categories.length > 0)
-                        .map((place, i) => (
-                            <PlaceListItem
-                                key={i}
-                                name={place.name}
-                                images={place.images}
-                                categories={place.categories}
-                                reviews={place.googlePlaceReviews}
-                                buttonLabelSelectPlace={buttonLabelSelectPlace}
-                                onClickUpdatePlace={() =>
-                                    onClickRelatedPlace(place.id)
-                                }
-                            />
-                        ))}
-                </VStack>
-            </Accordion>
+            <SimpleGrid
+                columns={2}
+                w="100%"
+                spacingY="32px"
+                spacingX="16px"
+                px="16px"
+            >
+                {places
+                    .filter((p) => p.images.length > 0)
+                    .filter((p) => p.categories.length > 0)
+                    .map((place, i) => (
+                        <PlaceListItem
+                            key={i}
+                            name={place.name}
+                            images={place.images}
+                            categories={place.categories}
+                            onClick={() => onClickUpdate(place.id)}
+                        />
+                    ))}
+            </SimpleGrid>
         </VStack>
     );
 }
@@ -221,120 +193,117 @@ export function PlaceListItem({
     name,
     categories,
     images,
-    reviews,
-    buttonLabelSelectPlace,
-    onClickUpdatePlace,
+    onClick,
 }: {
     name: string;
     categories: PlaceCategory[];
     images: ImageType[];
-    reviews: GooglePlaceReview[] | null;
-    buttonLabelSelectPlace: string;
-    onClickUpdatePlace: () => void;
+    onClick: OnClickHandler;
 }) {
     return (
-        <AccordionItem
-            w="100%"
-            backgroundColor="#F3F6FE"
-            borderRadius="5px"
-            borderColor="transparent"
-        >
-            <HStack w="100%">
-                <Box w="80px" h="80px" overflow="hidden" borderRadius="5px">
-                    <Image
-                        w="100%"
-                        h="100%"
-                        objectFit="cover"
-                        src={
-                            images.length > 0 &&
-                            getImageSizeOf(ImageSizes.Small, images[0])
-                        }
-                    />
-                </Box>
-                <VStack alignItems="flex-start" flex={1}>
-                    <HStack>
-                        <Icon
-                            w="24px"
-                            h="24px"
-                            as={getPlaceCategoryIcon(
-                                categories.length > 0 ? categories[0] : null
-                            )}
-                        />
-                        <Text>{name}</Text>
-                    </HStack>
-                    <Box
-                        color="#4A66B5"
-                        fontWeight="bold"
-                        as="button"
-                        onClick={onClickUpdatePlace}
-                    >
-                        {buttonLabelSelectPlace}
-                    </Box>
-                </VStack>
-                {reviews && reviews.length > 0 && (
-                    <AccordionButton px="8px" w="auto">
-                        <AccordionIcon />
-                    </AccordionButton>
-                )}
+        <VStack spacing="16px">
+            <AspectRatio
+                as="button"
+                w="100%"
+                maxW="180px"
+                ratio={1}
+                borderRadius="100%"
+                overflow="hidden"
+                onClick={onClick}
+            >
+                <Image
+                    w="100%"
+                    h="100%"
+                    objectFit="cover"
+                    src={
+                        images.length > 0 &&
+                        getImageSizeOf(ImageSizes.Small, images[0])
+                    }
+                />
+            </AspectRatio>
+            <HStack spacing="4px" alignItems="flex-start" onClick={onClick}>
+                <Icon
+                    w="24px"
+                    h="24px"
+                    color="#946A35"
+                    as={getPlaceCategoryIcon(
+                        categories.length > 0 ? categories[0] : null
+                    )}
+                />
+                <Text fontWeight="bold" color="#574836">
+                    {name}
+                </Text>
             </HStack>
-            <AccordionPanel>
-                <VStack w="100%">
-                    {reviews &&
-                        reviews.map((review, i) => (
-                            <PlaceReview
-                                key={i}
-                                authorName={review.authorName}
-                                authorUrl={review.authorUrl}
-                                text={review.text}
-                            />
-                        ))}
-                </VStack>
-            </AccordionPanel>
-        </AccordionItem>
+        </VStack>
     );
 }
 
 export function ConfirmToUpdateScreen({
+    place,
     title,
-    image,
     buttonLabelUpdatePlace,
     onClickUpdate,
     onCancel,
 }: {
-    title: ReactNode;
-    image: ImageType;
+    place: Place;
+    title: string;
     buttonLabelUpdatePlace: string;
     onClickUpdate: () => void;
     onCancel: () => void;
 }) {
     return (
-        <VStack w="100%" h="100%" px="16px" py="16px">
-            <Center flex={1} w="100%">
-                <VStack spacing="16px">
+        <VStack w="100%" h="100%" spacing="24px" maxW="600px">
+            <VStack w="100%" pt="32px" spacing="24px" flex={1}>
+                <Text fontSize="20px" fontWeight="bold" color="#222222">
+                    {title}
+                </Text>
+                <VStack
+                    alignItems="flex-start"
+                    spacing="16px"
+                    w="100%"
+                    px="16px"
+                >
                     <Box
-                        w="200px"
+                        w="100%"
                         h="200px"
                         borderRadius="20px"
                         overflow="hidden"
                     >
-                        <Image
-                            w="100%"
-                            h="100%"
-                            objectFit="cover"
-                            src={getImageSizeOf(ImageSizes.Small, image)}
-                        />
+                        {place.images.length > 0 && (
+                            <ImageSliderPreview
+                                images={place.images}
+                                borderRadius={20}
+                            />
+                        )}
                     </Box>
-
-                    <Text fontSize="18px">{title}</Text>
+                    <Text fontSize="18px" fontWeight="bold" px="4px">
+                        {place.name}
+                    </Text>
                 </VStack>
-            </Center>
-            <HStack mt="auto" pb="48px">
-                <Button onClick={onCancel} colorScheme="red" variant="outline">
+                <VStack w="100%">
+                    <PlaceInfoTab
+                        tabHSpaacing="20px"
+                        priceRange={place.priceRange}
+                        categories={place.categories}
+                        googlePlaceReviews={place.googlePlaceReviews}
+                        estimatedStayDuration={place.estimatedStayDuration}
+                    />
+                    <HStack w="100%" px="20px" alignItems="flex-stat">
+                        <PlaceChipActionInstagram placeName={place.name} />
+                        <PlaceChipActionGoogleMaps
+                            placeName={place.name}
+                            googlePlaceId={place.googlePlaceId}
+                        />
+                    </HStack>
+                </VStack>
+            </VStack>
+            <HStack w="100%" pb="48px" px="20px">
+                <RoundedButton w="100%" outlined onClick={onCancel}>
                     キャンセル
-                </Button>
-                <Button onClick={onClickUpdate} colorScheme="blue">
+                </RoundedButton>
+                <RoundedButton w="100%" onClick={onClickUpdate}>
                     {buttonLabelUpdatePlace}
-                </Button>
+                </RoundedButton>
             </HStack>
         </VStack>
     );

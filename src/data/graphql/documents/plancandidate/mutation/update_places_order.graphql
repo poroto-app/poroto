@@ -1,0 +1,7 @@
+mutation ChangePlacesOrderInPlanCandidate($input: ChangePlacesOrderInPlanCandidateInput!) {
+    changePlacesOrderInPlanCandidate(input: $input) {
+        plan {
+            ...PlanFullFragment
+        }
+    }
+}

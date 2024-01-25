@@ -7,36 +7,43 @@ const bookStore: Place = {
     name: "poroto書店",
     images: [
         {
+            isGoogleImage: true,
             default: "https://picsum.photos/300/400",
             small: "https://picsum.photos/300/400",
             large: "https://picsum.photos/300/400",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/1280/720",
             small: "https://picsum.photos/1280/720",
             large: "https://picsum.photos/1280/720",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/400/600",
             small: "https://picsum.photos/400/600",
             large: "https://picsum.photos/400/600",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/400/600",
             small: "https://picsum.photos/400/600",
             large: "https://picsum.photos/400/600",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/300/400",
             small: "https://picsum.photos/300/400",
             large: "https://picsum.photos/300/400",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/1280/720",
             small: "https://picsum.photos/1280/720",
             large: "https://picsum.photos/1280/720",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/400/600",
             small: "https://picsum.photos/400/600",
             large: "https://picsum.photos/400/600",
@@ -71,6 +78,7 @@ const bookStore: Place = {
         },
     ],
     categories: [{ id: PlaceCategoryTypes.BookStores, displayName: "本屋" }],
+    likeCount: 5,
 };
 
 const tokyo: Place = {
@@ -79,16 +87,19 @@ const tokyo: Place = {
     name: "東京駅",
     images: [
         {
+            isGoogleImage: true,
             default: "https://picsum.photos/1280/720",
             small: "https://picsum.photos/1280/720",
             large: "https://picsum.photos/1280/720",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/400/600",
             small: "https://picsum.photos/400/600",
             large: "https://picsum.photos/400/600",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/400/650",
             small: "https://picsum.photos/400/650",
             large: "https://picsum.photos/400/650",
@@ -116,7 +127,8 @@ const tokyo: Place = {
             timeInMilliSec: 1600000000000,
         },
     ],
-    categories: [],
+    categories: [{ id: PlaceCategoryTypes.Culture, displayName: "駅" }],
+    likeCount: 10,
 };
 
 const marunouchi: Place = {
@@ -125,21 +137,25 @@ const marunouchi: Place = {
     name: "東京駅丸の内駅前広場",
     images: [
         {
+            isGoogleImage: true,
             default: "https://picsum.photos/400/400",
             small: "https://picsum.photos/400/400",
             large: "https://picsum.photos/400/400",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/1280/700",
             small: "https://picsum.photos/1280/700",
             large: "https://picsum.photos/1280/700",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/400/500",
             small: "https://picsum.photos/400/500",
             large: "https://picsum.photos/400/500",
         },
         {
+            isGoogleImage: false,
             default: "https://picsum.photos/450/600",
             small: "https://picsum.photos/450/600",
             large: "https://picsum.photos/450/600",
@@ -151,6 +167,7 @@ const marunouchi: Place = {
     },
     estimatedStayDuration: 60,
     categories: [{ id: PlaceCategoryTypes.Park, displayName: "公園" }],
+    likeCount: 20,
 };
 
 export const mockPlaces = {
