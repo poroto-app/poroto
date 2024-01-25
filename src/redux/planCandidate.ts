@@ -67,6 +67,7 @@ const initialState: PlanCandidateState = {
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
     updateLikeAtPlaceInPlanCandidateRequestStatus: null,
+    AutoReorderPlacesInPlanCandidateRequestStatus: null,
     fetchCachedCreatedPlansRequestStatus: null,
     fetchAvailablePlacesForPlanRequestStatus: null,
     fetchNearbyPlaceCategoriesRequestStatus: null,
