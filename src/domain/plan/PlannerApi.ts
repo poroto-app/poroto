@@ -1,4 +1,3 @@
-import { PlanCandidate } from './../../data/graphql/generated';
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";

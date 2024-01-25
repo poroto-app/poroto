@@ -1,4 +1,3 @@
-import { AutoReorderPlacesInPlanCandidateResponse } from './../../domain/plan/PlannerApi';
 import {
     AddPlaceToPlanCandidateDocument,
     AutoReorderPlacesInPlanCandidateDocument,
@@ -58,6 +57,7 @@ import {
     UpdatePlanCandidatePlacesOrderRequest,
     UpdatePlanCandidatePlacesOrderResponse,
 } from "src/domain/plan/PlannerApi";
+import { AutoReorderPlacesInPlanCandidateResponse } from "./../../domain/plan/PlannerApi";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse> {
@@ -429,9 +429,10 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             },
         });
         return {
-            PlanCandidateId: data.autoReorderPlacesInPlanCandidate.planCandidateId,
+            PlanCandidateId:
+                data.autoReorderPlacesInPlanCandidate.planCandidateId,
             plan: fromGraphqlPlanEntity(
-                data.autoReorderPlacesInPlanCandidate.plan,
+                data.autoReorderPlacesInPlanCandidate.plan
             ),
         };
     }

@@ -1,4 +1,3 @@
-import { AutoReorderPlacesInPlanCandidateDocument } from './../data/graphql/generated';
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
