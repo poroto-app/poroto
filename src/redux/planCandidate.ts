@@ -1,3 +1,4 @@
+import { AutoReorderPlacesInPlanCandidateDocument } from './../data/graphql/generated';
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
@@ -40,6 +41,7 @@ export type PlanCandidateState = {
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
     updateLikeAtPlaceInPlanCandidateRequestStatus: RequestStatus | null;
+    AutoReorderPlacesInPlanCandidateRequestStatus: RequestStatus | null;
     fetchCachedCreatedPlansRequestStatus: RequestStatus | null;
     fetchAvailablePlacesForPlanRequestStatus: RequestStatus | null;
     fetchNearbyPlaceCategoriesRequestStatus: RequestStatus | null;
