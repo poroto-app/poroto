@@ -1,6 +1,3 @@
-import { autoReorderPlacesInPlanCandidate } from './planCandidate';
-import { AutoReorderPlacesInPlanCandidateDocument } from './../data/graphql/generated';
-import { Accordion } from './../stories/plan/PlanPageSection.stories';
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
@@ -308,6 +305,27 @@ export const updateLikeAtPlaceInPlanCandidate = createAsyncThunk(
     }
 );
 
+type AutoReorderPlacesInPlanCandidateProps = {
+    planCandidateId: string;
+    planId: string;
+};
+export const autoReorderPlacesInPlanCandidate = createAsyncThunk(
+    "planCandidate/autoReorderPlacesInPlanCandidate",
+    async ({
+        planCandidateId,
+        planId,
+    }: AutoReorderPlacesInPlanCandidateProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.autoReorderPlacesInPlanCandidate({
+            planCandidateId,
+            planId,
+        });
+        return {
+            plan: createPlanFromPlanEntity(response.plan, null),
+        };
+    }
+);
+
 export const slice = createSlice({
     name: "planCandidate",
     initialState,
@@ -431,34 +449,6 @@ export const slice = createSlice({
                 state.preview.places.find((place) => place.id === placeId)
             );
         },
-        autoReorderPlacesInPlanCandidate: (
-            state,
-            { payload }: PayloadAction<{ placeIds: string[] }>
-        ) => {
-            if (!state.plansCreated) return;
-
-            const isContainsAllPlacesIds = state.plansCreated.some(
-                (plan) =>
-                    plan.places.some(
-                        (place) => !payload.placeIds.includes(place.id)
-                    ) || plan.places.length !== payload.placeIds.length
-            );
-            if (isContainsAllPlacesIds) return;
-
-            state.plansCreated = state.plansCreated.map((plan) => {
-                const isContainsAllPlacesIds = plan.places.some(
-                    (place) => !payload.placeIds.includes(place.id)
-                );
-                if (isContainsAllPlacesIds) return plan;
-
-                return {
-                    ...plan,
-                    places: payload.placeIds.map((placeId) =>
-                        plan.places.find((place) => place.id === placeId)
-                    ),
-                };
-            });
-        }
     },
     extraReducers: (builder) => {
         builder
@@ -531,6 +521,37 @@ export const slice = createSlice({
                     if (planIndexToUpdate < 0) return;
 
                     state.plansCreated[planIndexToUpdate] = payload.plan;
+                }
+            )
+            .addCase(
+                autoReorderPlacesInPlanCandidate.pending,
+                (state) => {
+                    state.autoReorderPlacesInPlanCandidateRequestStatus =
+                        RequestStatuses.PENDING;
+                }
+            )
+            .addCase(
+                autoReorderPlacesInPlanCandidate.rejected,
+                (state) => {
+                    state.autoReorderPlacesInPlanCandidateRequestStatus =
+                        RequestStatuses.REJECTED;
+                }
+            )
+            .addCase(
+                autoReorderPlacesInPlanCandidate.fulfilled,
+                (state, { payload }) => {
+                    state.autoReorderPlacesInPlanCandidateRequestStatus =
+                        RequestStatuses.FULFILLED;
+
+                    if (state.plansCreated === null) return;
+
+                    const planIndexToUpdate = state.plansCreated.findIndex(
+                        (plan) => plan.id === payload.plan.id
+                    );
+                    if (planIndexToUpdate < 0) return;
+
+                    state.plansCreated[planIndexToUpdate] = payload.plan;
+                    state.preview = payload.plan;
                 }
             )
             // Update Like At Place In Plan Candidate
