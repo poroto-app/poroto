@@ -6,6 +6,7 @@ import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
+    autoReorderPlacesInPlanCandidate,
     fetchCachedCreatedPlans,
     fetchPlanDetail,
     reduxPlanCandidateSelector,
@@ -138,8 +139,8 @@ const PlanDetail = () => {
         );
     };
 
-    const handleOptimizeRoute = () => {
-        // TODO: プラン内の場所を歩く距離が最短になるように並び変える関数を呼び出す
+    const handleOptimizeRoute = ({planCandidateId, planId}: {planCandidateId: string, planId: string}): void => {
+        dispatch(autoReorderPlacesInPlanCandidate({planId, planCandidateId}));
     };
 
     if (!plan) {
@@ -218,7 +219,7 @@ const PlanDetail = () => {
                     color="white"
                     backgroundColor={Colors.primary["400"]}
                     borderRadius={10}
-                    onClick={handleOptimizeRoute}
+                    onClick={() => handleOptimizeRoute({ planCandidateId: sessionId as string, planId: planId as string})}
                 >
                     歩く距離を最短にする
                 </Button>
