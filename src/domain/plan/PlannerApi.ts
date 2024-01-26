@@ -74,6 +74,10 @@ export interface PlannerApi {
         request: UpdatePlanCandidatePlacesOrderRequest
     ): Promise<UpdatePlanCandidatePlacesOrderResponse>;
 
+    autoReorderPlacesInPlanCandidate(
+        request: AutoReorderPlacesInPlanCandidateRequest
+    ): Promise<AutoReorderPlacesInPlanCandidateResponse>;
+
     updateLikeAtPlaceInPlanCandidate(
         request: UpdateLikeAtPlaceInPlanCandidateRequest
     ): Promise<UpdateLikeAtPlaceInPlanCandidateResponse>;
@@ -271,4 +275,14 @@ export type UpdateLikeAtPlaceInPlanCandidateRequest = {
 export type UpdateLikeAtPlaceInPlanCandidateResponse = {
     plans: PlanEntity[];
     likedPlaceIds: string[];
+};
+
+export type AutoReorderPlacesInPlanCandidateRequest = {
+    planCandidateId: string;
+    planId: string;
+};
+
+export type AutoReorderPlacesInPlanCandidateResponse = {
+    PlanCandidateId: string;
+    plan: PlanEntity;
 };
