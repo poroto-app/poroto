@@ -28,6 +28,7 @@ import { PlanEntity } from "src/domain/models/PlanEntity";
 import {
     AddPlaceToPlanOfPlanCandidateRequest,
     AutoReorderPlacesInPlanCandidateRequest,
+    AutoReorderPlacesInPlanCandidateResponse,
     CreatePlanFromLocationRequest,
     CreatePlanFromLocationResponse,
     CreatePlanFromPlaceRequest,
@@ -57,7 +58,6 @@ import {
     UpdatePlanCandidatePlacesOrderRequest,
     UpdatePlanCandidatePlacesOrderResponse,
 } from "src/domain/plan/PlannerApi";
-import { AutoReorderPlacesInPlanCandidateResponse } from "./../../domain/plan/PlannerApi";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse> {
