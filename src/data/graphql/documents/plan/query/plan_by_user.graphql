@@ -16,7 +16,9 @@ query PlansByUser($userId: String!) {
                     id
                 }
             }
-            authorId
+            author {
+                ...UserFullFragment
+            }
         }
         author {
             id

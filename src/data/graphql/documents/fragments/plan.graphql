@@ -15,5 +15,7 @@ fragment PlanFullFragment on Plan {
             id
         }
     }
-    authorId
+    author {
+        ...UserFullFragment
+    }
 }
