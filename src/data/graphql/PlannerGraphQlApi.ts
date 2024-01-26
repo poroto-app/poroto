@@ -1,5 +1,6 @@
 import {
     AddPlaceToPlanCandidateDocument,
+    AutoReorderPlacesInPlanCandidateDocument,
     ChangePlacesOrderInPlanCandidateDocument,
     CreatePlanByLocationDocument,
     CreatePlanByPlaceDocument,
@@ -27,6 +28,8 @@ import { PlanCandidateEntity } from "src/domain/models/PlanCandidateEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";
 import {
     AddPlaceToPlanOfPlanCandidateRequest,
+    AutoReorderPlacesInPlanCandidateRequest,
+    AutoReorderPlacesInPlanCandidateResponse,
     CreatePlanFromLocationRequest,
     CreatePlanFromLocationResponse,
     CreatePlanFromPlaceRequest,
@@ -418,6 +421,27 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             ),
             likedPlaceIds:
                 data.likeToPlaceInPlanCandidate.planCandidate.likedPlaceIds,
+        };
+    }
+
+    async autoReorderPlacesInPlanCandidate(
+        request: AutoReorderPlacesInPlanCandidateRequest
+    ): Promise<AutoReorderPlacesInPlanCandidateResponse> {
+        const { data } = await this.client.mutate({
+            mutation: AutoReorderPlacesInPlanCandidateDocument,
+            variables: {
+                input: {
+                    planCandidateId: request.planCandidateId,
+                    planId: request.planId,
+                },
+            },
+        });
+        return {
+            PlanCandidateId:
+                data.autoReorderPlacesInPlanCandidate.planCandidateId,
+            plan: fromGraphqlPlanEntity(
+                data.autoReorderPlacesInPlanCandidate.plan
+            ),
         };
     }
 }

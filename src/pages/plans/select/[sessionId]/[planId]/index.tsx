@@ -6,6 +6,7 @@ import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
+    autoReorderPlacesInPlanCandidate,
     fetchCachedCreatedPlans,
     fetchPlanDetail,
     reduxPlanCandidateSelector,
@@ -138,6 +139,16 @@ const PlanDetail = () => {
         );
     };
 
+    const handleOptimizeRoute = ({
+        planCandidateId,
+        planId,
+    }: {
+        planCandidateId: string;
+        planId: string;
+    }): void => {
+        dispatch(autoReorderPlacesInPlanCandidate({ planId, planCandidateId }));
+    };
+
     if (!plan) {
         // プラン候補取得失敗
         if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.REJECTED)
@@ -208,6 +219,21 @@ const PlanDetail = () => {
                 </VStack>
             </Center>
             <PlanFooter>
+                <Button
+                    variant="solid"
+                    flex={1}
+                    color="white"
+                    backgroundColor={Colors.primary["400"]}
+                    borderRadius={10}
+                    onClick={() =>
+                        handleOptimizeRoute({
+                            planCandidateId: sessionId as string,
+                            planId: planId as string,
+                        })
+                    }
+                >
+                    歩く距離を最短にする
+                </Button>
                 <Button
                     variant="solid"
                     flex={1}

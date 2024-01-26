@@ -40,6 +40,7 @@ export type PlanCandidateState = {
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
     updateLikeAtPlaceInPlanCandidateRequestStatus: RequestStatus | null;
+    autoReorderPlacesInPlanCandidateRequestStatus: RequestStatus | null;
     fetchCachedCreatedPlansRequestStatus: RequestStatus | null;
     fetchAvailablePlacesForPlanRequestStatus: RequestStatus | null;
     fetchNearbyPlaceCategoriesRequestStatus: RequestStatus | null;
@@ -65,6 +66,7 @@ const initialState: PlanCandidateState = {
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
     updateLikeAtPlaceInPlanCandidateRequestStatus: null,
+    autoReorderPlacesInPlanCandidateRequestStatus: null,
     fetchCachedCreatedPlansRequestStatus: null,
     fetchAvailablePlacesForPlanRequestStatus: null,
     fetchNearbyPlaceCategoriesRequestStatus: null,
@@ -303,6 +305,27 @@ export const updateLikeAtPlaceInPlanCandidate = createAsyncThunk(
     }
 );
 
+type AutoReorderPlacesInPlanCandidateProps = {
+    planCandidateId: string;
+    planId: string;
+};
+export const autoReorderPlacesInPlanCandidate = createAsyncThunk(
+    "planCandidate/autoReorderPlacesInPlanCandidate",
+    async ({
+        planCandidateId,
+        planId,
+    }: AutoReorderPlacesInPlanCandidateProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.autoReorderPlacesInPlanCandidate({
+            planCandidateId,
+            planId,
+        });
+        return {
+            plan: createPlanFromPlanEntity(response.plan, null),
+        };
+    }
+);
+
 export const slice = createSlice({
     name: "planCandidate",
     initialState,
@@ -498,6 +521,31 @@ export const slice = createSlice({
                     if (planIndexToUpdate < 0) return;
 
                     state.plansCreated[planIndexToUpdate] = payload.plan;
+                }
+            )
+            .addCase(autoReorderPlacesInPlanCandidate.pending, (state) => {
+                state.autoReorderPlacesInPlanCandidateRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(autoReorderPlacesInPlanCandidate.rejected, (state) => {
+                state.autoReorderPlacesInPlanCandidateRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
+            .addCase(
+                autoReorderPlacesInPlanCandidate.fulfilled,
+                (state, { payload }) => {
+                    state.autoReorderPlacesInPlanCandidateRequestStatus =
+                        RequestStatuses.FULFILLED;
+
+                    if (state.plansCreated === null) return;
+
+                    const planIndexToUpdate = state.plansCreated.findIndex(
+                        (plan) => plan.id === payload.plan.id
+                    );
+                    if (planIndexToUpdate < 0) return;
+
+                    state.plansCreated[planIndexToUpdate] = payload.plan;
+                    state.preview = payload.plan;
                 }
             )
             // Update Like At Place In Plan Candidate
