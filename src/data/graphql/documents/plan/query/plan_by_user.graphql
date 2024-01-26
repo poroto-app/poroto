@@ -1,22 +1,7 @@
 query PlansByUser($userId: String!) {
     plansByUser(input: { userId: $userId }) {
         plans {
-            id
-            name
-            places {
-                ...PlaceFullFragment
-            }
-            timeInMinutes
-            transitions {
-                duration
-                from {
-                    id
-                }
-                to {
-                    id
-                }
-            }
-            authorId
+            ...PlanFullFragment
         }
         author {
             id

@@ -8,13 +8,14 @@ import {
     EditPlanTitleOfPlanCandidateDocument,
     FetchAvailablePlacesForPlanCandidateDocument,
     FetchPlanByIdDocument,
-    FetchPlanByIdQuery,
     FetchPlansDocument,
     NearbyPlaceCategoriesDocument,
+    PlaceFullFragmentFragment,
     PlacesToAddForPlanOfPlanCandidateDocument,
     PlacesToReplaceForPlanOfPlanCandidateDocument,
     PlanCandidateDocument,
     PlanCandidateFullFragmentFragment,
+    PlanFullFragmentFragment,
     PlansByLocationDocument,
     PlansByUserDocument,
     ReplacePlaceOfPlanCandidateDocument,
@@ -63,10 +64,17 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse> {
         const { data } = await this.client.query({
             query: FetchPlanByIdDocument,
-            variables: { planId: request.planId },
+            variables: {
+                input: {
+                    planID: request.planId,
+                },
+            },
         });
         return {
-            plan: data.plan !== null ? fromGraphqlPlanEntity(data.plan) : null,
+            plan:
+                data.plan !== null
+                    ? fromGraphqlPlanEntity(data.plan.plan)
+                    : null,
         };
     }
 
@@ -438,8 +446,8 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     }
 }
 
-type GraphQlPlanEntity = FetchPlanByIdQuery["plan"];
-type GraphQlPlaceEntity = FetchPlanByIdQuery["plan"]["places"][0];
+type GraphQlPlanEntity = PlanFullFragmentFragment;
+type GraphQlPlaceEntity = PlaceFullFragmentFragment;
 
 function fromGraphqlPlanCandidateEntity(
     planCandidate: PlanCandidateFullFragmentFragment
