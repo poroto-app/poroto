@@ -2,21 +2,7 @@ query PlansByLocation($latitude: Float!, $longitude: Float!, $limit: Int, $pageK
     plansByLocation(input: {latitude: $latitude, longitude: $longitude, limit: $limit, pageKey: $pageKey}) {
         pageKey
         plans {
-            id
-            name
-            places {
-                ...PlaceFullFragment
-            }
-            timeInMinutes
-            transitions {
-                duration
-                from {
-                    id
-                }
-                to {
-                    id
-                }
-            }
+            ...PlanFullFragment
         }
     }
 }
