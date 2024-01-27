@@ -51,7 +51,7 @@ export const WoAuthor: Story = {
             places: [mockPlaces.bookStore, mockPlaces.tokyo],
         },
     },
-}
+};
 
 export const LongName: Story = {
     args: {
@@ -74,7 +74,7 @@ export const LongName: Story = {
             places: [mockPlaces.bookStore, mockPlaces.tokyo],
         },
     },
-}
+};
 
 export const PlaceHolder: Story = {
     args: {

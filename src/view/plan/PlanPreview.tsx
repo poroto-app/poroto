@@ -51,7 +51,9 @@ export function PlanPreview({ plan, link }: Props) {
                         textOverflow="ellipsis"
                         fontSize={12}
                         color="rgba(8, 19, 26, 0.66)"
-                    >{plan.author.name}</Text>
+                    >
+                        {plan.author.name}
+                    </Text>
                 </HStack>
             )}
         </VStack>
