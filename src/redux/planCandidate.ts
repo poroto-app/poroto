@@ -117,7 +117,7 @@ export const createPlanFromLocation = createAsyncThunk(
 
         const session = response.session;
         const plans: Plan[] = response.plans.map((planEntity) =>
-            createPlanFromPlanEntity(planEntity, null)
+            createPlanFromPlanEntity(planEntity)
         );
         dispatch(
             setCreatedPlans({
@@ -141,9 +141,8 @@ export const createPlanFromPlace = createAsyncThunk(
             placeId,
             createPlanSessionId,
         });
-        // TODO: ユーザー情報を取得する
         return {
-            plan: createPlanFromPlanEntity(plan, null),
+            plan: createPlanFromPlanEntity(plan),
         };
     }
 );
@@ -170,7 +169,7 @@ export const fetchCachedCreatedPlans = createAsyncThunk(
         }
 
         const plans: Plan[] = response.plans.map((p) =>
-            createPlanFromPlanEntity(p, null)
+            createPlanFromPlanEntity(p)
         );
         return {
             session,
@@ -272,9 +271,8 @@ export const updatePlacesOrderInPlanCandidate = createAsyncThunk(
             planId,
             placeIds,
         });
-        // TODO: ユーザー情報を取得する
         return {
-            plan: createPlanFromPlanEntity(response.plan, null),
+            plan: createPlanFromPlanEntity(response.plan),
         };
     }
 );
@@ -300,7 +298,7 @@ export const updateLikeAtPlaceInPlanCandidate = createAsyncThunk(
             });
         return {
             likedPlaceIds,
-            plans: plans.map((plan) => createPlanFromPlanEntity(plan, null)),
+            plans: plans.map((plan) => createPlanFromPlanEntity(plan)),
         };
     }
 );
@@ -321,7 +319,7 @@ export const autoReorderPlacesInPlanCandidate = createAsyncThunk(
             planId,
         });
         return {
-            plan: createPlanFromPlanEntity(response.plan, null),
+            plan: createPlanFromPlanEntity(response.plan),
         };
     }
 );
