@@ -30,7 +30,7 @@ export function PlanPreview({ plan, link }: Props) {
         .filter((v) => v !== null);
 
     return (
-        <VStack w="100%" maxW="600px" alignItems="flex-start">
+        <VStack w="100%" maxW="600px" alignItems="flex-start" overflow="hidden">
             <PlanThumbnail images={thumbnails} link={link} />
             <LinkWrapper href={link}>
                 <Text fontWeight="bold" fontSize="1.1rem" color="#222222">
