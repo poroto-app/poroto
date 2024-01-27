@@ -17,7 +17,11 @@ export const mockPlan: Plan = {
         },
     ],
     places: [mockPlaces.tokyo, mockPlaces.marunouchi],
-    author: null,
+    author: {
+        id: "1",
+        name: "Taro Yamada",
+        avatarImage: "https://placehold.jp/150x150.png",
+    },
 };
 
 const mockPlanBookStore: Plan = {
