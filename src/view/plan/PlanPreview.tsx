@@ -1,5 +1,5 @@
 import { Link } from "@chakra-ui/next-js";
-import { HStack, Text, VStack } from "@chakra-ui/react";
+import { Avatar, HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Plan } from "src/domain/models/Plan";
 import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
@@ -30,18 +30,30 @@ export function PlanPreview({ plan, link }: Props) {
         .filter((v) => v !== null);
 
     return (
-        <VStack w="100%" maxW="600px">
+        <VStack w="100%" maxW="600px" alignItems="flex-start">
             <PlanThumbnail images={thumbnails} link={link} />
             <LinkWrapper href={link}>
-                <VStack w="100%" alignItems="flex-start" spacing={1}>
-                    <Text fontWeight="bold" fontSize="1.1rem" color="#222222">
-                        {plan.title}
-                    </Text>
-                    <HStack w="100%" justifyContent="flex-start">
-                        {/* TODO: 最初の地点までの徒歩時間を移動距離を表示 */}
-                    </HStack>
-                </VStack>
+                <Text fontWeight="bold" fontSize="1.1rem" color="#222222">
+                    {plan.title}
+                </Text>
             </LinkWrapper>
+            {plan.author && (
+                <HStack w="100%">
+                    <Avatar
+                        name={plan.author.name}
+                        src={plan.author.avatarImage}
+                        size="xs"
+                    />
+                    <Text
+                        w="100%"
+                        overflowX="hidden"
+                        whiteSpace="nowrap"
+                        textOverflow="ellipsis"
+                        fontSize={12}
+                        color="rgba(8, 19, 26, 0.66)"
+                    >{plan.author.name}</Text>
+                </HStack>
+            )}
         </VStack>
     );
 }
