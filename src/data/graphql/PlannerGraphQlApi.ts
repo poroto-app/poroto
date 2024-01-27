@@ -21,11 +21,13 @@ import {
     ReplacePlaceOfPlanCandidateDocument,
     SavePlanFromCandidateDocument,
     UpdateLikeAtPlaceInPlanCandidateDocument,
+    UserFullFragmentFragment,
 } from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
 import { PlanCandidateEntity } from "src/domain/models/PlanCandidateEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";
+import { UserEntity } from "src/domain/models/UserEntity";
 import {
     AddPlaceToPlanOfPlanCandidateRequest,
     AutoReorderPlacesInPlanCandidateRequest,
@@ -472,6 +474,8 @@ function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
             toPlaceId: transition.to.id,
             durationInMinutes: transition.duration,
         })),
+        author:
+            plan.author === null ? null : fromGraphQlUserEntity(plan.author),
     };
 }
 
@@ -512,5 +516,15 @@ function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
               }
             : null,
         likeCount: place.likeCount,
+    };
+}
+
+function fromGraphQlUserEntity(
+    userEntity: UserFullFragmentFragment
+): UserEntity {
+    return {
+        id: userEntity.id,
+        name: userEntity.name,
+        photoUrl: userEntity.photoUrl ?? null,
     };
 }

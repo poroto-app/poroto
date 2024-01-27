@@ -1,4 +1,5 @@
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
+import { UserEntity } from "src/domain/user/UserApi";
 
 export type PlanEntity = {
     id: string;
@@ -15,4 +16,5 @@ export type PlanEntity = {
         priceRangeMax: number;
         googlePriceLevel: number;
     };
+    author: UserEntity | null;
 };
