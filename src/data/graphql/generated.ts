@@ -48,6 +48,12 @@ export type AvailablePlacesForPlanInput = {
   session: Scalars['String']['input'];
 };
 
+export type CategoryGroupedPlaces = {
+  __typename?: 'CategoryGroupedPlaces';
+  category: PlaceCategory;
+  places: Array<Place>;
+};
+
 export type ChangePlacesOrderInPlanCandidateInput = {
   currentLatitude?: InputMaybe<Scalars['Float']['input']>;
   currentLongitude?: InputMaybe<Scalars['Float']['input']>;
@@ -297,6 +303,7 @@ export type PlacesToAddForPlanCandidateInput = {
 export type PlacesToAddForPlanCandidateOutput = {
   __typename?: 'PlacesToAddForPlanCandidateOutput';
   places: Array<Place>;
+  placesGroupedByCategory: Array<CategoryGroupedPlaces>;
 };
 
 export type PlacesToReplaceForPlanCandidateInput = {
