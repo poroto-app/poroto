@@ -20,20 +20,21 @@ export function RoundedButton({
         <Rounded
             onClick={onClick}
             disabled={disabled ?? false}
-            outlined={outlined ?? false}
+            $outlined={outlined ?? false}
         >
             {children}
         </Rounded>
     );
 }
 
-const Rounded = styled.div<{ disabled: boolean; outlined: boolean }>`
-    background-color: ${({ disabled, outlined }) =>
-        disabled ? "#8b8b8b" : outlined ? "white" : Colors.primary["400"]};
+const Rounded = styled.div<{ disabled: boolean; $outlined: boolean }>`
+    background-color: ${({ disabled, $outlined }) =>
+        disabled ? "#8b8b8b" : $outlined ? "white" : Colors.primary["400"]};
     border-radius: 100px;
-    border: ${({ outlined }) =>
-        outlined ? `2px solid ${Colors.primary["400"]}` : "none"};
-    color: ${({ outlined }) => (outlined ? Colors.primary["400"] : "#ffffff")};
+    border: ${({ $outlined }) =>
+        $outlined ? `2px solid ${Colors.primary["400"]}` : "none"};
+    color: ${({ $outlined }) =>
+        $outlined ? Colors.primary["400"] : "#ffffff"};
     cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
     display: flex;
     font-weight: bold;
