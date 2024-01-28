@@ -103,14 +103,16 @@ export const fetchPlacesToAddToPlanCandidate = createAsyncThunk(
         planId,
     }: FetchPlacesToAddForPlanOfPlanCandidateProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const { places } =
+        const { placesRecommend } =
             await plannerApi.fetchPlacesToAddForPlanOfPlanCandidate({
                 planCandidateId,
                 planId,
             });
 
         return {
-            places: places.map((place) => createPlaceFromPlaceEntity(place)),
+            places: placesRecommend.map((place) =>
+                createPlaceFromPlaceEntity(place)
+            ),
         };
     }
 );

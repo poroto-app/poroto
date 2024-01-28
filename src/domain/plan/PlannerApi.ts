@@ -1,4 +1,5 @@
 import { GeoLocation } from "src/domain/models/GeoLocation";
+import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";
 import { UserEntity } from "src/domain/user/UserApi";
@@ -172,7 +173,11 @@ export type FetchPlacesToAddForPlanOfPlanCandidateRequest = {
 };
 
 export type FetchPlacesToAddForPlanOfPlanCandidateResponse = {
-    places: PlaceEntity[];
+    placesRecommend: PlaceEntity[];
+    placesGroupedByCategories: {
+        category: PlaceCategory;
+        places: PlaceEntity[];
+    }[];
 };
 
 export type FetchPlacesToReplaceForPlanOfPlanCandidateRequest = {
