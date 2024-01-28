@@ -4,7 +4,7 @@ import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import { Place } from "src/domain/models/Place";
-import { PlaceCategory } from "src/domain/models/PlaceCategory";
+import { PlacesWithCategory } from "src/domain/models/PlacesWithCategory";
 import {
     RequestStatus,
     RequestStatuses,
@@ -20,11 +20,8 @@ export type EditPlanCandidateState = {
 
     placesToAdd: {
         placesRecommend: Place[];
-        placesGroupedByCategories: {
-            category: PlaceCategory;
-            places: Place[];
-        }[];
-    } | null;
+        placesGroupedByCategories: PlacesWithCategory[] | null;
+    };
     requestStatusFetchPlacesToAdd: RequestStatus | null;
     requestStatusAddPlaceToPlanCandidate: RequestStatus | null;
     requestStatusDeletePlaceFromPlanOfPlanCandidate: RequestStatus | null;
