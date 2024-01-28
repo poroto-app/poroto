@@ -1,5 +1,7 @@
+import { Link } from "@chakra-ui/next-js";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
+import { ReactNode } from "react";
 import {
     getImageSizeOf,
     Image as ImageType,
@@ -11,6 +13,7 @@ import styled from "styled-components";
 type Props = {
     images: ImageType[];
     imageSize?: ImageSize;
+    href?: string;
     borderRadius?: number | string;
     onClickImage?: (image: ImageType) => void;
 };
@@ -18,6 +21,7 @@ type Props = {
 export function ImageSliderPreview({
     images,
     imageSize = ImageSizes.Large,
+    href,
     borderRadius,
     onClickImage,
 }: Props) {
@@ -32,12 +36,14 @@ export function ImageSliderPreview({
         >
             {images.map((image, i) => (
                 <SlideItem key={i}>
-                    <ImageWithSkeleton
-                        key={i}
-                        src={getImageSizeOf(imageSize, image)}
-                        isGoogleImage={image.isGoogleImage}
-                        onClick={() => onClickImage && onClickImage(image)}
-                    />
+                    <LinkWrapper href={href}>
+                        <ImageWithSkeleton
+                            key={i}
+                            src={getImageSizeOf(imageSize, image)}
+                            isGoogleImage={image.isGoogleImage}
+                            onClick={() => onClickImage && onClickImage(image)}
+                        />
+                    </LinkWrapper>
                 </SlideItem>
             ))}
         </SlideContainer>
@@ -94,3 +100,19 @@ const SlideItem = styled(SplideSlide)`
     width: 100%;
     height: 100%;
 `;
+
+function LinkWrapper({
+    href,
+    children,
+}: {
+    href?: string;
+    children?: ReactNode;
+}) {
+    if (href)
+        return (
+            <Link href={href} w="100%" h="100%">
+                {children}
+            </Link>
+        );
+    return <>{children}</>;
+}
