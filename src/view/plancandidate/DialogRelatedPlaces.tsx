@@ -65,9 +65,11 @@ export function DialogRelatedPlaces({
         useState<Place | null>();
 
     const handleOnSelectPlaceToUpdate = (placeId: string) => {
-        setSelectedPlaceToUpdate(
-            placesRecommended.find((p) => p.id === placeId) || null
-        );
+        const places = [
+            ...placesRecommended,
+            ...(placesWithCategories?.flatMap((pwc) => pwc.places) || []),
+        ];
+        setSelectedPlaceToUpdate(places.find((p) => p.id === placeId) || null);
     };
 
     const handleOnUpdatePlace = () => {
@@ -188,7 +190,7 @@ function SelectPlaceToUpdateScreen({
                 w="100%"
                 overflowX="hidden"
             >
-                {placesWithCategories.length > 0 && (
+                {placesWithCategories && placesWithCategories.length > 0 && (
                     <TabList
                         w="100%"
                         flexWrap={isPC ? "wrap" : "nowrap"}
