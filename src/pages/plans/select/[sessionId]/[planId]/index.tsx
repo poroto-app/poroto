@@ -263,7 +263,8 @@ const PlanDetail = () => {
                 onCloseDialog={onCloseDialogRelatedPlaces}
             />
             <DialogAddPlace
-                placesToAdd={placesToAdd}
+                placesRecommended={placesToAdd.placesRecommend}
+                placesWithCategories={placesToAdd.placesGroupedByCategories}
                 isDialogVisible={isDialogToAddPlaceVisible}
                 isAddingPlace={isAddingPlace}
                 onAddPlaceToPlan={({ placeIdToAdd }) =>
