@@ -44,6 +44,7 @@ import {
     FetchNearbyPlaceCategoriesRequest,
     FetchNearbyPlaceCategoriesResponse,
     FetchPlacesToAddForPlanOfPlanCandidateRequest,
+    FetchPlacesToAddForPlanOfPlanCandidateResponse,
     FetchPlacesToReplaceForPlanOfPlanCandidateRequest,
     FetchPlacesToReplaceForPlanOfPlanCandidateResponse,
     FetchPlanRequest,
@@ -224,7 +225,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
 
     async fetchPlacesToAddForPlanOfPlanCandidate(
         request: FetchPlacesToAddForPlanOfPlanCandidateRequest
-    ) {
+    ): Promise<FetchPlacesToAddForPlanOfPlanCandidateResponse> {
         const { data } = await this.client.query({
             query: PlacesToAddForPlanOfPlanCandidateDocument,
             variables: {
@@ -235,9 +236,21 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             },
         });
         return {
-            places: data.placesToAddForPlanCandidate.places.map((place) =>
-                fromGraphqlPlaceEntity(place)
+            placesRecommend: data.placesToAddForPlanCandidate.places.map(
+                (place) => fromGraphqlPlaceEntity(place)
             ),
+            placesGroupedByCategories:
+                data.placesToAddForPlanCandidate.placesGroupedByCategory.map(
+                    (category) => ({
+                        category: {
+                            id: category.category.id,
+                            displayName: category.category.name,
+                        },
+                        places: category.places.map((place) =>
+                            fromGraphqlPlaceEntity(place)
+                        ),
+                    })
+                ),
         };
     }
 

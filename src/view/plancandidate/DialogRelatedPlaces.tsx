@@ -7,10 +7,16 @@ import {
     Image,
     SimpleGrid,
     Spinner,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Tabs,
     Text,
     VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { isMobile, isTablet } from "react-device-detect";
 import { MdClose } from "react-icons/md";
 import {
     getImageSizeOf,
@@ -19,6 +25,7 @@ import {
 } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
+import { PlacesWithCategory } from "src/domain/models/PlacesWithCategory";
 import { copyObject } from "src/domain/util/object";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
@@ -33,7 +40,8 @@ import { OnClickHandler } from "src/view/types/handler";
 
 type Props = {
     visible: boolean;
-    places: Place[] | null;
+    placesRecommended: Place[] | null;
+    placesWithCategories?: PlacesWithCategory[];
     updating: boolean;
     buttonLabelUpdatePlace: string;
     titleSelectScreen: string;
@@ -44,7 +52,8 @@ type Props = {
 
 export function DialogRelatedPlaces({
     visible,
-    places,
+    placesRecommended,
+    placesWithCategories,
     updating,
     buttonLabelUpdatePlace,
     titleSelectScreen,
@@ -56,6 +65,10 @@ export function DialogRelatedPlaces({
         useState<Place | null>();
 
     const handleOnSelectPlaceToUpdate = (placeId: string) => {
+        const places = [
+            ...placesRecommended,
+            ...(placesWithCategories?.flatMap((pwc) => pwc.places) || []),
+        ];
         setSelectedPlaceToUpdate(places.find((p) => p.id === placeId) || null);
     };
 
@@ -69,8 +82,8 @@ export function DialogRelatedPlaces({
     };
 
     useEffect(() => {
-        if (places === null) setSelectedPlaceToUpdate(null);
-    }, [copyObject(places)]);
+        if (placesRecommended === null) setSelectedPlaceToUpdate(null);
+    }, [copyObject(placesRecommended)]);
 
     return (
         <FullscreenDialog
@@ -99,7 +112,8 @@ export function DialogRelatedPlaces({
                 ) : selectedPlaceToUpdate == null ? (
                     <SelectPlaceToUpdateScreen
                         dialogTitle={titleSelectScreen}
-                        places={places}
+                        placesRecommended={placesRecommended}
+                        placesWithCategories={placesWithCategories}
                         onClickUpdate={handleOnSelectPlaceToUpdate}
                         onClose={onClose}
                     />
@@ -131,16 +145,20 @@ function LoadingScreen() {
 
 function SelectPlaceToUpdateScreen({
     dialogTitle,
-    places,
+    placesRecommended,
+    placesWithCategories,
     onClickUpdate,
     onClose,
 }: {
     dialogTitle: string;
-    places: Place[] | null;
+    placesRecommended: Place[] | null;
+    placesWithCategories?: PlacesWithCategory[];
     onClickUpdate: (placeId: string) => void;
     onClose: () => void;
 }) {
-    if (places == null) return <LoadingScreen />;
+    if (placesRecommended == null) return <LoadingScreen />;
+
+    const isPC = !isMobile && !isTablet;
 
     return (
         <VStack
@@ -165,26 +183,50 @@ function SelectPlaceToUpdateScreen({
                     <Icon width="24px" height="24px" as={MdClose} />
                 </Box>
             </HStack>
-            <SimpleGrid
-                columns={2}
+            <Tabs
+                variant="soft-rounded"
+                colorScheme="orange"
+                isLazy
                 w="100%"
-                spacingY="32px"
-                spacingX="16px"
-                px="16px"
+                overflowX="hidden"
             >
-                {places
-                    .filter((p) => p.images.length > 0)
-                    .filter((p) => p.categories.length > 0)
-                    .map((place, i) => (
-                        <PlaceListItem
-                            key={i}
-                            name={place.name}
-                            images={place.images}
-                            categories={place.categories}
-                            onClick={() => onClickUpdate(place.id)}
+                {placesWithCategories && placesWithCategories.length > 0 && (
+                    <TabList
+                        w="100%"
+                        flexWrap={isPC ? "wrap" : "nowrap"}
+                        whiteSpace="nowrap"
+                        overflowX="auto"
+                    >
+                        <Tab>おすすめ</Tab>
+                        {placesWithCategories?.map((pwc, i) => (
+                            <Tab key={i} display="block">
+                                <HStack>
+                                    <Icon
+                                        as={getPlaceCategoryIcon(pwc.category)}
+                                    />
+                                    <Text>{pwc.category.displayName}</Text>
+                                </HStack>
+                            </Tab>
+                        ))}
+                    </TabList>
+                )}
+                <TabPanels>
+                    <TabPanel>
+                        <RecommendPlacesGrid
+                            placesRecommended={placesRecommended}
+                            onClickUpdate={onClickUpdate}
                         />
+                    </TabPanel>
+                    {placesWithCategories?.map((pwc, i) => (
+                        <TabPanel key={i}>
+                            <RecommendPlacesGrid
+                                placesRecommended={pwc.places}
+                                onClickUpdate={onClickUpdate}
+                            />
+                        </TabPanel>
                     ))}
-            </SimpleGrid>
+                </TabPanels>
+            </Tabs>
         </VStack>
     );
 }
@@ -235,6 +277,37 @@ export function PlaceListItem({
                 </Text>
             </HStack>
         </VStack>
+    );
+}
+
+function RecommendPlacesGrid({
+    placesRecommended,
+    onClickUpdate,
+}: {
+    placesRecommended: Place[];
+    onClickUpdate: (placeId: string) => void;
+}) {
+    return (
+        <SimpleGrid
+            columns={2}
+            w="100%"
+            spacingY="32px"
+            spacingX="16px"
+            px="16px"
+        >
+            {placesRecommended
+                .filter((p) => p.images.length > 0)
+                .filter((p) => p.categories.length > 0)
+                .map((place, i) => (
+                    <PlaceListItem
+                        key={i}
+                        name={place.name}
+                        images={place.images}
+                        categories={place.categories}
+                        onClick={() => onClickUpdate(place.id)}
+                    />
+                ))}
+        </SimpleGrid>
     );
 }
 

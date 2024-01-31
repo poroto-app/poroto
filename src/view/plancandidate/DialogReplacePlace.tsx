@@ -30,7 +30,7 @@ export function DialogReplacePlace({
                 placesInPlan.find((p) => p.id === placeIdToBeReplaced)?.name
             }」に関連する場所`}
             titleConfirmScreen="この場所と入れ替えますか？"
-            places={placesToReplace}
+            placesRecommended={placesToReplace}
             updating={isReplacingPlace}
             buttonLabelUpdatePlace="入れ替える"
             onClickRelatedPlace={(placeId) =>

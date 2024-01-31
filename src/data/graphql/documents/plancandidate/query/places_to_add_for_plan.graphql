@@ -3,5 +3,14 @@ query PlacesToAddForPlanOfPlanCandidate($input: PlacesToAddForPlanCandidateInput
         places {
             ...PlaceFullFragment
         }
+        placesGroupedByCategory {
+            category {
+                id
+                name
+            }
+            places {
+                ...PlaceFullFragment
+            }
+        }
     }
 }
