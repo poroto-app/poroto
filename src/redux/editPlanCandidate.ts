@@ -82,12 +82,12 @@ export const replacePlaceOfPlanCandidate = createAsyncThunk(
 
         dispatch(
             updatePlanOfPlanCandidate({
-                plan: createPlanFromPlanEntity(plan, null),
+                plan: createPlanFromPlanEntity(plan),
             })
         );
 
         return {
-            plan: createPlanFromPlanEntity(plan, null),
+            plan: createPlanFromPlanEntity(plan),
         };
     }
 );
@@ -142,12 +142,12 @@ export const addPlaceToPlanOfPlanCandidate = createAsyncThunk(
 
         dispatch(
             updatePlanOfPlanCandidate({
-                plan: createPlanFromPlanEntity(plan, null),
+                plan: createPlanFromPlanEntity(plan),
             })
         );
 
         return {
-            plan: createPlanFromPlanEntity(plan, null),
+            plan: createPlanFromPlanEntity(plan),
         };
     }
 );
@@ -176,12 +176,12 @@ export const deletePlaceFromPlanOfPlanCandidate = createAsyncThunk(
 
         dispatch(
             updatePlanOfPlanCandidate({
-                plan: createPlanFromPlanEntity(plan, null),
+                plan: createPlanFromPlanEntity(plan),
             })
         );
 
         return {
-            plan: createPlanFromPlanEntity(plan, null),
+            plan: createPlanFromPlanEntity(plan),
         };
     }
 );

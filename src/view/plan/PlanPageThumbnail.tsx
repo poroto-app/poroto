@@ -1,4 +1,4 @@
-import { Text, VStack } from "@chakra-ui/react";
+import { Avatar, HStack, Text, VStack } from "@chakra-ui/react";
 import { Plan } from "src/domain/models/Plan";
 import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
 
@@ -12,7 +12,7 @@ export function PlanPageThumbnail({ plan }: Props) {
         .filter((v) => v !== null);
 
     return (
-        <VStack w="100%" alignItems="flex-start" px="16px">
+        <VStack w="100%" alignItems="flex-start" px="16px" pb="16px">
             {thumbnails.length > 0 && <PlanThumbnail images={thumbnails} />}
             <Text
                 as="h1"
@@ -22,6 +22,18 @@ export function PlanPageThumbnail({ plan }: Props) {
             >
                 {plan.title}
             </Text>
+            {plan.author && (
+                <HStack>
+                    <Avatar
+                        size="sm"
+                        name={plan.author.name}
+                        src={plan.author.avatarImage}
+                    />
+                    <Text fontSize="14px" color="#222222">
+                        {plan.author.name}
+                    </Text>
+                </HStack>
+            )}
         </VStack>
     );
 }
