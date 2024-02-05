@@ -77,7 +77,12 @@ export default function PlanPage() {
                 <title>{plan.title} | poroto</title>
             </Head>
             <NavBar />
-            <Box w="100%" h={`calc(100vh - ${Size.NavBar.height})`} minH="700px" maxH="850px">
+            <Box
+                w="100%"
+                h={`calc(100vh - ${Size.NavBar.height})`}
+                minH="700px"
+                maxH="850px"
+            >
                 <PlanDetailPageHeader plan={plan} />
             </Box>
             <VStack
@@ -89,11 +94,6 @@ export default function PlanPage() {
                 spacing="16px"
                 pb="32px"
             >
-                <PlanPageThumbnail plan={plan} />
-                <PlanPageSectionSummary
-                    planDurationInMinutes={plan.timeInMinutes}
-                    planRange={getPlanPriceRange(plan.places)}
-                />
                 <PlanPageSection title="プラン">
                     {/*TODO: ログインユーザーがLIKEした場所を反映できるようにする*/}
                     <PlanPlaceList plan={plan} likePlaceIds={[]} />
