@@ -15,8 +15,23 @@ export const mockPlan: Plan = {
             toPlaceId: mockPlaces.marunouchi.id,
             durationInMinutes: 10,
         },
+        {
+            fromPlaceId: mockPlaces.marunouchi.id,
+            toPlaceId: mockPlaces.bookStore.id,
+            durationInMinutes: 10,
+        },
+        {
+            fromPlaceId: mockPlaces.bookStore.id,
+            toPlaceId: mockPlaces.restaurant.id,
+            durationInMinutes: 10,
+        },
     ],
-    places: [mockPlaces.tokyo, mockPlaces.marunouchi],
+    places: [
+        mockPlaces.tokyo,
+        mockPlaces.marunouchi,
+        mockPlaces.bookStore,
+        mockPlaces.restaurant,
+    ],
     author: {
         id: "1",
         name: "Taro Yamada",
