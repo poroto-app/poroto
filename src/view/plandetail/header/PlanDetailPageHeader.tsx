@@ -1,5 +1,6 @@
-import { Avatar, Box, HStack, Text, VStack } from "@chakra-ui/react";
+import { Avatar, Box, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
+import { MdLink } from "react-icons/md";
 import { ImageSize } from "src/domain/models/Image";
 import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
 import { PriceRange } from "src/domain/models/PriceRange";
@@ -15,11 +16,12 @@ import {
 type Props = {
     plan: Plan;
     imageSizeOfPlacePhoto?: ImageSize;
+    onCopyPlanUrl: () => void;
 };
 
 // TODO: 画像の背景に影を入れる
 // TODO: 共有ボタンの追加
-export function PlanDetailPageHeader({ plan }: Props) {
+export function PlanDetailPageHeader({ plan, onCopyPlanUrl }: Props) {
     const [currentPage, setCurrentPage] = useState(0);
     const placesWithImages = plan.places.filter(
         (place) => place.images.length > 0
@@ -43,10 +45,17 @@ export function PlanDetailPageHeader({ plan }: Props) {
                 places={plan.places}
                 onClickPlace={({ index }) => setCurrentPage(index)}
             />
-            <VStack w="100%" spacing="16px" alignItems="flex-start" justifyContent="flex-end" flex={1}>
+            <VStack
+                w="100%"
+                spacing="16px"
+                alignItems="flex-start"
+                justifyContent="flex-end"
+                flex={1}
+            >
                 <VStack
                     alignSelf="center"
                     w="100%"
+                    mb="16px"
                     px={Size.PlanDetailHeader.px}
                     maxW={Size.PlanDetailHeader.maxW}
                     alignItems="flex-start"
@@ -69,6 +78,26 @@ export function PlanDetailPageHeader({ plan }: Props) {
                     durationInMinutes={plan.timeInMinutes}
                     priceRange={getPlanPriceRange(plan.places)}
                 />
+                <HStack
+                    w="100%"
+                    maxW={Size.PlanDetailHeader.maxW}
+                    px={Size.PlanDetailHeader.px}
+                    alignSelf="center"
+                >
+                    <HStack
+                        as="button"
+                        px="4px"
+                        py="2px"
+                        backgroundColor="rgba(255,255,255,.8)"
+                        color="#282828"
+                        borderRadius="8px"
+                        onClick={onCopyPlanUrl}
+                        spacing="4px"
+                    >
+                        <Icon w="32px" h="32px" color="#5E6382" as={MdLink} />
+                        <Text>リンクをコピー</Text>
+                    </HStack>
+                </HStack>
             </VStack>
         </VStack>
     );
@@ -85,7 +114,6 @@ function PlanInfoSection({
         <HStack
             w="100%"
             maxW={isPC && Size.PlanDetailHeader.maxW}
-            mt="16px"
             px={Size.PlanDetailHeader.px}
             alignSelf="center"
             overflowX="auto"

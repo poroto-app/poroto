@@ -2,7 +2,6 @@ import { Box, Center, useToast, VStack } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
     fetchPlan,
@@ -20,9 +19,7 @@ import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteBy
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
 import { FooterHeight } from "src/view/plan/PlanFooter";
-import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
-import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
@@ -83,7 +80,7 @@ export default function PlanPage() {
                 minH="700px"
                 maxH="850px"
             >
-                <PlanDetailPageHeader plan={plan} />
+                <PlanDetailPageHeader plan={plan} onCopyPlanUrl={handleOnCopyPlanUrl} />
             </Box>
             <VStack
                 maxWidth="990px"
