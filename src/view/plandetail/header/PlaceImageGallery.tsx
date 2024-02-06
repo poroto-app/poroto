@@ -1,4 +1,4 @@
-import {Box, Center, HStack, Icon, Image, Text} from "@chakra-ui/react";
+import { Box, Center, HStack, Icon, Image, Text } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { useEffect, useRef } from "react";
 import { IconType } from "react-icons";
@@ -30,27 +30,15 @@ export const PlaceImageGallery = ({
 
     return (
         <Box position="relative">
-            <Box
-                position="absolute"
-                top={0}
-                right={0}
-                bottom={0}
-                left={0}
-                w="100%"
-                h="100%"
-            >
-                <Image
-                    w="300px"
-                    h="300px"
-                    backgroundColor="black"
-                    transform="scale(2.0)"
-                    filter="blur(20px)"
-                    src={getImageSizeOf(
-                        ImageSizes.Large,
-                        places[currentPage].images[0]
-                    )}
-                />
-            </Box>
+            <AmbientBackgroundImage
+                scale={5}
+                margin={100}
+                blur={5}
+                src={getImageSizeOf(
+                    ImageSizes.Large,
+                    places[currentPage].images[0]
+                )}
+            />
             <Box
                 position="relative"
                 alignSelf="center"
@@ -129,6 +117,30 @@ export const PlaceImageGallery = ({
         </Box>
     );
 };
+
+function AmbientBackgroundImage({ src, scale, margin , blur}: { src: string, scale: number, margin: number, blur: number }) {
+    return (
+        <Center
+            position="absolute"
+            top={0}
+            right={0}
+            bottom={0}
+            left={0}
+            w="100%"
+            h={`calc(${Size.PlanDetailHeader.imageH})`}
+        >
+            <Image
+                w={`calc(${100 / scale}% + ${margin / scale}px)`}
+                h={`calc(${100 / scale}% + ${margin / scale}px)`}
+                objectFit="cover"
+                backgroundColor="black"
+                transform={`scale(${scale})`}
+                filter={`blur(${blur}px)`}
+                src={src}
+            />
+        </Center>
+    );
+}
 
 const SplidePageArrow = ({
     icon,
