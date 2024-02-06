@@ -80,7 +80,10 @@ export default function PlanPage() {
                 minH="700px"
                 maxH="850px"
             >
-                <PlanDetailPageHeader plan={plan} onCopyPlanUrl={handleOnCopyPlanUrl} />
+                <PlanDetailPageHeader
+                    plan={plan}
+                    onCopyPlanUrl={handleOnCopyPlanUrl}
+                />
             </Box>
             <VStack
                 maxWidth="990px"

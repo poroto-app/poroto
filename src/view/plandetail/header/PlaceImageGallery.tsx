@@ -118,7 +118,17 @@ export const PlaceImageGallery = ({
     );
 };
 
-function AmbientBackgroundImage({ src, scale, margin , blur}: { src: string, scale: number, margin: number, blur: number }) {
+function AmbientBackgroundImage({
+    src,
+    scale,
+    margin,
+    blur,
+}: {
+    src: string;
+    scale: number;
+    margin: number;
+    blur: number;
+}) {
     return (
         <Center
             position="absolute"
