@@ -11,16 +11,21 @@ import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { Size } from "src/view/constants/size";
+import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
 
 type Props = {
     places: Place[];
     currentPage: number;
+    likedPlaceIds: string[];
+    onUpdateLikePlace: (placeId: string, isLiked: boolean) => void;
     onPageChange: (page: number) => void;
 };
 export const PlaceImageGallery = ({
     places,
+    likedPlaceIds,
     currentPage,
     onPageChange,
+    onUpdateLikePlace,
 }: Props) => {
     const refSplide = useRef<Splide>(null);
 
@@ -91,6 +96,26 @@ export const PlaceImageGallery = ({
                                 <Icon as={MdLocationOn} color="#E1A766" />
                                 <Text fontSize="14px">{place.name}</Text>
                             </HStack>
+                            <Box
+                                position="absolute"
+                                top={0}
+                                right={0}
+                                px="16px"
+                                py="16px"
+                            >
+                                <PlaceLikeButton
+                                    isLiked={likedPlaceIds.some(
+                                        (id) => id === places[currentPage].id
+                                    )}
+                                    likeCount={places[currentPage].likeCount}
+                                    onUpdateLike={(like) =>
+                                        onUpdateLikePlace(
+                                            places[currentPage].id,
+                                            like
+                                        )
+                                    }
+                                />
+                            </Box>
                         </SplideSlide>
                     ))}
                 </Splide>

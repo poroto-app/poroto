@@ -2,7 +2,8 @@ import {
     Avatar,
     Box,
     HStack,
-    Icon, SimpleGrid,
+    Icon,
+    SimpleGrid,
     Text,
     useMediaQuery,
     VStack,
@@ -13,7 +14,6 @@ import { ImageSize } from "src/domain/models/Image";
 import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
 import { PriceRange } from "src/domain/models/PriceRange";
 import { Size } from "src/view/constants/size";
-import { isPC } from "src/view/constants/userAgent";
 import { PlaceImageGallery } from "src/view/plandetail/header/PlaceImageGallery";
 import { PlaceList } from "src/view/plandetail/header/PlaceList";
 import {
@@ -24,11 +24,18 @@ import {
 type Props = {
     plan: Plan;
     imageSizeOfPlacePhoto?: ImageSize;
+    likedPlaceIds: string[];
+    onUpdateLikePlace: (placeId: string, isLiked: boolean) => void;
     onCopyPlanUrl: () => void;
 };
 
 // TODO: プラン候補ページに配置する
-export function PlanDetailPageHeader({ plan, onCopyPlanUrl }: Props) {
+export function PlanDetailPageHeader({
+    plan,
+    likedPlaceIds,
+    onUpdateLikePlace,
+    onCopyPlanUrl,
+}: Props) {
     const [currentPage, setCurrentPage] = useState(0);
     const [isLargerThanHeaderWidth] = useMediaQuery(
         `(min-width: ${Size.PlanDetailHeader.maxW})`
@@ -49,6 +56,8 @@ export function PlanDetailPageHeader({ plan, onCopyPlanUrl }: Props) {
                 <PlaceImageGallery
                     places={placesWithImages}
                     currentPage={currentPage}
+                    likedPlaceIds={likedPlaceIds}
+                    onUpdateLikePlace={onUpdateLikePlace}
                     onPageChange={(page) => setCurrentPage(page)}
                 />
             </Box>
@@ -141,7 +150,7 @@ function PlanInfoSection({
 }) {
     return (
         <SimpleGrid
-            columns={{base: 1, md: 2}}
+            columns={{ base: 1, md: 2 }}
             spacing={2}
             w="100%"
             px={Size.PlanDetailHeader.px}

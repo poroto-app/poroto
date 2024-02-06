@@ -82,6 +82,10 @@ export default function PlanPage() {
             >
                 <PlanDetailPageHeader
                     plan={plan}
+                    /*TODO: ログインユーザーがLIKEした場所を反映できるようにする*/
+                    likedPlaceIds={[]}
+                    /*TODO: 非ログインユーザーの場合はログインを促すダイアログを表示する*/
+                    onUpdateLikePlace={() => 0}
                     onCopyPlanUrl={handleOnCopyPlanUrl}
                 />
             </Box>
