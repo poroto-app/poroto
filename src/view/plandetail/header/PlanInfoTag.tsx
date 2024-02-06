@@ -14,10 +14,11 @@ export const PlanInfoTag = ({ title, icon, children }: Props) => {
     return (
         <Box display="inline-block" whiteSpace="nowrap">
             <HStack
-                backgroundColor="white"
+                backgroundColor="rgba(255,255,255,0.8)"
                 borderRadius="10px"
-                px="16px"
+                px="12px"
                 py="8px"
+                spacing={4}
             >
                 <Center
                     backgroundColor="#F9ECDD"
