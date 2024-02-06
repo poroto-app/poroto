@@ -19,8 +19,6 @@ type Props = {
     onCopyPlanUrl: () => void;
 };
 
-// TODO: 画像の背景に影を入れる
-// TODO: 共有ボタンの追加
 export function PlanDetailPageHeader({ plan, onCopyPlanUrl }: Props) {
     const [currentPage, setCurrentPage] = useState(0);
     const placesWithImages = plan.places.filter(
