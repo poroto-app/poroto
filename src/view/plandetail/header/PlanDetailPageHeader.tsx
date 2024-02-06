@@ -1,4 +1,12 @@
-import { Avatar, Box, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import {
+    Avatar,
+    Box,
+    HStack,
+    Icon, SimpleGrid,
+    Text,
+    useMediaQuery,
+    VStack,
+} from "@chakra-ui/react";
 import { useState } from "react";
 import { MdLink } from "react-icons/md";
 import { ImageSize } from "src/domain/models/Image";
@@ -19,8 +27,12 @@ type Props = {
     onCopyPlanUrl: () => void;
 };
 
+// TODO: プラン候補ページに配置する
 export function PlanDetailPageHeader({ plan, onCopyPlanUrl }: Props) {
     const [currentPage, setCurrentPage] = useState(0);
+    const [isLargerThanHeaderWidth] = useMediaQuery(
+        `(min-width: ${Size.PlanDetailHeader.maxW})`
+    );
     const placesWithImages = plan.places.filter(
         (place) => place.images.length > 0
     );
@@ -43,8 +55,12 @@ export function PlanDetailPageHeader({ plan, onCopyPlanUrl }: Props) {
             <Box
                 zIndex={1}
                 alignSelf="center"
-                w={!isPC && "100%"}
-                maxW={isPC ? "100%" : Size.PlanDetailHeader.maxW}
+                w={!isLargerThanHeaderWidth && "100%"}
+                maxW={
+                    isLargerThanHeaderWidth
+                        ? "100%"
+                        : Size.PlanDetailHeader.maxW
+                }
             >
                 <PlaceList
                     places={plan.places}
@@ -81,10 +97,16 @@ export function PlanDetailPageHeader({ plan, onCopyPlanUrl }: Props) {
                         </HStack>
                     )}
                 </VStack>
-                <PlanInfoSection
-                    durationInMinutes={plan.timeInMinutes}
-                    priceRange={getPlanPriceRange(plan.places)}
-                />
+                <Box
+                    alignSelf="center"
+                    w="100%"
+                    maxW={Size.PlanDetailHeader.maxW}
+                >
+                    <PlanInfoSection
+                        durationInMinutes={plan.timeInMinutes}
+                        priceRange={getPlanPriceRange(plan.places)}
+                    />
+                </Box>
                 <HStack
                     w="100%"
                     maxW={Size.PlanDetailHeader.maxW}
@@ -118,18 +140,16 @@ function PlanInfoSection({
     priceRange: PriceRange;
 }) {
     return (
-        <HStack
+        <SimpleGrid
+            columns={{base: 1, md: 2}}
+            spacing={2}
             w="100%"
-            maxW={isPC && Size.PlanDetailHeader.maxW}
             px={Size.PlanDetailHeader.px}
             alignSelf="center"
             overflowX="auto"
-            flexWrap={isPC ? "wrap" : "nowrap"}
-            sx={{
-                "::-webkit-scrollbar": {
-                    display: "none",
-                },
-            }}
+            flexWrap={"wrap"}
+            scrollSnapType="x mandatory"
+            scrollPaddingLeft="16px"
         >
             <PlanInfoTagDuration durationInMinutes={durationInMinutes} />
             {(priceRange.min !== 0 || priceRange.max !== 0) && (
@@ -138,6 +158,6 @@ function PlanInfoSection({
                     maxBudget={priceRange.max}
                 />
             )}
-        </HStack>
+        </SimpleGrid>
     );
 }
