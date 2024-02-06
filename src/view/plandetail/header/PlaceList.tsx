@@ -14,11 +14,13 @@ type Props = {
 export function PlaceList({ places, onClickPlace }: Props) {
     return (
         <HStack
-            maxW="100%"
-            px={Size.PlanDetailHeader.px}
-            pb={isPC && "8px"}
+            w="100%"
             overflowX="auto"
             whiteSpace="nowrap"
+            /*親要素で余白をつけると、スクロール時に範囲外が切れてしまう*/
+            px={Size.PlanDetailHeader.px}
+            /*スクロールバーと要素間の余白*/
+            pb={isPC && "8px"}
             sx={{
                 scrollbarColor: "rgba(255,255,255,0.6) rgba(0,0,0,.2)",
                 scrollbarWidth: "thin",

@@ -40,7 +40,12 @@ export function PlanDetailPageHeader({ plan, onCopyPlanUrl }: Props) {
                     onPageChange={(page) => setCurrentPage(page)}
                 />
             </Box>
-            <Box zIndex={1} w="100%">
+            <Box
+                zIndex={1}
+                alignSelf="center"
+                w={!isPC && "100%"}
+                maxW={isPC ? "100%" : Size.PlanDetailHeader.maxW}
+            >
                 <PlaceList
                     places={plan.places}
                     onClickPlace={({ index }) => setCurrentPage(index)}
