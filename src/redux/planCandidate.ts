@@ -40,6 +40,7 @@ export type PlanCandidateState = {
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
     updateLikeAtPlaceInPlanCandidateRequestStatus: RequestStatus | null;
+    autoReorderPlacesInPlanCandidateRequestStatus: RequestStatus | null;
     fetchCachedCreatedPlansRequestStatus: RequestStatus | null;
     fetchAvailablePlacesForPlanRequestStatus: RequestStatus | null;
     fetchNearbyPlaceCategoriesRequestStatus: RequestStatus | null;
@@ -65,6 +66,7 @@ const initialState: PlanCandidateState = {
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
     updateLikeAtPlaceInPlanCandidateRequestStatus: null,
+    autoReorderPlacesInPlanCandidateRequestStatus: null,
     fetchCachedCreatedPlansRequestStatus: null,
     fetchAvailablePlacesForPlanRequestStatus: null,
     fetchNearbyPlaceCategoriesRequestStatus: null,
@@ -115,7 +117,7 @@ export const createPlanFromLocation = createAsyncThunk(
 
         const session = response.session;
         const plans: Plan[] = response.plans.map((planEntity) =>
-            createPlanFromPlanEntity(planEntity, null)
+            createPlanFromPlanEntity(planEntity)
         );
         dispatch(
             setCreatedPlans({
@@ -139,9 +141,8 @@ export const createPlanFromPlace = createAsyncThunk(
             placeId,
             createPlanSessionId,
         });
-        // TODO: ユーザー情報を取得する
         return {
-            plan: createPlanFromPlanEntity(plan, null),
+            plan: createPlanFromPlanEntity(plan),
         };
     }
 );
@@ -168,7 +169,7 @@ export const fetchCachedCreatedPlans = createAsyncThunk(
         }
 
         const plans: Plan[] = response.plans.map((p) =>
-            createPlanFromPlanEntity(p, null)
+            createPlanFromPlanEntity(p)
         );
         return {
             session,
@@ -270,9 +271,8 @@ export const updatePlacesOrderInPlanCandidate = createAsyncThunk(
             planId,
             placeIds,
         });
-        // TODO: ユーザー情報を取得する
         return {
-            plan: createPlanFromPlanEntity(response.plan, null),
+            plan: createPlanFromPlanEntity(response.plan),
         };
     }
 );
@@ -298,7 +298,28 @@ export const updateLikeAtPlaceInPlanCandidate = createAsyncThunk(
             });
         return {
             likedPlaceIds,
-            plans: plans.map((plan) => createPlanFromPlanEntity(plan, null)),
+            plans: plans.map((plan) => createPlanFromPlanEntity(plan)),
+        };
+    }
+);
+
+type AutoReorderPlacesInPlanCandidateProps = {
+    planCandidateId: string;
+    planId: string;
+};
+export const autoReorderPlacesInPlanCandidate = createAsyncThunk(
+    "planCandidate/autoReorderPlacesInPlanCandidate",
+    async ({
+        planCandidateId,
+        planId,
+    }: AutoReorderPlacesInPlanCandidateProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.autoReorderPlacesInPlanCandidate({
+            planCandidateId,
+            planId,
+        });
+        return {
+            plan: createPlanFromPlanEntity(response.plan),
         };
     }
 );
@@ -498,6 +519,31 @@ export const slice = createSlice({
                     if (planIndexToUpdate < 0) return;
 
                     state.plansCreated[planIndexToUpdate] = payload.plan;
+                }
+            )
+            .addCase(autoReorderPlacesInPlanCandidate.pending, (state) => {
+                state.autoReorderPlacesInPlanCandidateRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(autoReorderPlacesInPlanCandidate.rejected, (state) => {
+                state.autoReorderPlacesInPlanCandidateRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
+            .addCase(
+                autoReorderPlacesInPlanCandidate.fulfilled,
+                (state, { payload }) => {
+                    state.autoReorderPlacesInPlanCandidateRequestStatus =
+                        RequestStatuses.FULFILLED;
+
+                    if (state.plansCreated === null) return;
+
+                    const planIndexToUpdate = state.plansCreated.findIndex(
+                        (plan) => plan.id === payload.plan.id
+                    );
+                    if (planIndexToUpdate < 0) return;
+
+                    state.plansCreated[planIndexToUpdate] = payload.plan;
+                    state.preview = payload.plan;
                 }
             )
             // Update Like At Place In Plan Candidate

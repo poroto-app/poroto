@@ -4,6 +4,7 @@ import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import { Place } from "src/domain/models/Place";
+import { PlacesWithCategory } from "src/domain/models/PlacesWithCategory";
 import {
     RequestStatus,
     RequestStatuses,
@@ -17,7 +18,10 @@ export type EditPlanCandidateState = {
     requestStatusFetchPlacesToReplace: RequestStatus | null;
     requestStatusReplacePlaceOfPlanCandidate: RequestStatus | null;
 
-    placesToAdd: Place[] | null;
+    placesToAdd: {
+        placesRecommend: Place[];
+        placesGroupedByCategories: PlacesWithCategory[] | null;
+    };
     requestStatusFetchPlacesToAdd: RequestStatus | null;
     requestStatusAddPlaceToPlanCandidate: RequestStatus | null;
     requestStatusDeletePlaceFromPlanOfPlanCandidate: RequestStatus | null;
@@ -82,12 +86,12 @@ export const replacePlaceOfPlanCandidate = createAsyncThunk(
 
         dispatch(
             updatePlanOfPlanCandidate({
-                plan: createPlanFromPlanEntity(plan, null),
+                plan: createPlanFromPlanEntity(plan),
             })
         );
 
         return {
-            plan: createPlanFromPlanEntity(plan, null),
+            plan: createPlanFromPlanEntity(plan),
         };
     }
 );
@@ -103,14 +107,24 @@ export const fetchPlacesToAddToPlanCandidate = createAsyncThunk(
         planId,
     }: FetchPlacesToAddForPlanOfPlanCandidateProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const { places } =
+        const { placesRecommend, placesGroupedByCategories } =
             await plannerApi.fetchPlacesToAddForPlanOfPlanCandidate({
                 planCandidateId,
                 planId,
             });
 
         return {
-            places: places.map((place) => createPlaceFromPlaceEntity(place)),
+            places: placesRecommend.map((place) =>
+                createPlaceFromPlaceEntity(place)
+            ),
+            placesGroupedByCategories: placesGroupedByCategories.map(
+                (placeGroupedByCategory) => ({
+                    category: placeGroupedByCategory.category,
+                    places: placeGroupedByCategory.places.map((place) =>
+                        createPlaceFromPlaceEntity(place)
+                    ),
+                })
+            ),
         };
     }
 );
@@ -142,12 +156,12 @@ export const addPlaceToPlanOfPlanCandidate = createAsyncThunk(
 
         dispatch(
             updatePlanOfPlanCandidate({
-                plan: createPlanFromPlanEntity(plan, null),
+                plan: createPlanFromPlanEntity(plan),
             })
         );
 
         return {
-            plan: createPlanFromPlanEntity(plan, null),
+            plan: createPlanFromPlanEntity(plan),
         };
     }
 );
@@ -176,12 +190,12 @@ export const deletePlaceFromPlanOfPlanCandidate = createAsyncThunk(
 
         dispatch(
             updatePlanOfPlanCandidate({
-                plan: createPlanFromPlanEntity(plan, null),
+                plan: createPlanFromPlanEntity(plan),
             })
         );
 
         return {
-            plan: createPlanFromPlanEntity(plan, null),
+            plan: createPlanFromPlanEntity(plan),
         };
     }
 );
@@ -248,10 +262,13 @@ export const slice = createSlice({
             })
             .addCase(
                 fetchPlacesToAddToPlanCandidate.fulfilled,
-                (state, { payload: { places } }) => {
+                (state, { payload: { places, placesGroupedByCategories } }) => {
                     state.requestStatusFetchPlacesToAdd =
                         RequestStatuses.FULFILLED;
-                    state.placesToAdd = places;
+                    state.placesToAdd = {
+                        placesRecommend: places,
+                        placesGroupedByCategories: placesGroupedByCategories,
+                    };
                 }
             )
             .addCase(fetchPlacesToAddToPlanCandidate.rejected, (state) => {

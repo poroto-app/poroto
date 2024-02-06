@@ -1,5 +1,6 @@
 import {
     AddPlaceToPlanCandidateDocument,
+    AutoReorderPlacesInPlanCandidateDocument,
     ChangePlacesOrderInPlanCandidateDocument,
     CreatePlanByLocationDocument,
     CreatePlanByPlaceDocument,
@@ -7,25 +8,30 @@ import {
     EditPlanTitleOfPlanCandidateDocument,
     FetchAvailablePlacesForPlanCandidateDocument,
     FetchPlanByIdDocument,
-    FetchPlanByIdQuery,
     FetchPlansDocument,
     NearbyPlaceCategoriesDocument,
+    PlaceFullFragmentFragment,
     PlacesToAddForPlanOfPlanCandidateDocument,
     PlacesToReplaceForPlanOfPlanCandidateDocument,
     PlanCandidateDocument,
     PlanCandidateFullFragmentFragment,
+    PlanFullFragmentFragment,
     PlansByLocationDocument,
     PlansByUserDocument,
     ReplacePlaceOfPlanCandidateDocument,
     SavePlanFromCandidateDocument,
     UpdateLikeAtPlaceInPlanCandidateDocument,
+    UserFullFragmentFragment,
 } from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
 import { PlanCandidateEntity } from "src/domain/models/PlanCandidateEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";
+import { UserEntity } from "src/domain/models/UserEntity";
 import {
     AddPlaceToPlanOfPlanCandidateRequest,
+    AutoReorderPlacesInPlanCandidateRequest,
+    AutoReorderPlacesInPlanCandidateResponse,
     CreatePlanFromLocationRequest,
     CreatePlanFromLocationResponse,
     CreatePlanFromPlaceRequest,
@@ -38,6 +44,7 @@ import {
     FetchNearbyPlaceCategoriesRequest,
     FetchNearbyPlaceCategoriesResponse,
     FetchPlacesToAddForPlanOfPlanCandidateRequest,
+    FetchPlacesToAddForPlanOfPlanCandidateResponse,
     FetchPlacesToReplaceForPlanOfPlanCandidateRequest,
     FetchPlacesToReplaceForPlanOfPlanCandidateResponse,
     FetchPlanRequest,
@@ -60,10 +67,17 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse> {
         const { data } = await this.client.query({
             query: FetchPlanByIdDocument,
-            variables: { planId: request.planId },
+            variables: {
+                input: {
+                    planID: request.planId,
+                },
+            },
         });
         return {
-            plan: data.plan !== null ? fromGraphqlPlanEntity(data.plan) : null,
+            plan:
+                data.plan !== null
+                    ? fromGraphqlPlanEntity(data.plan.plan)
+                    : null,
         };
     }
 
@@ -211,7 +225,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
 
     async fetchPlacesToAddForPlanOfPlanCandidate(
         request: FetchPlacesToAddForPlanOfPlanCandidateRequest
-    ) {
+    ): Promise<FetchPlacesToAddForPlanOfPlanCandidateResponse> {
         const { data } = await this.client.query({
             query: PlacesToAddForPlanOfPlanCandidateDocument,
             variables: {
@@ -222,9 +236,21 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             },
         });
         return {
-            places: data.placesToAddForPlanCandidate.places.map((place) =>
-                fromGraphqlPlaceEntity(place)
+            placesRecommend: data.placesToAddForPlanCandidate.places.map(
+                (place) => fromGraphqlPlaceEntity(place)
             ),
+            placesGroupedByCategories:
+                data.placesToAddForPlanCandidate.placesGroupedByCategory.map(
+                    (category) => ({
+                        category: {
+                            id: category.category.id,
+                            displayName: category.category.name,
+                        },
+                        places: category.places.map((place) =>
+                            fromGraphqlPlaceEntity(place)
+                        ),
+                    })
+                ),
         };
     }
 
@@ -412,10 +438,31 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                 data.likeToPlaceInPlanCandidate.planCandidate.likedPlaceIds,
         };
     }
+
+    async autoReorderPlacesInPlanCandidate(
+        request: AutoReorderPlacesInPlanCandidateRequest
+    ): Promise<AutoReorderPlacesInPlanCandidateResponse> {
+        const { data } = await this.client.mutate({
+            mutation: AutoReorderPlacesInPlanCandidateDocument,
+            variables: {
+                input: {
+                    planCandidateId: request.planCandidateId,
+                    planId: request.planId,
+                },
+            },
+        });
+        return {
+            PlanCandidateId:
+                data.autoReorderPlacesInPlanCandidate.planCandidateId,
+            plan: fromGraphqlPlanEntity(
+                data.autoReorderPlacesInPlanCandidate.plan
+            ),
+        };
+    }
 }
 
-type GraphQlPlanEntity = FetchPlanByIdQuery["plan"];
-type GraphQlPlaceEntity = FetchPlanByIdQuery["plan"]["places"][0];
+type GraphQlPlanEntity = PlanFullFragmentFragment;
+type GraphQlPlaceEntity = PlaceFullFragmentFragment;
 
 function fromGraphqlPlanCandidateEntity(
     planCandidate: PlanCandidateFullFragmentFragment
@@ -440,6 +487,8 @@ function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
             toPlaceId: transition.to.id,
             durationInMinutes: transition.duration,
         })),
+        author:
+            plan.author === null ? null : fromGraphQlUserEntity(plan.author),
     };
 }
 
@@ -480,5 +529,15 @@ function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
               }
             : null,
         likeCount: place.likeCount,
+    };
+}
+
+function fromGraphQlUserEntity(
+    userEntity: UserFullFragmentFragment
+): UserEntity {
+    return {
+        id: userEntity.id,
+        name: userEntity.name,
+        photoUrl: userEntity.photoUrl ?? null,
     };
 }

@@ -1,12 +1,8 @@
 import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
 import { Plan } from "src/domain/models/Plan";
 import { PlanEntity } from "src/domain/models/PlanEntity";
-import { User } from "src/domain/models/User";
 
-export function createPlanFromPlanEntity(
-    entity: PlanEntity,
-    author: User | null
-): Plan {
+export function createPlanFromPlanEntity(entity: PlanEntity): Plan {
     return {
         id: entity.id,
         title: entity.title,
@@ -17,6 +13,13 @@ export function createPlanFromPlanEntity(
             toPlaceId: transition.toPlaceId,
             durationInMinutes: transition.durationInMinutes,
         })),
-        author,
+        author:
+            entity.author === null
+                ? null
+                : {
+                      id: entity.author.id,
+                      name: entity.author.name,
+                      avatarImage: entity.author.photoUrl,
+                  },
     };
 }

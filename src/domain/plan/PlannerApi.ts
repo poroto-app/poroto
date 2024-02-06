@@ -1,4 +1,5 @@
 import { GeoLocation } from "src/domain/models/GeoLocation";
+import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";
 import { UserEntity } from "src/domain/user/UserApi";
@@ -73,6 +74,10 @@ export interface PlannerApi {
     updatePlanCandidatePlacesOrder(
         request: UpdatePlanCandidatePlacesOrderRequest
     ): Promise<UpdatePlanCandidatePlacesOrderResponse>;
+
+    autoReorderPlacesInPlanCandidate(
+        request: AutoReorderPlacesInPlanCandidateRequest
+    ): Promise<AutoReorderPlacesInPlanCandidateResponse>;
 
     updateLikeAtPlaceInPlanCandidate(
         request: UpdateLikeAtPlaceInPlanCandidateRequest
@@ -168,7 +173,11 @@ export type FetchPlacesToAddForPlanOfPlanCandidateRequest = {
 };
 
 export type FetchPlacesToAddForPlanOfPlanCandidateResponse = {
-    places: PlaceEntity[];
+    placesRecommend: PlaceEntity[];
+    placesGroupedByCategories: {
+        category: PlaceCategory;
+        places: PlaceEntity[];
+    }[];
 };
 
 export type FetchPlacesToReplaceForPlanOfPlanCandidateRequest = {
@@ -271,4 +280,14 @@ export type UpdateLikeAtPlaceInPlanCandidateRequest = {
 export type UpdateLikeAtPlaceInPlanCandidateResponse = {
     plans: PlanEntity[];
     likedPlaceIds: string[];
+};
+
+export type AutoReorderPlacesInPlanCandidateRequest = {
+    planCandidateId: string;
+    planId: string;
+};
+
+export type AutoReorderPlacesInPlanCandidateResponse = {
+    PlanCandidateId: string;
+    plan: PlanEntity;
 };

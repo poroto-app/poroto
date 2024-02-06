@@ -9,7 +9,6 @@ import {
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
-import { createUserFromEntity } from "src/domain/user/UserApi";
 import { RootState } from "src/redux/redux";
 
 export type PlanState = {
@@ -73,9 +72,8 @@ export const fetchPlansRecentlyCreated = createAsyncThunk<{
         pageKey: nextPageTokenPlansRecentlyCreated,
     });
 
-    // TODO: ユーザー情報を取得する
     return {
-        plans: plans.map((plan) => createPlanFromPlanEntity(plan, null)),
+        plans: plans.map((plan) => createPlanFromPlanEntity(plan)),
         nextPageToken: nextPageKey,
     };
 });
@@ -100,9 +98,8 @@ export const fetchNearbyPlans = createAsyncThunk(
             limit,
         });
 
-        // TODO: ユーザー情報を取得する
         return {
-            plans: plans.map((plan) => createPlanFromPlanEntity(plan, null)),
+            plans: plans.map((plan) => createPlanFromPlanEntity(plan)),
             nextPageToken: pageKey,
         };
     }
@@ -115,9 +112,7 @@ export const fetchPlan = createAsyncThunk(
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.fetchPlan({ planId });
         // TODO: ユーザー情報を取得する
-        return response.plan
-            ? createPlanFromPlanEntity(response.plan, null)
-            : null;
+        return response.plan ? createPlanFromPlanEntity(response.plan) : null;
     }
 );
 
@@ -129,10 +124,9 @@ export const fetchPlansByUser = createAsyncThunk(
     async ({ userId }: FetchPlansByUserProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.fetchPlansByUser({ userId });
-        const author = createUserFromEntity(response.author);
         return {
             plans: response.plans.map((planEntity) =>
-                createPlanFromPlanEntity(planEntity, author)
+                createPlanFromPlanEntity(planEntity)
             ),
         };
     }

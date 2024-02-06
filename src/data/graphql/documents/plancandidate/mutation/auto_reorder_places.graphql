@@ -1,0 +1,8 @@
+mutation AutoReorderPlacesInPlanCandidate($input: AutoReorderPlacesInPlanCandidateInput!) {
+    autoReorderPlacesInPlanCandidate(input: $input) {
+        planCandidateId
+        plan {
+            ...PlanFullFragment
+        }
+    }
+}

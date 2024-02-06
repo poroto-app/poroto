@@ -1,7 +1,5 @@
-import { Link } from "@chakra-ui/next-js";
 import { Box } from "@chakra-ui/react";
 import "@splidejs/splide/css";
-import { ReactNode } from "react";
 import {
     getDefaultPlaceImage,
     Image,
@@ -27,29 +25,12 @@ export const PlanThumbnail = ({
 
     return (
         <Box w="100%" h="300px">
-            <LinkWrapper href={link}>
-                <ImageSliderPreview
-                    images={images}
-                    imageSize={imageSize}
-                    borderRadius="10px"
-                />
-            </LinkWrapper>
+            <ImageSliderPreview
+                images={images}
+                imageSize={imageSize}
+                borderRadius="10px"
+                href={link}
+            />
         </Box>
     );
 };
-
-function LinkWrapper({
-    href,
-    children,
-}: {
-    href?: string;
-    children?: ReactNode;
-}) {
-    if (href)
-        return (
-            <Link href={href} w="100%" h="100%">
-                {children}
-            </Link>
-        );
-    return <>{children}</>;
-}
