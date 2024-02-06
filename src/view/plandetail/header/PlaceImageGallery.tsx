@@ -1,4 +1,4 @@
-import { Box, Center, HStack, Icon, Text } from "@chakra-ui/react";
+import {Box, Center, HStack, Icon, Image, Text} from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { useEffect, useRef } from "react";
 import { IconType } from "react-icons";
@@ -29,80 +29,103 @@ export const PlaceImageGallery = ({
     }, [currentPage]);
 
     return (
-        <Box
-            position="relative"
-            alignSelf="center"
-            borderRadius="20px"
-            overflow="hidden"
-            w="100%"
-            h={Size.PlanDetailHeader.imageH}
-            maxW={Size.PlanDetailHeader.maxW}
-        >
-            <Splide
-                ref={refSplide}
-                onMove={(splide) => onPageChange(splide.index)}
-                options={{
-                    arrows: false,
-                    drag: places.length > 1,
-                    lazyLoad: "nearby",
-                    pagination: false,
-                    perPage: 1,
-                    type: "slide",
-                    height: Size.PlanDetailHeader.imageH,
-                }}
-            >
-                {places.map((place, i) => (
-                    <SplideSlide
-                        key={i}
-                        style={{
-                            width: "100%",
-                            height: "100%",
-                            position: "relative",
-                        }}
-                    >
-                        <ImageWithSkeleton
-                            key={i}
-                            src={getImageSizeOf(
-                                ImageSizes.Large,
-                                place.images[0]
-                            )}
-                            isGoogleImage={place.images[0].isGoogleImage}
-                        />
-                        <HStack
-                            position="absolute"
-                            backgroundColor="white"
-                            borderRadius="5px"
-                            px="4px"
-                            py="2px"
-                            top="16px"
-                            left="16px"
-                            userSelect="none"
-                        >
-                            <Icon as={MdLocationOn} color="#E1A766" />
-                            <Text fontSize="14px">{place.name}</Text>
-                        </HStack>
-                    </SplideSlide>
-                ))}
-            </Splide>
-            <HStack
+        <Box position="relative">
+            <Box
                 position="absolute"
-                bottom={0}
+                top={0}
                 right={0}
-                px="16px"
-                py="16px"
-                zIndex={1}
+                bottom={0}
+                left={0}
+                w="100%"
+                h="100%"
             >
-                <SplidePageArrow
-                    icon={MdArrowBackIos}
-                    disabled={currentPage === 0}
-                    onClick={() => refSplide.current?.go("<")}
+                <Image
+                    w="300px"
+                    h="300px"
+                    backgroundColor="black"
+                    transform="scale(2.0)"
+                    filter="blur(20px)"
+                    src={getImageSizeOf(
+                        ImageSizes.Large,
+                        places[currentPage].images[0]
+                    )}
                 />
-                <SplidePageArrow
-                    icon={MdArrowForwardIos}
-                    disabled={currentPage === places.length - 1}
-                    onClick={() => refSplide.current?.go(">")}
-                />
-            </HStack>
+            </Box>
+            <Box
+                position="relative"
+                alignSelf="center"
+                borderRadius="20px"
+                overflow="hidden"
+                w="100%"
+                h={Size.PlanDetailHeader.imageH}
+                maxW={Size.PlanDetailHeader.maxW}
+            >
+                <Splide
+                    ref={refSplide}
+                    onMove={(splide) => onPageChange(splide.index)}
+                    options={{
+                        arrows: false,
+                        drag: places.length > 1,
+                        lazyLoad: "nearby",
+                        pagination: false,
+                        perPage: 1,
+                        type: "slide",
+                        height: Size.PlanDetailHeader.imageH,
+                    }}
+                >
+                    {places.map((place, i) => (
+                        <SplideSlide
+                            key={i}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                position: "relative",
+                            }}
+                        >
+                            <ImageWithSkeleton
+                                key={i}
+                                src={getImageSizeOf(
+                                    ImageSizes.Large,
+                                    place.images[0]
+                                )}
+                                isGoogleImage={place.images[0].isGoogleImage}
+                            />
+                            <HStack
+                                position="absolute"
+                                backgroundColor="white"
+                                borderRadius="5px"
+                                px="4px"
+                                py="2px"
+                                top="16px"
+                                left="16px"
+                                userSelect="none"
+                            >
+                                <Icon as={MdLocationOn} color="#E1A766" />
+                                <Text fontSize="14px">{place.name}</Text>
+                            </HStack>
+                        </SplideSlide>
+                    ))}
+                </Splide>
+                <HStack
+                    position="absolute"
+                    bottom={0}
+                    right={0}
+                    px="16px"
+                    py="16px"
+                    zIndex={1}
+                >
+                    <SplidePageArrow
+                        icon={MdArrowBackIos}
+                        disabled={currentPage === 0}
+                        onClick={() => refSplide.current?.go("<")}
+                    />
+                    <SplidePageArrow
+                        icon={MdArrowForwardIos}
+                        disabled={currentPage === places.length - 1}
+                        onClick={() => refSplide.current?.go(">")}
+                    />
+                </HStack>
+            </Box>
         </Box>
     );
 };

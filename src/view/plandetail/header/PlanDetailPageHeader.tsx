@@ -31,26 +31,30 @@ export function PlanDetailPageHeader({ plan, onCopyPlanUrl }: Props) {
             w="100%"
             h="100%"
             py="32px"
-            backgroundColor="#483216"
+            background="linear-gradient(180deg, #7D6447 0%, #644B2E 70%, #3d2b15 100%)"
             spacing="16px"
+            overflow="hidden"
         >
-            <Box px={Size.PlanDetailHeader.px}>
+            <Box px={Size.PlanDetailHeader.px} zIndex={0}>
                 <PlaceImageGallery
                     places={placesWithImages}
                     currentPage={currentPage}
                     onPageChange={(page) => setCurrentPage(page)}
                 />
             </Box>
-            <PlaceList
-                places={plan.places}
-                onClickPlace={({ index }) => setCurrentPage(index)}
-            />
+            <Box zIndex={1} w="100%">
+                <PlaceList
+                    places={plan.places}
+                    onClickPlace={({ index }) => setCurrentPage(index)}
+                />
+            </Box>
             <VStack
                 w="100%"
                 spacing="16px"
                 alignItems="flex-start"
                 justifyContent="flex-end"
                 flex={1}
+                zIndex={1}
             >
                 <VStack
                     alignSelf="center"
