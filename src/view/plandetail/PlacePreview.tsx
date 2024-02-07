@@ -29,6 +29,7 @@ import {
     PlaceChipActionGoogleMaps,
     PlaceChipActionInstagram,
     PlaceChipActionShowRelatedPlaces,
+    PlaceChipActionCamera,
 } from "src/view/plandetail/PlaceChipContextAction";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
@@ -172,6 +173,7 @@ export const PlacePreview = ({
                     {onClickDeletePlace && (
                         <PlaceChipActionDelete onClick={onClickDeletePlace} />
                     )}
+                    <PlaceChipActionCamera onClick={() => 0} />
                 </HStack>
             </VStack>
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
