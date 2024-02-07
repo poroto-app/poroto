@@ -1,12 +1,12 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import {
+    PlaceChipActionCamera,
     PlaceChipActionDelete,
     PlaceChipActionGoogleMaps,
     PlaceChipActionInstagram,
     PlaceChipActionShowRelatedPlaces,
     PlaceChipContextAction,
-    PlaceChipActionCamera,
 } from "src/view/plandetail/PlaceChipContextAction";
 
 export default {

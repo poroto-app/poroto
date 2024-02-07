@@ -25,11 +25,11 @@ import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import {
+    PlaceChipActionCamera,
     PlaceChipActionDelete,
     PlaceChipActionGoogleMaps,
     PlaceChipActionInstagram,
     PlaceChipActionShowRelatedPlaces,
-    PlaceChipActionCamera,
 } from "src/view/plandetail/PlaceChipContextAction";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
