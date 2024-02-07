@@ -17,16 +17,12 @@ import { RootState } from "src/redux/redux";
 
 export type PlanCandidateState = {
     createPlanSession: string | null;
+    planIdPreview: string | null;
     likedPlaceIds: string[] | null;
     createdBasedOnCurrentLocation: boolean | null;
     plansCreated: Plan[] | null;
     placesAvailableForPlan: Place[] | null;
 
-    // TODO: 取得中か存在しないのかを見分けられるようにする
-    //  （画面に大きく依存するもののため、専用のsliceを作成する）
-    // TODO: preview id等で対象のplan idを指定し、`plansCreated`の更新に反応できるようにする
-    planIdPreview: string | null;
-    // preview: Plan | null;
 
     categoryCandidates: LocationCategoryWithPlace[] | null;
     categoriesAccepted: LocationCategory[] | null;
