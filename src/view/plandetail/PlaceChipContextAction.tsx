@@ -1,7 +1,7 @@
 import { Link } from "@chakra-ui/next-js";
 import { HStack, Icon, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import { MdOutlineDeleteOutline, MdOutlineFindReplace } from "react-icons/md";
+import { MdOutlineDeleteOutline, MdOutlineFindReplace, MdOutlineCameraAlt } from "react-icons/md";
 import { SiGooglemaps, SiInstagram } from "react-icons/si";
 import { OnClickHandler } from "src/view/types/handler";
 
@@ -100,5 +100,18 @@ export const PlaceChipActionGoogleMaps = ({
                 icon={SiGooglemaps}
             />
         </Link>
+    );
+};
+export const PlaceChipActionCamera = ({
+    onClick,
+}: {
+    onClick: OnClickHandler;
+}) => {
+    return (
+        <PlaceChipContextAction
+            label="写真を投稿する"
+            icon={MdOutlineCameraAlt}
+            onClick={onClick}
+        />
     );
 };
