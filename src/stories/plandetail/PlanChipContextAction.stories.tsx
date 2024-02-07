@@ -6,6 +6,7 @@ import {
     PlaceChipActionInstagram,
     PlaceChipActionShowRelatedPlaces,
     PlaceChipContextAction,
+    PlaceChipActionCamera,
 } from "src/view/plandetail/PlaceChipContextAction";
 
 export default {
@@ -46,4 +47,8 @@ export const GoogleMaps: Story = {
             googlePlaceId="ChIJC3Cf2PuLGGAROO00ukl8JwA"
         />
     ),
+};
+
+export const Camera: Story = {
+    render: (args) => <PlaceChipActionCamera onClick={() => 0} {...args} />,
 };
