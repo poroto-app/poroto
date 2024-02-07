@@ -1,4 +1,4 @@
-import { Button, Center, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, VStack } from "@chakra-ui/react";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -20,6 +20,7 @@ import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
 import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
+import { Size } from "src/view/constants/size";
 import { useLocation } from "src/view/hooks/useLocation";
 import { usePlaceLikeInPlanCandidate } from "src/view/hooks/usePlaceLikeInPlanCandidate";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
@@ -34,6 +35,7 @@ import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSum
 import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
 import { DialogDeletePlace } from "src/view/plancandidate/DialogDeletePlace";
 import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
+import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
 const PlanDetail = () => {
@@ -170,6 +172,20 @@ const PlanDetail = () => {
                         sessionId as string
                     )}
                 />
+                <Box
+                    w="100%"
+                    h={`calc(100vh - ${Size.NavBar.height} - ${FooterHeight}px)`}
+                    minH="700px"
+                    maxH="850px"
+                >
+                    <PlanDetailPageHeader
+                        plan={plan}
+                        likedPlaceIds={likedPlaceIdsInPlanCandidate}
+                        onUpdateLikePlace={(placeId, isLiked) =>
+                            updateLikeAtPlace({ placeId, like: isLiked })
+                        }
+                    />
+                </Box>
                 <VStack
                     maxWidth="990px"
                     w="100%"
