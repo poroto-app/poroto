@@ -26,7 +26,7 @@ type Props = {
     imageSizeOfPlacePhoto?: ImageSize;
     likedPlaceIds: string[];
     onUpdateLikePlace: (placeId: string, isLiked: boolean) => void;
-    onCopyPlanUrl: () => void;
+    onCopyPlanUrl?: () => void;
 };
 
 // TODO: プラン候補ページに配置する
@@ -122,19 +122,26 @@ export function PlanDetailPageHeader({
                     px={Size.PlanDetailHeader.px}
                     alignSelf="center"
                 >
-                    <HStack
-                        as="button"
-                        px="4px"
-                        py="2px"
-                        backgroundColor="rgba(255,255,255,.8)"
-                        color="#282828"
-                        borderRadius="8px"
-                        onClick={onCopyPlanUrl}
-                        spacing="4px"
-                    >
-                        <Icon w="32px" h="32px" color="#5E6382" as={MdLink} />
-                        <Text>リンクをコピー</Text>
-                    </HStack>
+                    {onCopyPlanUrl && (
+                        <HStack
+                            as="button"
+                            px="4px"
+                            py="2px"
+                            backgroundColor="rgba(255,255,255,.8)"
+                            color="#282828"
+                            borderRadius="8px"
+                            onClick={onCopyPlanUrl}
+                            spacing="4px"
+                        >
+                            <Icon
+                                w="32px"
+                                h="32px"
+                                color="#5E6382"
+                                as={MdLink}
+                            />
+                            <Text>リンクをコピー</Text>
+                        </HStack>
+                    )}
                 </HStack>
             </VStack>
         </VStack>
