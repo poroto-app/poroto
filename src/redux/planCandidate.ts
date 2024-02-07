@@ -23,7 +23,6 @@ export type PlanCandidateState = {
     plansCreated: Plan[] | null;
     placesAvailableForPlan: Place[] | null;
 
-
     categoryCandidates: LocationCategoryWithPlace[] | null;
     categoriesAccepted: LocationCategory[] | null;
     categoriesRejected: LocationCategory[] | null;
@@ -436,13 +435,16 @@ export const slice = createSlice({
             );
             if (planIndexToUpdate < 0) return;
 
-            const isContainsAllPlacesIds = state.plansCreated[planIndexToUpdate].places.some(
-                (place) => !payload.placeIds.includes(place.id)
-            );
+            const isContainsAllPlacesIds = state.plansCreated[
+                planIndexToUpdate
+            ].places.some((place) => !payload.placeIds.includes(place.id));
             if (isContainsAllPlacesIds) return;
 
-            state.plansCreated[planIndexToUpdate].places = payload.placeIds.map((placeId) =>
-                state.plansCreated[planIndexToUpdate].places.find((place) => place.id === placeId)
+            state.plansCreated[planIndexToUpdate].places = payload.placeIds.map(
+                (placeId) =>
+                    state.plansCreated[planIndexToUpdate].places.find(
+                        (place) => place.id === placeId
+                    )
             );
         },
     },
@@ -653,7 +655,9 @@ export const {
 const { reorderPlacesInPreview } = slice.actions;
 
 export const reduxPlanCandidateSelector = () => {
-    const planCandidateState = useSelector((state: RootState) => state.planCandidate);
+    const planCandidateState = useSelector(
+        (state: RootState) => state.planCandidate
+    );
 
     const planCandidatePreview = planCandidateState.plansCreated?.find(
         (plan) => plan.id === planCandidateState.planIdPreview
@@ -663,6 +667,6 @@ export const reduxPlanCandidateSelector = () => {
         ...planCandidateState,
         preview: planCandidatePreview,
     };
-}
+};
 
 export const planCandidateReducer = slice.reducer;
