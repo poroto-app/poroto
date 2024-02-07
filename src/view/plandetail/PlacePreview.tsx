@@ -173,7 +173,9 @@ export const PlacePreview = ({
                     {onClickDeletePlace && (
                         <PlaceChipActionDelete onClick={onClickDeletePlace} />
                     )}
-                    <PlaceChipActionCamera onClick={() => 0} />
+                    {process.env.APP_ENV !== "production" && (
+                        <PlaceChipActionCamera onClick={() => 0} />
+                    )}
                 </HStack>
             </VStack>
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
