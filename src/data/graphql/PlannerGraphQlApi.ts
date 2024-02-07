@@ -474,8 +474,7 @@ function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
             toPlaceId: transition.to.id,
             durationInMinutes: transition.duration,
         })),
-        author:
-            plan.author === null ? null : fromGraphQlUserEntity(plan.author),
+        author: plan.author ? fromGraphQlUserEntity(plan.author) : null,
     };
 }
 
