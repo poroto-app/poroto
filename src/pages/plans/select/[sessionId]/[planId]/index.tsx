@@ -1,8 +1,8 @@
-import { Button, Center, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, VStack } from "@chakra-ui/react";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
+import { Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
@@ -20,6 +20,7 @@ import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
 import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
+import { Size } from "src/view/constants/size";
 import { useLocation } from "src/view/hooks/useLocation";
 import { usePlaceLikeInPlanCandidate } from "src/view/hooks/usePlaceLikeInPlanCandidate";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
@@ -28,12 +29,11 @@ import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
-import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
-import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
 import { DialogDeletePlace } from "src/view/plancandidate/DialogDeletePlace";
 import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
+import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
 const PlanDetail = () => {
@@ -170,6 +170,20 @@ const PlanDetail = () => {
                         sessionId as string
                     )}
                 />
+                <Box
+                    w="100%"
+                    h={`calc(100vh - ${Size.NavBar.height} - ${FooterHeight}px)`}
+                    minH="700px"
+                    maxH="850px"
+                >
+                    <PlanDetailPageHeader
+                        plan={plan}
+                        likedPlaceIds={likedPlaceIdsInPlanCandidate}
+                        onUpdateLikePlace={(placeId, isLiked) =>
+                            updateLikeAtPlace({ placeId, like: isLiked })
+                        }
+                    />
+                </Box>
                 <VStack
                     maxWidth="990px"
                     w="100%"
@@ -178,11 +192,6 @@ const PlanDetail = () => {
                     spacing="16px"
                     boxSizing="border-box"
                 >
-                    <PlanPageThumbnail plan={plan} />
-                    <PlanPageSectionSummary
-                        planDurationInMinutes={plan.timeInMinutes}
-                        planRange={getPlanPriceRange(plan.places)}
-                    />
                     <PlanPageSection title="プラン">
                         <PlanPlaceList
                             plan={plan}
