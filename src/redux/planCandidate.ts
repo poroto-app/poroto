@@ -341,7 +341,7 @@ export const slice = createSlice({
                 payload.createdBasedOnCurrentLocation;
             state.likedPlaceIds = [];
         },
-        fetchPlanDetail: (
+        updatePreviewPlanId: (
             state,
             { payload }: PayloadAction<{ planId: string }>
         ) => {
@@ -634,7 +634,7 @@ export const slice = createSlice({
 });
 
 export const {
-    fetchPlanDetail,
+    updatePreviewPlanId,
 
     setCreatedPlans,
     updatePlanOfPlanCandidate,

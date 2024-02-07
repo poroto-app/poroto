@@ -8,7 +8,7 @@ import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
     autoReorderPlacesInPlanCandidate,
     fetchCachedCreatedPlans,
-    fetchPlanDetail,
+    updatePreviewPlanId,
     reduxPlanCandidateSelector,
     resetPlanCandidates,
     savePlanFromCandidate,
@@ -110,7 +110,7 @@ const PlanDetail = () => {
     useEffect(() => {
         if (!createPlanSession) return;
         if (planId && typeof planId === "string") {
-            dispatch(fetchPlanDetail({ planId }));
+            dispatch(updatePreviewPlanId({ planId }));
         }
     }, [planId, createPlanSession]);
 
