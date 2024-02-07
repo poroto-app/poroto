@@ -2,7 +2,7 @@ import { Box, Button, Center, VStack } from "@chakra-ui/react";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
+import { Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
@@ -29,9 +29,7 @@ import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
-import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
-import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
 import { DialogDeletePlace } from "src/view/plancandidate/DialogDeletePlace";
 import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
@@ -194,11 +192,6 @@ const PlanDetail = () => {
                     spacing="16px"
                     boxSizing="border-box"
                 >
-                    <PlanPageThumbnail plan={plan} />
-                    <PlanPageSectionSummary
-                        planDurationInMinutes={plan.timeInMinutes}
-                        planRange={getPlanPriceRange(plan.places)}
-                    />
                     <PlanPageSection title="プラン">
                         <PlanPlaceList
                             plan={plan}
