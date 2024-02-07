@@ -172,9 +172,7 @@ const PlanDetail = () => {
                 />
                 <Box
                     w="100%"
-                    h={`calc(100vh - ${Size.NavBar.height} - ${FooterHeight}px)`}
-                    minH="700px"
-                    maxH="850px"
+                    minH={`calc(100vh - ${Size.NavBar.height} - ${FooterHeight}px)`}
                 >
                     <PlanDetailPageHeader
                         plan={plan}

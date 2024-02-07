@@ -76,9 +76,7 @@ export default function PlanPage() {
             <NavBar />
             <Box
                 w="100%"
-                h={`calc(100vh - ${Size.NavBar.height})`}
-                minH="700px"
-                maxH="850px"
+                minH={`calc(100vh - ${Size.NavBar.height})`}
             >
                 <PlanDetailPageHeader
                     plan={plan}
