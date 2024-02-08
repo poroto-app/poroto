@@ -114,7 +114,7 @@ export const PlaceChipActionCamera = ({
 }) => {
     return (
         <PlaceChipContextAction
-            label="写真を投稿する"
+            label="写真を撮る"
             icon={MdOutlineCameraAlt}
             onClick={onClick}
         />
