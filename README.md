@@ -5,22 +5,20 @@
 ### nodeのインストール
 - 特定のバージョンのgoを使用するために[nodenv](https://github.com/nodenv/nodenv)を利用しています。
 - [インストール方法はこちらを参考にしてください](https://github.com/nodenv/nodenv#locating-the-node-installation)
-- nodeのインストール
 ```shell
-# version 18のnodeをインストールしてください．
-nodenv install 18.16.0
-```
-- バージョンを指定
-```shell
-nodenv global 18.16.0
-```
-- バージョンを確認
-```shell
+# nodeをインストール
+# (App Engineのバージョンに合わせたランタイムにしています)
+nodenv install 20.2.0
+
+# バージョンを指定
+nodenv global 20.2.0
+
+# バージョンを確認
 nodenv version
-# 18.16.0 (set by /home/zacker/.nodenv/version)
+# 20.2.0 (set by /home/zacker/.nodenv/version)
 
 node --version
-# v18.16.0
+# v20.2.0
 ```
 ### yarn（パッケージマネージャー）のインストール
 ```shell
