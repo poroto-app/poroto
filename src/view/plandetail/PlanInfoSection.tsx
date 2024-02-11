@@ -1,5 +1,6 @@
-import { SimpleGrid } from "@chakra-ui/react";
+import { HStack } from "@chakra-ui/react";
 import { PriceRange } from "src/domain/models/PriceRange";
+import { isPC } from "src/view/constants/userAgent";
 import {
     PlanInfoTagBudget,
     PlanInfoTagDuration,
@@ -13,13 +14,12 @@ export function PlanInfoSection({
     priceRange: PriceRange;
 }) {
     return (
-        <SimpleGrid
-            columns={{ base: 1, md: 2 }}
+        <HStack
             spacing={2}
             w="100%"
             alignSelf="center"
             overflowX="auto"
-            flexWrap={"wrap"}
+            flexWrap={isPC ? "wrap" : "nowrap"}
             scrollSnapType="x mandatory"
             scrollPaddingLeft="16px"
         >
@@ -30,6 +30,6 @@ export function PlanInfoSection({
                     maxBudget={priceRange.max}
                 />
             )}
-        </SimpleGrid>
+        </HStack>
     );
 }

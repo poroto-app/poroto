@@ -190,6 +190,12 @@ const PlanDetail = () => {
                     spacing="16px"
                     boxSizing="border-box"
                 >
+                    <PlanPageSection title="プランの情報">
+                        <PlanInfoSection
+                            durationInMinutes={plan.timeInMinutes}
+                            priceRange={getPlanPriceRange(plan.places)}
+                        />
+                    </PlanPageSection>
                     <PlanPageSection title="プラン">
                         <PlanPlaceList
                             plan={plan}

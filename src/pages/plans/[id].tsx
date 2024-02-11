@@ -1,4 +1,4 @@
-import { Box, Center, useToast, VStack } from "@chakra-ui/react";
+import { Center, useToast, VStack } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -99,12 +99,12 @@ export default function PlanPage() {
                 spacing="16px"
                 pb="32px"
             >
-                <Box w="100%">
+                <PlanPageSection title="プランの情報">
                     <PlanInfoSection
                         durationInMinutes={plan.timeInMinutes}
                         priceRange={getPlanPriceRange(plan.places)}
                     />
-                </Box>
+                </PlanPageSection>
                 <PlanPageSection title="プラン">
                     {/*TODO: ログインユーザーがLIKEした場所を反映できるようにする*/}
                     <PlanPlaceList plan={plan} likePlaceIds={[]} />

@@ -12,7 +12,7 @@ type Props = {
 
 export const PlanInfoTag = ({ title, icon, children }: Props) => {
     return (
-        <Box display="inline-block" whiteSpace="nowrap">
+        <Box display="inline-block" whiteSpace="nowrap" flex={1}>
             <HStack
                 backgroundColor="white"
                 border="1px solid rgba(0,0,0,.2)"
