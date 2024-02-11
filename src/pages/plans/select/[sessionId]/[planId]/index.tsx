@@ -174,7 +174,10 @@ const PlanDetail = () => {
                 />
                 <VStack
                     w="100%"
-                    minH={!isPC && `calc(100vh - ${Size.NavBar.height} - ${FooterHeight}px)`}
+                    minH={
+                        !isPC &&
+                        `calc(100vh - ${Size.NavBar.height} - ${FooterHeight}px)`
+                    }
                 >
                     <PlanDetailPageHeader
                         plan={plan}
