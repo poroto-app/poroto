@@ -1,9 +1,9 @@
 import {
     Avatar,
     Box,
+    Center,
     HStack,
     Icon,
-    SimpleGrid,
     Text,
     useMediaQuery,
     VStack,
@@ -11,15 +11,10 @@ import {
 import { useState } from "react";
 import { MdLink } from "react-icons/md";
 import { ImageSize } from "src/domain/models/Image";
-import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
-import { PriceRange } from "src/domain/models/PriceRange";
+import { Plan } from "src/domain/models/Plan";
 import { Size } from "src/view/constants/size";
 import { PlaceImageGallery } from "src/view/plandetail/header/PlaceImageGallery";
 import { PlaceList } from "src/view/plandetail/header/PlaceList";
-import {
-    PlanInfoTagBudget,
-    PlanInfoTagDuration,
-} from "src/view/plandetail/header/PlanInfoTag";
 
 type Props = {
     plan: Plan;
@@ -29,7 +24,6 @@ type Props = {
     onCopyPlanUrl?: () => void;
 };
 
-// TODO: プラン候補ページに配置する
 export function PlanDetailPageHeader({
     plan,
     likedPlaceIds,
@@ -45,6 +39,7 @@ export function PlanDetailPageHeader({
     );
     return (
         <VStack
+            flex={1}
             w="100%"
             h="100%"
             py="32px"
@@ -52,36 +47,37 @@ export function PlanDetailPageHeader({
             spacing="16px"
             overflow="hidden"
         >
-            <Box px={Size.PlanDetailHeader.px} zIndex={0}>
-                <PlaceImageGallery
-                    places={placesWithImages}
-                    currentPage={currentPage}
-                    likedPlaceIds={likedPlaceIds}
-                    onUpdateLikePlace={onUpdateLikePlace}
-                    onPageChange={(page) => setCurrentPage(page)}
-                />
-            </Box>
-            <Box
-                zIndex={1}
-                alignSelf="center"
-                w={!isLargerThanHeaderWidth && "100%"}
-                maxW={
-                    isLargerThanHeaderWidth
-                        ? "100%"
-                        : Size.PlanDetailHeader.maxW
-                }
-            >
-                <PlaceList
-                    places={plan.places}
-                    onClickPlace={({ index }) => setCurrentPage(index)}
-                />
-            </Box>
+            <VStack w="100%" flex={1}>
+                <Center px={Size.PlanDetailHeader.px} flex={1} zIndex={0}>
+                    <PlaceImageGallery
+                        places={placesWithImages}
+                        currentPage={currentPage}
+                        likedPlaceIds={likedPlaceIds}
+                        onUpdateLikePlace={onUpdateLikePlace}
+                        onPageChange={(page) => setCurrentPage(page)}
+                    />
+                </Center>
+                <Box
+                    zIndex={1}
+                    alignSelf="center"
+                    w={!isLargerThanHeaderWidth && "100%"}
+                    maxW={
+                        isLargerThanHeaderWidth
+                            ? "100%"
+                            : Size.PlanDetailHeader.maxW
+                    }
+                >
+                    <PlaceList
+                        places={plan.places}
+                        onClickPlace={({ index }) => setCurrentPage(index)}
+                    />
+                </Box>
+            </VStack>
             <VStack
                 w="100%"
                 spacing="16px"
                 alignItems="flex-start"
                 justifyContent="flex-end"
-                flex={1}
                 zIndex={1}
             >
                 <VStack
@@ -106,16 +102,6 @@ export function PlanDetailPageHeader({
                         </HStack>
                     )}
                 </VStack>
-                <Box
-                    alignSelf="center"
-                    w="100%"
-                    maxW={Size.PlanDetailHeader.maxW}
-                >
-                    <PlanInfoSection
-                        durationInMinutes={plan.timeInMinutes}
-                        priceRange={getPlanPriceRange(plan.places)}
-                    />
-                </Box>
                 <HStack
                     w="100%"
                     maxW={Size.PlanDetailHeader.maxW}
@@ -145,35 +131,5 @@ export function PlanDetailPageHeader({
                 </HStack>
             </VStack>
         </VStack>
-    );
-}
-
-function PlanInfoSection({
-    durationInMinutes,
-    priceRange,
-}: {
-    durationInMinutes: number;
-    priceRange: PriceRange;
-}) {
-    return (
-        <SimpleGrid
-            columns={{ base: 1, md: 2 }}
-            spacing={2}
-            w="100%"
-            px={Size.PlanDetailHeader.px}
-            alignSelf="center"
-            overflowX="auto"
-            flexWrap={"wrap"}
-            scrollSnapType="x mandatory"
-            scrollPaddingLeft="16px"
-        >
-            <PlanInfoTagDuration durationInMinutes={durationInMinutes} />
-            {(priceRange.min !== 0 || priceRange.max !== 0) && (
-                <PlanInfoTagBudget
-                    minBudget={priceRange.min}
-                    maxBudget={priceRange.max}
-                />
-            )}
-        </SimpleGrid>
     );
 }
