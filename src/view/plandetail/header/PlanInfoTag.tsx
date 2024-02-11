@@ -22,7 +22,7 @@ export const PlanInfoTag = ({ title, icon, children }: Props) => {
                 spacing={4}
             >
                 <Center
-                    backgroundColor="#EFEEEE"
+                    backgroundColor="#F9ECDD"
                     w="48px"
                     h="48px"
                     borderRadius="10px"
