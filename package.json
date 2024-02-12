@@ -70,7 +70,7 @@
     "@storybook/react": "^7.6.3",
     "@storybook/testing-library": "^0.2.2",
     "@svgr/webpack": "^8.1.0",
-    "@types/google.maps": "^3.54.10",
+    "@types/google.maps": "^3.55.3",
     "@types/jest": "^29.5.3",
     "@types/node": "^20.10.4",
     "@types/react": "^18.2.20",
