@@ -20,3 +20,29 @@ export const Primary: Story = {
         })),
     },
 };
+
+export const Null: Story = {
+    args: {
+        plans: null,
+    },
+};
+
+export const Loading: Story = {
+    args: {
+        plans: null,
+        isLoading: true,
+    },
+};
+
+export const Empty: Story = {
+    args: {
+        plans: [],
+    },
+};
+
+export const EmptyWithComponent: Story = {
+    args: {
+        plans: [],
+        empty: <p>Empty</p>,
+    },
+};
