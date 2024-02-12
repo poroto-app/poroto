@@ -41,6 +41,7 @@ const IndexPage = (props: Props) => {
         nextPageTokenPlansRecentlyCreated,
         plansByUser,
         fetchPlansRecentlyCreatedRequestStatus,
+        fetchPlansByUserRequestStatus,
     } = reduxPlanSelector();
     const { user } = reduxAuthSelector();
 
@@ -85,7 +86,7 @@ const IndexPage = (props: Props) => {
                     pb="48px"
                     spacing="24px"
                 >
-                    {user && (
+                    {plansByUser && plansByUser.length > 0 && (
                         <PlanList plans={plansByUser}>
                             <Text
                                 as="h2"
