@@ -1,7 +1,8 @@
-import { Box, Center, useToast, VStack } from "@chakra-ui/react";
+import { Center, useToast, VStack } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
     fetchPlan,
@@ -14,6 +15,7 @@ import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
 import { Size } from "src/view/constants/size";
+import { isPC } from "src/view/constants/userAgent";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
@@ -21,6 +23,7 @@ import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
 import { FooterHeight } from "src/view/plan/PlanFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
+import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
 export default function PlanPage() {
@@ -74,11 +77,9 @@ export default function PlanPage() {
                 <title>{plan.title} | poroto</title>
             </Head>
             <NavBar />
-            <Box
+            <VStack
                 w="100%"
-                h={`calc(100vh - ${Size.NavBar.height})`}
-                minH="700px"
-                maxH="850px"
+                minH={!isPC && `calc(100vh - ${Size.NavBar.height})`}
             >
                 <PlanDetailPageHeader
                     plan={plan}
@@ -88,7 +89,7 @@ export default function PlanPage() {
                     onUpdateLikePlace={() => 0}
                     onCopyPlanUrl={handleOnCopyPlanUrl}
                 />
-            </Box>
+            </VStack>
             <VStack
                 maxWidth="990px"
                 w="100%"
@@ -98,6 +99,12 @@ export default function PlanPage() {
                 spacing="16px"
                 pb="32px"
             >
+                <PlanPageSection title="プランの情報">
+                    <PlanInfoSection
+                        durationInMinutes={plan.timeInMinutes}
+                        priceRange={getPlanPriceRange(plan.places)}
+                    />
+                </PlanPageSection>
                 <PlanPageSection title="プラン">
                     {/*TODO: ログインユーザーがLIKEした場所を反映できるようにする*/}
                     <PlanPlaceList plan={plan} likePlaceIds={[]} />

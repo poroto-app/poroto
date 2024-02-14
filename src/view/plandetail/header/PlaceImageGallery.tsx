@@ -39,6 +39,7 @@ export const PlaceImageGallery = ({
                 scale={5}
                 margin={4}
                 blur={5}
+                contrast={500}
                 src={getImageSizeOf(
                     ImageSizes.Large,
                     places[currentPage].images[0]
@@ -148,11 +149,13 @@ function AmbientBackgroundImage({
     scale,
     margin,
     blur,
+    contrast,
 }: {
     src: string;
     scale: number;
     margin: number;
     blur: number;
+    contrast: number;
 }) {
     return (
         <Center
@@ -170,7 +173,7 @@ function AmbientBackgroundImage({
                 objectFit="cover"
                 backgroundColor="black"
                 transform={`scale(${scale})`}
-                filter={`blur(${blur}px)`}
+                filter={`contrast(${contrast}%)  blur(${blur}px)`}
                 src={src}
             />
         </Center>

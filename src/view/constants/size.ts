@@ -5,6 +5,7 @@ export const Size = {
         height: "50px",
     },
     PlanDetailHeader: {
+        maxH: "900px",
         maxW: "500px",
         px: "16px",
         imageH: "300px",

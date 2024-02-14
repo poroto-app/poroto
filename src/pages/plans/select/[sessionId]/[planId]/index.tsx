@@ -1,8 +1,8 @@
-import { Box, Button, Center, VStack } from "@chakra-ui/react";
+import { Button, Center, VStack } from "@chakra-ui/react";
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { Plan } from "src/domain/models/Plan";
+import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
@@ -21,6 +21,7 @@ import { NotFound } from "src/view/common/NotFound";
 import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
+import { isPC } from "src/view/constants/userAgent";
 import { useLocation } from "src/view/hooks/useLocation";
 import { usePlaceLikeInPlanCandidate } from "src/view/hooks/usePlaceLikeInPlanCandidate";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
@@ -34,6 +35,7 @@ import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
 import { DialogDeletePlace } from "src/view/plancandidate/DialogDeletePlace";
 import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
 import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
+import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
 const PlanDetail = () => {
@@ -170,11 +172,12 @@ const PlanDetail = () => {
                         sessionId as string
                     )}
                 />
-                <Box
+                <VStack
                     w="100%"
-                    h={`calc(100vh - ${Size.NavBar.height} - ${FooterHeight}px)`}
-                    minH="700px"
-                    maxH="850px"
+                    minH={
+                        !isPC &&
+                        `calc(100vh - ${Size.NavBar.height} - ${FooterHeight}px)`
+                    }
                 >
                     <PlanDetailPageHeader
                         plan={plan}
@@ -183,7 +186,7 @@ const PlanDetail = () => {
                             updateLikeAtPlace({ placeId, like: isLiked })
                         }
                     />
-                </Box>
+                </VStack>
                 <VStack
                     maxWidth="990px"
                     w="100%"
@@ -192,6 +195,12 @@ const PlanDetail = () => {
                     spacing="16px"
                     boxSizing="border-box"
                 >
+                    <PlanPageSection title="プランの情報">
+                        <PlanInfoSection
+                            durationInMinutes={plan.timeInMinutes}
+                            priceRange={getPlanPriceRange(plan.places)}
+                        />
+                    </PlanPageSection>
                     <PlanPageSection title="プラン">
                         <PlanPlaceList
                             plan={plan}
