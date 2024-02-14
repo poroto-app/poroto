@@ -1,23 +1,23 @@
 import {
-Box,
-HStack,
-Icon,
-Image,
-Modal,
-ModalBody,
-ModalCloseButton,
-ModalContent,
-ModalOverlay,
-Text,
-useMediaQuery,
-VStack
+    Box,
+    HStack,
+    Icon,
+    Image,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalOverlay,
+    Text,
+    useMediaQuery,
+    VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
-getImageSizeOf,
-Image as ImageType,
-ImageSizes
+    getImageSizeOf,
+    Image as ImageType,
+    ImageSizes,
 } from "src/domain/models/Image";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
@@ -25,11 +25,11 @@ import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import {
-PlaceChipActionCamera,
-PlaceChipActionDelete,
-PlaceChipActionGoogleMaps,
-PlaceChipActionInstagram,
-PlaceChipActionShowRelatedPlaces
+    PlaceChipActionCamera,
+    PlaceChipActionDelete,
+    PlaceChipActionGoogleMaps,
+    PlaceChipActionInstagram,
+    PlaceChipActionShowRelatedPlaces,
 } from "src/view/plandetail/PlaceChipContextAction";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
