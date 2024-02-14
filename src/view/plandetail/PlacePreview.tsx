@@ -91,8 +91,9 @@ export const PlacePreview = ({
         onUpdateLikeAtPlace?.({ like: !like, placeId });
     };
 
-    const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files && event.target.files[0];
+    const handleFileInput = (event: Event) => {
+        const target = event.target as HTMLInputElement;
+        const file = target.files && target.files[0];
         if (file) {
             console.log("Selected file:", file);
         }
@@ -103,6 +104,7 @@ export const PlacePreview = ({
         input.type = "file";
         input.accept = "image/*";
         input.capture = "environment";
+        input.onchange = handleFileInput;
         input.click();
     };
 
