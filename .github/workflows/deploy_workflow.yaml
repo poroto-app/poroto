@@ -26,11 +26,11 @@ on:
         description: GitHub personal access toke to clone infrastructure repository
         required: true
 jobs:
-  build:
-    uses: ./.github/workflows/build_workflow.yaml
+  # build:
+    # uses: ./.github/workflows/build_workflow.yaml
   deploy:
     name: GAE deploy
-    needs: build
+    # needs: build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
