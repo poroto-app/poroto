@@ -25,6 +25,7 @@ import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import {
+    PlaceChipActionCamera,
     PlaceChipActionDelete,
     PlaceChipActionGoogleMaps,
     PlaceChipActionInstagram,
@@ -171,6 +172,9 @@ export const PlacePreview = ({
                     />
                     {onClickDeletePlace && (
                         <PlaceChipActionDelete onClick={onClickDeletePlace} />
+                    )}
+                    {process.env.APP_ENV !== "production" && (
+                        <PlaceChipActionCamera onClick={() => 0} />
                     )}
                 </HStack>
             </VStack>
