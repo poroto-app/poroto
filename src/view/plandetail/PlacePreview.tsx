@@ -1,23 +1,23 @@
 import {
-    Box,
-    HStack,
-    Icon,
-    Image,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalOverlay,
-    Text,
-    useMediaQuery,
-    VStack,
+Box,
+HStack,
+Icon,
+Image,
+Modal,
+ModalBody,
+ModalCloseButton,
+ModalContent,
+ModalOverlay,
+Text,
+useMediaQuery,
+VStack
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
-    getImageSizeOf,
-    Image as ImageType,
-    ImageSizes,
+getImageSizeOf,
+Image as ImageType,
+ImageSizes
 } from "src/domain/models/Image";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
@@ -25,11 +25,11 @@ import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import {
-    PlaceChipActionCamera,
-    PlaceChipActionDelete,
-    PlaceChipActionGoogleMaps,
-    PlaceChipActionInstagram,
-    PlaceChipActionShowRelatedPlaces,
+PlaceChipActionCamera,
+PlaceChipActionDelete,
+PlaceChipActionGoogleMaps,
+PlaceChipActionInstagram,
+PlaceChipActionShowRelatedPlaces
 } from "src/view/plandetail/PlaceChipContextAction";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
@@ -89,6 +89,21 @@ export const PlacePreview = ({
 
     const handleDoubleClick = () => {
         onUpdateLikeAtPlace?.({ like: !like, placeId });
+    };
+
+    const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files && event.target.files[0];
+        if (file) {
+            console.log("Selected file:", file);
+        }
+    };
+
+    const openCamera = () => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        input.capture = "environment";
+        input.click();
     };
 
     if (isEmptyLocation) {
@@ -173,9 +188,7 @@ export const PlacePreview = ({
                     {onClickDeletePlace && (
                         <PlaceChipActionDelete onClick={onClickDeletePlace} />
                     )}
-                    {process.env.APP_ENV !== "production" && (
-                        <PlaceChipActionCamera onClick={() => 0} />
-                    )}
+                    <PlaceChipActionCamera onClick={openCamera} />
                 </HStack>
             </VStack>
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
