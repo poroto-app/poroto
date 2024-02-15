@@ -110,13 +110,35 @@ export const PlaceChipActionGoogleMaps = ({
 export const PlaceChipActionCamera = ({
     onClick,
 }: {
-    onClick: OnClickHandler;
+    onClick?: OnClickHandler;
 }) => {
+    const handleFileInput = (event: Event) => {
+        const target = event.target as HTMLInputElement;
+        const file = target.files.length > 0 && target.files[0];
+        if (file) {
+            console.log("Selected file:", file);
+        }
+    };
+
+    const openCamera = () => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        input.capture = "environment";
+        input.onchange = handleFileInput;
+        input.click();
+    };
+
+    const handleClick = () => {
+        openCamera();
+        onClick();
+    };
+
     return (
         <PlaceChipContextAction
             label="写真を撮る"
             icon={MdOutlineCameraAlt}
-            onClick={onClick}
+            onClick={handleClick}
         />
     );
 };

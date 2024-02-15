@@ -91,23 +91,6 @@ export const PlacePreview = ({
         onUpdateLikeAtPlace?.({ like: !like, placeId });
     };
 
-    const handleFileInput = (event: Event) => {
-        const target = event.target as HTMLInputElement;
-        const file = target.files && target.files[0];
-        if (file) {
-            console.log("Selected file:", file);
-        }
-    };
-
-    const openCamera = () => {
-        const input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        input.capture = "environment";
-        input.onchange = handleFileInput;
-        input.click();
-    };
-
     if (isEmptyLocation) {
         return (
             <Container p="16px" w="100%">
@@ -191,7 +174,7 @@ export const PlacePreview = ({
                         <PlaceChipActionDelete onClick={onClickDeletePlace} />
                     )}
                     {process.env.APP_ENV !== "production" && (
-                        <PlaceChipActionCamera onClick={openCamera} />
+                        <PlaceChipActionCamera />
                     )}
                 </HStack>
             </VStack>
