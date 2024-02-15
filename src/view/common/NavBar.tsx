@@ -42,13 +42,11 @@ export const NavBar = ({ canGoBack, defaultPath }: Props) => {
             canGoBack={canGoBack}
             onBack={handleOnBack}
             userComponent={
-                process.env.APP_ENV !== "production" && (
-                    <NavBarUser
-                        user={user}
-                        onLogin={signInWithGoogle}
-                        onLogout={logout}
-                    />
-                )
+                <NavBarUser
+                    user={user}
+                    onLogin={signInWithGoogle}
+                    onLogout={logout}
+                />
             }
         />
     );
