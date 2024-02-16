@@ -6,6 +6,7 @@ import { MdArrowBack } from "react-icons/md";
 import { reduxHistorySelector } from "src/redux/history";
 import AppLogoImage from "src/view/assets/svg/horizontal.svg";
 import { Routes } from "src/view/constants/router";
+import { Size } from "src/view/constants/size";
 import { useAuth } from "src/view/hooks/useAuth";
 import { NavBarUser } from "src/view/user/NavBarUser";
 import styled from "styled-components";
@@ -41,13 +42,11 @@ export const NavBar = ({ canGoBack, defaultPath }: Props) => {
             canGoBack={canGoBack}
             onBack={handleOnBack}
             userComponent={
-                process.env.APP_ENV !== "production" && (
-                    <NavBarUser
-                        user={user}
-                        onLogin={signInWithGoogle}
-                        onLogout={logout}
-                    />
-                )
+                <NavBarUser
+                    user={user}
+                    onLogin={signInWithGoogle}
+                    onLogout={logout}
+                />
             }
         />
     );
@@ -93,7 +92,7 @@ const Container = styled.div`
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 8px 16px;
     font-size: 0.95rem;
-    height: 50px;
+    height: ${Size.NavBar.height};
     width: 100%;
 `;
 

@@ -1,6 +1,6 @@
 # SEE: https://cloud.google.com/appengine/docs/standard/go/config/appref?hl=ja
 service: poroto-staging
-runtime: nodejs18
+runtime: nodejs20
 
 handlers:
   - url: /.*

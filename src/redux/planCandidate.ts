@@ -17,15 +17,11 @@ import { RootState } from "src/redux/redux";
 
 export type PlanCandidateState = {
     createPlanSession: string | null;
+    planIdPreview: string | null;
     likedPlaceIds: string[] | null;
     createdBasedOnCurrentLocation: boolean | null;
     plansCreated: Plan[] | null;
     placesAvailableForPlan: Place[] | null;
-
-    // TODO: 取得中か存在しないのかを見分けられるようにする
-    //  （画面に大きく依存するもののため、専用のsliceを作成する）
-    // TODO: preview id等で対象のplan idを指定し、`plansCreated`の更新に反応できるようにする
-    preview: Plan | null;
 
     categoryCandidates: LocationCategoryWithPlace[] | null;
     categoriesAccepted: LocationCategory[] | null;
@@ -52,7 +48,7 @@ const initialState: PlanCandidateState = {
     likedPlaceIds: null,
     plansCreated: null,
     placesAvailableForPlan: null,
-    preview: null,
+    planIdPreview: null,
 
     categoryCandidates: null,
     categoriesAccepted: null,
@@ -344,14 +340,13 @@ export const slice = createSlice({
                 payload.createdBasedOnCurrentLocation;
             state.likedPlaceIds = [];
         },
-        fetchPlanDetail: (
+        updatePreviewPlanId: (
             state,
             { payload }: PayloadAction<{ planId: string }>
         ) => {
+            // TODO: updatePreviewPlanId みたいな名前にする
             if (!state.plansCreated) return;
-            state.preview = state.plansCreated.find(
-                (plan) => plan.id === payload.planId
-            );
+            state.planIdPreview = payload.planId;
         },
 
         updatePlanOfPlanCandidate: (
@@ -365,9 +360,6 @@ export const slice = createSlice({
             if (planIndexToUpdate < 0) return;
 
             state.plansCreated[planIndexToUpdate] = payload.plan;
-            if (state.preview?.id === payload.plan.id) {
-                state.preview = payload.plan;
-            }
         },
 
         pushAcceptedCategory: (
@@ -413,7 +405,7 @@ export const slice = createSlice({
             state.placesAvailableForPlan = null;
             state.likedPlaceIds = null;
 
-            state.preview = null;
+            state.planIdPreview = null;
 
             state.categoryCandidates = null;
             state.categoriesRejected = null;
@@ -436,15 +428,23 @@ export const slice = createSlice({
             state,
             { payload }: PayloadAction<{ placeIds: string[] }>
         ) => {
-            if (!state.preview) return;
+            if (!state.planIdPreview || !state.plansCreated) return;
 
-            const isContainsAllPlacesIds = state.preview.places.some(
-                (place) => !payload.placeIds.includes(place.id)
+            const planIndexToUpdate = state.plansCreated.findIndex(
+                (plan) => plan.id === state.planIdPreview
             );
+            if (planIndexToUpdate < 0) return;
+
+            const isContainsAllPlacesIds = state.plansCreated[
+                planIndexToUpdate
+            ].places.some((place) => !payload.placeIds.includes(place.id));
             if (isContainsAllPlacesIds) return;
 
-            state.preview.places = payload.placeIds.map((placeId) =>
-                state.preview.places.find((place) => place.id === placeId)
+            state.plansCreated[planIndexToUpdate].places = payload.placeIds.map(
+                (placeId) =>
+                    state.plansCreated[planIndexToUpdate].places.find(
+                        (place) => place.id === placeId
+                    )
             );
         },
     },
@@ -543,7 +543,6 @@ export const slice = createSlice({
                     if (planIndexToUpdate < 0) return;
 
                     state.plansCreated[planIndexToUpdate] = payload.plan;
-                    state.preview = payload.plan;
                 }
             )
             // Update Like At Place In Plan Candidate
@@ -561,11 +560,6 @@ export const slice = createSlice({
                         RequestStatuses.FULFILLED;
                     state.plansCreated = plans;
                     state.likedPlaceIds = likedPlaceIds;
-
-                    // TODO: previewはplansCreatedを更新すると自動的に更新されるようにする
-                    state.preview =
-                        plans.find((plan) => plan.id === state.preview?.id) ??
-                        null;
                 }
             )
             .addCase(
@@ -642,7 +636,7 @@ export const slice = createSlice({
 });
 
 export const {
-    fetchPlanDetail,
+    updatePreviewPlanId,
 
     setCreatedPlans,
     updatePlanOfPlanCandidate,
@@ -660,7 +654,19 @@ export const {
 
 const { reorderPlacesInPreview } = slice.actions;
 
-export const reduxPlanCandidateSelector = () =>
-    useSelector((state: RootState) => state.planCandidate);
+export const reduxPlanCandidateSelector = () => {
+    const planCandidateState = useSelector(
+        (state: RootState) => state.planCandidate
+    );
+
+    const planCandidatePreview = planCandidateState.plansCreated?.find(
+        (plan) => plan.id === planCandidateState.planIdPreview
+    );
+
+    return {
+        ...planCandidateState,
+        preview: planCandidatePreview,
+    };
+};
 
 export const planCandidateReducer = slice.reducer;

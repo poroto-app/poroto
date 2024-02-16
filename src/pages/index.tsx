@@ -41,6 +41,7 @@ const IndexPage = (props: Props) => {
         nextPageTokenPlansRecentlyCreated,
         plansByUser,
         fetchPlansRecentlyCreatedRequestStatus,
+        fetchPlansByUserRequestStatus,
     } = reduxPlanSelector();
     const { user } = reduxAuthSelector();
 
@@ -85,7 +86,7 @@ const IndexPage = (props: Props) => {
                     pb="48px"
                     spacing="24px"
                 >
-                    {user && (
+                    {plansByUser && plansByUser.length > 0 && (
                         <PlanList plans={plansByUser}>
                             <Text
                                 as="h2"
@@ -130,7 +131,7 @@ const IndexPage = (props: Props) => {
 
 const NearByPlans = () => {
     const dispatch = useAppDispatch();
-    const { plansNearby } = reduxPlanSelector();
+    const { plansNearby, fetchNearbyPlansRequestStatus } = reduxPlanSelector();
     const {
         fetchCurrentLocationStatus,
         isLocationPermissionGranted,
@@ -139,6 +140,8 @@ const NearByPlans = () => {
     } = useLocation();
 
     const handleOnFetchNearByPlans = async () => {
+        // TODO: 現在地取得中のダイアログを表示する
+        // (Arcというブラウザで開くと現在地取得にものすごい時間がかかってずっとプレースホルダーが表示される)
         const currentLocation = await getCurrentLocation();
         if (!currentLocation) return;
         dispatch(fetchNearbyPlans({ currentLocation, limit: 5 }));
@@ -178,7 +181,13 @@ const NearByPlans = () => {
     };
 
     return (
-        <PlanList plans={plansNearby} empty={emptyComponent()}>
+        <PlanList
+            plans={plansNearby}
+            empty={emptyComponent()}
+            isLoading={
+                fetchNearbyPlansRequestStatus === RequestStatuses.PENDING
+            }
+        >
             <PlanListSectionTitle section={PlanSections.NearBy} />
         </PlanList>
     );

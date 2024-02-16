@@ -8,10 +8,10 @@ import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
     autoReorderPlacesInPlanCandidate,
     fetchCachedCreatedPlans,
-    fetchPlanDetail,
     reduxPlanCandidateSelector,
     resetPlanCandidates,
     savePlanFromCandidate,
+    updatePreviewPlanId,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { ErrorPage } from "src/view/common/ErrorPage";
@@ -20,6 +20,8 @@ import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
 import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
+import { Size } from "src/view/constants/size";
+import { isPC } from "src/view/constants/userAgent";
 import { useLocation } from "src/view/hooks/useLocation";
 import { usePlaceLikeInPlanCandidate } from "src/view/hooks/usePlaceLikeInPlanCandidate";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
@@ -28,12 +30,12 @@ import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
-import { PlanPageThumbnail } from "src/view/plan/PlanPageThumbnail";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
-import { PlanPageSectionSummary } from "src/view/plan/section/PlanPageSectionSummary";
 import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
 import { DialogDeletePlace } from "src/view/plancandidate/DialogDeletePlace";
 import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
+import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
+import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
 const PlanDetail = () => {
@@ -110,7 +112,7 @@ const PlanDetail = () => {
     useEffect(() => {
         if (!createPlanSession) return;
         if (planId && typeof planId === "string") {
-            dispatch(fetchPlanDetail({ planId }));
+            dispatch(updatePreviewPlanId({ planId }));
         }
     }, [planId, createPlanSession]);
 
@@ -171,6 +173,21 @@ const PlanDetail = () => {
                     )}
                 />
                 <VStack
+                    w="100%"
+                    minH={
+                        !isPC &&
+                        `calc(100vh - ${Size.NavBar.height} - ${FooterHeight}px)`
+                    }
+                >
+                    <PlanDetailPageHeader
+                        plan={plan}
+                        likedPlaceIds={likedPlaceIdsInPlanCandidate}
+                        onUpdateLikePlace={(placeId, isLiked) =>
+                            updateLikeAtPlace({ placeId, like: isLiked })
+                        }
+                    />
+                </VStack>
+                <VStack
                     maxWidth="990px"
                     w="100%"
                     px="0"
@@ -178,11 +195,12 @@ const PlanDetail = () => {
                     spacing="16px"
                     boxSizing="border-box"
                 >
-                    <PlanPageThumbnail plan={plan} />
-                    <PlanPageSectionSummary
-                        planDurationInMinutes={plan.timeInMinutes}
-                        planRange={getPlanPriceRange(plan.places)}
-                    />
+                    <PlanPageSection title="プランの情報">
+                        <PlanInfoSection
+                            durationInMinutes={plan.timeInMinutes}
+                            priceRange={getPlanPriceRange(plan.places)}
+                        />
+                    </PlanPageSection>
                     <PlanPageSection title="プラン">
                         <PlanPlaceList
                             plan={plan}
