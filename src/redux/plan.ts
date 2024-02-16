@@ -16,7 +16,6 @@ export type PlanState = {
     nextPageTokenPlansRecentlyCreated: string | null;
 
     plansNearby: Plan[] | null;
-    plansNearbyRequestStatus: RequestStatus | null;
     nextPageTokenPlansNearby: string | null;
 
     plansByUser: Plan[] | null;
@@ -27,6 +26,7 @@ export type PlanState = {
     showPlanCreatedModal: boolean;
 
     fetchPlansRecentlyCreatedRequestStatus: RequestStatus | null;
+    fetchNearbyPlansRequestStatus: RequestStatus | null;
     fetchPlanRequestStatus: RequestStatus | null;
     fetchPlansByUserRequestStatus: RequestStatus | null;
 };
@@ -36,7 +36,6 @@ const initialState: PlanState = {
     nextPageTokenPlansRecentlyCreated: null,
 
     plansNearby: null,
-    plansNearbyRequestStatus: null,
     nextPageTokenPlansNearby: null,
 
     plansByUser: null,
@@ -46,6 +45,7 @@ const initialState: PlanState = {
     showPlanCreatedModal: false,
 
     fetchPlansRecentlyCreatedRequestStatus: null,
+    fetchNearbyPlansRequestStatus: null,
     fetchPlanRequestStatus: null,
     fetchPlansByUserRequestStatus: null,
 };
@@ -209,19 +209,19 @@ export const slice = createSlice({
                     RequestStatuses.REJECTED;
             })
             // Fetch Nearby Plans
-            .addCase(fetchNearbyPlans.pending, (state) => {
-                state.plansNearbyRequestStatus = RequestStatuses.PENDING;
+            .addCase(fetchNearbyPlans.pending, (state, action) => {
+                state.fetchNearbyPlansRequestStatus = RequestStatuses.PENDING;
             })
             .addCase(fetchNearbyPlans.fulfilled, (state, { payload }) => {
-                state.plansNearbyRequestStatus = RequestStatuses.FULFILLED;
+                state.fetchNearbyPlansRequestStatus = RequestStatuses.FULFILLED;
                 if (!payload) return;
 
                 if (state.plansNearby === null) state.plansNearby = [];
                 state.plansNearby.push(...payload.plans);
                 state.nextPageTokenPlansNearby = payload.nextPageToken;
             })
-            .addCase(fetchNearbyPlans.rejected, (state) => {
-                state.plansNearbyRequestStatus = RequestStatuses.REJECTED;
+            .addCase(fetchNearbyPlans.rejected, (state, action) => {
+                state.fetchNearbyPlansRequestStatus = RequestStatuses.REJECTED;
             });
     },
 });

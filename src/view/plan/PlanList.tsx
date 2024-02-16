@@ -9,24 +9,23 @@ import { AdInPlanList } from "../ad/AdInPlanList";
 
 type Props = {
     children?: ReactNode;
+    isLoading?: boolean;
     plans: Plan[] | null;
     empty?: ReactNode;
 };
 
-export function PlanList({ plans, children, empty }: Props) {
+export function PlanList({ plans, isLoading = false, children, empty }: Props) {
     return (
         <VStack w="100%" spacing={4} alignItems="center">
             {children}
-            {plans === null || plans.length === 0 ? (
-                empty ? (
-                    empty
-                ) : (
-                    <GridLayout>
-                        {createArrayWithSize(6).map((i) => (
-                            <PlanPreview key={i} plan={null} />
-                        ))}
-                    </GridLayout>
-                )
+            {!plans || isLoading ? (
+                <GridLayout>
+                    {createArrayWithSize(6).map((i) => (
+                        <PlanPreview key={i} plan={null} />
+                    ))}
+                </GridLayout>
+            ) : plans.length === 0 && empty ? (
+                empty
             ) : (
                 <GridLayout>
                     {plans.map((plan, index) => (
