@@ -107,14 +107,10 @@ export const PlaceChipActionGoogleMaps = ({
     );
 };
 
-export const PlaceChipActionCamera = ({
-    onClick,
-}: {
-    onClick?: OnClickHandler;
-}) => {
+export const PlaceChipActionCamera = () => {
     const handleFileInput = (event: Event) => {
         const target = event.target as HTMLInputElement;
-        const file = target.files.length > 0 && target.files[0];
+        const file = target.files?.length > 0 && target.files[0];
         if (file) {
             console.log("Selected file:", file);
         }
@@ -131,7 +127,6 @@ export const PlaceChipActionCamera = ({
 
     const handleClick = () => {
         openCamera();
-        onClick();
     };
 
     return (
