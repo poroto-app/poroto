@@ -50,5 +50,5 @@ export const GoogleMaps: Story = {
 };
 
 export const Camera: Story = {
-    render: (args) => <PlaceChipActionCamera onClick={() => 0} {...args} />,
+    render: () => <PlaceChipActionCamera />,
 };

@@ -107,16 +107,30 @@ export const PlaceChipActionGoogleMaps = ({
     );
 };
 
-export const PlaceChipActionCamera = ({
-    onClick,
-}: {
-    onClick: OnClickHandler;
-}) => {
+export const PlaceChipActionCamera = () => {
+    const handleFileInput = (event: Event) => {
+        const target = event.target as HTMLInputElement;
+        const file = target.files?.length > 0 && target.files[0];
+        if (file) {
+            console.log("Selected file:", file);
+        }
+    };
+
+    const openCamera = () => {
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = "image/*";
+        // MEMO: カメラが利用できる場合は、カメラを起動する。利用できない場合はファイル選択ダイアログを表示する。
+        input.capture = "environment";
+        input.onchange = handleFileInput;
+        input.click();
+    };
+
     return (
         <PlaceChipContextAction
             label="写真を撮る"
             icon={MdOutlineCameraAlt}
-            onClick={onClick}
+            onClick={openCamera}
         />
     );
 };
