@@ -1,12 +1,12 @@
 import { Link } from "@chakra-ui/next-js";
-import { HStack, Icon, Text } from "@chakra-ui/react";
+import { HStack,Icon,Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import {
-    MdOutlineCameraAlt,
-    MdOutlineDeleteOutline,
-    MdOutlineFindReplace,
+MdOutlineCameraAlt,
+MdOutlineDeleteOutline,
+MdOutlineFindReplace
 } from "react-icons/md";
-import { SiGooglemaps, SiInstagram } from "react-icons/si";
+import { SiGooglemaps,SiInstagram } from "react-icons/si";
 import { OnClickHandler } from "src/view/types/handler";
 
 type Props = {
@@ -120,20 +120,17 @@ export const PlaceChipActionCamera = () => {
         const input = document.createElement("input");
         input.type = "file";
         input.accept = "image/*";
+        // MEMO: カメラが利用できる場合は、カメラを起動する。利用できない場合はファイル選択ダイアログを表示する。
         input.capture = "environment";
         input.onchange = handleFileInput;
         input.click();
-    };
-
-    const handleClick = () => {
-        openCamera();
     };
 
     return (
         <PlaceChipContextAction
             label="写真を撮る"
             icon={MdOutlineCameraAlt}
-            onClick={handleClick}
+            onClick={openCamera}
         />
     );
 };
