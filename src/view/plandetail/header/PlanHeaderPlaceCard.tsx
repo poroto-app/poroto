@@ -26,24 +26,33 @@ export function PlanHeaderPlaceCard({
             />
             <HStack
                 position="absolute"
-                backgroundColor="white"
-                borderRadius="5px"
-                px="4px"
-                py="2px"
-                top="16px"
-                left="16px"
-                userSelect="none"
+                top={0}
+                left={0}
+                right={0}
+                p="16px"
+                alignItems="flex-start"
+                justifyContent="space-between"
             >
-                <Icon as={MdLocationOn} color="#E1A766" />
-                <Text fontSize="14px">{place.name}</Text>
+                <HStack
+                    backgroundColor="white"
+                    borderRadius="5px"
+                    px="4px"
+                    py="2px"
+                    top="16px"
+                    left="16px"
+                    userSelect="none"
+                >
+                    <Icon as={MdLocationOn} color="#E1A766" />
+                    <Text fontSize="14px">{place.name}</Text>
+                </HStack>
+                <Box>
+                    <PlaceLikeButton
+                        isLiked={isLiked}
+                        likeCount={likeCount}
+                        onUpdateLike={onUpdateLike}
+                    />
+                </Box>
             </HStack>
-            <Box position="absolute" top={0} right={0} px="16px" py="16px">
-                <PlaceLikeButton
-                    isLiked={isLiked}
-                    likeCount={likeCount}
-                    onUpdateLike={onUpdateLike}
-                />
-            </Box>
         </Box>
     );
 }
