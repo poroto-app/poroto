@@ -39,7 +39,7 @@ export const PlaceImageGallery = ({
                 scale={5}
                 margin={4}
                 blur={5}
-                contrast={500}
+                contrast={120}
                 src={getImageSizeOf(
                     ImageSizes.Large,
                     places[currentPage].images[0]
