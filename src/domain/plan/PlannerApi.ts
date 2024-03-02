@@ -20,6 +20,10 @@ export interface PlannerApi {
         request: FetchPlansByLocationRequest
     ): Promise<FetchPlansByLocationResponse>;
 
+    updateLikeOfPlaceInPlan(
+        request: UpdateLikeOfPlaceInPlan
+    ): Promise<UpdateLikeOfPlaceInPlanResponse>;
+
     // ==============================================================
     // Plan Candidate
     // ==============================================================
@@ -122,6 +126,19 @@ export type FetchPlansByLocationRequest = {
 export type FetchPlansByLocationResponse = {
     pageKey: string | null;
     plans: PlanEntity[];
+};
+
+export type UpdateLikeOfPlaceInPlan = {
+    userId: string;
+    firebaseIdToken: string;
+    planId: string;
+    placeId: string;
+    like: boolean;
+};
+
+export type UpdateLikeOfPlaceInPlanResponse = {
+    plan: PlanEntity;
+    likePlaceIds: string[];
 };
 
 export type FetchAvailablePlacesForPlanRequest = {
