@@ -487,6 +487,8 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                     planCandidateId: request.planCandidateId,
                     placeId: request.placeId,
                     like: request.like,
+                    userId: request.userId,
+                    firebaseAuthToken: request.firebaseIdToken,
                 },
             },
         });

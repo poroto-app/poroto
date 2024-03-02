@@ -301,6 +301,8 @@ export const updateLikeAtPlaceInPlanCandidate = createAsyncThunk(
                 planCandidateId,
                 placeId,
                 like,
+                userId,
+                firebaseIdToken,
             });
         return {
             likedPlaceIds,

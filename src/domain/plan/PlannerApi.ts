@@ -297,6 +297,8 @@ export type UpdateLikeAtPlaceInPlanCandidateRequest = {
     planCandidateId: string;
     placeId: string;
     like: boolean;
+    userId: string | null;
+    firebaseIdToken: string | null;
 };
 
 export type UpdateLikeAtPlaceInPlanCandidateResponse = {
