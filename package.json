@@ -56,7 +56,7 @@
   "devDependencies": {
     "@babel/core": "^7.23.2",
     "@graphql-codegen/cli": "5.0.0",
-    "@graphql-codegen/client-preset": "^4.1.0",
+    "@graphql-codegen/client-preset": "^4.2.4",
     "@graphql-codegen/introspection": "4.0.0",
     "@graphql-codegen/typed-document-node": "^5.0.1",
     "@graphql-codegen/typescript": "^4.0.1",
