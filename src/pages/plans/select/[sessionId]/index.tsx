@@ -44,6 +44,15 @@ const SelectPlanPage = () => {
 
     useEffect(() => {
         if (!sessionId || typeof sessionId !== "string") return;
+
+        // プランを作成している場合は何もしない
+        if (
+            createPlanFromPlaceRequestStatus === RequestStatuses.PENDING ||
+            createPlanFromLocationRequestStatus === RequestStatuses.PENDING
+        ) {
+            return;
+        }
+
         dispatch(
             fetchCachedCreatedPlans({
                 session: sessionId,
@@ -51,7 +60,13 @@ const SelectPlanPage = () => {
                 firebaseIdToken,
             })
         );
-    }, [sessionId, plansCreated, user?.id, firebaseIdToken]);
+    }, [
+        sessionId,
+        user?.id,
+        firebaseIdToken,
+        createPlanFromPlaceRequestStatus,
+        createPlanFromLocationRequestStatus,
+    ]);
 
     // プラン作成の候補地を取得
     useEffect(() => {
