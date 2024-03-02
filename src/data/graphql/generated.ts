@@ -370,7 +370,9 @@ export type PlanCandidate = {
 };
 
 export type PlanCandidateInput = {
+  firebaseAuthToken?: InputMaybe<Scalars['String']['input']>;
   planCandidateId: Scalars['ID']['input'];
+  userId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type PlanCandidateOutput = {
