@@ -99,12 +99,29 @@ const PlanDetail = () => {
         if (!currentLocation) getCurrentLocation().then();
     }, [currentLocation]);
 
-    // プラン候補のキャッシュが存在しない場合は取得する
     useEffect(() => {
         if (!sessionId || typeof sessionId !== "string") {
             return;
         }
 
+        // プラン候補のキャッシュが存在しない場合は取得する
+        if(!plan) {
+            dispatch(
+                fetchCachedCreatedPlans({
+                    session: sessionId,
+                    userId: user?.id,
+                    firebaseIdToken,
+                })
+            );
+        }
+    }, [sessionId, plan?.id]);
+
+    useEffect(() => {
+        if (!sessionId || typeof sessionId !== "string") {
+            return;
+        }
+
+        // ログイン状態が変化したら、必ずプラン候補を取得する
         dispatch(
             fetchCachedCreatedPlans({
                 session: sessionId,
@@ -112,7 +129,7 @@ const PlanDetail = () => {
                 firebaseIdToken,
             })
         );
-    }, [sessionId, createPlanSession, user?.id, firebaseIdToken]);
+    }, [planId, user?.id, firebaseIdToken]);
 
     // プランの詳細を取得する
     useEffect(() => {
