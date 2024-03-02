@@ -24,6 +24,7 @@ import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSec
 import { GeneratingPlanDialog } from "src/view/plan/candidate/GeneratingPlanDialog";
 import { PlanCandidatesGallery } from "src/view/plancandidate/PlanCandidatesGallery";
 
+// TODO: 編集途中でログインした場合は、いいねした場所を引き継げるようにする
 const SelectPlanPage = () => {
     const dispatch = useAppDispatch();
     const {
