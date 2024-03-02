@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { reduxAuthSelector } from "src/redux/auth";
 import {
     fetchPlan,
     reduxPlanSelector,
@@ -28,9 +29,11 @@ import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
+    const { user, firebaseIdToken } = reduxAuthSelector();
     const dispatch = useAppDispatch();
     const {
         preview: plan,
+        likePlaceIds,
         fetchPlanRequestStatus,
         showPlanCreatedModal,
     } = reduxPlanSelector();
@@ -51,18 +54,26 @@ export default function PlanPage() {
 
     useEffect(() => {
         if (typeof id !== "string") return;
-        dispatch(fetchPlan({ planId: id }));
+        dispatch(
+            fetchPlan({
+                planId: id,
+                userId: user?.id,
+                firebaseIdToken: firebaseIdToken,
+            })
+        );
 
         return () => {
             // 他のページに遷移するときにモーダルを閉じる
             // (戻るボタンでトップページに遷移したときの対応)
             dispatch(setShowPlanCreatedModal(false));
         };
-    }, [id]);
+    }, [id, user?.id, firebaseIdToken]);
 
     if (
         !fetchPlanRequestStatus ||
-        fetchPlanRequestStatus === RequestStatuses.PENDING
+        (fetchPlanRequestStatus === RequestStatuses.PENDING &&
+            // プランを取得したあとで、同じプランを再取得したときに画面がロード中になるのを防ぐ
+            plan?.id !== id)
     )
         return <LoadingModal title="プランを読み込んでいます" />;
 
@@ -83,8 +94,7 @@ export default function PlanPage() {
             >
                 <PlanDetailPageHeader
                     plan={plan}
-                    /*TODO: ログインユーザーがLIKEした場所を反映できるようにする*/
-                    likedPlaceIds={[]}
+                    likedPlaceIds={likePlaceIds}
                     /*TODO: 非ログインユーザーの場合はログインを促すダイアログを表示する*/
                     onUpdateLikePlace={() => 0}
                     onCopyPlanUrl={handleOnCopyPlanUrl}
@@ -107,7 +117,11 @@ export default function PlanPage() {
                 </PlanPageSection>
                 <PlanPageSection title="プラン">
                     {/*TODO: ログインユーザーがLIKEした場所を反映できるようにする*/}
-                    <PlanPlaceList plan={plan} likePlaceIds={[]} />
+                    <PlanPlaceList
+                        plan={plan}
+                        likePlaceIds={likePlaceIds}
+                        onUpdateLikeAtPlace={() => 0}
+                    />
                 </PlanPageSection>
                 <PlanPageSection title="プラン内の場所">
                     <PlaceMap places={plan.places} />
