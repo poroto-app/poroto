@@ -143,17 +143,23 @@ export const createPlanFromPlace = createAsyncThunk(
     }
 );
 
-type FetchCachedCreatedPlansProps = { session: string };
+type FetchCachedCreatedPlansProps = {
+    session: string;
+    userId: string | null;
+    firebaseIdToken: string | null;
+};
 export const fetchCachedCreatedPlans = createAsyncThunk(
     "planCandidate/fetchCachedCreatedPlans",
-    async ({ session }: FetchCachedCreatedPlansProps, { getState }) => {
-        // すでに取得している場合はスキップ
-        const { createPlanSession } = (getState() as RootState).planCandidate;
-        if (createPlanSession && session === createPlanSession) return null;
-
+    async ({
+        session,
+        userId,
+        firebaseIdToken,
+    }: FetchCachedCreatedPlansProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.fetchCachedCreatedPlans({
             planCandidateId: session,
+            userId,
+            firebaseIdToken,
         });
         if (response.plans === null) {
             return {
@@ -277,6 +283,8 @@ type UpdateLikeAtPlaceInPlanCandidateProps = {
     planCandidateId: string;
     placeId: string;
     like: boolean;
+    userId: string | null;
+    firebaseIdToken: string | null;
 };
 export const updateLikeAtPlaceInPlanCandidate = createAsyncThunk(
     "planCandidate/updateLikeAtPlaceInPlanCandidate",
@@ -284,6 +292,8 @@ export const updateLikeAtPlaceInPlanCandidate = createAsyncThunk(
         planCandidateId,
         placeId,
         like,
+        userId,
+        firebaseIdToken,
     }: UpdateLikeAtPlaceInPlanCandidateProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const { plans, likedPlaceIds } =

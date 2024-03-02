@@ -179,6 +179,8 @@ export type CreatePlanFromPlaceResponse = {
 
 export type FetchCachedCreatedPlansRequest = {
     planCandidateId: string;
+    userId: string | null;
+    firebaseIdToken: string | null;
 };
 
 export type FetchCachedCreatedPlansResponse = {

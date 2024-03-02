@@ -259,6 +259,8 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             variables: {
                 input: {
                     planCandidateId: request.planCandidateId,
+                    userId: request.userId,
+                    firebaseAuthToken: request.firebaseIdToken,
                 },
             },
         });

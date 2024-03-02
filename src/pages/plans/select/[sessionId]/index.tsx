@@ -3,6 +3,7 @@ import { Box, Center, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { reduxAuthSelector } from "src/redux/auth";
 import {
     createPlanFromPlace,
     fetchAvailablePlacesForPlan,
@@ -34,6 +35,7 @@ const SelectPlanPage = () => {
         createPlanFromLocationRequestStatus,
         createPlanFromPlaceRequestStatus,
     } = reduxPlanCandidateSelector();
+    const { user, firebaseIdToken } = reduxAuthSelector();
 
     const router = useRouter();
     const { sessionId } = router.query;
@@ -41,12 +43,15 @@ const SelectPlanPage = () => {
     const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        // ページをリロードしたときのみキャッシュを取得する
         if (!sessionId || typeof sessionId !== "string") return;
-        if (!plansCreated) {
-            dispatch(fetchCachedCreatedPlans({ session: sessionId }));
-        }
-    }, [sessionId, plansCreated]);
+        dispatch(
+            fetchCachedCreatedPlans({
+                session: sessionId,
+                userId: user?.id,
+                firebaseIdToken,
+            })
+        );
+    }, [sessionId, plansCreated, user?.id, firebaseIdToken]);
 
     // プラン作成の候補地を取得
     useEffect(() => {
