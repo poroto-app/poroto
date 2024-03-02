@@ -105,7 +105,7 @@ const PlanDetail = () => {
         }
 
         // プラン候補のキャッシュが存在しない場合は取得する
-        if(!plan) {
+        if (!plan) {
             dispatch(
                 fetchCachedCreatedPlans({
                     session: sessionId,
