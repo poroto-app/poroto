@@ -86,10 +86,13 @@ export interface PlannerApi {
 
 export type FetchPlanRequest = {
     planId: string;
+    userId: string | null;
+    firebaseIdToken: string | null;
 };
 
 export type FetchPlanResponse = {
     plan: PlanEntity | null;
+    likedPlaceIds: string[];
 };
 
 export type FetchPlansRequest = {

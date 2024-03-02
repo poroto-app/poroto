@@ -8,6 +8,7 @@ import {
     EditPlanTitleOfPlanCandidateDocument,
     FetchAvailablePlacesForPlanCandidateDocument,
     FetchPlanByIdDocument,
+    FetchPlanByIdWithUserDocument,
     FetchPlansDocument,
     NearbyPlaceCategoriesDocument,
     PlaceFullFragmentFragment,
@@ -65,19 +66,43 @@ import {
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse> {
+        if (!request.userId || !request.firebaseIdToken) {
+            const { data } = await this.client.query({
+                query: FetchPlanByIdDocument,
+                variables: {
+                    input: {
+                        planID: request.planId,
+                    },
+                },
+            });
+            return {
+                plan:
+                    data.plan !== null
+                        ? fromGraphqlPlanEntity(data.plan.plan)
+                        : null,
+                likedPlaceIds: [],
+            };
+        }
+
         const { data } = await this.client.query({
-            query: FetchPlanByIdDocument,
+            query: FetchPlanByIdWithUserDocument,
             variables: {
-                input: {
+                planInput: {
                     planID: request.planId,
+                },
+                likePlacesInput: {
+                    userId: request.userId,
+                    firebaseAuthToken: request.firebaseIdToken,
                 },
             },
         });
+
         return {
             plan:
                 data.plan !== null
                     ? fromGraphqlPlanEntity(data.plan.plan)
                     : null,
+            likedPlaceIds: data.likePlaces.map((place) => place.id),
         };
     }
 
