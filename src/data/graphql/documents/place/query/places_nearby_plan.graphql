@@ -1,0 +1,7 @@
+query PlacesNearbyPlan($input: PlacesNearPlanInput!) {
+    placesNearPlan(input: $input) {
+        places {
+            ...PlaceFullFragment
+        }
+    }
+}
