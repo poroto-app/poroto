@@ -168,14 +168,29 @@ export enum ImageSize {
 }
 
 export type LikeToPlaceInPlanCandidateInput = {
+  firebaseAuthToken?: InputMaybe<Scalars['String']['input']>;
   like: Scalars['Boolean']['input'];
   placeId: Scalars['String']['input'];
   planCandidateId: Scalars['String']['input'];
+  userId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type LikeToPlaceInPlanCandidateOutput = {
   __typename?: 'LikeToPlaceInPlanCandidateOutput';
   planCandidate: PlanCandidate;
+};
+
+export type LikeToPlaceInPlanInput = {
+  firebaseAuthToken: Scalars['String']['input'];
+  like: Scalars['Boolean']['input'];
+  placeId: Scalars['String']['input'];
+  planId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
+export type LikeToPlaceInPlanOutput = {
+  __typename?: 'LikeToPlaceInPlanOutput';
+  plan: Plan;
 };
 
 export type LocationCategory = {
@@ -195,10 +210,12 @@ export type Mutation = {
   createPlanByPlace: CreatePlanByPlaceOutput;
   deletePlaceFromPlanCandidate: DeletePlaceFromPlanCandidateOutput;
   editPlanTitleOfPlanCandidate: EditPlanTitleOfPlanCandidateOutput;
+  likeToPlaceInPlan: LikeToPlaceInPlanOutput;
   likeToPlaceInPlanCandidate: LikeToPlaceInPlanCandidateOutput;
   ping: Scalars['String']['output'];
   replacePlaceOfPlanCandidate: ReplacePlaceOfPlanCandidateOutput;
   savePlanFromCandidate: SavePlanFromCandidateOutput;
+  uploadPlacePhotoInPlan: UploadPlacePhotoInPlanOutput;
 };
 
 
@@ -237,6 +254,11 @@ export type MutationEditPlanTitleOfPlanCandidateArgs = {
 };
 
 
+export type MutationLikeToPlaceInPlanArgs = {
+  input: LikeToPlaceInPlanInput;
+};
+
+
 export type MutationLikeToPlaceInPlanCandidateArgs = {
   input: LikeToPlaceInPlanCandidateInput;
 };
@@ -254,6 +276,11 @@ export type MutationReplacePlaceOfPlanCandidateArgs = {
 
 export type MutationSavePlanFromCandidateArgs = {
   input: SavePlanFromCandidateInput;
+};
+
+
+export type MutationUploadPlacePhotoInPlanArgs = {
+  inputs: Array<UploadPlacePhotoInPlanInput>;
 };
 
 export type NearbyLocationCategory = {
@@ -293,6 +320,16 @@ export type PlaceCategory = {
   __typename?: 'PlaceCategory';
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
+};
+
+export type PlacesNearPlanInput = {
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  planId: Scalars['ID']['input'];
+};
+
+export type PlacesNearPlanOutput = {
+  __typename?: 'PlacesNearPlanOutput';
+  places: Array<Place>;
 };
 
 export type PlacesToAddForPlanCandidateInput = {
@@ -400,6 +437,7 @@ export type Query = {
   availablePlacesForPlan: AvailablePlacesForPlan;
   firebaseUser: User;
   nearbyPlaceCategories: NearbyPlaceCategoryOutput;
+  placesNearPlan: PlacesNearPlanOutput;
   placesToAddForPlanCandidate: PlacesToAddForPlanCandidateOutput;
   placesToReplaceForPlanCandidate: PlacesToReplaceForPlanCandidateOutput;
   plan: PlanOutput;
@@ -423,6 +461,11 @@ export type QueryFirebaseUserArgs = {
 
 export type QueryNearbyPlaceCategoriesArgs = {
   input: NearbyPlaceCategoriesInput;
+};
+
+
+export type QueryPlacesNearPlanArgs = {
+  input: PlacesNearPlanInput;
 };
 
 
@@ -491,6 +534,20 @@ export type Transition = {
   to: Place;
 };
 
+export type UploadPlacePhotoInPlanInput = {
+  height: Scalars['Int']['input'];
+  photoUrl: Scalars['String']['input'];
+  placeId: Scalars['String']['input'];
+  planId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+  width: Scalars['Int']['input'];
+};
+
+export type UploadPlacePhotoInPlanOutput = {
+  __typename?: 'UploadPlacePhotoInPlanOutput';
+  plan: Plan;
+};
+
 export type User = {
   __typename?: 'User';
   id: Scalars['ID']['output'];
@@ -523,8 +580,8 @@ export type FetchPlanByIdQuery = { __typename?: 'Query', plan: { __typename?: 'P
 export type PlansByLocationQueryVariables = Exact<{
   latitude: Scalars['Float']['input'];
   longitude: Scalars['Float']['input'];
-  limit?: Maybe<Scalars['Int']['input']>;
-  pageKey?: Maybe<Scalars['String']['input']>;
+  limit?: InputMaybe<Scalars['Int']['input']>;
+  pageKey?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
@@ -590,7 +647,7 @@ export type ReplacePlaceOfPlanCandidateMutation = { __typename?: 'Mutation', rep
 export type SavePlanFromCandidateMutationVariables = Exact<{
   session: Scalars['String']['input'];
   planId: Scalars['String']['input'];
-  authToken?: Maybe<Scalars['String']['input']>;
+  authToken?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 
