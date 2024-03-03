@@ -1,8 +1,10 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
+import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import { GeoLocation } from "src/domain/models/GeoLocation";
+import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import {
     RequestStatus,
@@ -18,6 +20,8 @@ export type PlanState = {
     plansNearby: Plan[] | null;
     nextPageTokenPlansNearby: string | null;
 
+    placesNearbyPlanLocation: Place[] | null;
+
     plansByUser: Plan[] | null;
 
     preview: Plan | null;
@@ -29,6 +33,7 @@ export type PlanState = {
     fetchNearbyPlansRequestStatus: RequestStatus | null;
     fetchPlanRequestStatus: RequestStatus | null;
     fetchPlansByUserRequestStatus: RequestStatus | null;
+    fetchPlacesNearbyPlanLocationRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanState = {
@@ -37,6 +42,8 @@ const initialState: PlanState = {
 
     plansNearby: null,
     nextPageTokenPlansNearby: null,
+
+    placesNearbyPlanLocation: null,
 
     plansByUser: null,
 
@@ -48,6 +55,7 @@ const initialState: PlanState = {
     fetchNearbyPlansRequestStatus: null,
     fetchPlanRequestStatus: null,
     fetchPlansByUserRequestStatus: null,
+    fetchPlacesNearbyPlanLocationRequestStatus: null,
 };
 
 export const fetchPlansRecentlyCreated = createAsyncThunk<{
@@ -127,6 +135,26 @@ export const fetchPlansByUser = createAsyncThunk(
         return {
             plans: response.plans.map((planEntity) =>
                 createPlanFromPlanEntity(planEntity)
+            ),
+        };
+    }
+);
+
+type FetchPlacesNearbyPlanLocationProps = {
+    planId: string;
+    limit: number | null;
+};
+export const fetchPlacesNearbyPlanLocation = createAsyncThunk(
+    "plan/fetchPlacesNearbyPlanLocation",
+    async ({ planId, limit }: FetchPlacesNearbyPlanLocationProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.fetchPlacesNearbyPlanLocation({
+            planId,
+            limit,
+        });
+        return {
+            places: response.places.map((place) =>
+                createPlaceFromPlaceEntity(place)
             ),
         };
     }
@@ -222,7 +250,29 @@ export const slice = createSlice({
             })
             .addCase(fetchNearbyPlans.rejected, (state, action) => {
                 state.fetchNearbyPlansRequestStatus = RequestStatuses.REJECTED;
-            });
+            })
+            // Fetch Places Nearby Plan Location
+            .addCase(fetchPlacesNearbyPlanLocation.pending, (state, action) => {
+                state.fetchPlacesNearbyPlanLocationRequestStatus =
+                    RequestStatuses.PENDING;
+                state.placesNearbyPlanLocation = null;
+            })
+            .addCase(
+                fetchPlacesNearbyPlanLocation.fulfilled,
+                (state, { payload }) => {
+                    state.fetchPlacesNearbyPlanLocationRequestStatus =
+                        RequestStatuses.FULFILLED;
+                    state.placesNearbyPlanLocation = payload.places;
+                }
+            )
+            .addCase(
+                fetchPlacesNearbyPlanLocation.rejected,
+                (state, action) => {
+                    state.fetchPlacesNearbyPlanLocationRequestStatus =
+                        RequestStatuses.REJECTED;
+                    state.placesNearbyPlanLocation = null;
+                }
+            );
     },
 });
 
