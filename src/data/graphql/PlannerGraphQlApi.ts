@@ -11,6 +11,7 @@ import {
     FetchPlansDocument,
     NearbyPlaceCategoriesDocument,
     PlaceFullFragmentFragment,
+    PlacesNearbyPlanDocument,
     PlacesToAddForPlanOfPlanCandidateDocument,
     PlacesToReplaceForPlanOfPlanCandidateDocument,
     PlanCandidateDocument,
@@ -43,6 +44,8 @@ import {
     FetchCachedCreatedPlansResponse,
     FetchNearbyPlaceCategoriesRequest,
     FetchNearbyPlaceCategoriesResponse,
+    FetchPlacesNearbyPlanLocationRequest,
+    FetchPlacesNearbyPlanLocationResponse,
     FetchPlacesToAddForPlanOfPlanCandidateRequest,
     FetchPlacesToAddForPlanOfPlanCandidateResponse,
     FetchPlacesToReplaceForPlanOfPlanCandidateRequest,
@@ -456,6 +459,26 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                 data.autoReorderPlacesInPlanCandidate.planCandidateId,
             plan: fromGraphqlPlanEntity(
                 data.autoReorderPlacesInPlanCandidate.plan
+            ),
+        };
+    }
+
+    async fetchPlacesNearbyPlanLocation(
+        request: FetchPlacesNearbyPlanLocationRequest
+    ): Promise<FetchPlacesNearbyPlanLocationResponse> {
+        const { data } = await this.client.query({
+            query: PlacesNearbyPlanDocument,
+            variables: {
+                input: {
+                    planId: request.planId,
+                    limit: request.limit,
+                },
+            },
+        });
+
+        return {
+            places: data.placesNearPlan.places.map((place) =>
+                fromGraphqlPlaceEntity(place)
             ),
         };
     }
