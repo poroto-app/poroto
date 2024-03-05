@@ -21,7 +21,6 @@ import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButto
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
-import { FooterHeight } from "src/view/plan/PlanFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
 import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
@@ -76,7 +75,7 @@ export default function PlanPage() {
     if (!plan) return <NotFound />;
 
     return (
-        <Center flexDirection="column" pb={`${FooterHeight}px`}>
+        <Center flexDirection="column" pb="32px">
             <Head>
                 <title>{plan.title} | poroto</title>
             </Head>
