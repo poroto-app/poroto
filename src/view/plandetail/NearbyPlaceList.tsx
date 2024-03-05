@@ -5,6 +5,7 @@ import { Place } from "src/domain/models/Place";
 import { createArrayWithSize } from "src/domain/util/array";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { Size } from "src/view/constants/size";
+import { isPC } from "src/view/constants/userAgent";
 
 type Props = {
     places: Place[] | null;
@@ -53,7 +54,7 @@ const Container = ({ children }: { children: ReactNode }) => {
             <HStack
                 ref={containerRef}
                 w="100%"
-                px={Size.PlanDetail.px}
+                px={isPC ? "16px" : 0}
                 overflowX="auto"
                 overflowY="hidden"
                 scrollSnapType="x mandatory"
@@ -98,6 +99,7 @@ const PageButton = ({
 }) => {
     return (
         <Center
+            visibility={isPC ? "visible" : "hidden"}
             position="absolute"
             top="50%"
             left={left}

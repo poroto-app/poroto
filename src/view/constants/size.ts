@@ -11,7 +11,6 @@ export const Size = {
         imageH: "300px",
     },
     PlanDetail: {
-        px: "16px",
         NearbyPlaceList: {
             card: {
                 w: "200px",
