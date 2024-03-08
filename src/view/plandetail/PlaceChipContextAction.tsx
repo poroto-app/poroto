@@ -1,12 +1,12 @@
 import { Link } from "@chakra-ui/next-js";
-import { HStack, Icon, Text } from "@chakra-ui/react";
+import { HStack,Icon,Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import {
-    MdOutlineCameraAlt,
-    MdOutlineDeleteOutline,
-    MdOutlineFindReplace,
+MdOutlineCameraAlt,
+MdOutlineDeleteOutline,
+MdOutlineFindReplace
 } from "react-icons/md";
-import { SiGooglemaps, SiInstagram } from "react-icons/si";
+import { SiGooglemaps,SiInstagram } from "react-icons/si";
 import useUploadImage from "src/view/hooks/useUploadImage";
 import { OnClickHandler } from "src/view/types/handler";
 type Props = {
@@ -117,17 +117,35 @@ export const PlaceChipActionCamera = () => {
         handleUpload,
     } = useUploadImage();
 
+    const handleUploadButtonClick = () => {
+        const fileInput = document.getElementById("file-input");
+        fileInput.click();
+    };
+
+    const handleFileInputChange = (e) => {
+        handleFileChange(e.target.files[0]);
+    };
+
     return (
         <div>
-            <input
-                type="file"
-                onChange={(e) => handleFileChange(e.target.files[0])}
-            />
             <PlaceChipContextAction
                 label="写真をアップロード"
                 icon={MdOutlineCameraAlt}
-                onClick={handleUpload}
+                onClick={handleUploadButtonClick}
             />
+            <input
+                id="file-input"
+                type="file"
+                onChange={handleFileInputChange}
+                style={{ display: "none" }}
+            />
+            {file && (
+                <PlaceChipContextAction
+                    label="アップロード"
+                    icon={MdOutlineCameraAlt}
+                    onClick={handleUpload}
+                />
+            )}
         </div>
     );
 };
