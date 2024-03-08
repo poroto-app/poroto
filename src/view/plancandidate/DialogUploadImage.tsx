@@ -1,16 +1,16 @@
 import { Image } from "@chakra-ui/image";
-import { Box,Button,Center } from "@chakra-ui/react";
+import { Button,Center } from "@chakra-ui/react";
 import { MdClose } from "react-icons/md";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 
-type DialogProps = {
+type Props = {
     visible: boolean;
     imageUrl: string;
     onUploadClick: () => void;
     onClose: () => void;
 };
 
-const Dialog = ({ visible, imageUrl, onUploadClick, onClose }: DialogProps) => {
+const DialogUploadImage = ({ visible, imageUrl, onUploadClick, onClose }: Props) => {
     if (!visible) {
         return null;
     }
@@ -50,4 +50,4 @@ const Dialog = ({ visible, imageUrl, onUploadClick, onClose }: DialogProps) => {
     );
 };
 
-export default Dialog;
+export default DialogUploadImage;
