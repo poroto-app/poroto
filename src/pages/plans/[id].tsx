@@ -10,6 +10,7 @@ import {
     setShowPlanCreatedModal,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
+import { AdInPlanDetail } from "src/view/ad/AdInPlanDetail";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
@@ -100,10 +101,13 @@ export default function PlanPage() {
                 pb="32px"
             >
                 <PlanPageSection title="プランの情報">
-                    <PlanInfoSection
-                        durationInMinutes={plan.timeInMinutes}
-                        priceRange={getPlanPriceRange(plan.places)}
-                    />
+                    <VStack>
+                        <PlanInfoSection
+                            durationInMinutes={plan.timeInMinutes}
+                            priceRange={getPlanPriceRange(plan.places)}
+                        />
+                        <AdInPlanDetail />
+                    </VStack>
                 </PlanPageSection>
                 <PlanPageSection title="プラン">
                     {/*TODO: ログインユーザーがLIKEした場所を反映できるようにする*/}

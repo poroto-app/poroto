@@ -14,5 +14,6 @@ type Story = StoryObj<typeof PlanDetailPageHeader>;
 export const Primary: Story = {
     args: {
         plan: mockPlan,
+        likedPlaceIds: [],
     },
 };
