@@ -1,14 +1,18 @@
 import { Link } from "@chakra-ui/next-js";
-import { HStack, Icon, Text } from "@chakra-ui/react";
+import { HStack,Icon,Text } from "@chakra-ui/react";
+import { useRef,useState } from "react";
 import { IconType } from "react-icons";
 import {
-    MdOutlineCameraAlt,
-    MdOutlineDeleteOutline,
-    MdOutlineFindReplace,
+MdOutlineCameraAlt,
+MdOutlineDeleteOutline,
+MdOutlineFindReplace
 } from "react-icons/md";
-import { SiGooglemaps, SiInstagram } from "react-icons/si";
+import { SiGooglemaps,SiInstagram } from "react-icons/si";
 import useUploadImage from "src/view/hooks/useUploadImage";
+import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { OnClickHandler } from "src/view/types/handler";
+
+
 type Props = {
     label: string;
     icon: IconType;
@@ -116,14 +120,26 @@ export const PlaceChipActionCamera = () => {
         handleFileChange,
         handleUpload,
     } = useUploadImage();
+    const [dialogVisible, setDialogVisible] = useState(false);
+    const fileInputRef = useRef(null);
 
     const handleUploadButtonClick = () => {
-        const fileInput = document.getElementById("file-input");
-        fileInput.click();
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
     };
 
     const handleFileInputChange = (e) => {
         handleFileChange(e.target.files[0]);
+        setDialogVisible(true);
+    };
+
+    const handleUploadClick = () => {
+        handleUpload();
+    };
+
+    const handleCloseDialog = () => {
+        setDialogVisible(false);
     };
 
     return (
@@ -134,18 +150,18 @@ export const PlaceChipActionCamera = () => {
                 onClick={handleUploadButtonClick}
             />
             <input
+                ref={fileInputRef}
                 id="file-input"
                 type="file"
                 onChange={handleFileInputChange}
                 style={{ display: "none" }}
             />
-            {file && (
-                <PlaceChipContextAction
-                    label="アップロード"
-                    icon={MdOutlineCameraAlt}
-                    onClick={handleUpload}
-                />
-            )}
+            <DialogUploadImage
+                visible={dialogVisible}
+                imageUrl={file ? URL.createObjectURL(file) : ""}
+                onUploadClick={handleUploadClick}
+                onClose={handleCloseDialog}
+            />
         </div>
     );
 };
