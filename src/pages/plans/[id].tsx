@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import {
+    fetchPlacesNearbyPlanLocation,
     fetchPlan,
     reduxPlanSelector,
     setShowPlanCreatedModal,
@@ -22,9 +23,9 @@ import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButto
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
-import { FooterHeight } from "src/view/plan/PlanFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
+import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
@@ -35,6 +36,7 @@ export default function PlanPage() {
         useUserPlan();
     const {
         preview: plan,
+        placesNearbyPlanLocation,
         fetchPlanRequestStatus,
         showPlanCreatedModal,
     } = reduxPlanSelector();
@@ -62,6 +64,7 @@ export default function PlanPage() {
                 firebaseIdToken: firebaseIdToken,
             })
         );
+        dispatch(fetchPlacesNearbyPlanLocation({ planId: id, limit: 10 }));
 
         return () => {
             // 他のページに遷移するときにモーダルを閉じる
@@ -84,7 +87,7 @@ export default function PlanPage() {
     if (!plan) return <NotFound />;
 
     return (
-        <Center flexDirection="column" pb={`${FooterHeight}px`}>
+        <Center flexDirection="column" pb="32px">
             <Head>
                 <title>{plan.title} | poroto</title>
             </Head>
@@ -143,6 +146,13 @@ export default function PlanPage() {
                         currentLocation={null}
                     />
                 </VStack>
+                {process.env.APP_ENV !== "production" && (
+                    <PlanPageSection
+                        title={`このプランの近くの場所から\n新しいプランを作って見ませんか？`}
+                    >
+                        <NearbyPlaceList places={placesNearbyPlanLocation} />
+                    </PlanPageSection>
+                )}
             </VStack>
             <PlanCreatedDialog
                 visible={showPlanCreatedModal}

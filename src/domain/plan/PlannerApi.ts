@@ -86,6 +86,13 @@ export interface PlannerApi {
     updateLikeAtPlaceInPlanCandidate(
         request: UpdateLikeAtPlaceInPlanCandidateRequest
     ): Promise<UpdateLikeAtPlaceInPlanCandidateResponse>;
+
+    // ==============================================================
+    // Place
+    // ==============================================================
+    fetchPlacesNearbyPlanLocation(
+        request: FetchPlacesNearbyPlanLocationRequest
+    ): Promise<FetchPlacesNearbyPlanLocationResponse>;
 }
 
 export type FetchPlanRequest = {
@@ -314,4 +321,13 @@ export type AutoReorderPlacesInPlanCandidateRequest = {
 export type AutoReorderPlacesInPlanCandidateResponse = {
     PlanCandidateId: string;
     plan: PlanEntity;
+};
+
+export type FetchPlacesNearbyPlanLocationRequest = {
+    planId: string;
+    limit: number | null;
+};
+
+export type FetchPlacesNearbyPlanLocationResponse = {
+    places: PlaceEntity[];
 };
