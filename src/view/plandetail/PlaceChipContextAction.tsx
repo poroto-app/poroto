@@ -112,25 +112,17 @@ export const PlaceChipActionGoogleMaps = ({
 };
 
 export const PlaceChipActionCamera = () => {
-    const {
-        file,
-        uploadMessage,
-        imageURL,
-        uploadProgress,
-        handleFileChange,
-        handleUpload,
-    } = useUploadImage();
+    const { file, isUpload, handleFileChange, handleUpload } = useUploadImage();
     const [dialogVisible, setDialogVisible] = useState(false);
     const fileInputRef = useRef(null);
 
     const handleUploadButtonClick = () => {
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
-        }
+        fileInputRef.current && fileInputRef.current.click();
     };
 
     const handleFileInputChange = (e) => {
-        handleFileChange(e.target.files[0]);
+        const selectedFile = e.target.files[0];
+        handleFileChange(selectedFile);
         setDialogVisible(true);
     };
 
@@ -141,6 +133,8 @@ export const PlaceChipActionCamera = () => {
     const handleCloseDialog = () => {
         setDialogVisible(false);
     };
+
+    const imageUrl = file ? URL.createObjectURL(file) : "";
 
     return (
         <div>
@@ -158,7 +152,8 @@ export const PlaceChipActionCamera = () => {
             />
             <DialogUploadImage
                 visible={dialogVisible}
-                imageUrl={file ? URL.createObjectURL(file) : ""}
+                isUpload={isUpload}
+                imageUrl={imageUrl}
                 onUploadClick={handleUploadClick}
                 onClose={handleCloseDialog}
             />
