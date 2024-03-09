@@ -9,7 +9,9 @@ type Props = {
     visible: boolean;
     children: ReactNode;
     onClickOutside?: () => void;
-    padding?: string;
+    padding?: string | number;
+    paddingX?: string | number;
+    paddingY?: string | number;
     width?: string;
     height?: string;
     maxWidth?: string;
@@ -42,6 +44,8 @@ export function FullscreenDialog({
     maxWidth = "100%",
     onClickOutside,
     padding,
+    paddingX,
+    paddingY,
     children,
 }: Props) {
     // スクロールしたときに画面が動かないようにする
@@ -95,7 +99,8 @@ export function FullscreenDialog({
                         <TouchDetector onClick={onClickOutside} />
                         <Box
                             zIndex={9999}
-                            padding={padding}
+                            px={paddingX ?? padding}
+                            py={paddingY ?? padding}
                             w={width}
                             h={height}
                             maxW={maxWidth}
