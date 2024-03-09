@@ -10,20 +10,15 @@ import { useState } from "react";
 
 const useUploadImage = () => {
     const [file, setFile] = useState<File | null>(null);
-    const [uploadMessage, setUploadMessage] = useState<string>("");
     const [imageURL, setImageURL] = useState<string>("");
     const [uploadProgress, setUploadProgress] = useState<number | null>(null);
+    const [isUpload, setIsUpload] = useState<boolean>(false);
 
     const handleFileChange = (selectedFile: File) => {
         setFile(selectedFile);
     };
 
     const handleUpload = async () => {
-        if (!file) {
-            setUploadMessage("Please select a file to upload.");
-            return;
-        }
-
         try {
             const firebaseApp = getApp();
             const storage = getStorage(firebaseApp, "gs://poroto-place-images");
@@ -33,46 +28,52 @@ const useUploadImage = () => {
                 file
             );
 
-            setupUploadTaskListener(uploadTask);
+            setIsUpload(true);
+            await setupUploadTaskListener(uploadTask);
         } catch (error) {
             console.error("Error uploading file:", error);
-            setUploadMessage("File upload failed. Please try again.");
+            setIsUpload(false);
         }
     };
 
-    const setupUploadTaskListener = (uploadTask: UploadTask) => {
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                const progress =
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                setUploadProgress(progress);
-            },
-            (error) => {
-                console.error("Error uploading file:", error);
-                setUploadMessage("File upload failed. Please try again.");
-            },
-            async () => {
-                try {
-                    const downloadURL = await getDownloadURL(
-                        uploadTask.snapshot.ref
-                    );
-                    setImageURL(downloadURL);
-                    setUploadMessage("File uploaded successfully!");
-                    setUploadProgress(null);
-                } catch (error) {
-                    console.error("Error getting download URL:", error);
-                    setUploadMessage("File upload failed. Please try again.");
+    const setupUploadTaskListener = async (uploadTask: UploadTask) => {
+        return new Promise<void>((resolve, reject) => {
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    const progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setUploadProgress(progress);
+                },
+                (error) => {
+                    console.error("Error uploading file:", error);
+                    setIsUpload(false);
+                    reject(error);
+                },
+                async () => {
+                    try {
+                        const downloadURL = await getDownloadURL(
+                            uploadTask.snapshot.ref
+                        );
+                        setImageURL(downloadURL);
+                        setUploadProgress(null);
+                        setIsUpload(false);
+                        resolve();
+                    } catch (error) {
+                        console.error("Error getting download URL:", error);
+                        setIsUpload(false);
+                        reject(error);
+                    }
                 }
-            }
-        );
+            );
+        });
     };
 
     return {
         file,
-        uploadMessage,
         imageURL,
         uploadProgress,
+        isUpload,
         handleFileChange,
         handleUpload,
     };
