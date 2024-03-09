@@ -179,6 +179,8 @@ export type CreatePlanFromPlaceResponse = {
 
 export type FetchCachedCreatedPlansRequest = {
     planCandidateId: string;
+    userId: string | null;
+    firebaseIdToken: string | null;
 };
 
 export type FetchCachedCreatedPlansResponse = {
@@ -295,6 +297,8 @@ export type UpdateLikeAtPlaceInPlanCandidateRequest = {
     planCandidateId: string;
     placeId: string;
     like: boolean;
+    userId: string | null;
+    firebaseIdToken: string | null;
 };
 
 export type UpdateLikeAtPlaceInPlanCandidateResponse = {

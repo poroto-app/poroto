@@ -256,7 +256,13 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     ): Promise<FetchCachedCreatedPlansResponse> {
         const { data } = await this.client.query({
             query: PlanCandidateDocument,
-            variables: { planCandidateId: request.planCandidateId },
+            variables: {
+                input: {
+                    planCandidateId: request.planCandidateId,
+                    userId: request.userId,
+                    firebaseAuthToken: request.firebaseIdToken,
+                },
+            },
         });
 
         // TODO: PlanCandidate として return する
@@ -481,6 +487,8 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                     planCandidateId: request.planCandidateId,
                     placeId: request.placeId,
                     like: request.like,
+                    userId: request.userId,
+                    firebaseAuthToken: request.firebaseIdToken,
                 },
             },
         });
