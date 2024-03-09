@@ -128,8 +128,7 @@ export default function PlanPage() {
                 </VStack>
                 {process.env.APP_ENV !== "production" && (
                     <PlanPageSection
-                        // TODO: PC版の場合は改行しない
-                        title={`このプランの近くの場所から\n新しいプランを作って見ませんか？`}
+                        title={`このプランの近くの場所から、新しいプランを作って見ませんか？`}
                     >
                         <NearbyPlaceList
                             places={placesNearbyPlanLocation}
