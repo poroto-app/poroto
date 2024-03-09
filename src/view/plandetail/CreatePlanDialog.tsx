@@ -48,7 +48,7 @@ export const CreatePlanDialog = ({ place, onClickClose }: Props) => {
                     maxH="80vh"
                     px="16px"
                     pt="24px"
-                    pb="48px"
+                    pb="32px"
                     spacing="32px"
                     overflowY="auto"
                 >
