@@ -1,17 +1,16 @@
 import { Link } from "@chakra-ui/next-js";
-import { HStack,Icon,Text } from "@chakra-ui/react";
-import { useRef,useState } from "react";
+import { HStack, Icon, Text } from "@chakra-ui/react";
+import { useRef, useState } from "react";
 import { IconType } from "react-icons";
 import {
-MdOutlineCameraAlt,
-MdOutlineDeleteOutline,
-MdOutlineFindReplace
+    MdOutlineCameraAlt,
+    MdOutlineDeleteOutline,
+    MdOutlineFindReplace,
 } from "react-icons/md";
-import { SiGooglemaps,SiInstagram } from "react-icons/si";
+import { SiGooglemaps, SiInstagram } from "react-icons/si";
 import useUploadImage from "src/view/hooks/useUploadImage";
 import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { OnClickHandler } from "src/view/types/handler";
-
 
 type Props = {
     label: string;

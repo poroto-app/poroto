@@ -10,10 +10,6 @@ import {
 } from "@chakra-ui/react";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 
-const DIALOG_WIDTH = "100%";
-const MAX_DIALOG_HEIGHT = "80vh";
-const IMAGE_BOX_SIZE = "200px";
-
 type Props = {
     visible: boolean;
     imageUrl: string;
@@ -51,8 +47,8 @@ const DialogUploadImage = ({
                     spacing="32px"
                 >
                     <Box
-                        w={IMAGE_BOX_SIZE}
-                        h={IMAGE_BOX_SIZE}
+                        w="200px"
+                        h="200px"
                         borderRadius="20px"
                         overflow="hidden"
                     >
@@ -65,7 +61,7 @@ const DialogUploadImage = ({
                         />
                     </Box>
                     <Text fontSize="20px" fontWeight="bold" color="#574836">
-                        こちらの画像をアップロードしますか？
+                        この画像をアップロードしますか？
                     </Text>
                     <HStack mt="auto" pb="48px">
                         <Button onClick={onClose} variant="text">
@@ -83,7 +79,7 @@ const DialogUploadImage = ({
     return (
         <FullscreenDialog
             position="bottom"
-            width={DIALOG_WIDTH}
+            width="100%"
             visible={visible}
             onClickOutside={() => {
                 if (!isUpload) onClose();
@@ -91,9 +87,9 @@ const DialogUploadImage = ({
         >
             <Center
                 backgroundColor="white"
-                w={DIALOG_WIDTH}
+                w="100%"
                 h="900px"
-                maxH={MAX_DIALOG_HEIGHT}
+                maxH="80vh"
                 borderTopRadius="20px"
                 overflowY="scroll"
                 sx={{

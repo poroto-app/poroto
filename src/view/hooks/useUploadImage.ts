@@ -29,44 +29,38 @@ const useUploadImage = () => {
             );
 
             setIsUpload(true);
-            await setupUploadTaskListener(uploadTask);
+            setupUploadTaskListener(uploadTask);
         } catch (error) {
             console.error("Error uploading file:", error);
-            setIsUpload(false);
         }
     };
 
-    const setupUploadTaskListener = async (uploadTask: UploadTask) => {
-        return new Promise<void>((resolve, reject) => {
-            uploadTask.on(
-                "state_changed",
-                (snapshot) => {
-                    const progress =
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    setUploadProgress(progress);
-                },
-                (error) => {
-                    console.error("Error uploading file:", error);
+    const setupUploadTaskListener = (uploadTask: UploadTask) => {
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                const progress =
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setUploadProgress(progress);
+            },
+            (error) => {
+                console.error("Error uploading file:", error);
+                setIsUpload(false);
+            },
+            async () => {
+                try {
+                    const downloadURL = await getDownloadURL(
+                        uploadTask.snapshot.ref
+                    );
+                    setImageURL(downloadURL);
+                    setUploadProgress(null);
                     setIsUpload(false);
-                    reject(error);
-                },
-                async () => {
-                    try {
-                        const downloadURL = await getDownloadURL(
-                            uploadTask.snapshot.ref
-                        );
-                        setImageURL(downloadURL);
-                        setUploadProgress(null);
-                        setIsUpload(false);
-                        resolve();
-                    } catch (error) {
-                        console.error("Error getting download URL:", error);
-                        setIsUpload(false);
-                        reject(error);
-                    }
+                } catch (error) {
+                    console.error("Error getting download URL:", error);
+                    setIsUpload(false);
                 }
-            );
-        });
+            }
+        );
     };
 
     return {
