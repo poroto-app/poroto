@@ -143,18 +143,16 @@ export default function PlanPage() {
                         currentLocation={null}
                     />
                 </VStack>
-                {process.env.APP_ENV !== "production" && (
-                    <PlanPageSection
-                        title={`このプランの近くの場所から、新しいプランを作って見ませんか？`}
-                    >
-                        <NearbyPlaceList
-                            places={placesNearbyPlanLocation}
-                            onSelectPlace={(place) =>
-                                dispatch(setPlaceIdToCreatePlan(place.id))
-                            }
-                        />
-                    </PlanPageSection>
-                )}
+                <PlanPageSection
+                    title={`このプランの近くの場所から、新しいプランを作って見ませんか？`}
+                >
+                    <NearbyPlaceList
+                        places={placesNearbyPlanLocation}
+                        onSelectPlace={(place) =>
+                            dispatch(setPlaceIdToCreatePlan(place.id))
+                        }
+                    />
+                </PlanPageSection>
             </VStack>
             <PlanCreatedDialog
                 visible={showPlanCreatedModal}
