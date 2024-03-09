@@ -34,13 +34,14 @@ export const CreatePlanDialog = ({ place, onClickClose }: Props) => {
             position={DialogPositions.BOTTOM}
             visible={place !== null && place !== undefined}
             onClickOutside={onClickClose}
-            width="100%"
-            maxWidth="600px"
+            width="800px"
+            maxWidth="100%"
         >
             <Box
                 w="100%"
                 backgroundColor="white"
-                borderRadius="20px 20px 0 0"
+                borderRadius={{ base: "20px 20px 0 0", md: "20px" }}
+                mb={{ base: "0", md: "12px" }}
                 boxShadow="0px 4px 8px rgba(0, 0, 0, 0.1)"
             >
                 <VStack
