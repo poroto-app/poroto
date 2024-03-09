@@ -27,10 +27,12 @@ export const CreatePlanDialog = ({ place, onClickClose }: Props) => {
         }
     }, [copyObject(place)]);
 
+    if (!placeCache) return <></>;
+
     return (
         <FullscreenDialog
             position={DialogPositions.BOTTOM}
-            visible={place !== null}
+            visible={place !== null && place !== undefined}
             onClickOutside={onClickClose}
             width="100%"
             maxWidth="600px"

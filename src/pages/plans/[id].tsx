@@ -8,6 +8,7 @@ import {
     fetchPlacesNearbyPlanLocation,
     fetchPlan,
     reduxPlanSelector,
+    setPlaceIdToCreatePlan,
     setShowPlanCreatedModal,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
@@ -22,6 +23,7 @@ import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteBy
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
+import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
 import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
@@ -35,6 +37,7 @@ export default function PlanPage() {
         placesNearbyPlanLocation,
         fetchPlanRequestStatus,
         showPlanCreatedModal,
+        placeIdToCreatePlan,
     } = reduxPlanSelector();
     const toast = useToast();
 
@@ -60,6 +63,7 @@ export default function PlanPage() {
             // 他のページに遷移するときにモーダルを閉じる
             // (戻るボタンでトップページに遷移したときの対応)
             dispatch(setShowPlanCreatedModal(false));
+            dispatch(setPlaceIdToCreatePlan(null));
         };
     }, [id]);
 
@@ -124,9 +128,15 @@ export default function PlanPage() {
                 </VStack>
                 {process.env.APP_ENV !== "production" && (
                     <PlanPageSection
+                        // TODO: PC版の場合は改行しない
                         title={`このプランの近くの場所から\n新しいプランを作って見ませんか？`}
                     >
-                        <NearbyPlaceList places={placesNearbyPlanLocation} />
+                        <NearbyPlaceList
+                            places={placesNearbyPlanLocation}
+                            onSelectPlace={(place) =>
+                                dispatch(setPlaceIdToCreatePlan(place.id))
+                            }
+                        />
                     </PlanPageSection>
                 )}
             </VStack>
@@ -137,6 +147,13 @@ export default function PlanPage() {
                     dispatch(setShowPlanCreatedModal(false));
                     handleOnCopyPlanUrl();
                 }}
+            />
+            <CreatePlanDialog
+                place={placesNearbyPlanLocation?.find(
+                    (place) => place.id === placeIdToCreatePlan
+                )}
+                onClickClose={() => dispatch(setPlaceIdToCreatePlan(null))}
+                onClickCreatePlan={() => 0}
             />
         </Center>
     );

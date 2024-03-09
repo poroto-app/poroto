@@ -18,6 +18,7 @@ type Props = {
     maxHeight?: string;
 };
 
+// TODO: スワイプインする
 export const DialogPositions = {
     CENTER: "center",
     BOTTOM: "bottom",
