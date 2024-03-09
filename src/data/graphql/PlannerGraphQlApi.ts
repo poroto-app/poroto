@@ -8,6 +8,7 @@ import {
     EditPlanTitleOfPlanCandidateDocument,
     FetchAvailablePlacesForPlanCandidateDocument,
     FetchPlanByIdDocument,
+    FetchPlanByIdWithUserDocument,
     FetchPlansDocument,
     NearbyPlaceCategoriesDocument,
     PlaceFullFragmentFragment,
@@ -22,6 +23,7 @@ import {
     ReplacePlaceOfPlanCandidateDocument,
     SavePlanFromCandidateDocument,
     UpdateLikeAtPlaceInPlanCandidateDocument,
+    UpdateLikePlaceInPlanDocument,
     UserFullFragmentFragment,
 } from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
@@ -62,25 +64,54 @@ import {
     SavePlanFromCandidateResponse,
     UpdateLikeAtPlaceInPlanCandidateRequest,
     UpdateLikeAtPlaceInPlanCandidateResponse,
+    UpdateLikeOfPlaceInPlan,
+    UpdateLikeOfPlaceInPlanResponse,
     UpdatePlanCandidatePlacesOrderRequest,
     UpdatePlanCandidatePlacesOrderResponse,
 } from "src/domain/plan/PlannerApi";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
+    // ==============================================================
+    // Plan
+    // ==============================================================
     async fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse> {
+        if (!request.userId || !request.firebaseIdToken) {
+            const { data } = await this.client.query({
+                query: FetchPlanByIdDocument,
+                variables: {
+                    input: {
+                        planID: request.planId,
+                    },
+                },
+            });
+            return {
+                plan:
+                    data.plan !== null
+                        ? fromGraphqlPlanEntity(data.plan.plan)
+                        : null,
+                likedPlaceIds: [],
+            };
+        }
+
         const { data } = await this.client.query({
-            query: FetchPlanByIdDocument,
+            query: FetchPlanByIdWithUserDocument,
             variables: {
-                input: {
+                planInput: {
                     planID: request.planId,
+                },
+                likePlacesInput: {
+                    userId: request.userId,
+                    firebaseAuthToken: request.firebaseIdToken,
                 },
             },
         });
+
         return {
             plan:
                 data.plan !== null
                     ? fromGraphqlPlanEntity(data.plan.plan)
                     : null,
+            likedPlaceIds: data.likePlaces.map((place) => place.id),
         };
     }
 
@@ -136,6 +167,30 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         };
     }
 
+    async updateLikeOfPlaceInPlan(
+        request: UpdateLikeOfPlaceInPlan
+    ): Promise<UpdateLikeOfPlaceInPlanResponse> {
+        const { data } = await this.client.mutate({
+            mutation: UpdateLikePlaceInPlanDocument,
+            variables: {
+                input: {
+                    planId: request.planId,
+                    placeId: request.placeId,
+                    like: request.like,
+                    userId: request.userId,
+                    firebaseAuthToken: request.firebaseIdToken,
+                },
+            },
+        });
+        return {
+            plan: fromGraphqlPlanEntity(data.likeToPlaceInPlan.plan),
+            likePlaceIds: data.likeToPlaceInPlan.likedPlaceIds,
+        };
+    }
+
+    // ==============================================================
+    // Plan Candidate
+    // ==============================================================
     async fetchAvailablePlacesForPlan(
         request: FetchAvailablePlacesForPlanRequest
     ) {
@@ -204,7 +259,13 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     ): Promise<FetchCachedCreatedPlansResponse> {
         const { data } = await this.client.query({
             query: PlanCandidateDocument,
-            variables: { planCandidateId: request.planCandidateId },
+            variables: {
+                input: {
+                    planCandidateId: request.planCandidateId,
+                    userId: request.userId,
+                    firebaseAuthToken: request.firebaseIdToken,
+                },
+            },
         });
 
         // TODO: PlanCandidate として return する
@@ -429,6 +490,8 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                     planCandidateId: request.planCandidateId,
                     placeId: request.placeId,
                     like: request.like,
+                    userId: request.userId,
+                    firebaseAuthToken: request.firebaseIdToken,
                 },
             },
         });

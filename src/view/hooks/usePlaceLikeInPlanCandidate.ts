@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { copyObject } from "src/domain/util/object";
+import { reduxAuthSelector } from "src/redux/auth";
 import {
     reduxPlanCandidateSelector,
     updateLikeAtPlaceInPlanCandidate,
@@ -8,6 +9,7 @@ import { useAppDispatch } from "src/redux/redux";
 
 export const usePlaceLikeInPlanCandidate = () => {
     const dispatch = useAppDispatch();
+    const { user, firebaseIdToken } = reduxAuthSelector();
     const { likedPlaceIds, createPlanSession } = reduxPlanCandidateSelector();
 
     // 瞬時にlikeを反映できるようにするために、hooksでも管理する
@@ -27,6 +29,8 @@ export const usePlaceLikeInPlanCandidate = () => {
                 placeId,
                 like,
                 planCandidateId: createPlanSession,
+                userId: user?.id,
+                firebaseIdToken,
             })
         );
 

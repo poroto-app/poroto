@@ -1,17 +1,12 @@
-import { Box, Center, HStack, Icon, Image, Text } from "@chakra-ui/react";
+import { Box, Center, HStack, Icon, Image } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { useEffect, useRef } from "react";
 import { IconType } from "react-icons";
-import {
-    MdArrowBackIos,
-    MdArrowForwardIos,
-    MdLocationOn,
-} from "react-icons/md";
+import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
-import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { Size } from "src/view/constants/size";
-import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
+import { PlanHeaderPlaceCard } from "src/view/plandetail/header/PlanHeaderPlaceCard";
 
 type Props = {
     places: Place[];
@@ -39,7 +34,7 @@ export const PlaceImageGallery = ({
                 scale={5}
                 margin={4}
                 blur={5}
-                contrast={500}
+                contrast={120}
                 src={getImageSizeOf(
                     ImageSizes.Large,
                     places[currentPage].images[0]
@@ -76,47 +71,20 @@ export const PlaceImageGallery = ({
                                 position: "relative",
                             }}
                         >
-                            <ImageWithSkeleton
+                            <PlanHeaderPlaceCard
                                 key={i}
-                                src={getImageSizeOf(
-                                    ImageSizes.Large,
-                                    place.images[0]
+                                place={place}
+                                isLiked={likedPlaceIds.some(
+                                    (id) => id === places[currentPage].id
                                 )}
-                                isGoogleImage={place.images[0].isGoogleImage}
+                                likeCount={places[currentPage].likeCount}
+                                onUpdateLike={(like) =>
+                                    onUpdateLikePlace(
+                                        places[currentPage].id,
+                                        like
+                                    )
+                                }
                             />
-                            <HStack
-                                position="absolute"
-                                backgroundColor="white"
-                                borderRadius="5px"
-                                px="4px"
-                                py="2px"
-                                top="16px"
-                                left="16px"
-                                userSelect="none"
-                            >
-                                <Icon as={MdLocationOn} color="#E1A766" />
-                                <Text fontSize="14px">{place.name}</Text>
-                            </HStack>
-                            <Box
-                                position="absolute"
-                                top={0}
-                                right={0}
-                                px="16px"
-                                py="16px"
-                            >
-                                <PlaceLikeButton
-                                    isLiked={likedPlaceIds.some(
-                                        (id) => id === places[currentPage].id
-                                    )}
-                                    likeCount={places[currentPage].likeCount}
-                                    onUpdateLike={(like) =>
-                                        onUpdateLikePlace(
-                                            places[currentPage].id,
-                                            like
-                                        )
-                                    }
-                                />
-                            </Box>
                         </SplideSlide>
                     ))}
                 </Splide>
