@@ -16,7 +16,11 @@ type Props = {
     onClickCreatePlan: (place: Place) => void;
 };
 
-export const CreatePlanDialog = ({ place, onClickClose }: Props) => {
+export const CreatePlanDialog = ({
+    place,
+    onClickClose,
+    onClickCreatePlan,
+}: Props) => {
     // ダイアログを閉じるときに、placeをnullにするとエラーになってしまうため
     // placeのキャッシュを作成し、それを表示する
     const [placeCache, setPlaceCache] = useState(place);
@@ -71,7 +75,9 @@ export const CreatePlanDialog = ({ place, onClickClose }: Props) => {
                         />
                     </Box>
                     <VStack w="100%">
-                        <RoundedButton>この場所からプランを作る</RoundedButton>
+                        <RoundedButton onClick={() => onClickCreatePlan(place)}>
+                            この場所からプランを作る
+                        </RoundedButton>
                         <Button
                             w="100%"
                             color={Colors.primary["400"]}

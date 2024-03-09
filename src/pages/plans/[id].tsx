@@ -2,8 +2,10 @@ import { Center, useToast, VStack } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { Place } from "src/domain/models/Place";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { setSearchLocation } from "src/redux/location";
 import {
     fetchPlacesNearbyPlanLocation,
     fetchPlan,
@@ -16,6 +18,7 @@ import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
+import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
@@ -32,6 +35,7 @@ import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 export default function PlanPage() {
     const { id } = useRouter().query;
     const dispatch = useAppDispatch();
+    const router = useRouter();
     const {
         preview: plan,
         placesNearbyPlanLocation,
@@ -52,6 +56,19 @@ export default function PlanPage() {
             duration: 3000, // ポップアップが表示される時間（ミリ秒）
             isClosable: true,
         });
+    };
+
+    // TODO: hooksで管理する
+    const handleOnCreatePlan = async ({ place }: { place: Place }) => {
+        dispatch(
+            setSearchLocation({
+                searchLocation: place.location,
+                searchPlaceId: place.googlePlaceId,
+            })
+        );
+        // ダイアログの背景固定を解除するためにモーダルを閉じる
+        dispatch(setPlaceIdToCreatePlan(null));
+        await router.push(Routes.plans.interest(true));
     };
 
     useEffect(() => {
@@ -152,7 +169,7 @@ export default function PlanPage() {
                     (place) => place.id === placeIdToCreatePlan
                 )}
                 onClickClose={() => dispatch(setPlaceIdToCreatePlan(null))}
-                onClickCreatePlan={() => 0}
+                onClickCreatePlan={(place) => handleOnCreatePlan({ place })}
             />
         </Center>
     );
