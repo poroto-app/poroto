@@ -8,11 +8,20 @@ UploadTask
 } from "firebase/storage";
 import { useState } from "react";
 
+enum UploadRequestStatus {
+    IDLE = "IDLE",
+    PENDING = "PENDING",
+    FULFILLED = "FULFILLED",
+    REJECTED = "REJECTED",
+}
+
+
 const useUploadImage = () => {
     const [file, setFile] = useState<File | null>(null);
     const [imageURL, setImageURL] = useState<string | null>(null);
     const [uploadProgress, setUploadProgress] = useState<number | null>(null);
-    const [isUploading, setIsUploading] = useState<boolean>(false);
+    const [uploadRequestStatus, setUploadRequestStatus] =
+        useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
 
     const handleFileChange = (selectedFile: File) => {
         setFile(selectedFile);
@@ -21,6 +30,7 @@ const useUploadImage = () => {
 
     const handleUpload = async () => {
         try {
+            setUploadRequestStatus(UploadRequestStatus.PENDING);
             const firebaseApp = getApp();
             const storage = getStorage(
                 firebaseApp,
@@ -31,11 +41,10 @@ const useUploadImage = () => {
                 storageRef,
                 file
             );
-
-            setIsUploading(true);
             setupUploadTaskListener(uploadTask);
         } catch (error) {
             console.error("Error uploading file:", error);
+            setUploadRequestStatus(UploadRequestStatus.REJECTED);
         }
     };
 
@@ -49,7 +58,7 @@ const useUploadImage = () => {
             },
             (error) => {
                 console.error("Error uploading file:", error);
-                setIsUploading(false);
+                setUploadRequestStatus(UploadRequestStatus.REJECTED);
             },
             async () => {
                 try {
@@ -58,10 +67,10 @@ const useUploadImage = () => {
                     );
                     setImageURL(downloadURL);
                     setUploadProgress(null);
-                    setIsUploading(false);
+                    setUploadRequestStatus(UploadRequestStatus.FULFILLED);
                 } catch (error) {
                     console.error("Error getting download URL:", error);
-                    setIsUploading(false);
+                    setUploadRequestStatus(UploadRequestStatus.REJECTED);
                 }
             }
         );
@@ -73,7 +82,7 @@ const useUploadImage = () => {
         file,
         imageURL,
         uploadProgress,
-        isUploading,
+        isUploading: uploadRequestStatus === UploadRequestStatus.PENDING,
         isUploadConfirmationDialogVisible,
         handleFileChange,
         handleUpload,
