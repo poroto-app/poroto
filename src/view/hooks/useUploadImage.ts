@@ -1,10 +1,10 @@
 import { getApp } from "firebase/app";
 import {
-    getDownloadURL,
-    getStorage,
-    ref,
-    uploadBytesResumable,
-    UploadTask,
+getDownloadURL,
+getStorage,
+ref,
+uploadBytesResumable,
+UploadTask
 } from "firebase/storage";
 import { useState } from "react";
 
@@ -16,6 +16,7 @@ const useUploadImage = () => {
 
     const handleFileChange = (selectedFile: File) => {
         setFile(selectedFile);
+        setImageURL(URL.createObjectURL(selectedFile));
     };
 
     const handleUpload = async () => {
