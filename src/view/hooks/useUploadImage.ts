@@ -22,7 +22,10 @@ const useUploadImage = () => {
     const handleUpload = async () => {
         try {
             const firebaseApp = getApp();
-            const storage = getStorage(firebaseApp, "gs://poroto-place-images");
+            const storage = getStorage(
+                firebaseApp,
+                process.env.CLOUD_STORAGE_POROTO_PLACE_IMAGES
+            );
             const storageRef = ref(storage, `images/${file.name}`);
             const uploadTask: UploadTask = uploadBytesResumable(
                 storageRef,
