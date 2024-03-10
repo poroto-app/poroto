@@ -1,12 +1,12 @@
 import {
-Box,
-Button,
-Center,
-HStack,
-Image,
-Spinner,
-Text,
-VStack
+    Box,
+    Button,
+    Center,
+    HStack,
+    Image,
+    Spinner,
+    Text,
+    VStack,
 } from "@chakra-ui/react";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 

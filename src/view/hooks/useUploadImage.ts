@@ -1,10 +1,10 @@
 import { getApp } from "firebase/app";
 import {
-getDownloadURL,
-getStorage,
-ref,
-uploadBytesResumable,
-UploadTask
+    getDownloadURL,
+    getStorage,
+    ref,
+    uploadBytesResumable,
+    UploadTask,
 } from "firebase/storage";
 import { useState } from "react";
 
@@ -15,13 +15,13 @@ enum UploadRequestStatus {
     REJECTED = "REJECTED",
 }
 
-
 const useUploadImage = () => {
     const [file, setFile] = useState<File | null>(null);
     const [imageURL, setImageURL] = useState<string | null>(null);
     const [uploadProgress, setUploadProgress] = useState<number | null>(null);
     const [uploadRequestStatus, setUploadRequestStatus] =
         useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
+    const [error, setError] = useState<Error | null>(null);
 
     const handleFileChange = (selectedFile: File) => {
         setFile(selectedFile);
@@ -44,6 +44,7 @@ const useUploadImage = () => {
             setupUploadTaskListener(uploadTask);
         } catch (error) {
             console.error("Error uploading file:", error);
+            setError(error);
             setUploadRequestStatus(UploadRequestStatus.REJECTED);
         }
     };
@@ -70,20 +71,20 @@ const useUploadImage = () => {
                     setUploadRequestStatus(UploadRequestStatus.FULFILLED);
                 } catch (error) {
                     console.error("Error getting download URL:", error);
+                    setError(error);
                     setUploadRequestStatus(UploadRequestStatus.REJECTED);
                 }
             }
         );
     };
 
-    const isUploadConfirmationDialogVisible = file !== null;
-
     return {
         file,
         imageURL,
+        error,
         uploadProgress,
         isUploading: uploadRequestStatus === UploadRequestStatus.PENDING,
-        isUploadConfirmationDialogVisible,
+        isUploadConfirmationDialogVisible: file !== null,
         handleFileChange,
         handleUpload,
     };
