@@ -1,19 +1,23 @@
 import { Switch, Text, VStack } from "@chakra-ui/react";
 import MapIcon from "src/view/assets/svg/map.svg";
+import {
+    LocationPermission,
+    LocationPermissions,
+} from "src/view/hooks/useLocation";
 
 type Props = {
+    locationPermission: LocationPermission | null;
     isUpdating: boolean;
-    isLocationAvailable: boolean;
     onClickSwitch: () => void;
 };
 
 export function LocationUnavailable({
+    locationPermission,
     isUpdating,
-    isLocationAvailable,
     onClickSwitch,
 }: Props) {
     const handleOnClickSwitch = () => {
-        if (isLocationAvailable) return;
+        if (locationPermission === LocationPermissions.GRANTED) return;
         onClickSwitch();
     };
 
@@ -31,7 +35,10 @@ export function LocationUnavailable({
             </Text>
             <Switch
                 size="lg"
-                isChecked={isUpdating || isLocationAvailable}
+                isChecked={
+                    isUpdating ||
+                    locationPermission === LocationPermissions.GRANTED
+                }
                 isDisabled={isUpdating}
                 onChange={handleOnClickSwitch}
             />
