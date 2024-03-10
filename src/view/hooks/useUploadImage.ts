@@ -1,10 +1,10 @@
 import { getApp } from "firebase/app";
 import {
-getDownloadURL,
-getStorage,
-ref,
-uploadBytesResumable,
-UploadTask
+    getDownloadURL,
+    getStorage,
+    ref,
+    uploadBytesResumable,
+    UploadTask,
 } from "firebase/storage";
 import { useState } from "react";
 
@@ -63,12 +63,15 @@ const useUploadImage = () => {
             }
         );
     };
+    
+    const isUploadConfirmationDialogVisible = file !== null;
 
     return {
         file,
         imageURL,
         uploadProgress,
         isUpload,
+        isUploadConfirmationDialogVisible,
         handleFileChange,
         handleUpload,
     };
