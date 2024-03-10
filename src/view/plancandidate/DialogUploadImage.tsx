@@ -1,32 +1,32 @@
 import {
-    Box,
-    Button,
-    Center,
-    HStack,
-    Image,
-    Spinner,
-    Text,
-    VStack,
+Box,
+Button,
+Center,
+HStack,
+Image,
+Spinner,
+Text,
+VStack
 } from "@chakra-ui/react";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 
 type Props = {
     visible: boolean;
     imageUrl: string;
-    isUpload: boolean;
+    isUploading: boolean;
     onUploadClick: () => void;
     onClose: () => void;
 };
 
 const DialogUploadImage = ({
     visible,
-    isUpload,
+    isUploading,
     imageUrl,
     onUploadClick,
     onClose,
 }: Props) => {
     const renderContent = () => {
-        if (isUpload) {
+        if (isUploading) {
             return (
                 <Spinner
                     thickness="4px"
@@ -57,7 +57,7 @@ const DialogUploadImage = ({
                             alt="選択された画像"
                             maxWidth="100%"
                             height="auto"
-                            display={!isUpload ? "block" : "none"}
+                            display={!isUploading ? "block" : "none"}
                         />
                     </Box>
                     <Text fontSize="20px" fontWeight="bold" color="#574836">
@@ -82,7 +82,7 @@ const DialogUploadImage = ({
             width="100%"
             visible={visible}
             onClickOutside={() => {
-                if (!isUpload) onClose();
+                if (!isUploading) onClose();
             }}
         >
             <Center

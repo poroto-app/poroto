@@ -111,7 +111,7 @@ export const PlaceChipActionGoogleMaps = ({
 };
 
 export const PlaceChipActionCamera = () => {
-    const { imageURL, isUpload, handleFileChange, handleUpload } = useUploadImage();
+    const { imageURL, isUploading, handleFileChange, handleUpload } = useUploadImage();
     const [dialogVisible, setDialogVisible] = useState(false);
     const fileInputRef = useRef(null);
 
@@ -141,7 +141,7 @@ export const PlaceChipActionCamera = () => {
             />
             <DialogUploadImage
                 visible={dialogVisible}
-                isUpload={isUpload}
+                isUploading={isUploading}
                 imageUrl={imageURL}
                 onUploadClick={() => handleUpload()}
                 onClose={() => setDialogVisible(false)}

@@ -1,18 +1,18 @@
 import { getApp } from "firebase/app";
 import {
-    getDownloadURL,
-    getStorage,
-    ref,
-    uploadBytesResumable,
-    UploadTask,
+getDownloadURL,
+getStorage,
+ref,
+uploadBytesResumable,
+UploadTask
 } from "firebase/storage";
 import { useState } from "react";
 
 const useUploadImage = () => {
     const [file, setFile] = useState<File | null>(null);
-    const [imageURL, setImageURL] = useState<string>("");
+    const [imageURL, setImageURL] = useState<string | null>(null);
     const [uploadProgress, setUploadProgress] = useState<number | null>(null);
-    const [isUpload, setIsUpload] = useState<boolean>(false);
+    const [isUploading, setIsUploading] = useState<boolean>(false);
 
     const handleFileChange = (selectedFile: File) => {
         setFile(selectedFile);
@@ -29,7 +29,7 @@ const useUploadImage = () => {
                 file
             );
 
-            setIsUpload(true);
+            setIsUploading(true);
             setupUploadTaskListener(uploadTask);
         } catch (error) {
             console.error("Error uploading file:", error);
@@ -46,7 +46,7 @@ const useUploadImage = () => {
             },
             (error) => {
                 console.error("Error uploading file:", error);
-                setIsUpload(false);
+                setIsUploading(false);
             },
             async () => {
                 try {
@@ -55,22 +55,22 @@ const useUploadImage = () => {
                     );
                     setImageURL(downloadURL);
                     setUploadProgress(null);
-                    setIsUpload(false);
+                    setIsUploading(false);
                 } catch (error) {
                     console.error("Error getting download URL:", error);
-                    setIsUpload(false);
+                    setIsUploading(false);
                 }
             }
         );
     };
-    
+
     const isUploadConfirmationDialogVisible = file !== null;
 
     return {
         file,
         imageURL,
         uploadProgress,
-        isUpload,
+        isUploading,
         isUploadConfirmationDialogVisible,
         handleFileChange,
         handleUpload,
