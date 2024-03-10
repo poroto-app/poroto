@@ -1,0 +1,8 @@
+mutation UpdateLikePlaceInPlan($input: LikeToPlaceInPlanInput!) {
+    likeToPlaceInPlan(input: $input) {
+        plan {
+            ...PlanFullFragment
+        }
+        likedPlaceIds
+    }
+}

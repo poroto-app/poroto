@@ -3,6 +3,7 @@ import { Box, Center, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { reduxAuthSelector } from "src/redux/auth";
 import {
     createPlanFromPlace,
     fetchAvailablePlacesForPlan,
@@ -23,6 +24,7 @@ import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSec
 import { GeneratingPlanDialog } from "src/view/plan/candidate/GeneratingPlanDialog";
 import { PlanCandidatesGallery } from "src/view/plancandidate/PlanCandidatesGallery";
 
+// TODO: 編集途中でログインした場合は、いいねした場所を引き継げるようにする
 const SelectPlanPage = () => {
     const dispatch = useAppDispatch();
     const {
@@ -34,6 +36,7 @@ const SelectPlanPage = () => {
         createPlanFromLocationRequestStatus,
         createPlanFromPlaceRequestStatus,
     } = reduxPlanCandidateSelector();
+    const { user, firebaseIdToken } = reduxAuthSelector();
 
     const router = useRouter();
     const { sessionId } = router.query;
@@ -41,12 +44,30 @@ const SelectPlanPage = () => {
     const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        // ページをリロードしたときのみキャッシュを取得する
         if (!sessionId || typeof sessionId !== "string") return;
-        if (!plansCreated) {
-            dispatch(fetchCachedCreatedPlans({ session: sessionId }));
+
+        // プランを作成している場合は何もしない
+        if (
+            createPlanFromPlaceRequestStatus === RequestStatuses.PENDING ||
+            createPlanFromLocationRequestStatus === RequestStatuses.PENDING
+        ) {
+            return;
         }
-    }, [sessionId, plansCreated]);
+
+        dispatch(
+            fetchCachedCreatedPlans({
+                session: sessionId,
+                userId: user?.id,
+                firebaseIdToken,
+            })
+        );
+    }, [
+        sessionId,
+        user?.id,
+        firebaseIdToken,
+        createPlanFromPlaceRequestStatus,
+        createPlanFromLocationRequestStatus,
+    ]);
 
     // プラン作成の候補地を取得
     useEffect(() => {

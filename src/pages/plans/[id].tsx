@@ -14,6 +14,7 @@ import {
     setShowPlanCreatedModal,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
+import { AdInPlanDetail } from "src/view/ad/AdInPlanDetail";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
@@ -21,6 +22,7 @@ import { NotFound } from "src/view/common/NotFound";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
+import { useUserPlan } from "src/view/hooks/useUserPlan";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
@@ -36,6 +38,8 @@ export default function PlanPage() {
     const { id } = useRouter().query;
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const { userId, firebaseIdToken, likePlaceIds, updateLikePlace } =
+        useUserPlan();
     const {
         preview: plan,
         placesNearbyPlanLocation,
@@ -73,7 +77,13 @@ export default function PlanPage() {
 
     useEffect(() => {
         if (typeof id !== "string") return;
-        dispatch(fetchPlan({ planId: id }));
+        dispatch(
+            fetchPlan({
+                planId: id,
+                userId: userId,
+                firebaseIdToken: firebaseIdToken,
+            })
+        );
         dispatch(fetchPlacesNearbyPlanLocation({ planId: id, limit: 10 }));
 
         return () => {
@@ -82,11 +92,13 @@ export default function PlanPage() {
             dispatch(setShowPlanCreatedModal(false));
             dispatch(setPlaceIdToCreatePlan(null));
         };
-    }, [id]);
+    }, [id, userId, firebaseIdToken]);
 
     if (
         !fetchPlanRequestStatus ||
-        fetchPlanRequestStatus === RequestStatuses.PENDING
+        (fetchPlanRequestStatus === RequestStatuses.PENDING &&
+            // プランを取得したあとで、同じプランを再取得したときに画面がロード中になるのを防ぐ
+            plan?.id !== id)
     )
         return <LoadingModal title="プランを読み込んでいます" />;
 
@@ -107,10 +119,14 @@ export default function PlanPage() {
             >
                 <PlanDetailPageHeader
                     plan={plan}
-                    /*TODO: ログインユーザーがLIKEした場所を反映できるようにする*/
-                    likedPlaceIds={[]}
-                    /*TODO: 非ログインユーザーの場合はログインを促すダイアログを表示する*/
-                    onUpdateLikePlace={() => 0}
+                    likedPlaceIds={likePlaceIds}
+                    onUpdateLikePlace={(placeId, like) =>
+                        updateLikePlace({
+                            planId: plan.id,
+                            placeId,
+                            like,
+                        })
+                    }
                     onCopyPlanUrl={handleOnCopyPlanUrl}
                 />
             </VStack>
@@ -124,14 +140,22 @@ export default function PlanPage() {
                 pb="32px"
             >
                 <PlanPageSection title="プランの情報">
-                    <PlanInfoSection
-                        durationInMinutes={plan.timeInMinutes}
-                        priceRange={getPlanPriceRange(plan.places)}
-                    />
+                    <VStack>
+                        <PlanInfoSection
+                            durationInMinutes={plan.timeInMinutes}
+                            priceRange={getPlanPriceRange(plan.places)}
+                        />
+                        <AdInPlanDetail />
+                    </VStack>
                 </PlanPageSection>
                 <PlanPageSection title="プラン">
-                    {/*TODO: ログインユーザーがLIKEした場所を反映できるようにする*/}
-                    <PlanPlaceList plan={plan} likePlaceIds={[]} />
+                    <PlanPlaceList
+                        plan={plan}
+                        likePlaceIds={likePlaceIds}
+                        onUpdateLikeAtPlace={({ like, placeId }) =>
+                            updateLikePlace({ planId: plan.id, placeId, like })
+                        }
+                    />
                 </PlanPageSection>
                 <PlanPageSection title="プラン内の場所">
                     <PlaceMap places={plan.places} />

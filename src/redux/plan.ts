@@ -25,6 +25,7 @@ export type PlanState = {
     plansByUser: Plan[] | null;
 
     preview: Plan | null;
+    likePlaceIds: string[];
 
     placeIdToCreatePlan: string | null;
 
@@ -36,6 +37,7 @@ export type PlanState = {
     fetchPlanRequestStatus: RequestStatus | null;
     fetchPlansByUserRequestStatus: RequestStatus | null;
     fetchPlacesNearbyPlanLocationRequestStatus: RequestStatus | null;
+    updatePlaceLikeInPlanRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanState = {
@@ -50,6 +52,7 @@ const initialState: PlanState = {
     plansByUser: null,
 
     preview: null,
+    likePlaceIds: [],
 
     placeIdToCreatePlan: null,
 
@@ -60,6 +63,7 @@ const initialState: PlanState = {
     fetchPlanRequestStatus: null,
     fetchPlansByUserRequestStatus: null,
     fetchPlacesNearbyPlanLocationRequestStatus: null,
+    updatePlaceLikeInPlanRequestStatus: null,
 };
 
 export const fetchPlansRecentlyCreated = createAsyncThunk<{
@@ -117,14 +121,27 @@ export const fetchNearbyPlans = createAsyncThunk(
     }
 );
 
-type FetchPlanProps = { planId: string };
+type FetchPlanProps = {
+    planId: string;
+    userId: string | null;
+    firebaseIdToken: string | null;
+};
 export const fetchPlan = createAsyncThunk(
     "plan/fetchPlan",
-    async ({ planId }: FetchPlanProps) => {
+    async ({ planId, userId, firebaseIdToken }: FetchPlanProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const response = await plannerApi.fetchPlan({ planId });
+        const response = await plannerApi.fetchPlan({
+            planId,
+            userId,
+            firebaseIdToken,
+        });
         // TODO: ユーザー情報を取得する
-        return response.plan ? createPlanFromPlanEntity(response.plan) : null;
+        return {
+            plan: response.plan
+                ? createPlanFromPlanEntity(response.plan)
+                : null,
+            likedPlaceIds: response.likedPlaceIds,
+        };
     }
 );
 
@@ -160,6 +177,37 @@ export const fetchPlacesNearbyPlanLocation = createAsyncThunk(
             places: response.places.map((place) =>
                 createPlaceFromPlaceEntity(place)
             ),
+        };
+    }
+);
+
+type UpdatePlaceLikeInPlanProps = {
+    userId: string;
+    firebaseIdToken: string;
+    planId: string;
+    placeId: string;
+    like: boolean;
+};
+export const updatePlaceLikeInPlan = createAsyncThunk(
+    "plan/updatePlaceLikeInPlan",
+    async ({
+        userId,
+        firebaseIdToken,
+        planId,
+        placeId,
+        like,
+    }: UpdatePlaceLikeInPlanProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.updateLikeOfPlaceInPlan({
+            userId,
+            firebaseIdToken,
+            planId,
+            placeId,
+            like,
+        });
+        return {
+            plan: createPlanFromPlanEntity(response.plan),
+            likePlaceIds: response.likePlaceIds,
         };
     }
 );
@@ -205,7 +253,8 @@ export const slice = createSlice({
                 state.fetchPlanRequestStatus = RequestStatuses.PENDING;
             })
             .addCase(fetchPlan.fulfilled, (state, { payload }) => {
-                state.preview = payload;
+                state.preview = payload.plan;
+                state.likePlaceIds = payload.likedPlaceIds;
                 state.fetchPlanRequestStatus = RequestStatuses.FULFILLED;
             })
             .addCase(fetchPlan.rejected, (state) => {
@@ -282,7 +331,22 @@ export const slice = createSlice({
                         RequestStatuses.REJECTED;
                     state.placesNearbyPlanLocation = null;
                 }
-            );
+            )
+            // Update Place Like In Plan
+            .addCase(updatePlaceLikeInPlan.pending, (state) => {
+                state.updatePlaceLikeInPlanRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(updatePlaceLikeInPlan.fulfilled, (state, { payload }) => {
+                state.updatePlaceLikeInPlanRequestStatus =
+                    RequestStatuses.FULFILLED;
+                state.preview = payload.plan;
+                state.likePlaceIds = payload.likePlaceIds;
+            })
+            .addCase(updatePlaceLikeInPlan.rejected, (state) => {
+                state.updatePlaceLikeInPlanRequestStatus =
+                    RequestStatuses.REJECTED;
+            });
     },
 });
 

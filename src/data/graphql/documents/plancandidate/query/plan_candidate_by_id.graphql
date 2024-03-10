@@ -1,5 +1,5 @@
-query PlanCandidate($planCandidateId: ID!) {
-    planCandidate(input: {planCandidateId: $planCandidateId}) {
+query PlanCandidate($input: PlanCandidateInput!) {
+    planCandidate(input: $input) {
         planCandidate {
             plans {
                 ...PlanFullFragment
