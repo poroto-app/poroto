@@ -4,6 +4,7 @@ import {
     Center,
     HStack,
     Image,
+    SimpleGrid,
     Spinner,
     Text,
     VStack,
@@ -12,7 +13,7 @@ import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 
 type Props = {
     visible: boolean;
-    imageUrl: string;
+    imageURLs: string[];
     isUploading: boolean;
     onUploadClick: () => void;
     onClose: () => void;
@@ -21,7 +22,7 @@ type Props = {
 const DialogUploadImage = ({
     visible,
     isUploading,
-    imageUrl,
+    imageURLs,
     onUploadClick,
     onClose,
 }: Props) => {
@@ -46,22 +47,29 @@ const DialogUploadImage = ({
                     alignItems="center"
                     spacing="32px"
                 >
-                    <Box
-                        w="200px"
-                        h="200px"
-                        borderRadius="20px"
-                        overflow="hidden"
-                    >
-                        <Image
-                            src={imageUrl}
-                            alt="選択された画像"
-                            maxWidth="100%"
-                            height="auto"
-                            display={!isUploading ? "block" : "none"}
-                        />
-                    </Box>
+                    <SimpleGrid columns={3} spacing="20px">
+                        {imageURLs.map((url, index) => (
+                            <Box
+                                key={index}
+                                w="200px"
+                                h="200px"
+                                borderRadius="20px"
+                                overflow="hidden"
+                            >
+                                <Image
+                                    src={url}
+                                    alt={`選択された画像${index}`}
+                                    maxWidth="100%"
+                                    height="auto"
+                                    display={!isUploading ? "block" : "none"}
+                                />
+                            </Box>
+                        ))}
+                    </SimpleGrid>
                     <Text fontSize="20px" fontWeight="bold" color="#574836">
-                        この画像をアップロードしますか？
+                        {imageURLs.length === 1
+                            ? "こちらの画像をアップロードしますか？"
+                            : "これらの画像をアップロードしますか？"}
                     </Text>
                     <HStack mt="auto" pb="48px">
                         <Button onClick={onClose} variant="text">
@@ -98,7 +106,9 @@ const DialogUploadImage = ({
                     },
                 }}
             >
-                {renderContent()}
+                <Box overflowX="auto" w="100%">
+                    {renderContent()}
+                </Box>
             </Center>
         </FullscreenDialog>
     );

@@ -16,15 +16,19 @@ enum UploadRequestStatus {
 }
 
 const useUploadImage = () => {
-    const [file, setFile] = useState<File | null>(null);
-    const [imageURL, setImageURL] = useState<string | null>(null);
+    const [files, setFiles] = useState<File[]>([]);
+    const [imageURLs, setImageURLs] = useState<string[]>([]);
     const [uploadProgress, setUploadProgress] = useState<number | null>(null);
     const [uploadRequestStatus, setUploadRequestStatus] =
         useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
 
-    const handleFileChange = (selectedFile: File) => {
-        setFile(selectedFile);
-        setImageURL(URL.createObjectURL(selectedFile));
+    const handleFileChange = (selectedFiles: FileList) => {
+        const selectedFilesArray = Array.from(selectedFiles);
+        setFiles(selectedFilesArray);
+        const imageURLsArray = selectedFilesArray.map((file) =>
+            URL.createObjectURL(file)
+        );
+        setImageURLs(imageURLsArray);
     };
 
     const handleUpload = async () => {
@@ -35,50 +39,59 @@ const useUploadImage = () => {
                 firebaseApp,
                 process.env.CLOUD_STORAGE_POROTO_PLACE_IMAGES
             );
-            const storageRef = ref(storage, `images/${file.name}`);
-            const uploadTask: UploadTask = uploadBytesResumable(
-                storageRef,
-                file
-            );
-            setupUploadTaskListener(uploadTask);
+
+            const uploadTasks = files.map((file) => {
+                const storageRef = ref(storage, `images/${file.name}`);
+                return uploadBytesResumable(storageRef, file);
+            });
+
+            await Promise.all(uploadTasks.map(setupUploadTaskListener));
         } catch (error) {
             setUploadRequestStatus(UploadRequestStatus.REJECTED);
         }
     };
 
     const setupUploadTaskListener = (uploadTask: UploadTask) => {
-        uploadTask.on(
-            "state_changed",
-            (snapshot) => {
-                const progress =
-                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                setUploadProgress(progress);
-            },
-            (error) => {
-                console.error("Error uploading file:", error);
-                setUploadRequestStatus(UploadRequestStatus.REJECTED);
-            },
-            async () => {
-                try {
-                    const downloadURL = await getDownloadURL(
-                        uploadTask.snapshot.ref
-                    );
-                    setImageURL(downloadURL);
-                    setUploadProgress(null);
-                    setUploadRequestStatus(UploadRequestStatus.FULFILLED);
-                } catch (error) {
+        return new Promise<void>((resolve, reject) => {
+            uploadTask.on(
+                "state_changed",
+                (snapshot) => {
+                    const progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setUploadProgress(progress);
+                },
+                (error) => {
+                    console.error("Error uploading file:", error);
                     setUploadRequestStatus(UploadRequestStatus.REJECTED);
+                    reject(error);
+                },
+                async () => {
+                    try {
+                        const downloadURL = await getDownloadURL(
+                            uploadTask.snapshot.ref
+                        );
+                        setImageURLs((prevImageURLs) => [
+                            ...prevImageURLs,
+                            downloadURL,
+                        ]);
+                        setUploadProgress(null);
+                        setUploadRequestStatus(UploadRequestStatus.FULFILLED);
+                        resolve();
+                    } catch (error) {
+                        setUploadRequestStatus(UploadRequestStatus.REJECTED);
+                        reject(error);
+                    }
                 }
-            }
-        );
+            );
+        });
     };
 
     return {
-        file,
-        imageURL,
+        files,
+        imageURLs,
         uploadProgress,
         isUploading: uploadRequestStatus === UploadRequestStatus.PENDING,
-        isUploadConfirmationDialogVisible: file !== null,
+        isUploadConfirmationDialogVisible: files.length > 0,
         handleFileChange,
         handleUpload,
     };

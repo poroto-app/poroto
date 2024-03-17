@@ -111,7 +111,7 @@ export const PlaceChipActionGoogleMaps = ({
 };
 
 export const PlaceChipActionCamera = () => {
-    const { imageURL, isUploading, handleFileChange, handleUpload } =
+    const { files, isUploading, handleFileChange, handleUpload } =
         useUploadImage();
     const [dialogVisible, setDialogVisible] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -121,29 +121,39 @@ export const PlaceChipActionCamera = () => {
     };
 
     const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedFile = e.target.files && e.target.files[0];
-        selectedFile && handleFileChange(selectedFile);
+        const selectedFiles = e.target.files;
+        selectedFiles && handleFileChange(selectedFiles);
         setDialogVisible(true);
     };
 
     return (
         <div>
-            <PlaceChipContextAction
-                label="写真をアップロード"
-                icon={MdOutlineCameraAlt}
+            <HStack
+                backgroundColor="#FCF2E4"
+                color="#483216"
                 onClick={handleUploadButtonClick}
-            />
+                px="8px"
+                py="4px"
+                borderRadius="20px"
+                as="button"
+            >
+                <Icon w="16px" h="16px" as={MdOutlineCameraAlt} />
+                <Text fontSize="0.8rem" whiteSpace="nowrap">
+                    写真をアップロード
+                </Text>
+            </HStack>
             <input
                 ref={fileInputRef}
                 id="file-input"
                 type="file"
+                multiple
                 onChange={handleFileInputChange}
                 style={{ display: "none" }}
             />
             <DialogUploadImage
                 visible={dialogVisible}
                 isUploading={isUploading}
-                imageUrl={imageURL}
+                imageURLs={files.map((file) => URL.createObjectURL(file))}
                 onUploadClick={handleUpload}
                 onClose={() => setDialogVisible(false)}
             />
