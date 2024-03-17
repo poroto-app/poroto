@@ -42,8 +42,6 @@ const useUploadImage = () => {
             );
             setupUploadTaskListener(uploadTask);
         } catch (error) {
-            console.error("Error uploading file:", error);
-            setError(error);
             setUploadRequestStatus(UploadRequestStatus.REJECTED);
         }
     };
@@ -69,8 +67,6 @@ const useUploadImage = () => {
                     setUploadProgress(null);
                     setUploadRequestStatus(UploadRequestStatus.FULFILLED);
                 } catch (error) {
-                    console.error("Error getting download URL:", error);
-                    setError(error);
                     setUploadRequestStatus(UploadRequestStatus.REJECTED);
                 }
             }
@@ -80,7 +76,6 @@ const useUploadImage = () => {
     return {
         file,
         imageURL,
-        error,
         uploadProgress,
         isUploading: uploadRequestStatus === UploadRequestStatus.PENDING,
         isUploadConfirmationDialogVisible: file !== null,
