@@ -20,6 +20,10 @@ export interface PlannerApi {
         request: FetchPlansByLocationRequest
     ): Promise<FetchPlansByLocationResponse>;
 
+    updateLikeOfPlaceInPlan(
+        request: UpdateLikeOfPlaceInPlan
+    ): Promise<UpdateLikeOfPlaceInPlanResponse>;
+
     // ==============================================================
     // Plan Candidate
     // ==============================================================
@@ -82,14 +86,24 @@ export interface PlannerApi {
     updateLikeAtPlaceInPlanCandidate(
         request: UpdateLikeAtPlaceInPlanCandidateRequest
     ): Promise<UpdateLikeAtPlaceInPlanCandidateResponse>;
+
+    // ==============================================================
+    // Place
+    // ==============================================================
+    fetchPlacesNearbyPlanLocation(
+        request: FetchPlacesNearbyPlanLocationRequest
+    ): Promise<FetchPlacesNearbyPlanLocationResponse>;
 }
 
 export type FetchPlanRequest = {
     planId: string;
+    userId: string | null;
+    firebaseIdToken: string | null;
 };
 
 export type FetchPlanResponse = {
     plan: PlanEntity | null;
+    likedPlaceIds: string[];
 };
 
 export type FetchPlansRequest = {
@@ -119,6 +133,19 @@ export type FetchPlansByLocationRequest = {
 export type FetchPlansByLocationResponse = {
     pageKey: string | null;
     plans: PlanEntity[];
+};
+
+export type UpdateLikeOfPlaceInPlan = {
+    userId: string;
+    firebaseIdToken: string;
+    planId: string;
+    placeId: string;
+    like: boolean;
+};
+
+export type UpdateLikeOfPlaceInPlanResponse = {
+    plan: PlanEntity;
+    likePlaceIds: string[];
 };
 
 export type FetchAvailablePlacesForPlanRequest = {
@@ -159,6 +186,8 @@ export type CreatePlanFromPlaceResponse = {
 
 export type FetchCachedCreatedPlansRequest = {
     planCandidateId: string;
+    userId: string | null;
+    firebaseIdToken: string | null;
 };
 
 export type FetchCachedCreatedPlansResponse = {
@@ -275,6 +304,8 @@ export type UpdateLikeAtPlaceInPlanCandidateRequest = {
     planCandidateId: string;
     placeId: string;
     like: boolean;
+    userId: string | null;
+    firebaseIdToken: string | null;
 };
 
 export type UpdateLikeAtPlaceInPlanCandidateResponse = {
@@ -290,4 +321,13 @@ export type AutoReorderPlacesInPlanCandidateRequest = {
 export type AutoReorderPlacesInPlanCandidateResponse = {
     PlanCandidateId: string;
     plan: PlanEntity;
+};
+
+export type FetchPlacesNearbyPlanLocationRequest = {
+    planId: string;
+    limit: number | null;
+};
+
+export type FetchPlacesNearbyPlanLocationResponse = {
+    places: PlaceEntity[];
 };

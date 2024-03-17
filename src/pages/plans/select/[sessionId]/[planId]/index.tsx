@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { reduxAuthSelector } from "src/redux/auth";
 import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
     autoReorderPlacesInPlanCandidate,
@@ -14,6 +15,7 @@ import {
     updatePreviewPlanId,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
+import { AdInPlanDetail } from "src/view/ad/AdInPlanDetail";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
@@ -43,6 +45,7 @@ const PlanDetail = () => {
     const { sessionId, planId } = router.query;
     const dispatch = useAppDispatch();
     const { getCurrentLocation, location: currentLocation } = useLocation();
+    const { user, firebaseIdToken } = reduxAuthSelector();
 
     const {
         showRelatedPlaces,
@@ -97,16 +100,37 @@ const PlanDetail = () => {
         if (!currentLocation) getCurrentLocation().then();
     }, [currentLocation]);
 
-    // プラン候補のキャッシュが存在しない場合は取得する
     useEffect(() => {
         if (!sessionId || typeof sessionId !== "string") {
             return;
         }
 
-        if (createPlanSession !== sessionId) {
-            dispatch(fetchCachedCreatedPlans({ session: sessionId }));
+        // プラン候補のキャッシュが存在しない場合は取得する
+        if (!plan) {
+            dispatch(
+                fetchCachedCreatedPlans({
+                    session: sessionId,
+                    userId: user?.id,
+                    firebaseIdToken,
+                })
+            );
         }
-    }, [sessionId, createPlanSession]);
+    }, [sessionId, plan?.id]);
+
+    useEffect(() => {
+        if (!sessionId || typeof sessionId !== "string") {
+            return;
+        }
+
+        // ログイン状態が変化したら、必ずプラン候補を取得する
+        dispatch(
+            fetchCachedCreatedPlans({
+                session: sessionId,
+                userId: user?.id,
+                firebaseIdToken,
+            })
+        );
+    }, [planId, user?.id, firebaseIdToken]);
 
     // プランの詳細を取得する
     useEffect(() => {
@@ -196,10 +220,13 @@ const PlanDetail = () => {
                     boxSizing="border-box"
                 >
                     <PlanPageSection title="プランの情報">
-                        <PlanInfoSection
-                            durationInMinutes={plan.timeInMinutes}
-                            priceRange={getPlanPriceRange(plan.places)}
-                        />
+                        <VStack>
+                            <PlanInfoSection
+                                durationInMinutes={plan.timeInMinutes}
+                                priceRange={getPlanPriceRange(plan.places)}
+                            />
+                            <AdInPlanDetail />
+                        </VStack>
                     </PlanPageSection>
                     <PlanPageSection title="プラン">
                         <PlanPlaceList

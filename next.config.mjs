@@ -38,9 +38,10 @@ const nextConfig = {
         PLANNER_API_ENDPOINT: `${process.env.PLANNER_API_PROTOCOL}://${process.env.PLANNER_API_HOST}`,
         GCP_API_KEY: process.env.GCP_API_KEY,
 
+        // Google Adsense
         ADSENSE_CLIENT: process.env.ADSENSE_CLIENT,
-        ADSENSE_SLOT_TOP_PAGE_IN_ARTICLE:
-            process.env.ADSENSE_SLOT_TOP_PAGE_IN_ARTICLE,
+        ADSENSE_SLOT_TOP_PAGE_IN_ARTICLE: process.env.ADSENSE_SLOT_TOP_PAGE_IN_ARTICLE,
+        ADSENSE_SLOT_PLAN_DETAIL_IN_ARTICLE: process.env.ADSENSE_SLOT_PLAN_DETAIL_IN_ARTICLE,
 
         FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
         FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
