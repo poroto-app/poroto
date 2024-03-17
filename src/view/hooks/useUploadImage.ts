@@ -21,7 +21,6 @@ const useUploadImage = () => {
     const [uploadProgress, setUploadProgress] = useState<number | null>(null);
     const [uploadRequestStatus, setUploadRequestStatus] =
         useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
-    const [error, setError] = useState<Error | null>(null);
 
     const handleFileChange = (selectedFile: File) => {
         setFile(selectedFile);
