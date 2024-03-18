@@ -1,3 +1,4 @@
+import { useToast } from "@chakra-ui/react";
 import { getApp } from "firebase/app";
 import {
     getDownloadURL,
@@ -22,6 +23,7 @@ const useUploadImage = () => {
     const [uploadedImageURLs, setUploadedImageURLs] = useState<string[]>([]);
     const [uploadRequestStatus, setUploadRequestStatus] =
         useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
+    const toast = useToast();
 
     const handleFileChange = (selectedFiles: FileList) => {
         const selectedFilesArray = Array.from(selectedFiles);
@@ -48,8 +50,21 @@ const useUploadImage = () => {
             });
 
             await Promise.all(uploadTasks.map(setupUploadTaskListener));
+            toast({
+                title: "画像のアップロードが完了しました",
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
             setUploadRequestStatus(UploadRequestStatus.FULFILLED);
         } catch (error) {
+            toast({
+                title: "画像のアップロードに失敗しました",
+                description: "もう一度試してみてください。",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+            });
             setUploadRequestStatus(UploadRequestStatus.REJECTED);
         }
     };
@@ -58,6 +73,9 @@ const useUploadImage = () => {
         return new Promise<void>((resolve, reject) => {
             uploadTask.on(
                 "state_changed",
+                () => {
+                    // アップロードの進捗が変化した場合の処理
+                },
                 (error) => {
                     reject(error);
                 },
