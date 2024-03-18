@@ -1,13 +1,13 @@
 import {
-    Box,
-    Button,
-    Center,
-    HStack,
-    Image,
-    SimpleGrid,
-    Spinner,
-    Text,
-    VStack,
+Box,
+Button,
+Center,
+HStack,
+Image,
+SimpleGrid,
+Spinner,
+Text,
+VStack
 } from "@chakra-ui/react";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 
@@ -59,9 +59,10 @@ const DialogUploadImage = ({
                                 <Image
                                     src={url}
                                     alt={`選択された画像${index}`}
-                                    maxWidth="100%"
-                                    height="auto"
+                                    width={100}
+                                    height={100}
                                     display={!isUploading ? "block" : "none"}
+                                    objectFit="cover"
                                 />
                             </Box>
                         ))}
