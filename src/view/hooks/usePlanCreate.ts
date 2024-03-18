@@ -1,7 +1,6 @@
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
@@ -9,8 +8,8 @@ import {
     resetPlanCandidates,
     savePlanFromCandidate,
 } from "src/redux/planCandidate";
+import { useAppDispatch } from "src/redux/redux";
 import { Routes } from "src/view/constants/router";
-import {useAppDispatch} from "src/redux/redux";
 
 type Props = {
     planCandidateSetId: string;
