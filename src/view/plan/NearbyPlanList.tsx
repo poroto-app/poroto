@@ -1,4 +1,5 @@
 import { Plan } from "src/domain/models/Plan";
+import { isPC } from "src/view/constants/userAgent";
 import {
     LocationPermission,
     LocationPermissions,
@@ -38,6 +39,7 @@ export function NearbyPlanList({
                 />
             }
             isLoading={isFetchingNearbyPlans}
+            numPlaceHolders={isPC ? 3 : 1}
         >
             <PlanListSectionTitle section={PlanSections.NearBy} />
         </PlanList>

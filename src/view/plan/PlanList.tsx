@@ -11,10 +11,17 @@ type Props = {
     children?: ReactNode;
     isLoading?: boolean;
     plans: Plan[] | null;
+    numPlaceHolders?: number;
     empty?: ReactNode;
 };
 
-export function PlanList({ plans, isLoading = false, children, empty }: Props) {
+export function PlanList({
+    plans,
+    isLoading = false,
+    children,
+    empty,
+    numPlaceHolders = 6,
+}: Props) {
     if (!plans || plans.length == 0 || isLoading) {
         if (empty && !isLoading) {
             return (
@@ -29,7 +36,7 @@ export function PlanList({ plans, isLoading = false, children, empty }: Props) {
             <Container>
                 {children}
                 <GridLayout>
-                    {createArrayWithSize(6).map((i) => (
+                    {createArrayWithSize(numPlaceHolders).map((i) => (
                         <PlanPreview key={i} plan={null} />
                     ))}
                 </GridLayout>
