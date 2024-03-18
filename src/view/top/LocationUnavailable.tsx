@@ -31,7 +31,9 @@ export function LocationUnavailable({
                 }}
             />
             <Text fontWeight="bold" fontSize="20px">
-                {locationPermission === LocationPermissions.DENIED
+                {locationPermission === LocationPermissions.GRANTED
+                    ? "近くのプランを探しています..."
+                    : locationPermission === LocationPermissions.DENIED
                     ? "設定から位置情報を許可してください"
                     : "位置情報をオンにしてプランを取得"}
             </Text>
