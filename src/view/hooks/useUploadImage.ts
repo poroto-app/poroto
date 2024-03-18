@@ -56,11 +56,6 @@ const useUploadImage = () => {
         return new Promise<void>((resolve, reject) => {
             uploadTask.on(
                 "state_changed",
-                (snapshot) => {
-                    const progress =
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    setUploadProgress(progress);
-                },
                 (error) => {
                     console.error("Error uploading file:", error);
                     setUploadRequestStatus(UploadRequestStatus.REJECTED);
