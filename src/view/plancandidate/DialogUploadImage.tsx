@@ -8,6 +8,7 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 
 type Props = {
@@ -25,6 +26,8 @@ const DialogUploadImage = ({
     onUploadClick,
     onClose,
 }: Props) => {
+    const [dialogClosed, setDialogClosed] = useState(false);
+
     const renderContent = () => {
         if (isUploading) {
             return (
@@ -75,7 +78,13 @@ const DialogUploadImage = ({
                         <Button onClick={onClose} variant="text">
                             キャンセル
                         </Button>
-                        <Button onClick={onUploadClick} colorScheme="red">
+                        <Button
+                            onClick={() => {
+                                onUploadClick();
+                                setDialogClosed(true);
+                            }}
+                            colorScheme="red"
+                        >
                             アップロード
                         </Button>
                     </HStack>
@@ -88,10 +97,8 @@ const DialogUploadImage = ({
         <FullscreenDialog
             position="bottom"
             width="100%"
-            visible={visible}
-            onClickOutside={() => {
-                if (!isUploading) onClose();
-            }}
+            visible={visible && !dialogClosed}
+            onClickOutside={onClose}
         >
             <Center
                 backgroundColor="white"
