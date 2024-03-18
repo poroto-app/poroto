@@ -139,6 +139,10 @@ const NearByPlans = () => {
         getCurrentLocation,
     } = useLocation();
 
+    useEffect(() => {
+        checkGeolocationPermission().then();
+    }, []);
+
     const handleOnFetchNearByPlans = async () => {
         // TODO: 現在地取得中のダイアログを表示する
         // (Arcというブラウザで開くと現在地取得にものすごい時間がかかってずっとプレースホルダーが表示される)

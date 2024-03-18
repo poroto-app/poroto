@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import {
     RequestStatus,
@@ -66,12 +66,6 @@ export const useLocation = () => {
         setRequestStatus(null);
         setIsPermissionGranted(false);
     };
-
-    useEffect(() => {
-        checkGeolocationPermission().then((v) => {
-            setIsPermissionGranted(v);
-        });
-    }, []);
 
     return {
         isLocationPermissionGranted: isPermissionGranted,
