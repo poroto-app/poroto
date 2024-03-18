@@ -1,12 +1,13 @@
 import { getApp } from "firebase/app";
 import {
-getDownloadURL,
-getStorage,
-ref,
-uploadBytesResumable,
-UploadTask
+    getDownloadURL,
+    getStorage,
+    ref,
+    uploadBytesResumable,
+    UploadTask,
 } from "firebase/storage";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 enum UploadRequestStatus {
     IDLE = "IDLE",
@@ -16,19 +17,19 @@ enum UploadRequestStatus {
 }
 
 const useUploadImage = () => {
-    const [files, setFiles] = useState<File[]>([]);
-    const [imageURLs, setImageURLs] = useState<string[]>([]);
-    const [uploadProgress, setUploadProgress] = useState<number | null>(null);
+    const [localFiles, setLocalFiles] = useState<File[]>([]);
+    const [localImageURLs, setLocalImageURLs] = useState<string[]>([]);
+    const [uploadedImageURLs, setUploadedImageURLs] = useState<string[]>([]);
     const [uploadRequestStatus, setUploadRequestStatus] =
         useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
 
     const handleFileChange = (selectedFiles: FileList) => {
         const selectedFilesArray = Array.from(selectedFiles);
-        setFiles(selectedFilesArray);
+        setLocalFiles(selectedFilesArray);
         const imageURLsArray = selectedFilesArray.map((file) =>
             URL.createObjectURL(file)
         );
-        setImageURLs(imageURLsArray);
+        setLocalImageURLs(imageURLsArray);
     };
 
     const handleUpload = async () => {
@@ -40,13 +41,13 @@ const useUploadImage = () => {
                 process.env.CLOUD_STORAGE_POROTO_PLACE_IMAGES
             );
 
-            const uploadTasks = files.map((file) => {
-                const storageRef = ref(storage, `images/${file.name}`);
+            const uploadTasks = localFiles.map((file) => {
+                const uniqueFileName = `${uuidv4()}_${file.name}`;
+                const storageRef = ref(storage, `images/${uniqueFileName}`);
                 return uploadBytesResumable(storageRef, file);
             });
 
             await Promise.all(uploadTasks.map(setupUploadTaskListener));
-            setUploadRequestStatus(UploadRequestStatus.FULFILLED);
         } catch (error) {
             setUploadRequestStatus(UploadRequestStatus.REJECTED);
         }
@@ -66,11 +67,10 @@ const useUploadImage = () => {
                         const downloadURL = await getDownloadURL(
                             uploadTask.snapshot.ref
                         );
-                        setImageURLs((prevImageURLs) => [
+                        setUploadedImageURLs((prevImageURLs) => [
                             ...prevImageURLs,
                             downloadURL,
                         ]);
-                        setUploadProgress(null);
                         setUploadRequestStatus(UploadRequestStatus.FULFILLED);
                         resolve();
                     } catch (error) {
@@ -83,11 +83,11 @@ const useUploadImage = () => {
     };
 
     return {
-        files,
-        imageURLs,
-        uploadProgress,
+        localFiles,
+        localImageURLs,
+        uploadedImageURLs,
         isUploading: uploadRequestStatus === UploadRequestStatus.PENDING,
-        isUploadConfirmationDialogVisible: files.length > 0,
+        isUploadConfirmationDialogVisible: localFiles.length > 0,
         handleFileChange,
         handleUpload,
     };
