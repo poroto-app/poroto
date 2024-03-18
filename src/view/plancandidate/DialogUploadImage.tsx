@@ -1,13 +1,12 @@
 import {
-Box,
-Button,
-Center,
-HStack,
-Image,
-SimpleGrid,
-Spinner,
-Text,
-VStack
+    Box,
+    Button,
+    Center,
+    HStack,
+    Image,
+    Spinner,
+    Text,
+    VStack,
 } from "@chakra-ui/react";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 
@@ -47,11 +46,7 @@ const DialogUploadImage = ({
                     alignItems="center"
                     spacing="32px"
                 >
-                    <HStack
-                        gap="20px"
-                        flexWrap="wrap"
-                        justifyContent="center"
-                    >
+                    <HStack gap="20px" flexWrap="wrap" justifyContent="center">
                         {imageURLs.map((url, index) => (
                             <Box
                                 key={index}
