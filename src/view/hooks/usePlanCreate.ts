@@ -10,6 +10,7 @@ import {
     savePlanFromCandidate,
 } from "src/redux/planCandidate";
 import { Routes } from "src/view/constants/router";
+import {useAppDispatch} from "src/redux/redux";
 
 type Props = {
     planCandidateSetId: string;
@@ -17,7 +18,7 @@ type Props = {
 };
 
 export const usePlanCreate = ({ planCandidateSetId, planId }: Props) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const router = useRouter();
     const { preview: plan, savePlanFromCandidateRequestStatus } =
         reduxPlanCandidateSelector();
