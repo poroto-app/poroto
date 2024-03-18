@@ -47,7 +47,11 @@ const DialogUploadImage = ({
                     alignItems="center"
                     spacing="32px"
                 >
-                    <SimpleGrid columns={3} spacing="20px">
+                    <HStack
+                        gap="20px"
+                        flexWrap="wrap"
+                        justifyContent="center"
+                    >
                         {imageURLs.map((url, index) => (
                             <Box
                                 key={index}
@@ -66,7 +70,7 @@ const DialogUploadImage = ({
                                 />
                             </Box>
                         ))}
-                    </SimpleGrid>
+                    </HStack>
                     <Text fontSize="20px" fontWeight="bold" color="#574836">
                         {imageURLs.length === 1
                             ? "こちらの画像をアップロードしますか？"
