@@ -18,8 +18,6 @@ export const useNearbyPlans = () => {
     } = useLocation();
 
     const fetchNearbyPlans = async (): Promise<void> => {
-        // TODO: 現在地取得中のダイアログを表示する
-        // (Arcというブラウザで開くと現在地取得にものすごい時間がかかってずっとプレースホルダーが表示される)
         const currentLocation = await getCurrentLocation();
         if (!currentLocation) return;
         dispatch(fetchNearbyPlansAction({ currentLocation, limit: 5 }));
