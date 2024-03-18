@@ -70,7 +70,7 @@ export function FullscreenDialog({
         // コンポーネントが表示されなくなったときに、スクロール位置を元に戻す
         return () => {
             resetFixScroll();
-        }
+        };
     }, []);
 
     useEffect(() => {
