@@ -1,5 +1,5 @@
+import { Link } from "@chakra-ui/next-js";
 import { Box, Button, Text, VStack } from "@chakra-ui/react";
-import Link from "next/link";
 import {
     RequestStatus,
     RequestStatuses,
@@ -13,11 +13,13 @@ import animationDataLoadingLocation from "src/view/lottie/location-loading.json"
 
 type Props = {
     fetchLocationRequestStatus: RequestStatus | null;
+    isSkipCurrentLocationVisible?: boolean;
     onRetry: () => void;
 };
 
 export function FetchLocationDialog({
     fetchLocationRequestStatus,
+    isSkipCurrentLocationVisible = false,
     onRetry,
 }: Props) {
     return (
@@ -31,7 +33,11 @@ export function FetchLocationDialog({
             <RoundedDialog>
                 <Box p="16px" w="100%">
                     {fetchLocationRequestStatus === RequestStatuses.PENDING && (
-                        <Fetching />
+                        <Fetching
+                            isSkipCurrentLocationVisible={
+                                isSkipCurrentLocationVisible
+                            }
+                        />
                     )}
                     {fetchLocationRequestStatus ===
                         RequestStatuses.REJECTED && (
@@ -43,13 +49,22 @@ export function FetchLocationDialog({
     );
 }
 
-function Fetching() {
+function Fetching({
+    isSkipCurrentLocationVisible,
+}: {
+    isSkipCurrentLocationVisible: boolean;
+}) {
     return (
         <VStack w="100%">
             <Box w="100%" position="relative" h="250px">
                 <LottiePlayer animationData={animationDataLoadingLocation} />
             </Box>
             <Text>位置情報を取得しています...</Text>
+            {isSkipCurrentLocationVisible && (
+                <Link href={Routes.places.search} mt="16px">
+                    <Text color="blue.600">好きな場所からプランを作成する</Text>
+                </Link>
+            )}
         </VStack>
     );
 }
