@@ -145,6 +145,8 @@ function PlaceSearchPage() {
     if (fetchCurrentLocationStatus && !location)
         return (
             <FetchLocationDialog
+                skipLocationLabel="現在地取得をスキップする"
+                isSkipCurrentLocationVisible={true}
                 fetchLocationRequestStatus={
                     fetchCurrentLocationStatus ?? RequestStatuses.PENDING
                 }

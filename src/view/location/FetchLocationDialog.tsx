@@ -13,6 +13,7 @@ import animationDataLoadingLocation from "src/view/lottie/location-loading.json"
 
 type Props = {
     fetchLocationRequestStatus: RequestStatus | null;
+    skipLocationLabel?: string;
     isSkipCurrentLocationVisible?: boolean;
     onRetry: () => void;
 };
@@ -20,6 +21,7 @@ type Props = {
 export function FetchLocationDialog({
     fetchLocationRequestStatus,
     isSkipCurrentLocationVisible = false,
+    skipLocationLabel = "好きな場所からプランを作成する",
     onRetry,
 }: Props) {
     return (
@@ -34,6 +36,7 @@ export function FetchLocationDialog({
                 <Box p="16px" w="100%">
                     {fetchLocationRequestStatus === RequestStatuses.PENDING && (
                         <Fetching
+                            skipLocationLabel={skipLocationLabel}
                             isSkipCurrentLocationVisible={
                                 isSkipCurrentLocationVisible
                             }
@@ -50,8 +53,10 @@ export function FetchLocationDialog({
 }
 
 function Fetching({
+    skipLocationLabel,
     isSkipCurrentLocationVisible,
 }: {
+    skipLocationLabel: string;
     isSkipCurrentLocationVisible: boolean;
 }) {
     return (
@@ -65,7 +70,7 @@ function Fetching({
                     href={Routes.places.search({ skipCurrentLocation: true })}
                     mt="16px"
                 >
-                    <Text color="blue.600">好きな場所からプランを作成する</Text>
+                    <Text color="blue.600">{skipLocationLabel}</Text>
                 </Link>
             )}
         </VStack>
