@@ -75,7 +75,7 @@ export const PlacePreview = ({
     const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
     const isEmptyLocation =
         images.length === 0 &&
-        googlePlaceReviews.length == 0 &&
+        googlePlaceReviews?.length == 0 &&
         categories.length === 0 &&
         !priceRange;
 

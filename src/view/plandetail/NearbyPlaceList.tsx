@@ -9,9 +9,10 @@ import { isPC } from "src/view/constants/userAgent";
 
 type Props = {
     places: Place[] | null;
+    onSelectPlace?: (place: Place) => void;
 };
 
-export const NearbyPlaceList = ({ places }: Props) => {
+export const NearbyPlaceList = ({ places, onSelectPlace }: Props) => {
     if (!places) {
         return (
             <Container>
@@ -28,7 +29,11 @@ export const NearbyPlaceList = ({ places }: Props) => {
             {places
                 .filter((p) => p.images.length > 0)
                 .map((place, index) => (
-                    <NearbyPlaceCard place={place} key={index} />
+                    <NearbyPlaceCard
+                        key={index}
+                        place={place}
+                        onClick={() => onSelectPlace?.(place)}
+                    />
                 ))}
         </Container>
     );
@@ -117,7 +122,13 @@ const PageButton = ({
     );
 };
 
-const NearbyPlaceCard = ({ place }: { place: Place }) => {
+const NearbyPlaceCard = ({
+    place,
+    onClick,
+}: {
+    place: Place;
+    onClick?: () => void;
+}) => {
     const image = place.images[0];
     return (
         <Box
@@ -128,6 +139,7 @@ const NearbyPlaceCard = ({ place }: { place: Place }) => {
             overflow="hidden"
             position="relative"
             scrollSnapAlign="center"
+            onClick={onClick}
         >
             <ImageWithSkeleton
                 src={image.default}

@@ -27,6 +27,8 @@ export type PlanState = {
     preview: Plan | null;
     likePlaceIds: string[];
 
+    placeIdToCreatePlan: string | null;
+
     // プラン完成時に表示されるモーダルの表示フラグ
     showPlanCreatedModal: boolean;
 
@@ -51,6 +53,8 @@ const initialState: PlanState = {
 
     preview: null,
     likePlaceIds: [],
+
+    placeIdToCreatePlan: null,
 
     showPlanCreatedModal: false,
 
@@ -232,6 +236,12 @@ export const slice = createSlice({
         ) => {
             state.showPlanCreatedModal = payload;
         },
+        setPlaceIdToCreatePlan: (
+            state,
+            { payload }: PayloadAction<string | null>
+        ) => {
+            state.placeIdToCreatePlan = payload;
+        },
         resetPlansByUser: (state) => {
             state.plansByUser = null;
         },
@@ -343,6 +353,7 @@ export const slice = createSlice({
 export const {
     pushPlansRecentlyCreated,
     setShowPlanCreatedModal,
+    setPlaceIdToCreatePlan,
     resetPlansByUser,
 } = slice.actions;
 
