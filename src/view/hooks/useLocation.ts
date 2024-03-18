@@ -75,11 +75,13 @@ export const useLocation = () => {
                 const currentLocation = await fetchCurrentLocation();
                 setLocation(currentLocation);
                 setRequestStatus(RequestStatuses.FULFILLED);
+                setLocationPermission(LocationPermissions.GRANTED);
                 setIsPermissionGranted(true);
                 return currentLocation;
             } catch (e) {
                 setLocation(null);
                 setRequestStatus(RequestStatuses.REJECTED);
+                setLocationPermission(LocationPermissions.DENIED);
                 setIsPermissionGranted(false);
                 return null;
             }
