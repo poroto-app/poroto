@@ -61,7 +61,10 @@ function Fetching({
             </Box>
             <Text>位置情報を取得しています...</Text>
             {isSkipCurrentLocationVisible && (
-                <Link href={Routes.places.search} mt="16px">
+                <Link
+                    href={Routes.places.search({ skipCurrentLocation: true })}
+                    mt="16px"
+                >
                     <Text color="blue.600">好きな場所からプランを作成する</Text>
                 </Link>
             )}

@@ -1,3 +1,8 @@
+export const RouteParams = {
+    SkipCurrentLocation: "skipCurrentLocation",
+};
+export type RouteParam = (typeof RouteParams)[keyof typeof RouteParams];
+
 export const Routes = {
     home: "/",
     plans: {
@@ -15,6 +20,15 @@ export const Routes = {
         },
     },
     places: {
-        search: "/places/search",
+        search: ({
+            skipCurrentLocation,
+        }: {
+            skipCurrentLocation?: boolean;
+        }) => {
+            let url = "/places/search";
+            if (skipCurrentLocation)
+                url += `?${RouteParams.SkipCurrentLocation}=true`;
+            return url;
+        },
     },
 };
