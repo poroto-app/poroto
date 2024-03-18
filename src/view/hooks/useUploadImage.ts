@@ -1,10 +1,10 @@
 import { getApp } from "firebase/app";
 import {
-    getDownloadURL,
-    getStorage,
-    ref,
-    uploadBytesResumable,
-    UploadTask,
+getDownloadURL,
+getStorage,
+ref,
+uploadBytesResumable,
+UploadTask
 } from "firebase/storage";
 import { useState } from "react";
 
@@ -46,6 +46,7 @@ const useUploadImage = () => {
             });
 
             await Promise.all(uploadTasks.map(setupUploadTaskListener));
+            setUploadRequestStatus(UploadRequestStatus.FULFILLED);
         } catch (error) {
             setUploadRequestStatus(UploadRequestStatus.REJECTED);
         }
