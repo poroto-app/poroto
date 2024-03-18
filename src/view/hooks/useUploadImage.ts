@@ -59,8 +59,6 @@ const useUploadImage = () => {
             uploadTask.on(
                 "state_changed",
                 (error) => {
-                    console.error("Error uploading file:", error);
-                    setUploadRequestStatus(UploadRequestStatus.REJECTED);
                     reject(error);
                 },
                 async () => {
@@ -75,7 +73,6 @@ const useUploadImage = () => {
                         setUploadRequestStatus(UploadRequestStatus.FULFILLED);
                         resolve();
                     } catch (error) {
-                        setUploadRequestStatus(UploadRequestStatus.REJECTED);
                         reject(error);
                     }
                 }

@@ -58,8 +58,8 @@ const DialogUploadImage = ({
                                 <Image
                                     src={url}
                                     alt={`選択された画像${index}`}
-                                    width={100}
-                                    height={100}
+                                    width="100%"
+                                    height="100%"
                                     display={!isUploading ? "block" : "none"}
                                     objectFit="cover"
                                 />
