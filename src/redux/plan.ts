@@ -1,4 +1,4 @@
-import { createAsyncThunk,createSlice,PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
@@ -7,8 +7,8 @@ import { GeoLocation } from "src/domain/models/GeoLocation";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import {
-RequestStatus,
-RequestStatuses,
+    RequestStatus,
+    RequestStatuses,
 } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { RootState } from "src/redux/redux";
@@ -216,7 +216,7 @@ export const updatePlaceLikeInPlan = createAsyncThunk(
 
 type UploadPlacePhotosInPlanProps = {
     planId: string;
-    photos:{
+    photos: {
         userId: string;
         placeId: string;
         photoUrl: string;
@@ -224,12 +224,9 @@ type UploadPlacePhotosInPlanProps = {
         height: number;
     }[];
 };
-export const uploadPlacePhotoInPlan = createAsyncThunk(
+export const uploadPlacePhotosInPlan = createAsyncThunk(
     "plan/uploadPlacePhotosInPlan",
-    async ({
-        planId,
-        photos,
-    }: UploadPlacePhotosInPlanProps) => {
+    async ({ planId, photos }: UploadPlacePhotosInPlanProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.uploadPlacePhotosInPlan({
             planId,
@@ -238,6 +235,8 @@ export const uploadPlacePhotoInPlan = createAsyncThunk(
         return {
             plan: createPlanFromPlanEntity(response.plan),
         };
+    }
+);
 
 export const slice = createSlice({
     name: "plan",
@@ -376,16 +375,16 @@ export const slice = createSlice({
             })
             // Upload Place Photo In Plan
             .addCase(uploadPlacePhotoInPlan.pending, (state) => {
-                state.uploadPlacePhotoInPlanRequestStatus =
+                state.uploadPlacePhotosInPlanRequestStatus =
                     RequestStatuses.PENDING;
             })
             .addCase(uploadPlacePhotoInPlan.fulfilled, (state, { payload }) => {
-                state.uploadPlacePhotoInPlanRequestStatus =
+                state.uploadPlacePhotosInPlanRequestStatus =
                     RequestStatuses.FULFILLED;
                 state.preview = payload.plan;
             })
             .addCase(uploadPlacePhotoInPlan.rejected, (state) => {
-                state.uploadPlacePhotoInPlanRequestStatus =
+                state.uploadPlacePhotosInPlanRequestStatus =
                     RequestStatuses.REJECTED;
             });
     },
