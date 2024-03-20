@@ -146,6 +146,7 @@ export const PlaceChipActionCamera = () => {
                 ref={fileInputRef}
                 id="file-input"
                 type="file"
+                accept="image/*"
                 multiple
                 onChange={handleFileInputChange}
                 style={{ display: "none" }}
