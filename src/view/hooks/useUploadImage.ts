@@ -24,6 +24,8 @@ const useUploadImage = () => {
     const [uploadRequestStatus, setUploadRequestStatus] =
         useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
     const toast = useToast();
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [dialogVisible, setDialogVisible] = useState(false);
 
     const handleFileChange = (selectedFiles: FileList) => {
         const selectedFilesArray = Array.from(selectedFiles);
@@ -32,6 +34,7 @@ const useUploadImage = () => {
             URL.createObjectURL(file)
         );
         setLocalImageURLs(imageURLsArray);
+        setDialogVisible(true);
     };
 
     const handleUpload = async () => {
@@ -48,6 +51,8 @@ const useUploadImage = () => {
                 const storageRef = ref(storage, `images/${uniqueFileName}`);
                 return uploadBytesResumable(storageRef, file);
             });
+
+            setDialogVisible(true);
 
             await Promise.all(uploadTasks.map(setupUploadTaskListener));
             toast({
@@ -66,6 +71,8 @@ const useUploadImage = () => {
                 isClosable: true,
             });
             setUploadRequestStatus(UploadRequestStatus.REJECTED);
+        } finally {
+            setDialogVisible(false);
         }
     };
 
@@ -73,8 +80,10 @@ const useUploadImage = () => {
         return new Promise<void>((resolve, reject) => {
             uploadTask.on(
                 "state_changed",
-                () => {
-                    // アップロードの進捗が変化した場合の処理
+                (snapshot) => {
+                    const progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setUploadProgress(progress);
                 },
                 (error) => {
                     reject(error);
@@ -102,8 +111,9 @@ const useUploadImage = () => {
         localFiles,
         localImageURLs,
         uploadedImageURLs,
+        uploadProgress,
         isUploading: uploadRequestStatus === UploadRequestStatus.PENDING,
-        isUploadConfirmationDialogVisible: localFiles.length > 0,
+        isUploadConfirmationDialogVisible: dialogVisible,
         handleFileChange,
         handleUpload,
     };

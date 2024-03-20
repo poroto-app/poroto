@@ -1,12 +1,8 @@
 import { Link } from "@chakra-ui/next-js";
 import { HStack, Icon, Text } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { IconType } from "react-icons";
-import {
-    MdOutlineCameraAlt,
-    MdOutlineDeleteOutline,
-    MdOutlineFindReplace,
-} from "react-icons/md";
+import { MdOutlineDeleteOutline, MdOutlineFindReplace } from "react-icons/md";
 import { SiGooglemaps, SiInstagram } from "react-icons/si";
 import useUploadImage from "src/view/hooks/useUploadImage";
 import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
@@ -111,9 +107,14 @@ export const PlaceChipActionGoogleMaps = ({
 };
 
 export const PlaceChipActionCamera = () => {
-    const { localFiles, isUploading, handleFileChange, handleUpload } =
-        useUploadImage();
-    const [dialogVisible, setDialogVisible] = useState(false);
+    const {
+        localFiles,
+        isUploading,
+        handleFileChange,
+        handleUpload,
+        uploadProgress,
+        isUploadConfirmationDialogVisible,
+    } = useUploadImage();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleUploadButtonClick = () => {
@@ -123,25 +124,25 @@ export const PlaceChipActionCamera = () => {
     const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFiles = e.target.files;
         selectedFiles && handleFileChange(selectedFiles);
-        setDialogVisible(selectedFiles && selectedFiles.length > 0);
     };
 
     return (
         <div>
-            <HStack
-                backgroundColor="#FCF2E4"
-                color="#483216"
+            <button
                 onClick={handleUploadButtonClick}
-                px="8px"
-                py="4px"
-                borderRadius="20px"
-                as="button"
+                style={{
+                    backgroundColor: "#FCF2E4",
+                    color: "#483216",
+                    padding: "4px 8px",
+                    borderRadius: "20px",
+                    border: "none",
+                    cursor: "pointer",
+                }}
             >
-                <Icon w="16px" h="16px" as={MdOutlineCameraAlt} />
-                <Text fontSize="0.8rem" whiteSpace="nowrap">
+                <span style={{ fontSize: "0.8rem", whiteSpace: "nowrap" }}>
                     写真をアップロード
-                </Text>
-            </HStack>
+                </span>
+            </button>
             <input
                 ref={fileInputRef}
                 id="file-input"
@@ -151,13 +152,14 @@ export const PlaceChipActionCamera = () => {
                 style={{ display: "none" }}
             />
             <DialogUploadImage
-                visible={dialogVisible}
+                visible={isUploadConfirmationDialogVisible}
                 isUploading={isUploading}
                 imageURLs={localFiles.map((localFile) =>
                     URL.createObjectURL(localFile)
                 )}
                 onUploadClick={handleUpload}
-                onClose={() => setDialogVisible(false)}
+                onClose={null}
+                uploadProgress={uploadProgress}
             />
         </div>
     );
