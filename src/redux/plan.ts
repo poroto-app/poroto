@@ -216,32 +216,24 @@ export const updatePlaceLikeInPlan = createAsyncThunk(
 
 type UploadPlacePhotosInPlanProps = {
     planId: string;
-    userId: string;
-    placeId: string;
-    photoUrl: string;
-    width: number;
-    height: number;
+    photos:{
+        userId: string;
+        placeId: string;
+        photoUrl: string;
+        width: number;
+        height: number;
+    }[];
 };
 export const uploadPlacePhotoInPlan = createAsyncThunk(
     "plan/uploadPlacePhotosInPlan",
     async ({
         planId,
-        userId,
-        placeId,
-        photoUrl,
-        width,
-        height,
+        photos,
     }: UploadPlacePhotosInPlanProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.uploadPlacePhotosInPlan({
             planId,
-            photos: [{
-                userId,
-                placeId,
-                photoUrl,
-                width,
-                height,
-            }],
+            photos,
         });
         return {
             plan: createPlanFromPlanEntity(response.plan),
