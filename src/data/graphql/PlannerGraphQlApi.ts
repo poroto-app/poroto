@@ -191,7 +191,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         };
     }
 
-    async uploadPlacePhotoInPlan(
+    async uploadPlacePhotosInPlan(
         request: UploadPlacePhotosInPlanRequest
     ): Promise<UploadPlacePhotosInPlanResponse> {
         const { data } = await this.client.mutate({
