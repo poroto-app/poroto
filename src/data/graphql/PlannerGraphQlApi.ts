@@ -69,8 +69,8 @@ import {
     UpdateLikeOfPlaceInPlanResponse,
     UpdatePlanCandidatePlacesOrderRequest,
     UpdatePlanCandidatePlacesOrderResponse,
-    UploadPlacePhotoInPlansRequest,
-    UploadPlacePhotoInPlansResponse,
+    UploadPlacePhotosInPlanRequest,
+    UploadPlacePhotosInPlanResponse,
 } from "src/domain/plan/PlannerApi";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
@@ -192,8 +192,8 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     }
 
     async uploadPlacePhotoInPlan(
-        request: UploadPlacePhotoInPlansRequest
-    ): Promise<UploadPlacePhotoInPlansResponse> {
+        request: UploadPlacePhotosInPlanRequest
+    ): Promise<UploadPlacePhotosInPlanResponse> {
         const { data } = await this.client.mutate({
             mutation: UploadPlacePhotoInPlanDocument,
             variables: {

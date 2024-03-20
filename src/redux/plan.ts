@@ -38,7 +38,7 @@ export type PlanState = {
     fetchPlansByUserRequestStatus: RequestStatus | null;
     fetchPlacesNearbyPlanLocationRequestStatus: RequestStatus | null;
     updatePlaceLikeInPlanRequestStatus: RequestStatus | null;
-    uploadPlacePhotoInPlanRequestStatus: RequestStatus | null;
+    uploadPlacePhotosInPlanRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanState = {
@@ -65,7 +65,7 @@ const initialState: PlanState = {
     fetchPlansByUserRequestStatus: null,
     fetchPlacesNearbyPlanLocationRequestStatus: null,
     updatePlaceLikeInPlanRequestStatus: null,
-    uploadPlacePhotoInPlanRequestStatus: null,
+    uploadPlacePhotosInPlanRequestStatus: null,
 };
 
 export const fetchPlansRecentlyCreated = createAsyncThunk<{
@@ -214,7 +214,7 @@ export const updatePlaceLikeInPlan = createAsyncThunk(
     }
 );
 
-type UploadPlacePhotoInPlanProps = {
+type UploadPlacePhotosInPlanProps = {
     planId: string;
     userId: string;
     placeId: string;
@@ -223,7 +223,7 @@ type UploadPlacePhotoInPlanProps = {
     height: number;
 };
 export const uploadPlacePhotoInPlan = createAsyncThunk(
-    "plan/uploadPlacePhotoInPlan",
+    "plan/uploadPlacePhotosInPlan",
     async ({
         planId,
         userId,
@@ -231,9 +231,9 @@ export const uploadPlacePhotoInPlan = createAsyncThunk(
         photoUrl,
         width,
         height,
-    }: UploadPlacePhotoInPlanProps) => {
+    }: UploadPlacePhotosInPlanProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const response = await plannerApi.uploadPlacePhotoInPlan({
+        const response = await plannerApi.uploadPlacePhotosInPlan({
             planId,
             photos: [{
                 userId,
