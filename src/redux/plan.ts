@@ -374,16 +374,16 @@ export const slice = createSlice({
                     RequestStatuses.REJECTED;
             })
             // Upload Place Photo In Plan
-            .addCase(uploadPlacePhotoInPlan.pending, (state) => {
+            .addCase(uploadPlacePhotosInPlan.pending, (state) => {
                 state.uploadPlacePhotosInPlanRequestStatus =
                     RequestStatuses.PENDING;
             })
-            .addCase(uploadPlacePhotoInPlan.fulfilled, (state, { payload }) => {
+            .addCase(uploadPlacePhotosInPlan.fulfilled, (state, { payload }) => {
                 state.uploadPlacePhotosInPlanRequestStatus =
                     RequestStatuses.FULFILLED;
                 state.preview = payload.plan;
             })
-            .addCase(uploadPlacePhotoInPlan.rejected, (state) => {
+            .addCase(uploadPlacePhotosInPlan.rejected, (state) => {
                 state.uploadPlacePhotosInPlanRequestStatus =
                     RequestStatuses.REJECTED;
             });
