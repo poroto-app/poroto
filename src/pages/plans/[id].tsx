@@ -157,7 +157,10 @@ export default function PlanPage() {
                         }
                     />
                 </PlanPageSection>
-                <PlanPageSection title="プラン内の場所">
+                <PlanPageSection
+                    title="プラン内の場所"
+                    description="マーカーをクリックすると場所の詳細が表示されます"
+                >
                     <PlaceMap places={plan.places} />
                 </PlanPageSection>
                 <VStack w="100%" px="16px">
