@@ -50,5 +50,5 @@ export const GoogleMaps: Story = {
 };
 
 export const Camera: Story = {
-    render: () => <PlaceChipActionCamera />,
+    render: () => <PlaceChipActionCamera placeId="" />,
 };
