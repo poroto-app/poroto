@@ -12,11 +12,17 @@ import { SectionTitle } from "src/view/common/SectionTitle";
 
 export type Props = {
     title: string;
+    description?: string;
     accordion?: boolean;
     children?: ReactNode;
 };
 
-export function PlanPageSection({ title, accordion, children }: Props) {
+export function PlanPageSection({
+    title,
+    description,
+    accordion,
+    children,
+}: Props) {
     if (accordion)
         return (
             <Accordion allowToggle borderColor="transparent" w="100%" px="16px">
@@ -34,7 +40,7 @@ export function PlanPageSection({ title, accordion, children }: Props) {
 
     return (
         <VStack w="100%" px="16px" spacing={4} alignItems="flex-start">
-            <SectionTitle title={title} />
+            <SectionTitle title={title} description={description} />
             <Box w="100%">{children}</Box>
         </VStack>
     );
