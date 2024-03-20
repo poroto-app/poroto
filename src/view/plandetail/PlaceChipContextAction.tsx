@@ -8,6 +8,8 @@ import {
     MdOutlineFindReplace,
 } from "react-icons/md";
 import { SiGooglemaps, SiInstagram } from "react-icons/si";
+import { reduxAuthSelector } from "src/redux/auth";
+import { reduxPlanSelector } from "src/redux/plan";
 import useUploadImage from "src/view/hooks/useUploadImage";
 import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { OnClickHandler } from "src/view/types/handler";
@@ -110,11 +112,14 @@ export const PlaceChipActionGoogleMaps = ({
     );
 };
 
-export const PlaceChipActionCamera = () => {
+// TODO: リファクタする
+export const PlaceChipActionCamera = ({ placeId }: { placeId: string }) => {
     const { localFiles, isUploading, handleFileChange, handleUpload } =
         useUploadImage();
     const [dialogVisible, setDialogVisible] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const { user } = reduxAuthSelector();
+    const { preview: plan } = reduxPlanSelector();
 
     const handleUploadButtonClick = () => {
         fileInputRef.current && fileInputRef.current.click();
@@ -122,9 +127,17 @@ export const PlaceChipActionCamera = () => {
 
     const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFiles = e.target.files;
-        selectedFiles && handleFileChange(selectedFiles);
+        if (selectedFiles) {
+            handleFileChange(selectedFiles);
+        }
         setDialogVisible(selectedFiles && selectedFiles.length > 0);
     };
+
+    // ログインユーザーでなければアップロードできない
+    if (!user) return <></>;
+
+    // 保存済みプランに対する操作でなければ表示しない
+    if (!plan) return <></>;
 
     return (
         <div>
@@ -157,7 +170,13 @@ export const PlaceChipActionCamera = () => {
                 imageURLs={localFiles.map((localFile) =>
                     URL.createObjectURL(localFile)
                 )}
-                onUploadClick={handleUpload}
+                onUploadClick={() =>
+                    handleUpload({
+                        placeId,
+                        userId: user.id,
+                        planId: plan.id,
+                    })
+                }
                 onClose={() => setDialogVisible(false)}
             />
         </div>

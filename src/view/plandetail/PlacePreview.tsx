@@ -174,7 +174,7 @@ export const PlacePreview = ({
                         <PlaceChipActionDelete onClick={onClickDeletePlace} />
                     )}
                     {process.env.APP_ENV !== "production" && (
-                        <PlaceChipActionCamera />
+                        <PlaceChipActionCamera placeId={placeId} />
                     )}
                 </HStack>
             </VStack>

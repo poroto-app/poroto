@@ -8,6 +8,8 @@ import {
     UploadTask,
 } from "firebase/storage";
 import { useState } from "react";
+import { uploadPlacePhotosInPlan } from "src/redux/plan";
+import { useAppDispatch } from "src/redux/redux";
 import { v4 as uuidv4 } from "uuid";
 
 enum UploadRequestStatus {
@@ -24,6 +26,7 @@ const useUploadImage = () => {
     const [uploadRequestStatus, setUploadRequestStatus] =
         useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
     const toast = useToast();
+    const dispatch = useAppDispatch();
 
     const handleFileChange = (selectedFiles: FileList) => {
         const selectedFilesArray = Array.from(selectedFiles);
@@ -34,22 +37,66 @@ const useUploadImage = () => {
         setLocalImageURLs(imageURLsArray);
     };
 
-    const handleUpload = async () => {
+    const handleUpload = async ({
+        planId,
+        userId,
+        placeId,
+    }: {
+        planId: string;
+        userId: string;
+        placeId: string;
+    }) => {
         try {
             setUploadRequestStatus(UploadRequestStatus.PENDING);
+
+            // 画像のサイズを取得する
+            const localFilesWithSize = await Promise.all(
+                localFiles.map(async (file) => {
+                    const size = await fetchImageSizeFromFile(file);
+                    return { size, file };
+                })
+            );
+            // Cloud Storageに画像をアップロードする
             const firebaseApp = getApp();
             const storage = getStorage(
                 firebaseApp,
                 process.env.CLOUD_STORAGE_POROTO_PLACE_IMAGES
             );
 
-            const uploadTasks = localFiles.map((file) => {
+            const uploadTasks = localFiles.map((file, index) => {
                 const uniqueFileName = `${uuidv4()}_${file.name}`;
                 const storageRef = ref(storage, `images/${uniqueFileName}`);
-                return uploadBytesResumable(storageRef, file);
+                // TODO: 変数名をちゃんと考える（正しく対応関係がとれていない）
+                return setupUploadTaskListener(
+                    index,
+                    uploadBytesResumable(storageRef, file)
+                );
             });
+            const uploadTaskResults = await Promise.all(uploadTasks);
+            const uploadedFileDownloadUrls = uploadTaskResults.map(
+                (result) => result.downloadUrl
+            );
+            setUploadedImageURLs(uploadedFileDownloadUrls);
 
-            await Promise.all(uploadTasks.map(setupUploadTaskListener));
+            // plannerに画像を登録する
+            const photos = localFilesWithSize.map((fileWithSize, index) => {
+                const uploadTaskResultOfFile = uploadTaskResults.find(
+                    (result) => result.taskIndex === index
+                );
+                if (!uploadTaskResultOfFile) {
+                    throw new Error("downloadUrl not found");
+                }
+
+                return {
+                    userId,
+                    placeId,
+                    photoUrl: uploadTaskResultOfFile.downloadUrl,
+                    width: fileWithSize.size.width,
+                    height: fileWithSize.size.height,
+                };
+            });
+            dispatch(uploadPlacePhotosInPlan({ planId, photos: photos }));
+
             toast({
                 title: "画像のアップロードが完了しました",
                 status: "success",
@@ -69,8 +116,11 @@ const useUploadImage = () => {
         }
     };
 
-    const setupUploadTaskListener = (uploadTask: UploadTask) => {
-        return new Promise<void>((resolve, reject) => {
+    const setupUploadTaskListener = (
+        taskIndex: number,
+        uploadTask: UploadTask
+    ): Promise<{ taskIndex: number; downloadUrl: string }> => {
+        return new Promise((resolve, reject) => {
             uploadTask.on(
                 "state_changed",
                 () => {
@@ -81,15 +131,11 @@ const useUploadImage = () => {
                 },
                 async () => {
                     try {
-                        const downloadURL = await getDownloadURL(
+                        const downloadUrl = await getDownloadURL(
                             uploadTask.snapshot.ref
                         );
-                        setUploadedImageURLs((prevImageURLs) => [
-                            ...prevImageURLs,
-                            downloadURL,
-                        ]);
                         setUploadRequestStatus(UploadRequestStatus.FULFILLED);
-                        resolve();
+                        resolve({ taskIndex, downloadUrl });
                     } catch (error) {
                         reject(error);
                     }
@@ -108,5 +154,29 @@ const useUploadImage = () => {
         handleUpload,
     };
 };
+
+// 画像の高さと横幅を取得する
+function fetchImageSizeFromFile(
+    file: File
+): Promise<{ width: number; height: number }> {
+    return new Promise((resolve, reject) => {
+        const image = new Image();
+
+        image.onload = () => {
+            const size = {
+                width: image.naturalWidth,
+                height: image.naturalHeight,
+            };
+            URL.revokeObjectURL(image.src);
+            resolve(size);
+        };
+
+        image.onerror = (error) => {
+            reject(error);
+        };
+
+        image.src = URL.createObjectURL(file);
+    });
+}
 
 export default useUploadImage;
