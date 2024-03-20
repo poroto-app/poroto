@@ -234,6 +234,7 @@ export const uploadPlacePhotoInPlan = createAsyncThunk(
     }: UploadPlacePhotoInPlanProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.uploadPlacePhotoInPlan({
+            planId,
             photos: [{
                 userId,
                 placeId,
@@ -366,20 +367,6 @@ export const slice = createSlice({
                     state.placesNearbyPlanLocation = null;
                 }
             )
-            // Upload Place Photo In Plan
-            .addCase(uploadPlacePhotoInPlan.pending, (state) => {
-                state.uploadPlacePhotoInPlanRequestStatus =
-                    RequestStatuses.PENDING;
-            })
-            .addCase(uploadPlacePhotoInPlan.fulfilled, (state, { payload }) => {
-                state.uploadPlacePhotoInPlanRequestStatus =
-                    RequestStatuses.FULFILLED;
-                state.preview = payload.plan;
-            })
-            .addCase(uploadPlacePhotoInPlan.rejected, (state) => {
-                state.uploadPlacePhotoInPlanRequestStatus =
-                    RequestStatuses.REJECTED;
-            })
             // Update Place Like In Plan
             .addCase(updatePlaceLikeInPlan.pending, (state) => {
                 state.updatePlaceLikeInPlanRequestStatus =
@@ -393,6 +380,20 @@ export const slice = createSlice({
             })
             .addCase(updatePlaceLikeInPlan.rejected, (state) => {
                 state.updatePlaceLikeInPlanRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
+            // Upload Place Photo In Plan
+            .addCase(uploadPlacePhotoInPlan.pending, (state) => {
+                state.uploadPlacePhotoInPlanRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(uploadPlacePhotoInPlan.fulfilled, (state, { payload }) => {
+                state.uploadPlacePhotoInPlanRequestStatus =
+                    RequestStatuses.FULFILLED;
+                state.preview = payload.plan;
+            })
+            .addCase(uploadPlacePhotoInPlan.rejected, (state) => {
+                state.uploadPlacePhotoInPlanRequestStatus =
                     RequestStatuses.REJECTED;
             });
     },

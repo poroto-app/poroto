@@ -336,17 +336,16 @@ export type FetchPlacesNearbyPlanLocationResponse = {
     places: PlaceEntity[];
 };
 
-export type UploadPlacePhotoInPlanRequest ={
+export type UploadPlacePhotoInPlanRequest = {
     planId: string;
-    photos:
-        {
-            userId: string;
-            placeId: string;
-            photoUrl: string;
-            width: number;
-            height: number;
-        }[];
-}
+    photos: {
+        userId: string;
+        placeId: string;
+        photoUrl: string;
+        width: number;
+        height: number;
+    }[];
+};
 
 export type UploadPlacePhotoInPlanResponse = {
     plan: PlanEntity;
