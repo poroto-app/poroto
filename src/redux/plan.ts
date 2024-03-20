@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk,createSlice,PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
@@ -7,8 +7,8 @@ import { GeoLocation } from "src/domain/models/GeoLocation";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import {
-    RequestStatus,
-    RequestStatuses,
+RequestStatus,
+RequestStatuses,
 } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { RootState } from "src/redux/redux";
@@ -38,6 +38,7 @@ export type PlanState = {
     fetchPlansByUserRequestStatus: RequestStatus | null;
     fetchPlacesNearbyPlanLocationRequestStatus: RequestStatus | null;
     updatePlaceLikeInPlanRequestStatus: RequestStatus | null;
+    uploadPlacePhotoInPlanRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanState = {
@@ -64,6 +65,7 @@ const initialState: PlanState = {
     fetchPlansByUserRequestStatus: null,
     fetchPlacesNearbyPlanLocationRequestStatus: null,
     updatePlaceLikeInPlanRequestStatus: null,
+    uploadPlacePhotoInPlanRequestStatus: null,
 };
 
 export const fetchPlansRecentlyCreated = createAsyncThunk<{
@@ -212,6 +214,38 @@ export const updatePlaceLikeInPlan = createAsyncThunk(
     }
 );
 
+type UploadPlacePhotoInPlanProps = {
+    planId: string;
+    userId: string;
+    placeId: string;
+    photoUrl: string;
+    width: number;
+    height: number;
+};
+export const uploadPlacePhotoInPlan = createAsyncThunk(
+    "plan/uploadPlacePhotoInPlan",
+    async ({
+        planId,
+        userId,
+        placeId,
+        photoUrl,
+        width,
+        height,
+    }: UploadPlacePhotoInPlanProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.uploadPlacePhotoInPlan({
+            photos: [{
+                userId,
+                placeId,
+                photoUrl,
+                width,
+                height,
+            }],
+        });
+        return {
+            plan: createPlanFromPlanEntity(response.plan),
+        };
+
 export const slice = createSlice({
     name: "plan",
     initialState,
@@ -332,6 +366,20 @@ export const slice = createSlice({
                     state.placesNearbyPlanLocation = null;
                 }
             )
+            // Upload Place Photo In Plan
+            .addCase(uploadPlacePhotoInPlan.pending, (state) => {
+                state.uploadPlacePhotoInPlanRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(uploadPlacePhotoInPlan.fulfilled, (state, { payload }) => {
+                state.uploadPlacePhotoInPlanRequestStatus =
+                    RequestStatuses.FULFILLED;
+                state.preview = payload.plan;
+            })
+            .addCase(uploadPlacePhotoInPlan.rejected, (state) => {
+                state.uploadPlacePhotoInPlanRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
             // Update Place Like In Plan
             .addCase(updatePlaceLikeInPlan.pending, (state) => {
                 state.updatePlaceLikeInPlanRequestStatus =
