@@ -24,6 +24,10 @@ export interface PlannerApi {
         request: UpdateLikeOfPlaceInPlan
     ): Promise<UpdateLikeOfPlaceInPlanResponse>;
 
+    uploadPlacePhotoInPlan(
+        request: UploadPlacePhotoInPlanRequest
+    ): Promise<UploadPlacePhotoInPlanResponse>;
+
     // ==============================================================
     // Plan Candidate
     // ==============================================================
@@ -330,4 +334,20 @@ export type FetchPlacesNearbyPlanLocationRequest = {
 
 export type FetchPlacesNearbyPlanLocationResponse = {
     places: PlaceEntity[];
+};
+
+export type UploadPlacePhotoInPlanRequest ={
+    planId: string;
+    photos:
+        {
+            userId: string;
+            placeId: string;
+            photoUrl: string;
+            width: number;
+            height: number;
+        }[];
+}
+
+export type UploadPlacePhotoInPlanResponse = {
+    plan: PlanEntity;
 };
