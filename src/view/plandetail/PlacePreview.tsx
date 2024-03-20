@@ -75,7 +75,7 @@ export const PlacePreview = ({
     const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
     const isEmptyLocation =
         images.length === 0 &&
-        googlePlaceReviews.length == 0 &&
+        googlePlaceReviews?.length == 0 &&
         categories.length === 0 &&
         !priceRange;
 
@@ -173,9 +173,7 @@ export const PlacePreview = ({
                     {onClickDeletePlace && (
                         <PlaceChipActionDelete onClick={onClickDeletePlace} />
                     )}
-                    {process.env.APP_ENV !== "production" && (
-                        <PlaceChipActionCamera />
-                    )}
+                    <PlaceChipActionCamera placeId={placeId} />
                 </HStack>
             </VStack>
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">

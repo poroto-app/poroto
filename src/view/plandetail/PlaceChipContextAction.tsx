@@ -1,5 +1,6 @@
 import { Link } from "@chakra-ui/next-js";
 import { HStack, Icon, Text } from "@chakra-ui/react";
+import { useRef, useState } from "react";
 import { IconType } from "react-icons";
 import {
     MdOutlineCameraAlt,
@@ -7,6 +8,10 @@ import {
     MdOutlineFindReplace,
 } from "react-icons/md";
 import { SiGooglemaps, SiInstagram } from "react-icons/si";
+import { reduxAuthSelector } from "src/redux/auth";
+import { reduxPlanSelector } from "src/redux/plan";
+import useUploadImage from "src/view/hooks/useUploadImage";
+import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { OnClickHandler } from "src/view/types/handler";
 
 type Props = {
@@ -107,30 +112,73 @@ export const PlaceChipActionGoogleMaps = ({
     );
 };
 
-export const PlaceChipActionCamera = () => {
-    const handleFileInput = (event: Event) => {
-        const target = event.target as HTMLInputElement;
-        const file = target.files?.length > 0 && target.files[0];
-        if (file) {
-            console.log("Selected file:", file);
-        }
+// TODO: リファクタする
+export const PlaceChipActionCamera = ({ placeId }: { placeId: string }) => {
+    const { localFiles, isUploading, handleFileChange, handleUpload } =
+        useUploadImage();
+    const [dialogVisible, setDialogVisible] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const { user } = reduxAuthSelector();
+    const { preview: plan } = reduxPlanSelector();
+
+    const handleUploadButtonClick = () => {
+        fileInputRef.current && fileInputRef.current.click();
     };
 
-    const openCamera = () => {
-        const input = document.createElement("input");
-        input.type = "file";
-        input.accept = "image/*";
-        // MEMO: カメラが利用できる場合は、カメラを起動する。利用できない場合はファイル選択ダイアログを表示する。
-        input.capture = "environment";
-        input.onchange = handleFileInput;
-        input.click();
+    const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedFiles = e.target.files;
+        if (selectedFiles) {
+            handleFileChange(selectedFiles);
+        }
+        setDialogVisible(selectedFiles && selectedFiles.length > 0);
     };
+
+    // ログインユーザーでなければアップロードできない
+    if (!user) return <></>;
+
+    // 保存済みプランに対する操作でなければ表示しない
+    if (!plan) return <></>;
 
     return (
-        <PlaceChipContextAction
-            label="写真を撮る"
-            icon={MdOutlineCameraAlt}
-            onClick={openCamera}
-        />
+        <div>
+            <HStack
+                backgroundColor="#FCF2E4"
+                color="#483216"
+                onClick={handleUploadButtonClick}
+                px="8px"
+                py="4px"
+                borderRadius="20px"
+                as="button"
+            >
+                <Icon w="16px" h="16px" as={MdOutlineCameraAlt} />
+                <Text fontSize="0.8rem" whiteSpace="nowrap">
+                    写真をアップロード
+                </Text>
+            </HStack>
+            <input
+                ref={fileInputRef}
+                id="file-input"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleFileInputChange}
+                style={{ display: "none" }}
+            />
+            <DialogUploadImage
+                visible={dialogVisible}
+                isUploading={isUploading}
+                imageURLs={localFiles.map((localFile) =>
+                    URL.createObjectURL(localFile)
+                )}
+                onUploadClick={() =>
+                    handleUpload({
+                        placeId,
+                        userId: user.id,
+                        planId: plan.id,
+                    })
+                }
+                onClose={() => setDialogVisible(false)}
+            />
+        </div>
     );
 };

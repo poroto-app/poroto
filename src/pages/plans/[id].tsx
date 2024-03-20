@@ -2,11 +2,15 @@ import { Center, useToast, VStack } from "@chakra-ui/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { Place } from "src/domain/models/Place";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { setSearchLocation } from "src/redux/location";
 import {
+    fetchPlacesNearbyPlanLocation,
     fetchPlan,
     reduxPlanSelector,
+    setPlaceIdToCreatePlan,
     setShowPlanCreatedModal,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
@@ -15,25 +19,33 @@ import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
+import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
+import { useUserPlan } from "src/view/hooks/useUserPlan";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
-import { FooterHeight } from "src/view/plan/PlanFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
+import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
+import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
     const dispatch = useAppDispatch();
+    const router = useRouter();
+    const { userId, firebaseIdToken, likePlaceIds, updateLikePlace } =
+        useUserPlan();
     const {
         preview: plan,
+        placesNearbyPlanLocation,
         fetchPlanRequestStatus,
         showPlanCreatedModal,
+        placeIdToCreatePlan,
     } = reduxPlanSelector();
     const toast = useToast();
 
@@ -50,20 +62,43 @@ export default function PlanPage() {
         });
     };
 
+    // TODO: hooksで管理する
+    const handleOnCreatePlan = async ({ place }: { place: Place }) => {
+        dispatch(
+            setSearchLocation({
+                searchLocation: place.location,
+                searchPlaceId: place.googlePlaceId,
+            })
+        );
+        // ダイアログの背景固定を解除するためにモーダルを閉じる
+        dispatch(setPlaceIdToCreatePlan(null));
+        await router.push(Routes.plans.interest(true));
+    };
+
     useEffect(() => {
         if (typeof id !== "string") return;
-        dispatch(fetchPlan({ planId: id }));
+        dispatch(
+            fetchPlan({
+                planId: id,
+                userId: userId,
+                firebaseIdToken: firebaseIdToken,
+            })
+        );
+        dispatch(fetchPlacesNearbyPlanLocation({ planId: id, limit: 10 }));
 
         return () => {
             // 他のページに遷移するときにモーダルを閉じる
             // (戻るボタンでトップページに遷移したときの対応)
             dispatch(setShowPlanCreatedModal(false));
+            dispatch(setPlaceIdToCreatePlan(null));
         };
-    }, [id]);
+    }, [id, userId, firebaseIdToken]);
 
     if (
         !fetchPlanRequestStatus ||
-        fetchPlanRequestStatus === RequestStatuses.PENDING
+        (fetchPlanRequestStatus === RequestStatuses.PENDING &&
+            // プランを取得したあとで、同じプランを再取得したときに画面がロード中になるのを防ぐ
+            plan?.id !== id)
     )
         return <LoadingModal title="プランを読み込んでいます" />;
 
@@ -73,7 +108,7 @@ export default function PlanPage() {
     if (!plan) return <NotFound />;
 
     return (
-        <Center flexDirection="column" pb={`${FooterHeight}px`}>
+        <Center flexDirection="column" pb="32px">
             <Head>
                 <title>{plan.title} | poroto</title>
             </Head>
@@ -84,10 +119,14 @@ export default function PlanPage() {
             >
                 <PlanDetailPageHeader
                     plan={plan}
-                    /*TODO: ログインユーザーがLIKEした場所を反映できるようにする*/
-                    likedPlaceIds={[]}
-                    /*TODO: 非ログインユーザーの場合はログインを促すダイアログを表示する*/
-                    onUpdateLikePlace={() => 0}
+                    likedPlaceIds={likePlaceIds}
+                    onUpdateLikePlace={(placeId, like) =>
+                        updateLikePlace({
+                            planId: plan.id,
+                            placeId,
+                            like,
+                        })
+                    }
                     onCopyPlanUrl={handleOnCopyPlanUrl}
                 />
             </VStack>
@@ -110,10 +149,18 @@ export default function PlanPage() {
                     </VStack>
                 </PlanPageSection>
                 <PlanPageSection title="プラン">
-                    {/*TODO: ログインユーザーがLIKEした場所を反映できるようにする*/}
-                    <PlanPlaceList plan={plan} likePlaceIds={[]} />
+                    <PlanPlaceList
+                        plan={plan}
+                        likePlaceIds={likePlaceIds}
+                        onUpdateLikeAtPlace={({ like, placeId }) =>
+                            updateLikePlace({ planId: plan.id, placeId, like })
+                        }
+                    />
                 </PlanPageSection>
-                <PlanPageSection title="プラン内の場所">
+                <PlanPageSection
+                    title="プラン内の場所"
+                    description="マーカーをクリックすると場所の詳細が表示されます"
+                >
                     <PlaceMap places={plan.places} />
                 </PlanPageSection>
                 <VStack w="100%" px="16px">
@@ -123,6 +170,16 @@ export default function PlanPage() {
                         currentLocation={null}
                     />
                 </VStack>
+                <PlanPageSection
+                    title={`このプランの近くの場所から、新しいプランを作って見ませんか？`}
+                >
+                    <NearbyPlaceList
+                        places={placesNearbyPlanLocation}
+                        onSelectPlace={(place) =>
+                            dispatch(setPlaceIdToCreatePlan(place.id))
+                        }
+                    />
+                </PlanPageSection>
             </VStack>
             <PlanCreatedDialog
                 visible={showPlanCreatedModal}
@@ -131,6 +188,13 @@ export default function PlanPage() {
                     dispatch(setShowPlanCreatedModal(false));
                     handleOnCopyPlanUrl();
                 }}
+            />
+            <CreatePlanDialog
+                place={placesNearbyPlanLocation?.find(
+                    (place) => place.id === placeIdToCreatePlan
+                )}
+                onClickClose={() => dispatch(setPlaceIdToCreatePlan(null))}
+                onClickCreatePlan={(place) => handleOnCreatePlan({ place })}
             />
         </Center>
     );

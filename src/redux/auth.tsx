@@ -12,12 +12,14 @@ import { RootState } from "src/redux/redux";
 export type AuthState = {
     user: User | null;
 
+    firebaseIdToken: string | null;
+
     fetchByFirebaseUserStatus: RequestStatus | null;
 };
 
 const initialState: AuthState = {
     user: null,
-
+    firebaseIdToken: null,
     fetchByFirebaseUserStatus: null,
 };
 
@@ -35,6 +37,7 @@ export const fetchByFirebaseUser = createAsyncThunk(
         });
         return {
             user: createUserFromEntity(user),
+            firebaseToken,
         };
     }
 );
@@ -45,22 +48,21 @@ export const slice = createSlice({
     reducers: {
         resetAuthUser: (state) => {
             state.user = null;
+            state.firebaseIdToken = null;
         },
     },
     extraReducers: (builder) => {
         builder
             // Fetch By Firebase User
-            .addCase(fetchByFirebaseUser.pending, (state, action) => {
+            .addCase(fetchByFirebaseUser.pending, (state) => {
                 state.fetchByFirebaseUserStatus = RequestStatuses.PENDING;
             })
-            .addCase(
-                fetchByFirebaseUser.fulfilled,
-                (state, { payload: { user } }) => {
-                    state.fetchByFirebaseUserStatus = RequestStatuses.FULFILLED;
-                    state.user = user;
-                }
-            )
-            .addCase(fetchByFirebaseUser.rejected, (state, action) => {
+            .addCase(fetchByFirebaseUser.fulfilled, (state, { payload }) => {
+                state.fetchByFirebaseUserStatus = RequestStatuses.FULFILLED;
+                state.user = payload.user;
+                state.firebaseIdToken = payload.firebaseToken;
+            })
+            .addCase(fetchByFirebaseUser.rejected, (state) => {
                 state.fetchByFirebaseUserStatus = RequestStatuses.REJECTED;
             });
     },

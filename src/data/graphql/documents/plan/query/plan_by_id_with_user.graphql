@@ -1,0 +1,11 @@
+query FetchPlanByIdWithUser($planInput: PlanInput!, $likePlacesInput: LikePlacesInput!) {
+    plan(input: $planInput) {
+        plan {
+            ...PlanFullFragment
+        }
+    }
+
+    likePlaces(input: $likePlacesInput) {
+        id
+    }
+}

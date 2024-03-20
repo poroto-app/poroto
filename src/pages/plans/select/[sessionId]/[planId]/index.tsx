@@ -1,16 +1,13 @@
 import { Button, Center, VStack } from "@chakra-ui/react";
-import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
+import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
-import { setShowPlanCreatedModal } from "src/redux/plan";
+import { reduxAuthSelector } from "src/redux/auth";
 import {
     autoReorderPlacesInPlanCandidate,
     fetchCachedCreatedPlans,
     reduxPlanCandidateSelector,
-    resetPlanCandidates,
-    savePlanFromCandidate,
     updatePreviewPlanId,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
@@ -25,6 +22,7 @@ import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
 import { useLocation } from "src/view/hooks/useLocation";
 import { usePlaceLikeInPlanCandidate } from "src/view/hooks/usePlaceLikeInPlanCandidate";
+import { usePlanCreate } from "src/view/hooks/usePlanCreate";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
 import { usePlanPlaceDelete } from "src/view/hooks/usePlanPlaceDelete";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
@@ -44,6 +42,12 @@ const PlanDetail = () => {
     const { sessionId, planId } = router.query;
     const dispatch = useAppDispatch();
     const { getCurrentLocation, location: currentLocation } = useLocation();
+    const { user, firebaseIdToken } = reduxAuthSelector();
+
+    const { createPlan, savePlanFromCandidateRequestStatus } = usePlanCreate({
+        planCandidateSetId: sessionId as string,
+        planId: planId as string,
+    });
 
     const {
         showRelatedPlaces,
@@ -90,7 +94,6 @@ const PlanDetail = () => {
         preview: plan,
         createdBasedOnCurrentLocation,
         createPlanSession,
-        savePlanFromCandidateRequestStatus,
         fetchCachedCreatedPlansRequestStatus,
     } = reduxPlanCandidateSelector();
 
@@ -98,16 +101,37 @@ const PlanDetail = () => {
         if (!currentLocation) getCurrentLocation().then();
     }, [currentLocation]);
 
-    // プラン候補のキャッシュが存在しない場合は取得する
     useEffect(() => {
         if (!sessionId || typeof sessionId !== "string") {
             return;
         }
 
-        if (createPlanSession !== sessionId) {
-            dispatch(fetchCachedCreatedPlans({ session: sessionId }));
+        // プラン候補のキャッシュが存在しない場合は取得する
+        if (!plan) {
+            dispatch(
+                fetchCachedCreatedPlans({
+                    session: sessionId,
+                    userId: user?.id,
+                    firebaseIdToken,
+                })
+            );
         }
-    }, [sessionId, createPlanSession]);
+    }, [sessionId, plan?.id]);
+
+    useEffect(() => {
+        if (!sessionId || typeof sessionId !== "string") {
+            return;
+        }
+
+        // ログイン状態が変化したら、必ずプラン候補を取得する
+        dispatch(
+            fetchCachedCreatedPlans({
+                session: sessionId,
+                userId: user?.id,
+                firebaseIdToken,
+            })
+        );
+    }, [planId, user?.id, firebaseIdToken]);
 
     // プランの詳細を取得する
     useEffect(() => {
@@ -116,31 +140,6 @@ const PlanDetail = () => {
             dispatch(updatePreviewPlanId({ planId }));
         }
     }, [planId, createPlanSession]);
-
-    // プランが保存され次第、ページ遷移を行う
-    useEffect(() => {
-        if (!plan) return;
-        if (savePlanFromCandidateRequestStatus === RequestStatuses.FULFILLED) {
-            router.push(Routes.plans.plan(plan.id)).then();
-            dispatch(setShowPlanCreatedModal(true));
-            // 戻ったときに再リダイレクトされないようにする
-            dispatch(resetPlanCandidates());
-        }
-    }, [planId, savePlanFromCandidateRequestStatus]);
-
-    const handleOnSavePlan = async ({
-        session,
-        plan,
-    }: {
-        session: string;
-        plan: Plan;
-    }) => {
-        const auth = getAuth();
-        const authToken = await auth.currentUser?.getIdToken(true);
-        dispatch(
-            savePlanFromCandidate({ session, planId: plan.id, authToken })
-        );
-    };
 
     const handleOptimizeRoute = ({
         planCandidateId,
@@ -151,6 +150,10 @@ const PlanDetail = () => {
     }): void => {
         dispatch(autoReorderPlacesInPlanCandidate({ planId, planCandidateId }));
     };
+
+    if (savePlanFromCandidateRequestStatus === RequestStatuses.PENDING) {
+        return <LoadingModal title="プランを作成しています" />;
+    }
 
     if (!plan) {
         // プラン候補取得失敗
@@ -226,7 +229,10 @@ const PlanDetail = () => {
                             onUpdateLikeAtPlace={updateLikeAtPlace}
                         />
                     </PlanPageSection>
-                    <PlanPageSection title="プラン内の場所">
+                    <PlanPageSection
+                        title="プラン内の場所"
+                        description="マーカーをクリックすると場所の詳細が表示されます"
+                    >
                         <PlaceMap places={plan.places} />
                     </PlanPageSection>
                     <VStack w="100%" p="16px">
@@ -262,9 +268,7 @@ const PlanDetail = () => {
                     color="white"
                     backgroundColor={Colors.primary["400"]}
                     borderRadius={10}
-                    onClick={() =>
-                        handleOnSavePlan({ session: createPlanSession, plan })
-                    }
+                    onClick={() => createPlan({ planId: plan.id })}
                 >
                     しおりとして保存
                 </Button>

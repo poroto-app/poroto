@@ -11,35 +11,62 @@ type Props = {
     children?: ReactNode;
     isLoading?: boolean;
     plans: Plan[] | null;
+    numPlaceHolders?: number;
     empty?: ReactNode;
 };
 
-export function PlanList({ plans, isLoading = false, children, empty }: Props) {
-    return (
-        <VStack w="100%" spacing={4} alignItems="center">
-            {children}
-            {!plans || isLoading ? (
+export function PlanList({
+    plans,
+    isLoading = false,
+    children,
+    empty,
+    numPlaceHolders = 6,
+}: Props) {
+    if (!plans || plans.length == 0 || isLoading) {
+        if (empty && !isLoading) {
+            return (
+                <Container>
+                    {children}
+                    {empty}
+                </Container>
+            );
+        }
+
+        return (
+            <Container>
+                {children}
                 <GridLayout>
-                    {createArrayWithSize(6).map((i) => (
+                    {createArrayWithSize(numPlaceHolders).map((i) => (
                         <PlanPreview key={i} plan={null} />
                     ))}
                 </GridLayout>
-            ) : plans.length === 0 && empty ? (
-                empty
-            ) : (
-                <GridLayout>
-                    {plans.map((plan, index) => (
-                        <>
-                            <PlanPreview
-                                key={index}
-                                link={Routes.plans.plan(plan.id)}
-                                plan={plan}
-                            />
-                            {(index + 1) % 6 === 0 && <AdInPlanList />}
-                        </>
-                    ))}
-                </GridLayout>
-            )}
+            </Container>
+        );
+    }
+
+    return (
+        <Container>
+            {children}
+            <GridLayout>
+                {plans.map((plan, index) => (
+                    <>
+                        <PlanPreview
+                            key={index}
+                            link={Routes.plans.plan(plan.id)}
+                            plan={plan}
+                        />
+                        {(index + 1) % 6 === 0 && <AdInPlanList />}
+                    </>
+                ))}
+            </GridLayout>
+        </Container>
+    );
+}
+
+function Container({ children }: { children: ReactNode }) {
+    return (
+        <VStack w="100%" spacing={4} alignItems="center">
+            {children}
         </VStack>
     );
 }

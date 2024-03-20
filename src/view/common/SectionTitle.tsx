@@ -1,9 +1,25 @@
-import { Text } from "@chakra-ui/react";
+import { Text, VStack } from "@chakra-ui/react";
 
-export function SectionTitle({ title }: { title: string }) {
+type Props = {
+    title: string;
+    description?: string;
+};
+export function SectionTitle({ title, description }: Props) {
     return (
-        <Text fontWeight="bold" fontSize="20px">
-            {title}
-        </Text>
+        <VStack alignItems="flex-start" spacing="4px">
+            <Text fontWeight="bold" fontSize="20px">
+                {title.split("\n").map((line, index) => (
+                    <span key={index}>
+                        {line}
+                        <br />
+                    </span>
+                ))}
+            </Text>
+            {description && (
+                <Text fontSize="14px" color="gray.500">
+                    {description}
+                </Text>
+            )}
+        </VStack>
     );
 }

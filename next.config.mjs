@@ -1,7 +1,7 @@
-import remarkUnwrapImages from 'remark-unwrap-images';
-import runtimeCaching  from 'next-pwa/cache.js';
-import pwa from "next-pwa"
 import mdx from '@next/mdx';
+import pwa from "next-pwa";
+import runtimeCaching from 'next-pwa/cache.js';
+import remarkUnwrapImages from 'remark-unwrap-images';
 
 
 const withPWA = pwa({
@@ -26,7 +26,7 @@ const withMDX = mdx({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    distDir: 'build',  // Google App Engineが.nextディレクトリを読み込め無いため、buildに変更する必要がある。
+    distDir: "build", // Google App Engineが.nextディレクトリを読み込め無いため、buildに変更する必要がある。
     eslint: {
         ignoreDuringBuilds: true,
     },
@@ -52,17 +52,18 @@ const nextConfig = {
 
         BASIC_AUTH_USERNAME: process.env.BASIC_AUTH_USERNAME,
         BASIC_AUTH_PASSWORD: process.env.BASIC_AUTH_PASSWORD,
+        CLOUD_STORAGE_POROTO_PLACE_IMAGES: process.env.CLOUD_STORAGE_POROTO_PLACE_IMAGES,
     },
     webpack: (config) => {
         config.module.rules.push({
             test: /\.svg$/,
-            use: ['@svgr/webpack'],
+            use: ["@svgr/webpack"],
         });
         return config;
     },
     compiler: {
         styledComponents: true,
-    }
-}
+    },
+};
 
 export default withPWA(withMDX(nextConfig));
