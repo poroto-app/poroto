@@ -1,4 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 import { PlannerPlaceGraphqlApi } from "src/data/graphql/PlannerPlaceGraphqlApi";
 import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
 import { Place } from "src/domain/models/Place";
@@ -7,6 +8,7 @@ import {
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
 import { PlannerPlaceApi } from "src/domain/place/PlannerPlaceApi";
+import { RootState } from "src/redux/redux";
 
 export type PlaceState = {
     likePlaces: Place[] | null;
@@ -62,5 +64,8 @@ export const slice = createSlice({
         );
     },
 });
+
+export const reduxPlaceSelector = () =>
+    useSelector((state: RootState) => state.place);
 
 export const placeReducer = slice.reducer;
