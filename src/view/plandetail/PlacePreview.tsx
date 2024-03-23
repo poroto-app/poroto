@@ -55,7 +55,7 @@ export type PlaceActionHandler = {
     onUpdateLikeAtPlace?: (input: { like: boolean; placeId: string }) => void;
 };
 
-// TODO: Propsの型を共通して定義できるようにする
+// TODO: Propsの型PlaceChipActionCameraを共通して定義できるようにする
 export const PlacePreview = ({
     placeId,
     googlePlaceId,

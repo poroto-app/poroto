@@ -117,19 +117,11 @@ export const PlaceChipActionCamera = ({ placeId }: { placeId: string }) => {
     const { localFiles, isUploading, handleFileChange, handleUpload } =
         useUploadImage();
     const [dialogVisible, setDialogVisible] = useState(false);
-    const fileInputRef = useRef<HTMLInputElement>(null);
     const { user } = reduxAuthSelector();
     const { preview: plan } = reduxPlanSelector();
 
-    const handleUploadButtonClick = () => {
-        fileInputRef.current && fileInputRef.current.click();
-    };
-
-    const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedFiles = e.target.files;
-        if (selectedFiles) {
-            handleFileChange(selectedFiles);
-        }
+    const handleFileInputChange = (selectedFiles: FileList) => {
+        handleFileChange(selectedFiles);
         setDialogVisible(selectedFiles && selectedFiles.length > 0);
     };
 
@@ -140,11 +132,46 @@ export const PlaceChipActionCamera = ({ placeId }: { placeId: string }) => {
     if (!plan) return <></>;
 
     return (
+        <PlaceChipActionCameraComponent
+            localFiles={localFiles}
+            isUploading={isUploading}
+            isUploadPlacePhotoDialogVisible={dialogVisible}
+            onFileChanged={(f) => handleFileInputChange(f)}
+            onUpload={() =>
+                handleUpload({
+                    placeId,
+                    userId: user.id,
+                    planId: plan.id,
+                })
+            }
+            onCloseDialog={() => setDialogVisible(false)}
+        />
+    );
+};
+
+export const PlaceChipActionCameraComponent = ({
+    localFiles,
+    isUploading,
+    isUploadPlacePhotoDialogVisible,
+    onFileChanged,
+    onUpload,
+    onCloseDialog,
+}: {
+    localFiles: File[];
+    isUploading: boolean;
+    isUploadPlacePhotoDialogVisible: boolean;
+    onFileChanged: (files: FileList) => void;
+    onUpload: OnClickHandler;
+    onCloseDialog: () => void;
+}) => {
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+    return (
         <div>
             <HStack
                 backgroundColor="#FCF2E4"
                 color="#483216"
-                onClick={handleUploadButtonClick}
+                onClick={() => fileInputRef.current?.click()}
                 px="8px"
                 py="4px"
                 borderRadius="20px"
@@ -161,23 +188,17 @@ export const PlaceChipActionCamera = ({ placeId }: { placeId: string }) => {
                 type="file"
                 accept="image/*"
                 multiple
-                onChange={handleFileInputChange}
+                onChange={(e) => onFileChanged(e.target.files)}
                 style={{ display: "none" }}
             />
             <DialogUploadImage
-                visible={dialogVisible}
+                visible={isUploadPlacePhotoDialogVisible}
                 isUploading={isUploading}
                 imageURLs={localFiles.map((localFile) =>
                     URL.createObjectURL(localFile)
                 )}
-                onUploadClick={() =>
-                    handleUpload({
-                        placeId,
-                        userId: user.id,
-                        planId: plan.id,
-                    })
-                }
-                onClose={() => setDialogVisible(false)}
+                onUploadClick={onUpload}
+                onClose={onCloseDialog}
             />
         </div>
     );
