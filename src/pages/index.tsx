@@ -1,7 +1,7 @@
 import { Center, Spinner, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { useEffect } from "react";
-import {MdOutlineBookmark, MdOutlineBookmarkBorder, MdTrendingUp} from "react-icons/md";
+import { MdOutlineBookmarkBorder, MdTrendingUp } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
@@ -90,7 +90,7 @@ const IndexPage = (props: Props) => {
                     spacing="24px"
                 >
                     {plansByUser && plansByUser.length > 0 && (
-                        <PlanList plans={plansByUser}>
+                        <PlanList plans={plansByUser} grid={false}>
                             <PlanListSectionTitle
                                 title="保存したプラン"
                                 icon={MdOutlineBookmarkBorder}
