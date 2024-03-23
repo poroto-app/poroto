@@ -5,18 +5,25 @@ import { Size } from "src/view/constants/size";
 
 type Props = {
     place: Place | null;
+    w?: string | number;
+    h?: string | number;
     onClick?: () => void;
 };
 
-export function PlaceCard({ place, onClick }: Props) {
+export function PlaceCard({
+    place,
+    w = Size.PlaceCard.w,
+    h = Size.PlaceCard.h,
+    onClick,
+}: Props) {
     if (!place) return <PlaceCardSkeleton />;
 
     const image = place.images[0];
     return (
         <Box
-            w={Size.PlaceCard.w}
-            minW={Size.PlaceCard.w}
-            h={Size.PlaceCard.h}
+            w={w}
+            minW={w}
+            h={h}
             borderRadius={Size.PlaceCard.borderRadius}
             overflow="hidden"
             position="relative"

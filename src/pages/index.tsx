@@ -128,6 +128,8 @@ const IndexPage = (props: Props) => {
                                     <PlaceCard
                                         key={index}
                                         place={place}
+                                        w={Size.PlanList.LikePlace.w}
+                                        h={Size.PlanList.LikePlace.h}
                                         onClick={() =>
                                             onSelectLikePlace(place.id)
                                         }

@@ -14,6 +14,10 @@ export const Size = {
         SavedPlan: {
             ThumbnailHeight: "250px",
         },
+        LikePlace: {
+            w: "200px",
+            h: "250px",
+        },
     },
     PlaceCard: {
         w: "200px",
