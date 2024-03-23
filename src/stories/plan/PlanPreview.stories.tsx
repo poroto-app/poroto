@@ -101,3 +101,27 @@ export const WrapTitle: Story = {
         wrapTitle: false,
     },
 };
+
+export const ShowAuthor: Story = {
+    args: {
+        plan: {
+            id: "plan",
+            title: "プランタイトル",
+            timeInMinutes: 30,
+            author: {
+                id: "author",
+                name: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum.",
+                avatarImage: "https://picsum.photos/450/600",
+            },
+            transitions: [
+                {
+                    fromPlaceId: mockPlaces.bookStore.id,
+                    toPlaceId: mockPlaces.tokyo.id,
+                    durationInMinutes: 10,
+                },
+            ],
+            places: [mockPlaces.bookStore, mockPlaces.tokyo],
+        },
+        showAuthor: false,
+    },
+};

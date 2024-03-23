@@ -94,6 +94,7 @@ const IndexPage = (props: Props) => {
                             plans={plansByUser}
                             grid={false}
                             wrapTitle={false}
+                            showAuthor={false}
                         >
                             <PlanListSectionTitle
                                 title="保存したプラン"

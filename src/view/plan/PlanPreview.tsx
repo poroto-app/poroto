@@ -10,6 +10,7 @@ type Props = {
     link?: string;
     planThumbnailHeight?: string | number;
     wrapTitle?: boolean;
+    showAuthor?: boolean;
 };
 
 export function PlaceHolder() {
@@ -26,6 +27,7 @@ export function PlanPreview({
     link,
     planThumbnailHeight,
     wrapTitle = true,
+    showAuthor = true,
 }: Props) {
     if (!plan) return <PlaceHolder />;
 
@@ -55,7 +57,7 @@ export function PlanPreview({
                     {plan.title}
                 </Text>
             </LinkWrapper>
-            {plan.author && (
+            {plan.author && showAuthor && (
                 <HStack w="100%">
                     <Avatar
                         name={plan.author.name}

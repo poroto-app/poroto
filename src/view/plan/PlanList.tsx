@@ -17,6 +17,7 @@ type Props = {
     empty?: ReactNode;
     grid?: boolean;
     wrapTitle?: boolean;
+    showAuthor?: boolean;
 };
 
 export function PlanList({
@@ -27,6 +28,7 @@ export function PlanList({
     numPlaceHolders = 6,
     grid = true,
     wrapTitle,
+    showAuthor,
 }: Props) {
     if (!plans || plans.length == 0 || isLoading) {
         if (empty && !isLoading) {
@@ -48,6 +50,7 @@ export function PlanList({
                             plan={null}
                             grid={grid}
                             wrapTitle={wrapTitle}
+                            showAuthor={showAuthor}
                         />
                     ))}
                 </Layout>
@@ -66,6 +69,7 @@ export function PlanList({
                             plan={plan}
                             grid={grid}
                             wrapTitle={wrapTitle}
+                            showAuthor={showAuthor}
                         />
                         {(index + 1) % 6 === 0 && <AdInPlanList />}
                     </>
@@ -87,10 +91,12 @@ function PlanListItem({
     plan,
     grid,
     wrapTitle,
+    showAuthor,
 }: {
     plan: Plan;
     grid: boolean;
     wrapTitle?: boolean;
+    showAuthor?: boolean;
 }) {
     return (
         <Box w={grid ? "100%" : "200px"}>
@@ -101,6 +107,7 @@ function PlanListItem({
                     grid ? undefined : Size.PlanList.SavedPlan.ThumbnailHeight
                 }
                 wrapTitle={wrapTitle}
+                showAuthor={showAuthor}
             />
         </Box>
     );
