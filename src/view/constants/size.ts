@@ -21,7 +21,7 @@ export const Size = {
     },
     PlanList: {
         SavedPlan: {
-            ThumbnailHeight: "200px",
+            ThumbnailHeight: "250px",
         },
     },
 };
