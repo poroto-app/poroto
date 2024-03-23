@@ -38,6 +38,8 @@ export function PlaceCard({ place, onClick }: Props) {
                 bottom={0}
                 left={0}
                 background="linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.30) 30%, rgba(0, 0, 0, 0.50) 100%)"
+                userSelect="none"
+                cursor="pointer"
             >
                 <Text
                     whiteSpace="nowrap"

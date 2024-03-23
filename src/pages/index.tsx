@@ -19,6 +19,7 @@ import {
     pushPlansRecentlyCreated,
     reduxPlanSelector,
     resetPlansByUser,
+    setPlaceIdToCreatePlan,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { HorizontalScrollablelList } from "src/view/common/HorizontalScrollablelList";
@@ -29,6 +30,7 @@ import { useNearbyPlans } from "src/view/hooks/useNearbyPlans";
 import { PlaceCard } from "src/view/place/PlaceCard";
 import { NearbyPlanList } from "src/view/plan/NearbyPlanList";
 import { PlanList } from "src/view/plan/PlanList";
+import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 
@@ -53,7 +55,12 @@ const IndexPage = (props: Props) => {
         isFetchingNearbyPlans,
         fetchNearbyPlans,
     } = useNearbyPlans();
-    const { likePlaces } = useLikePlaces();
+    const {
+        likePlaces,
+        likePlaceToCreatePlan,
+        onSelectLikePlace,
+        onCreatePlanFromLikePlace,
+    } = useLikePlaces();
     const { user } = reduxAuthSelector();
 
     useEffect(() => {
@@ -118,7 +125,13 @@ const IndexPage = (props: Props) => {
                             />
                             <HorizontalScrollablelList>
                                 {likePlaces.map((place, index) => (
-                                    <PlaceCard place={place} key={index} />
+                                    <PlaceCard
+                                        key={index}
+                                        place={place}
+                                        onClick={() =>
+                                            onSelectLikePlace(place.id)
+                                        }
+                                    />
                                 ))}
                             </HorizontalScrollablelList>
                         </VStack>
@@ -154,6 +167,11 @@ const IndexPage = (props: Props) => {
                     </InfiniteScroll>
                 </VStack>
             </Center>
+            <CreatePlanDialog
+                place={likePlaceToCreatePlan}
+                onClickClose={() => dispatch(setPlaceIdToCreatePlan(null))}
+                onClickCreatePlan={(place) => onCreatePlanFromLikePlace(place)}
+            />
         </VStack>
     );
 };
