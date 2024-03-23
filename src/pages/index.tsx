@@ -1,7 +1,7 @@
-import { Center, Spinner, Text, VStack } from "@chakra-ui/react";
+import { Center, Spinner, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { useEffect } from "react";
-import { MdTrendingUp } from "react-icons/md";
+import {MdOutlineBookmark, MdOutlineBookmarkBorder, MdTrendingUp} from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
@@ -91,17 +91,10 @@ const IndexPage = (props: Props) => {
                 >
                     {plansByUser && plansByUser.length > 0 && (
                         <PlanList plans={plansByUser}>
-                            <Text
-                                as="h2"
-                                fontSize="20px"
-                                fontWeight="bold"
-                                w="100%"
-                                maxW="600px"
-                                textAlign="center"
-                                py="16x"
-                            >
-                                保存したプラン
-                            </Text>
+                            <PlanListSectionTitle
+                                title="保存したプラン"
+                                icon={MdOutlineBookmarkBorder}
+                            />
                         </PlanList>
                     )}
                     {/* TODO: 拒否設定されている場合の対処をする */}
