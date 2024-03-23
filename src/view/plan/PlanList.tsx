@@ -4,6 +4,7 @@ import { Plan } from "src/domain/models/Plan";
 import { createArrayWithSize } from "src/domain/util/array";
 import { HorizontalScrollablelList } from "src/view/common/HorizontalScrollablelList";
 import { Routes } from "src/view/constants/router";
+import { Size } from "src/view/constants/size";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 import styled from "styled-components";
 import { AdInPlanList } from "../ad/AdInPlanList";
@@ -41,7 +42,13 @@ export function PlanList({
                 <Layout grid={grid}>
                     {createArrayWithSize(numPlaceHolders).map((i) => (
                         <PlanCardContainer key={i} grid={grid}>
-                            <PlanPreview plan={null} />
+                            <PlanPreview
+                                plan={null}
+                                planThumbnailHeight={
+                                    !grid &&
+                                    Size.PlanList.SavedPlan.ThumbnailHeight
+                                }
+                            />
                         </PlanCardContainer>
                     ))}
                 </Layout>
@@ -59,6 +66,12 @@ export function PlanList({
                             <PlanPreview
                                 link={Routes.plans.plan(plan.id)}
                                 plan={plan}
+                                planThumbnailHeight={
+                                    grid
+                                        ? undefined
+                                        : Size.PlanList.SavedPlan
+                                              .ThumbnailHeight
+                                }
                             />
                         </PlanCardContainer>
                         {(index + 1) % 6 === 0 && <AdInPlanList />}

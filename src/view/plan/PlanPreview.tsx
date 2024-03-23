@@ -8,6 +8,7 @@ import styled from "styled-components";
 type Props = {
     plan: Plan | null;
     link?: string;
+    planThumbnailHeight?: string | number;
 };
 
 export function PlaceHolder() {
@@ -19,7 +20,7 @@ export function PlaceHolder() {
     );
 }
 
-export function PlanPreview({ plan, link }: Props) {
+export function PlanPreview({ plan, link, planThumbnailHeight }: Props) {
     if (!plan) return <PlaceHolder />;
 
     const thumbnails = plan.places
@@ -31,7 +32,11 @@ export function PlanPreview({ plan, link }: Props) {
 
     return (
         <VStack w="100%" maxW="600px" alignItems="flex-start" overflow="hidden">
-            <PlanThumbnail images={thumbnails} link={link} />
+            <PlanThumbnail
+                images={thumbnails}
+                h={planThumbnailHeight}
+                link={link}
+            />
             <LinkWrapper href={link}>
                 <Text fontWeight="bold" fontSize="1.1rem" color="#222222">
                     {plan.title}
