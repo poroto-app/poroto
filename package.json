@@ -13,7 +13,7 @@
     "deploy": "gcloud app deploy --quiet app.yaml",
     "deploy:staging": "gcloud app deploy --quiet app-staging.yaml",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "storybook:build": "storybook build",
     "graphql:gen": "graphql-codegen --config codegen.ts"
   },
   "dependencies": {
