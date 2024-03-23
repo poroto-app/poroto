@@ -9,7 +9,7 @@ import { useAppDispatch } from "src/redux/redux";
 
 export const useLikePlaces = () => {
     const dispatch = useAppDispatch();
-    const { likePlaces, fetchLikePlacesRequestStatus } = reduxPlaceSelector();
+    const { likePlaces } = reduxPlaceSelector();
     const { user, firebaseIdToken } = reduxAuthSelector();
 
     useEffect(() => {
@@ -24,6 +24,5 @@ export const useLikePlaces = () => {
 
     return {
         likePlaces,
-        fetchLikePlacesRequestStatus,
     };
 };
