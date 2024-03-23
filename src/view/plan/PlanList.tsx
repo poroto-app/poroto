@@ -16,6 +16,7 @@ type Props = {
     numPlaceHolders?: number;
     empty?: ReactNode;
     grid?: boolean;
+    wrapTitle?: boolean;
 };
 
 export function PlanList({
@@ -25,6 +26,7 @@ export function PlanList({
     empty,
     numPlaceHolders = 6,
     grid = true,
+    wrapTitle,
 }: Props) {
     if (!plans || plans.length == 0 || isLoading) {
         if (empty && !isLoading) {
@@ -41,15 +43,12 @@ export function PlanList({
                 {children}
                 <Layout grid={grid}>
                     {createArrayWithSize(numPlaceHolders).map((i) => (
-                        <PlanCardContainer key={i} grid={grid}>
-                            <PlanPreview
-                                plan={null}
-                                planThumbnailHeight={
-                                    !grid &&
-                                    Size.PlanList.SavedPlan.ThumbnailHeight
-                                }
-                            />
-                        </PlanCardContainer>
+                        <PlanListItem
+                            key={i}
+                            plan={null}
+                            grid={grid}
+                            wrapTitle={wrapTitle}
+                        />
                     ))}
                 </Layout>
             </Container>
@@ -62,18 +61,12 @@ export function PlanList({
             <Layout grid={grid}>
                 {plans.map((plan, index) => (
                     <>
-                        <PlanCardContainer key={index} grid={grid}>
-                            <PlanPreview
-                                link={Routes.plans.plan(plan.id)}
-                                plan={plan}
-                                planThumbnailHeight={
-                                    grid
-                                        ? undefined
-                                        : Size.PlanList.SavedPlan
-                                              .ThumbnailHeight
-                                }
-                            />
-                        </PlanCardContainer>
+                        <PlanListItem
+                            key={plan.id}
+                            plan={plan}
+                            grid={grid}
+                            wrapTitle={wrapTitle}
+                        />
                         {(index + 1) % 6 === 0 && <AdInPlanList />}
                     </>
                 ))}
@@ -90,14 +83,27 @@ function Container({ children }: { children: ReactNode }) {
     );
 }
 
-function PlanCardContainer({
+function PlanListItem({
+    plan,
     grid,
-    children,
+    wrapTitle,
 }: {
+    plan: Plan;
     grid: boolean;
-    children: ReactNode;
+    wrapTitle?: boolean;
 }) {
-    return <Box w={grid ? "100%" : "200px"}>{children}</Box>;
+    return (
+        <Box w={grid ? "100%" : "200px"}>
+            <PlanPreview
+                link={plan && Routes.plans.plan(plan.id)}
+                plan={plan}
+                planThumbnailHeight={
+                    grid ? undefined : Size.PlanList.SavedPlan.ThumbnailHeight
+                }
+                wrapTitle={wrapTitle}
+            />
+        </Box>
+    );
 }
 
 const Layout = ({ grid, children }: { grid: boolean; children: ReactNode }) => {

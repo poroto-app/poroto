@@ -9,6 +9,7 @@ type Props = {
     plan: Plan | null;
     link?: string;
     planThumbnailHeight?: string | number;
+    wrapTitle?: boolean;
 };
 
 export function PlaceHolder() {
@@ -20,7 +21,12 @@ export function PlaceHolder() {
     );
 }
 
-export function PlanPreview({ plan, link, planThumbnailHeight }: Props) {
+export function PlanPreview({
+    plan,
+    link,
+    planThumbnailHeight,
+    wrapTitle = true,
+}: Props) {
     if (!plan) return <PlaceHolder />;
 
     const thumbnails = plan.places
@@ -38,7 +44,14 @@ export function PlanPreview({ plan, link, planThumbnailHeight }: Props) {
                 link={link}
             />
             <LinkWrapper href={link}>
-                <Text fontWeight="bold" fontSize="1.1rem" color="#222222">
+                <Text
+                    fontWeight="bold"
+                    fontSize="1.1rem"
+                    color="#222222"
+                    whiteSpace={wrapTitle ? "normal" : "nowrap"}
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                >
                     {plan.title}
                 </Text>
             </LinkWrapper>
