@@ -2,9 +2,9 @@ name: storybook build
 run-name: Storybook Build by @${{ github.actor }}
 on:
   pull_request:
-    paths:
-      - "src/view/**"
-      - "src/stories/**"
+#    paths:
+#      - "src/view/**"
+#      - "src/stories/**"
 jobs:
   # https://storybook.js.org/docs/writing-tests/test-runner#run-against-non-deployed-storybooks
   test:
