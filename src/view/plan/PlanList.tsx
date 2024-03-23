@@ -119,7 +119,7 @@ const Layout = ({ grid, children }: { grid: boolean; children: ReactNode }) => {
     }
 
     return (
-        <HorizontalScrollablelList pageButtonOffsetY={-48}>
+        <HorizontalScrollablelList pageButtonOffsetY={-8}>
             {children}
         </HorizontalScrollablelList>
     );
