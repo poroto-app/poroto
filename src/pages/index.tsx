@@ -9,7 +9,6 @@ import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { reduxAuthSelector } from "src/redux/auth";
 import {
-    fetchNearbyPlans,
     fetchPlansByUser,
     fetchPlansRecentlyCreated,
     pushPlansRecentlyCreated,
@@ -19,11 +18,10 @@ import {
 import { useAppDispatch } from "src/redux/redux";
 import { NavBar } from "src/view/common/NavBar";
 import { Size } from "src/view/constants/size";
-import { useLocation } from "src/view/hooks/useLocation";
+import { useNearbyPlans } from "src/view/hooks/useNearbyPlans";
+import { NearbyPlanList } from "src/view/plan/NearbyPlanList";
 import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
-import { LocationUnavailable } from "src/view/top/LocationUnavailable";
-import { NearbyPlansNotFound } from "src/view/top/NearbyPlansNotFound";
 import {
     PlanListSectionTitle,
     PlanSections,
@@ -43,6 +41,13 @@ const IndexPage = (props: Props) => {
         fetchPlansRecentlyCreatedRequestStatus,
         fetchPlansByUserRequestStatus,
     } = reduxPlanSelector();
+    const {
+        plansNearby,
+        locationPermission,
+        isFetchingCurrentLocation,
+        isFetchingNearbyPlans,
+        fetchNearbyPlans,
+    } = useNearbyPlans();
     const { user } = reduxAuthSelector();
 
     useEffect(() => {
@@ -102,7 +107,13 @@ const IndexPage = (props: Props) => {
                         </PlanList>
                     )}
                     {/* TODO: 拒否設定されている場合の対処をする */}
-                    <NearByPlans />
+                    <NearbyPlanList
+                        plans={plansNearby}
+                        locationPermission={locationPermission}
+                        isFetchingCurrentLocation={isFetchingCurrentLocation}
+                        isFetchingNearbyPlans={isFetchingNearbyPlans}
+                        onRequestFetchNearByPlans={fetchNearbyPlans}
+                    />
                     {/* TODO: React 18に対応 */}
                     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
                     {/* @ts-ignore */}
@@ -126,74 +137,6 @@ const IndexPage = (props: Props) => {
                 </VStack>
             </Center>
         </VStack>
-    );
-};
-
-const NearByPlans = () => {
-    const dispatch = useAppDispatch();
-    const { plansNearby, fetchNearbyPlansRequestStatus } = reduxPlanSelector();
-    const {
-        fetchCurrentLocationStatus,
-        isLocationPermissionGranted,
-        checkGeolocationPermission,
-        getCurrentLocation,
-    } = useLocation();
-
-    useEffect(() => {
-        checkGeolocationPermission().then();
-    }, []);
-
-    const handleOnFetchNearByPlans = async () => {
-        // TODO: 現在地取得中のダイアログを表示する
-        // (Arcというブラウザで開くと現在地取得にものすごい時間がかかってずっとプレースホルダーが表示される)
-        const currentLocation = await getCurrentLocation();
-        if (!currentLocation) return;
-        dispatch(fetchNearbyPlans({ currentLocation, limit: 5 }));
-    };
-
-    // 位置情報が利用可能な場合は付近で作成されたプランを取得する
-    useEffect(() => {
-        const fetchNearbyPlansWithCurrentLocation = async () => {
-            const isGranted = await checkGeolocationPermission();
-            if (!isGranted) return;
-
-            await handleOnFetchNearByPlans();
-        };
-
-        fetchNearbyPlansWithCurrentLocation().then();
-    }, []);
-
-    const emptyComponent = () => {
-        if (
-            // 位置情報取得が拒否されていることを確認した場合のみ表示する
-            isLocationPermissionGranted === false
-        ) {
-            return (
-                <LocationUnavailable
-                    isUpdating={
-                        fetchCurrentLocationStatus === RequestStatuses.PENDING
-                    }
-                    isLocationAvailable={isLocationPermissionGranted}
-                    onClickSwitch={handleOnFetchNearByPlans}
-                />
-            );
-        }
-
-        if (plansNearby !== null && plansNearby.length === 0) {
-            return <NearbyPlansNotFound />;
-        }
-    };
-
-    return (
-        <PlanList
-            plans={plansNearby}
-            empty={emptyComponent()}
-            isLoading={
-                fetchNearbyPlansRequestStatus === RequestStatuses.PENDING
-            }
-        >
-            <PlanListSectionTitle section={PlanSections.NearBy} />
-        </PlanList>
     );
 };
 

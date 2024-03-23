@@ -1,0 +1,7 @@
+mutation UploadPlacePhotoInPlan($inputs: [UploadPlacePhotoInPlanInput!]!, $planId: String!) {
+    uploadPlacePhotoInPlan(inputs: $inputs, planId: $planId) {
+        plan {
+            ...PlanFullFragment
+        }
+    }
+}

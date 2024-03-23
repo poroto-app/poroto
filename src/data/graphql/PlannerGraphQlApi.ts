@@ -24,6 +24,7 @@ import {
     SavePlanFromCandidateDocument,
     UpdateLikeAtPlaceInPlanCandidateDocument,
     UpdateLikePlaceInPlanDocument,
+    UploadPlacePhotoInPlanDocument,
     UserFullFragmentFragment,
 } from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
@@ -68,6 +69,8 @@ import {
     UpdateLikeOfPlaceInPlanResponse,
     UpdatePlanCandidatePlacesOrderRequest,
     UpdatePlanCandidatePlacesOrderResponse,
+    UploadPlacePhotosInPlanRequest,
+    UploadPlacePhotosInPlanResponse,
 } from "src/domain/plan/PlannerApi";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
@@ -185,6 +188,29 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         return {
             plan: fromGraphqlPlanEntity(data.likeToPlaceInPlan.plan),
             likePlaceIds: data.likeToPlaceInPlan.likedPlaceIds,
+        };
+    }
+
+    async uploadPlacePhotosInPlan(
+        request: UploadPlacePhotosInPlanRequest
+    ): Promise<UploadPlacePhotosInPlanResponse> {
+        const { data } = await this.client.mutate({
+            mutation: UploadPlacePhotoInPlanDocument,
+            variables: {
+                planId: request.planId,
+                inputs: request.photos.map((photo) => {
+                    return {
+                        userId: photo.userId,
+                        placeId: photo.placeId,
+                        photoUrl: photo.photoUrl,
+                        width: photo.width,
+                        height: photo.height,
+                    };
+                }),
+            },
+        });
+        return {
+            plan: fromGraphqlPlanEntity(data.uploadPlacePhotoInPlan.plan),
         };
     }
 

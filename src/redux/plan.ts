@@ -27,6 +27,8 @@ export type PlanState = {
     preview: Plan | null;
     likePlaceIds: string[];
 
+    placeIdToCreatePlan: string | null;
+
     // プラン完成時に表示されるモーダルの表示フラグ
     showPlanCreatedModal: boolean;
 
@@ -36,6 +38,7 @@ export type PlanState = {
     fetchPlansByUserRequestStatus: RequestStatus | null;
     fetchPlacesNearbyPlanLocationRequestStatus: RequestStatus | null;
     updatePlaceLikeInPlanRequestStatus: RequestStatus | null;
+    uploadPlacePhotosInPlanRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanState = {
@@ -52,6 +55,8 @@ const initialState: PlanState = {
     preview: null,
     likePlaceIds: [],
 
+    placeIdToCreatePlan: null,
+
     showPlanCreatedModal: false,
 
     fetchPlansRecentlyCreatedRequestStatus: null,
@@ -60,6 +65,7 @@ const initialState: PlanState = {
     fetchPlansByUserRequestStatus: null,
     fetchPlacesNearbyPlanLocationRequestStatus: null,
     updatePlaceLikeInPlanRequestStatus: null,
+    uploadPlacePhotosInPlanRequestStatus: null,
 };
 
 export const fetchPlansRecentlyCreated = createAsyncThunk<{
@@ -208,6 +214,30 @@ export const updatePlaceLikeInPlan = createAsyncThunk(
     }
 );
 
+type UploadPlacePhotosInPlanProps = {
+    planId: string;
+    photos: {
+        userId: string;
+        placeId: string;
+        photoUrl: string;
+        width: number;
+        height: number;
+    }[];
+};
+export const uploadPlacePhotosInPlan = createAsyncThunk(
+    "plan/uploadPlacePhotosInPlan",
+    async ({ planId, photos }: UploadPlacePhotosInPlanProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.uploadPlacePhotosInPlan({
+            planId,
+            photos,
+        });
+        return {
+            plan: createPlanFromPlanEntity(response.plan),
+        };
+    }
+);
+
 export const slice = createSlice({
     name: "plan",
     initialState,
@@ -231,6 +261,12 @@ export const slice = createSlice({
             { payload }: PayloadAction<boolean>
         ) => {
             state.showPlanCreatedModal = payload;
+        },
+        setPlaceIdToCreatePlan: (
+            state,
+            { payload }: PayloadAction<string | null>
+        ) => {
+            state.placeIdToCreatePlan = payload;
         },
         resetPlansByUser: (state) => {
             state.plansByUser = null;
@@ -336,6 +372,23 @@ export const slice = createSlice({
             .addCase(updatePlaceLikeInPlan.rejected, (state) => {
                 state.updatePlaceLikeInPlanRequestStatus =
                     RequestStatuses.REJECTED;
+            })
+            // Upload Place Photo In Plan
+            .addCase(uploadPlacePhotosInPlan.pending, (state) => {
+                state.uploadPlacePhotosInPlanRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(
+                uploadPlacePhotosInPlan.fulfilled,
+                (state, { payload }) => {
+                    state.uploadPlacePhotosInPlanRequestStatus =
+                        RequestStatuses.FULFILLED;
+                    state.preview = payload.plan;
+                }
+            )
+            .addCase(uploadPlacePhotosInPlan.rejected, (state) => {
+                state.uploadPlacePhotosInPlanRequestStatus =
+                    RequestStatuses.REJECTED;
             });
     },
 });
@@ -343,6 +396,7 @@ export const slice = createSlice({
 export const {
     pushPlansRecentlyCreated,
     setShowPlanCreatedModal,
+    setPlaceIdToCreatePlan,
     resetPlansByUser,
 } = slice.actions;
 

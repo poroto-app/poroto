@@ -1,4 +1,4 @@
-import { GoogleMap, useLoadScript } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { ReactNode, useEffect, useState } from "react";
 import { GooglePlacesApi } from "src/data/map/GooglePlacesApi";
 
@@ -29,7 +29,7 @@ export function MapViewer({
         setMapCenter(center);
     }, [center]);
 
-    const { isLoaded } = useLoadScript({
+    const { isLoaded } = useJsApiLoader({
         googleMapsApiKey: process.env.GCP_API_KEY,
         // MEMO: GooglePlacesAPIと利用するGoogle Maps Javascript APIのバージョンは同じにする必要がある
         version: GooglePlacesApi.libraryVersion,

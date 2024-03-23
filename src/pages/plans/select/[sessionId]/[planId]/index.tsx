@@ -1,17 +1,13 @@
 import { Button, Center, VStack } from "@chakra-ui/react";
-import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { getPlanPriceRange, Plan } from "src/domain/models/Plan";
+import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { reduxAuthSelector } from "src/redux/auth";
-import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
     autoReorderPlacesInPlanCandidate,
     fetchCachedCreatedPlans,
     reduxPlanCandidateSelector,
-    resetPlanCandidates,
-    savePlanFromCandidate,
     updatePreviewPlanId,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
@@ -26,6 +22,7 @@ import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
 import { useLocation } from "src/view/hooks/useLocation";
 import { usePlaceLikeInPlanCandidate } from "src/view/hooks/usePlaceLikeInPlanCandidate";
+import { usePlanCreate } from "src/view/hooks/usePlanCreate";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
 import { usePlanPlaceDelete } from "src/view/hooks/usePlanPlaceDelete";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
@@ -46,6 +43,11 @@ const PlanDetail = () => {
     const dispatch = useAppDispatch();
     const { getCurrentLocation, location: currentLocation } = useLocation();
     const { user, firebaseIdToken } = reduxAuthSelector();
+
+    const { createPlan, savePlanFromCandidateRequestStatus } = usePlanCreate({
+        planCandidateSetId: sessionId as string,
+        planId: planId as string,
+    });
 
     const {
         showRelatedPlaces,
@@ -92,7 +94,6 @@ const PlanDetail = () => {
         preview: plan,
         createdBasedOnCurrentLocation,
         createPlanSession,
-        savePlanFromCandidateRequestStatus,
         fetchCachedCreatedPlansRequestStatus,
     } = reduxPlanCandidateSelector();
 
@@ -140,31 +141,6 @@ const PlanDetail = () => {
         }
     }, [planId, createPlanSession]);
 
-    // プランが保存され次第、ページ遷移を行う
-    useEffect(() => {
-        if (!plan) return;
-        if (savePlanFromCandidateRequestStatus === RequestStatuses.FULFILLED) {
-            router.push(Routes.plans.plan(plan.id)).then();
-            dispatch(setShowPlanCreatedModal(true));
-            // 戻ったときに再リダイレクトされないようにする
-            dispatch(resetPlanCandidates());
-        }
-    }, [planId, savePlanFromCandidateRequestStatus]);
-
-    const handleOnSavePlan = async ({
-        session,
-        plan,
-    }: {
-        session: string;
-        plan: Plan;
-    }) => {
-        const auth = getAuth();
-        const authToken = await auth.currentUser?.getIdToken(true);
-        dispatch(
-            savePlanFromCandidate({ session, planId: plan.id, authToken })
-        );
-    };
-
     const handleOptimizeRoute = ({
         planCandidateId,
         planId,
@@ -174,6 +150,10 @@ const PlanDetail = () => {
     }): void => {
         dispatch(autoReorderPlacesInPlanCandidate({ planId, planCandidateId }));
     };
+
+    if (savePlanFromCandidateRequestStatus === RequestStatuses.PENDING) {
+        return <LoadingModal title="プランを作成しています" />;
+    }
 
     if (!plan) {
         // プラン候補取得失敗
@@ -249,7 +229,10 @@ const PlanDetail = () => {
                             onUpdateLikeAtPlace={updateLikeAtPlace}
                         />
                     </PlanPageSection>
-                    <PlanPageSection title="プラン内の場所">
+                    <PlanPageSection
+                        title="プラン内の場所"
+                        description="マーカーをクリックすると場所の詳細が表示されます"
+                    >
                         <PlaceMap places={plan.places} />
                     </PlanPageSection>
                     <VStack w="100%" p="16px">
@@ -285,9 +268,7 @@ const PlanDetail = () => {
                     color="white"
                     backgroundColor={Colors.primary["400"]}
                     borderRadius={10}
-                    onClick={() =>
-                        handleOnSavePlan({ session: createPlanSession, plan })
-                    }
+                    onClick={() => createPlan({ planId: plan.id })}
                 >
                     しおりとして保存
                 </Button>
