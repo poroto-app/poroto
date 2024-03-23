@@ -1,7 +1,7 @@
 import { Center, Spinner, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { useEffect } from "react";
-import {MdOutlineBookmark, MdOutlineBookmarkBorder, MdTrendingUp} from "react-icons/md";
+import { MdOutlineBookmarkBorder, MdTrendingUp } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
