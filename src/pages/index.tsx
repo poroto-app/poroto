@@ -1,6 +1,7 @@
 import { Center, Spinner, Text, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { useEffect } from "react";
+import { MdTrendingUp } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
@@ -22,10 +23,7 @@ import { useNearbyPlans } from "src/view/hooks/useNearbyPlans";
 import { NearbyPlanList } from "src/view/plan/NearbyPlanList";
 import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
-import {
-    PlanListSectionTitle,
-    PlanSections,
-} from "src/view/top/PlanListSectionTitle";
+import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 
 type Props = {
     plansRecentlyCreated: Plan[] | null;
@@ -124,7 +122,8 @@ const IndexPage = (props: Props) => {
                     >
                         <PlanList plans={plansRecentlyCreated}>
                             <PlanListSectionTitle
-                                section={PlanSections.Recent}
+                                title="最近作成されたプラン"
+                                icon={MdTrendingUp}
                             />
                         </PlanList>
                         {fetchPlansRecentlyCreatedRequestStatus ===

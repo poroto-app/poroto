@@ -1,8 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
-import {
-    PlanListSectionTitle,
-    PlanSections,
-} from "src/view/top/PlanListSectionTitle";
+import { MdTrendingUp } from "react-icons/md";
+import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 
 export default {
     title: "top/PlanListSectionTitle",
@@ -13,14 +11,9 @@ export default {
 
 type Story = StoryObj<typeof PlanListSectionTitle>;
 
-export const NearBy: Story = {
+export const Primary: Story = {
     args: {
-        section: PlanSections.NearBy,
-    },
-};
-
-export const Recent: Story = {
-    args: {
-        section: PlanSections.Recent,
+        title: "おすすめのプラン",
+        icon: MdTrendingUp,
     },
 };
