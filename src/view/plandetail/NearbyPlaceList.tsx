@@ -1,7 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { Place } from "src/domain/models/Place";
 import { createArrayWithSize } from "src/domain/util/array";
-import { HorizontaScrollablelList } from "src/view/common/HorizontaScrollablelList";
+import { HorizontalScrollablelList } from "src/view/common/HorizontalScrollablelList";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { Size } from "src/view/constants/size";
 
@@ -13,17 +13,17 @@ type Props = {
 export const NearbyPlaceList = ({ places, onSelectPlace }: Props) => {
     if (!places) {
         return (
-            <HorizontaScrollablelList>
+            <HorizontalScrollablelList>
                 {createArrayWithSize(5).map((_, index) => (
                     <NearbyPlaceCardSkeleton key={index} />
                 ))}
-            </HorizontaScrollablelList>
+            </HorizontalScrollablelList>
         );
     }
 
     // TODO: 要素が一つもないときの対応
     return (
-        <HorizontaScrollablelList>
+        <HorizontalScrollablelList>
             {places
                 .filter((p) => p.images.length > 0)
                 .map((place, index) => (
@@ -33,7 +33,7 @@ export const NearbyPlaceList = ({ places, onSelectPlace }: Props) => {
                         onClick={() => onSelectPlace?.(place)}
                     />
                 ))}
-        </HorizontaScrollablelList>
+        </HorizontalScrollablelList>
     );
 };
 

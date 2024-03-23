@@ -5,11 +5,13 @@ import { isPC } from "src/view/constants/userAgent";
 
 type Props = {
     scrollAmount?: number;
+    pageButtonOffsetY?: number;
     children?: ReactNode;
 };
 
-export const HorizontaScrollablelList = ({
+export const HorizontalScrollablelList = ({
     scrollAmount = 400,
+    pageButtonOffsetY = 0,
     children,
 }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -30,9 +32,10 @@ export const HorizontaScrollablelList = ({
             <HStack
                 ref={containerRef}
                 w="100%"
-                px={isPC ? "16px" : 0}
+                // px={isPC ? "16px" : 0}
                 overflowX="auto"
                 overflowY="hidden"
+                alignItems="flex-start"
                 scrollSnapType="x mandatory"
                 sx={{
                     "::-webkit-scrollbar": {
@@ -46,6 +49,7 @@ export const HorizontaScrollablelList = ({
                 <PageButton
                     left={0}
                     right="auto"
+                    offsetY={pageButtonOffsetY}
                     onClick={() => scroll("left")}
                 >
                     <Icon as={MdArrowBackIos} />
@@ -53,6 +57,7 @@ export const HorizontaScrollablelList = ({
                 <PageButton
                     left="auto"
                     right={0}
+                    offsetY={pageButtonOffsetY}
                     onClick={() => scroll("right")}
                 >
                     <Icon as={MdArrowForwardIos} />
@@ -65,11 +70,13 @@ export const HorizontaScrollablelList = ({
 const PageButton = ({
     left,
     right,
+    offsetY,
     onClick,
     children,
 }: {
     left: number | string;
     right: number | string;
+    offsetY: number;
     onClick?: () => void;
     children: ReactNode;
 }) => {
@@ -80,7 +87,7 @@ const PageButton = ({
             top="50%"
             left={left}
             right={right}
-            transform="translateY(-50%)"
+            transform={`translateY(calc(-50% + ${offsetY}px))`}
             w="40px"
             h="40px"
             backgroundColor="white"
