@@ -42,7 +42,12 @@ export const fetchLikePlaces = createAsyncThunk(
 export const slice = createSlice({
     name: "place",
     initialState,
-    reducers: {},
+    reducers: {
+        resetLikePlaces: (state) => {
+            state.likePlaces = null;
+            state.fetchLikePlacesRequestStatus = null;
+        },
+    },
     extraReducers: (builder) => {
         return (
             builder
@@ -64,6 +69,8 @@ export const slice = createSlice({
         );
     },
 });
+
+export const { resetLikePlaces } = slice.actions;
 
 export const reduxPlaceSelector = () =>
     useSelector((state: RootState) => state.place);
