@@ -50,7 +50,7 @@ type Props = {
     showRelatedPlaces?: boolean;
     onClickShowRelatedPlaces?: () => void;
     onClickDeletePlace?: () => void;
-    camera?: PlaceChipActionCameraProps;
+    uploadPlaceImage?: PlaceChipActionCameraProps;
 } & PlaceActionHandler;
 
 export type PlaceActionHandler = {
@@ -69,7 +69,7 @@ export const PlacePreview = ({
     like,
     likeCount,
     estimatedStayDuration,
-    camera,
+    uploadPlaceImage,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
     onUpdateLikeAtPlace,
@@ -176,7 +176,9 @@ export const PlacePreview = ({
                     {onClickDeletePlace && (
                         <PlaceChipActionDelete onClick={onClickDeletePlace} />
                     )}
-                    {camera && <PlaceChipActionCamera {...camera} />}
+                    {uploadPlaceImage && (
+                        <PlaceChipActionCamera {...uploadPlaceImage} />
+                    )}
                 </HStack>
             </VStack>
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">

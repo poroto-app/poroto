@@ -13,6 +13,7 @@ import { Plan } from "src/domain/models/Plan";
 import { Transition } from "src/domain/models/Transition";
 import { DateHelper } from "src/domain/util/date";
 import { Colors } from "src/view/constants/color";
+import { UploadPlaceImageProps } from "src/view/hooks/useUploadImage";
 import {
     PlaceActionHandler,
     PlacePreview,
@@ -22,6 +23,7 @@ type Props = {
     plan: Plan;
     likePlaceIds: string[];
     createdBasedOnCurrentLocation?: boolean;
+    uploadPlaceImage?: UploadPlaceImageProps;
     onClickAddPlace?: (props: { previousPlaceId: string }) => void;
     onClickShowRelatedPlaces?: (placeId: string) => void;
     onClickDeletePlace?: (placeId: string) => void;
@@ -38,6 +40,7 @@ export function PlanPlaceList({
     likePlaceIds,
     createdBasedOnCurrentLocation,
     startTime = new Date(Date.now()),
+    uploadPlaceImage,
     onClickAddPlace,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
@@ -75,6 +78,7 @@ export function PlanPlaceList({
                             like={likePlaceIds.some(
                                 (placeId) => placeId === place.id
                             )}
+                            uploadPlaceImage={uploadPlaceImage}
                             onClickAddPlace={onClickAddPlace}
                             onClickShowRelatedPlaces={onClickShowRelatedPlaces}
                             onClickDeletePlace={onClickDeletePlace}
@@ -147,6 +151,7 @@ function generateSchedules({
 const PlaceListItem = ({
     place,
     like,
+    uploadPlaceImage,
     onClickAddPlace,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
@@ -154,6 +159,7 @@ const PlaceListItem = ({
 }: {
     place: Place;
     like: boolean;
+    uploadPlaceImage?: UploadPlaceImageProps;
     onClickAddPlace?: (props: { previousPlaceId: string }) => void;
     onClickShowRelatedPlaces?: (placeId: string) => void;
     onClickDeletePlace?: (placeId: string) => void;
@@ -171,6 +177,10 @@ const PlaceListItem = ({
                 estimatedStayDuration={place.estimatedStayDuration}
                 like={like}
                 likeCount={place.likeCount}
+                uploadPlaceImage={uploadPlaceImage && {
+                    ...uploadPlaceImage,
+                    placeId: place.id,
+                }}
                 onUpdateLikeAtPlace={onUpdateLikeAtPlace}
                 onClickShowRelatedPlaces={
                     onClickShowRelatedPlaces

@@ -8,7 +8,8 @@ import {
     UploadTask,
 } from "firebase/storage";
 import { useState } from "react";
-import { uploadPlacePhotosInPlan } from "src/redux/plan";
+import { reduxAuthSelector } from "src/redux/auth";
+import { reduxPlanSelector, uploadPlacePhotosInPlan } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { v4 as uuidv4 } from "uuid";
 
@@ -19,33 +20,36 @@ enum UploadRequestStatus {
     REJECTED = "REJECTED",
 }
 
+export type UploadPlaceImageProps = {
+    localFiles: File[];
+    isUploading: boolean;
+    isUploadPlacePhotoDialogVisible: boolean;
+    onFileChanged: (files: FileList) => void;
+    onUpload: ({ placeId }: { placeId: string }) => void;
+    onCloseDialog: () => void;
+};
+
 const useUploadImage = () => {
+    const dispatch = useAppDispatch();
+    const toast = useToast();
+
     const [localFiles, setLocalFiles] = useState<File[]>([]);
-    const [localImageURLs, setLocalImageURLs] = useState<string[]>([]);
-    const [uploadedImageURLs, setUploadedImageURLs] = useState<string[]>([]);
     const [uploadRequestStatus, setUploadRequestStatus] =
         useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
-    const toast = useToast();
-    const dispatch = useAppDispatch();
+
+    const { user } = reduxAuthSelector();
+    const { preview } = reduxPlanSelector();
 
     const handleFileChange = (selectedFiles: FileList) => {
         const selectedFilesArray = Array.from(selectedFiles);
         setLocalFiles(selectedFilesArray);
-        const imageURLsArray = selectedFilesArray.map((file) =>
-            URL.createObjectURL(file)
-        );
-        setLocalImageURLs(imageURLsArray);
     };
 
-    const handleUpload = async ({
-        planId,
-        userId,
-        placeId,
-    }: {
-        planId: string;
-        userId: string;
-        placeId: string;
-    }) => {
+    const handleUpload = async ({ placeId }: { placeId: string }) => {
+        if (!user || !preview) {
+            return;
+        }
+
         try {
             setUploadRequestStatus(UploadRequestStatus.PENDING);
 
@@ -73,10 +77,6 @@ const useUploadImage = () => {
                 );
             });
             const uploadTaskResults = await Promise.all(uploadTasks);
-            const uploadedFileDownloadUrls = uploadTaskResults.map(
-                (result) => result.downloadUrl
-            );
-            setUploadedImageURLs(uploadedFileDownloadUrls);
 
             // plannerに画像を登録する
             const photos = localFilesWithSize.map((fileWithSize, index) => {
@@ -88,14 +88,16 @@ const useUploadImage = () => {
                 }
 
                 return {
-                    userId,
+                    userId: user.id,
                     placeId,
                     photoUrl: uploadTaskResultOfFile.downloadUrl,
                     width: fileWithSize.size.width,
                     height: fileWithSize.size.height,
                 };
             });
-            dispatch(uploadPlacePhotosInPlan({ planId, photos: photos }));
+            dispatch(
+                uploadPlacePhotosInPlan({ planId: preview.id, photos: photos })
+            );
 
             toast({
                 title: "画像のアップロードが完了しました",
@@ -114,6 +116,10 @@ const useUploadImage = () => {
             });
             setUploadRequestStatus(UploadRequestStatus.REJECTED);
         }
+    };
+
+    const handleOnCloseDialog = () => {
+        setLocalFiles([]);
     };
 
     const setupUploadTaskListener = (
@@ -146,13 +152,12 @@ const useUploadImage = () => {
 
     return {
         localFiles,
-        localImageURLs,
-        uploadedImageURLs,
         isUploading: uploadRequestStatus === UploadRequestStatus.PENDING,
-        isUploadConfirmationDialogVisible: localFiles.length > 0,
-        handleFileChange,
-        handleUpload,
-    };
+        isUploadPlacePhotoDialogVisible: localFiles.length > 0,
+        onUpload: handleUpload,
+        onFileChanged: handleFileChange,
+        onCloseDialog: handleOnCloseDialog,
+    } as UploadPlaceImageProps;
 };
 
 // 画像の高さと横幅を取得する
