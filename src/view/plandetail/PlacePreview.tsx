@@ -26,6 +26,7 @@ import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import {
     PlaceChipActionCamera,
+    PlaceChipActionCameraProps,
     PlaceChipActionDelete,
     PlaceChipActionGoogleMaps,
     PlaceChipActionInstagram,
@@ -49,6 +50,7 @@ type Props = {
     showRelatedPlaces?: boolean;
     onClickShowRelatedPlaces?: () => void;
     onClickDeletePlace?: () => void;
+    camera?: PlaceChipActionCameraProps;
 } & PlaceActionHandler;
 
 export type PlaceActionHandler = {
@@ -67,6 +69,7 @@ export const PlacePreview = ({
     like,
     likeCount,
     estimatedStayDuration,
+    camera,
     onClickShowRelatedPlaces,
     onClickDeletePlace,
     onUpdateLikeAtPlace,
@@ -173,7 +176,7 @@ export const PlacePreview = ({
                     {onClickDeletePlace && (
                         <PlaceChipActionDelete onClick={onClickDeletePlace} />
                     )}
-                    <PlaceChipActionCamera placeId={placeId} />
+                    {camera && <PlaceChipActionCamera {...camera} />}
                 </HStack>
             </VStack>
             <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">

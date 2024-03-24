@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import {
-    PlaceChipActionCameraComponent,
+    PlaceChipActionCamera,
     PlaceChipActionDelete,
     PlaceChipActionGoogleMaps,
     PlaceChipActionInstagram,
@@ -51,7 +51,7 @@ export const GoogleMaps: Story = {
 
 export const Camera: Story = {
     render: () => (
-        <PlaceChipActionCameraComponent
+        <PlaceChipActionCamera
             localFiles={[]}
             isUploading={false}
             isUploadPlacePhotoDialogVisible={false}

@@ -1,6 +1,6 @@
 import { Link } from "@chakra-ui/next-js";
 import { HStack, Icon, Text } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { IconType } from "react-icons";
 import {
     MdOutlineCameraAlt,
@@ -8,9 +8,6 @@ import {
     MdOutlineFindReplace,
 } from "react-icons/md";
 import { SiGooglemaps, SiInstagram } from "react-icons/si";
-import { reduxAuthSelector } from "src/redux/auth";
-import { reduxPlanSelector } from "src/redux/plan";
-import useUploadImage from "src/view/hooks/useUploadImage";
 import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { OnClickHandler } from "src/view/types/handler";
 
@@ -112,58 +109,23 @@ export const PlaceChipActionGoogleMaps = ({
     );
 };
 
-// TODO: リファクタする
-export const PlaceChipActionCamera = ({ placeId }: { placeId: string }) => {
-    const { localFiles, isUploading, handleFileChange, handleUpload } =
-        useUploadImage();
-    const [dialogVisible, setDialogVisible] = useState(false);
-    const { user } = reduxAuthSelector();
-    const { preview: plan } = reduxPlanSelector();
-
-    const handleFileInputChange = (selectedFiles: FileList) => {
-        handleFileChange(selectedFiles);
-        setDialogVisible(selectedFiles && selectedFiles.length > 0);
-    };
-
-    // ログインユーザーでなければアップロードできない
-    if (!user) return <></>;
-
-    // 保存済みプランに対する操作でなければ表示しない
-    if (!plan) return <></>;
-
-    return (
-        <PlaceChipActionCameraComponent
-            localFiles={localFiles}
-            isUploading={isUploading}
-            isUploadPlacePhotoDialogVisible={dialogVisible}
-            onFileChanged={(f) => handleFileInputChange(f)}
-            onUpload={() =>
-                handleUpload({
-                    placeId,
-                    userId: user.id,
-                    planId: plan.id,
-                })
-            }
-            onCloseDialog={() => setDialogVisible(false)}
-        />
-    );
-};
-
-export const PlaceChipActionCameraComponent = ({
-    localFiles,
-    isUploading,
-    isUploadPlacePhotoDialogVisible,
-    onFileChanged,
-    onUpload,
-    onCloseDialog,
-}: {
+export type PlaceChipActionCameraProps = {
     localFiles: File[];
     isUploading: boolean;
     isUploadPlacePhotoDialogVisible: boolean;
     onFileChanged: (files: FileList) => void;
     onUpload: OnClickHandler;
     onCloseDialog: () => void;
-}) => {
+};
+
+export const PlaceChipActionCamera = ({
+    localFiles,
+    isUploading,
+    isUploadPlacePhotoDialogVisible,
+    onFileChanged,
+    onUpload,
+    onCloseDialog,
+}: PlaceChipActionCameraProps) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     return (
