@@ -76,40 +76,34 @@ const Confirm = ({
     onClose: OnClickHandler;
 }) => {
     return (
-        <VStack
-            flex={1}
-            h="100%"
-            w="100%"
-            px="16px"
-            py="16px"
-            alignItems="center"
-            spacing="32px"
-        >
-            <HStack gap="20px" flexWrap="wrap" justifyContent="center">
-                {imageUrls.map((url, index) => (
-                    <Box
-                        key={index}
-                        w="200px"
-                        h="200px"
-                        borderRadius="20px"
-                        overflow="hidden"
-                    >
-                        <Image
-                            src={url}
-                            alt={`選択された画像${index}`}
-                            width="100%"
-                            height="100%"
-                            objectFit="cover"
-                        />
-                    </Box>
-                ))}
-            </HStack>
-            <Text fontSize="20px" fontWeight="bold" color="#574836">
-                {imageUrls.length === 1
-                    ? "こちらの画像をアップロードしますか？"
-                    : "これらの画像をアップロードしますか？"}
-            </Text>
-            <HStack mt="auto" pb="48px">
+        <VStack h="100%" w="100%" px="16px" py="16px">
+            <VStack w="100%" flex={1} justifyContent="center" spacing="32px">
+                <HStack gap="20px" flexWrap="wrap" justifyContent="center">
+                    {imageUrls.map((url, index) => (
+                        <Box
+                            key={index}
+                            w="200px"
+                            h="200px"
+                            borderRadius="20px"
+                            overflow="hidden"
+                        >
+                            <Image
+                                src={url}
+                                alt={`選択された画像${index}`}
+                                width="100%"
+                                height="100%"
+                                objectFit="cover"
+                            />
+                        </Box>
+                    ))}
+                </HStack>
+                <Text fontSize="20px" fontWeight="bold" color="#574836">
+                    {imageUrls.length === 1
+                        ? "こちらの画像をアップロードしますか？"
+                        : "これらの画像をアップロードしますか？"}
+                </Text>
+            </VStack>
+            <HStack mt="32px" pb="48px">
                 <Button onClick={onClose} variant="text">
                     キャンセル
                 </Button>
