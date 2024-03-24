@@ -4,8 +4,8 @@ import {
     getDownloadURL,
     getStorage,
     ref,
+    StorageReference,
     uploadBytesResumable,
-    UploadTask,
 } from "firebase/storage";
 import { useState } from "react";
 import { reduxAuthSelector } from "src/redux/auth";
@@ -67,32 +67,24 @@ const useUploadPlaceImage = () => {
                 process.env.CLOUD_STORAGE_POROTO_PLACE_IMAGES
             );
 
-            const uploadTasks = localFiles.map((file, index) => {
-                const uniqueFileName = `${uuidv4()}_${file.name}`;
-                const storageRef = ref(storage, `images/${uniqueFileName}`);
-                // TODO: 変数名をちゃんと考える（正しく対応関係がとれていない）
-                return setupUploadTaskListener(
-                    index,
-                    uploadBytesResumable(storageRef, file)
-                );
-            });
+            const uploadTasks = localFilesWithSize.map(
+                async ({ file, size }) => {
+                    const uniqueFileName = `${uuidv4()}_${file.name}`;
+                    const storageRef = ref(storage, `images/${uniqueFileName}`);
+                    const { downloadUrl } = await uploadFile(file, storageRef);
+                    return { downloadUrl, size };
+                }
+            );
             const uploadTaskResults = await Promise.all(uploadTasks);
 
             // plannerに画像を登録する
-            const photos = localFilesWithSize.map((fileWithSize, index) => {
-                const uploadTaskResultOfFile = uploadTaskResults.find(
-                    (result) => result.taskIndex === index
-                );
-                if (!uploadTaskResultOfFile) {
-                    throw new Error("downloadUrl not found");
-                }
-
+            const photos = uploadTaskResults.map(({ downloadUrl, size }) => {
                 return {
                     userId: user.id,
                     placeId,
-                    photoUrl: uploadTaskResultOfFile.downloadUrl,
-                    width: fileWithSize.size.width,
-                    height: fileWithSize.size.height,
+                    photoUrl: downloadUrl,
+                    width: size.width,
+                    height: size.height,
                 };
             });
             dispatch(
@@ -120,34 +112,6 @@ const useUploadPlaceImage = () => {
 
     const handleOnCloseDialog = () => {
         setLocalFiles([]);
-    };
-
-    const setupUploadTaskListener = (
-        taskIndex: number,
-        uploadTask: UploadTask
-    ): Promise<{ taskIndex: number; downloadUrl: string }> => {
-        return new Promise((resolve, reject) => {
-            uploadTask.on(
-                "state_changed",
-                () => {
-                    // アップロードの進捗が変化した場合の処理
-                },
-                (error) => {
-                    reject(error);
-                },
-                async () => {
-                    try {
-                        const downloadUrl = await getDownloadURL(
-                            uploadTask.snapshot.ref
-                        );
-                        setUploadRequestStatus(UploadRequestStatus.FULFILLED);
-                        resolve({ taskIndex, downloadUrl });
-                    } catch (error) {
-                        reject(error);
-                    }
-                }
-            );
-        });
     };
 
     return {
@@ -183,5 +147,31 @@ function fetchImageSizeFromFile(
         image.src = URL.createObjectURL(file);
     });
 }
+
+const uploadFile = (
+    file: File,
+    storageRef: StorageReference
+): Promise<{ downloadUrl: string }> => {
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    return new Promise((resolve, reject) => {
+        uploadTask.on(
+            "state_changed",
+            () => {},
+            (error) => {
+                reject(error);
+            },
+            async () => {
+                try {
+                    const downloadUrl = await getDownloadURL(
+                        uploadTask.snapshot.ref
+                    );
+                    resolve({ downloadUrl });
+                } catch (error) {
+                    reject(error);
+                }
+            }
+        );
+    });
+};
 
 export default useUploadPlaceImage;

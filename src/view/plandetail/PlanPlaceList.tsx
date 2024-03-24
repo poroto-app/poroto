@@ -177,10 +177,12 @@ const PlaceListItem = ({
                 estimatedStayDuration={place.estimatedStayDuration}
                 like={like}
                 likeCount={place.likeCount}
-                uploadPlaceImage={uploadPlaceImage && {
-                    ...uploadPlaceImage,
-                    placeId: place.id,
-                }}
+                uploadPlaceImage={
+                    uploadPlaceImage && {
+                        ...uploadPlaceImage,
+                        placeId: place.id,
+                    }
+                }
                 onUpdateLikeAtPlace={onUpdateLikeAtPlace}
                 onClickShowRelatedPlaces={
                     onClickShowRelatedPlaces
