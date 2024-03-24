@@ -29,7 +29,7 @@ export type UploadPlaceImageProps = {
     onCloseDialog: () => void;
 };
 
-const useUploadImage = () => {
+const useUploadPlaceImage = () => {
     const dispatch = useAppDispatch();
     const toast = useToast();
 
@@ -184,4 +184,4 @@ function fetchImageSizeFromFile(
     });
 }
 
-export default useUploadImage;
+export default useUploadPlaceImage;

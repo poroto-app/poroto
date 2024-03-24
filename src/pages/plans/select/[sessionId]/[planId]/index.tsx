@@ -26,7 +26,7 @@ import { usePlanCreate } from "src/view/hooks/usePlanCreate";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
 import { usePlanPlaceDelete } from "src/view/hooks/usePlanPlaceDelete";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
-import useUploadImage from "src/view/hooks/useUploadImage";
+import useUploadPlaceImage from "src/view/hooks/useUploadPlaceImage";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
@@ -44,7 +44,7 @@ const PlanDetail = () => {
     const dispatch = useAppDispatch();
     const { getCurrentLocation, location: currentLocation } = useLocation();
     const { user, firebaseIdToken } = reduxAuthSelector();
-    const uploadImageProps = useUploadImage();
+    const uploadImageProps = useUploadPlaceImage();
 
     const { createPlan, savePlanFromCandidateRequestStatus } = usePlanCreate({
         planCandidateSetId: sessionId as string,

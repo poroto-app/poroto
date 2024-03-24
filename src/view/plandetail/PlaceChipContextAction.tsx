@@ -8,7 +8,7 @@ import {
     MdOutlineFindReplace,
 } from "react-icons/md";
 import { SiGooglemaps, SiInstagram } from "react-icons/si";
-import { UploadPlaceImageProps } from "src/view/hooks/useUploadImage";
+import { UploadPlaceImageProps } from "src/view/hooks/useUploadPlaceImage";
 import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { OnClickHandler } from "src/view/types/handler";
 
