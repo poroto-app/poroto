@@ -20,12 +20,18 @@ enum UploadRequestStatus {
     REJECTED = "REJECTED",
 }
 
+type PlaceImageFile = {
+    placeId: string;
+    file: File;
+};
+
 export type UploadPlaceImageProps = {
-    localFiles: File[];
+    localPlaceImageFiles: PlaceImageFile[];
+    localPlaceImageUrls: string[];
     isUploading: boolean;
     isUploadPlacePhotoDialogVisible: boolean;
-    onFileChanged: (files: FileList) => void;
-    onUpload: ({ placeId }: { placeId: string }) => void;
+    onFileChanged: (params: { placeId: string; files: FileList }) => void;
+    onUpload: () => void;
     onCloseDialog: () => void;
 };
 
@@ -33,19 +39,29 @@ const useUploadPlaceImage = () => {
     const dispatch = useAppDispatch();
     const toast = useToast();
 
-    const [localFiles, setLocalFiles] = useState<File[]>([]);
+    const [localPlaceImageFiles, setLocalPlaceImageFiles] = useState<
+        PlaceImageFile[]
+    >([]);
     const [uploadRequestStatus, setUploadRequestStatus] =
         useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
 
     const { user } = reduxAuthSelector();
     const { preview } = reduxPlanSelector();
 
-    const handleFileChange = (selectedFiles: FileList) => {
-        const selectedFilesArray = Array.from(selectedFiles);
-        setLocalFiles(selectedFilesArray);
+    const handleFileChange = ({
+        placeId,
+        files,
+    }: {
+        placeId: string;
+        files: FileList;
+    }) => {
+        const selectedFilesArray = Array.from(files);
+        setLocalPlaceImageFiles(
+            selectedFilesArray.map((file) => ({ placeId, file }))
+        );
     };
 
-    const handleUpload = async ({ placeId }: { placeId: string }) => {
+    const handleUpload = async () => {
         if (!user || !preview) {
             return;
         }
@@ -55,9 +71,9 @@ const useUploadPlaceImage = () => {
 
             // 画像のサイズを取得する
             const localFilesWithSize = await Promise.all(
-                localFiles.map(async (file) => {
+                localPlaceImageFiles.map(async ({ file, placeId }) => {
                     const size = await fetchImageSizeFromFile(file);
-                    return { size, file };
+                    return { size, file, placeId };
                 })
             );
             // Cloud Storageに画像をアップロードする
@@ -68,25 +84,27 @@ const useUploadPlaceImage = () => {
             );
 
             const uploadTasks = localFilesWithSize.map(
-                async ({ file, size }) => {
+                async ({ file, size, placeId }) => {
                     const uniqueFileName = `${uuidv4()}_${file.name}`;
                     const storageRef = ref(storage, `images/${uniqueFileName}`);
                     const { downloadUrl } = await uploadFile(file, storageRef);
-                    return { downloadUrl, size };
+                    return { downloadUrl, size, placeId };
                 }
             );
             const uploadTaskResults = await Promise.all(uploadTasks);
 
             // plannerに画像を登録する
-            const photos = uploadTaskResults.map(({ downloadUrl, size }) => {
-                return {
-                    userId: user.id,
-                    placeId,
-                    photoUrl: downloadUrl,
-                    width: size.width,
-                    height: size.height,
-                };
-            });
+            const photos = uploadTaskResults.map(
+                ({ downloadUrl, size, placeId }) => {
+                    return {
+                        userId: user.id,
+                        placeId,
+                        photoUrl: downloadUrl,
+                        width: size.width,
+                        height: size.height,
+                    };
+                }
+            );
             dispatch(
                 uploadPlacePhotosInPlan({ planId: preview.id, photos: photos })
             );
@@ -97,6 +115,7 @@ const useUploadPlaceImage = () => {
                 duration: 3000,
                 isClosable: true,
             });
+            setLocalPlaceImageFiles([]);
             setUploadRequestStatus(UploadRequestStatus.FULFILLED);
         } catch (error) {
             toast({
@@ -106,18 +125,22 @@ const useUploadPlaceImage = () => {
                 duration: 5000,
                 isClosable: true,
             });
+            setLocalPlaceImageFiles([]);
             setUploadRequestStatus(UploadRequestStatus.REJECTED);
         }
     };
 
     const handleOnCloseDialog = () => {
-        setLocalFiles([]);
+        setLocalPlaceImageFiles([]);
     };
 
     return {
-        localFiles,
+        localPlaceImageFiles: localPlaceImageFiles,
+        localPlaceImageUrls: localPlaceImageFiles.map(({ file }) =>
+            URL.createObjectURL(file)
+        ),
         isUploading: uploadRequestStatus === UploadRequestStatus.PENDING,
-        isUploadPlacePhotoDialogVisible: localFiles.length > 0,
+        isUploadPlacePhotoDialogVisible: localPlaceImageFiles.length > 0,
         onUpload: handleUpload,
         onFileChanged: handleFileChange,
         onCloseDialog: handleOnCloseDialog,
@@ -156,7 +179,9 @@ const uploadFile = (
     return new Promise((resolve, reject) => {
         uploadTask.on(
             "state_changed",
-            () => {},
+            () => {
+                // TODO: 進捗状況を表示する
+            },
             (error) => {
                 reject(error);
             },

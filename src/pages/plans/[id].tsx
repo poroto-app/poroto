@@ -29,6 +29,7 @@ import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteBy
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
+import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
 import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
@@ -186,6 +187,7 @@ export default function PlanPage() {
                     />
                 </PlanPageSection>
             </VStack>
+            {/*Dialogs*/}
             <PlanCreatedDialog
                 visible={showPlanCreatedModal}
                 onClickClose={() => dispatch(setShowPlanCreatedModal(false))}
@@ -200,6 +202,13 @@ export default function PlanPage() {
                 )}
                 onClickClose={() => dispatch(setPlaceIdToCreatePlan(null))}
                 onClickCreatePlan={(place) => handleOnCreatePlan({ place })}
+            />
+            <DialogUploadImage
+                visible={uploadImageProps.isUploadPlacePhotoDialogVisible}
+                isUploading={uploadImageProps.isUploading}
+                imageURLs={uploadImageProps.localPlaceImageUrls}
+                onUploadClick={() => uploadImageProps.onUpload()}
+                onClose={uploadImageProps.onCloseDialog}
             />
         </Center>
     );

@@ -9,7 +9,6 @@ import {
 } from "react-icons/md";
 import { SiGooglemaps, SiInstagram } from "react-icons/si";
 import { UploadPlaceImageProps } from "src/view/hooks/useUploadPlaceImage";
-import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { OnClickHandler } from "src/view/types/handler";
 
 type Props = {
@@ -116,12 +115,7 @@ export type PlaceChipActionCameraProps = {
 
 export const PlaceChipActionCamera = ({
     placeId,
-    localFiles,
-    isUploading,
-    isUploadPlacePhotoDialogVisible,
     onFileChanged,
-    onUpload,
-    onCloseDialog,
 }: PlaceChipActionCameraProps) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -147,17 +141,13 @@ export const PlaceChipActionCamera = ({
                 type="file"
                 accept="image/*"
                 multiple
-                onChange={(e) => onFileChanged(e.target.files)}
+                onChange={(e) =>
+                    onFileChanged({
+                        files: e.target.files,
+                        placeId,
+                    })
+                }
                 style={{ display: "none" }}
-            />
-            <DialogUploadImage
-                visible={isUploadPlacePhotoDialogVisible}
-                isUploading={isUploading}
-                imageURLs={localFiles.map((localFile) =>
-                    URL.createObjectURL(localFile)
-                )}
-                onUploadClick={() => onUpload({ placeId })}
-                onClose={onCloseDialog}
             />
         </div>
     );

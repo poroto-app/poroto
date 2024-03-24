@@ -67,7 +67,7 @@ export function PlanPlaceList({
             )}
             {plan.places.map((place, i) => (
                 <VStack key={i} w="100%" spacing="0">
-                    <VStack key={i} w="100%" spacing="16px">
+                    <VStack w="100%" spacing="16px">
                         <ScheduleListItem
                             label={DateHelper.dateToHHMM(
                                 schedules[i].startTime

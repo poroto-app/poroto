@@ -13,10 +13,11 @@ type Story = StoryObj<typeof PlaceChipActionCamera>;
 export const Primary: Story = {
     args: {
         placeId: "",
-        localFiles: [],
+        localPlaceImageFiles: [],
+        localPlaceImageUrls: [],
         isUploading: false,
         isUploadPlacePhotoDialogVisible: false,
-        onFileChanged: (f) => 0,
+        onFileChanged: () => 0,
         onUpload: () => 0,
         onCloseDialog: () => 0,
     },
@@ -25,10 +26,11 @@ export const Primary: Story = {
 export const Selected: Story = {
     args: {
         placeId: "",
-        localFiles: [],
+        localPlaceImageFiles: [],
+        localPlaceImageUrls: [],
         isUploading: false,
         isUploadPlacePhotoDialogVisible: true,
-        onFileChanged: (f) => 0,
+        onFileChanged: () => 0,
         onUpload: () => 0,
         onCloseDialog: () => 0,
     },
@@ -37,10 +39,11 @@ export const Selected: Story = {
 export const Uploading: Story = {
     args: {
         placeId: "",
-        localFiles: [],
+        localPlaceImageFiles: [],
+        localPlaceImageUrls: [],
         isUploading: true,
         isUploadPlacePhotoDialogVisible: true,
-        onFileChanged: (f) => 0,
+        onFileChanged: () => 0,
         onUpload: () => 0,
         onCloseDialog: () => 0,
     },
