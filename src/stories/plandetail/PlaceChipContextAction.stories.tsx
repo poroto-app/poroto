@@ -1,7 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import {
-    PlaceChipActionCamera,
     PlaceChipActionDelete,
     PlaceChipActionGoogleMaps,
     PlaceChipActionInstagram,
@@ -45,19 +44,6 @@ export const GoogleMaps: Story = {
         <PlaceChipActionGoogleMaps
             placeName="東京駅"
             googlePlaceId="ChIJC3Cf2PuLGGAROO00ukl8JwA"
-        />
-    ),
-};
-
-export const Camera: Story = {
-    render: () => (
-        <PlaceChipActionCamera
-            localFiles={[]}
-            isUploading={false}
-            isUploadPlacePhotoDialogVisible={false}
-            onFileChanged={(f) => 0}
-            onUpload={() => 0}
-            onCloseDialog={() => 0}
         />
     ),
 };
