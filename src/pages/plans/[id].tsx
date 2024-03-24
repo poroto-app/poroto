@@ -22,6 +22,7 @@ import { NotFound } from "src/view/common/NotFound";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
+import useUploadPlaceImage from "src/view/hooks/useUploadPlaceImage";
 import { useUserPlan } from "src/view/hooks/useUserPlan";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
@@ -38,8 +39,12 @@ export default function PlanPage() {
     const { id } = useRouter().query;
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const toast = useToast();
+
     const { userId, firebaseIdToken, likePlaceIds, updateLikePlace } =
         useUserPlan();
+    const uploadImageProps = useUploadPlaceImage();
+
     const {
         preview: plan,
         placesNearbyPlanLocation,
@@ -47,7 +52,6 @@ export default function PlanPage() {
         showPlanCreatedModal,
         placeIdToCreatePlan,
     } = reduxPlanSelector();
-    const toast = useToast();
 
     const handleOnCopyPlanUrl = () => {
         const url: string = location.href;
@@ -152,6 +156,7 @@ export default function PlanPage() {
                     <PlanPlaceList
                         plan={plan}
                         likePlaceIds={likePlaceIds}
+                        uploadPlaceImage={uploadImageProps}
                         onUpdateLikeAtPlace={({ like, placeId }) =>
                             updateLikePlace({ planId: plan.id, placeId, like })
                         }
