@@ -7,7 +7,9 @@ export default {
     title: "interest/PlanInterestPageComponent",
     component: PlanInterestPageComponent,
     tags: ["autodocs"],
-    parameters: {},
+    parameters: {
+        layout: "fullscreen",
+    },
 } as Meta<typeof PlanInterestPageComponent>;
 
 type Story = StoryObj<typeof PlanInterestPageComponent>;
@@ -23,3 +25,30 @@ export const Primary: Story = {
         matchInterestRequestStatus: RequestStatuses.FULFILLED,
     },
 };
+
+export const CategorySelect: Story = {
+    args: {
+        currentCategory: {
+            name: "cafe",
+            displayName: "カフェ",
+            defaultThumbnailUrl: "https://picsum.photos/1280/720",
+            places: Object.values(mockPlaces),
+        },
+        matchInterestRequestStatus: RequestStatuses.FULFILLED,
+    },
+};
+
+export const CategorySelectSettingCategory: Story = {
+    args: {
+        categoryCandidates: [
+            {
+                name: "cafe",
+                displayName: "カフェ",
+                defaultThumbnailUrl: "https://picsum.photos/1280/720",
+                places: Object.values(mockPlaces),
+            },
+        ],
+        currentCategory: null,
+        matchInterestRequestStatus: RequestStatuses.FULFILLED,
+    },
+}
