@@ -246,10 +246,11 @@ export function PlanInterestPageComponent({
             </MatchInterestPageTemplate>
         );
 
-    console.log("HELLOOOOOOOOOo", categoryCandidates?.length === 0)
-
     if (!currentCategory) {
-        if (matchInterestRequestStatus === RequestStatuses.FULFILLED && categoryCandidates?.length === 0)
+        if (
+            matchInterestRequestStatus === RequestStatuses.FULFILLED &&
+            categoryCandidates?.length === 0
+        )
             return <CouldNotFindAnyPlace />;
 
         if (matchInterestRequestStatus === RequestStatuses.REJECTED)
