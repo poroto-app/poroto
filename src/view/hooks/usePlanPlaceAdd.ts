@@ -39,6 +39,7 @@ export const usePlanPlaceAdd = ({
     };
 
     const onCloseDialog = () => {
+        setBasePlaceIdToAdd(null);
         setIsDialogVisible(false);
         dispatch(resetAddPlaceToPlanCandidateState());
     };
