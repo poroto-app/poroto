@@ -51,4 +51,4 @@ export const CategorySelectSettingCategory: Story = {
         currentCategory: null,
         matchInterestRequestStatus: RequestStatuses.FULFILLED,
     },
-}
+};
