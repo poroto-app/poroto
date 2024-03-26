@@ -189,7 +189,6 @@ function SelectPlaceToUpdateScreen({
                 colorScheme="orange"
                 isLazy
                 w="100%"
-                overflowX="hidden"
             >
                 {placesWithCategories && placesWithCategories.length > 0 && (
                     <TabList
