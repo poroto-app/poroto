@@ -166,12 +166,11 @@ function SelectPlaceToUpdateScreen({
             w="100%"
             h="100%"
             py="32px"
-            px="16px"
             maxW="500px"
             spacing="32px"
             overflowY="auto"
         >
-            <HStack w="100%">
+            <HStack w="100%" px="16px">
                 <VStack flex={1} spacing={0}>
                     <Text fontSize="20px" fontWeight="bold" color="#574836">
                         {dialogTitle}
@@ -184,15 +183,11 @@ function SelectPlaceToUpdateScreen({
                     <Icon width="24px" height="24px" as={MdClose} />
                 </Box>
             </HStack>
-            <Tabs
-                variant="soft-rounded"
-                colorScheme="orange"
-                isLazy
-                w="100%"
-            >
+            <Tabs variant="soft-rounded" colorScheme="orange" isLazy w="100%">
                 {placesWithCategories && placesWithCategories.length > 0 && (
                     <TabList
                         w="100%"
+                        px="16px"
                         flexWrap={isPC ? "wrap" : "nowrap"}
                         whiteSpace="nowrap"
                         overflowX="auto"
@@ -293,7 +288,7 @@ function RecommendPlacesGrid({
             w="100%"
             spacingY="32px"
             spacingX="16px"
-            px="16px"
+            px="8px"
         >
             {placesRecommended
                 .filter((p) => p.images.length > 0)
