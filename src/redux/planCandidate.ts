@@ -240,6 +240,7 @@ type SavePlanFromCandidateProps = {
 export const savePlanFromCandidate = createAsyncThunk(
     "planCandidate/savePlanFromCandidate",
     async ({ session, planId, authToken }: SavePlanFromCandidateProps) => {
+        logEvent(getAnalytics(), AnalyticsEvents.SavePlan);
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.savePlanFromCandidate({
             session,
@@ -296,6 +297,9 @@ export const updateLikeAtPlaceInPlanCandidate = createAsyncThunk(
         userId,
         firebaseIdToken,
     }: UpdateLikeAtPlaceInPlanCandidateProps) => {
+        logEvent(getAnalytics(), AnalyticsEvents.EditPlan.Like, {
+            like,
+        });
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const { plans, likedPlaceIds } =
             await plannerApi.updateLikeAtPlaceInPlanCandidate({
@@ -322,6 +326,7 @@ export const autoReorderPlacesInPlanCandidate = createAsyncThunk(
         planCandidateId,
         planId,
     }: AutoReorderPlacesInPlanCandidateProps) => {
+        logEvent(getAnalytics(), AnalyticsEvents.EditPlan.AutoReorder);
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.autoReorderPlacesInPlanCandidate({
             planCandidateId,
