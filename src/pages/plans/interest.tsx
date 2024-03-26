@@ -191,6 +191,7 @@ function PlanInterestPage() {
 
     return (
         <PlanInterestPageComponent
+            categoryCandidates={categoryCandidates}
             currentCategory={
                 // 別のリクエスト結果が使われないようにする
                 matchInterestRequestId === fetchLocationCategoryRequestId &&
@@ -206,6 +207,7 @@ function PlanInterestPage() {
 }
 
 type Props = {
+    categoryCandidates: LocationCategoryWithPlace[] | null;
     currentCategory: LocationCategoryWithPlace | null;
     matchInterestRequestStatus: RequestStatus | null;
     handleAcceptCategory: (category: LocationCategory) => void;
@@ -215,6 +217,7 @@ type Props = {
 };
 
 export function PlanInterestPageComponent({
+    categoryCandidates,
     currentCategory,
     matchInterestRequestStatus,
     handleAcceptCategory,
@@ -246,15 +249,15 @@ export function PlanInterestPageComponent({
 
     if (!currentCategory) {
         if (
-            !matchInterestRequestStatus ||
-            matchInterestRequestStatus === RequestStatuses.PENDING
+            matchInterestRequestStatus === RequestStatuses.FULFILLED &&
+            categoryCandidates?.length === 0
         )
-            return <LoadingModal title="近くに何があるかを探しています。" />;
+            return <CouldNotFindAnyPlace />;
 
         if (matchInterestRequestStatus === RequestStatuses.REJECTED)
             return <ErrorPage />;
 
-        return <CouldNotFindAnyPlace />;
+        return <LoadingModal title="近くに何があるかを探しています。" />;
     }
 
     return (
