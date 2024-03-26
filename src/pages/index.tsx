@@ -1,6 +1,7 @@
-import { Center, Spinner, Text, VStack } from "@chakra-ui/react";
+import { Center, Spinner, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { useEffect } from "react";
+import { MdOutlineBookmarkBorder, MdTrendingUp } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
@@ -22,10 +23,7 @@ import { useNearbyPlans } from "src/view/hooks/useNearbyPlans";
 import { NearbyPlanList } from "src/view/plan/NearbyPlanList";
 import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
-import {
-    PlanListSectionTitle,
-    PlanSections,
-} from "src/view/top/PlanListSectionTitle";
+import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 
 type Props = {
     plansRecentlyCreated: Plan[] | null;
@@ -93,17 +91,10 @@ const IndexPage = (props: Props) => {
                 >
                     {plansByUser && plansByUser.length > 0 && (
                         <PlanList plans={plansByUser}>
-                            <Text
-                                as="h2"
-                                fontSize="20px"
-                                fontWeight="bold"
-                                w="100%"
-                                maxW="600px"
-                                textAlign="center"
-                                py="16x"
-                            >
-                                保存したプラン
-                            </Text>
+                            <PlanListSectionTitle
+                                title="保存したプラン"
+                                icon={MdOutlineBookmarkBorder}
+                            />
                         </PlanList>
                     )}
                     {/* TODO: 拒否設定されている場合の対処をする */}
@@ -124,7 +115,8 @@ const IndexPage = (props: Props) => {
                     >
                         <PlanList plans={plansRecentlyCreated}>
                             <PlanListSectionTitle
-                                section={PlanSections.Recent}
+                                title="最近作成されたプラン"
+                                icon={MdTrendingUp}
                             />
                         </PlanList>
                         {fetchPlansRecentlyCreatedRequestStatus ===

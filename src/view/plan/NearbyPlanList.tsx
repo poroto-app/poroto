@@ -1,3 +1,4 @@
+import { MdOutlineExplore } from "react-icons/md";
 import { Plan } from "src/domain/models/Plan";
 import { isPC } from "src/view/constants/userAgent";
 import {
@@ -7,10 +8,7 @@ import {
 import { PlanList } from "src/view/plan/PlanList";
 import { LocationUnavailable } from "src/view/top/LocationUnavailable";
 import { NearbyPlansNotFound } from "src/view/top/NearbyPlansNotFound";
-import {
-    PlanListSectionTitle,
-    PlanSections,
-} from "src/view/top/PlanListSectionTitle";
+import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 
 type Props = {
     plans: Plan[] | null;
@@ -41,7 +39,10 @@ export function NearbyPlanList({
             isLoading={isFetchingNearbyPlans}
             numPlaceHolders={isPC ? 3 : 1}
         >
-            <PlanListSectionTitle section={PlanSections.NearBy} />
+            <PlanListSectionTitle
+                title="近くのプラン"
+                icon={MdOutlineExplore}
+            />
         </PlanList>
     );
 }
