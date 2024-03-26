@@ -340,6 +340,7 @@ export type PlacesNearPlanOutput = {
 };
 
 export type PlacesToAddForPlanCandidateInput = {
+  placeId?: InputMaybe<Scalars['ID']['input']>;
   planCandidateId: Scalars['ID']['input'];
   planId: Scalars['ID']['input'];
 };
@@ -348,6 +349,7 @@ export type PlacesToAddForPlanCandidateOutput = {
   __typename?: 'PlacesToAddForPlanCandidateOutput';
   places: Array<Place>;
   placesGroupedByCategory: Array<CategoryGroupedPlaces>;
+  transitions: Array<Transition>;
 };
 
 export type PlacesToReplaceForPlanCandidateInput = {
