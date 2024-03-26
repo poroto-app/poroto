@@ -62,7 +62,7 @@ export function DialogRelatedPlaces({
     onClickRelatedPlace,
 }: Props) {
     const [selectedPlaceToUpdate, setSelectedPlaceToUpdate] =
-        useState<Place | null>();
+        useState<Place | null>(null);
 
     const handleOnSelectPlaceToUpdate = (placeId: string) => {
         const places = [
@@ -82,7 +82,7 @@ export function DialogRelatedPlaces({
     };
 
     useEffect(() => {
-        if (placesRecommended === null) setSelectedPlaceToUpdate(null);
+        if (!placesRecommended) setSelectedPlaceToUpdate(null);
     }, [copyObject(placesRecommended)]);
 
     return (
