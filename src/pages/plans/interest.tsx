@@ -183,6 +183,7 @@ function PlanInterestPage() {
     if (!searchLocation)
         return (
             <FetchLocationDialog
+                isSkipCurrentLocationVisible={true}
                 fetchLocationRequestStatus={fetchCurrentLocationStatus}
                 onRetry={() => getCurrentLocation().then()}
             />
