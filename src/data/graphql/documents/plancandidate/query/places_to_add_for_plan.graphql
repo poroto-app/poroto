@@ -12,5 +12,14 @@ query PlacesToAddForPlanOfPlanCandidate($input: PlacesToAddForPlanCandidateInput
                 ...PlaceFullFragment
             }
         }
+        transitions {
+            duration
+            from {
+                id
+            }
+            to {
+                id
+            }
+        }
     }
 }
