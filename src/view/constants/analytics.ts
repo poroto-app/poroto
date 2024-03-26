@@ -12,6 +12,7 @@ export const AnalyticsEvents = {
         Like: "edit_plan_like",
         AutoReorder: "edit_plan_auto_reorder",
     },
+    ViewPlan: "view_plan",
 };
 export type AnalyticsEvent =
     (typeof AnalyticsEvents)[keyof typeof AnalyticsEvents];
