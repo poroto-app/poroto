@@ -99,7 +99,7 @@ export function DialogRelatedPlaces({
                 backgroundColor="white"
                 w="100%"
                 h="900px"
-                maxH="80vh"
+                maxH="min(80vh, 800px)"
                 borderTopRadius="20px"
                 overflowY="scroll"
                 sx={{
