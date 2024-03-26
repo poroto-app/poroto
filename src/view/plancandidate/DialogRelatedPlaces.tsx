@@ -88,7 +88,8 @@ export function DialogRelatedPlaces({
     return (
         <FullscreenDialog
             position="bottom"
-            width="100%"
+            width="800px"
+            maxWidth="100%"
             visible={visible}
             onClickOutside={() => {
                 if (!updating) onClose();
