@@ -90,6 +90,44 @@ export const Primary: Story = {
     ),
 };
 
+export const Transition: Story = {
+    args: {
+        visible: true,
+        titleSelectScreen: "「横浜駅」に関連する場所",
+        titleConfirmScreen: "この場所と入れ替えますか？",
+        placesRecommended: [
+            mockPlaces.bookStore,
+            mockPlaces.tokyo,
+            mockPlaces.marunouchi,
+        ],
+        placesWithCategories: [],
+        transitions: [
+            {
+                fromPlaceId: null,
+                toPlaceId: mockPlaces.bookStore.id,
+                durationInMinutes: 30,
+            },
+            {
+                fromPlaceId: mockPlaces.bookStore.id,
+                toPlaceId: mockPlaces.tokyo.id,
+                durationInMinutes: 50,
+            },
+            {
+                fromPlaceId: mockPlaces.tokyo.id,
+                toPlaceId: mockPlaces.marunouchi.id,
+                durationInMinutes: 40,
+            },
+        ],
+        updating: false,
+        buttonLabelUpdatePlace: "入れ替える",
+    },
+    render: (args) => (
+        <Box w="100%" h="800px">
+            <DialogRelatedPlaces {...args} />
+        </Box>
+    ),
+};
+
 export const WoCategory: Story = {
     args: {
         visible: true,

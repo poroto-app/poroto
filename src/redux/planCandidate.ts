@@ -442,6 +442,10 @@ export const slice = createSlice({
             state.createPlanFromPlaceRequestStatus = null;
         },
 
+        resetAutoReorderPlacesInPlanCandidateRequestStatus: (state) => {
+            state.autoReorderPlacesInPlanCandidateRequestStatus = null;
+        },
+
         reorderPlacesInPreview: (
             state,
             { payload }: PayloadAction<{ placeIds: string[] }>
@@ -668,6 +672,7 @@ export const {
     resetPlanCandidates,
     resetCreatePlanFromLocationRequestStatus,
     resetCreatePlanFromPlaceRequestStatus,
+    resetAutoReorderPlacesInPlanCandidateRequestStatus,
 } = slice.actions;
 
 const { reorderPlacesInPreview } = slice.actions;

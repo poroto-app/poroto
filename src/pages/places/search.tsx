@@ -26,7 +26,7 @@ import { NavBar } from "src/view/common/NavBar";
 import { RoundedIconButton } from "src/view/common/RoundedIconButton";
 import { locationSinjukuStation } from "src/view/constants/location";
 import { PageMetaData } from "src/view/constants/meta";
-import { Routes } from "src/view/constants/router";
+import { RouteParams, Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { zIndex } from "src/view/constants/zIndex";
 import { useLocation } from "src/view/hooks/useLocation";
@@ -52,6 +52,8 @@ export default function Page() {
 
 function PlaceSearchPage() {
     const router = useRouter();
+    const isSkipFetchCurrentLocation =
+        router.query[RouteParams.SkipCurrentLocation] === "true";
     const dispatch = useAppDispatch();
     const { currentLocation } = reduxLocationSelector();
     const { placeSearchResults, placeSelected, moveToSelectedLocation } =
@@ -72,6 +74,7 @@ function PlaceSearchPage() {
     useEffect(() => {
         resetLocationState();
 
+        if (isSkipFetchCurrentLocation) return;
         const fetchCurrentLocation = async () => {
             // 権限がある場合のみ、現在地を取得する
             const isGranted = await checkGeolocationPermission();
@@ -80,7 +83,7 @@ function PlaceSearchPage() {
             await getCurrentLocation();
         };
         fetchCurrentLocation().then();
-    }, []);
+    }, [isSkipFetchCurrentLocation]);
 
     // 現在地が取得できたら、地図の中心を現在地にする
     useEffect(() => {
@@ -142,6 +145,8 @@ function PlaceSearchPage() {
     if (fetchCurrentLocationStatus && !location)
         return (
             <FetchLocationDialog
+                skipLocationLabel="現在地取得をスキップする"
+                isSkipCurrentLocationVisible={true}
                 fetchLocationRequestStatus={
                     fetchCurrentLocationStatus ?? RequestStatuses.PENDING
                 }

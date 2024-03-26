@@ -23,6 +23,10 @@ export const useNearbyPlans = () => {
         dispatch(fetchNearbyPlansAction({ currentLocation, limit: 5 }));
     };
 
+    useEffect(() => {
+        checkGeolocationPermission().then();
+    }, []);
+
     // 位置情報が利用可能な場合は付近で作成されたプランを取得する
     useEffect(() => {
         const fetchNearbyPlansWithCurrentLocation = async () => {
