@@ -19,4 +19,9 @@ export const Size = {
             },
         },
     },
+    PlanList: {
+        SavedPlan: {
+            ThumbnailHeight: "250px",
+        },
+    },
 };

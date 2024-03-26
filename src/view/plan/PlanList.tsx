@@ -1,8 +1,10 @@
-import { VStack } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Plan } from "src/domain/models/Plan";
 import { createArrayWithSize } from "src/domain/util/array";
+import { HorizontalScrollablelList } from "src/view/common/HorizontalScrollablelList";
 import { Routes } from "src/view/constants/router";
+import { Size } from "src/view/constants/size";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 import styled from "styled-components";
 import { AdInPlanList } from "../ad/AdInPlanList";
@@ -13,6 +15,9 @@ type Props = {
     plans: Plan[] | null;
     numPlaceHolders?: number;
     empty?: ReactNode;
+    grid?: boolean;
+    wrapTitle?: boolean;
+    showAuthor?: boolean;
 };
 
 export function PlanList({
@@ -21,6 +26,9 @@ export function PlanList({
     children,
     empty,
     numPlaceHolders = 6,
+    grid = true,
+    wrapTitle,
+    showAuthor,
 }: Props) {
     if (!plans || plans.length == 0 || isLoading) {
         if (empty && !isLoading) {
@@ -35,11 +43,17 @@ export function PlanList({
         return (
             <Container>
                 {children}
-                <GridLayout>
+                <Layout grid={grid}>
                     {createArrayWithSize(numPlaceHolders).map((i) => (
-                        <PlanPreview key={i} plan={null} />
+                        <PlanListItem
+                            key={i}
+                            plan={null}
+                            grid={grid}
+                            wrapTitle={wrapTitle}
+                            showAuthor={showAuthor}
+                        />
                     ))}
-                </GridLayout>
+                </Layout>
             </Container>
         );
     }
@@ -47,18 +61,20 @@ export function PlanList({
     return (
         <Container>
             {children}
-            <GridLayout>
+            <Layout grid={grid}>
                 {plans.map((plan, index) => (
                     <>
-                        <PlanPreview
-                            key={index}
-                            link={Routes.plans.plan(plan.id)}
+                        <PlanListItem
+                            key={plan.id}
                             plan={plan}
+                            grid={grid}
+                            wrapTitle={wrapTitle}
+                            showAuthor={showAuthor}
                         />
                         {(index + 1) % 6 === 0 && <AdInPlanList />}
                     </>
                 ))}
-            </GridLayout>
+            </Layout>
         </Container>
     );
 }
@@ -70,6 +86,44 @@ function Container({ children }: { children: ReactNode }) {
         </VStack>
     );
 }
+
+function PlanListItem({
+    plan,
+    grid,
+    wrapTitle,
+    showAuthor,
+}: {
+    plan: Plan;
+    grid: boolean;
+    wrapTitle?: boolean;
+    showAuthor?: boolean;
+}) {
+    return (
+        <Box w={grid ? "100%" : "200px"}>
+            <PlanPreview
+                link={plan && Routes.plans.plan(plan.id)}
+                plan={plan}
+                planThumbnailHeight={
+                    grid ? undefined : Size.PlanList.SavedPlan.ThumbnailHeight
+                }
+                wrapTitle={wrapTitle}
+                showAuthor={showAuthor}
+            />
+        </Box>
+    );
+}
+
+const Layout = ({ grid, children }: { grid: boolean; children: ReactNode }) => {
+    if (grid) {
+        return <GridLayout>{children}</GridLayout>;
+    }
+
+    return (
+        <HorizontalScrollablelList pageButtonOffsetY={-8}>
+            {children}
+        </HorizontalScrollablelList>
+    );
+};
 
 const GridLayout = styled.div`
     display: grid;

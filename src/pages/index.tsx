@@ -90,7 +90,12 @@ const IndexPage = (props: Props) => {
                     spacing="24px"
                 >
                     {plansByUser && plansByUser.length > 0 && (
-                        <PlanList plans={plansByUser}>
+                        <PlanList
+                            plans={plansByUser}
+                            grid={false}
+                            wrapTitle={false}
+                            showAuthor={false}
+                        >
                             <PlanListSectionTitle
                                 title="保存したプラン"
                                 icon={MdOutlineBookmarkBorder}
