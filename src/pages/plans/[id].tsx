@@ -52,6 +52,9 @@ export default function PlanPage() {
     const toast = useToast();
 
     const handleOnCopyPlanUrl = () => {
+        logEvent(getAnalytics(), AnalyticsEvents.CopyPlanUrl, {
+            planId: id,
+        });
         const url: string = location.href;
         navigator.clipboard.writeText(url);
 

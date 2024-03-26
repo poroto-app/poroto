@@ -13,6 +13,7 @@ export const AnalyticsEvents = {
         AutoReorder: "edit_plan_auto_reorder",
     },
     ViewPlan: "view_plan",
+    CopyPlanUrl: "copy_plan_url",
 };
 export type AnalyticsEvent =
     (typeof AnalyticsEvents)[keyof typeof AnalyticsEvents];
