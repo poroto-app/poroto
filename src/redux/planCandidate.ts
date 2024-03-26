@@ -82,6 +82,8 @@ export const createPlanFromLocation = createAsyncThunk(
         { location, googlePlaceId }: CreatePlanFromCurrentLocationProps,
         { dispatch, getState }
     ) => {
+        logEvent(getAnalytics(), AnalyticsEvents.CreatePlan.Create);
+
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
 
         const {

@@ -1,8 +1,11 @@
 export const AnalyticsEvents = {
-    CreatePlanFromCurrentLocation: "create_plan_from_current_location",
-    CreatePlanFromSelectedLocation: "create_plan_from_selected_location",
     CreatePlan: {
         FromLikePlace: "create_plan_from_like_place",
+        FromCurrentLocation: "create_plan_from_current_location",
+        FromSelectedLocation: "create_plan_from_selected_location",
+
+        // 実際に作成を行った
+        Create: "create_plan",
     },
     SavePlan: "save_plan",
     EditPlan: {

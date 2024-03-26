@@ -48,7 +48,8 @@ export function CreatePlanSection() {
                             onClick={() =>
                                 logEvent(
                                     getAnalytics(),
-                                    AnalyticsEvents.CreatePlanFromCurrentLocation
+                                    AnalyticsEvents.CreatePlan
+                                        .FromCurrentLocation
                                 )
                             }
                         />
@@ -59,7 +60,8 @@ export function CreatePlanSection() {
                             onClick={() =>
                                 logEvent(
                                     getAnalytics(),
-                                    AnalyticsEvents.CreatePlanFromSelectedLocation
+                                    AnalyticsEvents.CreatePlan
+                                        .FromSelectedLocation
                                 )
                             }
                         />
