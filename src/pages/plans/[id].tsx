@@ -69,6 +69,14 @@ export default function PlanPage() {
 
     // TODO: hooksで管理する
     const handleOnCreatePlan = async ({ place }: { place: Place }) => {
+        logEvent(
+            getAnalytics(),
+            AnalyticsEvents.CreatePlan.FromPlaceNearbyPlan,
+            {
+                planId: plan.id,
+                placeId: place.id,
+            }
+        );
         dispatch(
             setSearchLocation({
                 searchLocation: place.location,

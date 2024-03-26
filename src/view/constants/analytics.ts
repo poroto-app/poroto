@@ -3,6 +3,7 @@ export const AnalyticsEvents = {
         FromLikePlace: "create_plan_from_like_place",
         FromCurrentLocation: "create_plan_from_current_location",
         FromSelectedLocation: "create_plan_from_selected_location",
+        FromPlaceNearbyPlan: "create_plan_from_place_nearby_plan",
 
         // 実際に作成を行った
         Create: "create_plan",
