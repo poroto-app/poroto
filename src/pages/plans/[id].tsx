@@ -52,7 +52,7 @@ export default function PlanPage() {
     const toast = useToast();
 
     const handleOnCopyPlanUrl = () => {
-        logEvent(getAnalytics(), AnalyticsEvents.CopyPlanUrl, {
+        logEvent(getAnalytics(), AnalyticsEvents.Plan.CopyPlanUrl, {
             planId: id,
         });
         const url: string = location.href;
@@ -81,7 +81,7 @@ export default function PlanPage() {
     };
 
     useEffect(() => {
-        logEvent(getAnalytics(), AnalyticsEvents.ViewPlan, {
+        logEvent(getAnalytics(), AnalyticsEvents.Plan.View, {
             planId: id,
         });
     }, []);

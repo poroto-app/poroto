@@ -12,9 +12,9 @@ export const AnalyticsEvents = {
         Like: "edit_plan_like",
         AutoReorder: "edit_plan_auto_reorder",
     },
-    ViewPlan: "view_plan",
-    CopyPlanUrl: "copy_plan_url",
     Plan: {
+        View: "plan_view",
+        CopyPlanUrl: "copy_plan_url",
         Place: {
             SearchByGoogleMaps: "plan_place_search_by_google_maps",
             SearchByInstagram: "plan_place_search_by_instagram",
