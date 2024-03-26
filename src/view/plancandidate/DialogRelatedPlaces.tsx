@@ -249,7 +249,7 @@ export function PlaceListItem({
                 w="100%"
                 maxW="180px"
                 ratio={1}
-                borderRadius="100%"
+                borderRadius="20px"
                 overflow="hidden"
                 onClick={onClick}
             >
