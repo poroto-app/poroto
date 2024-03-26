@@ -34,6 +34,7 @@ export const usePlanPlaceAdd = ({
             fetchPlacesToAddToPlanCandidate({
                 planCandidateId,
                 planId,
+                placeId: basePlaceIdToAdd,
             })
         );
     };

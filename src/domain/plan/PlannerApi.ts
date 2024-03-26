@@ -2,6 +2,7 @@ import { GeoLocation } from "src/domain/models/GeoLocation";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";
+import { Transition } from "src/domain/models/Transition";
 import { UserEntity } from "src/domain/user/UserApi";
 
 export interface PlannerApi {
@@ -203,6 +204,7 @@ export type FetchCachedCreatedPlansResponse = {
 export type FetchPlacesToAddForPlanOfPlanCandidateRequest = {
     planCandidateId: string;
     planId: string;
+    placeId: string;
 };
 
 export type FetchPlacesToAddForPlanOfPlanCandidateResponse = {
@@ -211,6 +213,7 @@ export type FetchPlacesToAddForPlanOfPlanCandidateResponse = {
         category: PlaceCategory;
         places: PlaceEntity[];
     }[];
+    transitions: Transition[];
 };
 
 export type FetchPlacesToReplaceForPlanOfPlanCandidateRequest = {
