@@ -291,6 +291,7 @@ const PlanDetail = () => {
             <DialogAddPlace
                 placesRecommended={placesToAdd?.placesRecommend}
                 placesWithCategories={placesToAdd?.placesGroupedByCategories}
+                transitions={placesToAdd?.transitions}
                 isDialogVisible={isDialogToAddPlaceVisible}
                 isAddingPlace={isAddingPlace}
                 onAddPlaceToPlan={({ placeIdToAdd }) =>
