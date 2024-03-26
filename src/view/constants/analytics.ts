@@ -20,6 +20,10 @@ export const AnalyticsEvents = {
             SearchByInstagram: "plan_place_search_by_instagram",
         },
     },
+    User: {
+        LoginStart: "login_start",
+        Logout: "logout",
+    },
 };
 export type AnalyticsEvent =
     (typeof AnalyticsEvents)[keyof typeof AnalyticsEvents];
