@@ -14,6 +14,7 @@ import {
 } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { RootState } from "src/redux/redux";
+import { AnalyticsEvents } from "src/view/constants/analytics";
 
 export type PlanCandidateState = {
     createPlanSession: string | null;
@@ -81,7 +82,7 @@ export const createPlanFromLocation = createAsyncThunk(
         { location, googlePlaceId }: CreatePlanFromCurrentLocationProps,
         { dispatch, getState }
     ) => {
-        logEvent(getAnalytics(), "create_plan");
+        logEvent(getAnalytics(), AnalyticsEvents.CreatePlan);
 
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
 
