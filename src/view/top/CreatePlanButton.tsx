@@ -6,11 +6,12 @@ type Props = {
     title: string;
     icon: IconType;
     link: string;
+    onClick?: () => void;
 };
 
-export function CreatePlanButton({ title, icon, link }: Props) {
+export function CreatePlanButton({ title, icon, link, onClick }: Props) {
     return (
-        <Link href={link} w="100%">
+        <Link href={link} w="100%" onClick={onClick}>
             <VStack
                 borderRadius="20px"
                 backgroundColor="#FFF8F3"
