@@ -14,6 +14,12 @@ export const AnalyticsEvents = {
     },
     ViewPlan: "view_plan",
     CopyPlanUrl: "copy_plan_url",
+    Plan: {
+        Place: {
+            SearchByGoogleMaps: "plan_place_search_by_google_maps",
+            SearchByInstagram: "plan_place_search_by_instagram",
+        },
+    },
 };
 export type AnalyticsEvent =
     (typeof AnalyticsEvents)[keyof typeof AnalyticsEvents];
