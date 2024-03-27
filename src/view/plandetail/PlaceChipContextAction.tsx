@@ -1,6 +1,6 @@
 import { Link } from "@chakra-ui/next-js";
 import { HStack, Icon, Text } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { IconType } from "react-icons";
 import {
     MdOutlineCameraAlt,
@@ -8,10 +8,7 @@ import {
     MdOutlineFindReplace,
 } from "react-icons/md";
 import { SiGooglemaps, SiInstagram } from "react-icons/si";
-import { reduxAuthSelector } from "src/redux/auth";
-import { reduxPlanSelector } from "src/redux/plan";
-import useUploadImage from "src/view/hooks/useUploadImage";
-import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
+import { UploadPlaceImageProps } from "src/view/hooks/useUploadPlaceImage";
 import { OnClickHandler } from "src/view/types/handler";
 
 type Props = {
@@ -112,39 +109,22 @@ export const PlaceChipActionGoogleMaps = ({
     );
 };
 
-// TODO: リファクタする
-export const PlaceChipActionCamera = ({ placeId }: { placeId: string }) => {
-    const { localFiles, isUploading, handleFileChange, handleUpload } =
-        useUploadImage();
-    const [dialogVisible, setDialogVisible] = useState(false);
+export type PlaceChipActionCameraProps = {
+    placeId: string;
+} & UploadPlaceImageProps;
+
+export const PlaceChipActionCamera = ({
+    placeId,
+    onFileChanged,
+}: PlaceChipActionCameraProps) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
-    const { user } = reduxAuthSelector();
-    const { preview: plan } = reduxPlanSelector();
-
-    const handleUploadButtonClick = () => {
-        fileInputRef.current && fileInputRef.current.click();
-    };
-
-    const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedFiles = e.target.files;
-        if (selectedFiles) {
-            handleFileChange(selectedFiles);
-        }
-        setDialogVisible(selectedFiles && selectedFiles.length > 0);
-    };
-
-    // ログインユーザーでなければアップロードできない
-    if (!user) return <></>;
-
-    // 保存済みプランに対する操作でなければ表示しない
-    if (!plan) return <></>;
 
     return (
         <div>
             <HStack
                 backgroundColor="#FCF2E4"
                 color="#483216"
-                onClick={handleUploadButtonClick}
+                onClick={() => fileInputRef.current?.click()}
                 px="8px"
                 py="4px"
                 borderRadius="20px"
@@ -161,23 +141,13 @@ export const PlaceChipActionCamera = ({ placeId }: { placeId: string }) => {
                 type="file"
                 accept="image/*"
                 multiple
-                onChange={handleFileInputChange}
-                style={{ display: "none" }}
-            />
-            <DialogUploadImage
-                visible={dialogVisible}
-                isUploading={isUploading}
-                imageURLs={localFiles.map((localFile) =>
-                    URL.createObjectURL(localFile)
-                )}
-                onUploadClick={() =>
-                    handleUpload({
+                onChange={(e) =>
+                    onFileChanged({
+                        files: e.target.files,
                         placeId,
-                        userId: user.id,
-                        planId: plan.id,
                     })
                 }
-                onClose={() => setDialogVisible(false)}
+                style={{ display: "none" }}
             />
         </div>
     );

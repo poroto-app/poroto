@@ -191,6 +191,7 @@ const TabPanelInformation = ({
             >
                 {!isCategoryEmpty && (
                     <InformationTag
+                        key="category"
                         icon={getPlaceCategoryIcon(categories[0])}
                         value={categories[0].displayName}
                         label="カテゴリ"
@@ -198,6 +199,7 @@ const TabPanelInformation = ({
                 )}
                 {!isPriceRangeEmpty && (
                     <InformationTag
+                        key="priceRange"
                         icon={MdCurrencyYen}
                         value={`${priceRange.min}~${priceRange.max} 円`}
                         label="価格帯"
@@ -205,6 +207,7 @@ const TabPanelInformation = ({
                 )}
                 {!isGooglePlaceReviewsEmpty && (
                     <InformationTag
+                        key="rating"
                         icon={FaRegStar}
                         value={averageRating.toFixed(1)}
                         label="評価"
@@ -212,6 +215,7 @@ const TabPanelInformation = ({
                 )}
                 {!isEstimatedStayDurationEmpty && (
                     <InformationTag
+                        key="estimatedStayDuration"
                         icon={MdSchedule}
                         value={DateHelper.formatHHMM(estimatedStayDuration)}
                         label="予想滞在時間"
