@@ -91,7 +91,8 @@ export function DialogRelatedPlaces({
     return (
         <FullscreenDialog
             position="bottom"
-            width="100%"
+            width="600px"
+            maxWidth="100%"
             visible={visible}
             onClickOutside={() => {
                 if (!updating) onClose();
@@ -101,7 +102,7 @@ export function DialogRelatedPlaces({
                 backgroundColor="white"
                 w="100%"
                 h="900px"
-                maxH="80vh"
+                maxH="min(80vh, 800px)"
                 borderTopRadius="20px"
                 overflowY="scroll"
                 sx={{
@@ -171,12 +172,11 @@ function SelectPlaceToUpdateScreen({
             w="100%"
             h="100%"
             py="32px"
-            px="16px"
             maxW="500px"
             spacing="32px"
             overflowY="auto"
         >
-            <HStack w="100%">
+            <HStack w="100%" px="16px">
                 <VStack flex={1} spacing={0}>
                     <Text fontSize="20px" fontWeight="bold" color="#574836">
                         {dialogTitle}
@@ -189,16 +189,11 @@ function SelectPlaceToUpdateScreen({
                     <Icon width="24px" height="24px" as={MdClose} />
                 </Box>
             </HStack>
-            <Tabs
-                variant="soft-rounded"
-                colorScheme="orange"
-                isLazy
-                w="100%"
-                overflowX="hidden"
-            >
+            <Tabs variant="soft-rounded" colorScheme="orange" isLazy w="100%">
                 {placesWithCategories && placesWithCategories.length > 0 && (
                     <TabList
                         w="100%"
+                        px="16px"
                         flexWrap={isPC ? "wrap" : "nowrap"}
                         whiteSpace="nowrap"
                         overflowX="auto"
@@ -259,7 +254,7 @@ export function PlaceListItem({
                 w="100%"
                 maxW="180px"
                 ratio={1}
-                borderRadius="100%"
+                borderRadius="20px"
                 overflow="hidden"
                 onClick={onClick}
             >
@@ -312,7 +307,7 @@ function RecommendPlacesGrid({
             w="100%"
             spacingY="32px"
             spacingX="16px"
-            px="16px"
+            px="8px"
         >
             {placesRecommended
                 .filter((p) => p.images.length > 0)
