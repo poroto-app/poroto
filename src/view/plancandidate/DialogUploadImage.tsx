@@ -1,12 +1,13 @@
 import {
-    Box,
-    Button,
-    Center,
-    HStack,
-    Image,
-    Spinner,
-    Text,
-    VStack,
+Box,
+Button,
+Center,
+HStack,
+Image,
+Progress,
+Spinner,
+Text,
+VStack
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
@@ -15,6 +16,7 @@ type Props = {
     visible: boolean;
     imageURLs: string[];
     isUploading: boolean;
+    uploadProgress: number;
     onUploadClick: () => void;
     onClose: () => void;
 };
@@ -23,6 +25,7 @@ const DialogUploadImage = ({
     visible,
     isUploading,
     imageURLs,
+    uploadProgress,
     onUploadClick,
     onClose,
 }: Props) => {
@@ -31,13 +34,18 @@ const DialogUploadImage = ({
     const renderContent = () => {
         if (isUploading) {
             return (
-                <Spinner
-                    thickness="4px"
-                    speed="0.65s"
-                    emptyColor="gray.200"
-                    color="#84A6FF"
-                    size="xl"
-                />
+                <Box w="100%" textAlign="center">
+                    <Text fontSize="xl">画像をアップロード中...</Text>
+                    <Progress size='lg' colorScheme="blue" value={uploadProgress} w="80%" mt="4" />
+                    <Spinner
+                        thickness="4px"
+                        speed="0.65s"
+                        emptyColor="gray.200"
+                        color="#84A6FF"
+                        size="xl"
+                        mt="4"
+                    />
+                </Box>
             );
         } else {
             return (

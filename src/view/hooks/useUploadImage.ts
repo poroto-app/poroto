@@ -1,11 +1,11 @@
 import { useToast } from "@chakra-ui/react";
 import { getApp } from "firebase/app";
 import {
-    getDownloadURL,
-    getStorage,
-    ref,
-    uploadBytesResumable,
-    UploadTask,
+getDownloadURL,
+getStorage,
+ref,
+uploadBytesResumable,
+UploadTask
 } from "firebase/storage";
 import { useState } from "react";
 import { uploadPlacePhotosInPlan } from "src/redux/plan";
@@ -27,6 +27,7 @@ const useUploadImage = () => {
         useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
     const toast = useToast();
     const dispatch = useAppDispatch();
+    const [uploadProgress, setUploadProgress] = useState<number>(0);
 
     const handleFileChange = (selectedFiles: FileList) => {
         const selectedFilesArray = Array.from(selectedFiles);
@@ -123,8 +124,10 @@ const useUploadImage = () => {
         return new Promise((resolve, reject) => {
             uploadTask.on(
                 "state_changed",
-                () => {
-                    // アップロードの進捗が変化した場合の処理
+                (snapshot) => {
+                    const progress =
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                    setUploadProgress(progress);
                 },
                 (error) => {
                     reject(error);
