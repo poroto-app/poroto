@@ -1,11 +1,11 @@
 import { useToast } from "@chakra-ui/react";
 import { getApp } from "firebase/app";
 import {
-getDownloadURL,
-getStorage,
-ref,
-uploadBytesResumable,
-UploadTask
+    getDownloadURL,
+    getStorage,
+    ref,
+    uploadBytesResumable,
+    UploadTask,
 } from "firebase/storage";
 import { useState } from "react";
 import { uploadPlacePhotosInPlan } from "src/redux/plan";
@@ -19,7 +19,10 @@ enum UploadRequestStatus {
     REJECTED = "REJECTED",
 }
 
-const checkForDuplicateImages = (urls: string[], newUrls: string[]):boolean => {
+const checkForDuplicateImages = (
+    urls: string[],
+    newUrls: string[]
+): boolean => {
     return newUrls.some((newUrl) => urls.includes(newUrl));
 };
 
@@ -62,7 +65,7 @@ const useUploadImage = () => {
                 })
             );
             // 重複画像のチェック
-            if (checkForDuplicateImages(uploadedImageURLs, localImageURLs)){
+            if (checkForDuplicateImages(uploadedImageURLs, localImageURLs)) {
                 throw new Error("同じ画像が既にアップロードされています");
             }
             // Cloud Storageに画像をアップロードする
