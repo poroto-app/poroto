@@ -1,13 +1,13 @@
 import {
-Box,
-Button,
-Center,
-HStack,
-Image,
-Progress,
-Spinner,
-Text,
-VStack
+    Box,
+    Button,
+    Center,
+    HStack,
+    Image,
+    Progress,
+    Spinner,
+    Text,
+    VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
@@ -36,7 +36,13 @@ const DialogUploadImage = ({
             return (
                 <Box w="100%" textAlign="center">
                     <Text fontSize="xl">画像をアップロード中...</Text>
-                    <Progress size='lg' colorScheme="blue" value={uploadProgress} w="80%" mt="4" />
+                    <Progress
+                        size="lg"
+                        colorScheme="blue"
+                        value={uploadProgress}
+                        w="80%"
+                        mt="4"
+                    />
                     <Spinner
                         thickness="4px"
                         speed="0.65s"
