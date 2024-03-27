@@ -1,0 +1,28 @@
+name: storybook build
+run-name: Storybook Build by @${{ github.actor }}
+on:
+  pull_request:
+    paths:
+      - "src/view/**"
+      - "src/stories/**"
+jobs:
+  # https://storybook.js.org/docs/writing-tests/test-runner#run-against-non-deployed-storybooks
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: yarn
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+      - name: Build Storybook
+        run: yarn storybook:build
+      - name: Serve Storybook and run tests
+        run: |
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx http-server storybook-static --port 6006 --silent" \
+            "npx wait-on tcp:6006 && yarn storybook:test"
