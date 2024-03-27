@@ -1,6 +1,8 @@
 import { Box, Center, Grid, Text, VStack } from "@chakra-ui/react";
+import { getAnalytics, logEvent } from "@firebase/analytics";
 import { MdOutlineLocationOn, MdOutlineMap } from "react-icons/md";
 import HangOut from "src/view/assets/svg/hangout.svg";
+import { AnalyticsEvents } from "src/view/constants/analytics";
 import { Routes } from "src/view/constants/router";
 import styled from "styled-components";
 import { CreatePlanButton } from "./CreatePlanButton";
@@ -43,11 +45,25 @@ export function CreatePlanSection() {
                             title="現在地から"
                             icon={MdOutlineLocationOn}
                             link={Routes.plans.interest()}
+                            onClick={() =>
+                                logEvent(
+                                    getAnalytics(),
+                                    AnalyticsEvents.CreatePlan
+                                        .FromCurrentLocation
+                                )
+                            }
                         />
                         <CreatePlanButton
                             title="好きな場所から"
                             icon={MdOutlineMap}
                             link={Routes.places.search({})}
+                            onClick={() =>
+                                logEvent(
+                                    getAnalytics(),
+                                    AnalyticsEvents.CreatePlan
+                                        .FromSelectedLocation
+                                )
+                            }
                         />
                     </Grid>
                 </VStack>

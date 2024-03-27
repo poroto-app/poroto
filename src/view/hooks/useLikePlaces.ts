@@ -1,3 +1,4 @@
+import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Place } from "src/domain/models/Place";
@@ -10,6 +11,7 @@ import {
 } from "src/redux/place";
 import { reduxPlanSelector, setPlaceIdToCreatePlan } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
+import { AnalyticsEvents } from "src/view/constants/analytics";
 import { Routes } from "src/view/constants/router";
 
 export const useLikePlaces = () => {
@@ -24,6 +26,9 @@ export const useLikePlaces = () => {
     };
 
     const onCreatePlanFromLikePlace = (place: Place) => {
+        logEvent(getAnalytics(), AnalyticsEvents.CreatePlan.FromLikePlace, {
+            placeId: place.id,
+        });
         dispatch(
             setSearchLocation({
                 searchLocation: place.location,
