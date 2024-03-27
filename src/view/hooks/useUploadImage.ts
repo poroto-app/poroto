@@ -19,6 +19,13 @@ enum UploadRequestStatus {
     REJECTED = "REJECTED",
 }
 
+const checkForDuplicateImages = (
+    urls: string[],
+    newUrls: string[]
+): boolean => {
+    return newUrls.some((newUrl) => urls.includes(newUrl));
+};
+
 const useUploadImage = () => {
     const [localFiles, setLocalFiles] = useState<File[]>([]);
     const [localImageURLs, setLocalImageURLs] = useState<string[]>([]);
@@ -27,6 +34,7 @@ const useUploadImage = () => {
         useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
     const toast = useToast();
     const dispatch = useAppDispatch();
+    const [dialogVisible, setDialogVisible] = useState(false);
 
     const handleFileChange = (selectedFiles: FileList) => {
         const selectedFilesArray = Array.from(selectedFiles);
@@ -56,6 +64,10 @@ const useUploadImage = () => {
                     return { size, file };
                 })
             );
+            // 重複画像のチェック
+            if (checkForDuplicateImages(uploadedImageURLs, localImageURLs)) {
+                throw new Error("同じ画像が既にアップロードされています");
+            }
             // Cloud Storageに画像をアップロードする
             const firebaseApp = getApp();
             const storage = getStorage(
@@ -152,6 +164,8 @@ const useUploadImage = () => {
         isUploadConfirmationDialogVisible: localFiles.length > 0,
         handleFileChange,
         handleUpload,
+        dialogVisible,
+        setDialogVisible,
     };
 };
 
