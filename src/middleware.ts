@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
+    // poroto.appの場合はkomichi.appにリダイレクト
+    const { hostname } = req.nextUrl;
+    if (hostname === "localhost") {
+        const url = new URL(`${process.env.APP_PROTOCOL}://${process.env.APP_HOST}.app/`);
+        return NextResponse.redirect(url, 301);
+    }
+
     // staging環境でのみBasic認証を行う
     if (process.env.APP_ENV !== "staging") {
         return NextResponse.next();
