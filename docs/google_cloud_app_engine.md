@@ -14,7 +14,7 @@
 ※ planner では無料枠を利用するために、staging環境を利用している
 
 ## Dispatch
-- `xxx.poroto.app`というエンドポイントに来たリクエストをどのサービスに割り振るかを決める
+- `xxx.komichi.app`というエンドポイントに来たリクエストをどのサービスに割り振るかを決める
 - github actionsの`deploy_workflow.yaml`でこれを行っている。
 - また、`dispatch.yaml`というファイルで割り当てを定義する。
 - このとき、このファイルの名前を`dispatch-xxx.yaml`とすると割り当てを定義したファイルとして認識されない
