@@ -28,7 +28,7 @@ export const PlanScreenShotComponent = forwardRef<HTMLDivElement, Props>(
                     />
                 </Box>
                 <img
-                    src="/images/poroto.jpg"
+                    src="/images/komichi.jpg"
                     alt="komichi"
                 />
             </VStack>
