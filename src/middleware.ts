@@ -4,7 +4,9 @@ export function middleware(req: NextRequest) {
     // poroto.appの場合はkomichi.appにリダイレクト
     const { hostname } = req.nextUrl;
     if (hostname === "poroto.app") {
-        const url = new URL(`${process.env.APP_PROTOCOL}://${process.env.APP_HOST}/`);
+        const url = new URL(
+            `${process.env.APP_PROTOCOL}://${process.env.APP_HOST}/`
+        );
         return NextResponse.redirect(url, 301);
     }
 
