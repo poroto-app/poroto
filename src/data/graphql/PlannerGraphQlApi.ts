@@ -322,6 +322,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                 input: {
                     planCandidateId: request.planCandidateId,
                     planId: request.planId,
+                    placeId: request.placeId,
                 },
             },
         });
@@ -341,6 +342,13 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                         ),
                     })
                 ),
+            transitions: data.placesToAddForPlanCandidate.transitions.map(
+                (t) => ({
+                    fromPlaceId: t.from?.id,
+                    toPlaceId: t.to.id,
+                    durationInMinutes: t.duration,
+                })
+            ),
         };
     }
 
@@ -603,7 +611,7 @@ function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
     };
 }
 
-function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
+export function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
     return {
         id: place.id,
         googlePlaceId: place.googlePlaceId ?? null,

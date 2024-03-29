@@ -10,13 +10,18 @@ export const Size = {
         px: "16px",
         imageH: "300px",
     },
-    PlanDetail: {
-        NearbyPlaceList: {
-            card: {
-                w: "200px",
-                h: "200px",
-                borderRadius: "20px",
-            },
+    PlanList: {
+        SavedPlan: {
+            ThumbnailHeight: "250px",
         },
+        LikePlace: {
+            w: "200px",
+            h: "250px",
+        },
+    },
+    PlaceCard: {
+        w: "200px",
+        h: "200px",
+        borderRadius: "20px",
     },
 };

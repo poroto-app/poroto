@@ -4,17 +4,12 @@
     "display": "standalone",
     "scope": "/",
     "start_url": "/",
-    "name": "poroto",
-    "short_name": "poroto",
+    "name": "komichi",
+    "short_name": "komichi",
     "icons": [
         {
             "src": "/icons/icon-192x192.png",
             "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/icons/icon-256x256.png",
-            "sizes": "256x256",
             "type": "image/png"
         },
         {

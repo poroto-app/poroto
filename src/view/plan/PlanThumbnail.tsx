@@ -11,12 +11,14 @@ import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 type Props = {
     images: Image[];
     imageSize?: ImageSize;
+    h?: string | number;
     link?: string;
 };
 
 export const PlanThumbnail = ({
     images,
     imageSize = ImageSizes.Small,
+    h = "300px",
     link,
 }: Props) => {
     if (images.length === 0) {
@@ -24,7 +26,7 @@ export const PlanThumbnail = ({
     }
 
     return (
-        <Box w="100%" h="300px">
+        <Box w="100%" h={h}>
             <ImageSliderPreview
                 images={images}
                 imageSize={imageSize}

@@ -1,0 +1,5 @@
+query LikePlaces($input: LikePlacesInput!) {
+    likePlaces(input: $input) {
+        ...PlaceFullFragment
+    }
+}

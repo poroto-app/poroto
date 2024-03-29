@@ -5,7 +5,6 @@ import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { reduxAuthSelector } from "src/redux/auth";
 import {
-    autoReorderPlacesInPlanCandidate,
     fetchCachedCreatedPlans,
     reduxPlanCandidateSelector,
     updatePreviewPlanId,
@@ -25,6 +24,7 @@ import { usePlaceLikeInPlanCandidate } from "src/view/hooks/usePlaceLikeInPlanCa
 import { usePlanCreate } from "src/view/hooks/usePlanCreate";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
 import { usePlanPlaceDelete } from "src/view/hooks/usePlanPlaceDelete";
+import { usePlanPlaceReorder } from "src/view/hooks/usePlanPlaceReorder";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
@@ -48,6 +48,8 @@ const PlanDetail = () => {
         planCandidateSetId: sessionId as string,
         planId: planId as string,
     });
+
+    const { handleOptimizeRoute } = usePlanPlaceReorder();
 
     const {
         showRelatedPlaces,
@@ -140,16 +142,6 @@ const PlanDetail = () => {
             dispatch(updatePreviewPlanId({ planId }));
         }
     }, [planId, createPlanSession]);
-
-    const handleOptimizeRoute = ({
-        planCandidateId,
-        planId,
-    }: {
-        planCandidateId: string;
-        planId: string;
-    }): void => {
-        dispatch(autoReorderPlacesInPlanCandidate({ planId, planCandidateId }));
-    };
 
     if (savePlanFromCandidateRequestStatus === RequestStatuses.PENDING) {
         return <LoadingModal title="プランを作成しています" />;
@@ -291,6 +283,7 @@ const PlanDetail = () => {
             <DialogAddPlace
                 placesRecommended={placesToAdd?.placesRecommend}
                 placesWithCategories={placesToAdd?.placesGroupedByCategories}
+                transitions={placesToAdd?.transitions}
                 isDialogVisible={isDialogToAddPlaceVisible}
                 isAddingPlace={isAddingPlace}
                 onAddPlaceToPlan={({ placeIdToAdd }) =>

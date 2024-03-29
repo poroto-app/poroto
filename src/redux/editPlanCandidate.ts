@@ -9,6 +9,7 @@ import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
+import { Transition } from "src/domain/models/Transition";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { updatePlanOfPlanCandidate } from "src/redux/planCandidate";
 import { RootState } from "src/redux/redux";
@@ -21,6 +22,7 @@ export type EditPlanCandidateState = {
     placesToAdd: {
         placesRecommend: Place[];
         placesGroupedByCategories: PlacesWithCategory[] | null;
+        transitions: Transition[];
     };
     requestStatusFetchPlacesToAdd: RequestStatus | null;
     requestStatusAddPlaceToPlanCandidate: RequestStatus | null;
@@ -99,18 +101,21 @@ export const replacePlaceOfPlanCandidate = createAsyncThunk(
 type FetchPlacesToAddForPlanOfPlanCandidateProps = {
     planCandidateId: string;
     planId: string;
+    placeId: string;
 };
 export const fetchPlacesToAddToPlanCandidate = createAsyncThunk(
     "editPlanCandidate/FetchPlacesToAddForPlanOfPlanCandidate",
     async ({
         planCandidateId,
         planId,
+        placeId,
     }: FetchPlacesToAddForPlanOfPlanCandidateProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const { placesRecommend, placesGroupedByCategories } =
+        const { placesRecommend, placesGroupedByCategories, transitions } =
             await plannerApi.fetchPlacesToAddForPlanOfPlanCandidate({
                 planCandidateId,
                 planId,
+                placeId,
             });
 
         return {
@@ -125,6 +130,7 @@ export const fetchPlacesToAddToPlanCandidate = createAsyncThunk(
                     ),
                 })
             ),
+            transitions,
         };
     }
 );
@@ -262,12 +268,22 @@ export const slice = createSlice({
             })
             .addCase(
                 fetchPlacesToAddToPlanCandidate.fulfilled,
-                (state, { payload: { places, placesGroupedByCategories } }) => {
+                (
+                    state,
+                    {
+                        payload: {
+                            places,
+                            placesGroupedByCategories,
+                            transitions,
+                        },
+                    }
+                ) => {
                     state.requestStatusFetchPlacesToAdd =
                         RequestStatuses.FULFILLED;
                     state.placesToAdd = {
                         placesRecommend: places,
                         placesGroupedByCategories: placesGroupedByCategories,
+                        transitions,
                     };
                 }
             )

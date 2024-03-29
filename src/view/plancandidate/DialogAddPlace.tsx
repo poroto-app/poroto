@@ -1,10 +1,12 @@
 import { Place } from "src/domain/models/Place";
 import { PlacesWithCategory } from "src/domain/models/PlacesWithCategory";
+import { Transition } from "src/domain/models/Transition";
 import { DialogRelatedPlaces } from "src/view/plancandidate/DialogRelatedPlaces";
 
 type Props = {
     placesRecommended: Place[];
     placesWithCategories: PlacesWithCategory[];
+    transitions: Transition[];
     isDialogVisible: boolean;
     isAddingPlace: boolean;
     onAddPlaceToPlan: (props: { placeIdToAdd: string }) => void;
@@ -14,6 +16,7 @@ type Props = {
 export function DialogAddPlace({
     placesRecommended,
     placesWithCategories,
+    transitions,
     isDialogVisible,
     isAddingPlace,
     onAddPlaceToPlan,
@@ -26,6 +29,7 @@ export function DialogAddPlace({
             titleSelectScreen="プランに新しい場所を追加する"
             placesRecommended={placesRecommended}
             placesWithCategories={placesWithCategories}
+            transitions={transitions}
             updating={isAddingPlace}
             buttonLabelUpdatePlace="追加"
             onClose={onCloseDialog}

@@ -34,11 +34,13 @@ export const usePlanPlaceAdd = ({
             fetchPlacesToAddToPlanCandidate({
                 planCandidateId,
                 planId,
+                placeId: basePlaceIdToAdd,
             })
         );
     };
 
     const onCloseDialog = () => {
+        setBasePlaceIdToAdd(null);
         setIsDialogVisible(false);
         dispatch(resetAddPlaceToPlanCandidateState());
     };

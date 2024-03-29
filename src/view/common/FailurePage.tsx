@@ -13,7 +13,7 @@ export type Props = {
 
     actions?: ReactNode;
 
-    navBar?: boolean;
+    navBar?: ReactNode;
 };
 
 export function FailurePage({
@@ -23,13 +23,11 @@ export function FailurePage({
     description,
     image,
     actions,
-    navBar,
+    navBar = <NavBar />,
 }: Props) {
-    if (navBar === undefined) navBar = true;
-
     return (
         <VStack w="100%" h="100%">
-            {navBar && <NavBar />}
+            {navBar}
             <Center w="100%" h="100%" py="32px" px="16px">
                 <VStack w="100%" h="100%" maxW="600px">
                     <Center flexDirection="column" flex={1} w="100%" px="16px">

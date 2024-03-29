@@ -46,3 +46,13 @@ export const EmptyWithComponent: Story = {
         empty: <p>Empty</p>,
     },
 };
+
+export const Horizontal: Story = {
+    args: {
+        plans: createArrayWithSize(5).map((i) => ({
+            id: i,
+            ...mockPlan,
+        })),
+        grid: false,
+    },
+};
