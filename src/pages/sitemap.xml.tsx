@@ -28,7 +28,11 @@ export const getServerSideProps: GetServerSideProps = async ({ res }) => {
         pages: [
             { url: `${baseUrl}/` },
             { url: `${baseUrl}${Routes.plans.interest()}` },
-            { url: `${baseUrl}${Routes.places.search}` },
+            {
+                url: `${baseUrl}${Routes.places.search({
+                    skipCurrentLocation: false,
+                })}`,
+            },
         ],
     });
 
