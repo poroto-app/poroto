@@ -20,8 +20,8 @@ function generateSiteMap({ pages }: { pages: Page[] }): string {
 }
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-    const protocol = "https";
-    const host = "poroto.app";
+    const protocol = process.env.APP_PROTOCOL;
+    const host = process.env.APP_HOST;
     const baseUrl = `${protocol}://${host}`;
 
     const sitemap = generateSiteMap({
