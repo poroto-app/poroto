@@ -1,9 +1,9 @@
 dispatch:
-  - url: "planner.poroto.app/*"
+  - url: "planner.komichi.app/*"
     service: default
   
-  - url: "staging.poroto.app/*"
+  - url: "staging.komichi.app/*"
     service: poroto-staging
 
-  - url: "staging.planner.poroto.app/*"
+  - url: "staging.planner.komichi.app/*"
     service: planner-staging
