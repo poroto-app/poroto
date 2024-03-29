@@ -4,8 +4,8 @@
     "display": "standalone",
     "scope": "/",
     "start_url": "/",
-    "name": "poroto",
-    "short_name": "poroto",
+    "name": "komichi",
+    "short_name": "komichi",
     "icons": [
         {
             "src": "/icons/icon-192x192.png",
