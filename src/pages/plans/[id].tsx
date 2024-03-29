@@ -1,4 +1,5 @@
 import { Center, useToast, VStack } from "@chakra-ui/react";
+import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -19,6 +20,7 @@ import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
+import { AnalyticsEvents } from "src/view/constants/analytics";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
@@ -55,6 +57,9 @@ export default function PlanPage() {
     } = reduxPlanSelector();
 
     const handleOnCopyPlanUrl = () => {
+        logEvent(getAnalytics(), AnalyticsEvents.Plan.CopyPlanUrl, {
+            planId: id,
+        });
         const url: string = location.href;
         navigator.clipboard.writeText(url);
 
@@ -69,6 +74,14 @@ export default function PlanPage() {
 
     // TODO: hooksで管理する
     const handleOnCreatePlan = async ({ place }: { place: Place }) => {
+        logEvent(
+            getAnalytics(),
+            AnalyticsEvents.CreatePlan.FromPlaceNearbyPlan,
+            {
+                planId: plan.id,
+                placeId: place.id,
+            }
+        );
         dispatch(
             setSearchLocation({
                 searchLocation: place.location,
@@ -79,6 +92,12 @@ export default function PlanPage() {
         dispatch(setPlaceIdToCreatePlan(null));
         await router.push(Routes.plans.interest(true));
     };
+
+    useEffect(() => {
+        logEvent(getAnalytics(), AnalyticsEvents.Plan.View, {
+            planId: id,
+        });
+    }, []);
 
     useEffect(() => {
         if (typeof id !== "string") return;

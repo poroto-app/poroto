@@ -1,5 +1,6 @@
 import { Link } from "@chakra-ui/next-js";
 import { HStack, Icon, Text } from "@chakra-ui/react";
+import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useRef } from "react";
 import { IconType } from "react-icons";
 import {
@@ -8,6 +9,7 @@ import {
     MdOutlineFindReplace,
 } from "react-icons/md";
 import { SiGooglemaps, SiInstagram } from "react-icons/si";
+import { AnalyticsEvents } from "src/view/constants/analytics";
 import { UploadPlaceImageProps } from "src/view/hooks/useUploadPlaceImage";
 import { OnClickHandler } from "src/view/types/handler";
 
@@ -76,6 +78,12 @@ export const PlaceChipActionInstagram = ({
                 placeName.replaceAll(/\s+/g, "")
             )}/`}
             target="_blank"
+            onChange={() =>
+                logEvent(
+                    getAnalytics(),
+                    AnalyticsEvents.Plan.Place.SearchByInstagram
+                )
+            }
         >
             <PlaceChipContextAction
                 label="Instagramで検索"
@@ -88,9 +96,11 @@ export const PlaceChipActionInstagram = ({
 export const PlaceChipActionGoogleMaps = ({
     placeName,
     googlePlaceId,
+    onClick,
 }: {
     placeName: string;
     googlePlaceId: string;
+    onClick?: OnClickHandler;
 }) => {
     const url = new URL("https://www.google.com/maps/search/");
     url.searchParams.set("api", "1");
@@ -100,6 +110,12 @@ export const PlaceChipActionGoogleMaps = ({
         <Link
             target="_blank"
             href={encodeURI(decodeURIComponent(url.toString()))}
+            onClick={() =>
+                logEvent(
+                    getAnalytics(),
+                    AnalyticsEvents.Plan.Place.SearchByGoogleMaps
+                )
+            }
         >
             <PlaceChipContextAction
                 label="Google Mapsで検索"
