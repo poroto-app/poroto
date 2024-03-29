@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
     // poroto.appの場合はkomichi.appにリダイレクト
+    // TODO: 2024年10月以降に削除
     const { hostname } = req.nextUrl;
     if (hostname === "poroto.app") {
         const url = new URL(
