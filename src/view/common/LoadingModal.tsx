@@ -24,8 +24,8 @@ export const LoadingModal = ({ title }: Props) => {
                     <Image
                         width={100}
                         height={100}
-                        src="/images/logo.svg"
-                        alt="logo"
+                        src="/images/map.svg"
+                        alt="map"
                     />
                 </FadeInFadeOutTransition>
                 <Text

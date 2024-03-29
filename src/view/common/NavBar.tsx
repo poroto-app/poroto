@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { MdArrowBack } from "react-icons/md";
 import { reduxHistorySelector } from "src/redux/history";
-import AppLogoImage from "src/view/assets/svg/horizontal.svg";
+import AppLogoImage from "src/view/assets/svg/app_logo_horizontal.svg";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { useAuth } from "src/view/hooks/useAuth";
@@ -102,7 +102,7 @@ const AppLogo = () => {
             <Box h="100%">
                 <AppLogoImage
                     viewBox={
-                        "0 0 200 50" /*オリジナルのSVGのviewBoxと合わせている*/
+                        "0 0 276 57" /*オリジナルのSVGのviewBoxと合わせている*/
                     }
                     width="calc(33 / 50 * 200)px"
                     height="100%"
