@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(req: NextRequest) {
     // poroto.appの場合はkomichi.appにリダイレクト
     const { hostname } = req.nextUrl;
-    if (hostname === "localhost") {
-        const url = new URL(`${process.env.APP_PROTOCOL}://${process.env.APP_HOST}.app/`);
+    if (hostname === "poroto.app") {
+        const url = new URL(`${process.env.APP_PROTOCOL}://${process.env.APP_HOST}/`);
         return NextResponse.redirect(url, 301);
     }
 
