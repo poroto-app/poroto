@@ -243,6 +243,7 @@ const marunouchi: Place = {
             large: "https://picsum.photos/450/600",
         },
     ],
+    googlePlaceReviews: [],
     location: {
         latitude: 35.681616,
         longitude: 139.764954,

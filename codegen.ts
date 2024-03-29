@@ -1,7 +1,7 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const schema = {
-    stagingServer: "https://staging.planner.poroto.app/graphql",
+    stagingServer: "https://staging.planner.komichi.app/graphql",
     // MEMO: localで実行するときには必ず Planner のサーバーを起動する。
     localServer: "http://localhost:8080/graphql",
 };

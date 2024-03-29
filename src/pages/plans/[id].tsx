@@ -24,12 +24,14 @@ import { AnalyticsEvents } from "src/view/constants/analytics";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
+import useUploadPlaceImage from "src/view/hooks/useUploadPlaceImage";
 import { useUserPlan } from "src/view/hooks/useUserPlan";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
+import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
 import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
@@ -40,8 +42,12 @@ export default function PlanPage() {
     const { id } = useRouter().query;
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const toast = useToast();
+
     const { userId, firebaseIdToken, likePlaceIds, updateLikePlace } =
         useUserPlan();
+    const uploadImageProps = useUploadPlaceImage();
+
     const {
         preview: plan,
         placesNearbyPlanLocation,
@@ -49,7 +55,6 @@ export default function PlanPage() {
         showPlanCreatedModal,
         placeIdToCreatePlan,
     } = reduxPlanSelector();
-    const toast = useToast();
 
     const handleOnCopyPlanUrl = () => {
         logEvent(getAnalytics(), AnalyticsEvents.Plan.CopyPlanUrl, {
@@ -129,7 +134,7 @@ export default function PlanPage() {
     return (
         <Center flexDirection="column" pb="32px">
             <Head>
-                <title>{plan.title} | poroto</title>
+                <title>{plan.title} | komichi</title>
             </Head>
             <NavBar />
             <VStack
@@ -171,6 +176,7 @@ export default function PlanPage() {
                     <PlanPlaceList
                         plan={plan}
                         likePlaceIds={likePlaceIds}
+                        uploadPlaceImage={uploadImageProps}
                         onUpdateLikeAtPlace={({ like, placeId }) =>
                             updateLikePlace({ planId: plan.id, placeId, like })
                         }
@@ -200,6 +206,7 @@ export default function PlanPage() {
                     />
                 </PlanPageSection>
             </VStack>
+            {/*Dialogs*/}
             <PlanCreatedDialog
                 visible={showPlanCreatedModal}
                 onClickClose={() => dispatch(setShowPlanCreatedModal(false))}
@@ -214,6 +221,13 @@ export default function PlanPage() {
                 )}
                 onClickClose={() => dispatch(setPlaceIdToCreatePlan(null))}
                 onClickCreatePlan={(place) => handleOnCreatePlan({ place })}
+            />
+            <DialogUploadImage
+                visible={uploadImageProps.isUploadPlacePhotoDialogVisible}
+                isUploading={uploadImageProps.isUploading}
+                imageURLs={uploadImageProps.localPlaceImageUrls}
+                onUploadClick={() => uploadImageProps.onUpload()}
+                onClose={uploadImageProps.onCloseDialog}
             />
         </Center>
     );
