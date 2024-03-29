@@ -110,7 +110,7 @@ export default function PlanPage() {
     return (
         <Center flexDirection="column" pb="32px">
             <Head>
-                <title>{plan.title} | poroto</title>
+                <title>{plan.title} | komichi</title>
             </Head>
             <NavBar />
             <VStack
