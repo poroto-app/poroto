@@ -27,10 +27,7 @@ export const PlanScreenShotComponent = forwardRef<HTMLDivElement, Props>(
                         durationInMinutes={plan.timeInMinutes}
                     />
                 </Box>
-                <img
-                    src="/images/komichi.jpg"
-                    alt="komichi"
-                />
+                <img src="/images/komichi.jpg" alt="komichi" />
             </VStack>
         );
     }
