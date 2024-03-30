@@ -1,4 +1,4 @@
-import { Center, useToast, VStack } from "@chakra-ui/react";
+import { Box, Center, useToast, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -34,6 +34,7 @@ import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
+import { LoginCallMessage } from "src/view/plandetail/LoginCallMessage";
 import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
@@ -163,6 +164,11 @@ export default function PlanPage() {
                 spacing="16px"
                 pb="32px"
             >
+                {!userId && (
+                    <Box w="100%" px={Size.PlanDetail.px}>
+                        <LoginCallMessage />
+                    </Box>
+                )}
                 <PlanPageSection title="プランの情報">
                     <VStack>
                         <PlanInfoSection

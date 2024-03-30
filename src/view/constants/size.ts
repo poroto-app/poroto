@@ -10,6 +10,9 @@ export const Size = {
         px: "16px",
         imageH: "300px",
     },
+    PlanDetail: {
+        px: "16px",
+    },
     PlanList: {
         SavedPlan: {
             ThumbnailHeight: "250px",
