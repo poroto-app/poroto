@@ -8,12 +8,14 @@ type Props = {
     disabled?: boolean;
     outlined?: boolean;
     children?: ReactNode;
+    color?: string;
 } & ButtonProps;
 
 export function RoundedButton({
     onClick,
     disabled,
     outlined,
+    color = Colors.primary["400"],
     children,
 }: Props) {
     return (
@@ -21,15 +23,20 @@ export function RoundedButton({
             onClick={onClick}
             disabled={disabled ?? false}
             $outlined={outlined ?? false}
+            $color={color}
         >
             {children}
         </Rounded>
     );
 }
 
-const Rounded = styled.div<{ disabled: boolean; $outlined: boolean }>`
-    background-color: ${({ disabled, $outlined }) =>
-        disabled ? "#8b8b8b" : $outlined ? "white" : Colors.primary["400"]};
+const Rounded = styled.div<{
+    disabled: boolean;
+    $outlined: boolean;
+    $color: string;
+}>`
+    background-color: ${({ disabled, $outlined, $color }) =>
+        disabled ? "#8b8b8b" : $outlined ? "white" : $color};
     border-radius: 100px;
     border: ${({ $outlined }) =>
         $outlined ? `2px solid ${Colors.primary["400"]}` : "none"};

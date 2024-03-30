@@ -41,7 +41,9 @@ export const LoginCallMessage = ({ onLogin }: Props) => {
                     </Text>
                 </VStack>
             </VStack>
-            <RoundedButton onClick={onLogin}>ログイン</RoundedButton>
+            <RoundedButton color="#BF756E" onClick={onLogin}>
+                ログイン
+            </RoundedButton>
         </VStack>
     );
 };
