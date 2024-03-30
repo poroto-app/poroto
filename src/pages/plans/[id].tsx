@@ -24,6 +24,7 @@ import { AnalyticsEvents } from "src/view/constants/analytics";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
+import { useAuth } from "src/view/hooks/useAuth";
 import useUploadPlaceImage from "src/view/hooks/useUploadPlaceImage";
 import { useUserPlan } from "src/view/hooks/useUserPlan";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
@@ -45,6 +46,7 @@ export default function PlanPage() {
     const router = useRouter();
     const toast = useToast();
 
+    const { user, signInWithGoogle } = useAuth();
     const { userId, firebaseIdToken, likePlaceIds, updateLikePlace } =
         useUserPlan();
     const uploadImageProps = useUploadPlaceImage();
@@ -164,9 +166,9 @@ export default function PlanPage() {
                 spacing="16px"
                 pb="32px"
             >
-                {!userId && (
+                {!user && (
                     <Box w="100%" px={Size.PlanDetail.px}>
-                        <LoginCallMessage />
+                        <LoginCallMessage onLogin={signInWithGoogle} />
                     </Box>
                 )}
                 <PlanPageSection title="プランの情報">
