@@ -13,6 +13,7 @@ type Props = {
     imageSize?: ImageSize;
     h?: string | number;
     link?: string;
+    draggable?: boolean;
 };
 
 export const PlanThumbnail = ({
@@ -20,6 +21,7 @@ export const PlanThumbnail = ({
     imageSize = ImageSizes.Small,
     h = "300px",
     link,
+    draggable,
 }: Props) => {
     if (images.length === 0) {
         images.push(getDefaultPlaceImage());
@@ -32,6 +34,7 @@ export const PlanThumbnail = ({
                 imageSize={imageSize}
                 borderRadius="10px"
                 href={link}
+                draggable={draggable}
             />
         </Box>
     );
