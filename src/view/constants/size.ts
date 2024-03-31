@@ -1,8 +1,4 @@
-// TODO: この定数を用いて統一する
-const Padding = {
-    p8: "8px",
-    p16: "16px",
-}
+import {Padding} from "src/view/constants/padding";
 
 export const Size = {
     mainContentWidth: "var(--size-main-content-width)",
