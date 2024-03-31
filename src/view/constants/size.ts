@@ -4,6 +4,9 @@ export const Size = {
     mainContentWidth: "var(--size-main-content-width)",
     top: {
         px: Padding.p16,
+        SectionTitle: {
+            px: Padding.p24,
+        }
     },
     PlaceCardPaddingH: Padding.p16,
     NavBar: {
