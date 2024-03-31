@@ -79,7 +79,7 @@ const SlideContainer = styled(Splide)<{ draggable: boolean }>`
             }
 
             &:hover {
-                opacity: 1;
+                opacity: 0.7;
                 z-index: 99;
             }
 
@@ -94,9 +94,15 @@ const SlideContainer = styled(Splide)<{ draggable: boolean }>`
     @media screen and (min-width: 700px) {
         & > .splide__arrows {
             opacity: 0;
+        }
 
-            &:hover {
+        &:hover {
+            & > .splide__arrows {
                 opacity: 1;
+
+                & > .splide__arrow {
+                    opacity: 0.7;
+                }
             }
         }
     }
