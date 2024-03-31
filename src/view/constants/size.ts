@@ -1,13 +1,19 @@
+// TODO: この定数を用いて統一する
+const Padding = {
+    p8: "8px",
+    p16: "16px",
+}
+
 export const Size = {
     mainContentWidth: "var(--size-main-content-width)",
-    PlaceCardPaddingH: "16px",
+    PlaceCardPaddingH: Padding.p16,
     NavBar: {
         height: "50px",
     },
     PlanDetailHeader: {
         maxH: "900px",
         maxW: "500px",
-        px: "16px",
+        px: Padding.p16,
         imageH: "300px",
     },
     PlanList: {
