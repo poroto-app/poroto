@@ -124,7 +124,7 @@ const IndexPage = (props: Props) => {
                                 title="お気に入りの場所"
                                 icon={MdOutlineFavoriteBorder}
                             />
-                            <HorizontalScrollableList>
+                            <HorizontalScrollableList px={Padding.p16}>
                                 {likePlaces.map((place, index) => (
                                     <PlaceCard
                                         key={index}
