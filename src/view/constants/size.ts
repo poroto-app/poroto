@@ -1,4 +1,4 @@
-import {Padding} from "src/view/constants/padding";
+import { Padding } from "src/view/constants/padding";
 
 export const Size = {
     mainContentWidth: "var(--size-main-content-width)",
@@ -6,7 +6,7 @@ export const Size = {
         px: Padding.p16,
         SectionTitle: {
             px: Padding.p24,
-        }
+        },
     },
     PlaceCardPaddingH: Padding.p16,
     NavBar: {

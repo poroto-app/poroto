@@ -24,6 +24,7 @@ import {
 import { useAppDispatch } from "src/redux/redux";
 import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
 import { NavBar } from "src/view/common/NavBar";
+import { Padding } from "src/view/constants/padding";
 import { Size } from "src/view/constants/size";
 import { useLikePlaces } from "src/view/hooks/useLikePlaces";
 import { useNearbyPlans } from "src/view/hooks/useNearbyPlans";
@@ -33,7 +34,6 @@ import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
-import {Padding} from "src/view/constants/padding";
 
 type Props = {
     plansRecentlyCreated: Plan[] | null;
