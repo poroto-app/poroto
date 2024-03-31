@@ -22,7 +22,7 @@ import {
     setPlaceIdToCreatePlan,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
-import { HorizontalScrollablelList } from "src/view/common/HorizontalScrollablelList";
+import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
 import { NavBar } from "src/view/common/NavBar";
 import { Size } from "src/view/constants/size";
 import { useLikePlaces } from "src/view/hooks/useLikePlaces";
@@ -33,6 +33,7 @@ import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
+import {Padding} from "src/view/constants/padding";
 
 type Props = {
     plansRecentlyCreated: Plan[] | null;
@@ -99,7 +100,6 @@ const IndexPage = (props: Props) => {
                 <VStack
                     w="100%"
                     maxW={Size.mainContentWidth}
-                    px="16px"
                     pt="16px"
                     pb="48px"
                     spacing="24px"
@@ -110,6 +110,7 @@ const IndexPage = (props: Props) => {
                             grid={false}
                             wrapTitle={false}
                             showAuthor={false}
+                            px={Padding.p16}
                         >
                             <PlanListSectionTitle
                                 title="保存したプラン"
@@ -123,7 +124,7 @@ const IndexPage = (props: Props) => {
                                 title="お気に入りの場所"
                                 icon={MdOutlineFavoriteBorder}
                             />
-                            <HorizontalScrollablelList>
+                            <HorizontalScrollableList>
                                 {likePlaces.map((place, index) => (
                                     <PlaceCard
                                         key={index}
@@ -135,7 +136,7 @@ const IndexPage = (props: Props) => {
                                         }
                                     />
                                 ))}
-                            </HorizontalScrollablelList>
+                            </HorizontalScrollableList>
                         </VStack>
                     )}
                     {/* TODO: 拒否設定されている場合の対処をする */}
