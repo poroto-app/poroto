@@ -94,7 +94,7 @@ const SlideContainer = styled(Splide)<{ draggable: boolean }>`
     @media screen and (min-width: 700px) {
         & > .splide__arrows {
             opacity: 0;
-           
+
             &:hover {
                 opacity: 1;
             }
