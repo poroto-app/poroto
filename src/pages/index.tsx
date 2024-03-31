@@ -143,6 +143,7 @@ const IndexPage = (props: Props) => {
                     <NearbyPlanList
                         plans={plansNearby}
                         locationPermission={locationPermission}
+                        px={Size.top.px}
                         isFetchingCurrentLocation={isFetchingCurrentLocation}
                         isFetchingNearbyPlans={isFetchingNearbyPlans}
                         onRequestFetchNearByPlans={fetchNearbyPlans}
@@ -155,7 +156,7 @@ const IndexPage = (props: Props) => {
                         hasMore={nextPageTokenPlansRecentlyCreated !== null}
                         style={{ width: "100%" }}
                     >
-                        <PlanList plans={plansRecentlyCreated}>
+                        <PlanList plans={plansRecentlyCreated} px={Size.top.px}>
                             <PlanListSectionTitle
                                 title="最近作成されたプラン"
                                 icon={MdTrendingUp}
