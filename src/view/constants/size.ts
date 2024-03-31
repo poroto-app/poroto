@@ -2,6 +2,9 @@ import {Padding} from "src/view/constants/padding";
 
 export const Size = {
     mainContentWidth: "var(--size-main-content-width)",
+    top: {
+        px: Padding.p16,
+    },
     PlaceCardPaddingH: Padding.p16,
     NavBar: {
         height: "50px",
