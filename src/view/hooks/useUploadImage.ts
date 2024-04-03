@@ -22,12 +22,9 @@ enum UploadRequestStatus {
 const checkForDuplicateImages = (
     uploadedImageURLs: string[],
     newImageURLs: string[]
-): boolean => {
+): string[] => {
     const uniqueUploadedURLs = new Set(uploadedImageURLs);
-    const duplicateImageFound = newImageURLs.some((newUrl) =>
-        uniqueUploadedURLs.has(newUrl)
-    );
-    return duplicateImageFound;
+    return newImageURLs.filter((newUrl) => !uniqueUploadedURLs.has(newUrl));
 };
 
 const useUploadImage = () => {
@@ -69,8 +66,13 @@ const useUploadImage = () => {
                 })
             );
 
-            if (checkForDuplicateImages(uploadedImageURLs, localImageURLs)) {
-                throw new Error("同じ画像が既にアップロードされています");
+            const nonDuplicateImageURLs = checkForDuplicateImages(
+                uploadedImageURLs,
+                localImageURLs
+            );
+
+            if (nonDuplicateImageURLs.length === 0) {
+                throw new Error("すべての画像が既にアップロードされています");
             }
 
             // Cloud Storageに画像をアップロードする
@@ -80,25 +82,24 @@ const useUploadImage = () => {
                 process.env.CLOUD_STORAGE_POROTO_PLACE_IMAGES
             );
 
-            // 重複していない画像のみをアップロードする
-            const nonDuplicateFiles = localFiles.filter((file, index) => {
-                const url = localImageURLs[index];
-                return !uploadedImageURLs.includes(url);
+            const uploadTasks = localFiles.map((file, index) => {
+                if (nonDuplicateImageURLs.includes(localImageURLs[index])) {
+                    const uniqueFileName = `${uuidv4()}_${file.name}`;
+                    const storageRef = ref(storage, `images/${uniqueFileName}`);
+                    return setupUploadTaskListener(
+                        index,
+                        uploadBytesResumable(storageRef, file)
+                    );
+                }
             });
 
-            const uploadTasks = nonDuplicateFiles.map((file, index) => {
-                const uniqueFileName = `${uuidv4()}_${file.name}`;
-                const storageRef = ref(storage, `images/${uniqueFileName}`);
-                // TODO: 変数名をちゃんと考える（正しく対応関係がとれていない）
-                return setupUploadTaskListener(
-                    index,
-                    uploadBytesResumable(storageRef, file)
-                );
-            });
             const uploadTaskResults = await Promise.all(uploadTasks);
-            const uploadedFileDownloadUrls = uploadTaskResults.map(
-                (result) => result.downloadUrl
-            );
+            const uploadedFileDownloadUrls = uploadTaskResults
+                .filter(
+                    (result): result is { downloadUrl: string } =>
+                        result !== undefined
+                )
+                .map((result) => result.downloadUrl);
             setUploadedImageURLs(uploadedFileDownloadUrls);
 
             // plannerに画像を登録する
@@ -142,7 +143,7 @@ const useUploadImage = () => {
     const setupUploadTaskListener = (
         taskIndex: number,
         uploadTask: UploadTask
-    ): Promise<{ taskIndex: number; downloadUrl: string }> => {
+    ): Promise<{ taskIndex?: number; downloadUrl: string }> => {
         return new Promise((resolve, reject) => {
             uploadTask.on(
                 "state_changed",
