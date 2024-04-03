@@ -108,6 +108,7 @@ function PlanListItem({
                 }
                 wrapTitle={wrapTitle}
                 showAuthor={showAuthor}
+                draggableThumbnail={grid}
             />
         </Box>
     );

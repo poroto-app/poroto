@@ -14,6 +14,7 @@ type Props = {
     images: ImageType[];
     imageSize?: ImageSize;
     href?: string;
+    draggable?: boolean;
     borderRadius?: number | string;
     onClickImage?: (image: ImageType) => void;
 };
@@ -22,6 +23,7 @@ export function ImageSliderPreview({
     images,
     imageSize = ImageSizes.Large,
     href,
+    draggable = true,
     borderRadius,
     onClickImage,
 }: Props) {
@@ -29,10 +31,11 @@ export function ImageSliderPreview({
         <SlideContainer
             style={{ borderRadius: borderRadius }}
             options={{
-                drag: images.length > 1,
+                drag: images.length > 1 && draggable,
                 arrows: images.length > 1,
                 lazyLoad: "nearby",
             }}
+            draggable={images.length > 1 && draggable}
         >
             {images.map((image, i) => (
                 <SlideItem key={i}>
@@ -50,7 +53,7 @@ export function ImageSliderPreview({
     );
 }
 
-const SlideContainer = styled(Splide)`
+const SlideContainer = styled(Splide)<{ draggable: boolean }>`
     width: 100%;
     height: 100%;
     cursor: pointer;
@@ -61,7 +64,8 @@ const SlideContainer = styled(Splide)`
     }
 
     & > .splide__arrows {
-        opacity: 0;
+        // ドラッグによるスワイプが可能な場合はページングボタンを非表示
+        opacity: ${({ draggable }) => (draggable ? 0 : 1)};
 
         // 左右に表示される矢印
         & > .splide__arrow {
@@ -75,7 +79,7 @@ const SlideContainer = styled(Splide)`
             }
 
             &:hover {
-                opacity: 1;
+                opacity: 0.7;
                 z-index: 99;
             }
 
@@ -88,9 +92,17 @@ const SlideContainer = styled(Splide)`
 
     // pcでホバーをしたときだけ矢印を表示する
     @media screen and (min-width: 700px) {
+        & > .splide__arrows {
+            opacity: 0;
+        }
+
         &:hover {
             & > .splide__arrows {
                 opacity: 1;
+
+                & > .splide__arrow {
+                    opacity: 0.7;
+                }
             }
         }
     }
