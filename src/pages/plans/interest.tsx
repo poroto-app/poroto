@@ -7,6 +7,7 @@ import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
+import { reduxAuthSelector } from "src/redux/auth";
 import {
     reduxLocationSelector,
     setCurrentLocation,
@@ -80,6 +81,7 @@ function PlanInterestPage() {
         fetchNearbyPlaceCategoriesRequestStatus: matchInterestRequestStatus,
     } = reduxPlanCandidateSelector();
     const { searchLocation, searchPlaceId } = reduxLocationSelector();
+    const { user } = reduxAuthSelector();
 
     useEffect(() => {
         dispatch(resetInterest());
@@ -159,14 +161,16 @@ function PlanInterestPage() {
 
             // TODO: hooksに処理を移す
             // 作成したプラン候補を保存
-            const createdPlanCandidates: string[] = JSON.parse(
-                localStorage.getItem(LocalStorageKeys.PlanCandidate) ?? "[]"
-            );
-            createdPlanCandidates.push(createPlanSession);
-            localStorage.setItem(
-                LocalStorageKeys.PlanCandidate,
-                JSON.stringify(createdPlanCandidates)
-            );
+            if (!user) {
+                const createdPlanCandidates: string[] = JSON.parse(
+                    localStorage.getItem(LocalStorageKeys.PlanCandidate) ?? "[]"
+                );
+                createdPlanCandidates.push(createPlanSession);
+                localStorage.setItem(
+                    LocalStorageKeys.PlanCandidate,
+                    JSON.stringify(createdPlanCandidates)
+                );
+            }
 
             router
                 .push(Routes.plans.planCandidate.index(createPlanSession))
