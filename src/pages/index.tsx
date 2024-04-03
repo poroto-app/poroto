@@ -22,8 +22,9 @@ import {
     setPlaceIdToCreatePlan,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
-import { HorizontalScrollablelList } from "src/view/common/HorizontalScrollablelList";
+import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
 import { NavBar } from "src/view/common/NavBar";
+import { Padding } from "src/view/constants/padding";
 import { Size } from "src/view/constants/size";
 import { useLikePlaces } from "src/view/hooks/useLikePlaces";
 import { useNearbyPlans } from "src/view/hooks/useNearbyPlans";
@@ -99,7 +100,6 @@ const IndexPage = (props: Props) => {
                 <VStack
                     w="100%"
                     maxW={Size.mainContentWidth}
-                    px="16px"
                     pt="16px"
                     pb="48px"
                     spacing="24px"
@@ -110,6 +110,7 @@ const IndexPage = (props: Props) => {
                             grid={false}
                             wrapTitle={false}
                             showAuthor={false}
+                            px={Padding.p16}
                         >
                             <PlanListSectionTitle
                                 title="保存したプラン"
@@ -123,7 +124,7 @@ const IndexPage = (props: Props) => {
                                 title="お気に入りの場所"
                                 icon={MdOutlineFavoriteBorder}
                             />
-                            <HorizontalScrollablelList>
+                            <HorizontalScrollableList px={Padding.p16}>
                                 {likePlaces.map((place, index) => (
                                     <PlaceCard
                                         key={index}
@@ -135,13 +136,14 @@ const IndexPage = (props: Props) => {
                                         }
                                     />
                                 ))}
-                            </HorizontalScrollablelList>
+                            </HorizontalScrollableList>
                         </VStack>
                     )}
                     {/* TODO: 拒否設定されている場合の対処をする */}
                     <NearbyPlanList
                         plans={plansNearby}
                         locationPermission={locationPermission}
+                        px={Size.top.px}
                         isFetchingCurrentLocation={isFetchingCurrentLocation}
                         isFetchingNearbyPlans={isFetchingNearbyPlans}
                         onRequestFetchNearByPlans={fetchNearbyPlans}
@@ -154,7 +156,7 @@ const IndexPage = (props: Props) => {
                         hasMore={nextPageTokenPlansRecentlyCreated !== null}
                         style={{ width: "100%" }}
                     >
-                        <PlanList plans={plansRecentlyCreated}>
+                        <PlanList plans={plansRecentlyCreated} px={Size.top.px}>
                             <PlanListSectionTitle
                                 title="最近作成されたプラン"
                                 icon={MdTrendingUp}

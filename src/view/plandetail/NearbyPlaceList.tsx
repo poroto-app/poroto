@@ -1,6 +1,6 @@
 import { Place } from "src/domain/models/Place";
 import { createArrayWithSize } from "src/domain/util/array";
-import { HorizontalScrollablelList } from "src/view/common/HorizontalScrollablelList";
+import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
 import { PlaceCard } from "src/view/place/PlaceCard";
 
 type Props = {
@@ -11,17 +11,17 @@ type Props = {
 export const NearbyPlaceList = ({ places, onSelectPlace }: Props) => {
     if (!places) {
         return (
-            <HorizontalScrollablelList>
+            <HorizontalScrollableList>
                 {createArrayWithSize(5).map((_, index) => (
                     <PlaceCard place={null} key={index} />
                 ))}
-            </HorizontalScrollablelList>
+            </HorizontalScrollableList>
         );
     }
 
     // TODO: 要素が一つもないときの対応
     return (
-        <HorizontalScrollablelList>
+        <HorizontalScrollableList>
             {places
                 .filter((p) => p.images.length > 0)
                 .map((place, index) => (
@@ -31,6 +31,6 @@ export const NearbyPlaceList = ({ places, onSelectPlace }: Props) => {
                         onClick={() => onSelectPlace?.(place)}
                     />
                 ))}
-        </HorizontalScrollablelList>
+        </HorizontalScrollableList>
     );
 };
