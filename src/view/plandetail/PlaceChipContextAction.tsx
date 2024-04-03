@@ -178,6 +178,7 @@ export const PlaceChipActionCamera = ({ placeId }: { placeId: string }) => {
                     })
                 }
                 onClose={() => setDialogVisible(false)}
+                uploadProgress={0}
             />
         </div>
     );
