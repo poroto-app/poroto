@@ -44,15 +44,15 @@ export default function App({ Component, pageProps }: AppProps) {
                 <link rel="icon" type="image/png" href="/favicon/favicon.png" />
                 {/* ogp */}
                 <meta property="og:title" content={PageMetaData.top.title} />
-                <meta property="og:site_name" content="poroto" />
+                <meta property="og:site_name" content="komichi" />
                 <meta
                     property="og:description"
                     content={PageMetaData.top.description}
                 />
-                <meta property="og:url" content="https://poroto.app/" />
+                <meta property="og:url" content="https://komichi.app/" />
                 <meta
                     property="og:image"
-                    content="https://poroto.app/ogp/ogp.png"
+                    content="https://komichi.app/ogp/ogp.png"
                 />
                 <meta property="og:type" content="website" />
             </Head>

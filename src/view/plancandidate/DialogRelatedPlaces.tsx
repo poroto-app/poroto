@@ -26,6 +26,7 @@ import {
 import { Place } from "src/domain/models/Place";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PlacesWithCategory } from "src/domain/models/PlacesWithCategory";
+import { Transition } from "src/domain/models/Transition";
 import { copyObject } from "src/domain/util/object";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
@@ -42,6 +43,7 @@ type Props = {
     visible: boolean;
     placesRecommended: Place[] | null;
     placesWithCategories?: PlacesWithCategory[];
+    transitions?: Transition[];
     updating: boolean;
     buttonLabelUpdatePlace: string;
     titleSelectScreen: string;
@@ -53,6 +55,7 @@ type Props = {
 export function DialogRelatedPlaces({
     visible,
     placesRecommended,
+    transitions = [],
     placesWithCategories,
     updating,
     buttonLabelUpdatePlace,
@@ -62,7 +65,7 @@ export function DialogRelatedPlaces({
     onClickRelatedPlace,
 }: Props) {
     const [selectedPlaceToUpdate, setSelectedPlaceToUpdate] =
-        useState<Place | null>();
+        useState<Place | null>(null);
 
     const handleOnSelectPlaceToUpdate = (placeId: string) => {
         const places = [
@@ -82,13 +85,14 @@ export function DialogRelatedPlaces({
     };
 
     useEffect(() => {
-        if (placesRecommended === null) setSelectedPlaceToUpdate(null);
+        if (!placesRecommended) setSelectedPlaceToUpdate(null);
     }, [copyObject(placesRecommended)]);
 
     return (
         <FullscreenDialog
             position="bottom"
-            width="100%"
+            width="600px"
+            maxWidth="100%"
             visible={visible}
             onClickOutside={() => {
                 if (!updating) onClose();
@@ -98,7 +102,7 @@ export function DialogRelatedPlaces({
                 backgroundColor="white"
                 w="100%"
                 h="900px"
-                maxH="80vh"
+                maxH="min(80vh, 800px)"
                 borderTopRadius="20px"
                 overflowY="scroll"
                 sx={{
@@ -114,6 +118,7 @@ export function DialogRelatedPlaces({
                         dialogTitle={titleSelectScreen}
                         placesRecommended={placesRecommended}
                         placesWithCategories={placesWithCategories}
+                        transitions={transitions}
                         onClickUpdate={handleOnSelectPlaceToUpdate}
                         onClose={onClose}
                     />
@@ -147,12 +152,14 @@ function SelectPlaceToUpdateScreen({
     dialogTitle,
     placesRecommended,
     placesWithCategories,
+    transitions,
     onClickUpdate,
     onClose,
 }: {
     dialogTitle: string;
     placesRecommended: Place[] | null;
     placesWithCategories?: PlacesWithCategory[];
+    transitions: Transition[];
     onClickUpdate: (placeId: string) => void;
     onClose: () => void;
 }) {
@@ -165,12 +172,11 @@ function SelectPlaceToUpdateScreen({
             w="100%"
             h="100%"
             py="32px"
-            px="16px"
             maxW="500px"
             spacing="32px"
             overflowY="auto"
         >
-            <HStack w="100%">
+            <HStack w="100%" px="16px">
                 <VStack flex={1} spacing={0}>
                     <Text fontSize="20px" fontWeight="bold" color="#574836">
                         {dialogTitle}
@@ -183,16 +189,11 @@ function SelectPlaceToUpdateScreen({
                     <Icon width="24px" height="24px" as={MdClose} />
                 </Box>
             </HStack>
-            <Tabs
-                variant="soft-rounded"
-                colorScheme="orange"
-                isLazy
-                w="100%"
-                overflowX="hidden"
-            >
+            <Tabs variant="soft-rounded" colorScheme="orange" isLazy w="100%">
                 {placesWithCategories && placesWithCategories.length > 0 && (
                     <TabList
                         w="100%"
+                        px="16px"
                         flexWrap={isPC ? "wrap" : "nowrap"}
                         whiteSpace="nowrap"
                         overflowX="auto"
@@ -214,6 +215,7 @@ function SelectPlaceToUpdateScreen({
                     <TabPanel>
                         <RecommendPlacesGrid
                             placesRecommended={placesRecommended}
+                            transitions={transitions}
                             onClickUpdate={onClickUpdate}
                         />
                     </TabPanel>
@@ -221,6 +223,7 @@ function SelectPlaceToUpdateScreen({
                         <TabPanel key={i}>
                             <RecommendPlacesGrid
                                 placesRecommended={pwc.places}
+                                transitions={transitions}
                                 onClickUpdate={onClickUpdate}
                             />
                         </TabPanel>
@@ -233,11 +236,13 @@ function SelectPlaceToUpdateScreen({
 
 export function PlaceListItem({
     name,
+    transition,
     categories,
     images,
     onClick,
 }: {
     name: string;
+    transition?: Transition;
     categories: PlaceCategory[];
     images: ImageType[];
     onClick: OnClickHandler;
@@ -249,7 +254,7 @@ export function PlaceListItem({
                 w="100%"
                 maxW="180px"
                 ratio={1}
-                borderRadius="100%"
+                borderRadius="20px"
                 overflow="hidden"
                 onClick={onClick}
             >
@@ -263,28 +268,37 @@ export function PlaceListItem({
                     }
                 />
             </AspectRatio>
-            <HStack spacing="4px" alignItems="flex-start" onClick={onClick}>
-                <Icon
-                    w="24px"
-                    h="24px"
-                    color="#946A35"
-                    as={getPlaceCategoryIcon(
-                        categories.length > 0 ? categories[0] : null
-                    )}
-                />
-                <Text fontWeight="bold" color="#574836">
-                    {name}
-                </Text>
-            </HStack>
+            <VStack spacing={0}>
+                <HStack spacing="4px" alignItems="flex-start" onClick={onClick}>
+                    <Icon
+                        w="24px"
+                        h="24px"
+                        color="#946A35"
+                        as={getPlaceCategoryIcon(
+                            categories.length > 0 ? categories[0] : null
+                        )}
+                    />
+                    <Text fontWeight="bold" color="#574836">
+                        {name}
+                    </Text>
+                </HStack>
+                {transition && (
+                    <Text color="#686868">
+                        前の場所から{Math.round(transition.durationInMinutes)}分
+                    </Text>
+                )}
+            </VStack>
         </VStack>
     );
 }
 
 function RecommendPlacesGrid({
     placesRecommended,
+    transitions,
     onClickUpdate,
 }: {
     placesRecommended: Place[];
+    transitions: Transition[];
     onClickUpdate: (placeId: string) => void;
 }) {
     return (
@@ -293,7 +307,7 @@ function RecommendPlacesGrid({
             w="100%"
             spacingY="32px"
             spacingX="16px"
-            px="16px"
+            px="8px"
         >
             {placesRecommended
                 .filter((p) => p.images.length > 0)
@@ -303,6 +317,9 @@ function RecommendPlacesGrid({
                         key={i}
                         name={place.name}
                         images={place.images}
+                        transition={transitions.find(
+                            (t) => t.toPlaceId === place.id
+                        )}
                         categories={place.categories}
                         onClick={() => onClickUpdate(place.id)}
                     />

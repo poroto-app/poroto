@@ -6,12 +6,14 @@ import { isPC } from "src/view/constants/userAgent";
 type Props = {
     scrollAmount?: number;
     pageButtonOffsetY?: number;
+    px?: number | string;
     children?: ReactNode;
 };
 
-export const HorizontalScrollablelList = ({
+export const HorizontalScrollableList = ({
     scrollAmount = 400,
     pageButtonOffsetY = 0,
+    px = 0,
     children,
 }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -32,7 +34,7 @@ export const HorizontalScrollablelList = ({
             <HStack
                 ref={containerRef}
                 w="100%"
-                // px={isPC ? "16px" : 0}
+                px={px}
                 overflowX="auto"
                 overflowY="hidden"
                 alignItems="flex-start"

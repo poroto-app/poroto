@@ -157,7 +157,7 @@ function PlaceSearchPage() {
     return (
         <VStack w="100%" h="100%" spacing={0}>
             <Head>
-                <title>好きな場所からプランを作る | poroto</title>
+                <title>好きな場所からプランを作る | komichi</title>
             </Head>
             <NavBar />
             <VStack w="100%" h="100%" position="relative">

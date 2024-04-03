@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
+    // poroto.appの場合はkomichi.appにリダイレクト
+    // TODO: 2024年10月以降に削除
+    const { hostname } = req.nextUrl;
+    if (hostname === "poroto.app") {
+        const url = new URL(
+            `${process.env.APP_PROTOCOL}://${process.env.APP_HOST}/`
+        );
+        return NextResponse.redirect(url, 301);
+    }
+
     // staging環境でのみBasic認証を行う
     if (process.env.APP_ENV !== "staging") {
         return NextResponse.next();

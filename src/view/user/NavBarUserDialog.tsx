@@ -1,8 +1,10 @@
 import { Box, HStack, Icon, VStack } from "@chakra-ui/react";
+import { getAnalytics, logEvent } from "@firebase/analytics";
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
 import { MdLogin, MdLogout } from "react-icons/md";
 import { User } from "src/domain/models/User";
+import { AnalyticsEvents } from "src/view/constants/analytics";
 import styled from "styled-components";
 
 type Props = {
@@ -14,11 +16,13 @@ type Props = {
 
 export function NavBarUserDialog({ user, onLogin, onLogout, onClose }: Props) {
     const handleOnLogout = () => {
+        logEvent(getAnalytics(), AnalyticsEvents.User.Logout);
         onLogout();
         onClose();
     };
 
     const handleOnLogin = () => {
+        logEvent(getAnalytics(), AnalyticsEvents.User.LoginStart);
         onLogin();
         onClose();
     };
