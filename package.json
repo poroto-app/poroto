@@ -63,7 +63,7 @@
     "@graphql-codegen/typescript": "^4.0.1",
     "@graphql-codegen/typescript-operations": "^4.2.0",
     "@mixer/parallel-prettier": "^2.0.3",
-    "@storybook/addon-essentials": "^7.6.3",
+    "@storybook/addon-essentials": "^8.0.5",
     "@storybook/addon-interactions": "^8.0.5",
     "@storybook/addon-links": "^7.6.3",
     "@storybook/blocks": "^7.6.3",
