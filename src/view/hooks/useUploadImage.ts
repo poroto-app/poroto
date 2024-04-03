@@ -1,11 +1,11 @@
 import { useToast } from "@chakra-ui/react";
 import { getApp } from "firebase/app";
 import {
-    getDownloadURL,
-    getStorage,
-    ref,
-    uploadBytesResumable,
-    UploadTask,
+getDownloadURL,
+getStorage,
+ref,
+uploadBytesResumable,
+UploadTask
 } from "firebase/storage";
 import { useState } from "react";
 import { uploadPlacePhotosInPlan } from "src/redux/plan";
@@ -65,12 +65,12 @@ const useUploadImage = () => {
                 process.env.CLOUD_STORAGE_POROTO_PLACE_IMAGES
             );
 
-            const nonDuplicateImageURLs = localFiles.filter(
+            const nonUploadedlocalFiles = localFiles.filter(
                 (file, index) =>
                     !uploadedImageURLs.includes(localImageURLs[index])
             );
 
-            if (nonDuplicateImageURLs.length === 0) {
+            if (nonUploadedlocalFiles.length === 0) {
                 toast({
                     title: "すべての画像が既にアップロードされています",
                     status: "info",
@@ -80,7 +80,7 @@ const useUploadImage = () => {
                 return;
             }
 
-            const uploadTasks = nonDuplicateImageURLs.map((file, index) => {
+            const uploadTasks = nonUploadedlocalFiles.map((file, index) => {
                 const uniqueFileName = `${uuidv4()}_${file.name}`;
                 const storageRef = ref(storage, `images/${uniqueFileName}`);
                 return setupUploadTaskListener(
