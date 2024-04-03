@@ -19,14 +19,6 @@ enum UploadRequestStatus {
     REJECTED = "REJECTED",
 }
 
-const checkForDuplicateImages = (
-    uploadedImageURLs: string[],
-    newImageURLs: string[]
-): string[] => {
-    const uniqueUploadedURLs = new Set(uploadedImageURLs);
-    return newImageURLs.filter((newUrl) => !uniqueUploadedURLs.has(newUrl));
-};
-
 const useUploadImage = () => {
     const [localFiles, setLocalFiles] = useState<File[]>([]);
     const [localImageURLs, setLocalImageURLs] = useState<string[]>([]);
@@ -66,15 +58,6 @@ const useUploadImage = () => {
                 })
             );
 
-            const nonDuplicateImageURLs = checkForDuplicateImages(
-                uploadedImageURLs,
-                localImageURLs
-            );
-
-            if (nonDuplicateImageURLs.length === 0) {
-                throw new Error("すべての画像が既にアップロードされています");
-            }
-
             // Cloud Storageに画像をアップロードする
             const firebaseApp = getApp();
             const storage = getStorage(
@@ -82,24 +65,34 @@ const useUploadImage = () => {
                 process.env.CLOUD_STORAGE_POROTO_PLACE_IMAGES
             );
 
-            const uploadTasks = localFiles.map((file, index) => {
-                if (nonDuplicateImageURLs.includes(localImageURLs[index])) {
-                    const uniqueFileName = `${uuidv4()}_${file.name}`;
-                    const storageRef = ref(storage, `images/${uniqueFileName}`);
-                    return setupUploadTaskListener(
-                        index,
-                        uploadBytesResumable(storageRef, file)
-                    );
-                }
+            const nonDuplicateImageURLs = localFiles.filter(
+                (file, index) =>
+                    !uploadedImageURLs.includes(localImageURLs[index])
+            );
+
+            if (nonDuplicateImageURLs.length === 0) {
+                toast({
+                    title: "すべての画像が既にアップロードされています",
+                    status: "info",
+                    duration: 3000,
+                    isClosable: true,
+                });
+                return;
+            }
+
+            const uploadTasks = nonDuplicateImageURLs.map((file, index) => {
+                const uniqueFileName = `${uuidv4()}_${file.name}`;
+                const storageRef = ref(storage, `images/${uniqueFileName}`);
+                return setupUploadTaskListener(
+                    index,
+                    uploadBytesResumable(storageRef, file)
+                );
             });
 
             const uploadTaskResults = await Promise.all(uploadTasks);
-            const uploadedFileDownloadUrls = uploadTaskResults
-                .filter(
-                    (result): result is { downloadUrl: string } =>
-                        result !== undefined
-                )
-                .map((result) => result.downloadUrl);
+            const uploadedFileDownloadUrls = uploadTaskResults.map(
+                (result) => result.downloadUrl
+            );
             setUploadedImageURLs(uploadedFileDownloadUrls);
 
             // plannerに画像を登録する
