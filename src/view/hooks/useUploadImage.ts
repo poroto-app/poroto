@@ -20,10 +20,14 @@ enum UploadRequestStatus {
 }
 
 const checkForDuplicateImages = (
-    urls: string[],
-    newUrls: string[]
+    uploadedImageURLs: string[],
+    newImageURLs: string[]
 ): boolean => {
-    return newUrls.some((newUrl) => urls.includes(newUrl));
+    const uniqueUploadedURLs = new Set(uploadedImageURLs);
+    const duplicateImageFound = newImageURLs.some((newUrl) =>
+        uniqueUploadedURLs.has(newUrl)
+    );
+    return duplicateImageFound;
 };
 
 const useUploadImage = () => {
@@ -64,10 +68,11 @@ const useUploadImage = () => {
                     return { size, file };
                 })
             );
-            // 重複画像のチェック
+
             if (checkForDuplicateImages(uploadedImageURLs, localImageURLs)) {
                 throw new Error("同じ画像が既にアップロードされています");
             }
+
             // Cloud Storageに画像をアップロードする
             const firebaseApp = getApp();
             const storage = getStorage(
@@ -75,7 +80,13 @@ const useUploadImage = () => {
                 process.env.CLOUD_STORAGE_POROTO_PLACE_IMAGES
             );
 
-            const uploadTasks = localFiles.map((file, index) => {
+            // 重複していない画像のみをアップロードする
+            const nonDuplicateFiles = localFiles.filter((file, index) => {
+                const url = localImageURLs[index];
+                return !uploadedImageURLs.includes(url);
+            });
+
+            const uploadTasks = nonDuplicateFiles.map((file, index) => {
                 const uniqueFileName = `${uuidv4()}_${file.name}`;
                 const storageRef = ref(storage, `images/${uniqueFileName}`);
                 // TODO: 変数名をちゃんと考える（正しく対応関係がとれていない）
