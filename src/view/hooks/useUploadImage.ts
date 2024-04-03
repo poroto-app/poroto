@@ -1,11 +1,11 @@
 import { useToast } from "@chakra-ui/react";
 import { getApp } from "firebase/app";
 import {
-getDownloadURL,
-getStorage,
-ref,
-uploadBytesResumable,
-UploadTask
+    getDownloadURL,
+    getStorage,
+    ref,
+    uploadBytesResumable,
+    UploadTask,
 } from "firebase/storage";
 import { useState } from "react";
 import { uploadPlacePhotosInPlan } from "src/redux/plan";
