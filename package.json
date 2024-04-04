@@ -37,7 +37,7 @@
     "axios": "^1.6.7",
     "babel-plugin-styled-components": "^2.1.4",
     "firebase": "^10.9.0",
-    "framer-motion": "^10.16.11",
+    "framer-motion": "^11.0.24",
     "graphql": "^16.8.1",
     "html-entities": "^2.5.2",
     "html2canvas": "^1.4.1",
