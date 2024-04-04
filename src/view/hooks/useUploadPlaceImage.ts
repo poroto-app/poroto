@@ -179,8 +179,10 @@ const uploadFile = (
     return new Promise((resolve, reject) => {
         uploadTask.on(
             "state_changed",
-            () => {
-                // TODO: 進捗状況を表示する
+            (snapshot) => {
+                const progress =
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setUploadProgress(progress);
             },
             (error) => {
                 reject(error);
