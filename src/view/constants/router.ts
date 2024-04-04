@@ -20,9 +20,11 @@ export const Routes = {
         },
     },
     places: {
-        search: (
-            { skipCurrentLocation }: { skipCurrentLocation?: boolean }
-        ) => {
+        search: ({
+            skipCurrentLocation,
+        }: {
+            skipCurrentLocation?: boolean;
+        }) => {
             let url = "/places/search";
             if (skipCurrentLocation)
                 url += `?${RouteParams.SkipCurrentLocation}=true`;

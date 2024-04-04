@@ -35,19 +35,17 @@ type Props = {
     startTime?: Date;
 } & PlaceActionHandler;
 
-export function PlanPlaceList(
-    {
-        plan,
-        likePlaceIds,
-        createdBasedOnCurrentLocation,
-        startTime = new Date(Date.now()),
-        uploadPlaceImage,
-        onClickAddPlace,
-        onClickShowRelatedPlaces,
-        onClickDeletePlace,
-        onUpdateLikeAtPlace,
-    }: Props
-) {
+export function PlanPlaceList({
+    plan,
+    likePlaceIds,
+    createdBasedOnCurrentLocation,
+    startTime = new Date(Date.now()),
+    uploadPlaceImage,
+    onClickAddPlace,
+    onClickShowRelatedPlaces,
+    onClickDeletePlace,
+    onUpdateLikeAtPlace,
+}: Props) {
     const schedules = generateSchedules({
         places: plan.places,
         startTime,
@@ -104,18 +102,16 @@ export function PlanPlaceList(
 /**
  * 各場所の滞在開始時間・終了時間を計算する
  */
-function generateSchedules(
-    {
-        places,
-        startTime,
-        transitions,
-    }: {
-        places: Place[];
-        startTime: Date;
-        createdBasedOnCurrentLocation?: boolean;
-        transitions: Transition[];
-    }
-): {
+function generateSchedules({
+    places,
+    startTime,
+    transitions,
+}: {
+    places: Place[];
+    startTime: Date;
+    createdBasedOnCurrentLocation?: boolean;
+    transitions: Transition[];
+}): {
     startTime: Date;
     endTime: Date;
 }[] {
@@ -152,24 +148,22 @@ function generateSchedules(
     return schedules;
 }
 
-const PlaceListItem = (
-    {
-        place,
-        like,
-        uploadPlaceImage,
-        onClickAddPlace,
-        onClickShowRelatedPlaces,
-        onClickDeletePlace,
-        onUpdateLikeAtPlace,
-    }: {
-        place: Place;
-        like: boolean;
-        uploadPlaceImage?: UploadPlaceImageProps;
-        onClickAddPlace?: (props: { previousPlaceId: string }) => void;
-        onClickShowRelatedPlaces?: (placeId: string) => void;
-        onClickDeletePlace?: (placeId: string) => void;
-    } & PlaceActionHandler
-) => {
+const PlaceListItem = ({
+    place,
+    like,
+    uploadPlaceImage,
+    onClickAddPlace,
+    onClickShowRelatedPlaces,
+    onClickDeletePlace,
+    onUpdateLikeAtPlace,
+}: {
+    place: Place;
+    like: boolean;
+    uploadPlaceImage?: UploadPlaceImageProps;
+    onClickAddPlace?: (props: { previousPlaceId: string }) => void;
+    onClickShowRelatedPlaces?: (placeId: string) => void;
+    onClickDeletePlace?: (placeId: string) => void;
+} & PlaceActionHandler) => {
     return (
         <VStack spacing="16px" w="100%" pl="24px" position="relative">
             <PlacePreview

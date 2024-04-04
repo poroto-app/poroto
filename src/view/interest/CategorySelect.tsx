@@ -37,9 +37,12 @@ type Props = {
     onClickYes: (category: LocationCategory) => void;
     onClickNo: (category: LocationCategory) => void;
 };
-export const CategorySelect = (
-    { category, interactiveAnimation = true, onClickYes, onClickNo }: Props
-) => {
+export const CategorySelect = ({
+    category,
+    interactiveAnimation = true,
+    onClickYes,
+    onClickNo,
+}: Props) => {
     const [
         isInteractiveAnimationAlreadyPlayed,
         setIsInteractiveAnimationAlreadyPlayed,
@@ -246,17 +249,15 @@ const SplideContainer = styled(Splide)`
     }
 `;
 
-function PlaceThumbnail(
-    {
-        place,
-        category,
-        imageSize,
-    }: {
-        place: Place;
-        category: PlaceCategory;
-        imageSize: ImageSize;
-    }
-) {
+function PlaceThumbnail({
+    place,
+    category,
+    imageSize,
+}: {
+    place: Place;
+    category: PlaceCategory;
+    imageSize: ImageSize;
+}) {
     const placeImage =
         place.images.length > 0 ? place.images[0] : getDefaultPlaceImage();
     return (

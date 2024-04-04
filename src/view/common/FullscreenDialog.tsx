@@ -36,21 +36,19 @@ const transitionStyles: {
     unmounted: { opacity: 0, visibility: "hidden" },
 };
 
-export function FullscreenDialog(
-    {
-        position = DialogPositions.CENTER,
-        visible,
-        width,
-        height,
-        maxHeight = "100%",
-        maxWidth = "100%",
-        onClickOutside,
-        padding,
-        paddingX,
-        paddingY,
-        children,
-    }: Props
-) {
+export function FullscreenDialog({
+    position = DialogPositions.CENTER,
+    visible,
+    width,
+    height,
+    maxHeight = "100%",
+    maxWidth = "100%",
+    onClickOutside,
+    padding,
+    paddingX,
+    paddingY,
+    children,
+}: Props) {
     // スクロールしたときに画面が動かないようにする
     const fixScroll = () => {
         document.body.style.top = `-${window.scrollY}px`;

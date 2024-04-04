@@ -6,15 +6,13 @@ import {
     PlanInfoTagDuration,
 } from "src/view/plandetail/header/PlanInfoTag";
 
-export function PlanInfoSection(
-    {
-        durationInMinutes,
-        priceRange,
-    }: {
-        durationInMinutes: number;
-        priceRange: PriceRange;
-    }
-) {
+export function PlanInfoSection({
+    durationInMinutes,
+    priceRange,
+}: {
+    durationInMinutes: number;
+    priceRange: PriceRange;
+}) {
     return (
         <HStack
             spacing={2}

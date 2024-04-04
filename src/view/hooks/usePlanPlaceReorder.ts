@@ -49,9 +49,13 @@ export const usePlanPlaceReorder = () => {
         };
     }, [autoReorderPlacesInPlanCandidateRequestStatus]);
 
-    const handleOptimizeRoute = (
-        { planCandidateId, planId }: { planCandidateId: string; planId: string }
-    ): void => {
+    const handleOptimizeRoute = ({
+        planCandidateId,
+        planId,
+    }: {
+        planCandidateId: string;
+        planId: string;
+    }): void => {
         dispatch(autoReorderPlacesInPlanCandidate({ planId, planCandidateId }));
     };
 

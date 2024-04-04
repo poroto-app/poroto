@@ -10,9 +10,12 @@ type Props = {
     onClick?: () => void;
 };
 
-export function PlaceCard(
-    { place, w = Size.PlaceCard.w, h = Size.PlaceCard.h, onClick }: Props
-) {
+export function PlaceCard({
+    place,
+    w = Size.PlaceCard.w,
+    h = Size.PlaceCard.h,
+    onClick,
+}: Props) {
     if (!place) return <PlaceCardSkeleton />;
 
     const image = place.images[0];

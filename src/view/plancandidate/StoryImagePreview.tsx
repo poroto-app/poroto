@@ -19,15 +19,13 @@ type Props = {
     onActiveIndexChange?: (index: number) => void;
 };
 
-export function StoryImagePreview(
-    {
-        images,
-        imageSize = ImageSizes.Large,
-        tapControl = true,
-        slideable = true,
-        onActiveIndexChange,
-    }: Props
-) {
+export function StoryImagePreview({
+    images,
+    imageSize = ImageSizes.Large,
+    tapControl = true,
+    slideable = true,
+    onActiveIndexChange,
+}: Props) {
     const refSplide = useRef<Splide | null>(null);
 
     useEffect(() => {

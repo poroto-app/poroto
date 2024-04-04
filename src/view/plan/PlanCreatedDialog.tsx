@@ -8,9 +8,11 @@ export type Props = {
     onClickClose: () => void;
 };
 
-export function PlanCreatedDialog(
-    { onClickCopyUrl, onClickClose, visible }: Props
-) {
+export function PlanCreatedDialog({
+    onClickCopyUrl,
+    onClickClose,
+    visible,
+}: Props) {
     return (
         <FullscreenDialog onClickOutside={onClickClose} visible={visible}>
             <VStack

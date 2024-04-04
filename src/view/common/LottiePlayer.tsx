@@ -3,19 +3,17 @@ import { useLottie } from "lottie-react";
 import { AnimationSegment } from "lottie-web";
 import { useEffect } from "react";
 
-export function LottiePlayer(
-    {
-        animationData,
-        loop = true,
-        segments,
-        style,
-    }: {
-        animationData: unknown;
-        loop?: boolean;
-        segments?: AnimationSegment;
-        style?: React.CSSProperties;
-    }
-) {
+export function LottiePlayer({
+    animationData,
+    loop = true,
+    segments,
+    style,
+}: {
+    animationData: unknown;
+    loop?: boolean;
+    segments?: AnimationSegment;
+    style?: React.CSSProperties;
+}) {
     const {
         View: LottieView,
         play,

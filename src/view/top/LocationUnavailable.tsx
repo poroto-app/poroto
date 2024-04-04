@@ -11,9 +11,11 @@ type Props = {
     onClickSwitch: () => void;
 };
 
-export function LocationUnavailable(
-    { locationPermission, isUpdating, onClickSwitch }: Props
-) {
+export function LocationUnavailable({
+    locationPermission,
+    isUpdating,
+    onClickSwitch,
+}: Props) {
     const handleOnClickSwitch = () => {
         if (locationPermission === LocationPermissions.GRANTED) return;
         onClickSwitch();
@@ -32,8 +34,8 @@ export function LocationUnavailable(
                 {locationPermission === LocationPermissions.GRANTED
                     ? "近くのプランを探しています..."
                     : locationPermission === LocationPermissions.DENIED
-                    ? "設定から位置情報を許可してください"
-                    : "位置情報をオンにしてプランを取得"}
+                      ? "設定から位置情報を許可してください"
+                      : "位置情報をオンにしてプランを取得"}
             </Text>
             <Switch
                 size="lg"

@@ -8,9 +8,11 @@ export type Props = {
     pinnedLocation?: GeoLocation;
 };
 
-export function MapPinSelector(
-    { center, onSelectLocation, pinnedLocation }: Props
-) {
+export function MapPinSelector({
+    center,
+    onSelectLocation,
+    pinnedLocation,
+}: Props) {
     return (
         <MapViewer
             center={{ lat: center.latitude, lng: center.longitude }}

@@ -19,16 +19,14 @@ type Props = {
     onRequestFetchNearByPlans: () => void;
 };
 
-export function NearbyPlanList(
-    {
-        plans,
-        locationPermission,
-        px,
-        isFetchingNearbyPlans,
-        isFetchingCurrentLocation,
-        onRequestFetchNearByPlans,
-    }: Props
-) {
+export function NearbyPlanList({
+    plans,
+    locationPermission,
+    px,
+    isFetchingNearbyPlans,
+    isFetchingCurrentLocation,
+    onRequestFetchNearByPlans,
+}: Props) {
     return (
         <PlanList
             plans={plans}
@@ -52,19 +50,17 @@ export function NearbyPlanList(
     );
 }
 
-export function Empty(
-    {
-        plans,
-        locationPermission,
-        isFetchingCurrentLocation,
-        onRequestFetchNearByPlans,
-    }: {
-        plans: Plan[] | null;
-        locationPermission: LocationPermission | null;
-        isFetchingCurrentLocation: boolean;
-        onRequestFetchNearByPlans: () => void;
-    }
-) {
+export function Empty({
+    plans,
+    locationPermission,
+    isFetchingCurrentLocation,
+    onRequestFetchNearByPlans,
+}: {
+    plans: Plan[] | null;
+    locationPermission: LocationPermission | null;
+    isFetchingCurrentLocation: boolean;
+    onRequestFetchNearByPlans: () => void;
+}) {
     if (
         locationPermission !== LocationPermissions.GRANTED ||
         isFetchingCurrentLocation

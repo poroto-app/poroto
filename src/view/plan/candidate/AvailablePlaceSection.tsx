@@ -9,9 +9,11 @@ type Props = {
     onClickPlace?: (placeId: string) => void;
 };
 
-export function AvailablePlaceSection(
-    { places, isFetching, onClickPlace }: Props
-) {
+export function AvailablePlaceSection({
+    places,
+    isFetching,
+    onClickPlace,
+}: Props) {
     if (!places && !isFetching) return <></>;
 
     return (

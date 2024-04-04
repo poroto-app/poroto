@@ -48,9 +48,13 @@ const useUploadPlaceImage = () => {
     const { user } = reduxAuthSelector();
     const { preview } = reduxPlanSelector();
 
-    const handleFileChange = (
-        { placeId, files }: { placeId: string; files: FileList }
-    ) => {
+    const handleFileChange = ({
+        placeId,
+        files,
+    }: {
+        placeId: string;
+        files: FileList;
+    }) => {
         const selectedFilesArray = Array.from(files);
         setLocalPlaceImageFiles(
             selectedFilesArray.map((file) => ({ placeId, file }))

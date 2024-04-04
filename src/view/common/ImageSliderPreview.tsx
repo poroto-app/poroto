@@ -19,16 +19,14 @@ type Props = {
     onClickImage?: (image: ImageType) => void;
 };
 
-export function ImageSliderPreview(
-    {
-        images,
-        imageSize = ImageSizes.Large,
-        href,
-        draggable = true,
-        borderRadius,
-        onClickImage,
-    }: Props
-) {
+export function ImageSliderPreview({
+    images,
+    imageSize = ImageSizes.Large,
+    href,
+    draggable = true,
+    borderRadius,
+    onClickImage,
+}: Props) {
     return (
         <SlideContainer
             style={{ borderRadius: borderRadius }}
@@ -72,7 +70,9 @@ const SlideContainer = styled(Splide)<{ draggable: boolean }>`
         // 左右に表示される矢印
         & > .splide__arrow {
             background-color: white;
-            box-shadow: 0 0 0 1px transparent, 0 0 0 4px transparent,
+            box-shadow:
+                0 0 0 1px transparent,
+                0 0 0 4px transparent,
                 0 2px 4px rgba(0, 0, 0, 0.18);
             z-index: 1;
 
@@ -115,9 +115,13 @@ const SlideItem = styled(SplideSlide)`
     height: 100%;
 `;
 
-function LinkWrapper(
-    { href, children }: { href?: string; children?: ReactNode }
-) {
+function LinkWrapper({
+    href,
+    children,
+}: {
+    href?: string;
+    children?: ReactNode;
+}) {
     if (href)
         return (
             <Link href={href} w="100%" h="100%">

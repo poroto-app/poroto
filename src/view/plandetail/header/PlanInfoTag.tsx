@@ -38,9 +38,11 @@ export const PlanInfoTag = ({ title, icon, children }: Props) => {
     );
 };
 
-export const PlanInfoTagDuration = (
-    { durationInMinutes }: { durationInMinutes: number }
-) => {
+export const PlanInfoTagDuration = ({
+    durationInMinutes,
+}: {
+    durationInMinutes: number;
+}) => {
     const endPlanDate = DateHelper.add(
         new Date(),
         durationInMinutes * DateHelper.Minute
@@ -55,9 +57,13 @@ export const PlanInfoTagDuration = (
     );
 };
 
-export const PlanInfoTagBudget = (
-    { minBudget, maxBudget }: { minBudget: number; maxBudget: number }
-) => {
+export const PlanInfoTagBudget = ({
+    minBudget,
+    maxBudget,
+}: {
+    minBudget: number;
+    maxBudget: number;
+}) => {
     return (
         <PlanInfoTag title="予算" icon={MdCurrencyYen}>
             <HStack alignItems="flex-start" w="100%" spacing={0}>

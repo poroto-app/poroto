@@ -21,9 +21,10 @@ type Props = {
     onClickIgnoreDuration: () => void;
 };
 
-export const PlanDurationSelector = (
-    { onClickNext, onClickIgnoreDuration }: Props
-) => {
+export const PlanDurationSelector = ({
+    onClickNext,
+    onClickIgnoreDuration,
+}: Props) => {
     const minDuration = 0;
     const maxDuration = 60 * 5;
     const [, setFlame] = useState(10);
@@ -56,25 +57,29 @@ export const PlanDurationSelector = (
             (currentDuration - minDuration) / (maxDuration - minDuration);
         const targetFlame = Math.floor(percentage * lastFrame);
 
-        const idInterval = setInterval(() => {
-            setFlame((prevFlame) => {
-                // 速度を最終的な値との差分に応じて調整する
-                const speedToTarget = Math.abs(targetFlame - prevFlame) / 20;
-                const speed = Math.max(speedToTarget, 3);
+        const idInterval = setInterval(
+            () => {
+                setFlame((prevFlame) => {
+                    // 速度を最終的な値との差分に応じて調整する
+                    const speedToTarget =
+                        Math.abs(targetFlame - prevFlame) / 20;
+                    const speed = Math.max(speedToTarget, 3);
 
-                // 目標フレームに向かって進む
-                const direction = Math.sign(targetFlame - prevFlame);
-                const flame = prevFlame + speed * direction;
-                goToAndStop(flame, true);
+                    // 目標フレームに向かって進む
+                    const direction = Math.sign(targetFlame - prevFlame);
+                    const flame = prevFlame + speed * direction;
+                    goToAndStop(flame, true);
 
-                // 目標フレームに近づいたら終了
-                if (Math.abs(flame - targetFlame) < 3) {
-                    clearInterval(idInterval);
-                }
+                    // 目標フレームに近づいたら終了
+                    if (Math.abs(flame - targetFlame) < 3) {
+                        clearInterval(idInterval);
+                    }
 
-                return flame;
-            });
-        }, (1 / 24) * 1000);
+                    return flame;
+                });
+            },
+            (1 / 24) * 1000
+        );
 
         return () => {
             clearInterval(idInterval);

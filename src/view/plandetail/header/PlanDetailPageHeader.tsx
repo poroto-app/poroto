@@ -24,9 +24,12 @@ type Props = {
     onCopyPlanUrl?: () => void;
 };
 
-export function PlanDetailPageHeader(
-    { plan, likedPlaceIds, onUpdateLikePlace, onCopyPlanUrl }: Props
-) {
+export function PlanDetailPageHeader({
+    plan,
+    likedPlaceIds,
+    onUpdateLikePlace,
+    onCopyPlanUrl,
+}: Props) {
     const [currentPage, setCurrentPage] = useState(0);
     const [isLargerThanHeaderWidth] = useMediaQuery(
         `(min-width: ${Size.PlanDetailHeader.maxW})`

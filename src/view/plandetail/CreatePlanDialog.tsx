@@ -16,9 +16,11 @@ type Props = {
     onClickCreatePlan: (place: Place) => void;
 };
 
-export const CreatePlanDialog = (
-    { place, onClickClose, onClickCreatePlan }: Props
-) => {
+export const CreatePlanDialog = ({
+    place,
+    onClickClose,
+    onClickCreatePlan,
+}: Props) => {
     // ダイアログを閉じるときに、placeをnullにするとエラーになってしまうため
     // placeのキャッシュを作成し、それを表示する
     const [placeCache, setPlaceCache] = useState(place);

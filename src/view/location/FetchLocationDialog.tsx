@@ -18,14 +18,12 @@ type Props = {
     onRetry: () => void;
 };
 
-export function FetchLocationDialog(
-    {
-        fetchLocationRequestStatus,
-        isSkipCurrentLocationVisible = false,
-        skipLocationLabel = "好きな場所からプランを作成する",
-        onRetry,
-    }: Props
-) {
+export function FetchLocationDialog({
+    fetchLocationRequestStatus,
+    isSkipCurrentLocationVisible = false,
+    skipLocationLabel = "好きな場所からプランを作成する",
+    onRetry,
+}: Props) {
     return (
         <FullscreenDialog
             visible={[
@@ -54,15 +52,13 @@ export function FetchLocationDialog(
     );
 }
 
-function Fetching(
-    {
-        skipLocationLabel,
-        isSkipCurrentLocationVisible,
-    }: {
-        skipLocationLabel: string;
-        isSkipCurrentLocationVisible: boolean;
-    }
-) {
+function Fetching({
+    skipLocationLabel,
+    isSkipCurrentLocationVisible,
+}: {
+    skipLocationLabel: string;
+    isSkipCurrentLocationVisible: boolean;
+}) {
     return (
         <VStack w="100%">
             <Box w="100%" position="relative" h="250px">

@@ -8,9 +8,13 @@ import {
 } from "src/redux/editPlanCandidate";
 import { useAppDispatch } from "src/redux/redux";
 
-export const usePlanPlaceAdd = (
-    { planCandidateId, planId }: { planCandidateId: string; planId: string }
-) => {
+export const usePlanPlaceAdd = ({
+    planCandidateId,
+    planId,
+}: {
+    planCandidateId: string;
+    planId: string;
+}) => {
     const dispatch = useAppDispatch();
     const [basePlaceIdToAdd, setBasePlaceIdToAdd] = useState<string>(null);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
@@ -20,9 +24,11 @@ export const usePlanPlaceAdd = (
         requestStatusAddPlaceToPlanCandidate,
     } = reduxEditPlanCandidateSelector();
 
-    const showPlacesToAdd = (
-        { basePlaceIdToAdd }: { basePlaceIdToAdd: string }
-    ) => {
+    const showPlacesToAdd = ({
+        basePlaceIdToAdd,
+    }: {
+        basePlaceIdToAdd: string;
+    }) => {
         setBasePlaceIdToAdd(basePlaceIdToAdd);
         dispatch(
             fetchPlacesToAddToPlanCandidate({
@@ -39,15 +45,13 @@ export const usePlanPlaceAdd = (
         dispatch(resetAddPlaceToPlanCandidateState());
     };
 
-    const addPlaceToPlan = (
-        {
-            previousPlaceId,
-            placeIdToAdd,
-        }: {
-            previousPlaceId: string;
-            placeIdToAdd: string;
-        }
-    ) => {
+    const addPlaceToPlan = ({
+        previousPlaceId,
+        placeIdToAdd,
+    }: {
+        previousPlaceId: string;
+        placeIdToAdd: string;
+    }) => {
         dispatch(
             addPlaceToPlanOfPlanCandidate({
                 planCandidateId,

@@ -16,15 +16,13 @@ type Props = {
     draggable?: boolean;
 };
 
-export const PlanThumbnail = (
-    {
-        images,
-        imageSize = ImageSizes.Small,
-        h = "300px",
-        link,
-        draggable,
-    }: Props
-) => {
+export const PlanThumbnail = ({
+    images,
+    imageSize = ImageSizes.Small,
+    h = "300px",
+    link,
+    draggable,
+}: Props) => {
     if (images.length === 0) {
         images.push(getDefaultPlaceImage());
     }

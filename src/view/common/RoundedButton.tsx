@@ -10,9 +10,12 @@ type Props = {
     children?: ReactNode;
 } & ButtonProps;
 
-export function RoundedButton(
-    { onClick, disabled, outlined, children }: Props
-) {
+export function RoundedButton({
+    onClick,
+    disabled,
+    outlined,
+    children,
+}: Props) {
     return (
         <Rounded
             onClick={onClick}

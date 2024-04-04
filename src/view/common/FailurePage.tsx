@@ -16,17 +16,15 @@ export type Props = {
     navBar?: ReactNode;
 };
 
-export function FailurePage(
-    {
-        title,
-        statusMessage,
-        statusDescription,
-        description,
-        image,
-        actions,
-        navBar = <NavBar />,
-    }: Props
-) {
+export function FailurePage({
+    title,
+    statusMessage,
+    statusDescription,
+    description,
+    image,
+    actions,
+    navBar = <NavBar />,
+}: Props) {
     return (
         <VStack w="100%" h="100%">
             {navBar}
@@ -55,17 +53,15 @@ export function FailurePage(
     );
 }
 
-function Header(
-    {
-        title,
-        statusMessage,
-        statusDescription,
-    }: {
-        title: string;
-        statusMessage?: string;
-        statusDescription?: string;
-    }
-) {
+function Header({
+    title,
+    statusMessage,
+    statusDescription,
+}: {
+    title: string;
+    statusMessage?: string;
+    statusDescription?: string;
+}) {
     return (
         <VStack
             color={Colors.primary["400"]}

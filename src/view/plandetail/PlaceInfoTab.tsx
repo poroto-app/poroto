@@ -25,15 +25,13 @@ export const PlaceInfoTabs = {
 };
 export type PlaceInfoTab = (typeof PlaceInfoTabs)[keyof typeof PlaceInfoTabs];
 
-export const PlaceInfoTab = (
-    {
-        categories,
-        priceRange,
-        tabHSpaacing,
-        googlePlaceReviews,
-        estimatedStayDuration,
-    }: Props
-) => {
+export const PlaceInfoTab = ({
+    categories,
+    priceRange,
+    tabHSpaacing,
+    googlePlaceReviews,
+    estimatedStayDuration,
+}: Props) => {
     const [activeTab, setActiveTab] = useState<PlaceInfoTab>(
         PlaceInfoTabs.Information
     );
@@ -83,19 +81,17 @@ export const PlaceInfoTab = (
     );
 };
 
-export const Tab = (
-    {
-        active,
-        tab,
-        label,
-        onClick,
-    }: {
-        active: boolean;
-        tab: PlaceInfoTab;
-        label: string;
-        onClick: (tab: PlaceInfoTab) => void;
-    }
-) => {
+export const Tab = ({
+    active,
+    tab,
+    label,
+    onClick,
+}: {
+    active: boolean;
+    tab: PlaceInfoTab;
+    label: string;
+    onClick: (tab: PlaceInfoTab) => void;
+}) => {
     return (
         <VStack
             flex={1}
@@ -118,9 +114,13 @@ export const Tab = (
     );
 };
 
-export const TabPanel = (
-    { active, children }: { active: boolean; children?: ReactNode }
-) => {
+export const TabPanel = ({
+    active,
+    children,
+}: {
+    active: boolean;
+    children?: ReactNode;
+}) => {
     return (
         <Box
             w={active ? "100%" : "0"}
@@ -138,19 +138,17 @@ const average = (values: number[]) => {
     return sum / values.length;
 };
 
-const TabPanelInformation = (
-    {
-        categories,
-        priceRange,
-        googlePlaceReviews,
-        estimatedStayDuration,
-    }: {
-        categories: PlaceCategory[];
-        priceRange: PriceRange | null;
-        googlePlaceReviews: GooglePlaceReview[] | null;
-        estimatedStayDuration: number;
-    }
-) => {
+const TabPanelInformation = ({
+    categories,
+    priceRange,
+    googlePlaceReviews,
+    estimatedStayDuration,
+}: {
+    categories: PlaceCategory[];
+    priceRange: PriceRange | null;
+    googlePlaceReviews: GooglePlaceReview[] | null;
+    estimatedStayDuration: number;
+}) => {
     const isEstimatedStayDurationEmpty = estimatedStayDuration === 0;
     const isCategoryEmpty = categories.length === 0;
     const isPriceRangeEmpty = !priceRange || priceRange.max === 0;
@@ -228,9 +226,15 @@ const TabPanelInformation = (
     );
 };
 
-const InformationTag = (
-    { icon, value, label }: { icon: IconType; value: string; label: string }
-) => {
+const InformationTag = ({
+    icon,
+    value,
+    label,
+}: {
+    icon: IconType;
+    value: string;
+    label: string;
+}) => {
     return (
         <VStack
             px="20px"
