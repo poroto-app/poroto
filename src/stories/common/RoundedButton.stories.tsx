@@ -1,13 +1,13 @@
 import { Box, Text } from "@chakra-ui/react";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryFn } from "@storybook/react";
 import { RoundedButton } from "src/view/common/RoundedButton";
 
 export default {
     title: "common/RoundedButton",
     component: RoundedButton,
-} as ComponentMeta<typeof RoundedButton>;
+} as Meta<typeof RoundedButton>;
 
-const Template: ComponentStory<typeof RoundedButton> = (args) => (
+const Template: StoryFn<typeof RoundedButton> = (args) => (
     <Box w="400px">
         <RoundedButton {...args}>
             <Text>ボタン</Text>

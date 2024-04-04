@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
+import { fn } from "@storybook/test";
 import { mockPlans } from "src/stories/mock/plan";
 import { PlanCandidatesGallery } from "src/view/plancandidate/PlanCandidatesGallery";
 
@@ -7,6 +8,9 @@ export default {
     component: PlanCandidatesGallery,
     tags: ["autodocs"],
     parameters: {},
+    args: {
+        onActiveIndexChange: fn(),
+    },
 } as Meta<typeof PlanCandidatesGallery>;
 
 type Story = StoryObj<typeof PlanCandidatesGallery>;

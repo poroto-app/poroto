@@ -5,6 +5,8 @@ on:
     paths:
       - "src/view/**"
       - "src/stories/**"
+    branches:
+      - "dependabot/npm_and_yarn/storybook/*"
 jobs:
   # https://storybook.js.org/docs/writing-tests/test-runner#run-against-non-deployed-storybooks
   test:

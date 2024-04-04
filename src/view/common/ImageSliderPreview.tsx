@@ -70,7 +70,9 @@ const SlideContainer = styled(Splide)<{ draggable: boolean }>`
         // 左右に表示される矢印
         & > .splide__arrow {
             background-color: white;
-            box-shadow: 0 0 0 1px transparent, 0 0 0 4px transparent,
+            box-shadow:
+                0 0 0 1px transparent,
+                0 0 0 4px transparent,
                 0 2px 4px rgba(0, 0, 0, 0.18);
             z-index: 1;
 
