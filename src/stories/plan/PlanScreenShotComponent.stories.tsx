@@ -1,21 +1,21 @@
 import { Box } from "@chakra-ui/react";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryFn } from "@storybook/react";
 import { Plan } from "src/domain/models/Plan";
 import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent";
 
 export default {
     title: "plan/PlanScreenShotComponent",
     component: PlanScreenShotComponent,
-} as ComponentMeta<typeof PlanScreenShotComponent>;
+} as Meta<typeof PlanScreenShotComponent>;
 
-const Template: ComponentStory<typeof PlanScreenShotComponent> = (args) => (
+const Template: StoryFn<typeof PlanScreenShotComponent> = (args) => (
     <Box w="100%">
         <PlanScreenShotComponent {...args} />
     </Box>
 );
 
-export const PlanScreenShotComponentStoryBook = Template.bind({});
-PlanScreenShotComponentStoryBook.args = {
+export const PlanScreenShotStoryFnBook = Template.bind({});
+PlanScreenShotStoryFnBook.args = {
     plan: {
         id: "1",
         title: "カフェでほっと一息",

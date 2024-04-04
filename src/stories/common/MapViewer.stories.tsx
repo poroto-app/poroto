@@ -1,10 +1,10 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { MapViewer, MapViewerProps } from "src/view/common/MapViewer";
 
 export default {
     title: "common/MapViewer",
     component: MapViewer,
-} as ComponentMeta<typeof MapViewer>;
+} as Meta<typeof MapViewer>;
 
 const Template = (args) => <MapViewer {...args} />;
 

@@ -1,17 +1,14 @@
 import { Box } from "@chakra-ui/react";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryFn } from "@storybook/react";
 import { MdOutlinePhotoCamera } from "react-icons/md";
 import { PlanActionButton } from "src/view/plan/button/PlanActionButton";
 
 export default {
     title: "plan/button/PlanActionButton",
     component: PlanActionButton,
-} as ComponentMeta<typeof PlanActionButton>;
+} as Meta<typeof PlanActionButton>;
 
-const Template: ComponentStory<typeof PlanActionButton> = ({
-    text,
-    imageUrl,
-}) => (
+const Template: StoryFn<typeof PlanActionButton> = ({ text, imageUrl }) => (
     <Box w="300px">
         <PlanActionButton
             onClick={() => 0}

@@ -1,12 +1,12 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryFn } from "@storybook/react";
 import { LoadingModal } from "src/view/common/LoadingModal";
 
 export default {
     title: "common/LoadingModal",
     component: LoadingModal,
-} as ComponentMeta<typeof LoadingModal>;
+} as Meta<typeof LoadingModal>;
 
-const Template: ComponentStory<typeof LoadingModal> = (args) => (
+const Template: StoryFn<typeof LoadingModal> = (args) => (
     <LoadingModal title={args.title} />
 );
 
