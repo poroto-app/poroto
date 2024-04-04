@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { SectionTitle } from "src/view/common/SectionTitle";
+import { Size } from "src/view/constants/size";
 
 export type Props = {
     title: string;
@@ -25,7 +26,12 @@ export function PlanPageSection({
 }: Props) {
     if (accordion)
         return (
-            <Accordion allowToggle borderColor="transparent" w="100%" px="16px">
+            <Accordion
+                allowToggle
+                borderColor="transparent"
+                w="100%"
+                px={Size.PlanDetail.px}
+            >
                 <AccordionItem>
                     <AccordionButton justifyContent="space-between" px={0}>
                         <SectionTitle title={title} />

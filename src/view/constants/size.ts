@@ -18,6 +18,9 @@ export const Size = {
         px: Padding.p16,
         imageH: "300px",
     },
+    PlanDetail: {
+        px: "16px",
+    },
     PlanList: {
         SavedPlan: {
             ThumbnailHeight: "250px",
