@@ -11,11 +11,9 @@ type Props = {
     onClickSwitch: () => void;
 };
 
-export function LocationUnavailable({
-    locationPermission,
-    isUpdating,
-    onClickSwitch,
-}: Props) {
+export function LocationUnavailable(
+    { locationPermission, isUpdating, onClickSwitch }: Props
+) {
     const handleOnClickSwitch = () => {
         if (locationPermission === LocationPermissions.GRANTED) return;
         onClickSwitch();

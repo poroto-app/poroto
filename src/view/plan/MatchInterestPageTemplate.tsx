@@ -8,11 +8,9 @@ type Props = {
     children?: ReactNode;
 };
 
-export function MatchInterestPageTemplate({
-    message,
-    navBar,
-    children,
-}: Props) {
+export function MatchInterestPageTemplate(
+    { message, navBar, children }: Props
+) {
     return (
         <VStack h="100%" w="100%" spacing={0}>
             {navBar}

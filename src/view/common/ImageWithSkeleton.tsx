@@ -10,13 +10,15 @@ type Props = {
     onClick?: () => void;
 };
 
-export function ImageWithSkeleton({
-    src,
-    isGoogleImage: isGooglePhoto,
-    attributionToBottom = true,
-    attributionPaddingY = "24px",
-    onClick,
-}: Props) {
+export function ImageWithSkeleton(
+    {
+        src,
+        isGoogleImage: isGooglePhoto,
+        attributionToBottom = true,
+        attributionPaddingY = "24px",
+        onClick,
+    }: Props
+) {
     const gradationBackground = attributionToBottom
         ? "linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.30) 30%, rgba(0, 0, 0, 0.50) 100%)"
         : "linear-gradient(0deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.30) 30%, rgba(0, 0, 0, 0.50) 100%)";

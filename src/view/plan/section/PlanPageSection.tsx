@@ -17,12 +17,9 @@ export type Props = {
     children?: ReactNode;
 };
 
-export function PlanPageSection({
-    title,
-    description,
-    accordion,
-    children,
-}: Props) {
+export function PlanPageSection(
+    { title, description, accordion, children }: Props
+) {
     if (accordion)
         return (
             <Accordion allowToggle borderColor="transparent" w="100%" px="16px">

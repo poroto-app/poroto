@@ -10,11 +10,9 @@ type Props = {
     createdBasedOnCurrentLocation?: boolean | null;
 };
 
-export function SearchRouteByGoogleMapButton({
-    plan,
-    currentLocation,
-    createdBasedOnCurrentLocation,
-}: Props) {
+export function SearchRouteByGoogleMapButton(
+    { plan, currentLocation, createdBasedOnCurrentLocation }: Props
+) {
     const startLocationOfRoute =
         currentLocation && createdBasedOnCurrentLocation
             ? currentLocation

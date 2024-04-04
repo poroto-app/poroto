@@ -7,13 +7,9 @@ import {
 import { reduxPlanCandidateSelector } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 
-export const usePlanPlaceDelete = ({
-    planCandidateId,
-    planId,
-}: {
-    planCandidateId: string;
-    planId: string;
-}) => {
+export const usePlanPlaceDelete = (
+    { planCandidateId, planId }: { planCandidateId: string; planId: string }
+) => {
     const dispatch = useAppDispatch();
     const [placeIdToDelete, setPlaceIdToDelete] = useState<string>(null);
     const [isDialogVisible, setIsDialogVisible] = useState(false);
@@ -30,11 +26,9 @@ export const usePlanPlaceDelete = ({
         setIsDialogVisible(false);
     };
 
-    const deletePlaceFromPlan = ({
-        placeIdToDelete,
-    }: {
-        placeIdToDelete: string;
-    }) => {
+    const deletePlaceFromPlan = (
+        { placeIdToDelete }: { placeIdToDelete: string }
+    ) => {
         dispatch(
             deletePlaceFromPlanOfPlanCandidate({
                 planCandidateId,

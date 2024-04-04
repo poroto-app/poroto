@@ -68,15 +68,17 @@ function NavBarUserDialogContainer({ children }: { children?: ReactNode }) {
     );
 }
 
-function DialogItem({
-    icon,
-    children,
-    onClick,
-}: {
-    icon?: IconType;
-    children?: ReactNode;
-    onClick?: () => void;
-}) {
+function DialogItem(
+    {
+        icon,
+        children,
+        onClick,
+    }: {
+        icon?: IconType;
+        children?: ReactNode;
+        onClick?: () => void;
+    }
+) {
     return (
         <DialogItemContainer onClick={onClick}>
             <HStack spacing="16px" w="100%">

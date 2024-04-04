@@ -192,13 +192,15 @@ type UpdatePlaceLikeInPlanProps = {
 };
 export const updatePlaceLikeInPlan = createAsyncThunk(
     "plan/updatePlaceLikeInPlan",
-    async ({
-        userId,
-        firebaseIdToken,
-        planId,
-        placeId,
-        like,
-    }: UpdatePlaceLikeInPlanProps) => {
+    async (
+        {
+            userId,
+            firebaseIdToken,
+            planId,
+            placeId,
+            like,
+        }: UpdatePlaceLikeInPlanProps
+    ) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.updateLikeOfPlaceInPlan({
             userId,

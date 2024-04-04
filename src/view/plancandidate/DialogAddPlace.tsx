@@ -13,15 +13,17 @@ type Props = {
     onCloseDialog: () => void;
 };
 
-export function DialogAddPlace({
-    placesRecommended,
-    placesWithCategories,
-    transitions,
-    isDialogVisible,
-    isAddingPlace,
-    onAddPlaceToPlan,
-    onCloseDialog,
-}: Props) {
+export function DialogAddPlace(
+    {
+        placesRecommended,
+        placesWithCategories,
+        transitions,
+        isDialogVisible,
+        isAddingPlace,
+        onAddPlaceToPlan,
+        onCloseDialog,
+    }: Props
+) {
     return (
         <DialogRelatedPlaces
             visible={isDialogVisible}

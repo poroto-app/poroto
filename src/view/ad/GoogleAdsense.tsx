@@ -12,14 +12,16 @@ type Props = {
     responsive?: "true" | "false";
 };
 
-export const GoogleAdsense = ({
-    slot,
-    parentStyle = { display: "block" },
-    style = { display: "block" },
-    format,
-    layout,
-    responsive = "false",
-}: Props): JSX.Element => {
+export const GoogleAdsense = (
+    {
+        slot,
+        parentStyle = { display: "block" },
+        style = { display: "block" },
+        format,
+        layout,
+        responsive = "false",
+    }: Props
+): JSX.Element => {
     const { asPath } = useRouter();
 
     useEffect(() => {

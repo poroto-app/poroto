@@ -23,14 +23,16 @@ export function PlaceHolder() {
     );
 }
 
-export function PlanPreview({
-    plan,
-    link,
-    planThumbnailHeight,
-    wrapTitle = true,
-    showAuthor = true,
-    draggableThumbnail = true,
-}: Props) {
+export function PlanPreview(
+    {
+        plan,
+        link,
+        planThumbnailHeight,
+        wrapTitle = true,
+        showAuthor = true,
+        draggableThumbnail = true,
+    }: Props
+) {
     if (!plan) return <PlaceHolder />;
 
     const thumbnails = plan.places
@@ -83,13 +85,9 @@ export function PlanPreview({
     );
 }
 
-function LinkWrapper({
-    href,
-    children,
-}: {
-    href?: string;
-    children?: ReactNode;
-}) {
+function LinkWrapper(
+    { href, children }: { href?: string; children?: ReactNode }
+) {
     if (href)
         return (
             <Link href={href} w="100%">

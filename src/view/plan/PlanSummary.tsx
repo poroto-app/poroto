@@ -40,11 +40,9 @@ const PlanSummaryContainer = styled.div`
     padding: 16px;
 `;
 
-export const PlanSummaryDuration = ({
-    durationInMinutes,
-}: {
-    durationInMinutes: number;
-}) => {
+export const PlanSummaryDuration = (
+    { durationInMinutes }: { durationInMinutes: number }
+) => {
     const endPlanDate = DateHelper.add(
         new Date(),
         durationInMinutes * DateHelper.Minute
@@ -59,13 +57,9 @@ export const PlanSummaryDuration = ({
     );
 };
 
-export const PlanSummaryBudget = ({
-    minBudget,
-    maxBudget,
-}: {
-    minBudget: number;
-    maxBudget: number;
-}) => {
+export const PlanSummaryBudget = (
+    { minBudget, maxBudget }: { minBudget: number; maxBudget: number }
+) => {
     return (
         <PlanSummary title="予算" icon={MdCurrencyYen}>
             <VStack alignItems="flex-start" w="100%" spacing={0}>

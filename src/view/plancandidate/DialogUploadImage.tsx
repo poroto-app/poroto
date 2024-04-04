@@ -20,13 +20,9 @@ type Props = {
     onClose: () => void;
 };
 
-const DialogUploadImage = ({
-    visible,
-    isUploading,
-    imageURLs,
-    onUploadClick,
-    onClose,
-}: Props) => {
+const DialogUploadImage = (
+    { visible, isUploading, imageURLs, onUploadClick, onClose }: Props
+) => {
     const [dialogClosed, setDialogClosed] = useState(false);
 
     return (
@@ -66,15 +62,17 @@ const DialogUploadImage = ({
     );
 };
 
-const Confirm = ({
-    imageUrls,
-    onUpload,
-    onClose,
-}: {
-    imageUrls: string[];
-    onUpload: OnClickHandler;
-    onClose: OnClickHandler;
-}) => {
+const Confirm = (
+    {
+        imageUrls,
+        onUpload,
+        onClose,
+    }: {
+        imageUrls: string[];
+        onUpload: OnClickHandler;
+        onClose: OnClickHandler;
+    }
+) => {
     return (
         <VStack h="100%" w="100%" px="16px" py="16px">
             <VStack w="100%" flex={1} justifyContent="center" spacing="32px">

@@ -8,12 +8,9 @@ export type Props = {
     text: string;
 };
 
-export function PlaceReview({
-    authorName,
-    authorUrl,
-    authorPhotoUrl,
-    text,
-}: Props) {
+export function PlaceReview(
+    { authorName, authorUrl, authorPhotoUrl, text }: Props
+) {
     return (
         <VStack
             w="100%"

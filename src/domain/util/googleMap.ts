@@ -6,13 +6,15 @@ export type GoogleMapPlaceParam = {
     location: GeoLocation;
 };
 
-export const generateGoogleMapUrl = ({
-    places,
-    startLocation,
-}: {
-    places: GoogleMapPlaceParam[];
-    startLocation?: GeoLocation;
-}): string => {
+export const generateGoogleMapUrl = (
+    {
+        places,
+        startLocation,
+    }: {
+        places: GoogleMapPlaceParam[];
+        startLocation?: GeoLocation;
+    }
+): string => {
     // SEE: https://developers.google.com/maps/documentation/urls/get-started?hl=ja#directions-action
     const url = new URL("https://www.google.com/maps/dir/");
     url.searchParams.set("api", "1");

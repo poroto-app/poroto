@@ -52,13 +52,15 @@ export const NavBar = ({ canGoBack, defaultPath }: Props) => {
     );
 };
 
-export const NavBarComponent = ({
-    canGoBack,
-    onBack,
-    userComponent,
-}: Props & {
-    userComponent?: ReactNode;
-}) => {
+export const NavBarComponent = (
+    {
+        canGoBack,
+        onBack,
+        userComponent,
+    }: Props & {
+        userComponent?: ReactNode;
+    }
+) => {
     return (
         <Container>
             <HStack w="100%" maxW="990px" spacing={4}>

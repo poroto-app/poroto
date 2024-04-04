@@ -21,10 +21,9 @@ type Props = {
     onClickIgnoreDuration: () => void;
 };
 
-export const PlanDurationSelector = ({
-    onClickNext,
-    onClickIgnoreDuration,
-}: Props) => {
+export const PlanDurationSelector = (
+    { onClickNext, onClickIgnoreDuration }: Props
+) => {
     const minDuration = 0;
     const maxDuration = 60 * 5;
     const [, setFlame] = useState(10);

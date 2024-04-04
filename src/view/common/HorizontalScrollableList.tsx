@@ -10,12 +10,9 @@ type Props = {
     children?: ReactNode;
 };
 
-export const HorizontalScrollableList = ({
-    scrollAmount = 400,
-    pageButtonOffsetY = 0,
-    px = 0,
-    children,
-}: Props) => {
+export const HorizontalScrollableList = (
+    { scrollAmount = 400, pageButtonOffsetY = 0, px = 0, children }: Props
+) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     const scroll = (direction: "left" | "right") => {
@@ -69,19 +66,21 @@ export const HorizontalScrollableList = ({
     );
 };
 
-const PageButton = ({
-    left,
-    right,
-    offsetY,
-    onClick,
-    children,
-}: {
-    left: number | string;
-    right: number | string;
-    offsetY: number;
-    onClick?: () => void;
-    children: ReactNode;
-}) => {
+const PageButton = (
+    {
+        left,
+        right,
+        offsetY,
+        onClick,
+        children,
+    }: {
+        left: number | string;
+        right: number | string;
+        offsetY: number;
+        onClick?: () => void;
+        children: ReactNode;
+    }
+) => {
     return (
         <Center
             visibility={isPC ? "visible" : "hidden"}

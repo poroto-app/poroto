@@ -20,13 +20,9 @@ type Props = {
     onClose: () => void;
 };
 
-export function DialogDeletePlace({
-    placeToDelete,
-    isDeleting,
-    isDialogVisible,
-    onDelete,
-    onClose,
-}: Props) {
+export function DialogDeletePlace(
+    { placeToDelete, isDeleting, isDialogVisible, onDelete, onClose }: Props
+) {
     const image =
         placeToDelete && placeToDelete.images.length > 0
             ? placeToDelete.images[0]

@@ -1,16 +1,14 @@
 import { Box } from "@chakra-ui/react";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryFn } from "@storybook/react";
 import { NavBarComponent } from "src/view/common/NavBar";
 import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTemplate";
 
 export default {
     title: "plan/MatchInterestPageTemplate",
     component: MatchInterestPageTemplate,
-} as ComponentMeta<typeof MatchInterestPageTemplate>;
+} as Meta<typeof MatchInterestPageTemplate>;
 
-const Template: ComponentStory<typeof MatchInterestPageTemplate> = ({
-    message,
-}) => (
+const Template: StoryFn<typeof MatchInterestPageTemplate> = ({ message }) => (
     <MatchInterestPageTemplate message={message} navBar={<NavBarComponent />}>
         <Box w="100%" h="100%" backgroundColor="gray" />
     </MatchInterestPageTemplate>

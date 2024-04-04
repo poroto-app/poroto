@@ -12,12 +12,9 @@ type Props = {
     onUpdateLike: (like: boolean) => void;
 };
 
-export function PlanHeaderPlaceCard({
-    place,
-    isLiked,
-    likeCount,
-    onUpdateLike,
-}: Props) {
+export function PlanHeaderPlaceCard(
+    { place, isLiked, likeCount, onUpdateLike }: Props
+) {
     return (
         <Box position="relative" w="100%" h="100%">
             <ImageWithSkeleton

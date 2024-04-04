@@ -21,17 +21,19 @@ type Props = {
     px?: string | number;
 };
 
-export function PlanList({
-    plans,
-    isLoading = false,
-    children,
-    empty,
-    numPlaceHolders = 6,
-    grid = true,
-    wrapTitle,
-    showAuthor,
-    px = 0,
-}: Props) {
+export function PlanList(
+    {
+        plans,
+        isLoading = false,
+        children,
+        empty,
+        numPlaceHolders = 6,
+        grid = true,
+        wrapTitle,
+        showAuthor,
+        px = 0,
+    }: Props
+) {
     if (!plans || plans.length == 0 || isLoading) {
         if (empty && !isLoading) {
             return (
@@ -89,17 +91,19 @@ function Container({ children }: { children: ReactNode }) {
     );
 }
 
-function PlanListItem({
-    plan,
-    grid,
-    wrapTitle,
-    showAuthor,
-}: {
-    plan: Plan;
-    grid: boolean;
-    wrapTitle?: boolean;
-    showAuthor?: boolean;
-}) {
+function PlanListItem(
+    {
+        plan,
+        grid,
+        wrapTitle,
+        showAuthor,
+    }: {
+        plan: Plan;
+        grid: boolean;
+        wrapTitle?: boolean;
+        showAuthor?: boolean;
+    }
+) {
     return (
         <Box w={grid ? "100%" : "200px"}>
             <PlanPreview
@@ -116,15 +120,17 @@ function PlanListItem({
     );
 }
 
-const Layout = ({
-    grid,
-    px,
-    children,
-}: {
-    grid: boolean;
-    px: string | number;
-    children: ReactNode;
-}) => {
+const Layout = (
+    {
+        grid,
+        px,
+        children,
+    }: {
+        grid: boolean;
+        px: string | number;
+        children: ReactNode;
+    }
+) => {
     if (grid) {
         return <GridLayout px={px}>{children}</GridLayout>;
     }

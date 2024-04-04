@@ -10,12 +10,9 @@ type Props = {
     children?: ReactNode;
 } & ButtonProps;
 
-export function RoundedIconButton({
-    icon,
-    onClick,
-    disabled,
-    children,
-}: Props) {
+export function RoundedIconButton(
+    { icon, onClick, disabled, children }: Props
+) {
     return (
         <RoundedButton onClick={onClick} disabled={disabled ?? false}>
             <HStack w="100%" justifyContent="center">

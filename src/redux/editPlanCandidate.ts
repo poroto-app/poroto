@@ -105,11 +105,13 @@ type FetchPlacesToAddForPlanOfPlanCandidateProps = {
 };
 export const fetchPlacesToAddToPlanCandidate = createAsyncThunk(
     "editPlanCandidate/FetchPlacesToAddForPlanOfPlanCandidate",
-    async ({
-        planCandidateId,
-        planId,
-        placeId,
-    }: FetchPlacesToAddForPlanOfPlanCandidateProps) => {
+    async (
+        {
+            planCandidateId,
+            planId,
+            placeId,
+        }: FetchPlacesToAddForPlanOfPlanCandidateProps
+    ) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const { placesRecommend, placesGroupedByCategories, transitions } =
             await plannerApi.fetchPlacesToAddForPlanOfPlanCandidate({

@@ -8,13 +8,9 @@ import {
 } from "src/redux/editPlanCandidate";
 import { useAppDispatch } from "src/redux/redux";
 
-export const usePlanPlaceReplace = ({
-    planCandidateId,
-    planId,
-}: {
-    planCandidateId: string;
-    planId: string;
-}) => {
+export const usePlanPlaceReplace = (
+    { planCandidateId, planId }: { planCandidateId: string; planId: string }
+) => {
     const dispatch = useAppDispatch();
     const [placeIdToReplace, setPlaceIdToReplace] = useState<string | null>();
     const [isDialogRelatedPlacesVisible, setIsDialogRelatedPlacesVisible] =
@@ -42,13 +38,15 @@ export const usePlanPlaceReplace = ({
         dispatch(resetReorderPlaceOfPlanCandidateState());
     };
 
-    const replacePlace = ({
-        placeIdToDelete,
-        placeIdToAdd,
-    }: {
-        placeIdToDelete: string;
-        placeIdToAdd: string;
-    }) => {
+    const replacePlace = (
+        {
+            placeIdToDelete,
+            placeIdToAdd,
+        }: {
+            placeIdToDelete: string;
+            placeIdToAdd: string;
+        }
+    ) => {
         dispatch(
             replacePlaceOfPlanCandidate({
                 planCandidateId,

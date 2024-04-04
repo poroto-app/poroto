@@ -8,11 +8,9 @@ type Props = {
     onUpdateLike: (like: boolean) => void;
 };
 
-export const PlaceLikeButton = ({
-    isLiked,
-    likeCount,
-    onUpdateLike,
-}: Props) => {
+export const PlaceLikeButton = (
+    { isLiked, likeCount, onUpdateLike }: Props
+) => {
     return (
         <motion.button
             whileTap={{ scale: 1.1 }}
