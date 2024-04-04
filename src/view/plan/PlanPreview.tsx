@@ -11,6 +11,7 @@ type Props = {
     planThumbnailHeight?: string | number;
     wrapTitle?: boolean;
     showAuthor?: boolean;
+    draggableThumbnail?: boolean;
 };
 
 export function PlaceHolder() {
@@ -28,6 +29,7 @@ export function PlanPreview({
     planThumbnailHeight,
     wrapTitle = true,
     showAuthor = true,
+    draggableThumbnail = true,
 }: Props) {
     if (!plan) return <PlaceHolder />;
 
@@ -44,6 +46,7 @@ export function PlanPreview({
                 images={thumbnails}
                 h={planThumbnailHeight}
                 link={link}
+                draggable={draggableThumbnail}
             />
             <LinkWrapper href={link}>
                 <Text

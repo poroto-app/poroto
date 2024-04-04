@@ -13,6 +13,7 @@ import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 type Props = {
     plans: Plan[] | null;
     locationPermission: LocationPermission | null;
+    px?: string | number;
     isFetchingNearbyPlans: boolean;
     isFetchingCurrentLocation: boolean;
     onRequestFetchNearByPlans: () => void;
@@ -21,6 +22,7 @@ type Props = {
 export function NearbyPlanList({
     plans,
     locationPermission,
+    px,
     isFetchingNearbyPlans,
     isFetchingCurrentLocation,
     onRequestFetchNearByPlans,
@@ -38,6 +40,7 @@ export function NearbyPlanList({
             }
             isLoading={isFetchingNearbyPlans}
             numPlaceHolders={isPC ? 3 : 1}
+            px={px}
         >
             <PlanListSectionTitle
                 title="近くのプラン"

@@ -1,11 +1,11 @@
 export const PageMetaData = {
     top: {
-        title: "poroto",
-        description: "暇つぶしプランをあなたの代わりにporotoが作ります",
+        title: "komichi",
+        description: "暇つぶしプランをあなたの代わりに komichi が作ります",
     },
     place: {
         search: {
-            title: "好きな場所からプランを作る | poroto",
+            title: "好きな場所からプランを作る | komichi",
             description:
                 "お気に入りの場所や観光名所から、思い出に残るプランを作ります",
         },
@@ -15,7 +15,7 @@ export const PageMetaData = {
             title: (fromCurrentLocation: boolean) =>
                 `${
                     fromCurrentLocation ? "近場で" : "好きな場所から"
-                }プランを作る | poroto`,
+                }プランを作る | komichi`,
             description: "今の気分にあわせて近場で楽しめるプランを作ります",
         },
     },

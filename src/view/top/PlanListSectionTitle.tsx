@@ -1,5 +1,6 @@
 import { Box, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { IconType } from "react-icons";
+import { Size } from "src/view/constants/size";
 
 type Props = {
     title: string;
@@ -9,7 +10,12 @@ type Props = {
 export function PlanListSectionTitle({ title, icon }: Props) {
     return (
         <VStack w="100%" alignItems="flex-start">
-            <VStack py="32px" px="8px" alignItems="flex-start" spacing={4}>
+            <VStack
+                py="32px"
+                px={Size.top.SectionTitle.px}
+                alignItems="flex-start"
+                spacing={4}
+            >
                 <HStack color="#3E3E3E">
                     <Icon w="32px" h="32px" as={icon} />
                     <Text
