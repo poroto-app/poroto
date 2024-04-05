@@ -176,7 +176,7 @@ export const PlacePreview = ({
                     {onClickDeletePlace && (
                         <PlaceChipActionDelete onClick={onClickDeletePlace} />
                     )}
-                    {uploadPlaceImage && (
+                    {uploadPlaceImage && uploadPlaceImage.canUpload && (
                         <PlaceChipActionCamera {...uploadPlaceImage} />
                     )}
                 </HStack>

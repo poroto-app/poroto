@@ -30,6 +30,7 @@ export type UploadPlaceImageProps = {
     localPlaceImageUrls: string[];
     isUploading: boolean;
     isUploadPlacePhotoDialogVisible: boolean;
+    canUpload: boolean;
     onFileChanged: (params: { placeId: string; files: FileList }) => void;
     onUpload: () => void;
     onCloseDialog: () => void;
@@ -147,6 +148,7 @@ const useUploadPlaceImage = () => {
         ),
         isUploading: uploadRequestStatus === UploadRequestStatus.PENDING,
         isUploadPlacePhotoDialogVisible: localPlaceImageFiles.length > 0,
+        canUpload: !!user,
         onUpload: handleUpload,
         onFileChanged: handleFileChange,
         onCloseDialog: handleOnCloseDialog,
