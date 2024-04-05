@@ -1,5 +1,10 @@
-mutation UploadPlacePhotoInPlan($inputs: [UploadPlacePhotoInPlanInput!]!, $planId: String!) {
-    uploadPlacePhotoInPlan(inputs: $inputs, planId: $planId) {
+mutation UploadPlacePhotoInPlan(
+    $inputs: [UploadPlacePhotoInPlanInput!]!,
+    $planId: String!,
+    $userId: String!,
+    $firebaseAuthToken: String!,
+) {
+    uploadPlacePhotoInPlan(inputs: $inputs, planId: $planId, userId: $userId, firebaseAuthToken: $firebaseAuthToken) {
         plan {
             ...PlanFullFragment
         }
