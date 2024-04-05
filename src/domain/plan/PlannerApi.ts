@@ -341,8 +341,9 @@ export type FetchPlacesNearbyPlanLocationResponse = {
 
 export type UploadPlacePhotosInPlanRequest = {
     planId: string;
+    userId: string;
+    firebaseIdToken: string;
     photos: {
-        userId: string;
         placeId: string;
         photoUrl: string;
         width: number;
