@@ -65,7 +65,7 @@ const SlideContainer = styled(Splide)<{ $draggable: boolean }>`
 
     & > .splide__arrows {
         // ドラッグによるスワイプが可能な場合はページングボタンを非表示
-        // opacity: ${({ draggable }) => (draggable ? 0 : 1)};
+        // opacity: ${({ $draggable }) => ($draggable ? 0 : 1)};
 
         // 左右に表示される矢印
         & > .splide__arrow {
