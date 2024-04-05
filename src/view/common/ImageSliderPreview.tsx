@@ -35,7 +35,7 @@ export function ImageSliderPreview({
                 arrows: images.length > 1,
                 lazyLoad: "nearby",
             }}
-            draggable={images.length > 1 && draggable}
+            $draggable={images.length > 1 && draggable}
         >
             {images.map((image, i) => (
                 <SlideItem key={i}>
@@ -53,7 +53,7 @@ export function ImageSliderPreview({
     );
 }
 
-const SlideContainer = styled(Splide)<{ draggable: boolean }>`
+const SlideContainer = styled(Splide)<{ $draggable: boolean }>`
     width: 100%;
     height: 100%;
     cursor: pointer;
@@ -65,7 +65,7 @@ const SlideContainer = styled(Splide)<{ draggable: boolean }>`
 
     & > .splide__arrows {
         // ドラッグによるスワイプが可能な場合はページングボタンを非表示
-        opacity: ${({ draggable }) => (draggable ? 0 : 1)};
+        // opacity: ${({ $draggable }) => ($draggable ? 0 : 1)};
 
         // 左右に表示される矢印
         & > .splide__arrow {
