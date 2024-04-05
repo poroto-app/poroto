@@ -45,7 +45,7 @@ const useUploadPlaceImage = () => {
     const [uploadRequestStatus, setUploadRequestStatus] =
         useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
 
-    const { user } = reduxAuthSelector();
+    const { user, firebaseIdToken } = reduxAuthSelector();
     const { preview } = reduxPlanSelector();
 
     const handleFileChange = ({
@@ -62,7 +62,7 @@ const useUploadPlaceImage = () => {
     };
 
     const handleUpload = async () => {
-        if (!user || !preview) {
+        if (!user || !firebaseIdToken || !preview) {
             return;
         }
 
@@ -105,8 +105,14 @@ const useUploadPlaceImage = () => {
                     };
                 }
             );
+
             dispatch(
-                uploadPlacePhotosInPlan({ planId: preview.id, photos: photos })
+                uploadPlacePhotosInPlan({
+                    planId: preview.id,
+                    userId: user.id,
+                    firebaseIdToken,
+                    photos: photos,
+                })
             );
 
             toast({
