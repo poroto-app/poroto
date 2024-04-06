@@ -1,7 +1,7 @@
 import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import "@splidejs/splide/css";
 import { useState } from "react";
-import { getDefaultPlaceImage, Image } from "src/domain/models/Image";
+import { Image, getDefaultPlaceImage } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { StoryImagePreview } from "src/view/plancandidate/StoryImagePreview";

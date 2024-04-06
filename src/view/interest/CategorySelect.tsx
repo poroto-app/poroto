@@ -1,9 +1,9 @@
 import {
     Box,
     Center,
+    Image as ChakraImage,
     HStack,
     Icon,
-    Image as ChakraImage,
     Text,
     VStack,
 } from "@chakra-ui/react";
@@ -15,9 +15,9 @@ import { isMobile, isTablet } from "react-device-detect";
 import { MdCheck, MdClose } from "react-icons/md";
 import { ImageSize } from "src/data/graphql/generated";
 import {
+    ImageSizes,
     getDefaultPlaceImage,
     getImageSizeOf,
-    ImageSizes,
 } from "src/domain/models/Image";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";

@@ -8,7 +8,7 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
+import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 

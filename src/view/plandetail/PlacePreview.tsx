@@ -16,8 +16,8 @@ import { useState } from "react";
 import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
     getImageSizeOf,
-    Image as ImageType,
     ImageSizes,
+    Image as ImageType,
 } from "src/domain/models/Image";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
