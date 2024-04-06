@@ -3,10 +3,10 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { useEffect, useRef } from "react";
 import {
-    getImageSizeOf,
-    Image as ImageType,
     ImageSize,
     ImageSizes,
+    Image as ImageType,
+    getImageSizeOf,
 } from "src/domain/models/Image";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { styled } from "styled-components";

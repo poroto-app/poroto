@@ -19,9 +19,9 @@ import { useEffect, useState } from "react";
 import { isMobile, isTablet } from "react-device-detect";
 import { MdClose } from "react-icons/md";
 import {
-    getImageSizeOf,
-    Image as ImageType,
     ImageSizes,
+    Image as ImageType,
+    getImageSizeOf,
 } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";

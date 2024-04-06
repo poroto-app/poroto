@@ -1,9 +1,9 @@
 import { describe, expect, test } from "@jest/globals";
 import {
-    getPlaceCategoryType,
     PlaceCategory,
     PlaceCategoryType,
     PlaceCategoryTypes,
+    getPlaceCategoryType,
 } from "src/domain/models/PlaceCategory";
 
 describe("getPlaceCategoryType", () => {
