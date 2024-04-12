@@ -33,6 +33,9 @@ const nextConfig = {
     env: {
         APP_ENV: process.env.APP_ENV,
 
+        APP_PROTOCOL: process.env.APP_PROTOCOL,
+        APP_HOST: process.env.APP_HOST,
+
         PLANNER_API_PROTOCOL: process.env.PLANNER_API_PROTOCOL,
         PLANNER_API_HOST: process.env.PLANNER_API_HOST,
         PLANNER_API_ENDPOINT: `${process.env.PLANNER_API_PROTOCOL}://${process.env.PLANNER_API_HOST}`,
