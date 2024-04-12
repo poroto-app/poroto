@@ -198,9 +198,10 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             mutation: UploadPlacePhotoInPlanDocument,
             variables: {
                 planId: request.planId,
+                userId: request.userId,
+                firebaseAuthToken: request.firebaseIdToken,
                 inputs: request.photos.map((photo) => {
                     return {
-                        userId: photo.userId,
                         placeId: photo.placeId,
                         photoUrl: photo.photoUrl,
                         width: photo.width,

@@ -1,5 +1,5 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";

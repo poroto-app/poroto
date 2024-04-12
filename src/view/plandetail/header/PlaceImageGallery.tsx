@@ -3,7 +3,7 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { useEffect, useRef } from "react";
 import { IconType } from "react-icons";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
-import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
+import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { Size } from "src/view/constants/size";
 import { PlanHeaderPlaceCard } from "src/view/plandetail/header/PlanHeaderPlaceCard";

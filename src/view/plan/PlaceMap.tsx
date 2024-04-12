@@ -1,7 +1,7 @@
 import { Box, Center, HStack, Text, VStack } from "@chakra-ui/react";
 import { InfoWindow, Marker } from "@react-google-maps/api";
 import { useRef, useState } from "react";
-import { getImageSizeOf, ImageSizes } from "src/domain/models/Image";
+import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { MapViewer } from "src/view/common/MapViewer";

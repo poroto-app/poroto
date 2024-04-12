@@ -6,7 +6,7 @@ import {
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
 import { User } from "src/domain/models/User";
-import { createUserFromEntity, UserApi } from "src/domain/user/UserApi";
+import { UserApi, createUserFromEntity } from "src/domain/user/UserApi";
 import { RootState } from "src/redux/redux";
 
 export type AuthState = {

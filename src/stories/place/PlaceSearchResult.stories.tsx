@@ -1,12 +1,12 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryFn } from "@storybook/react";
 import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
 
 export default {
     title: "place/PlaceSearchResults",
     component: PlaceSearchResults,
-} as ComponentMeta<typeof PlaceSearchResults>;
+} as Meta<typeof PlaceSearchResults>;
 
-const Template: ComponentStory<typeof PlaceSearchResults> = (args) => (
+const Template: StoryFn<typeof PlaceSearchResults> = (args) => (
     <PlaceSearchResults {...args} />
 );
 

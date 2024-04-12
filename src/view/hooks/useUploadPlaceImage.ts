@@ -8,6 +8,7 @@ import {
     uploadBytesResumable,
 } from "firebase/storage";
 import { useState } from "react";
+import { getFileExtension } from "src/domain/util/file";
 import { reduxAuthSelector } from "src/redux/auth";
 import { reduxPlanSelector, uploadPlacePhotosInPlan } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
@@ -30,6 +31,7 @@ export type UploadPlaceImageProps = {
     localPlaceImageUrls: string[];
     isUploading: boolean;
     isUploadPlacePhotoDialogVisible: boolean;
+    canUpload: boolean;
     onFileChanged: (params: { placeId: string; files: FileList }) => void;
     onUpload: () => void;
     onCloseDialog: () => void;
@@ -45,7 +47,7 @@ const useUploadPlaceImage = () => {
     const [uploadRequestStatus, setUploadRequestStatus] =
         useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
 
-    const { user } = reduxAuthSelector();
+    const { user, firebaseIdToken } = reduxAuthSelector();
     const { preview } = reduxPlanSelector();
 
     const handleFileChange = ({
@@ -62,7 +64,7 @@ const useUploadPlaceImage = () => {
     };
 
     const handleUpload = async () => {
-        if (!user || !preview) {
+        if (!user || !firebaseIdToken || !preview) {
             return;
         }
 
@@ -85,7 +87,14 @@ const useUploadPlaceImage = () => {
 
             const uploadTasks = localFilesWithSize.map(
                 async ({ file, size, placeId }) => {
-                    const uniqueFileName = `${uuidv4()}_${file.name}`;
+                    let uniqueFileName = uuidv4();
+
+                    // ファイル名が日本語の場合は downloadUrl が長くなってしまうため、拡張子だけ取得する
+                    const fileExtension = getFileExtension(file.name);
+                    if (fileExtension) {
+                        uniqueFileName += `.${fileExtension}`;
+                    }
+
                     const storageRef = ref(storage, `images/${uniqueFileName}`);
                     const { downloadUrl } = await uploadFile(file, storageRef);
                     return { downloadUrl, size, placeId };
@@ -105,8 +114,14 @@ const useUploadPlaceImage = () => {
                     };
                 }
             );
+
             dispatch(
-                uploadPlacePhotosInPlan({ planId: preview.id, photos: photos })
+                uploadPlacePhotosInPlan({
+                    planId: preview.id,
+                    userId: user.id,
+                    firebaseIdToken,
+                    photos: photos,
+                })
             );
 
             toast({
@@ -141,6 +156,7 @@ const useUploadPlaceImage = () => {
         ),
         isUploading: uploadRequestStatus === UploadRequestStatus.PENDING,
         isUploadPlacePhotoDialogVisible: localPlaceImageFiles.length > 0,
+        canUpload: !!user,
         onUpload: handleUpload,
         onFileChanged: handleFileChange,
         onCloseDialog: handleOnCloseDialog,

@@ -33,6 +33,9 @@ const nextConfig = {
     env: {
         APP_ENV: process.env.APP_ENV,
 
+        APP_PROTOCOL: process.env.APP_PROTOCOL,
+        APP_HOST: process.env.APP_HOST,
+
         PLANNER_API_PROTOCOL: process.env.PLANNER_API_PROTOCOL,
         PLANNER_API_HOST: process.env.PLANNER_API_HOST,
         PLANNER_API_ENDPOINT: `${process.env.PLANNER_API_PROTOCOL}://${process.env.PLANNER_API_HOST}`,
@@ -42,6 +45,9 @@ const nextConfig = {
         ADSENSE_CLIENT: process.env.ADSENSE_CLIENT,
         ADSENSE_SLOT_TOP_PAGE_IN_ARTICLE: process.env.ADSENSE_SLOT_TOP_PAGE_IN_ARTICLE,
         ADSENSE_SLOT_PLAN_DETAIL_IN_ARTICLE: process.env.ADSENSE_SLOT_PLAN_DETAIL_IN_ARTICLE,
+
+        // Google Analytics
+        GOOGLE_ANALYTICS_MEASUREMENT_ID: process.env.GOOGLE_ANALYTICS_MEASUREMENT_ID,
 
         FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
         FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,

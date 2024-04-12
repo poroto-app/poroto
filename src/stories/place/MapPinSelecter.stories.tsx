@@ -1,4 +1,4 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryFn } from "@storybook/react";
 import { useState } from "react";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { MapPinSelector } from "src/view/place/MapPinSelector";
@@ -6,9 +6,9 @@ import { MapPinSelector } from "src/view/place/MapPinSelector";
 export default {
     title: "place/MapPinSelector",
     component: MapPinSelector,
-} as ComponentMeta<typeof MapPinSelector>;
+} as Meta<typeof MapPinSelector>;
 
-const Template: ComponentStory<typeof MapPinSelector> = (args) => {
+const Template: StoryFn<typeof MapPinSelector> = (args) => {
     const [location, setLocation] = useState<GeoLocation>();
     return (
         <MapPinSelector

@@ -2,7 +2,7 @@ import { Box, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Plan } from "src/domain/models/Plan";
 import { createArrayWithSize } from "src/domain/util/array";
-import { HorizontalScrollablelList } from "src/view/common/HorizontalScrollablelList";
+import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { PlanPreview } from "src/view/plan/PlanPreview";
@@ -18,6 +18,7 @@ type Props = {
     grid?: boolean;
     wrapTitle?: boolean;
     showAuthor?: boolean;
+    px?: string | number;
 };
 
 export function PlanList({
@@ -29,6 +30,7 @@ export function PlanList({
     grid = true,
     wrapTitle,
     showAuthor,
+    px = 0,
 }: Props) {
     if (!plans || plans.length == 0 || isLoading) {
         if (empty && !isLoading) {
@@ -43,7 +45,7 @@ export function PlanList({
         return (
             <Container>
                 {children}
-                <Layout grid={grid}>
+                <Layout grid={grid} px={px}>
                     {createArrayWithSize(numPlaceHolders).map((i) => (
                         <PlanListItem
                             key={i}
@@ -61,7 +63,7 @@ export function PlanList({
     return (
         <Container>
             {children}
-            <Layout grid={grid}>
+            <Layout grid={grid} px={px}>
                 {plans.map((plan, index) => (
                     <>
                         <PlanListItem
@@ -108,28 +110,38 @@ function PlanListItem({
                 }
                 wrapTitle={wrapTitle}
                 showAuthor={showAuthor}
+                draggableThumbnail={grid}
             />
         </Box>
     );
 }
 
-const Layout = ({ grid, children }: { grid: boolean; children: ReactNode }) => {
+const Layout = ({
+    grid,
+    px,
+    children,
+}: {
+    grid: boolean;
+    px: string | number;
+    children: ReactNode;
+}) => {
     if (grid) {
-        return <GridLayout>{children}</GridLayout>;
+        return <GridLayout px={px}>{children}</GridLayout>;
     }
 
     return (
-        <HorizontalScrollablelList pageButtonOffsetY={-8}>
+        <HorizontalScrollableList pageButtonOffsetY={-8} px={px}>
             {children}
-        </HorizontalScrollablelList>
+        </HorizontalScrollableList>
     );
 };
 
-const GridLayout = styled.div`
+const GridLayout = styled.div<{ px?: string | number }>`
     display: grid;
     width: 100%;
     column-gap: 24px;
     row-gap: 48px;
+    padding: ${({ px }) => px};
 
     grid-template-columns: 1fr;
 

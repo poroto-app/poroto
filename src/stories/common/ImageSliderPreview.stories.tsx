@@ -22,3 +22,36 @@ export const Primary: Story = {
         </Box>
     ),
 };
+
+export const Smartphone: Story = {
+    args: {
+        images: mockPlaces["bookStore"].images,
+    },
+    parameters: {
+        viewport: {
+            defaultViewport: "iphonex",
+        },
+    },
+    render: (args) => (
+        <Box w="100%" maxW="400px" h="400px">
+            <ImageSliderPreview {...args} />
+        </Box>
+    ),
+};
+
+export const NotDraggable: Story = {
+    args: {
+        images: mockPlaces["bookStore"].images,
+        draggable: false,
+    },
+    parameters: {
+        viewport: {
+            defaultViewport: "iphonex",
+        },
+    },
+    render: (args) => (
+        <Box w="100%" maxW="400px" h="400px">
+            <ImageSliderPreview {...args} />
+        </Box>
+    ),
+};

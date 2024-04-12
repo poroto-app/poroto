@@ -63,7 +63,8 @@ const rotate = keyframes`
 `;
 
 const FadeInFadeOutTransition = styled.div`
-    animation: ${fadeinFadeOut} 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    animation:
+        ${fadeinFadeOut} 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94)
             alternate-reverse infinite,
         ${rotate} 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
 `;

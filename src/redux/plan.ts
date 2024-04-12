@@ -216,6 +216,8 @@ export const updatePlaceLikeInPlan = createAsyncThunk(
 
 type UploadPlacePhotosInPlanProps = {
     planId: string;
+    userId: string;
+    firebaseIdToken: string;
     photos: {
         userId: string;
         placeId: string;
@@ -226,10 +228,17 @@ type UploadPlacePhotosInPlanProps = {
 };
 export const uploadPlacePhotosInPlan = createAsyncThunk(
     "plan/uploadPlacePhotosInPlan",
-    async ({ planId, photos }: UploadPlacePhotosInPlanProps) => {
+    async ({
+        planId,
+        userId,
+        firebaseIdToken,
+        photos,
+    }: UploadPlacePhotosInPlanProps) => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.uploadPlacePhotosInPlan({
             planId,
+            userId,
+            firebaseIdToken,
             photos,
         });
         return {
