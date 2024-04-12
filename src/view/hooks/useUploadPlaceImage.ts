@@ -8,6 +8,7 @@ import {
     uploadBytesResumable,
 } from "firebase/storage";
 import { useState } from "react";
+import { getFileExtension } from "src/domain/util/file";
 import { reduxAuthSelector } from "src/redux/auth";
 import { reduxPlanSelector, uploadPlacePhotosInPlan } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
@@ -86,7 +87,14 @@ const useUploadPlaceImage = () => {
 
             const uploadTasks = localFilesWithSize.map(
                 async ({ file, size, placeId }) => {
-                    const uniqueFileName = `${uuidv4()}_${file.name}`;
+                    let uniqueFileName = uuidv4();
+
+                    // ファイル名が日本語の場合は downloadUrl が長くなってしまうため、拡張子だけ取得する
+                    const fileExtension = getFileExtension(file.name);
+                    if (fileExtension) {
+                        uniqueFileName += `.${fileExtension}`;
+                    }
+
                     const storageRef = ref(storage, `images/${uniqueFileName}`);
                     const { downloadUrl } = await uploadFile(file, storageRef);
                     return { downloadUrl, size, placeId };
