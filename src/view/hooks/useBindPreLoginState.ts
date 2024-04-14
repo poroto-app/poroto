@@ -4,7 +4,7 @@ import { notEmpty } from "src/domain/util/null";
 import { reduxAuthSelector } from "src/redux/auth";
 import { useAppDispatch } from "src/redux/redux";
 import {
-    bindPlanCandidateSetsToUser as bindPlanCandidateSetsToUserAction,
+    bindPlanCandidateSetsToUser,
     reduxUserSelector,
     setIsBindPreLoginStateDialogVisible,
 } from "src/redux/user";
@@ -35,7 +35,7 @@ export const useBindPreLoginState = () => {
         const planCandidateSetIds = getPlanCandidateSetIdsSavedBeforeLogin();
 
         dispatch(
-            bindPlanCandidateSetsToUserAction({
+            bindPlanCandidateSetsToUser({
                 userId: user.id,
                 firebaseAuthToken: firebaseIdToken,
                 planCandidateSetIds,
