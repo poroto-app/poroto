@@ -11,13 +11,13 @@ import { RootState } from "src/redux/redux";
 export type UserState = {
     bindPlanCandidateSetsToUserRequestStatus: RequestStatus | null;
 
-    showBindPreLoginStateDialog: boolean;
+    isBindPreLoginStateDialogVisible: boolean;
 };
 
 const initialState: UserState = {
     bindPlanCandidateSetsToUserRequestStatus: null,
 
-    showBindPreLoginStateDialog: false,
+    isBindPreLoginStateDialogVisible: false,
 };
 
 type BindPlanCandidateSetsToUserProps = {
@@ -45,11 +45,11 @@ export const slice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        setShowBindPreLoginStateDialog: (
+        setIsBindPreLoginStateDialogVisible: (
             state,
-            { payload }: PayloadAction<{ show: boolean }>
+            { payload }: PayloadAction<{ visible: boolean }>
         ) => {
-            state.showBindPreLoginStateDialog = payload.show;
+            state.isBindPreLoginStateDialogVisible = payload.visible;
         },
     },
     extraReducers: (builder) => {
@@ -70,7 +70,7 @@ export const slice = createSlice({
     },
 });
 
-export const { setShowBindPreLoginStateDialog } = slice.actions;
+export const { setIsBindPreLoginStateDialogVisible } = slice.actions;
 
 export const userReducer = slice.reducer;
 

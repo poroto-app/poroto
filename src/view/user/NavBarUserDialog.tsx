@@ -2,19 +2,31 @@ import { Box, HStack, Icon, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
-import { MdLogin, MdLogout } from "react-icons/md";
+import { MdLogin, MdLogout, MdOutlineBackup } from "react-icons/md";
 import { User } from "src/domain/models/User";
+import { notEmpty } from "src/domain/util/null";
 import { AnalyticsEvents } from "src/view/constants/analytics";
+import { OnClickHandler } from "src/view/types/handler";
 import styled from "styled-components";
 
 type Props = {
     user: User | null;
+    onClose: () => void;
+} & NavBarUserDialogActions;
+
+export type NavBarUserDialogActions = {
     onLogin: () => void;
     onLogout: () => void;
-    onClose: () => void;
+    onBindPreLoginState?: OnClickHandler;
 };
 
-export function NavBarUserDialog({ user, onLogin, onLogout, onClose }: Props) {
+export function NavBarUserDialog({
+    user,
+    onLogin,
+    onLogout,
+    onClose,
+    onBindPreLoginState,
+}: Props) {
     const handleOnLogout = () => {
         logEvent(getAnalytics(), AnalyticsEvents.User.Logout);
         onLogout();
@@ -27,7 +39,20 @@ export function NavBarUserDialog({ user, onLogin, onLogout, onClose }: Props) {
         onClose();
     };
 
-    if (user) return <NavBarLoginUserDialog onLogout={handleOnLogout} />;
+    const handleOnBindPreLoginState = notEmpty(onBindPreLoginState)
+        ? () => {
+              onBindPreLoginState();
+              onClose();
+          }
+        : undefined;
+
+    if (user)
+        return (
+            <NavBarLoginUserDialog
+                onLogout={handleOnLogout}
+                onBindPreLoginState={handleOnBindPreLoginState}
+            />
+        );
     return <NavBarNonLoginUserDialog onLogin={handleOnLogin} />;
 }
 
@@ -41,9 +66,23 @@ export function NavBarNonLoginUserDialog({ onLogin }: { onLogin: () => void }) {
     );
 }
 
-export function NavBarLoginUserDialog({ onLogout }: { onLogout: () => void }) {
+export function NavBarLoginUserDialog({
+    onLogout,
+    onBindPreLoginState,
+}: {
+    onLogout: OnClickHandler;
+    onBindPreLoginState: OnClickHandler;
+}) {
     return (
         <NavBarUserDialogContainer>
+            {notEmpty(onBindPreLoginState) && (
+                <DialogItem
+                    icon={MdOutlineBackup}
+                    onClick={onBindPreLoginState}
+                >
+                    ログイン前のデータを引き継ぐ
+                </DialogItem>
+            )}
             <DialogItem icon={MdLogout} onClick={onLogout}>
                 ログアウト
             </DialogItem>

@@ -6,7 +6,7 @@ import { useAppDispatch } from "src/redux/redux";
 import {
     bindPlanCandidateSetsToUser as bindPlanCandidateSetsToUserAction,
     reduxUserSelector,
-    setShowBindPreLoginStateDialog,
+    setIsBindPreLoginStateDialogVisible,
 } from "src/redux/user";
 import { LocalStorageKeys } from "src/view/constants/localStorageKey";
 
@@ -15,7 +15,7 @@ export const useBindPreLoginState = () => {
     const { user, firebaseIdToken } = reduxAuthSelector();
     const {
         bindPlanCandidateSetsToUserRequestStatus,
-        showBindPreLoginStateDialog,
+        isBindPreLoginStateDialogVisible,
     } = reduxUserSelector();
 
     // ローカルストレージに保存された、ログイン前に作成したプラン候補のIDを取得
@@ -25,9 +25,15 @@ export const useBindPreLoginState = () => {
         );
     };
 
-    const bindPlanCandidateSetsToUser = () => {
+    const canBindPreLoginState =
+        notEmpty(user) &&
+        notEmpty(firebaseIdToken) &&
+        getPlanCandidateSetIdsSavedBeforeLogin().length > 0;
+
+    const bindPreLoginState = () => {
         if (!user || !firebaseIdToken) return;
         const planCandidateSetIds = getPlanCandidateSetIdsSavedBeforeLogin();
+
         dispatch(
             bindPlanCandidateSetsToUserAction({
                 userId: user.id,
@@ -37,16 +43,17 @@ export const useBindPreLoginState = () => {
         );
     };
 
-    useEffect(() => {
-        if (!user || !firebaseIdToken) return;
-        if (!showBindPreLoginStateDialog) return;
+    const showBindPreLoginStateDialog = () => {
+        dispatch(setIsBindPreLoginStateDialogVisible({ visible: true }));
+    };
 
+    useEffect(() => {
         // ログイン前に保存していたプランがない場合は、ダイアログを表示しない
         if (getPlanCandidateSetIdsSavedBeforeLogin().length === 0) {
-            dispatch(setShowBindPreLoginStateDialog({ show: false }));
+            dispatch(setIsBindPreLoginStateDialogVisible({ visible: false }));
             return;
         }
-    }, [showBindPreLoginStateDialog]);
+    }, [isBindPreLoginStateDialogVisible]);
 
     useEffect(() => {
         // 紐づけに成功したら、ローカルストレージのプラン候補を削除
@@ -62,17 +69,19 @@ export const useBindPreLoginState = () => {
     }, [bindPlanCandidateSetsToUserRequestStatus]);
 
     return {
+        canBindPreLoginState,
+
         bindPlanCandidateSetsToUserRequestStatus,
 
+        isBindPreLoginStateDialogVisible:
+            isBindPreLoginStateDialogVisible && canBindPreLoginState,
+
         showBindPreLoginStateDialog:
-            showBindPreLoginStateDialog &&
-            notEmpty(user) &&
-            notEmpty(firebaseIdToken) &&
-            getPlanCandidateSetIdsSavedBeforeLogin().length > 0,
+            canBindPreLoginState && showBindPreLoginStateDialog,
 
         onCloseBindPreLoginStateDialog: () =>
-            dispatch(setShowBindPreLoginStateDialog({ show: false })),
+            dispatch(setIsBindPreLoginStateDialogVisible({ visible: false })),
 
-        bindPlanCandidateSetsToUser,
+        bindPreLoginState,
     };
 };

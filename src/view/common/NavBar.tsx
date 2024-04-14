@@ -25,9 +25,10 @@ export const NavBar = ({ canGoBack, defaultPath }: Props) => {
     const { historyStack } = reduxHistorySelector();
     const { user, signInWithGoogle, logout } = useAuth();
     const {
-        showBindPreLoginStateDialog,
+        isBindPreLoginStateDialogVisible,
         bindPlanCandidateSetsToUserRequestStatus,
-        bindPlanCandidateSetsToUser,
+        bindPreLoginState,
+        showBindPreLoginStateDialog,
         onCloseBindPreLoginStateDialog,
     } = useBindPreLoginState();
 
@@ -55,14 +56,15 @@ export const NavBar = ({ canGoBack, defaultPath }: Props) => {
                         user={user}
                         onLogin={signInWithGoogle}
                         onLogout={logout}
+                        onBindPreLoginState={showBindPreLoginStateDialog}
                     />
                 }
             />
             <BindPreLoginStateConfirmationDialog
-                visible={showBindPreLoginStateDialog}
+                visible={isBindPreLoginStateDialogVisible}
                 bindingRequestStatus={bindPlanCandidateSetsToUserRequestStatus}
                 onClose={onCloseBindPreLoginStateDialog}
-                onClickYes={() => bindPlanCandidateSetsToUser()}
+                onClickYes={() => bindPreLoginState()}
             />
         </>
     );
