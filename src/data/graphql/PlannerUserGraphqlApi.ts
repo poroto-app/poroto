@@ -1,6 +1,11 @@
-import { FirebaseUserDocument } from "src/data/graphql/generated";
+import {
+    BindPlanCandidateSetToUserDocument,
+    FirebaseUserDocument,
+} from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
 import {
+    BindPlanCandidateSetsToUserRequest,
+    BindPlanCandidateSetsToUserResponse,
     FetchByFirebaseUserRequest,
     FetchByFirebaseUserResponse,
     UserApi,
@@ -27,5 +32,22 @@ export class PlannerUserGraphqlApi
                 photoUrl: data.firebaseUser.photoUrl,
             },
         };
+    }
+
+    async bindPlanCandidateSetsToUser(
+        request: BindPlanCandidateSetsToUserRequest
+    ): Promise<BindPlanCandidateSetsToUserResponse> {
+        const { data } = await this.client.mutate({
+            mutation: BindPlanCandidateSetToUserDocument,
+            variables: {
+                input: {
+                    userId: request.userId,
+                    firebaseAuthToken: request.firebaseAuthToken,
+                    planCandidateSetIds: request.planCandidateSetIds,
+                },
+            },
+        });
+
+        return {};
     }
 }

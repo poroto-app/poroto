@@ -4,6 +4,10 @@ export interface UserApi {
     fetchByFirebaseUserId(
         request: FetchByFirebaseUserRequest
     ): Promise<FetchByFirebaseUserResponse>;
+
+    bindPlanCandidateSetsToUser(
+        request: BindPlanCandidateSetsToUserRequest
+    ): Promise<BindPlanCandidateSetsToUserResponse>;
 }
 
 export function createUserFromEntity(entity: UserEntity): User {
@@ -28,3 +32,11 @@ export type FetchByFirebaseUserRequest = {
 export type FetchByFirebaseUserResponse = {
     user: UserEntity;
 };
+
+export type BindPlanCandidateSetsToUserRequest = {
+    userId: string;
+    firebaseAuthToken: string;
+    planCandidateSetIds: string[];
+};
+
+export type BindPlanCandidateSetsToUserResponse = {};
