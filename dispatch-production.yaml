@@ -1,3 +1,5 @@
 dispatch:
   - url: "komichi.app/*"
     service: default
+  - url: "poroto.app/*"
+    service: redirect-komichi
