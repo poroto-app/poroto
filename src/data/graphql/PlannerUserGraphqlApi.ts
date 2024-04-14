@@ -6,7 +6,7 @@ import {
     UserApi,
 } from "src/domain/user/UserApi";
 
-export class PlannerGraphqlUserApi
+export class PlannerUserGraphqlApi
     extends GraphQlRepository
     implements UserApi
 {
