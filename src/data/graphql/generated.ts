@@ -157,7 +157,10 @@ export type GooglePlaceReview = {
 
 export type Image = {
   __typename?: 'Image';
+  author?: Maybe<User>;
   default: Scalars['String']['output'];
+  google: Scalars['Boolean']['output'];
+  id: Scalars['ID']['output'];
   large?: Maybe<Scalars['String']['output']>;
   small?: Maybe<Scalars['String']['output']>;
 };
