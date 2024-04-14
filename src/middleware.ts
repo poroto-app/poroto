@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(req: NextRequest) {
     // poroto.appの場合はkomichi.appにリダイレクト
     // TODO: 2024年10月以降に削除
-    const { hostname, host  } = req.nextUrl;
-    console.log({ hostname, host })
+    const { hostname, host } = req.nextUrl;
+    console.log({ hostname, host });
     if (hostname === "poroto.app") {
         const url = new URL(
             `${process.env.APP_PROTOCOL}://${process.env.APP_HOST}/`
