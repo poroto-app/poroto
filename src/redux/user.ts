@@ -1,17 +1,23 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { useSelector } from "react-redux";
 import { PlannerUserGraphqlApi } from "src/data/graphql/PlannerUserGraphqlApi";
 import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
 import { UserApi } from "src/domain/user/UserApi";
+import { RootState } from "src/redux/redux";
 
 export type UserState = {
     bindPlanCandidateSetsToUserRequestStatus: RequestStatus | null;
+
+    showBindPreLoginStateDialog: boolean;
 };
 
 const initialState: UserState = {
     bindPlanCandidateSetsToUserRequestStatus: null,
+
+    showBindPreLoginStateDialog: false,
 };
 
 type BindPlanCandidateSetsToUserProps = {
@@ -38,7 +44,14 @@ export const bindPlanCandidateSetsToUser = createAsyncThunk(
 export const slice = createSlice({
     name: "user",
     initialState,
-    reducers: {},
+    reducers: {
+        setShowBindPreLoginStateDialog: (
+            state,
+            { payload }: PayloadAction<{ show: boolean }>
+        ) => {
+            state.showBindPreLoginStateDialog = payload.show;
+        },
+    },
     extraReducers: (builder) => {
         builder
             // Bind Plan Candidate Sets To User
@@ -46,13 +59,10 @@ export const slice = createSlice({
                 state.bindPlanCandidateSetsToUserRequestStatus =
                     RequestStatuses.PENDING;
             })
-            .addCase(
-                bindPlanCandidateSetsToUser.fulfilled,
-                (state, { payload: {} }) => {
-                    state.bindPlanCandidateSetsToUserRequestStatus =
-                        RequestStatuses.FULFILLED;
-                }
-            )
+            .addCase(bindPlanCandidateSetsToUser.fulfilled, (state) => {
+                state.bindPlanCandidateSetsToUserRequestStatus =
+                    RequestStatuses.FULFILLED;
+            })
             .addCase(bindPlanCandidateSetsToUser.rejected, (state, action) => {
                 state.bindPlanCandidateSetsToUserRequestStatus =
                     RequestStatuses.REJECTED;
@@ -60,6 +70,9 @@ export const slice = createSlice({
     },
 });
 
-export const {} = slice.actions;
+export const { setShowBindPreLoginStateDialog } = slice.actions;
 
 export const userReducer = slice.reducer;
+
+export const reduxUserSelector = () =>
+    useSelector((state: RootState) => state.user);

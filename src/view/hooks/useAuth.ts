@@ -13,6 +13,7 @@ import {
     resetAuthUser,
 } from "src/redux/auth";
 import { useAppDispatch } from "src/redux/redux";
+import { setShowBindPreLoginStateDialog } from "src/redux/user";
 
 export const useAuth = () => {
     const dispatch = useAppDispatch();
@@ -38,7 +39,10 @@ export const useAuth = () => {
 
     const signInWithGoogle = () => {
         const auth = getAuth();
-        _signInWithGoogle(auth).then();
+        _signInWithGoogle(auth).then(() => {
+            // ログイン後に、ログイン前のデータを引き継ぐかを尋ねるダイアログを表示する
+            dispatch(setShowBindPreLoginStateDialog({ show: true }));
+        });
     };
 
     const logout = () => {
