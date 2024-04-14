@@ -39,4 +39,6 @@ export type BindPlanCandidateSetsToUserRequest = {
     planCandidateSetIds: string[];
 };
 
-export type BindPlanCandidateSetsToUserResponse = {};
+export type BindPlanCandidateSetsToUserResponse = {
+    userId: string;
+};

@@ -48,6 +48,8 @@ export class PlannerUserGraphqlApi
             },
         });
 
-        return {};
+        return {
+            userId: data.bindPlanCandidateSetToUser.user.id,
+        };
     }
 }
