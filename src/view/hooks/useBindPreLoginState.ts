@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
-import { notEmpty } from "src/domain/util/null";
+import { notEmpty, when } from "src/domain/util/null";
 import { reduxAuthSelector } from "src/redux/auth";
 import { useAppDispatch } from "src/redux/redux";
 import {
@@ -76,8 +76,10 @@ export const useBindPreLoginState = () => {
         isBindPreLoginStateDialogVisible:
             isBindPreLoginStateDialogVisible && canBindPreLoginState,
 
-        showBindPreLoginStateDialog:
-            canBindPreLoginState && showBindPreLoginStateDialog,
+        showBindPreLoginStateDialog: when(
+            canBindPreLoginState,
+            showBindPreLoginStateDialog
+        ),
 
         onCloseBindPreLoginStateDialog: () =>
             dispatch(setIsBindPreLoginStateDialogVisible({ visible: false })),
