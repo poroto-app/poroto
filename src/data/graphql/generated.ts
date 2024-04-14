@@ -48,6 +48,17 @@ export type AvailablePlacesForPlanInput = {
   session: Scalars['String']['input'];
 };
 
+export type BindPlanCandidateSetToUserInput = {
+  firebaseAuthToken: Scalars['String']['input'];
+  planCandidateSetIds: Array<Scalars['String']['input']>;
+  userId: Scalars['ID']['input'];
+};
+
+export type BindPlanCandidateSetToUserOutput = {
+  __typename?: 'BindPlanCandidateSetToUserOutput';
+  user: User;
+};
+
 export type CategoryGroupedPlaces = {
   __typename?: 'CategoryGroupedPlaces';
   category: PlaceCategory;
@@ -211,6 +222,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   addPlaceToPlanCandidateAfterPlace: AddPlaceToPlanCandidateAfterPlaceOutput;
   autoReorderPlacesInPlanCandidate: AutoReorderPlacesInPlanCandidateOutput;
+  bindPlanCandidateSetToUser: BindPlanCandidateSetToUserOutput;
   changePlacesOrderInPlanCandidate: ChangePlacesOrderInPlanCandidateOutput;
   createPlanByLocation: CreatePlanByLocationOutput;
   createPlanByPlace: CreatePlanByPlaceOutput;
@@ -232,6 +244,11 @@ export type MutationAddPlaceToPlanCandidateAfterPlaceArgs = {
 
 export type MutationAutoReorderPlacesInPlanCandidateArgs = {
   input: AutoReorderPlacesInPlanCandidateInput;
+};
+
+
+export type MutationBindPlanCandidateSetToUserArgs = {
+  input: BindPlanCandidateSetToUserInput;
 };
 
 
