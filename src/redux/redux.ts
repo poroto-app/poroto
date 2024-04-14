@@ -9,6 +9,7 @@ import { placeReducer } from "src/redux/place";
 import { placeSearchReducer } from "src/redux/placeSearch";
 import { planReducer } from "src/redux/plan";
 import { planCandidateReducer } from "src/redux/planCandidate";
+import { userReducer } from "src/redux/user";
 
 const reducer = combineReducers({
     auth: authReducer,
@@ -19,6 +20,7 @@ const reducer = combineReducers({
     place: placeReducer,
     location: locationReducer,
     history: historyReducer,
+    user: userReducer,
 });
 
 export const reduxStore = configureStore({
