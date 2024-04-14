@@ -8,6 +8,8 @@ import AppLogoImage from "src/view/assets/svg/app_logo_horizontal.svg";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { useAuth } from "src/view/hooks/useAuth";
+import { useBindPreLoginState } from "src/view/hooks/useBindPreLoginState";
+import { BindPreLoginStateConfirmationDialog } from "src/view/plandetail/BindPreLoginStateConfirmationDialog";
 import { NavBarUser } from "src/view/user/NavBarUser";
 import styled from "styled-components";
 
@@ -22,6 +24,12 @@ export const NavBar = ({ canGoBack, defaultPath }: Props) => {
     const router = useRouter();
     const { historyStack } = reduxHistorySelector();
     const { user, signInWithGoogle, logout } = useAuth();
+    const {
+        showBindPreLoginStateDialog,
+        bindPlanCandidateSetsToUserRequestStatus,
+        bindPlanCandidateSetsToUser,
+        onCloseBindPreLoginStateDialog,
+    } = useBindPreLoginState();
 
     const handleOnBack = async () => {
         const isHome = router.pathname === "/";
@@ -38,17 +46,25 @@ export const NavBar = ({ canGoBack, defaultPath }: Props) => {
     };
 
     return (
-        <NavBarComponent
-            canGoBack={canGoBack}
-            onBack={handleOnBack}
-            userComponent={
-                <NavBarUser
-                    user={user}
-                    onLogin={signInWithGoogle}
-                    onLogout={logout}
-                />
-            }
-        />
+        <>
+            <NavBarComponent
+                canGoBack={canGoBack}
+                onBack={handleOnBack}
+                userComponent={
+                    <NavBarUser
+                        user={user}
+                        onLogin={signInWithGoogle}
+                        onLogout={logout}
+                    />
+                }
+            />
+            <BindPreLoginStateConfirmationDialog
+                visible={showBindPreLoginStateDialog}
+                bindingRequestStatus={bindPlanCandidateSetsToUserRequestStatus}
+                onClose={onCloseBindPreLoginStateDialog}
+                onClickYes={() => bindPlanCandidateSetsToUser()}
+            />
+        </>
     );
 };
 
