@@ -8,6 +8,7 @@ export type PlaceEntity = {
         default: string;
         small: string | null;
         large: string | null;
+        isGooglePhotos: boolean;
     }[];
     location: {
         latitude: number;

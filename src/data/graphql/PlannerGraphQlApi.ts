@@ -621,6 +621,7 @@ export function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
             default: image.default,
             small: image.small ?? null,
             large: image.large ?? null,
+            isGooglePhotos: image.google,
         })),
         location: {
             latitude: place.location.latitude,
