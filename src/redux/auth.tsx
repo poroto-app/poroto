@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
-import { PlannerGraphqlUserApi } from "src/data/graphql/PlannerGraphqlUserApi";
+import { PlannerUserGraphqlApi } from "src/data/graphql/PlannerUserGraphqlApi";
 import {
     RequestStatus,
     RequestStatuses,
@@ -30,7 +30,7 @@ type FetchByFirebaseUserProps = {
 export const fetchByFirebaseUser = createAsyncThunk(
     "auth/fetchByFirebaseUser",
     async ({ firebaseUserId, firebaseToken }: FetchByFirebaseUserProps) => {
-        const userApi: UserApi = new PlannerGraphqlUserApi();
+        const userApi: UserApi = new PlannerUserGraphqlApi();
         const { user } = await userApi.fetchByFirebaseUserId({
             firebaseUserId,
             firebaseToken,

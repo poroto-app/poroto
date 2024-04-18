@@ -24,6 +24,7 @@ export const AnalyticsEvents = {
     User: {
         LoginStart: "login_start",
         Logout: "logout",
+        BindPreLoginState: "bind_pre_login_state",
     },
 };
 export type AnalyticsEvent =

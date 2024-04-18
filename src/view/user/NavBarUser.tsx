@@ -3,17 +3,21 @@ import { useState } from "react";
 import { User } from "src/domain/models/User";
 import {
     NavBarUserDialog,
+    NavBarUserDialogActions,
     NavBarUserDialogOverlay,
 } from "src/view/user/NavBarUserDialog";
 import { UserAvatar } from "src/view/user/UserAvatar";
 
 type Props = {
     user: User | null;
-    onLogin: () => void;
-    onLogout: () => void;
-};
+} & NavBarUserDialogActions;
 
-export function NavBarUser({ user, onLogin, onLogout }: Props) {
+export function NavBarUser({
+    user,
+    onLogin,
+    onLogout,
+    onBindPreLoginState,
+}: Props) {
     const [isVisibleDialog, setIsVisibleDialog] = useState(false);
     return (
         <HStack h="100%">
@@ -39,6 +43,7 @@ export function NavBarUser({ user, onLogin, onLogout }: Props) {
                                 onClose={() => setIsVisibleDialog(false)}
                                 onLogout={onLogout}
                                 onLogin={onLogin}
+                                onBindPreLoginState={onBindPreLoginState}
                             />
                         </Box>
                     </>
