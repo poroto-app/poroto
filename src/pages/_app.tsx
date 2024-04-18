@@ -56,14 +56,14 @@ export default function App({ Component, pageProps }: AppProps) {
                     content="https://komichi.app/ogp/ogp.png"
                 />
                 <meta property="og:type" content="website" />
-                {/* Google Analytics */}
-                {process.env.APP_ENV === "production" && (
-                    <GoogleAnalytics
-                        gaId={process.env.GOOGLE_ANALYTICS_MEASUREMENT_ID}
-                    />
-                )}
             </Head>
             <Theme />
+            {/* Google Analytics */}
+            {process.env.APP_ENV === "production" && (
+                <GoogleAnalytics
+                    gaId={process.env.GOOGLE_ANALYTICS_MEASUREMENT_ID}
+                />
+            )}
             <ChakraProvider>
                 <Provider store={reduxStore}>
                     <FirebaseProvider />
