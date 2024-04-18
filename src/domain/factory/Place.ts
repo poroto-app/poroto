@@ -7,11 +7,10 @@ export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
         googlePlaceId: entity.googlePlaceId,
         name: entity.name,
         images: entity.images.map((image) => ({
-            // TODO: Google Mapから取得した画像か、porotoの画像かを判定する
-            isGoogleImage: true,
             default: image.default,
             small: image.small ?? image.default,
             large: image.large ?? image.default,
+            isGoogleImage: image.isGooglePhotos,
         })),
         location: entity.location,
         estimatedStayDuration: entity.estimatedStayDuration,
