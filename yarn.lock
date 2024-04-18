@@ -3974,10 +3974,10 @@
   dependencies:
     glob "7.1.7"
 
-"@next/mdx@^14.1.1":
-  version "14.1.1"
-  resolved "https://registry.yarnpkg.com/@next/mdx/-/mdx-14.1.1.tgz#dc29c091941dfc51bfab923d4333e3154071763c"
-  integrity sha512-GVjirRAkv5uBx2C7PgTZibIJ+AQyeqL6pkHURVGT6XuQoCqgfQSjKUl/U0rYnxaoUwXLWXmBt4mozKV8YrhVow==
+"@next/mdx@^14.2.2":
+  version "14.2.2"
+  resolved "https://registry.yarnpkg.com/@next/mdx/-/mdx-14.2.2.tgz#2521b056270a97bc8cf0c59043418a5b18778880"
+  integrity sha512-Te60j1vMxbYWg2E1CiEuIjzWxjI8y6XKmLnhec0sYQupd7aTLm2bjFSLxei+kiQdWUYB87cmhazI9K2dbNB9wA==
   dependencies:
     source-map "^0.7.0"
 
