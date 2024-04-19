@@ -8,7 +8,7 @@ type Props = {
 export function RoundedDialog({ children }: Props) {
     return (
         <Box
-            backgroundColor="white"
+            backgroundColor="#FFF8F3"
             w="500px"
             maxW="100%"
             borderRadius="20px"

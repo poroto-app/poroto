@@ -1,0 +1,8 @@
+mutation BindPlanCandidateSetToUser($input: BindPlanCandidateSetToUserInput!) {
+    bindPlanCandidateSetToUser(input: $input) {
+        user {
+            # TODO: ユーザーに紐づくプラン等を取得できるようにする
+            id
+        }
+    }
+}

@@ -6,6 +6,7 @@ fragment PlaceFullFragment on Place {
         default
         small
         large
+        google
     }
     location {
         longitude
