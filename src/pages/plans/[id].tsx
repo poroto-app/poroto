@@ -67,8 +67,8 @@ export default function PlanPage() {
         navigator.clipboard.writeText(url);
 
         toast({
-            title: "しおりのURLをコピーしました",
-            description: "作ったしおりを共有してみましょう！",
+            title: "プランのURLをコピーしました",
+            description: "作ったプランを共有してみましょう！",
             status: "success",
             duration: 3000, // ポップアップが表示される時間（ミリ秒）
             isClosable: true,

@@ -262,7 +262,7 @@ const PlanDetail = () => {
                     borderRadius={10}
                     onClick={() => createPlan({ planId: plan.id })}
                 >
-                    しおりとして保存
+                    プランとして保存
                 </Button>
             </PlanFooter>
             {/*Dialog*/}
