@@ -1,15 +1,7 @@
 import { Button, Center, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
-import { reduxAuthSelector } from "src/redux/auth";
-import {
-    fetchCachedCreatedPlans,
-    reduxPlanCandidateSelector,
-    updatePreviewPlanId,
-} from "src/redux/planCandidate";
-import { useAppDispatch } from "src/redux/redux";
 import { AdInPlanDetail } from "src/view/ad/AdInPlanDetail";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
@@ -19,37 +11,42 @@ import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
-import { useLocation } from "src/view/hooks/useLocation";
 import { usePlaceLikeInPlanCandidate } from "src/view/hooks/usePlaceLikeInPlanCandidate";
+import { usePlanCandidate } from "src/view/hooks/usePlanCandidate";
 import { usePlanCreate } from "src/view/hooks/usePlanCreate";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
 import { usePlanPlaceDelete } from "src/view/hooks/usePlanPlaceDelete";
 import { usePlanPlaceReorder } from "src/view/hooks/usePlanPlaceReorder";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
-import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
+import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
 import { DialogDeletePlace } from "src/view/plancandidate/DialogDeletePlace";
 import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
-import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
+import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
 
 const PlanDetail = () => {
     const router = useRouter();
     const { sessionId, planId } = router.query;
-    const dispatch = useAppDispatch();
-    const { getCurrentLocation, location: currentLocation } = useLocation();
-    const { user, firebaseIdToken } = reduxAuthSelector();
 
     const { createPlan, savePlanFromCandidateRequestStatus } = usePlanCreate({
         planCandidateSetId: sessionId as string,
         planId: planId as string,
     });
 
-    const { handleOptimizeRoute } = usePlanPlaceReorder();
+    const {
+        plan,
+        currentLocation,
+        createdBasedOnCurrentLocation,
+        fetchCachedCreatedPlansRequestStatus,
+    } = usePlanCandidate({
+        planCandidateSetId: sessionId as string,
+        planId: planId as string,
+    });
 
     const {
         showRelatedPlaces,
@@ -63,6 +60,8 @@ const PlanDetail = () => {
         planCandidateId: sessionId as string,
         planId: planId as string,
     });
+
+    const { handleOptimizeRoute } = usePlanPlaceReorder();
 
     const {
         deletePlaceFromPlan,
@@ -91,57 +90,6 @@ const PlanDetail = () => {
 
     const { likedPlaceIdsInPlanCandidate, updateLikeAtPlace } =
         usePlaceLikeInPlanCandidate();
-
-    const {
-        preview: plan,
-        createdBasedOnCurrentLocation,
-        createPlanSession,
-        fetchCachedCreatedPlansRequestStatus,
-    } = reduxPlanCandidateSelector();
-
-    useEffect(() => {
-        if (!currentLocation) getCurrentLocation().then();
-    }, [currentLocation]);
-
-    useEffect(() => {
-        if (!sessionId || typeof sessionId !== "string") {
-            return;
-        }
-
-        // プラン候補のキャッシュが存在しない場合は取得する
-        if (!plan) {
-            dispatch(
-                fetchCachedCreatedPlans({
-                    session: sessionId,
-                    userId: user?.id,
-                    firebaseIdToken,
-                })
-            );
-        }
-    }, [sessionId, plan?.id]);
-
-    useEffect(() => {
-        if (!sessionId || typeof sessionId !== "string") {
-            return;
-        }
-
-        // ログイン状態が変化したら、必ずプラン候補を取得する
-        dispatch(
-            fetchCachedCreatedPlans({
-                session: sessionId,
-                userId: user?.id,
-                firebaseIdToken,
-            })
-        );
-    }, [planId, user?.id, firebaseIdToken]);
-
-    // プランの詳細を取得する
-    useEffect(() => {
-        if (!createPlanSession) return;
-        if (planId && typeof planId === "string") {
-            dispatch(updatePreviewPlanId({ planId }));
-        }
-    }, [planId, createPlanSession]);
 
     if (savePlanFromCandidateRequestStatus === RequestStatuses.PENDING) {
         return <LoadingModal title="プランを作成しています" />;
