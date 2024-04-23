@@ -4,10 +4,15 @@ import { Size } from "src/view/constants/size";
 
 type Props = {
     navBar?: ReactNode;
+    maxW?: string | number;
     children: ReactNode;
 };
 
-export function Layout({ navBar, children }: Props) {
+export function Layout({
+    navBar,
+    maxW = Size.mainContentWidth,
+    children,
+}: Props) {
     return (
         <Box
             w="100%"
@@ -25,7 +30,7 @@ export function Layout({ navBar, children }: Props) {
                 justifyContent="flex-start"
                 position="relative"
             >
-                <Box maxWidth={Size.mainContentWidth} w="100%" h="100%">
+                <Box maxW={maxW} w="100%" h="100%">
                     {children}
                 </Box>
             </Center>
