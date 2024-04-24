@@ -46,7 +46,9 @@ const useUploadPlaceImage = () => {
     >([]);
     const [uploadRequestStatus, setUploadRequestStatus] =
         useState<UploadRequestStatus>(UploadRequestStatus.IDLE);
-
+    const [uploadedImageHashes, setUploadedImageHashes] = useState<Set<string>>(
+        new Set()
+    );
     const { user, firebaseIdToken } = reduxAuthSelector();
     const { preview } = reduxPlanSelector();
 
@@ -70,6 +72,26 @@ const useUploadPlaceImage = () => {
 
         try {
             setUploadRequestStatus(UploadRequestStatus.PENDING);
+            const filesToUpload = localPlaceImageFiles.filter(({ file }) => {
+                const hash = generateFileHash(file);
+                if (uploadedImageHashes.has(hash)) {
+                    return false;
+                }
+                return true;
+            });
+
+            if (filesToUpload.length === 0) {
+                toast({
+                    title: "同じ画像が複数回アップロードされています",
+                    description:
+                        "同じ画像を複数回アップロードすることはできません。",
+                    status: "warning",
+                    duration: 5000,
+                    isClosable: true,
+                });
+                setUploadRequestStatus(UploadRequestStatus.REJECTED);
+                return;
+            }
 
             // 画像のサイズを取得する
             const localFilesWithSize = await Promise.all(
@@ -97,6 +119,12 @@ const useUploadPlaceImage = () => {
 
                     const storageRef = ref(storage, `images/${uniqueFileName}`);
                     const { downloadUrl } = await uploadFile(file, storageRef);
+
+                    const hash = generateFileHash(file);
+                    setUploadedImageHashes(
+                        new Set(uploadedImageHashes.add(hash))
+                    );
+
                     return { downloadUrl, size, placeId };
                 }
             );
@@ -214,5 +242,7 @@ const uploadFile = (
         );
     });
 };
-
+function generateFileHash(file: File) {
+    return `${file.name}_${file.size}`;
+}
 export default useUploadPlaceImage;
