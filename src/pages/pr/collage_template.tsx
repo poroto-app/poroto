@@ -30,32 +30,61 @@ export function CollageTemplate({
             <Divider borderColor="#A4ABD4" my={4} />
             {locations.map((location, index) => (
                 <Box key={index}>
-                    <HStack justifyContent="space-between" alignItems="flex-start">
-                        <VStack alignItems="flex-start">
-                            <Text
-                                color="rgba(130, 141, 205, 1)"
-                                fontFamily="Inter"
-                                fontWeight="bold"
-                                fontSize="56px"
-                            >
-                                {location}
-                            </Text>
-                            <Text
-                                color="rgba(164, 168, 212, 1)"
-                                fontFamily="Inter"
-                                fontWeight="bold"
-                                fontSize="32px"
-                            >
-                                滞在時間：{durations[index]}分
-                            </Text>
-                        </VStack>
-                        <Image
-                            src={imageUrls[index]}
-                            alt={`Collage Image ${index}`}
-                            borderRadius="lg"
-                            boxSize="400px"
-                        />
-                    </HStack>
+                    {index % 2 === 0 ? (
+                        <HStack justifyContent="space-between" alignItems="flex-start">
+                            <VStack alignItems="flex-start">
+                                <Text
+                                    color="rgba(130, 141, 205, 1)"
+                                    fontFamily="Inter"
+                                    fontWeight="bold"
+                                    fontSize="56px"
+                                >
+                                    {location}
+                                </Text>
+                                <Text
+                                    color="rgba(164, 168, 212, 1)"
+                                    fontFamily="Inter"
+                                    fontWeight="bold"
+                                    fontSize="32px"
+                                >
+                                    滞在時間：{durations[index]}分
+                                </Text>
+                            </VStack>
+                            <Image
+                                src={imageUrls[index]}
+                                alt={`Collage Image ${index}`}
+                                borderRadius="lg"
+                                boxSize="400px"
+                            />
+                        </HStack>
+                    ) : (
+                        <HStack justifyContent="space-between" alignItems="flex-start">
+                            <Image
+                                src={imageUrls[index]}
+                                alt={`Collage Image ${index}`}
+                                borderRadius="lg"
+                                boxSize="400px"
+                            />
+                            <VStack alignItems="flex-start">
+                                <Text
+                                    color="rgba(130, 141, 205, 1)"
+                                    fontFamily="Inter"
+                                    fontWeight="bold"
+                                    fontSize="56px"
+                                >
+                                    {location}
+                                </Text>
+                                <Text
+                                    color="rgba(164, 168, 212, 1)"
+                                    fontFamily="Inter"
+                                    fontWeight="bold"
+                                    fontSize="32px"
+                                >
+                                    滞在時間：{durations[index]}分
+                                </Text>
+                            </VStack>
+                        </HStack>
+                    )}
                     {index !== locations.length - 1 && (
                         <Divider borderColor="#A4ABD4" my={4} />
                     )}
