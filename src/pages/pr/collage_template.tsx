@@ -31,7 +31,10 @@ export function CollageTemplate({
             {locations.map((location, index) => (
                 <Box key={index}>
                     {index % 2 === 0 ? (
-                        <HStack justifyContent="space-between" alignItems="flex-start">
+                        <HStack
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                        >
                             <VStack alignItems="flex-start">
                                 <Text
                                     color="rgba(130, 141, 205, 1)"
@@ -58,7 +61,10 @@ export function CollageTemplate({
                             />
                         </HStack>
                     ) : (
-                        <HStack justifyContent="space-between" alignItems="flex-start">
+                        <HStack
+                            justifyContent="space-between"
+                            alignItems="flex-start"
+                        >
                             <Image
                                 src={imageUrls[index]}
                                 alt={`Collage Image ${index}`}
