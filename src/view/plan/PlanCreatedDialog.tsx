@@ -32,7 +32,7 @@ export function PlanCreatedDialog({
                     }}
                 />
                 <Text fontSize="24px" fontWeight="bold">
-                    しおりが完成しました!
+                    プランが完成しました!
                 </Text>
                 <VStack spacing="8px" w="100%">
                     <Box
@@ -46,7 +46,7 @@ export function PlanCreatedDialog({
                         fontSize="16px"
                         onClick={onClickCopyUrl}
                     >
-                        しおりのURLをコピー
+                        プランのURLをコピー
                     </Box>
                     <Box
                         as="button"
