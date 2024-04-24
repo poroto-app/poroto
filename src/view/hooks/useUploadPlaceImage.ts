@@ -121,9 +121,7 @@ const useUploadPlaceImage = () => {
                     const { downloadUrl } = await uploadFile(file, storageRef);
 
                     const hash = generateFileHash(file);
-                    setUploadedImageHashes(
-                        new Set(uploadedImageHashes.add(hash))
-                    );
+                    setUploadedImageHashes(uploadedImageHashes.add(hash));
 
                     return { downloadUrl, size, placeId };
                 }
