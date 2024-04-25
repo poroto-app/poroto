@@ -5,6 +5,14 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
     const prevScrollYRef = useRef(0);
     const planDetailPageRef = useRef<HTMLDivElement>(null);
 
+    const scrollToPlanDetailPage = () => {
+        if (!planDetailPageRef.current) return;
+        window.scrollTo({
+            top: planDetailPageRef.current.offsetTop,
+            behavior: "smooth",
+        });
+    };
+
     const scrollListener = () => {
         if (!planDetailPageRef.current) return;
 
@@ -64,5 +72,6 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
 
     return {
         planDetailPageRef,
+        scrollToPlanDetailPage,
     };
 };

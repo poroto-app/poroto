@@ -1,4 +1,3 @@
-import { Link } from "@chakra-ui/next-js";
 import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
@@ -16,7 +15,6 @@ import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
 import { NotFound } from "src/view/common/NotFound";
 import { Colors } from "src/view/constants/color";
-import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
 import { usePlaceLikeInPlanCandidate } from "src/view/hooks/usePlaceLikeInPlanCandidate";
@@ -50,7 +48,8 @@ const SelectPlanPage = () => {
     const { sessionId } = router.query;
     const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
     const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
-    const { planDetailPageRef } = usePlanCandidateGalleryPageAutoScroll();
+    const { planDetailPageRef, scrollToPlanDetailPage } =
+        usePlanCandidateGalleryPageAutoScroll();
 
     const {
         plansCreated,
@@ -165,27 +164,17 @@ const SelectPlanPage = () => {
                         activePlanIndex={selectedPlanIndex}
                         onActiveIndexChange={setSelectedPlanIndex}
                     />
-                    <Link
-                        href={Routes.plans.planCandidate.plan(
-                            sessionId as string,
-                            plansCreated[selectedPlanIndex].id
-                        )}
+                    <ButtonWithBlur
+                        px="16px"
+                        py="16px"
+                        backgroundColor="#84A6FF"
+                        borderRadius="50px"
+                        onClick={scrollToPlanDetailPage}
                     >
-                        <ButtonWithBlur
-                            px="16px"
-                            py="16px"
-                            backgroundColor="#84A6FF"
-                            borderRadius="50px"
-                        >
-                            <Text
-                                color="white"
-                                fontWeight="bold"
-                                fontSize="18px"
-                            >
-                                プランをみてみる
-                            </Text>
-                        </ButtonWithBlur>
-                    </Link>
+                        <Text color="white" fontWeight="bold" fontSize="18px">
+                            プランをみてみる
+                        </Text>
+                    </ButtonWithBlur>
                 </VStack>
             </Center>
             {notEmpty(selectedPlanIndex) &&
