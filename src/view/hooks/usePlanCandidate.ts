@@ -6,27 +6,12 @@ import {
 import { useAppDispatch } from "src/redux/redux";
 import { useLocation } from "src/view/hooks/useLocation";
 
-export const usePlanCandidate = ({
-    planCandidateSetId,
-    planId,
-}: {
-    planCandidateSetId: string;
-    planId?: string;
-}) => {
+export const usePlanCandidate = ({ planId }: { planId?: string }) => {
     const dispatch = useAppDispatch();
     const { getCurrentLocation, location: currentLocation } = useLocation();
 
-    const {
-        preview: plan,
-        plansCreated,
-        placesAvailableForPlan,
-        createdBasedOnCurrentLocation,
-        createPlanSession,
-        createPlanFromPlaceRequestStatus,
-        createPlanFromLocationRequestStatus,
-        fetchCachedCreatedPlansRequestStatus,
-        fetchAvailablePlacesForPlanRequestStatus,
-    } = reduxPlanCandidateSelector();
+    const { preview: plan, createdBasedOnCurrentLocation } =
+        reduxPlanCandidateSelector();
 
     useEffect(() => {
         if (!currentLocation) getCurrentLocation().then();

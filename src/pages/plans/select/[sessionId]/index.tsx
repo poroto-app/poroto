@@ -205,7 +205,6 @@ function PlanDetailPage({
 }: Props) {
     const { plan, currentLocation, createdBasedOnCurrentLocation } =
         usePlanCandidate({
-            planCandidateSetId: planCandidateSetId,
             planId: planId,
         });
 
