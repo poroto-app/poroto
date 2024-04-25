@@ -33,21 +33,27 @@ export const usePlanCandidateSet = ({
     // プラン候補を取得
     // ログイン状態が変化したら、必ずプラン候補を取得する
     useEffect(() => {
-        if (!planCandidateSetId) {
-            return;
-        }
+        if (!planCandidateSetId) return;
 
-        // プラン候補のキャッシュが存在しない場合は取得する
-        if (!plansCreated) {
-            dispatch(
-                fetchCachedCreatedPlans({
-                    session: planCandidateSetId,
-                    userId: user?.id,
-                    firebaseIdToken,
-                })
-            );
-        }
-    }, [planCandidateSetId, user?.id]);
+        // プランを作成している場合は何もしない
+        const isCreatingPlan =
+            createPlanFromPlaceRequestStatus === RequestStatuses.PENDING ||
+            createPlanFromLocationRequestStatus === RequestStatuses.PENDING;
+        if (isCreatingPlan) return;
+
+        dispatch(
+            fetchCachedCreatedPlans({
+                session: planCandidateSetId,
+                userId: user?.id,
+                firebaseIdToken,
+            })
+        );
+    }, [
+        planCandidateSetId,
+        user?.id,
+        createPlanFromPlaceRequestStatus,
+        createPlanFromLocationRequestStatus,
+    ]);
 
     // プラン作成の候補地を取得
     useEffect(() => {
