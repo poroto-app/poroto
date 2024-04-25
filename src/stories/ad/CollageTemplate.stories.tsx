@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { CollageTemplate } from "src/pages/pr/collage_template";
+import { CollageTemplate } from "src/view/plandetail/CollageTemplate";
 
 export default {
     title: "pr/CollageTemplate",
