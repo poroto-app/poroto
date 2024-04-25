@@ -2,7 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { CollageTemplate } from "src/view/plandetail/CollageTemplate";
 
 export default {
-    title: "plandetail/CollageTemplate",
+    title: "plan_detail/CollageTemplate",
     component: CollageTemplate,
     tags: ["autodocs"],
     parameters: {},

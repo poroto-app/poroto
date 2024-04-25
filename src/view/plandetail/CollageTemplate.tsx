@@ -39,7 +39,7 @@ export function CollageTemplate({ title, places, introduction }: CollageProps) {
                             borderRadius="lg"
                             boxSize="400px"
                         />
-                        <VStack alignItems="flex-start">
+                        <VStack alignItems="flex-start" spacing={0}>
                             <Text
                                 color="rgba(130, 141, 205, 1)"
                                 fontFamily="Inter"
