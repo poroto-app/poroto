@@ -177,23 +177,25 @@ const SelectPlanPage = () => {
                     </ButtonWithBlur>
                 </VStack>
             </Center>
-            {notEmpty(selectedPlanIndex) &&
-                plansCreated &&
-                plansCreated.length > selectedPlanIndex && (
-                    <Box w="100%" overflowX="hidden" ref={planDetailPageRef}>
-                        <PlanDetailPage
-                            planId={plansCreated[selectedPlanIndex].id}
-                            planCandidateSetId={sessionId as string}
-                            isPlanFooterVisible={isPlanFooterVisible}
-                        />
-                    </Box>
-                )}
+            <Box w="100%" overflowX="hidden" ref={planDetailPageRef}>
+                <PlanDetailPage
+                    planId={
+                        notEmpty(selectedPlanIndex) &&
+                        notEmpty(plansCreated) &&
+                        plansCreated.length > selectedPlanIndex
+                            ? plansCreated[selectedPlanIndex].id
+                            : null
+                    }
+                    planCandidateSetId={sessionId as string}
+                    isPlanFooterVisible={isPlanFooterVisible}
+                />
+            </Box>
         </VStack>
     );
 };
 
 type Props = {
-    planId: string;
+    planId: string | null;
     planCandidateSetId: string;
     isPlanFooterVisible: boolean;
 };
@@ -256,7 +258,11 @@ function PlanDetailPage({
         planId: planId,
     });
 
-    if (!plan) {
+    if (savePlanFromCandidateRequestStatus === RequestStatuses.PENDING) {
+        return <LoadingModal title="プランを作成しています" />;
+    }
+
+    if (!plan || !planId) {
         return <></>;
     }
 

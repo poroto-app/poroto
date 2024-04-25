@@ -1,5 +1,6 @@
 import { Center, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
+import { zIndex } from "src/view/constants/zIndex";
 import styled, { keyframes } from "styled-components";
 
 type Props = {
@@ -11,13 +12,14 @@ export const LoadingModal = ({ title }: Props) => {
         <Center
             w="100%"
             h="100%"
-            backgroundColor="F7F5EE"
+            backgroundColor="white"
             position="fixed"
             top={0}
             right={0}
             bottom={0}
             left={0}
             userSelect="none"
+            zIndex={zIndex.dialog}
         >
             <VStack spacing={8}>
                 <FadeInFadeOutTransition>
