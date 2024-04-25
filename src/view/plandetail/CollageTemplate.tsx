@@ -1,18 +1,20 @@
 import { Box, Divider, HStack, Image, Text, VStack } from "@chakra-ui/react";
 
-interface CollageProps {
+type CollagePlace = {
+    name: string;
+    duration: number;
+    imageUrl: string;
+};
+
+type CollageProps = {
     title: string;
-    locations: string[];
-    durations: number[];
-    imageUrls: string[];
+    places: CollagePlace[];
     introduction: string;
-}
+};
 
 export function CollageTemplate({
     title,
-    locations,
-    durations,
-    imageUrls,
+    places,
     introduction,
 }: CollageProps) {
     return (
@@ -28,7 +30,7 @@ export function CollageTemplate({
                 </Text>
             </Box>
             <Divider borderColor="#A4ABD4" my={4} />
-            {locations.map((location, index) => (
+            {places.map((place, index) => (
                 <Box key={index}>
                     {index % 2 === 0 ? (
                         <HStack
@@ -42,7 +44,7 @@ export function CollageTemplate({
                                     fontWeight="bold"
                                     fontSize="56px"
                                 >
-                                    {location}
+                                    {place.name}
                                 </Text>
                                 <Text
                                     color="rgba(164, 168, 212, 1)"
@@ -50,11 +52,11 @@ export function CollageTemplate({
                                     fontWeight="bold"
                                     fontSize="32px"
                                 >
-                                    滞在時間：{durations[index]}分
+                                    滞在時間：{place.duration}分
                                 </Text>
                             </VStack>
                             <Image
-                                src={imageUrls[index]}
+                                src={place.imageUrl}
                                 alt={`Collage Image ${index}`}
                                 borderRadius="lg"
                                 boxSize="400px"
@@ -66,7 +68,7 @@ export function CollageTemplate({
                             alignItems="flex-start"
                         >
                             <Image
-                                src={imageUrls[index]}
+                                src={place.imageUrl}
                                 alt={`Collage Image ${index}`}
                                 borderRadius="lg"
                                 boxSize="400px"
@@ -78,7 +80,7 @@ export function CollageTemplate({
                                     fontWeight="bold"
                                     fontSize="56px"
                                 >
-                                    {location}
+                                    {place.name}
                                 </Text>
                                 <Text
                                     color="rgba(164, 168, 212, 1)"
@@ -86,12 +88,12 @@ export function CollageTemplate({
                                     fontWeight="bold"
                                     fontSize="32px"
                                 >
-                                    滞在時間：{durations[index]}分
+                                    滞在時間：{place.duration}分
                                 </Text>
                             </VStack>
                         </HStack>
                     )}
-                    {index !== locations.length - 1 && (
+                    {index !== places.length - 1 && (
                         <Divider borderColor="#A4ABD4" my={4} />
                     )}
                 </Box>
