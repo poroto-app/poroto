@@ -148,17 +148,16 @@ const SelectPlanPage = () => {
         );
 
     return (
-        <VStack w="100%">
+        <VStack w="100%" spacing={0}>
             <NavBar />
             <Center
                 w="100%"
                 h={`calc(100vh - ${Size.NavBar.height})`}
                 px="16px"
-                py="16px"
                 ref={refPlanCandidateGallery}
                 overflowX="hidden"
             >
-                <VStack spacing="32px" my="32px">
+                <VStack spacing="32px">
                     <PlanCandidatesGallery
                         planCandidates={plansCreated}
                         activePlanIndex={selectedPlanIndex}
