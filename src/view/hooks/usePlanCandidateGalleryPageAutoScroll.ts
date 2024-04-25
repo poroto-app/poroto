@@ -29,7 +29,8 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
         // Safariだとページ上部までいきおいよくスクロールすると、スクロール量がマイナスになり
         // スクロール方向も下方向になることがあるため、その場合はスクロール量を0として扱う
         const isBounded = prevScrollYRef.current < 0;
-        const isScrollingDown = currentScroll > prevScrollYRef.current && !isBounded;
+        const isScrollingDown =
+            currentScroll > prevScrollYRef.current && !isBounded;
 
         // PlanDetailのトップより上で下方向にスクロールした場合は
         // プラン詳細セクションのトップまで自動スクロールを開始
