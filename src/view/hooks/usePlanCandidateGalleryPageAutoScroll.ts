@@ -16,13 +16,20 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
         });
     };
 
+    let scrollTimeout: NodeJS.Timeout | null = null;
     const scrollListener = () => {
+        if (scrollTimeout) clearTimeout(scrollTimeout);
+
         if (!planDetailPageRef.current) return;
 
         const isAutoScrolling = isAutoScrollingRef.current;
         const currentScroll = window.scrollY;
-        const isScrollingDown = currentScroll > prevScrollYRef.current;
         const offsetTopPlanDetailPage = planDetailPageRef.current.offsetTop;
+
+        // Safariだとページ上部までいきおいよくスクロールすると、スクロール量がマイナスになり
+        // スクロール方向も下方向になることがあるため、その場合はスクロール量を0として扱う
+        const isBounded = prevScrollYRef.current < 0;
+        const isScrollingDown = currentScroll > prevScrollYRef.current && !isBounded;
 
         // PlanDetailのトップより上で下方向にスクロールした場合は
         // プラン詳細セクションのトップまで自動スクロールを開始
@@ -47,6 +54,11 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
         }
 
         prevScrollYRef.current = currentScroll;
+
+        // 100ms経過しても scroll イベントが呼び出されない場合は、スクロールが終了したとみなす
+        scrollTimeout = setTimeout(() => {
+            scrollEndListener();
+        }, 100);
     };
 
     const scrollEndListener = () => {
@@ -74,11 +86,10 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
 
     useEffect(() => {
         window.addEventListener("scroll", scrollListener);
-        window.addEventListener("scrollend", scrollEndListener);
 
         return () => {
             window.removeEventListener("scroll", scrollListener);
-            window.removeEventListener("scrollend", scrollEndListener);
+            clearTimeout(scrollTimeout);
         };
     }, [isAutoScrollingRef]);
 
