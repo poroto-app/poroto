@@ -1,7 +1,7 @@
 import { Link } from "@chakra-ui/next-js";
 import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { notEmpty } from "src/domain/util/null";
@@ -21,6 +21,7 @@ import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
 import { usePlaceLikeInPlanCandidate } from "src/view/hooks/usePlaceLikeInPlanCandidate";
 import { usePlanCandidate } from "src/view/hooks/usePlanCandidate";
+import { usePlanCandidateGalleryPageAutoScroll } from "src/view/hooks/usePlanCandidateGalleryPageAutoScroll";
 import { usePlanCandidateSet } from "src/view/hooks/usePlanCandidateSet";
 import { usePlanCreate } from "src/view/hooks/usePlanCreate";
 import { usePlanPlaceAdd } from "src/view/hooks/usePlanPlaceAdd";
@@ -49,9 +50,7 @@ const SelectPlanPage = () => {
     const { sessionId } = router.query;
     const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
     const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
-    const isAutoScrollingRef = useRef(false);
-    const prevScrollYRef = useRef(0);
-    const planDetailPageRef = useRef<HTMLDivElement>(null);
+    const { planDetailPageRef } = usePlanCandidateGalleryPageAutoScroll();
 
     const {
         plansCreated,
@@ -70,63 +69,6 @@ const SelectPlanPage = () => {
             refPlanCandidateGallery.current?.scrollIntoView();
         },
     });
-
-    useEffect(() => {
-        const handleScroll = () => {
-            if (!planDetailPageRef.current) return;
-
-            const isAutoScrolling = isAutoScrollingRef.current;
-            const currentScroll = window.scrollY;
-            const isScrollingDown = currentScroll > prevScrollYRef.current;
-            const offsetTopPlanDetailPage = planDetailPageRef.current.offsetTop;
-
-            // PlanDetailのトップより上で下方向にスクロールした場合は
-            // プラン詳細セクションのトップまで自動スクロールを開始
-            if (
-                !isAutoScrolling &&
-                currentScroll < offsetTopPlanDetailPage &&
-                isScrollingDown
-            ) {
-                window.scrollTo({
-                    top: offsetTopPlanDetailPage,
-                    behavior: "smooth",
-                });
-                isAutoScrollingRef.current = true;
-            }
-
-            if (isAutoScrollingRef.current) {
-                const isUpperOfPlanDetailPage =
-                    currentScroll < offsetTopPlanDetailPage;
-                isAutoScrollingRef.current = isUpperOfPlanDetailPage;
-            }
-
-            prevScrollYRef.current = currentScroll;
-        };
-
-        const handleScrollEndListener = () => {
-            // スクロールが停止したときも、自動スクロール中は継続する
-            const isAutoScrolling = isAutoScrollingRef.current;
-            const currentScroll = window.scrollY;
-            const offsetTopPlanDetailPage = planDetailPageRef.current.offsetTop;
-            if (isAutoScrolling && currentScroll < offsetTopPlanDetailPage) {
-                window.scrollTo({
-                    top: offsetTopPlanDetailPage,
-                    behavior: "smooth",
-                });
-                isAutoScrollingRef.current = true;
-            } else {
-                isAutoScrollingRef.current = false;
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        window.addEventListener("scrollend", handleScrollEndListener);
-
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-            window.removeEventListener("scrollend", handleScrollEndListener);
-        };
-    }, [isAutoScrollingRef]);
 
     if (!plansCreated) {
         // ページ読み込み直後
