@@ -32,67 +32,36 @@ export function CollageTemplate({
             <Divider borderColor="#A4ABD4" my={4} />
             {places.map((place, index) => (
                 <Box key={index}>
-                    {index % 2 === 0 ? (
-                        <HStack
-                            justifyContent="space-between"
-                            alignItems="flex-start"
-                        >
-                            <VStack alignItems="flex-start">
-                                <Text
-                                    color="rgba(130, 141, 205, 1)"
-                                    fontFamily="Inter"
-                                    fontWeight="bold"
-                                    fontSize="56px"
-                                >
-                                    {place.name}
-                                </Text>
-                                <Text
-                                    color="rgba(164, 168, 212, 1)"
-                                    fontFamily="Inter"
-                                    fontWeight="bold"
-                                    fontSize="32px"
-                                >
-                                    滞在時間：{place.duration}分
-                                </Text>
-                            </VStack>
-                            <Image
-                                src={place.imageUrl}
-                                alt={`Collage Image ${index}`}
-                                borderRadius="lg"
-                                boxSize="400px"
-                            />
-                        </HStack>
-                    ) : (
-                        <HStack
-                            justifyContent="space-between"
-                            alignItems="flex-start"
-                        >
-                            <Image
-                                src={place.imageUrl}
-                                alt={`Collage Image ${index}`}
-                                borderRadius="lg"
-                                boxSize="400px"
-                            />
-                            <VStack alignItems="flex-start">
-                                <Text
-                                    color="rgba(130, 141, 205, 1)"
-                                    fontFamily="Inter"
-                                    fontWeight="bold"
-                                    fontSize="56px"
-                                >
-                                    {place.name}
-                                </Text>
-                                <Text
-                                    color="rgba(164, 168, 212, 1)"
-                                    fontFamily="Inter"
-                                    fontWeight="bold"
-                                    fontSize="32px"
-                                >
-                                    滞在時間：{place.duration}分
-                                </Text>
-                            </VStack>
-                        </HStack>
-                    )}
+                    <HStack
+                        justifyContent="space-between"
+                        alignItems="flex-start"
+                        flexDirection={index % 2 === 0 ? "row" : "row-reverse"} 
+                    >
+                        <Image
+                            src={place.imageUrl}
+                            alt={`Collage Image ${index}`}
+                            borderRadius="lg"
+                            boxSize="400px"
+                        />
+                        <VStack alignItems="flex-start">
+                            <Text
+                                color="rgba(130, 141, 205, 1)"
+                                fontFamily="Inter"
+                                fontWeight="bold"
+                                fontSize="56px"
+                            >
+                                {place.name}
+                            </Text>
+                            <Text
+                                color="rgba(164, 168, 212, 1)"
+                                fontFamily="Inter"
+                                fontWeight="bold"
+                                fontSize="32px"
+                            >
+                                滞在時間：{place.duration}分
+                            </Text>
+                        </VStack>
+                    </HStack>
                     {index !== places.length - 1 && (
                         <Divider borderColor="#A4ABD4" my={4} />
                     )}
