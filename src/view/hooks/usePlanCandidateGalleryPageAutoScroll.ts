@@ -50,6 +50,8 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
     };
 
     const scrollEndListener = () => {
+        if(!planDetailPageRef.current) return;
+
         // スクロールが停止したときも、自動スクロール中は継続する
         const isAutoScrolling = isAutoScrollingRef.current;
         const currentScroll = window.scrollY;
