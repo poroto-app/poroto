@@ -27,7 +27,7 @@ import { usePlanPlaceDelete } from "src/view/hooks/usePlanPlaceDelete";
 import { usePlanPlaceReorder } from "src/view/hooks/usePlanPlaceReorder";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { PlaceMap } from "src/view/plan/PlaceMap";
-import { FooterHeight, PlanFooter } from "src/view/plan/PlanFooter";
+import { PlanFooter } from "src/view/plan/PlanFooter";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSection";
 import { GeneratingPlanDialog } from "src/view/plan/candidate/GeneratingPlanDialog";
@@ -263,10 +263,16 @@ function PlanDetailPage({
 
     return (
         <>
-            <Center w="100%" flexDirection="column" pb={`${FooterHeight}px`}>
+            <Center
+                w="100%"
+                flexDirection="column"
+                pb={Size.PlanCandidate.Footer.h}
+            >
                 <VStack
                     w="100%"
-                    minH={!isPC && `calc(100vh - ${FooterHeight}px)`}
+                    minH={
+                        !isPC && `calc(100vh - ${Size.PlanCandidate.Footer.h})`
+                    }
                     scrollSnapAlign="start"
                 >
                     <PlanDetailPageHeader

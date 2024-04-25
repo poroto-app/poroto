@@ -1,15 +1,13 @@
 import { Center, HStack } from "@chakra-ui/react";
 import { CSSProperties, ReactNode } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
+import { Size } from "src/view/constants/size";
 import { zIndex } from "src/view/constants/zIndex";
 
 type Props = {
     visible?: boolean;
     children?: ReactNode;
 };
-
-// TODO: src/view/constants/size に移動する
-export const FooterHeight = 80;
 
 const transitionStyles: {
     [key in TransitionStatus]: CSSProperties | undefined;
@@ -36,7 +34,7 @@ export function PlanFooter({ visible = true, children }: Props) {
                 <Center
                     backgroundColor="white"
                     borderTop="1px solid rgba(0,0,0,.1)"
-                    h={`${FooterHeight}px`}
+                    h={Size.PlanCandidate.Footer.h}
                     w="100%"
                     position="fixed"
                     px="16px"
