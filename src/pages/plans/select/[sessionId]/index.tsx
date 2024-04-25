@@ -1,7 +1,7 @@
 import { Link } from "@chakra-ui/next-js";
 import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { notEmpty } from "src/domain/util/null";
@@ -49,6 +49,9 @@ const SelectPlanPage = () => {
     const { sessionId } = router.query;
     const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
     const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
+    const isAutoScrollingRef = useRef(false);
+    const prevScrollYRef = useRef(0);
+    const planDetailPageRef = useRef<HTMLDivElement>(null);
 
     const {
         plansCreated,
@@ -67,6 +70,63 @@ const SelectPlanPage = () => {
             refPlanCandidateGallery.current?.scrollIntoView();
         },
     });
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (!planDetailPageRef.current) return;
+
+            const isAutoScrolling = isAutoScrollingRef.current;
+            const currentScroll = window.scrollY;
+            const isScrollingDown = currentScroll > prevScrollYRef.current;
+            const offsetTopPlanDetailPage = planDetailPageRef.current.offsetTop;
+
+            // PlanDetailのトップより上で下方向にスクロールした場合は
+            // プラン詳細セクションのトップまで自動スクロールを開始
+            if (
+                !isAutoScrolling &&
+                currentScroll < offsetTopPlanDetailPage &&
+                isScrollingDown
+            ) {
+                window.scrollTo({
+                    top: offsetTopPlanDetailPage,
+                    behavior: "smooth",
+                });
+                isAutoScrollingRef.current = true;
+            }
+
+            if (isAutoScrollingRef.current) {
+                const isUpperOfPlanDetailPage =
+                    currentScroll < offsetTopPlanDetailPage;
+                isAutoScrollingRef.current = isUpperOfPlanDetailPage;
+            }
+
+            prevScrollYRef.current = currentScroll;
+        };
+
+        const handleScrollEndListener = () => {
+            // スクロールが停止したときも、自動スクロール中は継続する
+            const isAutoScrolling = isAutoScrollingRef.current;
+            const currentScroll = window.scrollY;
+            const offsetTopPlanDetailPage = planDetailPageRef.current.offsetTop;
+            if (isAutoScrolling && currentScroll < offsetTopPlanDetailPage) {
+                window.scrollTo({
+                    top: offsetTopPlanDetailPage,
+                    behavior: "smooth",
+                });
+                isAutoScrollingRef.current = true;
+            } else {
+                isAutoScrollingRef.current = false;
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("scrollend", handleScrollEndListener);
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("scrollend", handleScrollEndListener);
+        };
+    }, [isAutoScrollingRef]);
 
     if (!plansCreated) {
         // ページ読み込み直後
@@ -147,54 +207,56 @@ const SelectPlanPage = () => {
         );
 
     return (
-        <Layout navBar={<NavBar />} maxW="100%">
-            <VStack w="100%">
-                <Center
-                    w="100%"
-                    h={`calc(100vh - ${Size.NavBar.height} - ${FooterHeight}px)`}
-                    px="16px"
-                    py="16px"
-                    ref={refPlanCandidateGallery}
-                >
-                    <VStack spacing="32px" my="32px">
-                        <PlanCandidatesGallery
-                            planCandidates={plansCreated}
-                            activePlanIndex={selectedPlanIndex}
-                            onActiveIndexChange={setSelectedPlanIndex}
-                        />
-                        <Link
-                            href={Routes.plans.planCandidate.plan(
-                                sessionId as string,
-                                plansCreated[selectedPlanIndex].id
-                            )}
+        <VStack w="100%">
+            <NavBar />
+            <Center
+                w="100%"
+                h={`calc(100vh - ${Size.NavBar.height} - ${FooterHeight}px)`}
+                px="16px"
+                py="16px"
+                ref={refPlanCandidateGallery}
+                overflowX="hidden"
+            >
+                <VStack spacing="32px" my="32px">
+                    <PlanCandidatesGallery
+                        planCandidates={plansCreated}
+                        activePlanIndex={selectedPlanIndex}
+                        onActiveIndexChange={setSelectedPlanIndex}
+                    />
+                    <Link
+                        href={Routes.plans.planCandidate.plan(
+                            sessionId as string,
+                            plansCreated[selectedPlanIndex].id
+                        )}
+                    >
+                        <ButtonWithBlur
+                            px="16px"
+                            py="16px"
+                            backgroundColor="#84A6FF"
+                            borderRadius="50px"
                         >
-                            <ButtonWithBlur
-                                px="16px"
-                                py="16px"
-                                backgroundColor="#84A6FF"
-                                borderRadius="50px"
+                            <Text
+                                color="white"
+                                fontWeight="bold"
+                                fontSize="18px"
                             >
-                                <Text
-                                    color="white"
-                                    fontWeight="bold"
-                                    fontSize="18px"
-                                >
-                                    プランをみてみる
-                                </Text>
-                            </ButtonWithBlur>
-                        </Link>
-                    </VStack>
-                </Center>
-                {notEmpty(selectedPlanIndex) &&
-                    plansCreated &&
-                    plansCreated.length > selectedPlanIndex && (
+                                プランをみてみる
+                            </Text>
+                        </ButtonWithBlur>
+                    </Link>
+                </VStack>
+            </Center>
+            {notEmpty(selectedPlanIndex) &&
+                plansCreated &&
+                plansCreated.length > selectedPlanIndex && (
+                    <Box w="100%" overflowX="hidden" ref={planDetailPageRef}>
                         <PlanDetailPage
                             planId={plansCreated[selectedPlanIndex].id}
                             planCandidateSetId={sessionId as string}
                         />
-                    )}
-            </VStack>
-        </Layout>
+                    </Box>
+                )}
+        </VStack>
     );
 };
 
@@ -268,6 +330,7 @@ function PlanDetailPage({ planId, planCandidateSetId }: Props) {
                 <VStack
                     w="100%"
                     minH={!isPC && `calc(100vh - ${FooterHeight}px)`}
+                    scrollSnapAlign="start"
                 >
                     <PlanDetailPageHeader
                         plan={plan}
