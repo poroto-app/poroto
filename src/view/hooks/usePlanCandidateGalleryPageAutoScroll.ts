@@ -1,9 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const usePlanCandidateGalleryPageAutoScroll = () => {
     const isAutoScrollingRef = useRef(false);
     const prevScrollYRef = useRef(0);
     const planDetailPageRef = useRef<HTMLDivElement>(null);
+    const [isUpperOfPlanDetailPage, setIsUpperOfPlanDetailPage] =
+        useState(true);
+    const [isAutoScrolling, setIsAutoScrolling] = useState(false);
 
     const scrollToPlanDetailPage = () => {
         if (!planDetailPageRef.current) return;
@@ -33,12 +36,14 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
                 behavior: "smooth",
             });
             isAutoScrollingRef.current = true;
+            setIsAutoScrolling(true);
         }
 
+        const isUpperOfPlanDetailPage = currentScroll < offsetTopPlanDetailPage;
+        setIsUpperOfPlanDetailPage(isUpperOfPlanDetailPage);
         if (isAutoScrollingRef.current) {
-            const isUpperOfPlanDetailPage =
-                currentScroll < offsetTopPlanDetailPage;
             isAutoScrollingRef.current = isUpperOfPlanDetailPage;
+            setIsAutoScrolling(isUpperOfPlanDetailPage);
         }
 
         prevScrollYRef.current = currentScroll;
@@ -55,9 +60,14 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
                 behavior: "smooth",
             });
             isAutoScrollingRef.current = true;
+            setIsAutoScrolling(true);
         } else {
             isAutoScrollingRef.current = false;
+            setIsAutoScrolling(false);
         }
+
+        const isUpperOfPlanDetailPage = currentScroll < offsetTopPlanDetailPage;
+        setIsUpperOfPlanDetailPage(isUpperOfPlanDetailPage);
     };
 
     useEffect(() => {
@@ -73,5 +83,6 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
     return {
         planDetailPageRef,
         scrollToPlanDetailPage,
+        isPlanFooterVisible: !isUpperOfPlanDetailPage || isAutoScrolling,
     };
 };

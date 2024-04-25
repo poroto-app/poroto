@@ -48,7 +48,7 @@ const SelectPlanPage = () => {
     const { sessionId } = router.query;
     const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
     const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
-    const { planDetailPageRef, scrollToPlanDetailPage } =
+    const { isPlanFooterVisible, planDetailPageRef, scrollToPlanDetailPage } =
         usePlanCandidateGalleryPageAutoScroll();
 
     const {
@@ -152,7 +152,7 @@ const SelectPlanPage = () => {
             <NavBar />
             <Center
                 w="100%"
-                h={`calc(100vh - ${Size.NavBar.height} - ${FooterHeight}px)`}
+                h={`calc(100vh - ${Size.NavBar.height})`}
                 px="16px"
                 py="16px"
                 ref={refPlanCandidateGallery}
@@ -184,6 +184,7 @@ const SelectPlanPage = () => {
                         <PlanDetailPage
                             planId={plansCreated[selectedPlanIndex].id}
                             planCandidateSetId={sessionId as string}
+                            isPlanFooterVisible={isPlanFooterVisible}
                         />
                     </Box>
                 )}
@@ -194,9 +195,14 @@ const SelectPlanPage = () => {
 type Props = {
     planId: string;
     planCandidateSetId: string;
+    isPlanFooterVisible: boolean;
 };
 
-function PlanDetailPage({ planId, planCandidateSetId }: Props) {
+function PlanDetailPage({
+    planId,
+    planCandidateSetId,
+    isPlanFooterVisible,
+}: Props) {
     const { plan, currentLocation, createdBasedOnCurrentLocation } =
         usePlanCandidate({
             planCandidateSetId: planCandidateSetId,
@@ -326,7 +332,7 @@ function PlanDetailPage({ planId, planCandidateSetId }: Props) {
                     </VStack>
                 </VStack>
             </Center>
-            <PlanFooter>
+            <PlanFooter visible={isPlanFooterVisible}>
                 <Button
                     variant="solid"
                     flex={1}
