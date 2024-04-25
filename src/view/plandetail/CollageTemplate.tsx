@@ -12,11 +12,7 @@ type CollageProps = {
     introduction: string;
 };
 
-export function CollageTemplate({
-    title,
-    places,
-    introduction,
-}: CollageProps) {
+export function CollageTemplate({ title, places, introduction }: CollageProps) {
     return (
         <Box padding={16}>
             <Box textAlign="center" mb={4}>
@@ -35,7 +31,7 @@ export function CollageTemplate({
                     <HStack
                         justifyContent="space-between"
                         alignItems="flex-start"
-                        flexDirection={index % 2 === 0 ? "row" : "row-reverse"} 
+                        flexDirection={index % 2 === 0 ? "row" : "row-reverse"}
                     >
                         <Image
                             src={place.imageUrl}
