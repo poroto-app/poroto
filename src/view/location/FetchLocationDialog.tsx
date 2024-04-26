@@ -90,7 +90,9 @@ function Failed({
     return (
         <VStack w="100%">
             <VStack spacing={0}>
-                <Text fontWeight="bold" fontSize="20px">位置情報の取得に失敗しました</Text>
+                <Text fontWeight="bold" fontSize="20px">
+                    位置情報の取得に失敗しました
+                </Text>
                 <Text>設定をご確認ください</Text>
             </VStack>
             <Box w="100%" position="relative" h="250px">
