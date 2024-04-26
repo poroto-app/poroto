@@ -1,4 +1,5 @@
 import { Box, Divider, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import Komichi from "src/view/assets/svg/komichi_logo.svg";
 
 type CollagePlace = {
     name: string;
@@ -14,7 +15,15 @@ type CollageProps = {
 
 export function CollageTemplate({ title, places, introduction }: CollageProps) {
     return (
-        <Box padding={16}>
+        <Box padding={16} position="relative">
+            <Image
+                src={Komichi}
+                alt="Komichi Logo"
+                position="absolute"
+                bottom={0}
+                right={0}
+                zIndex={1}
+            />
             <Box textAlign="center" mb={4}>
                 <Text
                     color="rgba(130, 141, 205, 1)"
