@@ -22,4 +22,8 @@ export const Colors = {
         700: "var(--color-primary-700)",
         800: "var(--color-primary-800)",
     },
+
+    dialog: {
+        backgroundColor: "#FFF8F3",
+    },
 };

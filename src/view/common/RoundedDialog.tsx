@@ -1,5 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { Colors } from "src/view/constants/color";
 
 type Props = {
     children?: ReactNode;
@@ -8,7 +9,7 @@ type Props = {
 export function RoundedDialog({ children }: Props) {
     return (
         <Box
-            backgroundColor="#FFF8F3"
+            backgroundColor={Colors.dialog.backgroundColor}
             w="500px"
             maxW="100%"
             borderRadius="20px"
