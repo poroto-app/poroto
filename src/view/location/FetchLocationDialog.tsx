@@ -32,7 +32,7 @@ export function FetchLocationDialog({
             ].includes(fetchLocationRequestStatus)}
             padding="16px"
         >
-            <RoundedDialog>
+            <RoundedDialog backgroundColor="white">
                 <Box p="16px" w="100%">
                     {fetchLocationRequestStatus === RequestStatuses.PENDING && (
                         <Fetching
