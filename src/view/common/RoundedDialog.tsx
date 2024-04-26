@@ -4,13 +4,18 @@ import { Colors } from "src/view/constants/color";
 
 type Props = {
     h?: string | number;
+    backgroundColor?: string;
     children?: ReactNode;
 };
 
-export function RoundedDialog({ h, children }: Props) {
+export function RoundedDialog({
+    h,
+    backgroundColor = Colors.dialog.backgroundColor,
+    children,
+}: Props) {
     return (
         <Box
-            backgroundColor={Colors.dialog.backgroundColor}
+            backgroundColor={backgroundColor}
             w="500px"
             maxW="100%"
             h={h}

@@ -7,7 +7,6 @@ import {
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { LottiePlayer } from "src/view/common/LottiePlayer";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
-import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 import animationDataFailedLocation from "src/view/lottie/location-failed.json";
 import animationDataLoadingLocation from "src/view/lottie/location-loading.json";
@@ -33,7 +32,7 @@ export function FetchLocationDialog({
             ].includes(fetchLocationRequestStatus)}
             padding="16px"
         >
-            <RoundedDialog>
+            <RoundedDialog backgroundColor="white">
                 <Box p="16px" w="100%">
                     {fetchLocationRequestStatus === RequestStatuses.PENDING && (
                         <Fetching
@@ -63,10 +62,7 @@ function Fetching({
     return (
         <VStack w="100%">
             <Box w="100%" position="relative" h="250px">
-                <LottiePlayer
-                    animationData={animationDataLoadingLocation}
-                    style={{ fill: Colors.dialog.backgroundColor }}
-                />
+                <LottiePlayer animationData={animationDataLoadingLocation} />
             </Box>
             <Text>位置情報を取得しています...</Text>
             {isSkipCurrentLocationVisible && (
@@ -88,7 +84,6 @@ function Failed({ onClickReFetch }: { onClickReFetch: () => void }) {
                 <LottiePlayer
                     animationData={animationDataFailedLocation}
                     loop={false}
-                    style={{ fill: Colors.dialog.backgroundColor }}
                 />
             </Box>
             <VStack spacing={0}>
