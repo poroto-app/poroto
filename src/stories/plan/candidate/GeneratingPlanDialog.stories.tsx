@@ -11,11 +11,15 @@ export default {
 type Story = StoryObj<typeof GeneratingPlanDialog>;
 
 export const Primary: Story = {
-    args: {},
+    args: {
+        visible: true,
+        failed: false,
+    },
 };
 
 export const Failed: Story = {
     args: {
+        visible: true,
         failed: true,
     },
 };
