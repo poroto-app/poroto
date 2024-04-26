@@ -1,8 +1,8 @@
 import { Box, Center, Text, VStack } from "@chakra-ui/react";
-import { ReactNode } from "react";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { LottiePlayer } from "src/view/common/LottiePlayer";
 import { RoundedButton } from "src/view/common/RoundedButton";
+import { RoundedDialog } from "src/view/common/RoundedDialog";
 import animationDataCreating from "src/view/lottie/creating_map.json";
 import animationDataFailed from "src/view/lottie/fail.json";
 
@@ -27,10 +27,14 @@ export function GeneratingPlanDialog({ visible, failed, onClose }: Props) {
             height="500px"
             maxWidth="500px"
             maxHeight="100%"
+            paddingX="16px"
+            paddingY="32px"
         >
-            <Dialog>
-                {failed ? <Failed onClose={onClose} /> : <Generating />}
-            </Dialog>
+            <RoundedDialog h="100%">
+                <Center w="100%" h="100%" px="16px" py="32px">
+                    {failed ? <Failed onClose={onClose} /> : <Generating />}
+                </Center>
+            </RoundedDialog>
         </FullscreenDialog>
     );
 }
@@ -68,22 +72,5 @@ function Failed({ onClose }: { onClose: () => void }) {
             </VStack>
             <RoundedButton onClick={onClose}>閉じる</RoundedButton>
         </VStack>
-    );
-}
-
-function Dialog({ children }: { children?: ReactNode }) {
-    return (
-        <Center w="100%" h="100%" py="32px" px="16px">
-            <Center
-                w="100%"
-                h="100%"
-                px="16px"
-                py="32px"
-                backgroundColor="#FFF8F3"
-                borderRadius="30px"
-            >
-                {children}
-            </Center>
-        </Center>
     );
 }

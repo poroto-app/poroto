@@ -38,10 +38,11 @@ export const usePlanCreate = ({ planCandidateSetId, planId }: Props) => {
     useEffect(() => {
         if (!plan) return;
         if (savePlanFromCandidateRequestStatus === RequestStatuses.FULFILLED) {
-            router.push(Routes.plans.plan(plan.id)).then();
+            router.push(Routes.plans.plan(plan.id)).then(() => {
+                // 戻ったときに再リダイレクトされないようにする
+                dispatch(resetPlanCandidates());
+            });
             dispatch(setShowPlanCreatedModal(true));
-            // 戻ったときに再リダイレクトされないようにする
-            dispatch(resetPlanCandidates());
         }
     }, [planId, savePlanFromCandidateRequestStatus]);
 

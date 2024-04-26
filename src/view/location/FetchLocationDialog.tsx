@@ -32,7 +32,7 @@ export function FetchLocationDialog({
             ].includes(fetchLocationRequestStatus)}
             padding="16px"
         >
-            <RoundedDialog>
+            <RoundedDialog backgroundColor="white">
                 <Box p="16px" w="100%">
                     {fetchLocationRequestStatus === RequestStatuses.PENDING && (
                         <Fetching
@@ -44,7 +44,10 @@ export function FetchLocationDialog({
                     )}
                     {fetchLocationRequestStatus ===
                         RequestStatuses.REJECTED && (
-                        <Failed onClickReFetch={onRetry} />
+                        <Failed
+                            skipLocationLabel={skipLocationLabel}
+                            onClickReFetch={onRetry}
+                        />
                     )}
                 </Box>
             </RoundedDialog>
@@ -77,33 +80,44 @@ function Fetching({
     );
 }
 
-function Failed({ onClickReFetch }: { onClickReFetch: () => void }) {
+function Failed({
+    skipLocationLabel,
+    onClickReFetch,
+}: {
+    skipLocationLabel: string;
+    onClickReFetch: () => void;
+}) {
     return (
         <VStack w="100%">
+            <VStack spacing={0}>
+                <Text fontWeight="bold" fontSize="20px">
+                    位置情報の取得に失敗しました
+                </Text>
+                <Text>設定をご確認ください</Text>
+            </VStack>
             <Box w="100%" position="relative" h="250px">
                 <LottiePlayer
                     animationData={animationDataFailedLocation}
                     loop={false}
                 />
             </Box>
-            <VStack spacing={0}>
-                <Text>位置情報の取得に失敗しました</Text>
-                <Text>設定をご確認ください</Text>
-            </VStack>
-            <VStack w="100%" pt="8px">
-                <Button
-                    w="100%"
-                    variant="outline"
-                    colorScheme="blue"
-                    onClick={onClickReFetch}
+            <VStack w="100%" py="16px">
+                <Link
+                    href={Routes.places.search({ skipCurrentLocation: true })}
+                    style={{ width: "100%" }}
                 >
-                    再取得
-                </Button>
-                <Link href={Routes.home} style={{ width: "100%" }}>
-                    <Button w="100%" variant="link" colorScheme="blue">
-                        ホームに戻る
+                    <Button
+                        w="100%"
+                        variant="outline"
+                        colorScheme="blue"
+                        onClick={onClickReFetch}
+                    >
+                        {skipLocationLabel}
                     </Button>
                 </Link>
+                <Button w="100%" variant="link" colorScheme="blue">
+                    再取得
+                </Button>
             </VStack>
         </VStack>
     );

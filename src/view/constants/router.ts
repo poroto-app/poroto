@@ -15,8 +15,6 @@ export const Routes = {
         planCandidate: {
             index: (planCandidateId: string) =>
                 `/plans/select/${planCandidateId}`,
-            plan: (planCandidateId: string, planId: string) =>
-                `/plans/select/${planCandidateId}/${planId}`,
         },
     },
     places: {

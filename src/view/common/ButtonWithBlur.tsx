@@ -1,10 +1,11 @@
-import { Center, ChakraProps } from "@chakra-ui/react";
+import { Center, ChakraProps, HTMLChakraProps } from "@chakra-ui/react";
 import { ReactNode } from "react";
 
 type Props = {
     backgroundColor: string;
     children?: ReactNode;
-} & ChakraProps;
+} & ChakraProps &
+    HTMLChakraProps<"button">;
 
 export function ButtonWithBlur(props: Props) {
     const toRgb = (
