@@ -89,16 +89,16 @@ function Failed({
 }) {
     return (
         <VStack w="100%">
+            <VStack spacing={0}>
+                <Text fontWeight="bold" fontSize="20px">位置情報の取得に失敗しました</Text>
+                <Text>設定をご確認ください</Text>
+            </VStack>
             <Box w="100%" position="relative" h="250px">
                 <LottiePlayer
                     animationData={animationDataFailedLocation}
                     loop={false}
                 />
             </Box>
-            <VStack spacing={0}>
-                <Text>位置情報の取得に失敗しました</Text>
-                <Text>設定をご確認ください</Text>
-            </VStack>
             <VStack w="100%" pt="8px">
                 <Button
                     w="100%"
