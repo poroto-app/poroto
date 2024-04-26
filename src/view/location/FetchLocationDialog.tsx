@@ -111,7 +111,7 @@ function Failed({
                 <Link
                     href={Routes.places.search({ skipCurrentLocation: true })}
                     style={{ width: "100%" }}
-                    mt="16px"
+                    my="16px"
                 >
                     <Button w="100%" variant="link" colorScheme="blue">
                         {skipLocationLabel}
