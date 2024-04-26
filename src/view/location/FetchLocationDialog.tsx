@@ -44,7 +44,10 @@ export function FetchLocationDialog({
                     )}
                     {fetchLocationRequestStatus ===
                         RequestStatuses.REJECTED && (
-                        <Failed onClickReFetch={onRetry} />
+                        <Failed
+                            skipLocationLabel={skipLocationLabel}
+                            onClickReFetch={onRetry}
+                        />
                     )}
                 </Box>
             </RoundedDialog>
@@ -77,7 +80,13 @@ function Fetching({
     );
 }
 
-function Failed({ onClickReFetch }: { onClickReFetch: () => void }) {
+function Failed({
+    skipLocationLabel,
+    onClickReFetch,
+}: {
+    skipLocationLabel: string;
+    onClickReFetch: () => void;
+}) {
     return (
         <VStack w="100%">
             <Box w="100%" position="relative" h="250px">
@@ -99,9 +108,13 @@ function Failed({ onClickReFetch }: { onClickReFetch: () => void }) {
                 >
                     再取得
                 </Button>
-                <Link href={Routes.home} style={{ width: "100%" }}>
+                <Link
+                    href={Routes.places.search({ skipCurrentLocation: true })}
+                    style={{ width: "100%" }}
+                    mt="16px"
+                >
                     <Button w="100%" variant="link" colorScheme="blue">
-                        ホームに戻る
+                        {skipLocationLabel}
                     </Button>
                 </Link>
             </VStack>
