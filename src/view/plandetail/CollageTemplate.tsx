@@ -16,17 +16,6 @@ type CollageProps = {
 export function CollageTemplate({ title, places, introduction }: CollageProps) {
     return (
         <Box padding={16} position="relative">
-            <Logo
-                viewBox="0 0 1200 600"
-                style={{
-                    position: "absolute",
-                    bottom: "0",
-                    right: "0",
-                    zIndex: "1",
-                    width: "315px",
-                    height: "75px",
-                }}
-            />
             <Box textAlign="center" mb={4}>
                 <Text
                     color="rgba(130, 141, 205, 1)"
@@ -76,14 +65,20 @@ export function CollageTemplate({ title, places, introduction }: CollageProps) {
                 </Box>
             ))}
             <Divider borderColor="#A4ABD4" my={4} />
-            <Text
-                color="rgba(164, 168, 212, 1)"
-                fontFamily="Inter"
-                fontWeight="bold"
-                fontSize="32px"
-            >
-                {introduction}
-            </Text>
+            <HStack spacing={8} alignItems="center">
+                <Text
+                    color="rgba(164, 168, 212, 1)"
+                    fontFamily="Inter"
+                    fontWeight="bold"
+                    fontSize="32px"
+                >
+                    {introduction}
+                </Text>
+                <Logo 
+                    viewBox="0 0 1200 600"
+                    style={{ width: "300px", height: "100px", bottom: 0, right: 0, position: "absolute"}}
+                />
+            </HStack>
         </Box>
     );
 }
