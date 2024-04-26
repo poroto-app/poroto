@@ -101,24 +101,23 @@ function Failed({
                     loop={false}
                 />
             </Box>
-            <VStack w="100%" pt="8px">
-                <Button
-                    w="100%"
-                    variant="outline"
-                    colorScheme="blue"
-                    onClick={onClickReFetch}
-                >
-                    再取得
-                </Button>
+            <VStack w="100%" py="16px">
                 <Link
                     href={Routes.places.search({ skipCurrentLocation: true })}
                     style={{ width: "100%" }}
-                    my="16px"
                 >
-                    <Button w="100%" variant="link" colorScheme="blue">
+                    <Button
+                        w="100%"
+                        variant="outline"
+                        colorScheme="blue"
+                        onClick={onClickReFetch}
+                    >
                         {skipLocationLabel}
                     </Button>
                 </Link>
+                <Button w="100%" variant="link" colorScheme="blue">
+                    再取得
+                </Button>
             </VStack>
         </VStack>
     );
