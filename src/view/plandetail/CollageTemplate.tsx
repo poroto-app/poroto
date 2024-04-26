@@ -74,9 +74,15 @@ export function CollageTemplate({ title, places, introduction }: CollageProps) {
                 >
                     {introduction}
                 </Text>
-                <Logo 
+                <Logo
                     viewBox="0 0 1200 600"
-                    style={{ width: "300px", height: "100px", bottom: 0, right: 0, position: "absolute"}}
+                    style={{
+                        width: "300px",
+                        height: "100px",
+                        bottom: 0,
+                        right: 0,
+                        position: "absolute",
+                    }}
                 />
             </HStack>
         </Box>
