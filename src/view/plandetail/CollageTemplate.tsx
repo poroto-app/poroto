@@ -75,10 +75,8 @@ export function CollageTemplate({ title, places, introduction }: CollageProps) {
                     {introduction}
                 </Text>
                 <Logo
-                    viewBox="0 0 1200 600"
+                    viewBox="0 0 315 75"
                     style={{
-                        width: "300px",
-                        height: "100px",
                         bottom: 0,
                         right: 0,
                         position: "absolute",
