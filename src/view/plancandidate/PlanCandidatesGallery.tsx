@@ -29,10 +29,11 @@ export function PlanCandidatesGallery({
 
     const onClickFirstItem = (i: number) => {
         setTimeout(() => {
-            const prevActiveIndex = (i - 1 + planCandidates.length) % planCandidates.length;
+            const prevActiveIndex =
+                (i - 1 + planCandidates.length) % planCandidates.length;
             onClickCard(prevActiveIndex);
         }, 50);
-    }
+    };
 
     const onClickLastItem = (i: number) => {
         // カードタップによるこのカードへの移動処理と
