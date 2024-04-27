@@ -100,6 +100,13 @@ export default function PlanPage() {
         logEvent(getAnalytics(), AnalyticsEvents.Plan.View, {
             planId: id,
         });
+
+        return () => {
+            // 他のページに遷移するときにモーダルを閉じる
+            // (戻るボタンでトップページに遷移したときの対応)
+            dispatch(setShowPlanCreatedModal(false));
+            dispatch(setPlaceIdToCreatePlan(null));
+        }
     }, []);
 
     useEffect(() => {
@@ -112,13 +119,6 @@ export default function PlanPage() {
             })
         );
         dispatch(fetchPlacesNearbyPlanLocation({ planId: id, limit: 10 }));
-
-        return () => {
-            // 他のページに遷移するときにモーダルを閉じる
-            // (戻るボタンでトップページに遷移したときの対応)
-            dispatch(setShowPlanCreatedModal(false));
-            dispatch(setPlaceIdToCreatePlan(null));
-        };
     }, [id, userId, firebaseIdToken]);
 
     if (
