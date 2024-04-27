@@ -3,6 +3,7 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { useEffect, useRef, useState } from "react";
 import { Plan } from "src/domain/models/Plan";
+import { Time } from "src/view/constants/time";
 import { PlanCandidateGalleryCard } from "src/view/plancandidate/PlanCandidatesGalleryCard";
 import { styled } from "styled-components";
 
@@ -24,6 +25,23 @@ export function PlanCandidatesGallery({
 
     const onClickCard = (i: number) => {
         refSplide.current?.go(i);
+    };
+
+    const onClickFirstItem = (i: number) => {
+        setTimeout(() => {
+            const prevActiveIndex = (i - 1 + planCandidates.length) % planCandidates.length;
+            onClickCard(prevActiveIndex);
+        }, 50);
+    }
+
+    const onClickLastItem = (i: number) => {
+        // カードタップによるこのカードへの移動処理と
+        // カード中の最後の画像タップによる次のカードへの移動処理が重ならないように
+        // 次のカードへの移動処理を遅延させる
+        setTimeout(() => {
+            const nextActiveIndex = (i + 1) % planCandidates.length;
+            onClickCard(nextActiveIndex);
+        }, Time.PlanCandidateGallery.lastItemTransitionDelay);
     };
 
     useEffect(() => {
@@ -67,6 +85,8 @@ export function PlanCandidatesGallery({
                         <PlanCandidateGalleryCard
                             plan={plan}
                             isActive={i === activeIndex}
+                            onClickFirstItem={() => onClickFirstItem(i)}
+                            onClickLastItem={() => onClickLastItem(i)}
                         />
                     </SplideSlide>
                 ))}
