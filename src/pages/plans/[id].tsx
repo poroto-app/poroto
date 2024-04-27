@@ -106,7 +106,7 @@ export default function PlanPage() {
             // (戻るボタンでトップページに遷移したときの対応)
             dispatch(setShowPlanCreatedModal(false));
             dispatch(setPlaceIdToCreatePlan(null));
-        }
+        };
     }, []);
 
     useEffect(() => {
