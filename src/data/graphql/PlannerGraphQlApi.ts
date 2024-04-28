@@ -597,7 +597,7 @@ function fromGraphqlPlanCandidateEntity(
     };
 }
 
-function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
+export function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
     return {
         id: plan.id,
         title: plan.name,
