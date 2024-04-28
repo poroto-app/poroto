@@ -39,6 +39,7 @@ export const Transition: Story = {
         return <LikePlacesList places={args["isEmpty"] ? [] : args.places} />;
     },
     args: {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         isEmpty: false,
         places: [mockPlaces.bookStore],
