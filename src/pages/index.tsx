@@ -1,7 +1,7 @@
 import { Center, Spinner, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { useEffect } from "react";
-import { MdOutlineBookmarkBorder, MdTrendingUp } from "react-icons/md";
+import { MdTrendingUp } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
@@ -18,7 +18,6 @@ import {
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { NavBar } from "src/view/common/NavBar";
-import { Padding } from "src/view/constants/padding";
 import { Size } from "src/view/constants/size";
 import { useLikePlaces } from "src/view/hooks/useLikePlaces";
 import { useNearbyPlans } from "src/view/hooks/useNearbyPlans";
@@ -28,6 +27,7 @@ import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { LikePlacesList } from "src/view/top/LikePlacesList";
 import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
+import { UsersPlan } from "src/view/top/UsersPlan";
 
 type Props = {
     plansRecentlyCreated: Plan[] | null;
@@ -95,20 +95,13 @@ const IndexPage = (props: Props) => {
                     pb="48px"
                     spacing="24px"
                 >
-                    {plansByUser && plansByUser.length > 0 && (
-                        <PlanList
-                            plans={plansByUser}
-                            grid={false}
-                            wrapTitle={false}
-                            showAuthor={false}
-                            px={Padding.p16}
-                        >
-                            <PlanListSectionTitle
-                                title="保存したプラン"
-                                icon={MdOutlineBookmarkBorder}
-                            />
-                        </PlanList>
-                    )}
+                    <UsersPlan
+                        plans={plansByUser}
+                        isLoading={
+                            fetchByFirebaseUserStatus ===
+                            RequestStatuses.PENDING
+                        }
+                    />
                     <LikePlacesList
                         places={likePlaces}
                         onSelectLikePlace={onSelectLikePlace}
