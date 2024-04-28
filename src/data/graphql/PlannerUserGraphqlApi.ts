@@ -22,7 +22,9 @@ export class PlannerUserGraphqlApi
     async fetchByFirebaseUserId(
         request: FetchByFirebaseUserRequest
     ): Promise<FetchByFirebaseUserResponse> {
-        const { data } = await this.client.query({
+        const { data } = await this.clientWithAuthHeader({
+            token: request.firebaseToken,
+        }).query({
             query: FirebaseUserDocument,
             variables: {
                 firebaseUserId: request.firebaseUserId,
