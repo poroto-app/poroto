@@ -79,7 +79,7 @@ function Empty() {
                 base: "16px",
                 md: "32px",
             }}
-            color="rgba(0,0,0,.6)"
+            color="rgba(0,0,0,.7)"
             justifyContent="center"
             flexDirection={{
                 base: "column",
