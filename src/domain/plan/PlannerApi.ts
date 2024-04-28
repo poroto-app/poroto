@@ -3,7 +3,6 @@ import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";
 import { Transition } from "src/domain/models/Transition";
-import { UserEntity } from "src/domain/user/UserApi";
 
 export interface PlannerApi {
     // ==============================================================
