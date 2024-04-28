@@ -5,13 +5,21 @@ import {
     signInWithPopup,
     signOut,
 } from "@firebase/auth";
+import { useEffect, useState } from "react";
+import { hasValue } from "src/domain/util/null";
 import { reduxAuthSelector } from "src/redux/auth";
 import { useAppDispatch } from "src/redux/redux";
 import { setIsBindPreLoginStateDialogVisible } from "src/redux/user";
+import { LocalStorageKeys } from "src/view/constants/localStorageKey";
 
 export const useAuth = () => {
     const dispatch = useAppDispatch();
-    const { user, fetchByFirebaseUserStatus } = reduxAuthSelector();
+    const { user, firebaseIdToken } = reduxAuthSelector();
+    const [isLoggedInUser, setIsLoggedInUser] = useState(false);
+
+    useEffect(() => {
+        setIsLoggedInUser(getLoggedIn() || hasValue(firebaseIdToken));
+    }, [firebaseIdToken]);
 
     const signInWithGoogle = () => {
         const auth = getAuth();
@@ -26,7 +34,15 @@ export const useAuth = () => {
         signOut(auth).then();
     };
 
-    return { user, signInWithGoogle, logout };
+    return { user, isLoggedInUser, signInWithGoogle, logout, setLoggedIn };
+};
+
+const setLoggedIn = (loggedIn: boolean) => {
+    localStorage.setItem(LocalStorageKeys.LoggedIn, loggedIn.toString());
+};
+
+const getLoggedIn = (): boolean => {
+    return localStorage.getItem(LocalStorageKeys.LoggedIn) === true.toString();
 };
 
 const _signInWithGoogle = async (auth: Auth) => {

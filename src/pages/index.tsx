@@ -8,7 +8,6 @@ import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import { Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
-import { reduxAuthSelector } from "src/redux/auth";
 import {
     fetchPlansRecentlyCreated,
     pushPlansRecentlyCreated,
@@ -19,6 +18,7 @@ import {
 import { useAppDispatch } from "src/redux/redux";
 import { NavBar } from "src/view/common/NavBar";
 import { Size } from "src/view/constants/size";
+import { useAuth } from "src/view/hooks/useAuth";
 import { useLikePlaces } from "src/view/hooks/useLikePlaces";
 import { useNearbyPlans } from "src/view/hooks/useNearbyPlans";
 import { NearbyPlanList } from "src/view/plan/NearbyPlanList";
@@ -55,7 +55,8 @@ const IndexPage = (props: Props) => {
         onSelectLikePlace,
         onCreatePlanFromLikePlace,
     } = useLikePlaces();
-    const { user, fetchByFirebaseUserStatus } = reduxAuthSelector();
+
+    const { user, isLoggedInUser } = useAuth();
 
     useEffect(() => {
         // すでにプランを取得済みの場合は何もしない
@@ -97,10 +98,7 @@ const IndexPage = (props: Props) => {
                 >
                     <UsersPlan
                         plans={plansByUser}
-                        isLoading={
-                            fetchByFirebaseUserStatus ===
-                            RequestStatuses.PENDING
-                        }
+                        isLoading={isLoggedInUser && !plansByUser}
                     />
                     <LikePlacesList
                         places={likePlaces}
