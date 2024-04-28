@@ -4,11 +4,7 @@ import { useEffect } from "react";
 import { Place } from "src/domain/models/Place";
 import { reduxAuthSelector } from "src/redux/auth";
 import { setSearchLocation } from "src/redux/location";
-import {
-    fetchLikePlaces,
-    reduxPlaceSelector,
-    setLikePlaces,
-} from "src/redux/place";
+import { reduxPlaceSelector, setLikePlaces } from "src/redux/place";
 import { reduxPlanSelector, setPlaceIdToCreatePlan } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { AnalyticsEvents } from "src/view/constants/analytics";
@@ -52,8 +48,6 @@ export const useLikePlaces = () => {
             dispatch(setLikePlaces({ places: null }));
             return;
         }
-
-        dispatch(fetchLikePlaces({ userId: user.id, firebaseIdToken }));
     }, [user, firebaseIdToken]);
 
     return {
