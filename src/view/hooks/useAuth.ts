@@ -5,37 +5,13 @@ import {
     signInWithPopup,
     signOut,
 } from "@firebase/auth";
-import { useEffect } from "react";
-import { RequestStatuses } from "src/domain/models/RequestStatus";
-import {
-    fetchByFirebaseUser,
-    reduxAuthSelector,
-    resetAuthUser,
-} from "src/redux/auth";
+import { reduxAuthSelector } from "src/redux/auth";
 import { useAppDispatch } from "src/redux/redux";
 import { setIsBindPreLoginStateDialogVisible } from "src/redux/user";
 
 export const useAuth = () => {
     const dispatch = useAppDispatch();
     const { user, fetchByFirebaseUserStatus } = reduxAuthSelector();
-
-    useEffect(() => {
-        const auth = getAuth();
-        auth.onAuthStateChanged(async (firebaseUser) => {
-            if (firebaseUser) {
-                const idToken = await firebaseUser.getIdToken();
-                if (fetchByFirebaseUserStatus !== RequestStatuses.PENDING)
-                    dispatch(
-                        fetchByFirebaseUser({
-                            firebaseUserId: firebaseUser.uid,
-                            firebaseToken: idToken,
-                        })
-                    );
-            } else {
-                dispatch(resetAuthUser());
-            }
-        });
-    }, []);
 
     const signInWithGoogle = () => {
         const auth = getAuth();
