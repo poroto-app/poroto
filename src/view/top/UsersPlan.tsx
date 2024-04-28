@@ -95,7 +95,7 @@ function Empty() {
             />
             <VStack spacing={0} alignItems="flex-start">
                 <Text fontSize="1.2rem" fontWeight="bold">
-                    プランを保存しよう！
+                    プランを作って、保存しよう！
                 </Text>
                 <Text>保存したプランはいつでも見返すことができます。</Text>
             </VStack>
