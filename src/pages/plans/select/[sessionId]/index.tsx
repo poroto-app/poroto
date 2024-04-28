@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
-import { notEmpty } from "src/domain/util/null";
+import { hasValue } from "src/domain/util/null";
 import { resetCreatePlanFromPlaceRequestStatus } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { AdInPlanDetail } from "src/view/ad/AdInPlanDetail";
@@ -179,8 +179,8 @@ const SelectPlanPage = () => {
             <Box w="100%" overflowX="hidden" ref={planDetailPageRef}>
                 <PlanDetailPage
                     planId={
-                        notEmpty(selectedPlanIndex) &&
-                        notEmpty(plansCreated) &&
+                        hasValue(selectedPlanIndex) &&
+                        hasValue(plansCreated) &&
                         plansCreated.length > selectedPlanIndex
                             ? plansCreated[selectedPlanIndex].id
                             : null
