@@ -588,8 +588,10 @@ export type UploadPlacePhotoInPlanOutput = {
 export type User = {
   __typename?: 'User';
   id: Scalars['ID']['output'];
+  likedPlaces: Array<Place>;
   name: Scalars['String']['output'];
   photoUrl?: Maybe<Scalars['String']['output']>;
+  plans: Array<Plan>;
 };
 
 export type PlaceFullFragmentFragment = { __typename?: 'Place', id: string, googlePlaceId: string, name: string, estimatedStayDuration: number, likeCount: number, images: Array<{ __typename?: 'Image', default: string, small?: string | null, large?: string | null, google: boolean }>, location: { __typename?: 'GeoLocation', longitude: number, latitude: number }, googleReviews: Array<{ __typename?: 'GooglePlaceReview', rating: number, text?: string | null, authorName: string, authorPhotoUrl?: string | null, authorUrl?: string | null, time: number }>, categories: Array<{ __typename?: 'PlaceCategory', id: string, name: string }>, priceRange?: { __typename?: 'PriceRange', priceRangeMin: number, priceRangeMax: number, googlePriceLevel: number } | null };
