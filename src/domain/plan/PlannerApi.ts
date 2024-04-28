@@ -13,10 +13,6 @@ export interface PlannerApi {
 
     fetchPlans(request: FetchPlansRequest): Promise<FetchPlansResponse>;
 
-    fetchPlansByUser(
-        request: FetchPlansByUserRequest
-    ): Promise<FetchPlansByUserResponse>;
-
     fetchPlansByLocation(
         request: FetchPlansByLocationRequest
     ): Promise<FetchPlansByLocationResponse>;
@@ -118,15 +114,6 @@ export type FetchPlansRequest = {
 export type FetchPlansResponse = {
     plans: PlanEntity[];
     nextPageKey: string | null;
-};
-
-export type FetchPlansByUserRequest = {
-    userId: string;
-};
-
-export type FetchPlansByUserResponse = {
-    author: UserEntity;
-    plans: PlanEntity[];
 };
 
 export type FetchPlansByLocationRequest = {
