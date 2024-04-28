@@ -22,7 +22,6 @@ export const Primary: Story = {
     },
 };
 
-
 export const Empty: Story = {
     args: {
         places: [],
@@ -37,11 +36,11 @@ export const NoPlaces: Story = {
 
 export const Transition: Story = {
     render: (args) => {
-       return <LikePlacesList places={args["isEmpty"] ? [] : args.places} />;
+        return <LikePlacesList places={args["isEmpty"] ? [] : args.places} />;
     },
     args: {
         // @ts-ignore
         isEmpty: false,
         places: [mockPlaces.bookStore],
     },
-}
+};

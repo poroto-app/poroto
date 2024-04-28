@@ -45,7 +45,8 @@ export function LikePlacesList({ places, onSelectLikePlace }: Props) {
                     <VStack
                         w="100%"
                         style={{
-                            transition: "transform 0.2s ease-in-out, opacity 0.2s ease-in-out",
+                            transition:
+                                "transform 0.2s ease-in-out, opacity 0.2s ease-in-out",
                             ...transitionStyles[state],
                         }}
                     >
@@ -60,7 +61,9 @@ export function LikePlacesList({ places, onSelectLikePlace }: Props) {
                                     place={place}
                                     w={Size.PlanList.LikePlace.w}
                                     h={Size.PlanList.LikePlace.h}
-                                    onClick={() => onSelectLikePlace?.(place.id)}
+                                    onClick={() =>
+                                        onSelectLikePlace?.(place.id)
+                                    }
                                 />
                             ))}
                         </HorizontalScrollableList>
