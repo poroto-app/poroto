@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerPlaceGraphqlApi } from "src/data/graphql/PlannerPlaceGraphqlApi";
 import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
@@ -43,9 +43,14 @@ export const slice = createSlice({
     name: "place",
     initialState,
     reducers: {
-        resetLikePlaces: (state) => {
-            state.likePlaces = null;
-            state.fetchLikePlacesRequestStatus = null;
+        setLikePlaces: (
+            state,
+            { payload }: PayloadAction<{ places: Place[] | null }>
+        ) => {
+            state.likePlaces = payload.places;
+            if (!payload.places) {
+                state.fetchLikePlacesRequestStatus = null;
+            }
         },
     },
     extraReducers: (builder) => {
@@ -70,7 +75,7 @@ export const slice = createSlice({
     },
 });
 
-export const { resetLikePlaces } = slice.actions;
+export const { setLikePlaces } = slice.actions;
 
 export const reduxPlaceSelector = () =>
     useSelector((state: RootState) => state.place);

@@ -277,8 +277,11 @@ export const slice = createSlice({
         ) => {
             state.placeIdToCreatePlan = payload;
         },
-        resetPlansByUser: (state) => {
-            state.plansByUser = null;
+        setPlansByUser: (
+            state,
+            { payload }: PayloadAction<{ plans: Plan[] | null }>
+        ) => {
+            state.plansByUser = payload.plans;
         },
     },
     extraReducers: (builder) => {
@@ -406,7 +409,7 @@ export const {
     pushPlansRecentlyCreated,
     setShowPlanCreatedModal,
     setPlaceIdToCreatePlan,
-    resetPlansByUser,
+    setPlansByUser,
 } = slice.actions;
 
 export const reduxPlanSelector = () =>

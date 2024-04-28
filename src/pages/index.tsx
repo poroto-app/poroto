@@ -14,12 +14,11 @@ import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { reduxAuthSelector } from "src/redux/auth";
 import {
-    fetchPlansByUser,
     fetchPlansRecentlyCreated,
     pushPlansRecentlyCreated,
     reduxPlanSelector,
-    resetPlansByUser,
     setPlaceIdToCreatePlan,
+    setPlansByUser,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
@@ -47,7 +46,6 @@ const IndexPage = (props: Props) => {
         nextPageTokenPlansRecentlyCreated,
         plansByUser,
         fetchPlansRecentlyCreatedRequestStatus,
-        fetchPlansByUserRequestStatus,
     } = reduxPlanSelector();
     const {
         plansNearby,
@@ -85,11 +83,9 @@ const IndexPage = (props: Props) => {
 
     useEffect(() => {
         if (!user) {
-            dispatch(resetPlansByUser());
+            dispatch(setPlansByUser({ plans: null }));
             return;
         }
-
-        dispatch(fetchPlansByUser({ userId: user.id }));
     }, [user]);
 
     return (

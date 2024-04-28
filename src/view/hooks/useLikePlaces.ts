@@ -7,7 +7,7 @@ import { setSearchLocation } from "src/redux/location";
 import {
     fetchLikePlaces,
     reduxPlaceSelector,
-    resetLikePlaces,
+    setLikePlaces,
 } from "src/redux/place";
 import { reduxPlanSelector, setPlaceIdToCreatePlan } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
@@ -49,7 +49,7 @@ export const useLikePlaces = () => {
     useEffect(() => {
         // ログアウトした場合は状態をリセットする
         if (!user || !firebaseIdToken) {
-            dispatch(resetLikePlaces());
+            dispatch(setLikePlaces({ places: null }));
             return;
         }
 
