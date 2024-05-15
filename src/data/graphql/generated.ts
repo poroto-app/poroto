@@ -333,6 +333,7 @@ export type NearbyPlaceCategoryOutput = {
 
 export type Place = {
   __typename?: 'Place';
+  address?: Maybe<Scalars['String']['output']>;
   categories: Array<PlaceCategory>;
   estimatedStayDuration: Scalars['Int']['output'];
   googlePlaceId: Scalars['String']['output'];
