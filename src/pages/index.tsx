@@ -104,20 +104,6 @@ const IndexPage = (props: Props) => {
                     pb="48px"
                     spacing="24px"
                 >
-                    {plansByUser && plansByUser.length > 0 && (
-                        <PlanList
-                            plans={plansByUser}
-                            grid={false}
-                            wrapTitle={false}
-                            showAuthor={false}
-                            px={Padding.p16}
-                        >
-                            <PlanListSectionTitle
-                                title="保存したプラン"
-                                icon={MdOutlineBookmarkBorder}
-                            />
-                        </PlanList>
-                    )}
                     {likePlaces && likePlaces.length > 0 && (
                         <VStack w="100%">
                             <PlanListSectionTitle
@@ -138,6 +124,20 @@ const IndexPage = (props: Props) => {
                                 ))}
                             </HorizontalScrollableList>
                         </VStack>
+                    )}
+                    {plansByUser && plansByUser.length > 0 && (
+                        <PlanList
+                            plans={plansByUser}
+                            grid={false}
+                            wrapTitle={false}
+                            showAuthor={false}
+                            px={Padding.p16}
+                        >
+                            <PlanListSectionTitle
+                                title="保存したプラン"
+                                icon={MdOutlineBookmarkBorder}
+                            />
+                        </PlanList>
                     )}
                     {/* TODO: 拒否設定されている場合の対処をする */}
                     <NearbyPlanList
