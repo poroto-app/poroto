@@ -2,6 +2,7 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 import { MutableRefObject, forwardRef } from "react";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
+import { notEmpty } from "src/domain/util/null";
 import { PlanSummaryDuration } from "src/view/plan/PlanSummary";
 import styled from "styled-components";
 
@@ -35,12 +36,20 @@ export const PlanScreenShotComponent = forwardRef<HTMLDivElement, Props>(
 
 const PlaceListItem = ({ place }: { place: Place }) => {
     return (
-        <Box w="100%" p="16px" borderBottom="1px solid rgba(0, 0, 0, .1)">
+        <VStack
+            spacing={0}
+            alignItems="flex-start"
+            w="100%"
+            p="16px"
+            borderBottom="1px solid rgba(0, 0, 0, .1)"
+        >
             <Text fontSize="16px">{place.name}</Text>
-            <Text fontSize="16px" color="#808080">
-                {"住所" /*TODO: 住所を指定できるようにする*/}
-            </Text>
-        </Box>
+            {notEmpty(place.address) && (
+                <Text fontSize="16px" color="#808080">
+                    住所 {place.address}
+                </Text>
+            )}
+        </VStack>
     );
 };
 
