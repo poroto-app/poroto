@@ -22,3 +22,12 @@ export const Empty: Story = {
         place: null,
     },
 };
+
+export const WoAddress: Story = {
+    args: {
+        place: {
+            ...mockPlaces.bookStore,
+            address: null,
+        },
+    },
+};

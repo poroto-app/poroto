@@ -51,6 +51,16 @@ export function PlaceCard({
                 userSelect="none"
                 cursor="pointer"
             >
+                {notEmpty(place.address) && (
+                    <Text
+                        whiteSpace="nowrap"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        fontSize="14px"
+                    >
+                        {place.address}
+                    </Text>
+                )}
                 <Text
                     fontWeight="bold"
                     whiteSpace="nowrap"
@@ -58,14 +68,6 @@ export function PlaceCard({
                     textOverflow="ellipsis"
                 >
                     {place.name}
-                </Text>
-                <Text
-                    whiteSpace="nowrap"
-                    overflow="hidden"
-                    textOverflow="ellipsis"
-                    fontSize="14px"
-                >
-                    {notEmpty(place.address) ? place.address : "　"}
                 </Text>
             </VStack>
         </Box>
