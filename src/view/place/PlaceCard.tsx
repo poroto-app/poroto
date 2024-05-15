@@ -1,5 +1,6 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 import { Place } from "src/domain/models/Place";
+import { notEmpty } from "src/domain/util/null";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { Size } from "src/view/constants/size";
 
@@ -35,7 +36,9 @@ export function PlaceCard({
                 isGoogleImage={image.isGoogleImage}
                 attributionToBottom={false}
             />
-            <Box
+            <VStack
+                alignItems="flex-start"
+                spacing={0}
                 px="16px"
                 pb="16px"
                 pt="32px"
@@ -49,13 +52,22 @@ export function PlaceCard({
                 cursor="pointer"
             >
                 <Text
+                    fontWeight="bold"
                     whiteSpace="nowrap"
                     overflow="hidden"
                     textOverflow="ellipsis"
                 >
                     {place.name}
                 </Text>
-            </Box>
+                <Text
+                    whiteSpace="nowrap"
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    fontSize="14px"
+                >
+                    {notEmpty(place.address) ? place.address : "　"}
+                </Text>
+            </VStack>
         </Box>
     );
 }
