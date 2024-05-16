@@ -152,7 +152,6 @@ export const PlacePreview = ({
                 <PlaceInfoTab
                     tabHSpaacing={Size.PlaceCardPaddingH}
                     categories={categories}
-                    googlePlaceReviews={googlePlaceReviews}
                     priceRange={priceRange}
                     estimatedStayDuration={estimatedStayDuration}
                 />

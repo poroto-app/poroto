@@ -375,7 +375,6 @@ export function ConfirmToUpdateScreen({
                         tabHSpaacing="20px"
                         priceRange={place.priceRange}
                         categories={place.categories}
-                        googlePlaceReviews={place.googlePlaceReviews}
                         estimatedStayDuration={place.estimatedStayDuration}
                     />
                     <HStack w="100%" px="20px" alignItems="flex-stat">
