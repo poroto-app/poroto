@@ -14,15 +14,6 @@ export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
         })),
         location: entity.location,
         estimatedStayDuration: entity.estimatedStayDuration,
-        googlePlaceReviews:
-            entity.googlePlaceReviews?.map((review) => ({
-                rating: review.rating,
-                text: review.text,
-                authorName: review.authorName,
-                authorUrl: review.authorUrl,
-                authorPhotoUrl: review.authorPhotoUrl,
-                timeInMilliSec: review.time,
-            })) ?? null,
         categories: entity.categories.map((category) => ({
             id: category.id,
             displayName: category.displayName,

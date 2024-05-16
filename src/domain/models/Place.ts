@@ -11,7 +11,6 @@ export type Place = {
     images: Image[];
     location: GeoLocation;
     estimatedStayDuration: number;
-    googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
     priceRange?: PriceRange | null;
     likeCount: number;
