@@ -13,7 +13,6 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
     getImageSizeOf,
     ImageSizes,
@@ -75,9 +74,7 @@ export const PlacePreview = ({
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
     const isEmptyLocation =
-        images.length === 0 &&
-        categories.length === 0 &&
-        !priceRange;
+        images.length === 0 && categories.length === 0 && !priceRange;
 
     const openModal = (image: ImageType) => {
         setSelectedImage(getImageSizeOf(ImageSizes.Large, image));
