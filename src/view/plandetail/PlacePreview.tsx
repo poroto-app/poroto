@@ -41,7 +41,6 @@ type Props = {
     googlePlaceId: string;
     name: string;
     images: ImageType[];
-    googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
     like: boolean;
@@ -63,7 +62,6 @@ export const PlacePreview = ({
     googlePlaceId,
     name,
     images,
-    googlePlaceReviews,
     categories,
     priceRange,
     like,
@@ -78,7 +76,6 @@ export const PlacePreview = ({
     const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
     const isEmptyLocation =
         images.length === 0 &&
-        googlePlaceReviews?.length == 0 &&
         categories.length === 0 &&
         !priceRange;
 
