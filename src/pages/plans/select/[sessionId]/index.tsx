@@ -344,11 +344,11 @@ function PlanDetailPage({
             </Center>
             <PlanFooter visible={isPlanFooterVisible}>
                 <Button
-                    variant="solid"
+                    variant="outline"
                     flex={1}
-                    color="white"
-                    backgroundColor={Colors.primary["400"]}
-                    borderRadius={10}
+                    color={Colors.primary[400]}
+                    borderColor={Colors.primary[400]}
+                    borderRadius={20}
                     onClick={() =>
                         handleOptimizeRoute({
                             planCandidateId: planCandidateSetId,
@@ -362,8 +362,8 @@ function PlanDetailPage({
                     variant="solid"
                     flex={1}
                     color="white"
-                    backgroundColor={Colors.primary["400"]}
-                    borderRadius={10}
+                    backgroundColor="#BF756E"
+                    borderRadius={20}
                     onClick={() => createPlan({ planId: plan.id })}
                 >
                     このプランを保存
