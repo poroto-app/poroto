@@ -96,13 +96,13 @@ const IndexPage = (props: Props) => {
                     pb="48px"
                     spacing="24px"
                 >
-                    <UsersPlan
-                        plans={plansByUser}
-                        isLoading={isLoggedInUser && !plansByUser}
-                    />
                     <LikePlacesList
                         places={likePlaces}
                         onSelectLikePlace={onSelectLikePlace}
+                    />
+                    <UsersPlan
+                        plans={plansByUser}
+                        isLoading={isLoggedInUser && !plansByUser}
                     />
                     {/* TODO: 拒否設定されている場合の対処をする */}
                     <NearbyPlanList

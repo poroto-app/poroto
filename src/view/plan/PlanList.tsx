@@ -103,7 +103,7 @@ function PlanListItem({
     showAuthor?: boolean;
 }) {
     return (
-        <Box w={grid ? "100%" : "200px"}>
+        <Box minW={grid ? "100%" : "300px"}>
             <PlanPreview
                 link={plan && Routes.plans.plan(plan.id)}
                 plan={plan}
