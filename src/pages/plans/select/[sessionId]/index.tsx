@@ -28,6 +28,7 @@ import { usePlanPlaceReorder } from "src/view/hooks/usePlanPlaceReorder";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanFooter } from "src/view/plan/PlanFooter";
+import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSection";
 import { GeneratingPlanDialog } from "src/view/plan/candidate/GeneratingPlanDialog";
@@ -332,6 +333,7 @@ function PlanDetailPage({
                         <PlaceMap places={plan.places} />
                     </PlanPageSection>
                     <VStack w="100%" p="16px">
+                        <SavePlanAsImageButton plan={plan} />
                         <SearchRouteByGoogleMapButton
                             plan={plan}
                             currentLocation={currentLocation}
