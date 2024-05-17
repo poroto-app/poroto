@@ -5,6 +5,9 @@ export const AnalyticsEvents = {
         FromSelectedLocation: "create_plan_from_selected_location",
         FromPlaceNearbyPlan: "create_plan_from_place_nearby_plan",
 
+        StartCreatePlanFromSelectedLocation:
+            "start_create_plan_from_selected_location",
+
         // 実際に作成を行った
         Create: "create_plan",
     },
