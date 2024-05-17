@@ -8,6 +8,11 @@ export const AnalyticsEvents = {
         // 実際に作成を行った
         Create: "create_plan",
     },
+    Interests: {
+        SelectDuration: "interests_select_duration",
+        SkipSelectDuration: "interests_skip_select_duration",
+        SelectCategory: "interests_select_category",
+    },
     SavePlan: "save_plan",
     EditPlan: {
         Like: "edit_plan_like",
