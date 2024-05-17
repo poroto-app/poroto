@@ -1,5 +1,5 @@
 import { Box, Center, HStack, Icon } from "@chakra-ui/react";
-import { ReactNode, useRef } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { isPC } from "src/view/constants/userAgent";
 
@@ -17,6 +17,7 @@ export const HorizontalScrollableList = ({
     children,
 }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const [isHovered, setIsHovered] = useState(false);
 
     const scroll = (direction: "left" | "right") => {
         if (!containerRef.current) {
@@ -28,6 +29,26 @@ export const HorizontalScrollableList = ({
             scrollLeft + (direction === "left" ? -scrollAmount : scrollAmount);
         container.scrollTo({ left: newScrollLeft, behavior: "smooth" });
     };
+
+    useEffect(() => {
+        const handleMouseMove = (event) => {
+            if (containerRef.current) {
+                const rect = containerRef.current.getBoundingClientRect();
+                const isInside =
+                    event.clientX >= rect.left &&
+                    event.clientX <= rect.right &&
+                    event.clientY >= rect.top &&
+                    event.clientY <= rect.bottom;
+                setIsHovered(isInside);
+            }
+        };
+
+        window.addEventListener("mousemove", handleMouseMove);
+
+        return () => {
+            window.removeEventListener("mousemove", handleMouseMove);
+        };
+    }, []);
 
     return (
         <Box position="relative" w="100%">
@@ -47,7 +68,7 @@ export const HorizontalScrollableList = ({
             >
                 {children}
             </HStack>
-            <Box>
+            <Box opacity={isHovered ? 1 : 0} transition="all 0.2s ease-in-out">
                 <PageButton
                     left={0}
                     right="auto"
