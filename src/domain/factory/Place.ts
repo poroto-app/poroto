@@ -1,6 +1,6 @@
 import { Place } from "src/domain/models/Place";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
-import { notEmpty } from "src/domain/util/null";
+import { hasValue } from "src/domain/util/null";
 
 export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
     return {
@@ -13,7 +13,7 @@ export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
             large: image.large ?? image.default,
             isGoogleImage: image.isGooglePhotos,
         })),
-        address: notEmpty(entity.address) ? entity.address : null,
+        address: hasValue(entity.address) ? entity.address : null,
         location: entity.location,
         estimatedStayDuration: entity.estimatedStayDuration,
         googlePlaceReviews:

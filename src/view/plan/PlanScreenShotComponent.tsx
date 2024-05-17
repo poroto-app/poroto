@@ -2,7 +2,7 @@ import { Box, Text, VStack } from "@chakra-ui/react";
 import { MutableRefObject, forwardRef } from "react";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
-import { notEmpty } from "src/domain/util/null";
+import { hasValue } from "src/domain/util/null";
 import { PlanSummaryDuration } from "src/view/plan/PlanSummary";
 import styled from "styled-components";
 
@@ -44,7 +44,7 @@ const PlaceListItem = ({ place }: { place: Place }) => {
             borderBottom="1px solid rgba(0, 0, 0, .1)"
         >
             <Text fontSize="16px">{place.name}</Text>
-            {notEmpty(place.address) && (
+            {hasValue(place.address) && (
                 <Text fontSize="16px" color="#808080">
                     住所 {place.address}
                 </Text>

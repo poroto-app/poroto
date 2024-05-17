@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
-import { notEmpty } from "src/domain/util/null";
+import { hasValue } from "src/domain/util/null";
 import { resetCreatePlanFromPlaceRequestStatus } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { AdInPlanDetail } from "src/view/ad/AdInPlanDetail";
@@ -28,6 +28,7 @@ import { usePlanPlaceReorder } from "src/view/hooks/usePlanPlaceReorder";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanFooter } from "src/view/plan/PlanFooter";
+import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSection";
 import { GeneratingPlanDialog } from "src/view/plan/candidate/GeneratingPlanDialog";
@@ -179,8 +180,8 @@ const SelectPlanPage = () => {
             <Box w="100%" overflowX="hidden" ref={planDetailPageRef}>
                 <PlanDetailPage
                     planId={
-                        notEmpty(selectedPlanIndex) &&
-                        notEmpty(plansCreated) &&
+                        hasValue(selectedPlanIndex) &&
+                        hasValue(plansCreated) &&
                         plansCreated.length > selectedPlanIndex
                             ? plansCreated[selectedPlanIndex].id
                             : null
@@ -332,6 +333,7 @@ function PlanDetailPage({
                         <PlaceMap places={plan.places} />
                     </PlanPageSection>
                     <VStack w="100%" p="16px">
+                        <SavePlanAsImageButton plan={plan} />
                         <SearchRouteByGoogleMapButton
                             plan={plan}
                             currentLocation={currentLocation}
@@ -344,11 +346,11 @@ function PlanDetailPage({
             </Center>
             <PlanFooter visible={isPlanFooterVisible}>
                 <Button
-                    variant="solid"
+                    variant="outline"
                     flex={1}
-                    color="white"
-                    backgroundColor={Colors.primary["400"]}
-                    borderRadius={10}
+                    color={Colors.primary[400]}
+                    borderColor={Colors.primary[400]}
+                    borderRadius={20}
                     onClick={() =>
                         handleOptimizeRoute({
                             planCandidateId: planCandidateSetId,
@@ -362,8 +364,8 @@ function PlanDetailPage({
                     variant="solid"
                     flex={1}
                     color="white"
-                    backgroundColor={Colors.primary["400"]}
-                    borderRadius={10}
+                    backgroundColor="#BF756E"
+                    borderRadius={20}
                     onClick={() => createPlan({ planId: plan.id })}
                 >
                     このプランを保存

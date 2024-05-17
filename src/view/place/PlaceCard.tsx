@@ -1,6 +1,6 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
 import { Place } from "src/domain/models/Place";
-import { notEmpty } from "src/domain/util/null";
+import { hasValue } from "src/domain/util/null";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { Size } from "src/view/constants/size";
 
@@ -51,7 +51,7 @@ export function PlaceCard({
                 userSelect="none"
                 cursor="pointer"
             >
-                {notEmpty(place.address) && (
+                {hasValue(place.address) && (
                     <Text
                         whiteSpace="nowrap"
                         overflow="hidden"

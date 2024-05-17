@@ -1,6 +1,6 @@
-import { notEmpty, when } from "src/domain/util/null";
+import { hasValue, when } from "src/domain/util/null";
 
-describe("notEmpty", () => {
+describe("hasValue", () => {
     const cases: {
         name: string;
         value: number | null | undefined;
@@ -30,7 +30,7 @@ describe("notEmpty", () => {
 
     cases.forEach((c) =>
         test(c.name, () => {
-            const actual = notEmpty(c.value);
+            const actual = hasValue(c.value);
             expect(actual).toEqual(c.expected);
         })
     );

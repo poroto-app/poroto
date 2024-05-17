@@ -1,12 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerUserGraphqlApi } from "src/data/graphql/PlannerUserGraphqlApi";
+import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
+import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
 import { User } from "src/domain/models/User";
 import { UserApi, createUserFromEntity } from "src/domain/user/UserApi";
+import { setLikePlaces } from "src/redux/place";
+import { setPlansByUser } from "src/redux/plan";
 import { RootState } from "src/redux/redux";
 
 export type AuthState = {
@@ -29,12 +33,26 @@ type FetchByFirebaseUserProps = {
 };
 export const fetchByFirebaseUser = createAsyncThunk(
     "auth/fetchByFirebaseUser",
-    async ({ firebaseUserId, firebaseToken }: FetchByFirebaseUserProps) => {
+    async (
+        { firebaseUserId, firebaseToken }: FetchByFirebaseUserProps,
+        { dispatch }
+    ) => {
         const userApi: UserApi = new PlannerUserGraphqlApi();
-        const { user } = await userApi.fetchByFirebaseUserId({
-            firebaseUserId,
-            firebaseToken,
-        });
+        const { user, plans, likedPlaces } =
+            await userApi.fetchByFirebaseUserId({
+                firebaseUserId,
+                firebaseToken,
+            });
+
+        dispatch(
+            setPlansByUser({ plans: plans.map(createPlanFromPlanEntity) })
+        );
+        dispatch(
+            setLikePlaces({
+                places: likedPlaces.map(createPlaceFromPlaceEntity),
+            })
+        );
+
         return {
             user: createUserFromEntity(user),
             firebaseToken,
