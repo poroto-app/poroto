@@ -69,6 +69,7 @@ import {
     UploadPlacePhotosInPlanRequest,
     UploadPlacePhotosInPlanResponse,
 } from "src/domain/plan/PlannerApi";
+import { hasValue } from "src/domain/util/null";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     // ==============================================================
@@ -603,6 +604,7 @@ export function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
             large: image.large ?? null,
             isGooglePhotos: image.google,
         })),
+        address: hasValue(place.address) ? place.address : null,
         location: {
             latitude: place.location.latitude,
             longitude: place.location.longitude,
