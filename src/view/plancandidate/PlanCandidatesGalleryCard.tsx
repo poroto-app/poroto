@@ -9,9 +9,18 @@ import { StoryImagePreview } from "src/view/plancandidate/StoryImagePreview";
 type Props = {
     plan: Plan;
     isActive: boolean;
+    // カード中の最初の画像をタップして、次の要素に移動しようとしている
+    onClickFirstItem?: () => void;
+    // カード中の最後の画像をタップして、次の要素に移動しようとしている
+    onClickLastItem?: () => void;
 };
 
-export function PlanCandidateGalleryCard({ plan, isActive }: Props) {
+export function PlanCandidateGalleryCard({
+    plan,
+    isActive,
+    onClickFirstItem,
+    onClickLastItem,
+}: Props) {
     const [currentPlaceIndex, setCurrentPlaceIndex] = useState<number>(0);
 
     const images: Image[] = plan.places.map((place) =>
@@ -36,6 +45,8 @@ export function PlanCandidateGalleryCard({ plan, isActive }: Props) {
                     images={images}
                     slideable={isActive}
                     onActiveIndexChange={setCurrentPlaceIndex}
+                    onClickFirstItem={onClickFirstItem}
+                    onClickLastItem={onClickLastItem}
                 />
                 <Box
                     position="absolute"

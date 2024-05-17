@@ -56,7 +56,9 @@ export function CreatePlanSection() {
                         <CreatePlanButton
                             title="好きな場所から"
                             icon={MdOutlineMap}
-                            link={Routes.places.search({})}
+                            link={Routes.places.search({
+                                skipCurrentLocation: true,
+                            })}
                             onClick={() =>
                                 logEvent(
                                     getAnalytics(),

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
-import { notEmpty } from "src/domain/util/null";
+import { hasValue } from "src/domain/util/null";
 import { resetCreatePlanFromPlaceRequestStatus } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { AdInPlanDetail } from "src/view/ad/AdInPlanDetail";
@@ -28,6 +28,7 @@ import { usePlanPlaceReorder } from "src/view/hooks/usePlanPlaceReorder";
 import { usePlanPlaceReplace } from "src/view/hooks/usePlanPlaceReplace";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanFooter } from "src/view/plan/PlanFooter";
+import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { AvailablePlaceSection } from "src/view/plan/candidate/AvailablePlaceSection";
 import { GeneratingPlanDialog } from "src/view/plan/candidate/GeneratingPlanDialog";
@@ -48,8 +49,12 @@ const SelectPlanPage = () => {
     const { sessionId } = router.query;
     const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
     const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
-    const { isPlanFooterVisible, planDetailPageRef, scrollToPlanDetailPage } =
-        usePlanCandidateGalleryPageAutoScroll();
+    const {
+        isPlanFooterVisible,
+        planDetailPageRef,
+        scrollContainerRef,
+        scrollToPlanDetailPage,
+    } = usePlanCandidateGalleryPageAutoScroll();
 
     const {
         plansCreated,
@@ -148,39 +153,52 @@ const SelectPlanPage = () => {
         );
 
     return (
-        <VStack w="100%" spacing={0}>
-            <NavBar />
-            <Center
-                w="100%"
-                h={`calc(100vh - ${Size.NavBar.height})`}
-                px="16px"
-                ref={refPlanCandidateGallery}
-                overflowX="hidden"
-            >
-                <VStack spacing="32px">
-                    <PlanCandidatesGallery
-                        planCandidates={plansCreated}
-                        activePlanIndex={selectedPlanIndex}
-                        onActiveIndexChange={setSelectedPlanIndex}
-                    />
-                    <ButtonWithBlur
-                        px="16px"
-                        py="16px"
-                        backgroundColor="#84A6FF"
-                        borderRadius="50px"
-                        onClick={scrollToPlanDetailPage}
-                    >
-                        <Text color="white" fontWeight="bold" fontSize="18px">
-                            プランをみてみる
-                        </Text>
-                    </ButtonWithBlur>
-                </VStack>
-            </Center>
-            <Box w="100%" overflowX="hidden" ref={planDetailPageRef}>
+        <VStack
+            w="100%"
+            h="100%"
+            overflowY="scroll"
+            spacing={0}
+            ref={scrollContainerRef}
+            scrollSnapType="y mandatory"
+        >
+            <VStack spacing={0} w="100%" scrollSnapAlign="start">
+                <NavBar />
+                <Center
+                    w="100%"
+                    h={`calc(100vh - ${Size.NavBar.height})`}
+                    px="16px"
+                    ref={refPlanCandidateGallery}
+                    overflowX="hidden"
+                >
+                    <VStack spacing="32px">
+                        <PlanCandidatesGallery
+                            planCandidates={plansCreated}
+                            activePlanIndex={selectedPlanIndex}
+                            onActiveIndexChange={setSelectedPlanIndex}
+                        />
+                        <ButtonWithBlur
+                            px="16px"
+                            py="16px"
+                            backgroundColor="#84A6FF"
+                            borderRadius="50px"
+                            onClick={scrollToPlanDetailPage}
+                        >
+                            <Text
+                                color="white"
+                                fontWeight="bold"
+                                fontSize="18px"
+                            >
+                                プランをみてみる
+                            </Text>
+                        </ButtonWithBlur>
+                    </VStack>
+                </Center>
+            </VStack>
+            <Box w="100%" ref={planDetailPageRef} scrollSnapAlign="start">
                 <PlanDetailPage
                     planId={
-                        notEmpty(selectedPlanIndex) &&
-                        notEmpty(plansCreated) &&
+                        hasValue(selectedPlanIndex) &&
+                        hasValue(plansCreated) &&
                         plansCreated.length > selectedPlanIndex
                             ? plansCreated[selectedPlanIndex].id
                             : null
@@ -332,6 +350,7 @@ function PlanDetailPage({
                         <PlaceMap places={plan.places} />
                     </PlanPageSection>
                     <VStack w="100%" p="16px">
+                        <SavePlanAsImageButton plan={plan} />
                         <SearchRouteByGoogleMapButton
                             plan={plan}
                             currentLocation={currentLocation}
@@ -344,11 +363,11 @@ function PlanDetailPage({
             </Center>
             <PlanFooter visible={isPlanFooterVisible}>
                 <Button
-                    variant="solid"
+                    variant="outline"
                     flex={1}
-                    color="white"
-                    backgroundColor={Colors.primary["400"]}
-                    borderRadius={10}
+                    color={Colors.primary[400]}
+                    borderColor={Colors.primary[400]}
+                    borderRadius={20}
                     onClick={() =>
                         handleOptimizeRoute({
                             planCandidateId: planCandidateSetId,
@@ -362,8 +381,8 @@ function PlanDetailPage({
                     variant="solid"
                     flex={1}
                     color="white"
-                    backgroundColor={Colors.primary["400"]}
-                    borderRadius={10}
+                    backgroundColor="#BF756E"
+                    borderRadius={20}
                     onClick={() => createPlan({ planId: plan.id })}
                 >
                     このプランを保存
