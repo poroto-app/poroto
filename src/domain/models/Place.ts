@@ -8,6 +8,7 @@ export type Place = {
     googlePlaceId: string | null;
     name: string;
     images: Image[];
+    address: string | null;
     location: GeoLocation;
     estimatedStayDuration: number;
     categories: PlaceCategory[];

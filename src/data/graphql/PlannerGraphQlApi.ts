@@ -19,7 +19,6 @@ import {
     PlanCandidateFullFragmentFragment,
     PlanFullFragmentFragment,
     PlansByLocationDocument,
-    PlansByUserDocument,
     ReplacePlaceOfPlanCandidateDocument,
     SavePlanFromCandidateDocument,
     UpdateLikeAtPlaceInPlanCandidateDocument,
@@ -57,8 +56,6 @@ import {
     FetchPlanResponse,
     FetchPlansByLocationRequest,
     FetchPlansByLocationResponse,
-    FetchPlansByUserRequest,
-    FetchPlansByUserResponse,
     PlannerApi,
     ReplacePlaceInPlanOfPlanCandidateRequest,
     SavePlanFromCandidateRequest,
@@ -72,6 +69,7 @@ import {
     UploadPlacePhotosInPlanRequest,
     UploadPlacePhotosInPlanResponse,
 } from "src/domain/plan/PlannerApi";
+import { hasValue } from "src/domain/util/null";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     // ==============================================================
@@ -130,23 +128,6 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         return {
             plans: data.plans.plans.map((plan) => fromGraphqlPlanEntity(plan)),
             nextPageKey: data.plans.nextPageToken ?? null,
-        };
-    }
-
-    async fetchPlansByUser(
-        request: FetchPlansByUserRequest
-    ): Promise<FetchPlansByUserResponse> {
-        const { data } = await this.client.query({
-            query: PlansByUserDocument,
-            variables: {
-                userId: request.userId,
-            },
-        });
-        return {
-            plans: data.plansByUser.plans.map((plan) =>
-                fromGraphqlPlanEntity(plan)
-            ),
-            author: data.plansByUser.author,
         };
     }
 
@@ -597,7 +578,7 @@ function fromGraphqlPlanCandidateEntity(
     };
 }
 
-function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
+export function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
     return {
         id: plan.id,
         title: plan.name,
@@ -623,6 +604,7 @@ export function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
             large: image.large ?? null,
             isGooglePhotos: image.google,
         })),
+        address: hasValue(place.address) ? place.address : null,
         location: {
             latitude: place.location.latitude,
             longitude: place.location.longitude,

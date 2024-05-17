@@ -1,3 +1,5 @@
+import { PlaceEntity } from "src/domain/models/PlaceEntity";
+import { PlanEntity } from "src/domain/models/PlanEntity";
 import { User } from "src/domain/models/User";
 
 export interface UserApi {
@@ -31,6 +33,8 @@ export type FetchByFirebaseUserRequest = {
 
 export type FetchByFirebaseUserResponse = {
     user: UserEntity;
+    plans: PlanEntity[];
+    likedPlaces: PlaceEntity[];
 };
 
 export type BindPlanCandidateSetsToUserRequest = {

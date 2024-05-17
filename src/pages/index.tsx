@@ -1,39 +1,33 @@
 import { Center, Spinner, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { useEffect } from "react";
-import {
-    MdOutlineBookmarkBorder,
-    MdOutlineFavoriteBorder,
-    MdTrendingUp,
-} from "react-icons/md";
+import { MdTrendingUp } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import { Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
-import { reduxAuthSelector } from "src/redux/auth";
 import {
-    fetchPlansByUser,
     fetchPlansRecentlyCreated,
     pushPlansRecentlyCreated,
     reduxPlanSelector,
-    resetPlansByUser,
     setPlaceIdToCreatePlan,
+    setPlansByUser,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
-import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
 import { NavBar } from "src/view/common/NavBar";
-import { Padding } from "src/view/constants/padding";
 import { Size } from "src/view/constants/size";
+import { useAuth } from "src/view/hooks/useAuth";
 import { useLikePlaces } from "src/view/hooks/useLikePlaces";
 import { useNearbyPlans } from "src/view/hooks/useNearbyPlans";
-import { PlaceCard } from "src/view/place/PlaceCard";
 import { NearbyPlanList } from "src/view/plan/NearbyPlanList";
 import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
+import { LikePlacesList } from "src/view/top/LikePlacesList";
 import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
+import { UsersPlan } from "src/view/top/UsersPlan";
 
 type Props = {
     plansRecentlyCreated: Plan[] | null;
@@ -47,7 +41,6 @@ const IndexPage = (props: Props) => {
         nextPageTokenPlansRecentlyCreated,
         plansByUser,
         fetchPlansRecentlyCreatedRequestStatus,
-        fetchPlansByUserRequestStatus,
     } = reduxPlanSelector();
     const {
         plansNearby,
@@ -62,7 +55,8 @@ const IndexPage = (props: Props) => {
         onSelectLikePlace,
         onCreatePlanFromLikePlace,
     } = useLikePlaces();
-    const { user } = reduxAuthSelector();
+
+    const { user, isLoggedInUser } = useAuth();
 
     useEffect(() => {
         // すでにプランを取得済みの場合は何もしない
@@ -85,11 +79,9 @@ const IndexPage = (props: Props) => {
 
     useEffect(() => {
         if (!user) {
-            dispatch(resetPlansByUser());
+            dispatch(setPlansByUser({ plans: null }));
             return;
         }
-
-        dispatch(fetchPlansByUser({ userId: user.id }));
     }, [user]);
 
     return (
@@ -104,41 +96,14 @@ const IndexPage = (props: Props) => {
                     pb="48px"
                     spacing="24px"
                 >
-                    {plansByUser && plansByUser.length > 0 && (
-                        <PlanList
-                            plans={plansByUser}
-                            grid={false}
-                            wrapTitle={false}
-                            showAuthor={false}
-                            px={Padding.p16}
-                        >
-                            <PlanListSectionTitle
-                                title="保存したプラン"
-                                icon={MdOutlineBookmarkBorder}
-                            />
-                        </PlanList>
-                    )}
-                    {likePlaces && likePlaces.length > 0 && (
-                        <VStack w="100%">
-                            <PlanListSectionTitle
-                                title="お気に入りの場所"
-                                icon={MdOutlineFavoriteBorder}
-                            />
-                            <HorizontalScrollableList px={Padding.p16}>
-                                {likePlaces.map((place, index) => (
-                                    <PlaceCard
-                                        key={index}
-                                        place={place}
-                                        w={Size.PlanList.LikePlace.w}
-                                        h={Size.PlanList.LikePlace.h}
-                                        onClick={() =>
-                                            onSelectLikePlace(place.id)
-                                        }
-                                    />
-                                ))}
-                            </HorizontalScrollableList>
-                        </VStack>
-                    )}
+                    <LikePlacesList
+                        places={likePlaces}
+                        onSelectLikePlace={onSelectLikePlace}
+                    />
+                    <UsersPlan
+                        plans={plansByUser}
+                        isLoading={isLoggedInUser && !plansByUser}
+                    />
                     {/* TODO: 拒否設定されている場合の対処をする */}
                     <NearbyPlanList
                         plans={plansNearby}

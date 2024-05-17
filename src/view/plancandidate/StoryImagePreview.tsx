@@ -9,6 +9,7 @@ import {
     getImageSizeOf,
 } from "src/domain/models/Image";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
+import { Time } from "src/view/constants/time";
 import { styled } from "styled-components";
 
 type Props = {
@@ -17,6 +18,8 @@ type Props = {
     tapControl?: boolean;
     slideable?: boolean;
     onActiveIndexChange?: (index: number) => void;
+    onClickLastItem?: () => void;
+    onClickFirstItem?: () => void;
 };
 
 export function StoryImagePreview({
@@ -25,6 +28,8 @@ export function StoryImagePreview({
     tapControl = true,
     slideable = true,
     onActiveIndexChange,
+    onClickFirstItem,
+    onClickLastItem,
 }: Props) {
     const refSplide = useRef<Splide | null>(null);
 
@@ -44,12 +49,27 @@ export function StoryImagePreview({
 
     const onClickNext = () => {
         if (!refSplide.current || !slideable) return;
-        refSplide.current.go(refSplide.current.splide.index + 1);
+
+        const isLastPage = refSplide.current.splide.index + 1 === images.length;
+        if (isLastPage && onClickLastItem) {
+            onClickLastItem();
+            setTimeout(() => {
+                refSplide.current.go(refSplide.current.splide.index + 1);
+            }, Time.PlanCandidateGallery.lastItemTransitionDelay);
+        } else {
+            refSplide.current.go(refSplide.current.splide.index + 1);
+        }
     };
 
     const onClickPrev = () => {
         if (!refSplide.current || !slideable) return;
-        refSplide.current.go(refSplide.current.splide.index - 1);
+
+        const isFirstPage = refSplide.current.splide.index === 0;
+        if (isFirstPage && onClickFirstItem) {
+            onClickFirstItem();
+        } else {
+            refSplide.current.go(refSplide.current.splide.index - 1);
+        }
     };
 
     return (

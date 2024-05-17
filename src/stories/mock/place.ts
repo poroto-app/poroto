@@ -55,6 +55,7 @@ const bookStore: Place = {
         max: 2000,
         googlePriceLevel: 2,
     },
+    address: "東京都江戸川区",
     location: {
         latitude: 35.681616,
         longitude: 139.764954,
@@ -117,6 +118,7 @@ const restaurant: Place = {
         max: 2000,
         googlePriceLevel: 2,
     },
+    address: "神奈川県相模原市",
     location: {
         latitude: 35.781616,
         longitude: 139.764954,
@@ -151,6 +153,7 @@ const tokyo: Place = {
             large: "https://picsum.photos/400/650",
         },
     ],
+    address: "東京都港区",
     location: {
         latitude: 35.6809591,
         longitude: 139.7673068,
@@ -190,6 +193,7 @@ const marunouchi: Place = {
             large: "https://picsum.photos/450/600",
         },
     ],
+    address: "東京都千代田区",
     location: {
         latitude: 35.681616,
         longitude: 139.764954,
