@@ -12,6 +12,7 @@ import {
     reduxHistorySelector,
 } from "src/redux/history";
 import { reduxStore, useAppDispatch } from "src/redux/redux";
+import { Auth } from "src/view/common/Auth";
 import { FirebaseProvider } from "src/view/common/FirebaseProvider";
 import { Theme } from "src/view/common/Theme";
 import { PageMetaData } from "src/view/constants/meta";
@@ -66,6 +67,7 @@ export default function App({ Component, pageProps }: AppProps) {
             )}
             <ChakraProvider>
                 <Provider store={reduxStore}>
+                    <Auth />
                     <FirebaseProvider />
                     <History />
                     <Component {...pageProps} />

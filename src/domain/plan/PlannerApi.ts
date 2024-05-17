@@ -3,7 +3,6 @@ import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";
 import { Transition } from "src/domain/models/Transition";
-import { UserEntity } from "src/domain/user/UserApi";
 
 export interface PlannerApi {
     // ==============================================================
@@ -12,10 +11,6 @@ export interface PlannerApi {
     fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse>;
 
     fetchPlans(request: FetchPlansRequest): Promise<FetchPlansResponse>;
-
-    fetchPlansByUser(
-        request: FetchPlansByUserRequest
-    ): Promise<FetchPlansByUserResponse>;
 
     fetchPlansByLocation(
         request: FetchPlansByLocationRequest
@@ -118,15 +113,6 @@ export type FetchPlansRequest = {
 export type FetchPlansResponse = {
     plans: PlanEntity[];
     nextPageKey: string | null;
-};
-
-export type FetchPlansByUserRequest = {
-    userId: string;
-};
-
-export type FetchPlansByUserResponse = {
-    author: UserEntity;
-    plans: PlanEntity[];
 };
 
 export type FetchPlansByLocationRequest = {

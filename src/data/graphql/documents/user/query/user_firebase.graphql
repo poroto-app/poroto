@@ -6,5 +6,11 @@ query FirebaseUser($firebaseUserId: String!, $firebaseToken: String!) {
         id
         name
         photoUrl
+        plans {
+            ...PlanFullFragment
+        }
+        likedPlaces {
+            ...PlaceFullFragment
+        }
     }
 }

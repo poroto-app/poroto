@@ -1,4 +1,4 @@
-export function notEmpty<TValue>(
+export function hasValue<TValue>(
     value: TValue | null | undefined
 ): value is TValue {
     return value !== null && value !== undefined;

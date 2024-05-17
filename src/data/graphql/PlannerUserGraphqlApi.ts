@@ -1,8 +1,12 @@
+import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
+import {
+    fromGraphqlPlaceEntity,
+    fromGraphqlPlanEntity,
+} from "src/data/graphql/PlannerGraphQlApi";
 import {
     BindPlanCandidateSetToUserDocument,
     FirebaseUserDocument,
 } from "src/data/graphql/generated";
-import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
 import {
     BindPlanCandidateSetsToUserRequest,
     BindPlanCandidateSetsToUserResponse,
@@ -18,7 +22,9 @@ export class PlannerUserGraphqlApi
     async fetchByFirebaseUserId(
         request: FetchByFirebaseUserRequest
     ): Promise<FetchByFirebaseUserResponse> {
-        const { data } = await this.client.query({
+        const { data } = await this.clientWithAuthHeader({
+            token: request.firebaseToken,
+        }).query({
             query: FirebaseUserDocument,
             variables: {
                 firebaseUserId: request.firebaseUserId,
@@ -31,6 +37,10 @@ export class PlannerUserGraphqlApi
                 name: data.firebaseUser.name,
                 photoUrl: data.firebaseUser.photoUrl,
             },
+            plans: data.firebaseUser.plans.map(fromGraphqlPlanEntity),
+            likedPlaces: data.firebaseUser.likedPlaces.map(
+                fromGraphqlPlaceEntity
+            ),
         };
     }
 
