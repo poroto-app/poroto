@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { IconType } from "react-icons";
 import { MdLogin, MdLogout, MdOutlineBackup } from "react-icons/md";
 import { User } from "src/domain/models/User";
-import { notEmpty, when } from "src/domain/util/null";
+import { hasValue, when } from "src/domain/util/null";
 import { AnalyticsEvents } from "src/view/constants/analytics";
 import { OnClickHandler } from "src/view/types/handler";
 import styled from "styled-components";
@@ -40,7 +40,7 @@ export function NavBarUserDialog({
     };
 
     const handleOnBindPreLoginState = when(
-        notEmpty(onBindPreLoginState),
+        hasValue(onBindPreLoginState),
         () => {
             logEvent(getAnalytics(), AnalyticsEvents.User.BindPreLoginState);
             onBindPreLoginState();
@@ -77,7 +77,7 @@ export function NavBarLoginUserDialog({
 }) {
     return (
         <NavBarUserDialogContainer>
-            {notEmpty(onBindPreLoginState) && (
+            {hasValue(onBindPreLoginState) && (
                 <DialogItem
                     icon={MdOutlineBackup}
                     onClick={onBindPreLoginState}

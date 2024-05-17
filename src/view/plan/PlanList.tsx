@@ -19,6 +19,7 @@ type Props = {
     wrapTitle?: boolean;
     showAuthor?: boolean;
     px?: string | number;
+    ads?: boolean;
 };
 
 export function PlanList({
@@ -31,6 +32,7 @@ export function PlanList({
     wrapTitle,
     showAuthor,
     px = 0,
+    ads = true,
 }: Props) {
     if (!plans || plans.length == 0 || isLoading) {
         if (empty && !isLoading) {
@@ -73,7 +75,7 @@ export function PlanList({
                             wrapTitle={wrapTitle}
                             showAuthor={showAuthor}
                         />
-                        {(index + 1) % 6 === 0 && <AdInPlanList />}
+                        {(index + 1) % 6 === 0 && ads && <AdInPlanList />}
                     </>
                 ))}
             </Layout>

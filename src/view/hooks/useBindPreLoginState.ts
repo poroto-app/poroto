@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
-import { notEmpty, when } from "src/domain/util/null";
+import { hasValue, when } from "src/domain/util/null";
 import { reduxAuthSelector } from "src/redux/auth";
 import { useAppDispatch } from "src/redux/redux";
 import {
@@ -26,8 +26,8 @@ export const useBindPreLoginState = () => {
     };
 
     const canBindPreLoginState =
-        notEmpty(user) &&
-        notEmpty(firebaseIdToken) &&
+        hasValue(user) &&
+        hasValue(firebaseIdToken) &&
         getPlanCandidateSetIdsSavedBeforeLogin().length > 0;
 
     const bindPreLoginState = () => {
