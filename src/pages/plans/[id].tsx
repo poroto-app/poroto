@@ -222,18 +222,20 @@ export default function PlanPage() {
                     />
                 </PlanPageSection>
             </VStack>
-            <PlanFooter>
-                <Button
-                    variant="solid"
-                    flex={1}
-                    color="white"
-                    backgroundColor="#BF756E"
-                    borderRadius={20}
-                    onClick={savePlanAsCollageImage}
-                >
-                    コラージュ画像として保存
-                </Button>
-            </PlanFooter>
+            {process.env.APP_ENV !== "production" && (
+                <PlanFooter>
+                    <Button
+                        variant="solid"
+                        flex={1}
+                        color="white"
+                        backgroundColor="#BF756E"
+                        borderRadius={20}
+                        onClick={savePlanAsCollageImage}
+                    >
+                        コラージュ画像として保存
+                    </Button>
+                </PlanFooter>
+            )}
             <SavePlanCollageImageDialog
                 isOpen={isSaveCollageImageDialogOpen}
                 onClose={() => setIsSaveCollageImageDialogOpen(false)}
