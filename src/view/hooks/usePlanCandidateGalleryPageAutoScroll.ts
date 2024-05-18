@@ -3,28 +3,27 @@ import { useEffect, useRef, useState } from "react";
 export const usePlanCandidateGalleryPageAutoScroll = () => {
     const isAutoScrollingRef = useRef(false);
     const prevScrollYRef = useRef(0);
-    const scrollContainerRef = useRef<HTMLDivElement>(null);
     const planDetailPageRef = useRef<HTMLDivElement>(null);
     const [isUpperOfPlanDetailPage, setIsUpperOfPlanDetailPage] =
         useState(true);
     const [isAutoScrolling, setIsAutoScrolling] = useState(false);
 
     const scrollToPlanDetailPage = () => {
-        if (!planDetailPageRef.current || !scrollContainerRef.current) return;
-        scrollContainerRef.current.scrollTo({
+        if (!planDetailPageRef.current) return;
+        window.scrollTo({
             top: planDetailPageRef.current.offsetTop,
             behavior: "smooth",
         });
     };
 
     let scrollTimeout: NodeJS.Timeout | null = null;
-    const scrollListener = (e: Event) => {
+    const scrollListener = () => {
         if (scrollTimeout) clearTimeout(scrollTimeout);
 
-        if (!planDetailPageRef.current || !scrollContainerRef) return;
+        if (!planDetailPageRef.current) return;
 
         const isAutoScrolling = isAutoScrollingRef.current;
-        const currentScroll = scrollContainerRef.current.scrollTop;
+        const currentScroll = window.scrollY;
         const offsetTopPlanDetailPage = planDetailPageRef.current.offsetTop;
 
         // Safariだとページ上部までいきおいよくスクロールすると、スクロール量がマイナスになり
@@ -40,6 +39,10 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
             currentScroll < offsetTopPlanDetailPage &&
             isScrollingDown
         ) {
+            window.scrollTo({
+                top: offsetTopPlanDetailPage,
+                behavior: "smooth",
+            });
             isAutoScrollingRef.current = true;
             setIsAutoScrolling(true);
         }
@@ -60,13 +63,17 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
     };
 
     const scrollEndListener = () => {
-        if (!planDetailPageRef.current || !scrollContainerRef) return;
+        if (!planDetailPageRef.current) return;
 
         // スクロールが停止したときも、自動スクロール中は継続する
         const isAutoScrolling = isAutoScrollingRef.current;
-        const currentScroll = scrollContainerRef.current.scrollTop;
+        const currentScroll = window.scrollY;
         const offsetTopPlanDetailPage = planDetailPageRef.current.offsetTop;
         if (isAutoScrolling && currentScroll < offsetTopPlanDetailPage) {
+            window.scrollTo({
+                top: offsetTopPlanDetailPage,
+                behavior: "smooth",
+            });
             isAutoScrollingRef.current = true;
             setIsAutoScrolling(true);
         } else {
@@ -79,21 +86,15 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
     };
 
     useEffect(() => {
-        scrollContainerRef.current?.addEventListener("scroll", scrollListener, {
-            passive: false,
-        });
+        window.addEventListener("scroll", scrollListener);
 
         return () => {
-            scrollContainerRef.current?.removeEventListener(
-                "scroll",
-                scrollListener
-            );
+            window.removeEventListener("scroll", scrollListener);
             clearTimeout(scrollTimeout);
         };
-    }, [scrollContainerRef?.current, isAutoScrollingRef]);
+    }, [isAutoScrollingRef]);
 
     return {
-        scrollContainerRef,
         planDetailPageRef,
         scrollToPlanDetailPage,
         isPlanFooterVisible: !isUpperOfPlanDetailPage || isAutoScrolling,
