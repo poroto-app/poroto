@@ -2,7 +2,7 @@ import { Box, Center, useToast, VStack, Button } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Place } from "src/domain/models/Place";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
@@ -40,6 +40,7 @@ import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 import { PlanFooter } from "src/view/plan/PlanFooter";
+import SavePlanCollageImageDialog from "src/view/plandetail/SavePlanCollageImageDialog";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -51,6 +52,7 @@ export default function PlanPage() {
     const { userId, firebaseIdToken, likePlaceIds, updateLikePlace } =
         useUserPlan();
     const uploadImageProps = useUploadPlaceImage();
+    const [isSaveCollageImageDialogOpen, setIsSaveCollageImageDialogOpen] = useState(false);
 
     const {
         preview: plan,
@@ -95,6 +97,10 @@ export default function PlanPage() {
         // ダイアログの背景固定を解除するためにモーダルを閉じる
         dispatch(setPlaceIdToCreatePlan(null));
         await router.push(Routes.plans.interest(true));
+    };
+
+    const savePlanAsCollageImage = () => {
+        setIsSaveCollageImageDialogOpen(true);
     };
 
     useEffect(() => {
@@ -222,10 +228,12 @@ export default function PlanPage() {
                     color="white"
                     backgroundColor="#BF756E"
                     borderRadius={20}
+                    onClick={savePlanAsCollageImage}
                 >
                     コラージュ画像として保存
                 </Button>
             </PlanFooter>
+            <SavePlanCollageImageDialog isOpen={isSaveCollageImageDialogOpen} onClose={() => setIsSaveCollageImageDialogOpen(false)}/>
             {/*Dialogs*/}
             <PlanCreatedDialog
                 visible={showPlanCreatedModal}
