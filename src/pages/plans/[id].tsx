@@ -1,4 +1,4 @@
-import { Box, Center, useToast, VStack, Button } from "@chakra-ui/react";
+import { Box, Button, Center, VStack, useToast } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -27,20 +27,20 @@ import { isPC } from "src/view/constants/userAgent";
 import { useAuth } from "src/view/hooks/useAuth";
 import useUploadPlaceImage from "src/view/hooks/useUploadPlaceImage";
 import { useUserPlan } from "src/view/hooks/useUserPlan";
-import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
-import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
+import { PlanFooter } from "src/view/plan/PlanFooter";
+import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
+import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
-import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
 import { LoginCallMessage } from "src/view/plandetail/LoginCallMessage";
 import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
-import { PlanFooter } from "src/view/plan/PlanFooter";
 import SavePlanCollageImageDialog from "src/view/plandetail/SavePlanCollageImageDialog";
+import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -52,7 +52,8 @@ export default function PlanPage() {
     const { userId, firebaseIdToken, likePlaceIds, updateLikePlace } =
         useUserPlan();
     const uploadImageProps = useUploadPlaceImage();
-    const [isSaveCollageImageDialogOpen, setIsSaveCollageImageDialogOpen] = useState(false);
+    const [isSaveCollageImageDialogOpen, setIsSaveCollageImageDialogOpen] =
+        useState(false);
 
     const {
         preview: plan,
@@ -233,7 +234,10 @@ export default function PlanPage() {
                     コラージュ画像として保存
                 </Button>
             </PlanFooter>
-            <SavePlanCollageImageDialog isOpen={isSaveCollageImageDialogOpen} onClose={() => setIsSaveCollageImageDialogOpen(false)}/>
+            <SavePlanCollageImageDialog
+                isOpen={isSaveCollageImageDialogOpen}
+                onClose={() => setIsSaveCollageImageDialogOpen(false)}
+            />
             {/*Dialogs*/}
             <PlanCreatedDialog
                 visible={showPlanCreatedModal}

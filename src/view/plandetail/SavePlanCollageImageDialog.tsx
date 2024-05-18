@@ -1,12 +1,11 @@
 import {
+    Box,
     Button,
     Modal,
     ModalBody,
     ModalCloseButton,
     ModalContent,
-    ModalHeader,
     ModalOverlay,
-    Box,
 } from "@chakra-ui/react";
 import { CollageTemplate } from "src/view/plandetail/CollageTemplate";
 
@@ -47,7 +46,7 @@ const SavePlanCollageImageDialog: React.FC<SavePlanCollageImageDialogProps> = ({
             <ModalContent maxW="1300px">
                 <ModalCloseButton />
                 <ModalBody>
-                     <Box h="100%" overflow="auto">
+                    <Box h="100%" overflow="auto">
                         <CollageTemplate {...sampleCollageData} />
                     </Box>
                     <Button colorScheme="blue" mt={4} onClick={onClose}>
