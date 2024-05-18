@@ -1,4 +1,4 @@
-import { Box, Center, useToast, VStack } from "@chakra-ui/react";
+import { Box, Center, useToast, VStack, Button } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -39,6 +39,7 @@ import { LoginCallMessage } from "src/view/plandetail/LoginCallMessage";
 import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
+import { PlanFooter } from "src/view/plan/PlanFooter";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -214,6 +215,17 @@ export default function PlanPage() {
                     />
                 </PlanPageSection>
             </VStack>
+            <PlanFooter>
+                <Button
+                    variant="solid"
+                    flex={1}
+                    color="white"
+                    backgroundColor="#BF756E"
+                    borderRadius={20}
+                >
+                    コラージュ画像として保存
+                </Button>
+            </PlanFooter>
             {/*Dialogs*/}
             <PlanCreatedDialog
                 visible={showPlanCreatedModal}
