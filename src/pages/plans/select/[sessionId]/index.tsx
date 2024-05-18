@@ -49,12 +49,8 @@ const SelectPlanPage = () => {
     const { sessionId } = router.query;
     const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
     const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
-    const {
-        isPlanFooterVisible,
-        planDetailPageRef,
-        scrollContainerRef,
-        scrollToPlanDetailPage,
-    } = usePlanCandidateGalleryPageAutoScroll();
+    const { isPlanFooterVisible, planDetailPageRef, scrollToPlanDetailPage } =
+        usePlanCandidateGalleryPageAutoScroll();
 
     const {
         plansCreated,
@@ -153,48 +149,35 @@ const SelectPlanPage = () => {
         );
 
     return (
-        <VStack
-            w="100%"
-            h="100%"
-            overflowY="scroll"
-            spacing={0}
-            ref={scrollContainerRef}
-            scrollSnapType="y mandatory"
-        >
-            <VStack spacing={0} w="100%" scrollSnapAlign="start">
-                <NavBar />
-                <Center
-                    w="100%"
-                    h={`calc(100vh - ${Size.NavBar.height})`}
-                    px="16px"
-                    ref={refPlanCandidateGallery}
-                    overflowX="hidden"
-                >
-                    <VStack spacing="32px">
-                        <PlanCandidatesGallery
-                            planCandidates={plansCreated}
-                            activePlanIndex={selectedPlanIndex}
-                            onActiveIndexChange={setSelectedPlanIndex}
-                        />
-                        <ButtonWithBlur
-                            px="16px"
-                            py="16px"
-                            backgroundColor="#84A6FF"
-                            borderRadius="50px"
-                            onClick={scrollToPlanDetailPage}
-                        >
-                            <Text
-                                color="white"
-                                fontWeight="bold"
-                                fontSize="18px"
-                            >
-                                プランをみてみる
-                            </Text>
-                        </ButtonWithBlur>
-                    </VStack>
-                </Center>
-            </VStack>
-            <Box w="100%" ref={planDetailPageRef} scrollSnapAlign="start">
+        <VStack w="100%" spacing={0}>
+            <NavBar />
+            <Center
+                w="100%"
+                h={`calc(100vh - ${Size.NavBar.height})`}
+                px="16px"
+                ref={refPlanCandidateGallery}
+                overflowX="hidden"
+            >
+                <VStack spacing="32px">
+                    <PlanCandidatesGallery
+                        planCandidates={plansCreated}
+                        activePlanIndex={selectedPlanIndex}
+                        onActiveIndexChange={setSelectedPlanIndex}
+                    />
+                    <ButtonWithBlur
+                        px="16px"
+                        py="16px"
+                        backgroundColor="#84A6FF"
+                        borderRadius="50px"
+                        onClick={scrollToPlanDetailPage}
+                    >
+                        <Text color="white" fontWeight="bold" fontSize="18px">
+                            プランをみてみる
+                        </Text>
+                    </ButtonWithBlur>
+                </VStack>
+            </Center>
+            <Box w="100%" overflowX="hidden" ref={planDetailPageRef}>
                 <PlanDetailPage
                     planId={
                         hasValue(selectedPlanIndex) &&
