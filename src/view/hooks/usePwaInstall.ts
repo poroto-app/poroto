@@ -3,9 +3,11 @@ import { isSafari } from "react-device-detect";
 import { hasValue } from "src/domain/util/null";
 import { LocalStorageKeys } from "src/view/constants/localStorageKey";
 import { isPC } from "src/view/constants/userAgent";
+import {useToast} from "@chakra-ui/react";
 
 // TODO: iOSのインストール手順をダイアログで見せる（インストール手順をスクリーンショットで見せる）
 export const usePwaInstall = () => {
+    const toast = useToast();
     const [pwaInstallEvent, setPwaInstallEvent] = useState<Event | null>(null);
     const [isPwaSupported, setIsPwaSupported] = useState(false);
     const [isRunningOnPwa, setIsRunningOnPwa] = useState(false);
@@ -59,19 +61,31 @@ export const usePwaInstall = () => {
         setIsPwaInstallCanceled(true);
     };
 
+    const handlePwaInstall = (event: Event) => {
+        event.preventDefault();
+        setPwaInstallEvent(event);
+    };
+
+    const handleAppInstalled = () => {
+        toast({
+            title: "ホームに追加されました",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+        });
+    }
+
     useEffect(() => {
         setIsPwaSupported(checkIsPwaSupported());
         setIsRunningOnPwa(checkIsRunningOnPwa());
         setIsPwaInstalled(checkIsAlreadyInstalled());
         setIsPwaInstallCanceled(checkIsPwaInstallCanceled());
 
-        const handlePwaInstall = (event: Event) => {
-            event.preventDefault();
-            setPwaInstallEvent(event);
-        };
         window.addEventListener("beforeinstallprompt", handlePwaInstall);
+        window.addEventListener("appinstalled", handleAppInstalled);
         return () => {
             window.removeEventListener("beforeinstallprompt", handlePwaInstall);
+            window.removeEventListener("appinstalled", handleAppInstalled);
         };
     }, []);
 
