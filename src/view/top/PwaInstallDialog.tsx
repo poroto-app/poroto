@@ -38,7 +38,7 @@ export function PwaInstallDialog({
         >
             {(state) =>
                 !["exited", "unmounted"].includes(state) && (
-                    <Center px={Size.top.px} w="100%" mt="32px">
+                    <Center px={Size.top.px} w="100%" mt="16px">
                         <VStack
                             backgroundColor="white"
                             borderRadius="20px"
