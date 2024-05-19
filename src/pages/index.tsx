@@ -21,12 +21,14 @@ import { Size } from "src/view/constants/size";
 import { useAuth } from "src/view/hooks/useAuth";
 import { useLikePlaces } from "src/view/hooks/useLikePlaces";
 import { useNearbyPlans } from "src/view/hooks/useNearbyPlans";
+import { usePwaInstall } from "src/view/hooks/usePwaInstall";
 import { NearbyPlanList } from "src/view/plan/NearbyPlanList";
 import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { LikePlacesList } from "src/view/top/LikePlacesList";
 import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
+import { PwaInstallDialog } from "src/view/top/PwaInstallDialog";
 import { UsersPlan } from "src/view/top/UsersPlan";
 
 type Props = {
@@ -55,6 +57,9 @@ const IndexPage = (props: Props) => {
         onSelectLikePlace,
         onCreatePlanFromLikePlace,
     } = useLikePlaces();
+
+    const { isPwaInstallVisible, installPwa, cancelInstallPwa } =
+        usePwaInstall();
 
     const { user, isLoggedInUser } = useAuth();
 
@@ -96,6 +101,11 @@ const IndexPage = (props: Props) => {
                     pb="48px"
                     spacing="24px"
                 >
+                    <PwaInstallDialog
+                        visible={isPwaInstallVisible}
+                        onClickInstall={() => installPwa()}
+                        onClickCancel={() => cancelInstallPwa()}
+                    />
                     <LikePlacesList
                         places={likePlaces}
                         onSelectLikePlace={onSelectLikePlace}
