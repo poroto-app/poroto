@@ -62,6 +62,10 @@ export const usePwaInstall = () => {
     };
 
     const handlePwaInstall = (event: Event) => {
+        // アンインストールされたことをインストールイベントで検知
+        localStorage.setItem(LocalStorageKeys.pwaInstalled, "false");
+        setIsPwaInstalled(false);
+
         event.preventDefault();
         setPwaInstallEvent(event);
     };
