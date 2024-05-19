@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
+import { isSafari } from "react-device-detect";
 import { hasValue } from "src/domain/util/null";
 import { LocalStorageKeys } from "src/view/constants/localStorageKey";
 import { isPC } from "src/view/constants/userAgent";
 
+// TODO: iOSのインストール手順をダイアログで見せる（インストール手順をスクリーンショットで見せる）
 export const usePwaInstall = () => {
     const [pwaInstallEvent, setPwaInstallEvent] = useState<Event | null>(null);
     const [isPwaSupported, setIsPwaSupported] = useState(false);
@@ -30,6 +32,11 @@ export const usePwaInstall = () => {
 
     const checkIsAlreadyInstalled = () => {
         return localStorage.getItem(LocalStorageKeys.pwaInstalled) === "true";
+    };
+
+    const checkIsIosSafari = () => {
+        // TODO: productionでも表示する
+        return isSafari && process.env.APP_ENV !== "production";
     };
 
     const installPwa = async () => {
@@ -71,10 +78,15 @@ export const usePwaInstall = () => {
     return {
         isPwaInstallVisible:
             isPwaSupported &&
-            hasValue(pwaInstallEvent) &&
+            // Android: PWAインストール可能の場合は表示
+            // iOS: Safariで表示しているときのみ表示
+            (hasValue(pwaInstallEvent) || checkIsIosSafari()) &&
+            // PCの場合は表示しない
             !isPC &&
+            // すでにPWAがインストールされている場合は表示しない
             !isRunningOnPwa &&
             !isPwaInstalled &&
+            // PWAインストールをキャンセルした場合は表示しない
             !isPwaInstallCanceled,
         cancelInstallPwa,
         installPwa,
