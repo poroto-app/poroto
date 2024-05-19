@@ -26,6 +26,11 @@ export const AnalyticsEvents = {
         Logout: "logout",
         BindPreLoginState: "bind_pre_login_state",
     },
+    Pwa: {
+        Install: "pwa_install",
+        CancelOnPrompt: "pwa_cancel_on_prompt",
+        Cancel: "pwa_cancel_install",
+    },
 };
 export type AnalyticsEvent =
     (typeof AnalyticsEvents)[keyof typeof AnalyticsEvents];

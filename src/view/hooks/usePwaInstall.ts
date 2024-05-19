@@ -1,9 +1,11 @@
+import { useToast } from "@chakra-ui/react";
+import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useEffect, useState } from "react";
 import { isSafari } from "react-device-detect";
 import { hasValue } from "src/domain/util/null";
+import { AnalyticsEvents } from "src/view/constants/analytics";
 import { LocalStorageKeys } from "src/view/constants/localStorageKey";
 import { isPC } from "src/view/constants/userAgent";
-import {useToast} from "@chakra-ui/react";
 
 // TODO: iOSのインストール手順をダイアログで見せる（インストール手順をスクリーンショットで見せる）
 export const usePwaInstall = () => {
@@ -47,10 +49,12 @@ export const usePwaInstall = () => {
             promptEvent["prompt"]();
             const choiceResult = await promptEvent["userChoice"];
             if (choiceResult.outcome === "accepted") {
+                logEvent(getAnalytics(), AnalyticsEvents.Pwa.Install);
                 setPwaInstallEvent(null);
                 setIsPwaInstalled(true);
                 localStorage.setItem(LocalStorageKeys.pwaInstalled, "true");
             } else {
+                logEvent(getAnalytics(), AnalyticsEvents.Pwa.CancelOnPrompt);
                 setIsPwaInstalled(false);
             }
         }
@@ -59,6 +63,7 @@ export const usePwaInstall = () => {
     const cancelInstallPwa = () => {
         localStorage.setItem(LocalStorageKeys.cancelInstallPwa, "true");
         setIsPwaInstallCanceled(true);
+        logEvent(getAnalytics(), AnalyticsEvents.Pwa.Cancel);
     };
 
     const handlePwaInstall = (event: Event) => {
@@ -77,7 +82,7 @@ export const usePwaInstall = () => {
             duration: 5000,
             isClosable: true,
         });
-    }
+    };
 
     useEffect(() => {
         setIsPwaSupported(checkIsPwaSupported());
