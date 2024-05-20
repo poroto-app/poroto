@@ -10,7 +10,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { MdLink } from "react-icons/md";
+import { MdLink, MdOutlineInfo, MdOutlineCameraAlt  } from "react-icons/md";
 import { ImageSize } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
 import { Size } from "src/view/constants/size";
@@ -173,6 +173,7 @@ export function PlanDetailPageHeader({
                     background={activeTab === "info" ? "#AC8E6C" : "#F3ECE1"}
                     _hover={{ background: "#AC8E6C" }}
                     opacity={activeTab === "info" ? 1 : 0.6}
+                    leftIcon={<Icon as={MdOutlineInfo} />}
                 >
                     情報
                 </Button>
@@ -182,7 +183,8 @@ export function PlanDetailPageHeader({
                     background={activeTab === "album" ? "linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)" : "#F3ECE1"}
                     backgroundSize="200% auto"
                     _hover={{ backgroundPosition: "right center", background: "linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)" }}
-                    opacity={activeTab === "album" ? 1 : 0.6} // アクティブなタブの場合は不透明度を1に、そうでない場合は0.6にする
+                    opacity={activeTab === "album" ? 1 : 0.6}
+                    leftIcon={<Icon as={MdOutlineCameraAlt} />}
                 >
                     アルバム
                 </Button>
