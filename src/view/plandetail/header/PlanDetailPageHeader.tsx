@@ -14,6 +14,7 @@ import { MdLink } from "react-icons/md";
 import { ImageSize } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
 import { Size } from "src/view/constants/size";
+import { CollageTemplate } from "src/view/plandetail/CollageTemplate";
 import { PlaceImageGallery } from "src/view/plandetail/header/PlaceImageGallery";
 import { PlaceList } from "src/view/plandetail/header/PlaceList";
 
@@ -39,6 +40,14 @@ export function PlanDetailPageHeader({
         (place) => place.images.length > 0
     );
     const [activeTab, setActiveTab] = useState("info");
+
+    const mockPlaces = plan.places.map((place, index) => ({
+        name: place.name,
+        duration: index * 30 + 30,
+        imageUrl: place.images[0]?.url || "https://via.placeholder.com/400",
+    }));
+
+    const mockIntroduction = "これは紹介文のモックです。";
 
     return (
         <VStack
@@ -149,18 +158,31 @@ export function PlanDetailPageHeader({
                     </VStack>
                 </VStack>
             ) : (
-                <></>
+            <Box background="white">
+                <CollageTemplate
+                    title={plan.title}
+                    places={mockPlaces}
+                    introduction={mockIntroduction}
+                />
+            </Box>
             )}
             <HStack>
-                <Button onClick={() => setActiveTab("info")} color="#AC8E6C">
+                <Button
+                    onClick={() => setActiveTab("info")}
+                    color="white"
+                    background={activeTab === "info" ? "#AC8E6C" : "#F3ECE1"}
+                    _hover={{ background: "#AC8E6C" }}
+                    opacity={activeTab === "info" ? 1 : 0.6}
+                >
                     情報
                 </Button>
                 <Button
                     onClick={() => setActiveTab("album")}
-                    background="linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)"
-                    backgroundSize="200% auto"
-                    _hover={{ backgroundPosition: "right center" }}
                     color="white"
+                    background={activeTab === "album" ? "linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)" : "#F3ECE1"}
+                    backgroundSize="200% auto"
+                    _hover={{ backgroundPosition: "right center", background: "linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)" }}
+                    opacity={activeTab === "album" ? 1 : 0.6} // アクティブなタブの場合は不透明度を1に、そうでない場合は0.6にする
                 >
                     アルバム
                 </Button>
