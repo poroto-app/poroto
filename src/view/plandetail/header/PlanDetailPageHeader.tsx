@@ -1,6 +1,7 @@
 import {
     Avatar,
     Box,
+    Button,
     Center,
     HStack,
     Icon,
@@ -37,6 +38,8 @@ export function PlanDetailPageHeader({
     const placesWithImages = plan.places.filter(
         (place) => place.images.length > 0
     );
+    const [activeTab, setActiveTab] = useState("info");
+
     return (
         <VStack
             flex={1}
@@ -47,89 +50,99 @@ export function PlanDetailPageHeader({
             spacing="16px"
             overflow="hidden"
         >
-            <VStack w="100%" flex={1}>
-                <Center px={Size.PlanDetailHeader.px} flex={1} zIndex={0}>
-                    <PlaceImageGallery
-                        places={placesWithImages}
-                        currentPage={currentPage}
-                        likedPlaceIds={likedPlaceIds}
-                        onUpdateLikePlace={onUpdateLikePlace}
-                        onPageChange={(page) => setCurrentPage(page)}
-                    />
-                </Center>
-                <Box
-                    zIndex={1}
-                    alignSelf="center"
-                    w={!isLargerThanHeaderWidth && "100%"}
-                    maxW={
-                        isLargerThanHeaderWidth
-                            ? "100%"
-                            : Size.PlanDetailHeader.maxW
-                    }
-                >
-                    <PlaceList
-                        places={plan.places}
-                        onClickPlace={({ index }) => setCurrentPage(index)}
-                    />
-                </Box>
-            </VStack>
-            <VStack
-                w="100%"
-                spacing="16px"
-                alignItems="flex-start"
-                justifyContent="flex-end"
-                zIndex={1}
-            >
-                <VStack
-                    alignSelf="center"
-                    w="100%"
-                    mb="16px"
-                    px={Size.PlanDetailHeader.px}
-                    maxW={Size.PlanDetailHeader.maxW}
-                    alignItems="flex-start"
-                    justifyContent="center"
-                >
-                    <Text color="white" fontWeight="bold" fontSize="20px">
-                        {plan.title}
-                    </Text>
-                    {plan.author && (
-                        <HStack>
-                            <Avatar
-                                name={plan.author.name}
-                                src={plan.author.avatarImage}
+            {activeTab === "info" ? (
+                <VStack>
+                    <VStack w="100%" flex={1}>
+                        <Center px={Size.PlanDetailHeader.px} flex={1} zIndex={0}>
+                            <PlaceImageGallery
+                                places={placesWithImages}
+                                currentPage={currentPage}
+                                likedPlaceIds={likedPlaceIds}
+                                onUpdateLikePlace={onUpdateLikePlace}
+                                onPageChange={(page) => setCurrentPage(page)}
                             />
-                            <Text color="white">{plan.author.name}</Text>
-                        </HStack>
-                    )}
-                </VStack>
-                <HStack
-                    w="100%"
-                    maxW={Size.PlanDetailHeader.maxW}
-                    px={Size.PlanDetailHeader.px}
-                    alignSelf="center"
-                >
-                    {onCopyPlanUrl && (
-                        <HStack
-                            as="button"
-                            px="4px"
-                            py="2px"
-                            backgroundColor="rgba(255,255,255,.8)"
-                            color="#282828"
-                            borderRadius="8px"
-                            onClick={onCopyPlanUrl}
-                            spacing="4px"
+                        </Center>
+                        <Box
+                            zIndex={1}
+                            alignSelf="center"
+                            w={!isLargerThanHeaderWidth && "100%"}
+                            maxW={
+                                isLargerThanHeaderWidth
+                                    ? "100%"
+                                    : Size.PlanDetailHeader.maxW
+                            }
                         >
-                            <Icon
-                                w="32px"
-                                h="32px"
-                                color="#5E6382"
-                                as={MdLink}
+                            <PlaceList
+                                places={plan.places}
+                                onClickPlace={({ index }) => setCurrentPage(index)}
                             />
-                            <Text>リンクをコピー</Text>
+                        </Box>
+                    </VStack>
+                    <VStack
+                        w="100%"
+                        spacing="16px"
+                        alignItems="flex-start"
+                        justifyContent="flex-end"
+                        zIndex={1}
+                    >
+                        <VStack
+                            alignSelf="center"
+                            w="100%"
+                            mb="16px"
+                            px={Size.PlanDetailHeader.px}
+                            maxW={Size.PlanDetailHeader.maxW}
+                            alignItems="flex-start"
+                            justifyContent="center"
+                        >
+                            <Text color="white" fontWeight="bold" fontSize="20px">
+                                {plan.title}
+                            </Text>
+                            {plan.author && (
+                                <HStack>
+                                    <Avatar
+                                        name={plan.author.name}
+                                        src={plan.author.avatarImage}
+                                    />
+                                    <Text color="white">{plan.author.name}</Text>
+                                </HStack>
+                            )}
+                        </VStack>
+                        <HStack
+                            w="100%"
+                            maxW={Size.PlanDetailHeader.maxW}
+                            px={Size.PlanDetailHeader.px}
+                            alignSelf="center"
+                        >
+                            {onCopyPlanUrl && (
+                                <HStack
+                                    as="button"
+                                    px="4px"
+                                    py="2px"
+                                    backgroundColor="rgba(255,255,255,.8)"
+                                    color="#282828"
+                                    borderRadius="8px"
+                                    onClick={onCopyPlanUrl}
+                                    spacing="4px"
+                                >
+                                    <Icon
+                                        w="32px"
+                                        h="32px"
+                                        color="#5E6382"
+                                        as={MdLink}
+                                    />
+                                    <Text>リンクをコピー</Text>
+                                </HStack>
+                            )}
                         </HStack>
-                    )}
-                </HStack>
-            </VStack>
+                    </VStack>
+                </VStack>
+            ) : (
+                <></>
+            )}
+            <HStack>
+                <Button onClick={() => setActiveTab("info")}>情報</Button>
+                <Button onClick={() => setActiveTab("album")}>アルバム</Button>
+            </HStack>
         </VStack>
     );
 }
