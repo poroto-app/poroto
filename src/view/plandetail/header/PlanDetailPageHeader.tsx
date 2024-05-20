@@ -53,7 +53,11 @@ export function PlanDetailPageHeader({
             {activeTab === "info" ? (
                 <VStack>
                     <VStack w="100%" flex={1}>
-                        <Center px={Size.PlanDetailHeader.px} flex={1} zIndex={0}>
+                        <Center
+                            px={Size.PlanDetailHeader.px}
+                            flex={1}
+                            zIndex={0}
+                        >
                             <PlaceImageGallery
                                 places={placesWithImages}
                                 currentPage={currentPage}
@@ -74,7 +78,9 @@ export function PlanDetailPageHeader({
                         >
                             <PlaceList
                                 places={plan.places}
-                                onClickPlace={({ index }) => setCurrentPage(index)}
+                                onClickPlace={({ index }) =>
+                                    setCurrentPage(index)
+                                }
                             />
                         </Box>
                     </VStack>
@@ -94,7 +100,11 @@ export function PlanDetailPageHeader({
                             alignItems="flex-start"
                             justifyContent="center"
                         >
-                            <Text color="white" fontWeight="bold" fontSize="20px">
+                            <Text
+                                color="white"
+                                fontWeight="bold"
+                                fontSize="20px"
+                            >
                                 {plan.title}
                             </Text>
                             {plan.author && (
@@ -103,7 +113,9 @@ export function PlanDetailPageHeader({
                                         name={plan.author.name}
                                         src={plan.author.avatarImage}
                                     />
-                                    <Text color="white">{plan.author.name}</Text>
+                                    <Text color="white">
+                                        {plan.author.name}
+                                    </Text>
                                 </HStack>
                             )}
                         </VStack>
@@ -140,8 +152,18 @@ export function PlanDetailPageHeader({
                 <></>
             )}
             <HStack>
-                <Button onClick={() => setActiveTab("info")}>情報</Button>
-                <Button onClick={() => setActiveTab("album")}>アルバム</Button>
+                <Button onClick={() => setActiveTab("info")} color="#AC8E6C">
+                    情報
+                </Button>
+                <Button
+                    onClick={() => setActiveTab("album")}
+                    background="linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)"
+                    backgroundSize="200% auto"
+                    _hover={{ backgroundPosition: "right center" }}
+                    color="white"
+                >
+                    アルバム
+                </Button>
             </HStack>
         </VStack>
     );
