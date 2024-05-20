@@ -10,7 +10,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { MdLink, MdOutlineInfo, MdOutlineCameraAlt  } from "react-icons/md";
+import { MdLink, MdOutlineCameraAlt, MdOutlineInfo } from "react-icons/md";
 import { ImageSize } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
 import { Size } from "src/view/constants/size";
@@ -158,13 +158,13 @@ export function PlanDetailPageHeader({
                     </VStack>
                 </VStack>
             ) : (
-            <Box background="white">
-                <CollageTemplate
-                    title={plan.title}
-                    places={mockPlaces}
-                    introduction={mockIntroduction}
-                />
-            </Box>
+                <Box background="white">
+                    <CollageTemplate
+                        title={plan.title}
+                        places={mockPlaces}
+                        introduction={mockIntroduction}
+                    />
+                </Box>
             )}
             <HStack>
                 <Button
@@ -180,9 +180,17 @@ export function PlanDetailPageHeader({
                 <Button
                     onClick={() => setActiveTab("album")}
                     color="white"
-                    background={activeTab === "album" ? "linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)" : "#F3ECE1"}
+                    background={
+                        activeTab === "album"
+                            ? "linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)"
+                            : "#F3ECE1"
+                    }
                     backgroundSize="200% auto"
-                    _hover={{ backgroundPosition: "right center", background: "linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)" }}
+                    _hover={{
+                        backgroundPosition: "right center",
+                        background:
+                            "linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)",
+                    }}
                     opacity={activeTab === "album" ? 1 : 0.6}
                     leftIcon={<Icon as={MdOutlineCameraAlt} />}
                 >
