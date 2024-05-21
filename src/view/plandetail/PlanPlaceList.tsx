@@ -171,7 +171,6 @@ const PlaceListItem = ({
                 placeId={place.id}
                 name={place.name}
                 images={place.images}
-                googlePlaceReviews={place.googlePlaceReviews}
                 categories={place.categories}
                 priceRange={place.priceRange}
                 estimatedStayDuration={place.estimatedStayDuration}

@@ -13,7 +13,6 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import {
     getImageSizeOf,
     ImageSizes,
@@ -41,7 +40,6 @@ type Props = {
     googlePlaceId: string;
     name: string;
     images: ImageType[];
-    googlePlaceReviews?: GooglePlaceReview[];
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
     like: boolean;
@@ -63,7 +61,6 @@ export const PlacePreview = ({
     googlePlaceId,
     name,
     images,
-    googlePlaceReviews,
     categories,
     priceRange,
     like,
@@ -77,10 +74,7 @@ export const PlacePreview = ({
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
     const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
     const isEmptyLocation =
-        images.length === 0 &&
-        googlePlaceReviews?.length == 0 &&
-        categories.length === 0 &&
-        !priceRange;
+        images.length === 0 && categories.length === 0 && !priceRange;
 
     const openModal = (image: ImageType) => {
         setSelectedImage(getImageSizeOf(ImageSizes.Large, image));
@@ -152,7 +146,6 @@ export const PlacePreview = ({
                 <PlaceInfoTab
                     tabHSpaacing={Size.PlaceCardPaddingH}
                     categories={categories}
-                    googlePlaceReviews={googlePlaceReviews}
                     priceRange={priceRange}
                     estimatedStayDuration={estimatedStayDuration}
                 />

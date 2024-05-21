@@ -60,24 +60,6 @@ const bookStore: Place = {
         latitude: 35.681616,
         longitude: 139.764954,
     },
-    googlePlaceReviews: [
-        {
-            rating: 4.5,
-            text: "とてもきれいな書店です。",
-            authorName: "山田太郎",
-            authorUrl: "https://example.com",
-            authorPhotoUrl: "https://picsum.photos/200/300",
-            timeInMilliSec: 1600000000000,
-        },
-        {
-            rating: 3.5,
-            text: "混雑しています。",
-            authorName: "鈴木二郎",
-            authorUrl: "https://example.com",
-            authorPhotoUrl: "https://picsum.photos/200/300",
-            timeInMilliSec: 1600000000000,
-        },
-    ],
     categories: [{ id: PlaceCategoryTypes.BookStores, displayName: "本屋" }],
     likeCount: 5,
 };
@@ -141,24 +123,6 @@ const restaurant: Place = {
         latitude: 35.781616,
         longitude: 139.764954,
     },
-    googlePlaceReviews: [
-        {
-            rating: 4.5,
-            text: "とてもきれいな食堂です。",
-            authorName: "山田太郎",
-            authorUrl: "https://example.com",
-            authorPhotoUrl: "https://picsum.photos/200/300",
-            timeInMilliSec: 1600000000000,
-        },
-        {
-            rating: 3.5,
-            text: "混雑しています。",
-            authorName: "鈴木二郎",
-            authorUrl: "https://example.com",
-            authorPhotoUrl: "https://picsum.photos/200/300",
-            timeInMilliSec: 1600000000000,
-        },
-    ],
     categories: [
         { id: PlaceCategoryTypes.Restaurant, displayName: "レストラン" },
     ],
@@ -195,23 +159,6 @@ const tokyo: Place = {
         longitude: 139.7673068,
     },
     estimatedStayDuration: 60,
-    googlePlaceReviews: [
-        {
-            rating: 4.5,
-            text: "とてもきれいな駅です。",
-            authorName: "山田太郎",
-            authorPhotoUrl: "https://picsum.photos/200/300",
-            timeInMilliSec: 1600000000000,
-        },
-        {
-            rating: 3.5,
-            text: "混雑しています。",
-            authorName: "鈴木二郎",
-            authorUrl: "https://example.com",
-            authorPhotoUrl: "https://picsum.photos/200/300",
-            timeInMilliSec: 1600000000000,
-        },
-    ],
     categories: [{ id: PlaceCategoryTypes.Culture, displayName: "駅" }],
     likeCount: 10,
 };
@@ -246,7 +193,6 @@ const marunouchi: Place = {
             large: "https://picsum.photos/450/600",
         },
     ],
-    googlePlaceReviews: [],
     address: "東京都千代田区",
     location: {
         latitude: 35.681616,

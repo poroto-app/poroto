@@ -61,7 +61,6 @@ export const CreatePlanDialog = ({
                         <PlacePreview
                             placeId={placeCache.id}
                             googlePlaceId={placeCache.googlePlaceId}
-                            googlePlaceReviews={placeCache.googlePlaceReviews}
                             name={placeCache.name}
                             images={placeCache.images}
                             categories={placeCache.categories}

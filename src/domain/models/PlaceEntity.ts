@@ -1,5 +1,3 @@
-import { GooglePlaceReviewEntity } from "src/domain/models/GooglePlaceReviewEntity";
-
 export type PlaceEntity = {
     id: string;
     googlePlaceId: string | null;
@@ -16,7 +14,6 @@ export type PlaceEntity = {
         longitude: number;
     };
     estimatedStayDuration: number;
-    googlePlaceReviews: GooglePlaceReviewEntity[] | null;
     categories: {
         id: string;
         displayName: string;
