@@ -55,7 +55,7 @@ export function PlanDetailPageHeader({
         if (collageRef.current) {
             const item = collageRef.current;
             const matrix = window.getComputedStyle(item).transform;
-            if (matrix !== 'none') {
+            if (matrix !== "none") {
                 const matrixArray = matrix.replace("matrix(", "").split(",");
                 const scale = parseFloat(matrixArray[0]);
                 item.style.height = item.clientHeight * scale + "px";
@@ -74,7 +74,7 @@ export function PlanDetailPageHeader({
             overflow="hidden"
         >
             {activeTab === "info" ? (
-                <VStack >
+                <VStack>
                     <VStack w="100%" flex={1}>
                         <Center
                             px={Size.PlanDetailHeader.px}
@@ -106,69 +106,6 @@ export function PlanDetailPageHeader({
                                 }
                             />
                         </Box>
-                    </VStack>
-                    <VStack
-                        w="100%"
-                        spacing="16px"
-                        alignItems="flex-start"
-                        justifyContent="flex-end"
-                        zIndex={1}
-                    >
-                        <VStack
-                            alignSelf="center"
-                            w="100%"
-                            mb="16px"
-                            px={Size.PlanDetailHeader.px}
-                            maxW={Size.PlanDetailHeader.maxW}
-                            alignItems="flex-start"
-                            justifyContent="center"
-                        >
-                            <Text
-                                color="white"
-                                fontWeight="bold"
-                                fontSize="20px"
-                            >
-                                {plan.title}
-                            </Text>
-                            {plan.author && (
-                                <HStack>
-                                    <Avatar
-                                        name={plan.author.name}
-                                        src={plan.author.avatarImage}
-                                    />
-                                    <Text color="white">
-                                        {plan.author.name}
-                                    </Text>
-                                </HStack>
-                            )}
-                        </VStack>
-                        <HStack
-                            w="100%"
-                            maxW={Size.PlanDetailHeader.maxW}
-                            px={Size.PlanDetailHeader.px}
-                            alignSelf="center"
-                        >
-                            {onCopyPlanUrl && (
-                                <HStack
-                                    as="button"
-                                    px="4px"
-                                    py="2px"
-                                    backgroundColor="rgba(255,255,255,.8)"
-                                    color="#282828"
-                                    borderRadius="8px"
-                                    onClick={onCopyPlanUrl}
-                                    spacing="4px"
-                                >
-                                    <Icon
-                                        w="32px"
-                                        h="32px"
-                                        color="#5E6382"
-                                        as={MdLink}
-                                    />
-                                    <Text>リンクをコピー</Text>
-                                </HStack>
-                            )}
-                        </HStack>
                     </VStack>
                 </VStack>
             ) : (
@@ -214,6 +151,63 @@ export function PlanDetailPageHeader({
                 >
                     アルバム
                 </Button>
+            </HStack>
+            <HStack
+                w="100%"
+                spacing="16px"
+                alignItems="flex-start"
+                justifyContent="flex-end"
+                zIndex={1}
+            >
+                <VStack
+                    alignSelf="center"
+                    w="100%"
+                    mb="16px"
+                    px={Size.PlanDetailHeader.px}
+                    maxW={Size.PlanDetailHeader.maxW}
+                    alignItems="flex-start"
+                    justifyContent="center"
+                >
+                    {plan.author && (
+                        <HStack>
+                            <Avatar
+                                name={plan.author.name}
+                                src={plan.author.avatarImage}
+                            />
+                            <Text color="white">{plan.author.name}</Text>
+                        </HStack>
+                    )}
+                    <Text color="white" fontWeight="bold" fontSize="20px">
+                        {plan.title}
+                    </Text>
+                </VStack>
+                <HStack
+                    w="100%"
+                    maxW={Size.PlanDetailHeader.maxW}
+                    px={Size.PlanDetailHeader.px}
+                    alignSelf="center"
+                >
+                    {onCopyPlanUrl && (
+                        <HStack
+                            as="button"
+                            px="4px"
+                            py="2px"
+                            backgroundColor="rgba(255,255,255,.8)"
+                            color="#282828"
+                            borderRadius="8px"
+                            onClick={onCopyPlanUrl}
+                            spacing="4px"
+                        >
+                            <Icon
+                                w="32px"
+                                h="32px"
+                                color="#5E6382"
+                                as={MdLink}
+                            />
+                            <Text>リンクをコピー</Text>
+                        </HStack>
+                    )}
+                </HStack>
             </HStack>
         </VStack>
     );
