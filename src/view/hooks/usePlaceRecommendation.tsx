@@ -40,7 +40,7 @@ export const usePlaceRecommendation = ({ onSelectPlace }: Props) => {
         dispatch(
             setSelectedLocation({
                 location: place.location,
-                placeId: place.id,
+                placeId: place.googlePlaceId,
             })
         );
 
