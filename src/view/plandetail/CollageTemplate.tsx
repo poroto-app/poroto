@@ -15,7 +15,7 @@ type CollageProps = {
 
 export function CollageTemplate({ title, places, introduction }: CollageProps) {
     return (
-        <Box padding={16} position="relative">
+        <Box padding={16} position="relative" background="white">
             <Box textAlign="center" mb={4}>
                 <Text
                     color="rgba(130, 141, 205, 1)"

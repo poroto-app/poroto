@@ -9,7 +9,7 @@ import {
     useMediaQuery,
     VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MdLink, MdOutlineCameraAlt, MdOutlineInfo } from "react-icons/md";
 import { ImageSize } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
@@ -49,6 +49,20 @@ export function PlanDetailPageHeader({
 
     const mockIntroduction = "これは紹介文のモックです。";
 
+    const collageRef = useRef(null);
+
+    useEffect(() => {
+        if (collageRef.current) {
+            const item = collageRef.current;
+            const matrix = window.getComputedStyle(item).transform;
+            if (matrix !== 'none') {
+                const matrixArray = matrix.replace("matrix(", "").split(",");
+                const scale = parseFloat(matrixArray[0]);
+                item.style.height = item.clientHeight * scale + "px";
+            }
+        }
+    }, [activeTab]);
+
     return (
         <VStack
             flex={1}
@@ -60,7 +74,7 @@ export function PlanDetailPageHeader({
             overflow="hidden"
         >
             {activeTab === "info" ? (
-                <VStack>
+                <VStack >
                     <VStack w="100%" flex={1}>
                         <Center
                             px={Size.PlanDetailHeader.px}
@@ -158,7 +172,11 @@ export function PlanDetailPageHeader({
                     </VStack>
                 </VStack>
             ) : (
-                <Box background="white">
+                <Box
+                    ref={collageRef}
+                    transform="scale(0.3)"
+                    transformOrigin="center top"
+                >
                     <CollageTemplate
                         title={plan.title}
                         places={mockPlaces}
