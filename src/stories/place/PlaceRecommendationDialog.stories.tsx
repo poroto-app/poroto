@@ -39,7 +39,7 @@ export const Sp: Story = {
             defaultViewport: "iphonex",
         },
     },
-}
+};
 
 export const Fetching: Story = {
     args: {
@@ -70,4 +70,4 @@ export const Error: Story = {
         status: RequestStatuses.REJECTED,
         onRetry: () => console.log("retry"),
     },
-}
+};

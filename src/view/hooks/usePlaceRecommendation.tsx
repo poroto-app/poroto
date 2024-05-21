@@ -27,7 +27,7 @@ export const usePlaceRecommendation = () => {
 
     const onRetryFetchPlaceRecommendations = () => {
         dispatch(fetchPlaceRecommendations());
-    }
+    };
 
     useEffect(() => {
         dispatch(fetchPlaceRecommendations());

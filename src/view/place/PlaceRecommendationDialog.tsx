@@ -1,6 +1,5 @@
 import {
     Box,
-    Button,
     Center,
     CircularProgress,
     HStack,
@@ -22,9 +21,9 @@ import {
     FullscreenDialog,
 } from "src/view/common/FullscreenDialog";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
+import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import { Colors } from "src/view/constants/color";
-import {RoundedButton} from "src/view/common/RoundedButton";
 
 type Props = {
     visible: boolean;
@@ -115,21 +114,29 @@ const Loading = () => {
     );
 };
 
-const Error = ({onRetry}: {onRetry?: () => void}) => {
+const Error = ({ onRetry }: { onRetry?: () => void }) => {
     return (
         <Center w="100%" h="100%">
             <VStack w="100%" spacing="16px">
                 <TowingIcon viewBox="0 0 648 648" height="300px" />
                 <Text>おすすめの観光地を取得中にエラーが発生しました。</Text>
-                {
-                    onRetry && <RoundedButton onClick={onRetry}>再試行</RoundedButton>
-                }
+                {onRetry && (
+                    <RoundedButton onClick={onRetry}>再試行</RoundedButton>
+                )}
             </VStack>
         </Center>
     );
 };
 
-const PlaceList = ({ places, status, onRetry }: { places: Place[]|null, status: RequestStatus, onRetry?: () => void }) => {
+const PlaceList = ({
+    places,
+    status,
+    onRetry,
+}: {
+    places: Place[] | null;
+    status: RequestStatus;
+    onRetry?: () => void;
+}) => {
     if (status === RequestStatuses.REJECTED) {
         return <Error onRetry={onRetry} />;
     }
