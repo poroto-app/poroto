@@ -140,7 +140,6 @@ export function PlanDetailPageHeader({
                     backgroundSize="200% auto"
                     opacity={activeTab === "album" ? 1 : 0.3}
                     leftIcon={<Icon as={MdOutlineCameraAlt} />}
-
                 >
                     アルバム
                 </Button>
