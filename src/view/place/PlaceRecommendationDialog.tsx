@@ -146,7 +146,7 @@ const PlaceList = ({
     }
 
     return (
-        <SimpleGrid columns={2} spacing="16px" py="24px">
+        <SimpleGrid columns={2} gridRowGap="32px" spacing="16px" py="24px">
             {places
                 .filter((p) => p.images.length > 0)
                 .map((place) => (
