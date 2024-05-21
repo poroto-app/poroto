@@ -3,6 +3,7 @@ import {
     Box,
     Button,
     Center,
+    Circle,
     HStack,
     Icon,
     Text,
@@ -111,7 +112,7 @@ export function PlanDetailPageHeader({
             ) : (
                 <Box
                     ref={collageRef}
-                    transform="scale(0.3)"
+                    transform="scale(0.25)"
                     transformOrigin="center top"
                 >
                     <CollageTemplate
@@ -125,9 +126,9 @@ export function PlanDetailPageHeader({
                 <Button
                     onClick={() => setActiveTab("info")}
                     color="white"
-                    background={activeTab === "info" ? "#AC8E6C" : "#F3ECE1"}
-                    _hover={{ background: "#AC8E6C" }}
-                    opacity={activeTab === "info" ? 1 : 0.6}
+                    background="#AC8E6C"
+                    _hover={{ background: "#b8a998" }}
+                    opacity={activeTab === "info" ? 1 : 0.3}
                     leftIcon={<Icon as={MdOutlineInfo} />}
                 >
                     情報
@@ -135,18 +136,9 @@ export function PlanDetailPageHeader({
                 <Button
                     onClick={() => setActiveTab("album")}
                     color="white"
-                    background={
-                        activeTab === "album"
-                            ? "linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)"
-                            : "#F3ECE1"
-                    }
+                    background="linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)"
                     backgroundSize="200% auto"
-                    _hover={{
-                        backgroundPosition: "right center",
-                        background:
-                            "linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)",
-                    }}
-                    opacity={activeTab === "album" ? 1 : 0.6}
+                    opacity={activeTab === "album" ? 1 : 0.3}
                     leftIcon={<Icon as={MdOutlineCameraAlt} />}
                 >
                     アルバム
@@ -188,24 +180,22 @@ export function PlanDetailPageHeader({
                     alignSelf="center"
                 >
                     {onCopyPlanUrl && (
-                        <HStack
+                        <Circle
                             as="button"
-                            px="4px"
-                            py="2px"
-                            backgroundColor="rgba(255,255,255,.8)"
+                            px="6px"
+                            py="4px"
+                            backgroundColor="#875643"
                             color="#282828"
-                            borderRadius="8px"
                             onClick={onCopyPlanUrl}
-                            spacing="4px"
                         >
                             <Icon
                                 w="32px"
                                 h="32px"
-                                color="#5E6382"
+                                color="#FFFFFF"
                                 as={MdLink}
+                                transform="rotate(-45deg)"
                             />
-                            <Text>リンクをコピー</Text>
-                        </HStack>
+                        </Circle>
                     )}
                 </HStack>
             </HStack>
