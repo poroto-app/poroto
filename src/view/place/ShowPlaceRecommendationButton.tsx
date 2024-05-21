@@ -7,6 +7,7 @@ type Props = {
 export function ShowPlaceRecommendationButton({ onClick }: Props) {
     return (
         <Box
+            cursor="pointer"
             backgroundColor="white"
             borderRadius="50px"
             px="8px"
