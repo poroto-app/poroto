@@ -45,7 +45,7 @@ export function PlanDetailPageHeader({
     const mockPlaces = plan.places.map((place, index) => ({
         name: place.name,
         duration: index * 30 + 30,
-        imageUrl: place.images[0]?.url || "https://via.placeholder.com/400",
+        imageUrl: "https://via.placeholder.com/400",
     }));
 
     const mockIntroduction = "これは紹介文のモックです。";
@@ -140,6 +140,7 @@ export function PlanDetailPageHeader({
                     backgroundSize="200% auto"
                     opacity={activeTab === "album" ? 1 : 0.3}
                     leftIcon={<Icon as={MdOutlineCameraAlt} />}
+
                 >
                     アルバム
                 </Button>
