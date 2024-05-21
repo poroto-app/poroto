@@ -68,6 +68,10 @@ function PlaceSearchPage() {
         resetLocationState,
         checkGeolocationPermission,
     } = useLocation();
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [mapCenter, setMapCenter] = useState<GeoLocation>(
+        locationSinjukuStation
+    );
     const {
         isPlaceRecommendationButtonVisible,
         isPlaceRecommendationDialogVisible,
@@ -76,10 +80,13 @@ function PlaceSearchPage() {
         onOpenPlaceRecommendationDialog,
         onClosePlaceRecommendationDialog,
         onRetryFetchPlaceRecommendations,
-    } = usePlaceRecommendation();
-    const [mapCenter, setMapCenter] = useState<GeoLocation>(
-        locationSinjukuStation
-    );
+        onSelectedRecommendedPlace,
+    } = usePlaceRecommendation({
+        onSelectPlace: ({ place }) => {
+            setSearchQuery(place.name);
+            setMapCenter(place.location);
+        },
+    });
 
     // 現在地を取得
     // MEMO: 位置情報が利用できないと、Google Mapを表示しようとしたときにエラーになる
@@ -190,7 +197,10 @@ function PlaceSearchPage() {
                     zIndex={10}
                 >
                     <Box w="100%">
-                        <PlaceSearchBar onSearch={handleOnSearch} />
+                        <PlaceSearchBar
+                            defaultValue={searchQuery}
+                            onSearch={handleOnSearch}
+                        />
                     </Box>
                     {isPlaceRecommendationButtonVisible && (
                         <ShowPlaceRecommendationButton
@@ -230,6 +240,7 @@ function PlaceSearchPage() {
                     status={fetchPlaceRecommendationsRequestStatus}
                     onClose={onClosePlaceRecommendationDialog}
                     onRetry={onRetryFetchPlaceRecommendations}
+                    onSelectPlace={onSelectedRecommendedPlace}
                 />
             </>
         </VStack>

@@ -1,15 +1,25 @@
 import { Icon } from "@chakra-ui/react";
 import { FormEvent, useEffect, useState } from "react";
 import { MdClose, MdSearch } from "react-icons/md";
+import { hasValue } from "src/domain/util/null";
 import styled from "styled-components";
 
 type Props = {
+    defaultValue?: string;
     onSearch: (value: string) => void;
 };
 
-export function PlaceSearchBar({ onSearch }: Props) {
+export function PlaceSearchBar({ defaultValue = "", onSearch }: Props) {
     const [lastUsedQuery, setLastUsedQuery] = useState<string | null>(null);
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState(defaultValue);
+
+    useEffect(() => {
+        if (hasValue(defaultValue)) {
+            // 検索が行われないように両方更新をする
+            setValue(defaultValue);
+            setLastUsedQuery(defaultValue);
+        }
+    }, [defaultValue]);
 
     useEffect(() => {
         const id = setTimeout(() => {

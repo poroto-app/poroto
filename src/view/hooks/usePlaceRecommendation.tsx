@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react";
+import { Place } from "src/domain/models/Place";
 import { fetchPlaceRecommendations, reduxPlaceSelector } from "src/redux/place";
-import { reduxPlaceSearchSelector } from "src/redux/placeSearch";
+import {
+    reduxPlaceSearchSelector,
+    setSelectedLocation,
+} from "src/redux/placeSearch";
 import { useAppDispatch } from "src/redux/redux";
 
-export const usePlaceRecommendation = () => {
+type Props = {
+    onSelectPlace: ({ place }: { place: Place }) => void;
+};
+
+export const usePlaceRecommendation = ({ onSelectPlace }: Props) => {
     const dispatch = useAppDispatch();
     const [
         isPlaceRecommendationDialogVisible,
@@ -28,6 +36,21 @@ export const usePlaceRecommendation = () => {
         dispatch(fetchPlaceRecommendations());
     };
 
+    const onSelectedRecommendedPlace = ({ place }: { place: Place }) => {
+        dispatch(
+            setSelectedLocation({
+                location: place.location,
+                placeId: place.id,
+            })
+        );
+
+        onClosePlaceRecommendationDialog();
+
+        if (onSelectPlace) {
+            onSelectPlace({ place });
+        }
+    };
+
     useEffect(() => {
         dispatch(fetchPlaceRecommendations());
     }, []);
@@ -42,5 +65,6 @@ export const usePlaceRecommendation = () => {
         onOpenPlaceRecommendationDialog,
         onClosePlaceRecommendationDialog,
         onRetryFetchPlaceRecommendations,
+        onSelectedRecommendedPlace,
     };
 };

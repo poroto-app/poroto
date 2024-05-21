@@ -31,6 +31,7 @@ type Props = {
     status?: RequestStatus | null;
     onClose: () => void;
     onRetry?: () => void;
+    onSelectPlace?: ({ place }: { place: Place }) => void;
 };
 
 export function PlaceRecommendationDialog({
@@ -39,6 +40,7 @@ export function PlaceRecommendationDialog({
     status = RequestStatuses.FULFILLED,
     onClose,
     onRetry,
+    onSelectPlace,
 }: Props) {
     return (
         <FullscreenDialog
@@ -90,6 +92,7 @@ export function PlaceRecommendationDialog({
                                 places={places}
                                 status={status}
                                 onRetry={onRetry}
+                                onSelectPlace={onSelectPlace}
                             />
                         </Box>
                     </VStack>
@@ -132,10 +135,12 @@ const PlaceList = ({
     places,
     status,
     onRetry,
+    onSelectPlace,
 }: {
     places: Place[] | null;
     status: RequestStatus;
     onRetry?: () => void;
+    onSelectPlace: ({ place }: { place: Place }) => void;
 }) => {
     if (status === RequestStatuses.REJECTED) {
         return <Error onRetry={onRetry} />;
@@ -150,7 +155,11 @@ const PlaceList = ({
             {places
                 .filter((p) => p.images.length > 0)
                 .map((place) => (
-                    <VStack w="100%">
+                    <VStack
+                        w="100%"
+                        cursor="pointer"
+                        onClick={() => onSelectPlace({ place })}
+                    >
                         <Box
                             w="100%"
                             maxW="100%"
