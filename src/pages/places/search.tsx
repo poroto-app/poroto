@@ -192,9 +192,11 @@ function PlaceSearchPage() {
                     <Box w="100%">
                         <PlaceSearchBar onSearch={handleOnSearch} />
                     </Box>
-                    <ShowPlaceRecommendationButton
-                        onClick={onOpenPlaceRecommendationDialog}
-                    />
+                    {isPlaceRecommendationButtonVisible && (
+                        <ShowPlaceRecommendationButton
+                            onClick={onOpenPlaceRecommendationDialog}
+                        />
+                    )}
                     <Box
                         w="100%"
                         backgroundColor="white"

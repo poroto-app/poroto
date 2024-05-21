@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { hasValue } from "src/domain/util/null";
 import { fetchPlaceRecommendations, reduxPlaceSelector } from "src/redux/place";
 import { reduxPlaceSearchSelector } from "src/redux/placeSearch";
 import { useAppDispatch } from "src/redux/redux";
@@ -36,7 +35,7 @@ export const usePlaceRecommendation = () => {
     return {
         // 検索結果が無い場合のみボタンを表示
         isPlaceRecommendationButtonVisible:
-            hasValue(placeSearchResults) && placeSearchResults.length === 0,
+            placeSearchResults === null || placeSearchResults.length === 0,
         isPlaceRecommendationDialogVisible,
         recommendedPlacesToCreateFromLocation,
         fetchPlaceRecommendationsRequestStatus,
