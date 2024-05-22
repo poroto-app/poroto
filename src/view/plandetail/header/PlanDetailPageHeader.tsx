@@ -147,16 +147,15 @@ export function PlanDetailPageHeader({
             <HStack
                 w="100%"
                 spacing="16px"
-                alignItems="flex-start"
                 justifyContent="flex-end"
                 zIndex={1}
+                px={Size.PlanDetailHeader.px}
+                maxW={Size.PlanDetailHeader.maxW}
             >
                 <VStack
                     alignSelf="center"
                     w="100%"
                     mb="16px"
-                    px={Size.PlanDetailHeader.px}
-                    maxW={Size.PlanDetailHeader.maxW}
                     alignItems="flex-start"
                     justifyContent="center"
                 >
@@ -174,9 +173,6 @@ export function PlanDetailPageHeader({
                     </Text>
                 </VStack>
                 <HStack
-                    w="100%"
-                    maxW={Size.PlanDetailHeader.maxW}
-                    px={Size.PlanDetailHeader.px}
                     alignSelf="center"
                 >
                     {onCopyPlanUrl && (
