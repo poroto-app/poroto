@@ -156,8 +156,9 @@ const PlaceList = ({
         <SimpleGrid columns={2} gridRowGap="32px" spacing="16px" py="24px">
             {places
                 .filter((p) => p.images.length > 0)
-                .map((place) => (
+                .map((place, index) => (
                     <VStack
+                        key={index}
                         w="100%"
                         cursor="pointer"
                         onClick={() => onSelectPlace({ place })}
