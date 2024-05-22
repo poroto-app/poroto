@@ -30,8 +30,9 @@ type Props = {
 export const PlanHeaderTabs = {
     Info: "Info",
     Collage: "Collage",
-}
-export type PlanHeaderTab = typeof PlanHeaderTabs[keyof typeof PlanHeaderTabs];
+};
+export type PlanHeaderTab =
+    (typeof PlanHeaderTabs)[keyof typeof PlanHeaderTabs];
 
 export function PlanDetailPageHeader({
     plan,
@@ -46,7 +47,7 @@ export function PlanDetailPageHeader({
     const placesWithImages = plan.places.filter(
         (place) => place.images.length > 0
     );
-    const [activeTab, setActiveTab] = useState(PlanHeaderTabs..Info);
+    const [activeTab, setActiveTab] = useState(PlanHeaderTabs.Info);
 
     const mockPlaces = plan.places.map((place, index) => ({
         name: place.name,
@@ -57,18 +58,23 @@ export function PlanDetailPageHeader({
     const mockIntroduction = "これは紹介文のモックです。";
 
     const collageRef = useRef(null);
+    const infoRef = useRef(null);
+    const [infoHeight, setInfoHeight] = useState("auto");
+    const [scale, setScale] = useState(1);
 
     useEffect(() => {
-        if (collageRef.current) {
-            const item = collageRef.current;
-            const matrix = window.getComputedStyle(item).transform;
-            if (matrix !== "none") {
-                const matrixArray = matrix.replace("matrix(", "").split(",");
-                const scale = parseFloat(matrixArray[0]);
-                item.style.height = item.clientHeight * scale + "px";
-            }
+        if (infoRef.current) {
+            setInfoHeight(infoRef.current.clientHeight + "px");
         }
     }, [activeTab]);
+
+    useEffect(() => {
+        if (infoRef.current && collageRef.current) {
+            const collageHeight = collageRef.current.clientHeight;
+            const scaleValue = infoRef.current.clientHeight / collageHeight;
+            setScale(scaleValue);
+        }
+    }, [infoHeight]);
 
     return (
         <VStack
@@ -80,44 +86,39 @@ export function PlanDetailPageHeader({
             spacing="16px"
             overflow="hidden"
         >
-            {activeTab === "info" ? (
-                    <VStack w="100%" flex={1}>
-                        <Center
-                            px={Size.PlanDetailHeader.px}
-                            flex={1}
-                            zIndex={0}
-                        >
-                            <PlaceImageGallery
-                                places={placesWithImages}
-                                currentPage={currentPage}
-                                likedPlaceIds={likedPlaceIds}
-                                onUpdateLikePlace={onUpdateLikePlace}
-                                onPageChange={(page) => setCurrentPage(page)}
-                            />
-                        </Center>
-                        <Box
-                            zIndex={1}
-                            alignSelf="center"
-                            w={!isLargerThanHeaderWidth && "100%"}
-                            maxW={
-                                isLargerThanHeaderWidth
-                                    ? "100%"
-                                    : Size.PlanDetailHeader.maxW
-                            }
-                        >
-                            <PlaceList
-                                places={plan.places}
-                                onClickPlace={({ index }) =>
-                                    setCurrentPage(index)
-                                }
-                            />
-                        </Box>
-                    </VStack>
+            {activeTab === PlanHeaderTabs.Info ? (
+                <VStack w="100%" flex={1} ref={infoRef}>
+                    <Center px={Size.PlanDetailHeader.px} flex={1} zIndex={0}>
+                        <PlaceImageGallery
+                            places={placesWithImages}
+                            currentPage={currentPage}
+                            likedPlaceIds={likedPlaceIds}
+                            onUpdateLikePlace={onUpdateLikePlace}
+                            onPageChange={(page) => setCurrentPage(page)}
+                        />
+                    </Center>
+                    <Box
+                        zIndex={1}
+                        alignSelf="center"
+                        w={!isLargerThanHeaderWidth && "100%"}
+                        maxW={
+                            isLargerThanHeaderWidth
+                                ? "100%"
+                                : Size.PlanDetailHeader.maxW
+                        }
+                    >
+                        <PlaceList
+                            places={plan.places}
+                            onClickPlace={({ index }) => setCurrentPage(index)}
+                        />
+                    </Box>
+                </VStack>
             ) : (
                 <Box
                     ref={collageRef}
-                    transform="scale(0.25)"
+                    transform={`scale(${scale})`}
                     transformOrigin="center top"
+                    h={infoHeight} // 情報タブの高さを反映
                 >
                     <CollageTemplate
                         title={plan.title}
@@ -128,21 +129,21 @@ export function PlanDetailPageHeader({
             )}
             <HStack>
                 <Button
-                    onClick={() => setActiveTab("info")}
+                    onClick={() => setActiveTab(PlanHeaderTabs.Info)}
                     color="white"
                     background="#AC8E6C"
                     _hover={{ background: "#b8a998" }}
-                    opacity={activeTab === "info" ? 1 : 0.3}
+                    opacity={activeTab === PlanHeaderTabs.Info ? 1 : 0.3}
                     leftIcon={<Icon as={MdOutlineInfo} />}
                 >
                     情報
                 </Button>
                 <Button
-                    onClick={() => setActiveTab("album")}
+                    onClick={() => setActiveTab(PlanHeaderTabs.Collage)}
                     color="white"
                     background="linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)"
                     backgroundSize="200% auto"
-                    opacity={activeTab === "album" ? 1 : 0.3}
+                    opacity={activeTab === PlanHeaderTabs.Collage ? 1 : 0.3}
                     leftIcon={<Icon as={MdOutlineCameraAlt} />}
                 >
                     アルバム
@@ -176,9 +177,7 @@ export function PlanDetailPageHeader({
                         {plan.title}
                     </Text>
                 </VStack>
-                <HStack
-                    alignSelf="center"
-                >
+                <HStack alignSelf="center">
                     {onCopyPlanUrl && (
                         <Circle
                             as="button"
