@@ -72,16 +72,18 @@ export function PlaceRecommendationDialog({
                                 おすすめの観光地
                             </Text>
                             <Center
-                                position="absolute"
-                                right={0}
-                                w="32px"
-                                h="32px"
+                                cursor="pointer"
                                 borderRadius="100%"
                                 backgroundColor="rgba(0,0,0,.05)"
+                                w="32px"
+                                h="32px"
+                                position="absolute"
+                                right={0}
+                                onClick={onClose}
                             >
                                 <Icon
                                     as={MdClose}
-                                    color="rgba(0,0,0,.3)"
+                                    color="rgba(0,0,0,.5)"
                                     w="24px"
                                     h="24px"
                                 />
