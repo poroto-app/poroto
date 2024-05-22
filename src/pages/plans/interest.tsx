@@ -22,7 +22,6 @@ import {
     reduxPlanCandidateSelector,
     resetInterest,
     setCreatedPlans,
-    setTimeForPlan,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 import { ErrorPage } from "src/view/common/ErrorPage";
@@ -35,16 +34,8 @@ import { Routes } from "src/view/constants/router";
 import { useLocation } from "src/view/hooks/useLocation";
 import { CategorySelect } from "src/view/interest/CategorySelect";
 import { CouldNotFindAnyPlace } from "src/view/interest/CouldNotFindAnyPlace";
-import { PlanDurationSelector } from "src/view/interest/PlanDurationSelector";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
 import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTemplate";
-
-const MatchInterestPages = {
-    TIME: "TIME",
-    CATEGORY: "CATEGORY",
-};
-type MatchInterestPage =
-    (typeof MatchInterestPages)[keyof typeof MatchInterestPages];
 
 export default function Page() {
     const router = useRouter();
@@ -196,18 +187,6 @@ function PlanInterestPage() {
         dispatch(pushRejectedCategory({ category }));
     };
 
-    const handleSelectTime = (time: number | null) => {
-        if (time) {
-            logEvent(getAnalytics(), AnalyticsEvents.Interests.SelectDuration);
-        } else {
-            logEvent(
-                getAnalytics(),
-                AnalyticsEvents.Interests.SkipSelectDuration
-            );
-        }
-        dispatch(setTimeForPlan({ time }));
-    };
-
     if (!searchLocation)
         return (
             <FetchLocationDialog
@@ -228,7 +207,6 @@ function PlanInterestPage() {
             matchInterestRequestStatus={matchInterestRequestStatus}
             handleAcceptCategory={handleAcceptCategory}
             handleRejectCategory={handleRejectCategory}
-            onSelectTime={handleSelectTime}
             navBar={<NavBar />}
         />
     );
@@ -240,7 +218,6 @@ type Props = {
     matchInterestRequestStatus: RequestStatus | null;
     handleAcceptCategory: (category: LocationCategory) => void;
     handleRejectCategory: (category: LocationCategory) => void;
-    onSelectTime: (duration: number | null) => void;
     navBar: ReactNode;
 };
 
@@ -250,31 +227,8 @@ export function PlanInterestPageComponent({
     matchInterestRequestStatus,
     handleAcceptCategory,
     handleRejectCategory,
-    onSelectTime,
     navBar,
 }: Props) {
-    const [page, setPage] = useState<MatchInterestPage>(
-        MatchInterestPages.TIME
-    );
-
-    const handleSelectTime = (duration: number | null) => {
-        onSelectTime(duration);
-        setPage(MatchInterestPages.CATEGORY);
-    };
-
-    if (page === MatchInterestPages.TIME)
-        return (
-            <MatchInterestPageTemplate
-                message="どのくらいの時間を過ごしたいですか？"
-                navBar={navBar}
-            >
-                <PlanDurationSelector
-                    onClickNext={(duration) => handleSelectTime(duration)}
-                    onClickIgnoreDuration={() => handleSelectTime(null)}
-                />
-            </MatchInterestPageTemplate>
-        );
-
     if (!currentCategory) {
         if (
             matchInterestRequestStatus === RequestStatuses.FULFILLED &&
