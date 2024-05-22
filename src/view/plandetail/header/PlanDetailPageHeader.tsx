@@ -27,6 +27,12 @@ type Props = {
     onCopyPlanUrl?: () => void;
 };
 
+export const PlanHeaderTabs = {
+    Info: "Info",
+    Collage: "Collage",
+}
+export type PlanHeaderTab = typeof PlanHeaderTabs[keyof typeof PlanHeaderTabs];
+
 export function PlanDetailPageHeader({
     plan,
     likedPlaceIds,
@@ -40,7 +46,7 @@ export function PlanDetailPageHeader({
     const placesWithImages = plan.places.filter(
         (place) => place.images.length > 0
     );
-    const [activeTab, setActiveTab] = useState("info");
+    const [activeTab, setActiveTab] = useState(PlanHeaderTabs..Info);
 
     const mockPlaces = plan.places.map((place, index) => ({
         name: place.name,
@@ -75,7 +81,6 @@ export function PlanDetailPageHeader({
             overflow="hidden"
         >
             {activeTab === "info" ? (
-                <VStack>
                     <VStack w="100%" flex={1}>
                         <Center
                             px={Size.PlanDetailHeader.px}
@@ -108,7 +113,6 @@ export function PlanDetailPageHeader({
                             />
                         </Box>
                     </VStack>
-                </VStack>
             ) : (
                 <Box
                     ref={collageRef}
