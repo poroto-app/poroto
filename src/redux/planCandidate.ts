@@ -82,11 +82,9 @@ export const createPlanFromLocation = createAsyncThunk(
 
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
 
-        const {
-            createPlanSession,
-            categoriesAccepted,
-            categoriesRejected,
-        } = (getState() as RootState).planCandidate;
+        const { createPlanSession, categoriesAccepted, categoriesRejected } = (
+            getState() as RootState
+        ).planCandidate;
 
         const { currentLocation } = (getState() as RootState).location;
         const isCurrentLocation =
