@@ -57,24 +57,24 @@ export function PlanDetailPageHeader({
 
     const mockIntroduction = "これは紹介文のモックです。";
 
-    const collageRef = useRef(null);
-    const infoRef = useRef(null);
-    const [infoHeight, setInfoHeight] = useState("auto");
+    const collageRef = useRef<HTMLDivElement>(null);
+    const infoRef = useRef<HTMLDivElement>(null);
+    const [infoHeight, setInfoHeight] = useState(0);
     const [scale, setScale] = useState(1);
 
     useEffect(() => {
         if (infoRef.current) {
-            setInfoHeight(infoRef.current.clientHeight + "px");
+            setInfoHeight(infoRef.current.clientHeight);
         }
     }, [activeTab]);
 
     useEffect(() => {
-        if (infoRef.current && collageRef.current) {
+        if (collageRef.current) {
             const collageHeight = collageRef.current.clientHeight;
-            const scaleValue = infoRef.current.clientHeight / collageHeight;
+            const scaleValue = infoHeight / collageHeight;
             setScale(scaleValue);
         }
-    }, [infoHeight]);
+    }, [infoHeight, activeTab]);
 
     return (
         <VStack
@@ -115,12 +115,12 @@ export function PlanDetailPageHeader({
                 </VStack>
             ) : (
                 <Box
-                    ref={collageRef}
                     transform={`scale(${scale})`}
                     transformOrigin="center top"
-                    h={infoHeight} // 情報タブの高さを反映
+                    h={infoHeight}
                 >
                     <CollageTemplate
+                        ref={collageRef}
                         title={plan.title}
                         places={mockPlaces}
                         introduction={mockIntroduction}
