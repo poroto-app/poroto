@@ -11,6 +11,7 @@ import {
     useMediaQuery,
     VStack,
 } from "@chakra-ui/react";
+import * as process from "process";
 import { useRef, useState } from "react";
 import { MdLink, MdOutlineCameraAlt, MdOutlineInfo } from "react-icons/md";
 import { ImageSize } from "src/domain/models/Image";
@@ -125,28 +126,30 @@ export function PlanDetailPageHeader({
                     </CollageContainer>
                 </Flex>
             )}
-            <HStack>
-                <Button
-                    onClick={() => setActiveTab(PlanHeaderTabs.Info)}
-                    color="white"
-                    background="#AC8E6C"
-                    _hover={{ background: "#b8a998" }}
-                    opacity={activeTab === PlanHeaderTabs.Info ? 1 : 0.3}
-                    leftIcon={<Icon as={MdOutlineInfo} />}
-                >
-                    情報
-                </Button>
-                <Button
-                    onClick={() => setActiveTab(PlanHeaderTabs.Collage)}
-                    color="white"
-                    background="linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)"
-                    backgroundSize="200% auto"
-                    opacity={activeTab === PlanHeaderTabs.Collage ? 1 : 0.3}
-                    leftIcon={<Icon as={MdOutlineCameraAlt} />}
-                >
-                    アルバム
-                </Button>
-            </HStack>
+            {process.env.APP_ENV === "development" && (
+                <HStack>
+                    <Button
+                        onClick={() => setActiveTab(PlanHeaderTabs.Info)}
+                        color="white"
+                        background="#AC8E6C"
+                        _hover={{ background: "#b8a998" }}
+                        opacity={activeTab === PlanHeaderTabs.Info ? 1 : 0.3}
+                        leftIcon={<Icon as={MdOutlineInfo} />}
+                    >
+                        情報
+                    </Button>
+                    <Button
+                        onClick={() => setActiveTab(PlanHeaderTabs.Collage)}
+                        color="white"
+                        background="linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)"
+                        backgroundSize="200% auto"
+                        opacity={activeTab === PlanHeaderTabs.Collage ? 1 : 0.3}
+                        leftIcon={<Icon as={MdOutlineCameraAlt} />}
+                    >
+                        アルバム
+                    </Button>
+                </HStack>
+            )}
             <HStack
                 w="100%"
                 spacing="16px"
