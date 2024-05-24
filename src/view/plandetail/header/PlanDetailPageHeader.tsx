@@ -16,6 +16,7 @@ import { MdLink, MdOutlineCameraAlt, MdOutlineInfo } from "react-icons/md";
 import { ImageSize } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
 import { Size } from "src/view/constants/size";
+import { isPC } from "src/view/constants/userAgent";
 import { CollageContainer } from "src/view/plandetail/CollageContainer";
 import { CollageTemplate } from "src/view/plandetail/CollageTemplate";
 import { PlaceImageGallery } from "src/view/plandetail/header/PlaceImageGallery";
@@ -71,7 +72,12 @@ export function PlanDetailPageHeader({
             overflow="hidden"
         >
             {activeTab === PlanHeaderTabs.Info ? (
-                <VStack w="100%" flex={1} ref={infoRef}>
+                <VStack
+                    w="100%"
+                    flex={1}
+                    ref={infoRef}
+                    spacing={Size.PlanDetailHeader.Info.spacingY + "px"}
+                >
                     <Center px={Size.PlanDetailHeader.px} flex={1} zIndex={0}>
                         <PlaceImageGallery
                             places={placesWithImages}
@@ -98,7 +104,18 @@ export function PlanDetailPageHeader({
                     </Box>
                 </VStack>
             ) : (
-                <Flex flex={1} w="100%">
+                <Flex
+                    flex={!isPC && 1}
+                    w="100%"
+                    h={
+                        isPC &&
+                        Size.PlanDetailHeader.imageH +
+                            Size.PlanDetailHeader.Info.spacingY +
+                            Size.PlanDetailHeader.PlaceList.height +
+                            Size.PlanDetailHeader.PlaceList.scrollBarHeight +
+                            "px"
+                    }
+                >
                     <CollageContainer>
                         <CollageTemplate
                             title={plan.title}

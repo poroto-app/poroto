@@ -20,7 +20,7 @@ export function PlaceList({ places, onClickPlace }: Props) {
             /*親要素で余白をつけると、スクロール時に範囲外が切れてしまう*/
             px={Size.PlanDetailHeader.px}
             /*スクロールバーと要素間の余白*/
-            pb={isPC && "8px"}
+            pb={isPC && Size.PlanDetailHeader.PlaceList.scrollBarHeight + "px"}
             sx={{
                 scrollbarColor: "rgba(255,255,255,0.6) rgba(0,0,0,.2)",
                 scrollbarWidth: "thin",
@@ -72,10 +72,11 @@ function PlaceCard({ place, onClick }: { place: Place; onClick: () => void }) {
             backgroundColor="rgba(0, 0, 0, 0.3)"
             overflow="hidden"
             w="200px"
+            h={Size.PlanDetailHeader.PlaceList.height + "px"}
             userSelect="none"
             onClick={onClick}
         >
-            <Box w="100%" h="130px">
+            <Box w="100%" flex={1} overflowY="hidden">
                 <ImageWithSkeleton src={image} />
             </Box>
             <Text
