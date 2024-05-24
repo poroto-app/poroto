@@ -1,4 +1,5 @@
 import { Box, Center, VStack } from "@chakra-ui/react";
+import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -24,16 +25,20 @@ import {
 import { useAppDispatch } from "src/redux/redux";
 import { NavBar } from "src/view/common/NavBar";
 import { RoundedIconButton } from "src/view/common/RoundedIconButton";
+import { AnalyticsEvents } from "src/view/constants/analytics";
 import { locationSinjukuStation } from "src/view/constants/location";
 import { PageMetaData } from "src/view/constants/meta";
 import { RouteParams, Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { zIndex } from "src/view/constants/zIndex";
 import { useLocation } from "src/view/hooks/useLocation";
+import { usePlaceRecommendation } from "src/view/hooks/usePlaceRecommendation";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
 import { MapPinSelector } from "src/view/place/MapPinSelector";
+import { PlaceRecommendationDialog } from "src/view/place/PlaceRecommendationDialog";
 import { PlaceSearchBar } from "src/view/place/PlaceSearchBar";
 import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
+import { ShowPlaceRecommendationButton } from "src/view/place/ShowPlaceRecommendationButton";
 
 export default function Page() {
     return (
@@ -65,9 +70,25 @@ function PlaceSearchPage() {
         resetLocationState,
         checkGeolocationPermission,
     } = useLocation();
+    const [searchQuery, setSearchQuery] = useState<string>("");
     const [mapCenter, setMapCenter] = useState<GeoLocation>(
         locationSinjukuStation
     );
+    const {
+        isPlaceRecommendationButtonVisible,
+        isPlaceRecommendationDialogVisible,
+        recommendedPlacesToCreateFromLocation,
+        fetchPlaceRecommendationsRequestStatus,
+        onOpenPlaceRecommendationDialog,
+        onClosePlaceRecommendationDialog,
+        onRetryFetchPlaceRecommendations,
+        onSelectedRecommendedPlace,
+    } = usePlaceRecommendation({
+        onSelectPlace: ({ place }) => {
+            setSearchQuery(place.name);
+            setMapCenter(place.location);
+        },
+    });
 
     // 現在地を取得
     // MEMO: 位置情報が利用できないと、Google Mapを表示しようとしたときにエラーになる
@@ -133,6 +154,10 @@ function PlaceSearchPage() {
 
     const handleOnCreatePlan = async () => {
         if (!placeSelected) return;
+        logEvent(
+            getAnalytics(),
+            AnalyticsEvents.CreatePlan.StartCreatePlanFromSelectedLocation
+        );
         dispatch(
             setSearchLocation({
                 searchLocation: placeSelected.location,
@@ -178,8 +203,16 @@ function PlaceSearchPage() {
                     zIndex={10}
                 >
                     <Box w="100%">
-                        <PlaceSearchBar onSearch={handleOnSearch} />
+                        <PlaceSearchBar
+                            defaultValue={searchQuery}
+                            onSearch={handleOnSearch}
+                        />
                     </Box>
+                    {isPlaceRecommendationButtonVisible && (
+                        <ShowPlaceRecommendationButton
+                            onClick={onOpenPlaceRecommendationDialog}
+                        />
+                    )}
                     <Box
                         w="100%"
                         backgroundColor="white"
@@ -206,6 +239,16 @@ function PlaceSearchPage() {
                     onClick={handleOnCreatePlan}
                 />
             </VStack>
+            <>
+                <PlaceRecommendationDialog
+                    visible={isPlaceRecommendationDialogVisible}
+                    places={recommendedPlacesToCreateFromLocation}
+                    status={fetchPlaceRecommendationsRequestStatus}
+                    onClose={onClosePlaceRecommendationDialog}
+                    onRetry={onRetryFetchPlaceRecommendations}
+                    onSelectPlace={onSelectedRecommendedPlace}
+                />
+            </>
         </VStack>
     );
 }

@@ -14,14 +14,6 @@ fragment PlaceFullFragment on Place {
         latitude
     }
     estimatedStayDuration
-    googleReviews {
-        rating
-        text
-        authorName
-        authorPhotoUrl
-        authorUrl
-        time
-    }
     categories {
         id
         name

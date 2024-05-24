@@ -30,8 +30,6 @@ export type PlanCandidateState = {
     // 直前に発火したリクエストの結果と、新しく行ったリクエストの結果を区別できるようにするために利用する
     fetchLocationCategoryRequestId: string | null;
 
-    timeForPlan: number | null;
-
     createPlanFromLocationRequestStatus: RequestStatus | null;
     createPlanFromPlaceRequestStatus: RequestStatus | null;
     savePlanFromCandidateRequestStatus: RequestStatus | null;
@@ -55,8 +53,6 @@ const initialState: PlanCandidateState = {
     categoriesAccepted: null,
     categoriesRejected: null,
     fetchLocationCategoryRequestId: null,
-
-    timeForPlan: null,
 
     createPlanFromLocationRequestStatus: null,
     createPlanFromPlaceRequestStatus: null,
@@ -86,12 +82,9 @@ export const createPlanFromLocation = createAsyncThunk(
 
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
 
-        const {
-            createPlanSession,
-            categoriesAccepted,
-            categoriesRejected,
-            timeForPlan,
-        } = (getState() as RootState).planCandidate;
+        const { createPlanSession, categoriesAccepted, categoriesRejected } = (
+            getState() as RootState
+        ).planCandidate;
 
         const { currentLocation } = (getState() as RootState).location;
         const isCurrentLocation =
@@ -108,7 +101,6 @@ export const createPlanFromLocation = createAsyncThunk(
             categoriesDisliked: (categoriesRejected ?? []).map(
                 (category) => category.name
             ),
-            planDuration: timeForPlan,
             basedOnCurrentLocation: isCurrentLocation,
         });
 
@@ -401,15 +393,7 @@ export const slice = createSlice({
             );
         },
 
-        setTimeForPlan: (
-            state,
-            { payload }: PayloadAction<{ time: number | null }>
-        ) => {
-            state.timeForPlan = payload.time;
-        },
-
         resetInterest: (state) => {
-            state.timeForPlan = null;
             state.categoryCandidates = null;
             state.categoriesRejected = null;
             state.categoriesAccepted = null;
@@ -429,7 +413,6 @@ export const slice = createSlice({
             state.categoriesRejected = null;
             state.categoriesAccepted = null;
 
-            state.timeForPlan = null;
             state.savePlanFromCandidateRequestStatus = null;
             state.updatePlacesOrderInPlanCandidateRequestStatus = null;
         },
@@ -665,8 +648,6 @@ export const {
 
     pushAcceptedCategory,
     pushRejectedCategory,
-
-    setTimeForPlan,
 
     resetInterest,
     resetPlanCandidates,
