@@ -4,17 +4,19 @@ import {
     Button,
     Center,
     Circle,
+    Flex,
     HStack,
     Icon,
     Text,
     useMediaQuery,
     VStack,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { MdLink, MdOutlineCameraAlt, MdOutlineInfo } from "react-icons/md";
 import { ImageSize } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
 import { Size } from "src/view/constants/size";
+import { CollageContainer } from "src/view/plandetail/CollageContainer";
 import { CollageTemplate } from "src/view/plandetail/CollageTemplate";
 import { PlaceImageGallery } from "src/view/plandetail/header/PlaceImageGallery";
 import { PlaceList } from "src/view/plandetail/header/PlaceList";
@@ -56,33 +58,7 @@ export function PlanDetailPageHeader({
     }));
 
     const mockIntroduction = "これは紹介文のモックです。";
-
-    const collageContainerRef = useRef<HTMLDivElement>(null);
-    const collageRef = useRef<HTMLDivElement>(null);
     const infoRef = useRef<HTMLDivElement>(null);
-    const [scale, setScale] = useState(0);
-
-    useEffect(() => {
-        // モードが切り替わると、collageContainerRef等に参照が追加される
-        const handleResize = () => {
-            if (collageContainerRef.current && collageRef.current) {
-                const containerHeight =
-                    collageContainerRef.current.clientHeight;
-                const collageHeight = collageRef.current.clientHeight;
-                const scaleValue = containerHeight / collageHeight;
-                setScale(scaleValue);
-            }
-        };
-        const resizeObserver = new ResizeObserver(handleResize);
-
-        if (collageContainerRef.current) {
-            resizeObserver.observe(collageContainerRef.current);
-        }
-
-        return () => {
-            resizeObserver.disconnect();
-        };
-    }, [activeTab]);
 
     return (
         <VStack
@@ -122,28 +98,15 @@ export function PlanDetailPageHeader({
                     </Box>
                 </VStack>
             ) : (
-                <Box
-                    position="relative"
-                    ref={collageContainerRef}
-                    flex={1}
-                    w="100%"
-                >
-                    <Center
-                        position="absolute"
-                        top={0}
-                        left={0}
-                        right={0}
-                        bottom={0}
-                        transform={`scale(${scale})`}
-                    >
+                <Flex flex={1} w="100%">
+                    <CollageContainer>
                         <CollageTemplate
-                            ref={collageRef}
                             title={plan.title}
                             places={mockPlaces}
                             introduction={mockIntroduction}
                         />
-                    </Center>
-                </Box>
+                    </CollageContainer>
+                </Flex>
             )}
             <HStack>
                 <Button
