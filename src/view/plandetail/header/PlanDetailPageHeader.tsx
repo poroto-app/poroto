@@ -57,24 +57,24 @@ export function PlanDetailPageHeader({
 
     const mockIntroduction = "これは紹介文のモックです。";
 
+    const collageContainerRef = useRef<HTMLDivElement>(null);
     const collageRef = useRef<HTMLDivElement>(null);
     const infoRef = useRef<HTMLDivElement>(null);
-    const [infoHeight, setInfoHeight] = useState(0);
     const [scale, setScale] = useState(1);
 
     useEffect(() => {
-        if (infoRef.current) {
-            setInfoHeight(infoRef.current.clientHeight);
-        }
-    }, [activeTab]);
-
-    useEffect(() => {
-        if (collageRef.current) {
+        if (collageContainerRef.current && collageRef.current) {
+            const containerHeight = collageContainerRef.current.clientHeight;
             const collageHeight = collageRef.current.clientHeight;
-            const scaleValue = infoHeight / collageHeight;
+            const scaleValue = containerHeight / collageHeight;
+            console.log({
+                containerHeight,
+                collageHeight,
+                scaleValue,
+            });
             setScale(scaleValue);
         }
-    }, [infoHeight, activeTab]);
+    }, [activeTab]);
 
     return (
         <VStack
@@ -115,16 +115,27 @@ export function PlanDetailPageHeader({
                 </VStack>
             ) : (
                 <Box
-                    transform={`scale(${scale})`}
-                    transformOrigin="center top"
-                    h={infoHeight}
+                    position="relative"
+                    ref={collageContainerRef}
+                    flex={1}
+                    w="100%"
                 >
-                    <CollageTemplate
-                        ref={collageRef}
-                        title={plan.title}
-                        places={mockPlaces}
-                        introduction={mockIntroduction}
-                    />
+                    <Box
+                        position="absolute"
+                        // top={0}
+                        // left={0}
+                        // right={0}
+                        // bottom={0}
+                        transform={`scale(${scale})`}
+                        transformOrigin="center top"
+                    >
+                        <CollageTemplate
+                            ref={collageRef}
+                            title={plan.title}
+                            places={mockPlaces}
+                            introduction={mockIntroduction}
+                        />
+                    </Box>
                 </Box>
             )}
             <HStack>
