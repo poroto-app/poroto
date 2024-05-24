@@ -46,7 +46,7 @@ export const PlaceImageGallery = ({
                 borderRadius="20px"
                 overflow="hidden"
                 w="100%"
-                h={Size.PlanDetailHeader.imageH}
+                h={Size.PlanDetailHeader.imageH + "px"}
                 maxW={Size.PlanDetailHeader.maxW}
             >
                 <Splide
@@ -59,7 +59,7 @@ export const PlaceImageGallery = ({
                         pagination: false,
                         perPage: 1,
                         type: "slide",
-                        height: Size.PlanDetailHeader.imageH,
+                        height: Size.PlanDetailHeader.imageH + "px",
                     }}
                 >
                     {places.map((place, i) => (
@@ -133,7 +133,7 @@ function AmbientBackgroundImage({
             bottom={0}
             left={0}
             w="100%"
-            h={`calc(${Size.PlanDetailHeader.imageH})`}
+            h={`calc(${Size.PlanDetailHeader.imageH + "px"})`}
         >
             <Image
                 w={`calc(${100 / scale}% + ${margin / scale}px)`}

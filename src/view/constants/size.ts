@@ -1,4 +1,5 @@
 import { Padding } from "src/view/constants/padding";
+import { isPC } from "src/view/constants/userAgent";
 
 export const Size = {
     mainContentWidth: "var(--size-main-content-width)",
@@ -16,7 +17,14 @@ export const Size = {
         maxH: "900px",
         maxW: "500px",
         px: Padding.p16,
-        imageH: "300px",
+        imageH: 300,
+        PlaceList: {
+            height: 160,
+            scrollBarHeight: isPC ? 8 : 0,
+        },
+        Info: {
+            spacingY: 16,
+        },
     },
     PlanDetail: {
         px: "16px",
