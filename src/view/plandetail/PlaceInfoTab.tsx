@@ -1,27 +1,22 @@
 import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { ReactNode, useState } from "react";
 import { IconType } from "react-icons";
-import { FaRegStar } from "react-icons/fa6";
 import { MdCurrencyYen, MdSchedule } from "react-icons/md";
-import { GooglePlaceReview } from "src/domain/models/GooglePlaceReview";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
 import { DateHelper } from "src/domain/util/date";
 import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
-import { PlaceInfoTabPanelReviews } from "src/view/plandetail/PlaceInfoTabPanelReviews";
 
 type Props = {
     priceRange: PriceRange | null;
     categories: PlaceCategory[];
     tabHSpaacing?: string;
-    googlePlaceReviews: GooglePlaceReview[];
     estimatedStayDuration: number;
 };
 
 export const PlaceInfoTabs = {
     Information: "Information",
-    Reviews: "Reviews",
 };
 export type PlaceInfoTab = (typeof PlaceInfoTabs)[keyof typeof PlaceInfoTabs];
 
@@ -29,36 +24,19 @@ export const PlaceInfoTab = ({
     categories,
     priceRange,
     tabHSpaacing,
-    googlePlaceReviews,
     estimatedStayDuration,
 }: Props) => {
     const [activeTab, setActiveTab] = useState<PlaceInfoTab>(
         PlaceInfoTabs.Information
     );
 
-    const tabHeight = {
-        [PlaceInfoTabs.Information]: 180,
-        [PlaceInfoTabs.Reviews]: googlePlaceReviews.length > 0 ? 300 : 180,
-    };
-
     return (
-        <VStack
-            w="100%"
-            spacing="16px"
-            h={tabHeight[activeTab]}
-            transition="height 0.4s ease"
-        >
+        <VStack w="100%" spacing="16px" h={180} transition="height 0.4s ease">
             <HStack w="100%" px={tabHSpaacing} alignItems="flex-start">
                 <Tab
                     active={activeTab === PlaceInfoTabs.Information}
                     tab={PlaceInfoTabs.Information}
                     label="情報"
-                    onClick={setActiveTab}
-                />
-                <Tab
-                    active={activeTab === PlaceInfoTabs.Reviews}
-                    tab={PlaceInfoTabs.Reviews}
-                    label="レビュー"
                     onClick={setActiveTab}
                 />
             </HStack>
@@ -67,13 +45,7 @@ export const PlaceInfoTab = ({
                     <TabPanelInformation
                         categories={categories}
                         priceRange={priceRange}
-                        googlePlaceReviews={googlePlaceReviews}
                         estimatedStayDuration={estimatedStayDuration}
-                    />
-                </TabPanel>
-                <TabPanel active={activeTab === PlaceInfoTabs.Reviews}>
-                    <PlaceInfoTabPanelReviews
-                        googlePlaceReviews={googlePlaceReviews}
                     />
                 </TabPanel>
             </Center>
@@ -133,37 +105,20 @@ export const TabPanel = ({
     );
 };
 
-const average = (values: number[]) => {
-    const sum = values.reduce((acc, rating) => acc + rating, 0);
-    return sum / values.length;
-};
-
 const TabPanelInformation = ({
     categories,
     priceRange,
-    googlePlaceReviews,
     estimatedStayDuration,
 }: {
     categories: PlaceCategory[];
     priceRange: PriceRange | null;
-    googlePlaceReviews: GooglePlaceReview[] | null;
     estimatedStayDuration: number;
 }) => {
     const isEstimatedStayDurationEmpty = estimatedStayDuration === 0;
     const isCategoryEmpty = categories.length === 0;
     const isPriceRangeEmpty = !priceRange || priceRange.max === 0;
-    const isGooglePlaceReviewsEmpty =
-        !googlePlaceReviews || googlePlaceReviews.length === 0;
-    const averageRating = average(
-        googlePlaceReviews.map((review) => review.rating)
-    );
 
-    if (
-        isCategoryEmpty &&
-        isPriceRangeEmpty &&
-        isGooglePlaceReviewsEmpty &&
-        isEstimatedStayDurationEmpty
-    ) {
+    if (isCategoryEmpty && isPriceRangeEmpty && isEstimatedStayDurationEmpty) {
         return (
             <Center w="100%" h="100%">
                 <Text color="#574836">情報がありません</Text>
@@ -203,14 +158,6 @@ const TabPanelInformation = ({
                         icon={MdCurrencyYen}
                         value={`${priceRange.min}~${priceRange.max} 円`}
                         label="価格帯"
-                    />
-                )}
-                {!isGooglePlaceReviewsEmpty && (
-                    <InformationTag
-                        key="rating"
-                        icon={FaRegStar}
-                        value={averageRating.toFixed(1)}
-                        label="評価"
                     />
                 )}
                 {!isEstimatedStayDurationEmpty && (

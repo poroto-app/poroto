@@ -1,4 +1,5 @@
 import { Box, Center, VStack } from "@chakra-ui/react";
+import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -24,6 +25,7 @@ import {
 import { useAppDispatch } from "src/redux/redux";
 import { NavBar } from "src/view/common/NavBar";
 import { RoundedIconButton } from "src/view/common/RoundedIconButton";
+import { AnalyticsEvents } from "src/view/constants/analytics";
 import { locationSinjukuStation } from "src/view/constants/location";
 import { PageMetaData } from "src/view/constants/meta";
 import { RouteParams, Routes } from "src/view/constants/router";
@@ -152,6 +154,10 @@ function PlaceSearchPage() {
 
     const handleOnCreatePlan = async () => {
         if (!placeSelected) return;
+        logEvent(
+            getAnalytics(),
+            AnalyticsEvents.CreatePlan.StartCreatePlanFromSelectedLocation
+        );
         dispatch(
             setSearchLocation({
                 searchLocation: placeSelected.location,

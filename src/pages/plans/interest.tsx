@@ -1,3 +1,4 @@
+import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
@@ -27,6 +28,7 @@ import { useAppDispatch } from "src/redux/redux";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NavBar } from "src/view/common/NavBar";
+import { AnalyticsEvents } from "src/view/constants/analytics";
 import { LocalStorageKeys } from "src/view/constants/localStorageKey";
 import { PageMetaData } from "src/view/constants/meta";
 import { Routes } from "src/view/constants/router";
@@ -186,6 +188,7 @@ function PlanInterestPage() {
     ]);
 
     const handleAcceptCategory = (category: LocationCategory) => {
+        logEvent(getAnalytics(), AnalyticsEvents.Interests.SelectCategory);
         dispatch(pushAcceptedCategory({ category }));
     };
 
@@ -194,6 +197,14 @@ function PlanInterestPage() {
     };
 
     const handleSelectTime = (time: number | null) => {
+        if (time) {
+            logEvent(getAnalytics(), AnalyticsEvents.Interests.SelectDuration);
+        } else {
+            logEvent(
+                getAnalytics(),
+                AnalyticsEvents.Interests.SkipSelectDuration
+            );
+        }
         dispatch(setTimeForPlan({ time }));
     };
 

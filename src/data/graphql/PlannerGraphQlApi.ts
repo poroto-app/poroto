@@ -610,15 +610,6 @@ export function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
             longitude: place.location.longitude,
         },
         estimatedStayDuration: place.estimatedStayDuration,
-        googlePlaceReviews:
-            place.googleReviews?.map((review) => ({
-                rating: review.rating,
-                text: review.text,
-                time: review.time,
-                authorName: review.authorName,
-                authorUrl: review.authorUrl,
-                authorPhotoUrl: review.authorPhotoUrl,
-            })) ?? null,
         categories:
             place.categories?.map((category) => ({
                 id: category.id,
