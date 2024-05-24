@@ -60,20 +60,28 @@ export function PlanDetailPageHeader({
     const collageContainerRef = useRef<HTMLDivElement>(null);
     const collageRef = useRef<HTMLDivElement>(null);
     const infoRef = useRef<HTMLDivElement>(null);
-    const [scale, setScale] = useState(1);
+    const [scale, setScale] = useState(0);
 
     useEffect(() => {
-        if (collageContainerRef.current && collageRef.current) {
-            const containerHeight = collageContainerRef.current.clientHeight;
-            const collageHeight = collageRef.current.clientHeight;
-            const scaleValue = containerHeight / collageHeight;
-            console.log({
-                containerHeight,
-                collageHeight,
-                scaleValue,
-            });
-            setScale(scaleValue);
+        // モードが切り替わると、collageContainerRef等に参照が追加される
+        const handleResize = () => {
+            if (collageContainerRef.current && collageRef.current) {
+                const containerHeight =
+                    collageContainerRef.current.clientHeight;
+                const collageHeight = collageRef.current.clientHeight;
+                const scaleValue = containerHeight / collageHeight;
+                setScale(scaleValue);
+            }
+        };
+        const resizeObserver = new ResizeObserver(handleResize);
+
+        if (collageContainerRef.current) {
+            resizeObserver.observe(collageContainerRef.current);
         }
+
+        return () => {
+            resizeObserver.disconnect();
+        };
     }, [activeTab]);
 
     return (
