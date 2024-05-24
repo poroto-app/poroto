@@ -21,6 +21,7 @@ export const CollageTemplate = forwardRef<HTMLDivElement, CollageProps>(
                 ref={ref}
                 w="1080px"
                 h="1920px"
+                minW="1080px"
                 padding={16}
                 position="relative"
                 background="white"

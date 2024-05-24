@@ -120,14 +120,13 @@ export function PlanDetailPageHeader({
                     flex={1}
                     w="100%"
                 >
-                    <Box
+                    <Center
                         position="absolute"
-                        // top={0}
-                        // left={0}
-                        // right={0}
-                        // bottom={0}
+                        top={0}
+                        left={0}
+                        right={0}
+                        bottom={0}
                         transform={`scale(${scale})`}
-                        transformOrigin="center top"
                     >
                         <CollageTemplate
                             ref={collageRef}
@@ -135,7 +134,7 @@ export function PlanDetailPageHeader({
                             places={mockPlaces}
                             introduction={mockIntroduction}
                         />
-                    </Box>
+                    </Center>
                 </Box>
             )}
             <HStack>
