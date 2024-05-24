@@ -4,6 +4,7 @@ import { Asset } from "src/view/constants/asset";
 
 type Props = {
     src: string;
+    alt?: string;
     isGoogleImage?: boolean;
     attributionToBottom?: boolean;
     attributionPaddingY?: string;
@@ -12,6 +13,7 @@ type Props = {
 
 export function ImageWithSkeleton({
     src,
+    alt,
     isGoogleImage: isGooglePhoto,
     attributionToBottom = true,
     attributionPaddingY = "24px",
@@ -41,6 +43,7 @@ export function ImageWithSkeleton({
             />
             <Image
                 src={src}
+                alt={alt}
                 objectFit="cover"
                 w={isLoading ? "0" : "100%"}
                 h="100%"
