@@ -36,8 +36,8 @@ export const EmptySp: Story = {
         viewport: {
             defaultViewport: "iphonex",
         },
-    }
-}
+    },
+};
 
 export const NoPlaces: Story = {
     args: {
