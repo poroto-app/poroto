@@ -10,6 +10,7 @@ import { LikePlacesList } from "src/view/account/LikePlacesList";
 import { NotLoggedIn } from "src/view/account/NotLoggedIn";
 import { UsersPlan } from "src/view/account/UsersPlan";
 import { Layout } from "src/view/common/Layout";
+import { Padding } from "src/view/constants/padding";
 import { useAuth } from "src/view/hooks/useAuth";
 import { useLikePlaces } from "src/view/hooks/useLikePlaces";
 import {
@@ -58,7 +59,7 @@ function Account() {
 
     return (
         <>
-            <VStack w="100%" spacing="32px">
+            <VStack w="100%" spacing="32px" pb={Padding.p64}>
                 <LikePlacesList
                     places={likePlaces}
                     onSelectLikePlace={onSelectLikePlace}
