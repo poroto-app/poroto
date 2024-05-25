@@ -16,12 +16,12 @@ import {
     setPlansByUser,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
-import { NavBar } from "src/view/common/NavBar";
 import { Size } from "src/view/constants/size";
 import { useAuth } from "src/view/hooks/useAuth";
 import { useLikePlaces } from "src/view/hooks/useLikePlaces";
 import { useNearbyPlans } from "src/view/hooks/useNearbyPlans";
 import { usePwaInstall } from "src/view/hooks/usePwaInstall";
+import { NavBar } from "src/view/navigation/NavBar";
 import { NearbyPlanList } from "src/view/plan/NearbyPlanList";
 import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";

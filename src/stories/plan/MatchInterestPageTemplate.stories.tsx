@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { Meta, StoryFn } from "@storybook/react";
-import { NavBarComponent } from "src/view/common/NavBar";
+import { NavBarComponent } from "src/view/navigation/NavBar";
 import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTemplate";
 
 export default {
