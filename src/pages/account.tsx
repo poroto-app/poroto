@@ -12,6 +12,10 @@ import { UsersPlan } from "src/view/account/UsersPlan";
 import { Layout } from "src/view/common/Layout";
 import { useAuth } from "src/view/hooks/useAuth";
 import { useLikePlaces } from "src/view/hooks/useLikePlaces";
+import {
+    BottomNavigation,
+    BottomNavigationPages,
+} from "src/view/navigation/BottomNavigation";
 import { NavBar } from "src/view/navigation/NavBar";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 
@@ -27,7 +31,12 @@ export default function AccountPage() {
     }, [user]);
 
     return (
-        <Layout navBar={<NavBar />}>
+        <Layout
+            navBar={<NavBar />}
+            bottomNavigation={
+                <BottomNavigation page={BottomNavigationPages.Account} />
+            }
+        >
             {isLoggedInUser ? (
                 <Account />
             ) : (
