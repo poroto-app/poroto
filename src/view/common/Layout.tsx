@@ -25,6 +25,7 @@ export function Layout({
             justifyContent="flex-start"
             overflowX="hidden"
             spacing={0}
+            pb={bottomNavigation ? Size.BottomNavigation.height : 0}
         >
             {navBar && navBar}
             {header && <Box w="100%">{header}</Box>}

@@ -3,6 +3,7 @@ import { Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import { MdAccountCircle, MdHome, MdSearch } from "react-icons/md";
 import { Routes } from "src/view/constants/router";
+import { Size } from "src/view/constants/size";
 
 type Props = {
     page: NavigationPage;
@@ -22,6 +23,7 @@ export function BottomNavigation({ page }: Props) {
             as="nav"
             backgroundColor="white"
             borderTop="1px solid #EBEBEB"
+            h={Size.BottomNavigation.height}
             w="100%"
             px="16px"
             py="8px"
