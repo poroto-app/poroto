@@ -1,5 +1,6 @@
-import { VStack } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
+import { User } from "src/domain/models/User";
 import { hasValue } from "src/domain/util/null";
 import {
     reduxPlanSelector,
@@ -9,6 +10,7 @@ import {
 import { useAppDispatch } from "src/redux/redux";
 import { LikePlacesList } from "src/view/account/LikePlacesList";
 import { NotLoggedIn } from "src/view/account/NotLoggedIn";
+import { UserCard } from "src/view/account/UserCard";
 import { UsersPlan } from "src/view/account/UsersPlan";
 import { Layout } from "src/view/common/Layout";
 import { Padding } from "src/view/constants/padding";
@@ -41,7 +43,7 @@ export default function AccountPage() {
             }
         >
             {isLoggedInUser ? (
-                <Account />
+                <Account user={user} />
             ) : (
                 <NotLoggedIn onLogin={signInWithGoogle} />
             )}
@@ -49,7 +51,7 @@ export default function AccountPage() {
     );
 }
 
-function Account() {
+function Account({ user }: { user: User | null }) {
     const dispatch = useAppDispatch();
     const { plansByUser } = reduxPlanSelector();
     const {
@@ -61,7 +63,10 @@ function Account() {
 
     return (
         <>
-            <VStack w="100%" spacing="32px" pb={Padding.p64}>
+            <VStack w="100%" spacing="32px" pt={Padding.p32} pb={Padding.p64}>
+                <Box px={Padding.p16} w="100%">
+                    <UserCard user={user} />
+                </Box>
                 <LikePlacesList
                     places={likePlaces}
                     onSelectLikePlace={onSelectLikePlace}
