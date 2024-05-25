@@ -5,6 +5,8 @@ export type RouteParam = (typeof RouteParams)[keyof typeof RouteParams];
 
 export const Routes = {
     home: "/",
+    search: "/search",
+    account: "/account",
     plans: {
         plan: (id: string) => `/plans/${id}`,
         interest: (byLocation?: boolean) => {
