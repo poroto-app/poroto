@@ -8,6 +8,7 @@ import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import { Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
+import { hasValue } from "src/domain/util/null";
 import {
     fetchPlansRecentlyCreated,
     pushPlansRecentlyCreated,
@@ -64,6 +65,7 @@ const IndexPage = (props: Props) => {
 
     return (
         <Layout
+            height="auto"
             navBar={<NavBar />}
             bottomNavigation={
                 <BottomNavigation page={BottomNavigationPages.Home} />
@@ -87,7 +89,7 @@ const IndexPage = (props: Props) => {
                 {/* @ts-ignore */}
                 <InfiniteScroll
                     loadMore={() => dispatch(fetchPlansRecentlyCreated())}
-                    hasMore={nextPageTokenPlansRecentlyCreated !== null}
+                    hasMore={hasValue(nextPageTokenPlansRecentlyCreated)}
                     style={{ width: "100%" }}
                 >
                     <PlanList plans={plansRecentlyCreated} px={Size.top.px}>

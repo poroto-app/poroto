@@ -4,6 +4,7 @@ import { Size } from "src/view/constants/size";
 import { zIndex } from "src/view/constants/zIndex";
 
 type Props = {
+    height?: string | number;
     navBar?: ReactNode;
     bottomNavigation?: ReactNode;
     maxW?: string | number;
@@ -12,6 +13,7 @@ type Props = {
 };
 
 export function Layout({
+    height = "100%",
     navBar,
     bottomNavigation,
     maxW = Size.mainContentWidth,
@@ -21,7 +23,7 @@ export function Layout({
     return (
         <VStack
             w="100%"
-            h="100%"
+            h={height}
             justifyContent="flex-start"
             overflowX="hidden"
             spacing={0}
