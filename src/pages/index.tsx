@@ -17,6 +17,10 @@ import { useAppDispatch } from "src/redux/redux";
 import { Layout } from "src/view/common/Layout";
 import { Size } from "src/view/constants/size";
 import { usePwaInstall } from "src/view/hooks/usePwaInstall";
+import {
+    BottomNavigation,
+    BottomNavigationPages,
+} from "src/view/navigation/BottomNavigation";
 import { NavBar } from "src/view/navigation/NavBar";
 import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
@@ -59,7 +63,13 @@ const IndexPage = (props: Props) => {
     }, [plansRecentlyCreated]);
 
     return (
-        <Layout navBar={<NavBar />} header={<CreatePlanSection />}>
+        <Layout
+            navBar={<NavBar />}
+            bottomNavigation={
+                <BottomNavigation page={BottomNavigationPages.Home} />
+            }
+            header={<CreatePlanSection />}
+        >
             <VStack
                 w="100%"
                 maxW={Size.mainContentWidth}
