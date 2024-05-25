@@ -34,8 +34,8 @@ export const Size = {
             ThumbnailHeight: "250px",
         },
         LikePlace: {
-            w: "200px",
-            h: "250px",
+            w: 200,
+            h: 250,
         },
     },
     PlaceCard: {

@@ -28,6 +28,17 @@ export const Empty: Story = {
     },
 };
 
+export const EmptySp: Story = {
+    args: {
+        places: [],
+    },
+    parameters: {
+        viewport: {
+            defaultViewport: "iphonex",
+        },
+    }
+}
+
 export const NoPlaces: Story = {
     args: {
         places: null,
