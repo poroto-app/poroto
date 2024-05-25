@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { mockPlaces } from "src/stories/mock/place";
-import { LikePlacesList } from "src/view/top/LikePlacesList";
+import { LikePlacesList } from "src/view/account/LikePlacesList";
 
 export default {
     title: "top/LikePlacesList",

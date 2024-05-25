@@ -6,13 +6,13 @@ import {
     setPlansByUser,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
+import { LikePlacesList } from "src/view/account/LikePlacesList";
+import { UsersPlan } from "src/view/account/UsersPlan";
 import { Layout } from "src/view/common/Layout";
 import { useAuth } from "src/view/hooks/useAuth";
 import { useLikePlaces } from "src/view/hooks/useLikePlaces";
 import { NavBar } from "src/view/navigation/NavBar";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
-import { LikePlacesList } from "src/view/top/LikePlacesList";
-import { UsersPlan } from "src/view/top/UsersPlan";
 
 export default function AccountPage() {
     const dispatch = useAppDispatch();
