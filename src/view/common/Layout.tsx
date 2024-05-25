@@ -1,28 +1,30 @@
-import { Box, Center } from "@chakra-ui/react";
+import { Box, Center, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Size } from "src/view/constants/size";
 
 type Props = {
     navBar?: ReactNode;
     maxW?: string | number;
+    header?: ReactNode;
     children: ReactNode;
 };
 
 export function Layout({
     navBar,
     maxW = Size.mainContentWidth,
+    header,
     children,
 }: Props) {
     return (
-        <Box
+        <VStack
             w="100%"
             h="100%"
-            display="flex"
-            flexDirection="column"
             justifyContent="flex-start"
             overflowX="hidden"
+            spacing={0}
         >
             {navBar && navBar}
+            {header && <Box w="100%">{header}</Box>}
             <Center
                 w="100%"
                 h="100%"
@@ -34,6 +36,6 @@ export function Layout({
                     {children}
                 </Box>
             </Center>
-        </Box>
+        </VStack>
     );
 }
