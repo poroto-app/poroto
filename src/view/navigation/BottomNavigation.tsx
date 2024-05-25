@@ -61,7 +61,7 @@ export function NavigationItem({
     return (
         <Link href={link} flex={1}>
             <VStack color={isActive ? "#BF756F" : "#6A6A6A"} spacing={0}>
-                <Icon as={icon} />
+                <Icon w="24px" h="24px" as={icon} />
                 <Text fontSize="0.625rem">{label}</Text>
             </VStack>
         </Link>
