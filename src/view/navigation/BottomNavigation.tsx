@@ -1,5 +1,5 @@
 import { Link } from "@chakra-ui/next-js";
-import { HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import { MdAccountCircle, MdHome, MdSearch } from "react-icons/md";
 import { Routes } from "src/view/constants/router";
@@ -18,32 +18,35 @@ export type NavigationPage =
 
 export function BottomNavigation({ page }: Props) {
     return (
-        <HStack
+        <Center
+            as="nav"
             backgroundColor="white"
             borderTop="1px solid #EBEBEB"
             w="100%"
             px="16px"
             py="8px"
         >
-            <NavigationItem
-                icon={MdHome}
-                label="ホーム"
-                link={Routes.home}
-                isActive={page === BottomNavigationPages.Home}
-            />
-            <NavigationItem
-                icon={MdSearch}
-                label="探す"
-                link={Routes.search}
-                isActive={page === BottomNavigationPages.Search}
-            />
-            <NavigationItem
-                icon={MdAccountCircle}
-                label="マイページ"
-                link={Routes.account}
-                isActive={page === BottomNavigationPages.Account}
-            />
-        </HStack>
+            <HStack w="100%" maxW="600px">
+                <NavigationItem
+                    icon={MdHome}
+                    label="ホーム"
+                    link={Routes.home}
+                    isActive={page === BottomNavigationPages.Home}
+                />
+                <NavigationItem
+                    icon={MdSearch}
+                    label="探す"
+                    link={Routes.search}
+                    isActive={page === BottomNavigationPages.Search}
+                />
+                <NavigationItem
+                    icon={MdAccountCircle}
+                    label="マイページ"
+                    link={Routes.account}
+                    isActive={page === BottomNavigationPages.Account}
+                />
+            </HStack>
+        </Center>
     );
 }
 
