@@ -1,5 +1,6 @@
 import { VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
+import { hasValue } from "src/domain/util/null";
 import {
     reduxPlanSelector,
     setPlaceIdToCreatePlan,
@@ -33,6 +34,7 @@ export default function AccountPage() {
 
     return (
         <Layout
+            height={hasValue(user) ? "auto" : "100%"}
             navBar={<NavBar />}
             bottomNavigation={
                 <BottomNavigation page={BottomNavigationPages.Account} />
