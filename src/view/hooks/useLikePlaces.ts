@@ -2,11 +2,13 @@ import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Place } from "src/domain/models/Place";
+import { hasValue } from "src/domain/util/null";
 import { reduxAuthSelector } from "src/redux/auth";
 import { setSearchLocation } from "src/redux/location";
 import { reduxPlaceSelector, setLikePlaces } from "src/redux/place";
 import { reduxPlanSelector, setPlaceIdToCreatePlan } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
+import { fetchUser } from "src/redux/user";
 import { AnalyticsEvents } from "src/view/constants/analytics";
 import { Routes } from "src/view/constants/router";
 
@@ -41,6 +43,17 @@ export const useLikePlaces = () => {
             dispatch(setPlaceIdToCreatePlan(null));
         };
     }, []);
+
+    useEffect(() => {
+        if (hasValue(user) && hasValue(firebaseIdToken)) {
+            dispatch(
+                fetchUser({
+                    userId: user.id,
+                    firebaseAuthToken: firebaseIdToken,
+                })
+            );
+        }
+    }, [user?.id, firebaseIdToken]);
 
     useEffect(() => {
         // ログアウトした場合は状態をリセットする
