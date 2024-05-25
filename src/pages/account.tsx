@@ -58,7 +58,7 @@ function Account() {
 
     return (
         <>
-            <VStack w="100%" spacing="24px">
+            <VStack w="100%" spacing="32px">
                 <LikePlacesList
                     places={likePlaces}
                     onSelectLikePlace={onSelectLikePlace}
