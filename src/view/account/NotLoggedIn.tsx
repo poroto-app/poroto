@@ -57,7 +57,7 @@ export function NotLoggedIn({ onLogin }: Props) {
                     onClick={onLogin}
                 >
                     <Text color="#BD9F8E" fontWeight="bold" fontSize="18px">
-                        ログイン
+                        Googleでログイン
                     </Text>
                 </Center>
             </VStack>
