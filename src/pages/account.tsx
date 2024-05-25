@@ -7,6 +7,7 @@ import {
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { LikePlacesList } from "src/view/account/LikePlacesList";
+import { NotLoggedIn } from "src/view/account/NotLoggedIn";
 import { UsersPlan } from "src/view/account/UsersPlan";
 import { Layout } from "src/view/common/Layout";
 import { useAuth } from "src/view/hooks/useAuth";
@@ -16,7 +17,7 @@ import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 
 export default function AccountPage() {
     const dispatch = useAppDispatch();
-    const { user, isLoggedInUser } = useAuth();
+    const { user, isLoggedInUser, signInWithGoogle } = useAuth();
 
     useEffect(() => {
         if (!user) {
@@ -27,13 +28,13 @@ export default function AccountPage() {
 
     return (
         <Layout navBar={<NavBar />}>
-            {isLoggedInUser ? <Account /> : <NotLoggedIn />}
+            {isLoggedInUser ? (
+                <Account />
+            ) : (
+                <NotLoggedIn onLogin={signInWithGoogle} />
+            )}
         </Layout>
     );
-}
-
-function NotLoggedIn() {
-    return <VStack></VStack>;
 }
 
 function Account() {
