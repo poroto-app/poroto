@@ -12,22 +12,15 @@ import {
     fetchPlansRecentlyCreated,
     pushPlansRecentlyCreated,
     reduxPlanSelector,
-    setPlaceIdToCreatePlan,
-    setPlansByUser,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { Size } from "src/view/constants/size";
-import { useAuth } from "src/view/hooks/useAuth";
-import { useLikePlaces } from "src/view/hooks/useLikePlaces";
 import { usePwaInstall } from "src/view/hooks/usePwaInstall";
 import { NavBar } from "src/view/navigation/NavBar";
 import { PlanList } from "src/view/plan/PlanList";
-import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
-import { LikePlacesList } from "src/view/top/LikePlacesList";
 import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 import { PwaInstallDialog } from "src/view/top/PwaInstallDialog";
-import { UsersPlan } from "src/view/top/UsersPlan";
 
 type Props = {
     plansRecentlyCreated: Plan[] | null;
@@ -39,21 +32,11 @@ const IndexPage = (props: Props) => {
     const {
         plansRecentlyCreated,
         nextPageTokenPlansRecentlyCreated,
-        plansByUser,
         fetchPlansRecentlyCreatedRequestStatus,
     } = reduxPlanSelector();
 
-    const {
-        likePlaces,
-        likePlaceToCreatePlan,
-        onSelectLikePlace,
-        onCreatePlanFromLikePlace,
-    } = useLikePlaces();
-
     const { isPwaInstallVisible, installPwa, cancelInstallPwa } =
         usePwaInstall();
-
-    const { user, isLoggedInUser } = useAuth();
 
     useEffect(() => {
         // すでにプランを取得済みの場合は何もしない
@@ -74,13 +57,6 @@ const IndexPage = (props: Props) => {
         }
     }, [plansRecentlyCreated]);
 
-    useEffect(() => {
-        if (!user) {
-            dispatch(setPlansByUser({ plans: null }));
-            return;
-        }
-    }, [user]);
-
     return (
         <VStack w="100%" spacing={0}>
             <NavBar />
@@ -97,14 +73,6 @@ const IndexPage = (props: Props) => {
                         visible={isPwaInstallVisible}
                         onClickInstall={() => installPwa()}
                         onClickCancel={() => cancelInstallPwa()}
-                    />
-                    <LikePlacesList
-                        places={likePlaces}
-                        onSelectLikePlace={onSelectLikePlace}
-                    />
-                    <UsersPlan
-                        plans={plansByUser}
-                        isLoading={isLoggedInUser && !plansByUser}
                     />
                     {/* TODO: React 18に対応 */}
                     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
@@ -129,11 +97,6 @@ const IndexPage = (props: Props) => {
                     </InfiniteScroll>
                 </VStack>
             </Center>
-            <CreatePlanDialog
-                place={likePlaceToCreatePlan}
-                onClickClose={() => dispatch(setPlaceIdToCreatePlan(null))}
-                onClickCreatePlan={(place) => onCreatePlanFromLikePlace(place)}
-            />
         </VStack>
     );
 };
