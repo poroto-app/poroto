@@ -23,7 +23,6 @@ import {
     setSelectedLocation,
 } from "src/redux/placeSearch";
 import { useAppDispatch } from "src/redux/redux";
-import { NavBar } from "src/view/common/NavBar";
 import { RoundedIconButton } from "src/view/common/RoundedIconButton";
 import { AnalyticsEvents } from "src/view/constants/analytics";
 import { locationSinjukuStation } from "src/view/constants/location";
@@ -34,6 +33,7 @@ import { zIndex } from "src/view/constants/zIndex";
 import { useLocation } from "src/view/hooks/useLocation";
 import { usePlaceRecommendation } from "src/view/hooks/usePlaceRecommendation";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
+import { NavBar } from "src/view/navigation/NavBar";
 import { MapPinSelector } from "src/view/place/MapPinSelector";
 import { PlaceRecommendationDialog } from "src/view/place/PlaceRecommendationDialog";
 import { PlaceSearchBar } from "src/view/place/PlaceSearchBar";

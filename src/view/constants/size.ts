@@ -13,6 +13,9 @@ export const Size = {
     NavBar: {
         height: "50px",
     },
+    BottomNavigation: {
+        height: 50,
+    },
     PlanDetailHeader: {
         maxH: "900px",
         maxW: "500px",
@@ -34,8 +37,8 @@ export const Size = {
             ThumbnailHeight: "250px",
         },
         LikePlace: {
-            w: "200px",
-            h: "250px",
+            w: 200,
+            h: 250,
         },
     },
     PlaceCard: {

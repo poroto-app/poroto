@@ -19,6 +19,11 @@ export function middleware(req: NextRequest) {
     const basicAuth = req.headers.get("authorization");
     const url = req.nextUrl;
 
+    // robots.txtはBasic認証をスキップ
+    if (["/robots.txt"].includes(url.pathname)) {
+        return NextResponse.next();
+    }
+
     if (basicAuth) {
         const authValue = basicAuth.split(" ")[1];
         const [user, pwd] = atob(authValue).split(":");
