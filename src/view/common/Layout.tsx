@@ -1,28 +1,36 @@
-import { Box, Center } from "@chakra-ui/react";
+import { Box, Center, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Size } from "src/view/constants/size";
+import { zIndex } from "src/view/constants/zIndex";
 
 type Props = {
+    height?: string | number;
     navBar?: ReactNode;
+    bottomNavigation?: ReactNode;
     maxW?: string | number;
+    header?: ReactNode;
     children: ReactNode;
 };
 
 export function Layout({
+    height = "100%",
     navBar,
+    bottomNavigation,
     maxW = Size.mainContentWidth,
+    header,
     children,
 }: Props) {
     return (
-        <Box
+        <VStack
             w="100%"
-            h="100%"
-            display="flex"
-            flexDirection="column"
+            h={height}
             justifyContent="flex-start"
             overflowX="hidden"
+            spacing={0}
+            pb={bottomNavigation ? Size.BottomNavigation.height : 0}
         >
             {navBar && navBar}
+            {header && <Box w="100%">{header}</Box>}
             <Center
                 w="100%"
                 h="100%"
@@ -34,6 +42,17 @@ export function Layout({
                     {children}
                 </Box>
             </Center>
-        </Box>
+            {bottomNavigation && (
+                <Box
+                    position="fixed"
+                    left={0}
+                    right={0}
+                    bottom={0}
+                    zIndex={zIndex.bottomNavigation}
+                >
+                    {bottomNavigation}
+                </Box>
+            )}
+        </VStack>
     );
 }

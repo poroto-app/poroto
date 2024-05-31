@@ -60,6 +60,7 @@ export function UsersPlan({ plans, isLoading }: Props) {
                             <PlanListSectionTitle
                                 title="保存したプラン"
                                 icon={MdOutlineBookmarkBorder}
+                                px={Padding.p16}
                             />
                         </PlanList>
                     </Box>
