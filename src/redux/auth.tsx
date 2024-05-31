@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 import { PlannerUserGraphqlApi } from "src/data/graphql/PlannerUserGraphqlApi";
 import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
@@ -8,7 +8,7 @@ import {
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
 import { User } from "src/domain/models/User";
-import { UserApi, createUserFromEntity } from "src/domain/user/UserApi";
+import { createUserFromEntity, UserApi } from "src/domain/user/UserApi";
 import { setLikePlaces } from "src/redux/place";
 import { setPlansByUser } from "src/redux/plan";
 import { RootState } from "src/redux/redux";
@@ -64,6 +64,9 @@ export const slice = createSlice({
     name: "auth",
     initialState,
     reducers: {
+        setUser: (state, { payload }: PayloadAction<{ user: User }>) => {
+            state.user = payload.user;
+        },
         resetAuthUser: (state) => {
             state.user = null;
             state.firebaseIdToken = null;
@@ -86,7 +89,7 @@ export const slice = createSlice({
     },
 });
 
-export const { resetAuthUser } = slice.actions;
+export const { setUser, resetAuthUser } = slice.actions;
 export const authReducer = slice.reducer;
 export const reduxAuthSelector = () =>
     useSelector((state: RootState) => state.auth);
