@@ -8,14 +8,20 @@ import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import { Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
+import { hasValue } from "src/domain/util/null";
 import {
     fetchPlansRecentlyCreated,
     pushPlansRecentlyCreated,
     reduxPlanSelector,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
+import { Layout } from "src/view/common/Layout";
 import { Size } from "src/view/constants/size";
 import { usePwaInstall } from "src/view/hooks/usePwaInstall";
+import {
+    BottomNavigation,
+    BottomNavigationPages,
+} from "src/view/navigation/BottomNavigation";
 import { NavBar } from "src/view/navigation/NavBar";
 import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
@@ -58,46 +64,49 @@ const IndexPage = (props: Props) => {
     }, [plansRecentlyCreated]);
 
     return (
-        <VStack w="100%" spacing={0}>
-            <NavBar />
-            <CreatePlanSection />
-            <Center w="100%">
-                <VStack
-                    w="100%"
-                    maxW={Size.mainContentWidth}
-                    pt="16px"
-                    pb="48px"
-                    spacing="24px"
+        <Layout
+            height="auto"
+            navBar={<NavBar />}
+            bottomNavigation={
+                <BottomNavigation page={BottomNavigationPages.Home} />
+            }
+            header={<CreatePlanSection />}
+        >
+            <VStack
+                w="100%"
+                maxW={Size.mainContentWidth}
+                pt="16px"
+                pb="48px"
+                spacing="24px"
+            >
+                <PwaInstallDialog
+                    visible={isPwaInstallVisible}
+                    onClickInstall={() => installPwa()}
+                    onClickCancel={() => cancelInstallPwa()}
+                />
+                {/* TODO: React 18に対応 */}
+                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                {/* @ts-ignore */}
+                <InfiniteScroll
+                    loadMore={() => dispatch(fetchPlansRecentlyCreated())}
+                    hasMore={hasValue(nextPageTokenPlansRecentlyCreated)}
+                    style={{ width: "100%" }}
                 >
-                    <PwaInstallDialog
-                        visible={isPwaInstallVisible}
-                        onClickInstall={() => installPwa()}
-                        onClickCancel={() => cancelInstallPwa()}
-                    />
-                    {/* TODO: React 18に対応 */}
-                    {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                    {/* @ts-ignore */}
-                    <InfiniteScroll
-                        loadMore={() => dispatch(fetchPlansRecentlyCreated())}
-                        hasMore={nextPageTokenPlansRecentlyCreated !== null}
-                        style={{ width: "100%" }}
-                    >
-                        <PlanList plans={plansRecentlyCreated} px={Size.top.px}>
-                            <PlanListSectionTitle
-                                title="最近作成されたプラン"
-                                icon={MdTrendingUp}
-                            />
-                        </PlanList>
-                        {fetchPlansRecentlyCreatedRequestStatus ===
-                            RequestStatuses.PENDING && (
-                            <Center w="100%" py="32px">
-                                <Spinner size="md" color="orange.600" />
-                            </Center>
-                        )}
-                    </InfiniteScroll>
-                </VStack>
-            </Center>
-        </VStack>
+                    <PlanList plans={plansRecentlyCreated} px={Size.top.px}>
+                        <PlanListSectionTitle
+                            title="最近作成されたプラン"
+                            icon={MdTrendingUp}
+                        />
+                    </PlanList>
+                    {fetchPlansRecentlyCreatedRequestStatus ===
+                        RequestStatuses.PENDING && (
+                        <Center w="100%" py="32px">
+                            <Spinner size="md" color="orange.600" />
+                        </Center>
+                    )}
+                </InfiniteScroll>
+            </VStack>
+        </Layout>
     );
 };
 

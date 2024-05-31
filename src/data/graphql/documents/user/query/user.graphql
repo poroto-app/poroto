@@ -1,0 +1,14 @@
+query User($userId: ID!, $userIdString: String!, $firebaseToken: String!) {
+    plansByUser(input: {userId: $userIdString}) {
+        author {
+            ...UserFullFragment
+        }
+        plans {
+            ...PlanFullFragment
+        }
+    }
+
+    likePlaces(input: {userId: $userId, firebaseAuthToken: $firebaseToken}) {
+        ...PlaceFullFragment
+    }
+}

@@ -3,6 +3,8 @@ import { PlanEntity } from "src/domain/models/PlanEntity";
 import { User } from "src/domain/models/User";
 
 export interface UserApi {
+    fetchUser(request: FetchUserRequest): Promise<FetchUserResponse>;
+
     fetchByFirebaseUserId(
         request: FetchByFirebaseUserRequest
     ): Promise<FetchByFirebaseUserResponse>;
@@ -24,6 +26,17 @@ export type UserEntity = {
     id: string;
     name: string;
     photoUrl?: string;
+};
+
+export type FetchUserRequest = {
+    userId: string;
+    firebaseToken: string;
+};
+
+export type FetchUserResponse = {
+    user: UserEntity;
+    plans: PlanEntity[];
+    likedPlaces: PlaceEntity[];
 };
 
 export type FetchByFirebaseUserRequest = {

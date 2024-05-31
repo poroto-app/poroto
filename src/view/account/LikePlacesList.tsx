@@ -25,6 +25,7 @@ export function LikePlacesList({
     return (
         <VStack w="100%">
             <PlanListSectionTitle
+                px={Padding.p16}
                 title="お気に入りの場所"
                 icon={MdOutlineFavoriteBorder}
             />
@@ -92,7 +93,6 @@ function Empty() {
         <VStack
             w="100%"
             h={Size.PlanList.LikePlace.h + "px"}
-            px={Padding.p16}
             color="rgba(0,0,0,.7)"
             justifyContent="center"
             spacing={{

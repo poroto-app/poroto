@@ -13,6 +13,9 @@ export const Size = {
     NavBar: {
         height: "50px",
     },
+    BottomNavigation: {
+        height: 50,
+    },
     PlanDetailHeader: {
         maxH: "900px",
         maxW: "500px",
