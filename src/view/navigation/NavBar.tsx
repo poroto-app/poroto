@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import { MdArrowBack } from "react-icons/md";
 import { reduxHistorySelector } from "src/redux/history";
 import AppLogoImage from "src/view/assets/svg/app_logo_horizontal.svg";
+import { Padding } from "src/view/constants/padding";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { useAuth } from "src/view/hooks/useAuth";
@@ -78,8 +79,17 @@ export const NavBarComponent = ({
     userComponent?: ReactNode;
 }) => {
     return (
-        <Container>
-            <HStack w="100%" maxW="990px" spacing={4}>
+        <HStack
+            alignItems="normal"
+            w="100%"
+            h={Size.NavBar.height}
+            backgroundColor="white"
+            borderBottom="1px solid rgba(0, 0, 0, 0.1)"
+            py={Padding.p8}
+            fontSize="0.95rem"
+            justifyContent="center"
+        >
+            <HStack w="100%" maxW="990px" spacing={4} px={Padding.p16}>
                 {canGoBack && (
                     <Icon
                         w="20px"
@@ -99,7 +109,7 @@ export const NavBarComponent = ({
                 </HStack>
                 {userComponent && userComponent}
             </HStack>
-        </Container>
+        </HStack>
     );
 };
 

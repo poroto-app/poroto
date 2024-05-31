@@ -19,10 +19,8 @@ import { useAppDispatch } from "src/redux/redux";
 import { Size } from "src/view/constants/size";
 import { useAuth } from "src/view/hooks/useAuth";
 import { useLikePlaces } from "src/view/hooks/useLikePlaces";
-import { useNearbyPlans } from "src/view/hooks/useNearbyPlans";
 import { usePwaInstall } from "src/view/hooks/usePwaInstall";
 import { NavBar } from "src/view/navigation/NavBar";
-import { NearbyPlanList } from "src/view/plan/NearbyPlanList";
 import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
@@ -44,13 +42,7 @@ const IndexPage = (props: Props) => {
         plansByUser,
         fetchPlansRecentlyCreatedRequestStatus,
     } = reduxPlanSelector();
-    const {
-        plansNearby,
-        locationPermission,
-        isFetchingCurrentLocation,
-        isFetchingNearbyPlans,
-        fetchNearbyPlans,
-    } = useNearbyPlans();
+
     const {
         likePlaces,
         likePlaceToCreatePlan,
@@ -113,15 +105,6 @@ const IndexPage = (props: Props) => {
                     <UsersPlan
                         plans={plansByUser}
                         isLoading={isLoggedInUser && !plansByUser}
-                    />
-                    {/* TODO: 拒否設定されている場合の対処をする */}
-                    <NearbyPlanList
-                        plans={plansNearby}
-                        locationPermission={locationPermission}
-                        px={Size.top.px}
-                        isFetchingCurrentLocation={isFetchingCurrentLocation}
-                        isFetchingNearbyPlans={isFetchingNearbyPlans}
-                        onRequestFetchNearByPlans={fetchNearbyPlans}
                     />
                     {/* TODO: React 18に対応 */}
                     {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
