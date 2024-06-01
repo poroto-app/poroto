@@ -45,8 +45,7 @@ export const usePwaInstall = () => {
     };
 
     const checkIsIosSafari = () => {
-        // TODO: productionでも表示する
-        return isSafari && process.env.APP_ENV !== "production";
+        return isSafari;
     };
 
     const markAlreadyInstalledToIosHome = () => {
