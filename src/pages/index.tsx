@@ -65,6 +65,7 @@ const IndexPage = (props: Props) => {
         installPwa,
         cancelInstallPwa,
         closePwaInstallInstruction,
+        markAlreadyInstalledToIosHome,
     } = usePwaInstall();
 
     const { user, isLoggedInUser } = useAuth();
@@ -115,6 +116,7 @@ const IndexPage = (props: Props) => {
                     <PwaIosInstruction
                         visible={isPwaInstallInstructionVisible}
                         onClose={closePwaInstallInstruction}
+                        onClickAlreadyInstalled={markAlreadyInstalledToIosHome}
                     />
                     <LikePlacesList
                         places={likePlaces}

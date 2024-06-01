@@ -37,12 +37,28 @@ export const usePwaInstall = () => {
     };
 
     const checkIsAlreadyInstalled = () => {
-        return localStorage.getItem(LocalStorageKeys.pwaInstalled) === "true";
+        return (
+            localStorage.getItem(LocalStorageKeys.pwaInstalled) === "true" ||
+            localStorage.getItem(LocalStorageKeys.iosAlreadyInstalledPwa) ===
+                "true"
+        );
     };
 
     const checkIsIosSafari = () => {
         // TODO: productionでも表示する
         return isSafari && process.env.APP_ENV !== "production";
+    };
+
+    const markAlreadyInstalledToIosHome = () => {
+        toast({
+            title: "ご回答いただき、ありがとうございます。",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+        });
+        setIsPwaInstalled(true);
+        localStorage.setItem(LocalStorageKeys.iosAlreadyInstalledPwa, "true");
+        setIsIosInstructionVisible(false);
     };
 
     const installPwa = async () => {
@@ -123,5 +139,6 @@ export const usePwaInstall = () => {
         cancelInstallPwa,
         installPwa,
         closePwaInstallInstruction: () => setIsIosInstructionVisible(false),
+        markAlreadyInstalledToIosHome,
     };
 };

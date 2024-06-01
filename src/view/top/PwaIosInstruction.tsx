@@ -1,4 +1,11 @@
-import { Center, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
+import {
+    Button,
+    Center,
+    HStack,
+    Spinner,
+    Text,
+    VStack,
+} from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { isIPad13 } from "react-device-detect";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
@@ -10,6 +17,7 @@ import { Padding } from "src/view/constants/padding";
 type Props = {
     visible: boolean;
     defaultTab?: InstructionTab;
+    onClickAlreadyInstalled?: () => void;
     onClose?: () => void;
 };
 
@@ -26,6 +34,7 @@ export function PwaIosInstruction({
         ? PwaInstallInstructionTabs.iPad
         : PwaInstallInstructionTabs.iPhone,
     onClose,
+    onClickAlreadyInstalled,
 }: Props) {
     const [currentTab, setCurrentTab] = useState<InstructionTab>(defaultTab);
     const videoRef = useRef<HTMLVideoElement>(null);
@@ -103,9 +112,20 @@ export function PwaIosInstruction({
                             </Center>
                         </Center>
                     </VStack>
-                    <Center w="100%" px={Padding.p16}>
+                    <VStack w="100%" px={Padding.p16} spacing="16px">
+                        {onClickAlreadyInstalled && (
+                            <Button
+                                w="100%"
+                                size="sm"
+                                variant="outline"
+                                colorScheme="blue"
+                                onClick={onClickAlreadyInstalled}
+                            >
+                                すでにホームに追加しています。
+                            </Button>
+                        )}
                         <RoundedButton onClick={onClose}>とじる</RoundedButton>
-                    </Center>
+                    </VStack>
                 </VStack>
             </RoundedDialog>
         </FullscreenDialog>
