@@ -35,7 +35,7 @@
     "@reduxjs/toolkit": "^2.2.1",
     "@splidejs/react-splide": "^0.7.12",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "axios": "^1.6.7",
+    "axios": "^1.7.2",
     "babel-plugin-styled-components": "^2.1.4",
     "firebase": "^10.12.2",
     "framer-motion": "^11.1.7",
