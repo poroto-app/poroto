@@ -29,6 +29,7 @@ import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { LikePlacesList } from "src/view/top/LikePlacesList";
 import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 import { PwaInstallDialog } from "src/view/top/PwaInstallDialog";
+import { PwaIosInstruction } from "src/view/top/PwaIosInstruction";
 import { UsersPlan } from "src/view/top/UsersPlan";
 
 type Props = {
@@ -58,8 +59,13 @@ const IndexPage = (props: Props) => {
         onCreatePlanFromLikePlace,
     } = useLikePlaces();
 
-    const { isPwaInstallVisible, installPwa, cancelInstallPwa } =
-        usePwaInstall();
+    const {
+        isPwaInstallVisible,
+        isPwaInstallInstructionVisible,
+        installPwa,
+        cancelInstallPwa,
+        closePwaInstallInstruction,
+    } = usePwaInstall();
 
     const { user, isLoggedInUser } = useAuth();
 
@@ -105,6 +111,10 @@ const IndexPage = (props: Props) => {
                         visible={isPwaInstallVisible}
                         onClickInstall={() => installPwa()}
                         onClickCancel={() => cancelInstallPwa()}
+                    />
+                    <PwaIosInstruction
+                        visible={isPwaInstallInstructionVisible}
+                        onClose={closePwaInstallInstruction}
                     />
                     <LikePlacesList
                         places={likePlaces}

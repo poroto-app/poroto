@@ -15,6 +15,8 @@ export const usePwaInstall = () => {
     const [isRunningOnPwa, setIsRunningOnPwa] = useState(false);
     const [isPwaInstalled, setIsPwaInstalled] = useState(false);
     const [isPwaInstallCanceled, setIsPwaInstallCanceled] = useState(false);
+    const [isIosInstructionVisible, setIsIosInstructionVisible] =
+        useState(false);
 
     const checkIsPwaSupported = () => {
         return (
@@ -44,6 +46,12 @@ export const usePwaInstall = () => {
     };
 
     const installPwa = async () => {
+        if (checkIsIosSafari()) {
+            // iOSの場合はインストール手順を表示
+            setIsIosInstructionVisible(true);
+            return;
+        }
+
         if (pwaInstallEvent) {
             const promptEvent = pwaInstallEvent;
             promptEvent["prompt"]();
@@ -111,7 +119,9 @@ export const usePwaInstall = () => {
             !isPwaInstalled &&
             // PWAインストールをキャンセルした場合は表示しない
             !isPwaInstallCanceled,
+        isPwaInstallInstructionVisible: isIosInstructionVisible,
         cancelInstallPwa,
         installPwa,
+        closePwaInstallInstruction: () => setIsIosInstructionVisible(false),
     };
 };
