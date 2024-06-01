@@ -1,4 +1,4 @@
-import { Center, HStack, Text, VStack } from "@chakra-ui/react";
+import { Center, HStack, Spinner, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { isIPad13 } from "react-device-detect";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
@@ -69,9 +69,12 @@ export function PwaIosInstruction({
                             overflow="hidden"
                         >
                             <Center w="100%" h="100%" position="relative">
+                                <Spinner />
                                 <video
                                     ref={videoRef}
                                     autoPlay={true}
+                                    /*iOSでフルスクリーンで再生されないようにする*/
+                                    playsInline
                                     muted
                                     loop
                                     style={{
