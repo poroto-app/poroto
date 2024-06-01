@@ -1,5 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { PwaIosInstruction } from "src/view/top/PwaIosInstruction";
+import {
+    PwaInstallInstructionTabs,
+    PwaIosInstruction,
+} from "src/view/top/PwaIosInstruction";
 
 export default {
     title: "top/PwaIosInstruction",
@@ -13,5 +16,19 @@ type Story = StoryObj<typeof PwaIosInstruction>;
 export const Primary: Story = {
     args: {
         visible: true,
+    },
+};
+
+export const iPhone: Story = {
+    args: {
+        visible: true,
+        defaultTab: PwaInstallInstructionTabs.iPhone,
+    },
+};
+
+export const iPad: Story = {
+    args: {
+        visible: true,
+        defaultTab: PwaInstallInstructionTabs.iPad,
     },
 };

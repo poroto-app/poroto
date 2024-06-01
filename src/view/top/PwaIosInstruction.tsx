@@ -1,5 +1,6 @@
 import { Center, HStack, Text, VStack } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
+import { isIPad13 } from "react-device-detect";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
@@ -8,20 +9,25 @@ import { Padding } from "src/view/constants/padding";
 
 type Props = {
     visible: boolean;
+    defaultTab?: InstructionTab;
     onClose?: () => void;
 };
 
-export const InstructionTabs = {
+export const PwaInstallInstructionTabs = {
     iPhone: "iPhone",
     iPad: "iPad",
 };
-export type InstructionTab =
-    (typeof InstructionTabs)[keyof typeof InstructionTabs];
+type InstructionTab =
+    (typeof PwaInstallInstructionTabs)[keyof typeof PwaInstallInstructionTabs];
 
-export function PwaIosInstruction({ visible, onClose }: Props) {
-    const [currentTab, setCurrentTab] = useState<InstructionTab>(
-        InstructionTabs.iPhone
-    );
+export function PwaIosInstruction({
+    visible,
+    defaultTab = isIPad13
+        ? PwaInstallInstructionTabs.iPad
+        : PwaInstallInstructionTabs.iPhone,
+    onClose,
+}: Props) {
+    const [currentTab, setCurrentTab] = useState<InstructionTab>(defaultTab);
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
@@ -84,7 +90,7 @@ export function PwaIosInstruction({ visible, onClose }: Props) {
                                     <source
                                         src={
                                             currentTab ===
-                                            InstructionTabs.iPhone
+                                            PwaInstallInstructionTabs.iPhone
                                                 ? Asset.movies.pwaIos.iPhone
                                                 : Asset.movies.pwaIos.iPad
                                         }
@@ -119,14 +125,14 @@ function Tab({
             borderRadius="5px"
         >
             <TabButton
-                active={currentTab === InstructionTabs.iPhone}
+                active={currentTab === PwaInstallInstructionTabs.iPhone}
                 label="iPhone"
-                onClick={() => onSwitchTab(InstructionTabs.iPhone)}
+                onClick={() => onSwitchTab(PwaInstallInstructionTabs.iPhone)}
             />
             <TabButton
-                active={currentTab === InstructionTabs.iPad}
+                active={currentTab === PwaInstallInstructionTabs.iPad}
                 label="iPad"
-                onClick={() => onSwitchTab(InstructionTabs.iPad)}
+                onClick={() => onSwitchTab(PwaInstallInstructionTabs.iPad)}
             />
         </HStack>
     );
