@@ -8,9 +8,9 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { NavBar } from "src/view/common/NavBar";
 import { MDXBlogProvider } from "src/view/mdx/MDXBlogProvider";
 import { MdxMeta } from "src/view/mdx/MdxMeta";
+import { NavBar } from "src/view/navigation/NavBar";
 
 type Props = {
     children?: ReactNode;

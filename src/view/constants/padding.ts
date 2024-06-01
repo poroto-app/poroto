@@ -4,4 +4,5 @@ export const Padding = {
     p16: "16px",
     p24: "24px",
     p32: "32px",
+    p64: "64px",
 };

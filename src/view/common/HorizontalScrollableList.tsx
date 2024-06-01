@@ -7,6 +7,7 @@ type Props = {
     scrollAmount?: number;
     pageButtonOffsetY?: number;
     px?: number | string;
+    pageButtonVisible?: boolean;
     children?: ReactNode;
 };
 
@@ -14,6 +15,7 @@ export const HorizontalScrollableList = ({
     scrollAmount = 400,
     pageButtonOffsetY = 0,
     px = 0,
+    pageButtonVisible = isPC,
     children,
 }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -73,6 +75,7 @@ export const HorizontalScrollableList = ({
                     left={0}
                     right="auto"
                     offsetY={pageButtonOffsetY}
+                    visible={pageButtonVisible}
                     onClick={() => scroll("left")}
                 >
                     <Icon as={MdArrowBackIos} />
@@ -81,6 +84,7 @@ export const HorizontalScrollableList = ({
                     left="auto"
                     right={0}
                     offsetY={pageButtonOffsetY}
+                    visible={pageButtonVisible}
                     onClick={() => scroll("right")}
                 >
                     <Icon as={MdArrowForwardIos} />
@@ -94,18 +98,20 @@ const PageButton = ({
     left,
     right,
     offsetY,
+    visible,
     onClick,
     children,
 }: {
     left: number | string;
     right: number | string;
     offsetY: number;
+    visible: boolean;
     onClick?: () => void;
     children: ReactNode;
 }) => {
     return (
         <Center
-            visibility={isPC ? "visible" : "hidden"}
+            visibility={visible ? "visible" : "hidden"}
             position="absolute"
             top="50%"
             left={left}

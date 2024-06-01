@@ -22,7 +22,7 @@ export function LocationUnavailable({
     };
 
     return (
-        <VStack w="100%" px="16px" py="16px">
+        <VStack w="100%" px="16px" py="16px" spacing="16px">
             <MapIcon
                 viewBox="0 0 687.41943 631.17578"
                 style={{
@@ -34,7 +34,8 @@ export function LocationUnavailable({
                 {locationPermission === LocationPermissions.GRANTED
                     ? "近くのプランを探しています..."
                     : locationPermission === LocationPermissions.DENIED
-                      ? "設定から位置情報を許可してください"
+                      ? // TODO: iOSの場合は許可方法を伝えるページを作る
+                        "位置情報を許可すると、近くのプランを探すことができます。"
                       : "位置情報をオンにしてプランを取得"}
             </Text>
             <Switch

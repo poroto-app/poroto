@@ -45,6 +45,7 @@ export function NearbyPlanList({
             <PlanListSectionTitle
                 title="近くのプラン"
                 icon={MdOutlineExplore}
+                px={px}
             />
         </PlanList>
     );

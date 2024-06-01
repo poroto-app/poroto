@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { mockPlans } from "src/stories/mock/plan";
-import { UsersPlan } from "src/view/top/UsersPlan";
+import { UsersPlan } from "src/view/account/UsersPlan";
 
 export default {
     title: "top/UsersPlan",

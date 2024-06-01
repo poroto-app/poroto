@@ -26,7 +26,6 @@ import {
 import { useAppDispatch } from "src/redux/redux";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
-import { NavBar } from "src/view/common/NavBar";
 import { AnalyticsEvents } from "src/view/constants/analytics";
 import { LocalStorageKeys } from "src/view/constants/localStorageKey";
 import { PageMetaData } from "src/view/constants/meta";
@@ -35,6 +34,7 @@ import { useLocation } from "src/view/hooks/useLocation";
 import { CategorySelect } from "src/view/interest/CategorySelect";
 import { CouldNotFindAnyPlace } from "src/view/interest/CouldNotFindAnyPlace";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
+import { NavBar } from "src/view/navigation/NavBar";
 import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTemplate";
 
 export default function Page() {
