@@ -121,7 +121,7 @@ export function PwaIosInstruction({
                                 colorScheme="blue"
                                 onClick={onClickAlreadyInstalled}
                             >
-                                すでにホームに追加しています。
+                                すでにホームに追加されています
                             </Button>
                         )}
                         <RoundedButton onClick={onClose}>とじる</RoundedButton>
