@@ -4,7 +4,7 @@ query User($userId: ID!, $userIdString: String!, $firebaseToken: String!) {
             ...UserFullFragment
         }
         plans {
-            ...PlanFullFragment
+            ...PlanPreviewFragment
         }
     }
 
