@@ -119,6 +119,17 @@ export type CreatePlanByPlaceOutput = {
   session: Scalars['String']['output'];
 };
 
+export type CreatePlanCandidateSetFromSavedPlanInput = {
+  firebaseAuthToken?: InputMaybe<Scalars['String']['input']>;
+  savedPlanId: Scalars['String']['input'];
+  userId?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type CreatePlanCandidateSetFromSavedPlanOutput = {
+  __typename?: 'CreatePlanCandidateSetFromSavedPlanOutput';
+  planCandidate: PlanCandidate;
+};
+
 export type DeletePlaceFromPlanCandidateInput = {
   placeId: Scalars['String']['input'];
   planCandidateId: Scalars['String']['input'];
@@ -229,6 +240,7 @@ export type Mutation = {
   changePlacesOrderInPlanCandidate: ChangePlacesOrderInPlanCandidateOutput;
   createPlanByLocation: CreatePlanByLocationOutput;
   createPlanByPlace: CreatePlanByPlaceOutput;
+  createPlanCandidateSetFromSavedPlan: CreatePlanCandidateSetFromSavedPlanOutput;
   deletePlaceFromPlanCandidate: DeletePlaceFromPlanCandidateOutput;
   editPlanTitleOfPlanCandidate: EditPlanTitleOfPlanCandidateOutput;
   likeToPlaceInPlan: LikeToPlaceInPlanOutput;
@@ -236,6 +248,7 @@ export type Mutation = {
   ping: Scalars['String']['output'];
   replacePlaceOfPlanCandidate: ReplacePlaceOfPlanCandidateOutput;
   savePlanFromCandidate: SavePlanFromCandidateOutput;
+  updatePlanCollageImage: UpdatePlanCollageImageOutput;
   uploadPlacePhotoInPlan: UploadPlacePhotoInPlanOutput;
 };
 
@@ -267,6 +280,11 @@ export type MutationCreatePlanByLocationArgs = {
 
 export type MutationCreatePlanByPlaceArgs = {
   input: CreatePlanByPlaceInput;
+};
+
+
+export type MutationCreatePlanCandidateSetFromSavedPlanArgs = {
+  input: CreatePlanCandidateSetFromSavedPlanInput;
 };
 
 
@@ -302,6 +320,11 @@ export type MutationReplacePlaceOfPlanCandidateArgs = {
 
 export type MutationSavePlanFromCandidateArgs = {
   input: SavePlanFromCandidateInput;
+};
+
+
+export type MutationUpdatePlanCollageImageArgs = {
+  input: UpdatePlanCollageImageInput;
 };
 
 
@@ -394,6 +417,7 @@ export type PlacesToReplaceForPlanCandidateOutput = {
 export type Plan = {
   __typename?: 'Plan';
   author?: Maybe<User>;
+  collage: PlanCollage;
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
@@ -419,6 +443,17 @@ export type PlanCandidateInput = {
 export type PlanCandidateOutput = {
   __typename?: 'PlanCandidateOutput';
   planCandidate?: Maybe<PlanCandidate>;
+};
+
+export type PlanCollage = {
+  __typename?: 'PlanCollage';
+  images: Array<PlanCollageImage>;
+};
+
+export type PlanCollageImage = {
+  __typename?: 'PlanCollageImage';
+  image?: Maybe<Image>;
+  placeId: Scalars['String']['output'];
 };
 
 export type PlanInput = {
@@ -578,6 +613,19 @@ export type Transition = {
   duration: Scalars['Int']['output'];
   from?: Maybe<Place>;
   to: Place;
+};
+
+export type UpdatePlanCollageImageInput = {
+  firebaseAuthToken: Scalars['String']['input'];
+  imageUrl: Scalars['String']['input'];
+  placeId: Scalars['String']['input'];
+  planId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
+};
+
+export type UpdatePlanCollageImageOutput = {
+  __typename?: 'UpdatePlanCollageImageOutput';
+  plan: Plan;
 };
 
 export type UploadPlacePhotoInPlanInput = {
