@@ -149,10 +149,7 @@ export const createPlanFromSavedPlan = createAsyncThunk(
         userId,
         firebaseIdToken,
         planId,
-    }: CreatePlanFromSavedPlanProps, { getState}) => {
-        const { createPlanFromSavedPlanRequestStatus } = (getState() as RootState).planCandidate;
-        if(createPlanFromSavedPlanRequestStatus === RequestStatuses.PENDING) return;
-
+    }: CreatePlanFromSavedPlanProps) => {
         logEvent(getAnalytics(), AnalyticsEvents.CreatePlan.FromSavedPlan);
 
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
@@ -460,6 +457,10 @@ export const slice = createSlice({
             state.createPlanFromPlaceRequestStatus = null;
         },
 
+        resetCreatePlanFromSavedPlanRequestStatus: (state) => {
+            state.createPlanFromSavedPlanRequestStatus = null;
+        },
+
         resetAutoReorderPlacesInPlanCandidateRequestStatus: (state) => {
             state.autoReorderPlacesInPlanCandidateRequestStatus = null;
         },
@@ -524,7 +525,7 @@ export const slice = createSlice({
                     RequestStatuses.REJECTED;
             })
             // Create Plan From Saved Plan
-            .addCase(createPlanFromSavedPlan.pending, (state, action) => {
+            .addCase(createPlanFromSavedPlan.pending, (state) => {
                 state.createPlanFromSavedPlanRequestStatus =
                     RequestStatuses.PENDING;
             })
@@ -539,7 +540,7 @@ export const slice = createSlice({
                     state.likedPlaceIds = payload.likedPlaceIds;
                 }
             )
-            .addCase(createPlanFromSavedPlan.rejected, (state, action) => {
+            .addCase(createPlanFromSavedPlan.rejected, (state) => {
                 state.createPlanFromSavedPlanRequestStatus =
                     RequestStatuses.REJECTED;
             })
@@ -708,6 +709,7 @@ export const {
     resetPlanCandidates,
     resetCreatePlanFromLocationRequestStatus,
     resetCreatePlanFromPlaceRequestStatus,
+    resetCreatePlanFromSavedPlanRequestStatus,
     resetAutoReorderPlacesInPlanCandidateRequestStatus,
 } = slice.actions;
 
