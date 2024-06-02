@@ -17,11 +17,3 @@ export const Primary: Story = {
         children: <Skeleton w="100%" h="100px" />,
     },
 };
-
-export const Accordion: Story = {
-    args: {
-        title: "タイトル",
-        accordion: true,
-        children: <Skeleton w="100%" h="100px" />,
-    },
-};
