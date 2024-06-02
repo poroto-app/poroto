@@ -3,7 +3,7 @@ query FetchPlanById($input: PlanInput!) {
         plan {
             ...PlanFullFragment
             nearbyPlans {
-                ...PlanFullFragment
+                ...PlanPreviewFragment
             }
         }
     }

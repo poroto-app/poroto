@@ -18,3 +18,15 @@ fragment PlanFullFragment on Plan {
         ...UserFullFragment
     }
 }
+
+# プレビューに必要な最低限な情報を取得
+fragment PlanPreviewFragment on Plan {
+    id
+    name
+    places {
+        ...PlacePreviewFragment
+    }
+    author {
+        ...UserFullFragment
+    }
+}
