@@ -1,8 +1,7 @@
 query PlansByLocation($input: PlansByLocationInput!) {
     plansByLocation(input: $input) {
-        pageKey
         plans {
-            ...PlanFullFragment
+            ...PlanPreviewFragment
         }
     }
 }

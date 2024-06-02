@@ -122,7 +122,6 @@ export type FetchPlansByLocationRequest = {
 };
 
 export type FetchPlansByLocationResponse = {
-    pageKey: string | null;
     plans: PlanEntity[];
 };
 

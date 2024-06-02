@@ -157,9 +157,8 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             },
         });
         return {
-            pageKey: data.plansByLocation.pageKey ?? null,
             plans: data.plansByLocation.plans.map((plan) =>
-                fromGraphqlPlanEntity(plan)
+                fromGraphqlPlanPreviewEntity(plan)
             ),
         };
     }
