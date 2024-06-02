@@ -1,8 +1,8 @@
-import { Box, Center, useToast, VStack } from "@chakra-ui/react";
+import {Box, Button, Center, useToast, VStack} from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 import { Place } from "src/domain/models/Place";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
@@ -39,6 +39,9 @@ import { LoginCallMessage } from "src/view/plandetail/LoginCallMessage";
 import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
+import {PlanFooter} from "src/view/plan/PlanFooter";
+import {Colors} from "src/view/constants/color";
+import {hasValue} from "src/domain/util/null";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -50,6 +53,7 @@ export default function PlanPage() {
     const { userId, firebaseIdToken, likePlaceIds, updateLikePlace } =
         useUserPlan();
     const uploadImageProps = useUploadPlaceImage();
+    const [isPlanFooterVisible, setIsPlanFooterVisible] = useState(false);
 
     const {
         preview: plan,
@@ -120,6 +124,26 @@ export default function PlanPage() {
         );
         dispatch(fetchPlacesNearbyPlanLocation({ planId: id, limit: 10 }));
     }, [id, userId, firebaseIdToken]);
+
+    // Footerの表示制御
+    useEffect(() => {
+        // 自らが作者の場合はフッターを表示しない
+        if(hasValue(user) && user.id === plan?.author?.id) {
+            setIsPlanFooterVisible(false);
+            return;
+        }
+
+        // Footerの高さ分スクロールしたら表示する
+        const scrollHandler = () => {
+            setIsPlanFooterVisible(
+                scrollY >= Size.PlanCandidate.Footer.h
+            );
+        }
+        window.addEventListener("scroll", scrollHandler);
+        return () => {
+            window.removeEventListener("scroll", scrollHandler);
+        };
+    }, [user, plan?.author?.id]);
 
     if (
         !fetchPlanRequestStatus ||
@@ -237,6 +261,19 @@ export default function PlanPage() {
                 onUploadClick={() => uploadImageProps.onUpload()}
                 onClose={uploadImageProps.onCloseDialog}
             />
+            <>
+                <PlanFooter visible={isPlanFooterVisible}>
+                    <Button
+                        variant="outline"
+                        flex={1}
+                        color={Colors.primary[400]}
+                        borderColor={Colors.primary[400]}
+                        borderRadius={20}
+                    >
+                        このプランをカスタムする
+                    </Button>
+                </PlanFooter>
+            </>
         </Center>
     );
 }
