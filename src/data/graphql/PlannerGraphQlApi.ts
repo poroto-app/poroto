@@ -268,8 +268,8 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async createPlanCandidateSetFromSavedPlan(
         request: CreatePlanCandidateSetFromSavedPlanRequest
     ): Promise<CreatePlanCandidateSetFromSavedPlanResponse> {
-        const { data } = await this.client.query({
-            query: CreatePlanCandidateSetFromSavedPlanDocument,
+        const { data } = await this.client.mutate({
+            mutation: CreatePlanCandidateSetFromSavedPlanDocument,
             variables: {
                 input: {
                     userId: request.userId,
