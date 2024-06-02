@@ -34,7 +34,7 @@ export function PlanFooter({ visible = true, children }: Props) {
                 <Center
                     backgroundColor="white"
                     borderTop="1px solid rgba(0,0,0,.1)"
-                    h={Size.PlanCandidate.Footer.h+"px"}
+                    h={Size.PlanCandidate.Footer.h + "px"}
                     w="100%"
                     position="fixed"
                     px="16px"

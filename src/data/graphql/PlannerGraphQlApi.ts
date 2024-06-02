@@ -3,7 +3,8 @@ import {
     AutoReorderPlacesInPlanCandidateDocument,
     ChangePlacesOrderInPlanCandidateDocument,
     CreatePlanByLocationDocument,
-    CreatePlanByPlaceDocument, CreatePlanCandidateSetFromSavedPlanDocument,
+    CreatePlanByPlaceDocument,
+    CreatePlanCandidateSetFromSavedPlanDocument,
     DeletePlaceFromPlanCandidateDocument,
     EditPlanTitleOfPlanCandidateDocument,
     FetchAvailablePlacesForPlanCandidateDocument,
@@ -278,8 +279,11 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             },
         });
         return {
-            planCandidateSetId: data.createPlanCandidateSetFromSavedPlan.planCandidate.id,
-            likedPlaceIds: data.createPlanCandidateSetFromSavedPlan.planCandidate.likedPlaceIds,
+            planCandidateSetId:
+                data.createPlanCandidateSetFromSavedPlan.planCandidate.id,
+            likedPlaceIds:
+                data.createPlanCandidateSetFromSavedPlan.planCandidate
+                    .likedPlaceIds,
             plans: data.createPlanCandidateSetFromSavedPlan.planCandidate.plans.map(
                 (plan) => fromGraphqlPlanEntity(plan)
             ),

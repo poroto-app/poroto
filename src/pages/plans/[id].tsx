@@ -1,11 +1,12 @@
-import {Box, Button, Center, useToast, VStack} from "@chakra-ui/react";
+import { Box, Button, Center, useToast, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { Place } from "src/domain/models/Place";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { hasValue } from "src/domain/util/null";
 import { setSearchLocation } from "src/redux/location";
 import {
     fetchPlacesNearbyPlanLocation,
@@ -20,6 +21,7 @@ import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NotFound } from "src/view/common/NotFound";
 import { AnalyticsEvents } from "src/view/constants/analytics";
+import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
@@ -31,6 +33,7 @@ import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButto
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
+import { PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
@@ -39,9 +42,6 @@ import { LoginCallMessage } from "src/view/plandetail/LoginCallMessage";
 import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
-import {PlanFooter} from "src/view/plan/PlanFooter";
-import {Colors} from "src/view/constants/color";
-import {hasValue} from "src/domain/util/null";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -128,17 +128,15 @@ export default function PlanPage() {
     // Footerの表示制御
     useEffect(() => {
         // 自らが作者の場合はフッターを表示しない
-        if(hasValue(user) && user.id === plan?.author?.id) {
+        if (hasValue(user) && user.id === plan?.author?.id) {
             setIsPlanFooterVisible(false);
             return;
         }
 
         // Footerの高さ分スクロールしたら表示する
         const scrollHandler = () => {
-            setIsPlanFooterVisible(
-                scrollY >= Size.PlanCandidate.Footer.h
-            );
-        }
+            setIsPlanFooterVisible(scrollY >= Size.PlanCandidate.Footer.h);
+        };
         window.addEventListener("scroll", scrollHandler);
         return () => {
             window.removeEventListener("scroll", scrollHandler);

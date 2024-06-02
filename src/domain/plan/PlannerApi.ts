@@ -189,7 +189,7 @@ export type CreatePlanCandidateSetFromSavedPlanResponse = {
     planCandidateSetId: string;
     plans: PlanEntity[];
     likedPlaceIds: string[];
-}
+};
 
 export type FetchCachedCreatedPlansRequest = {
     planCandidateId: string;
