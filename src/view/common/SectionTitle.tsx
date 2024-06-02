@@ -3,10 +3,11 @@ import { Text, VStack } from "@chakra-ui/react";
 type Props = {
     title: string;
     description?: string;
+    px?: string | number;
 };
-export function SectionTitle({ title, description }: Props) {
+export function SectionTitle({ title, px, description }: Props) {
     return (
-        <VStack alignItems="flex-start" spacing="4px">
+        <VStack alignItems="flex-start" px={px} spacing="4px">
             <Text fontWeight="bold" fontSize="20px">
                 {title.split("\n").map((line, index) => (
                     <span key={index}>

@@ -20,6 +20,7 @@ import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NotFound } from "src/view/common/NotFound";
 import { AnalyticsEvents } from "src/view/constants/analytics";
+import { Padding } from "src/view/constants/padding";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
@@ -31,6 +32,7 @@ import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButto
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
+import { PlanList } from "src/view/plan/PlanList";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
@@ -53,6 +55,7 @@ export default function PlanPage() {
 
     const {
         preview: plan,
+        nearbyPlans,
         placesNearbyPlanLocation,
         fetchPlanRequestStatus,
         showPlanCreatedModal,
@@ -203,16 +206,40 @@ export default function PlanPage() {
                         currentLocation={null}
                     />
                 </VStack>
-                <PlanPageSection
-                    title={`このプランの近くの場所から、新しいプランを作って見ませんか？`}
-                >
-                    <NearbyPlaceList
-                        places={placesNearbyPlanLocation}
-                        onSelectPlace={(place) =>
-                            dispatch(setPlaceIdToCreatePlan(place.id))
-                        }
-                    />
-                </PlanPageSection>
+                <VStack w="100%" spacing={Padding.p32} pt={Padding.p32}>
+                    {nearbyPlans?.length > 0 && (
+                        <PlanPageSection
+                            title="このプランの近くのプラン"
+                            contentPaddingX={0}
+                        >
+                            <PlanList
+                                plans={nearbyPlans}
+                                isLoading={
+                                    fetchPlanRequestStatus ===
+                                    RequestStatuses.PENDING
+                                }
+                                numPlaceHolders={6}
+                                grid={false}
+                                wrapTitle={false}
+                                showAuthor={false}
+                                px={Size.PlanDetail.px}
+                                ads={false}
+                            />
+                        </PlanPageSection>
+                    )}
+                    <PlanPageSection
+                        title={`このプランの近くの場所から、新しいプランを作って見ませんか？`}
+                        contentPaddingX={0}
+                    >
+                        <NearbyPlaceList
+                            places={placesNearbyPlanLocation}
+                            px={Size.PlanDetail.px}
+                            onSelectPlace={(place) =>
+                                dispatch(setPlaceIdToCreatePlan(place.id))
+                            }
+                        />
+                    </PlanPageSection>
+                </VStack>
             </VStack>
             {/*Dialogs*/}
             <PlanCreatedDialog
