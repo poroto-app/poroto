@@ -3,6 +3,7 @@ import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { MdOutlineLocationOn, MdOutlineNearMe } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
@@ -209,7 +210,8 @@ export default function PlanPage() {
                 <VStack w="100%" spacing={Padding.p32} pt={Padding.p32}>
                     {nearbyPlans?.length > 0 && (
                         <PlanPageSection
-                            title="このプランの近くのプラン"
+                            title="近くのプラン"
+                            icon={MdOutlineNearMe}
                             contentPaddingX={0}
                         >
                             <PlanList
@@ -228,7 +230,8 @@ export default function PlanPage() {
                         </PlanPageSection>
                     )}
                     <PlanPageSection
-                        title={`このプランの近くの場所から、新しいプランを作って見ませんか？`}
+                        title={`新しいプランを作ってみませんか？`}
+                        icon={MdOutlineLocationOn}
                         contentPaddingX={0}
                     >
                         <NearbyPlaceList
