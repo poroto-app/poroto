@@ -27,10 +27,10 @@ import {
     UploadPlacePhotoInPlanDocument,
     UserFullFragmentFragment,
 } from "src/data/graphql/generated";
-import {GraphQlRepository} from "src/data/graphql/GraphQlRepository";
-import {PlaceEntity} from "src/domain/models/PlaceEntity";
-import {PlanEntity} from "src/domain/models/PlanEntity";
-import {UserEntity} from "src/domain/models/UserEntity";
+import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
+import { PlaceEntity } from "src/domain/models/PlaceEntity";
+import { PlanEntity } from "src/domain/models/PlanEntity";
+import { UserEntity } from "src/domain/models/UserEntity";
 import {
     AddPlaceToPlanOfPlanCandidateRequest,
     AutoReorderPlacesInPlanCandidateRequest,
@@ -69,7 +69,7 @@ import {
     UploadPlacePhotosInPlanRequest,
     UploadPlacePhotosInPlanResponse,
 } from "src/domain/plan/PlannerApi";
-import {hasValue} from "src/domain/util/null";
+import { hasValue } from "src/domain/util/null";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     // ==============================================================
@@ -77,7 +77,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     // ==============================================================
     async fetchPlan(request: FetchPlanRequest): Promise<FetchPlanResponse> {
         if (!request.userId || !request.firebaseIdToken) {
-            const {data} = await this.client.query({
+            const { data } = await this.client.query({
                 query: FetchPlanByIdDocument,
                 variables: {
                     input: {
@@ -92,13 +92,15 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                         : null,
                 nearbyPlans:
                     data.plan != null
-                        ? data.plan.plan.nearbyPlans.map((plan) => fromGraphqlPlanPreviewEntity(plan))
+                        ? data.plan.plan.nearbyPlans.map((plan) =>
+                              fromGraphqlPlanPreviewEntity(plan)
+                          )
                         : [],
                 likedPlaceIds: [],
             };
         }
 
-        const {data} = await this.client.query({
+        const { data } = await this.client.query({
             query: FetchPlanByIdWithUserDocument,
             variables: {
                 planInput: {
@@ -118,14 +120,16 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                     : null,
             nearbyPlans:
                 data.plan != null
-                    ? data.plan.plan.nearbyPlans.map((plan) => fromGraphqlPlanPreviewEntity(plan))
+                    ? data.plan.plan.nearbyPlans.map((plan) =>
+                          fromGraphqlPlanPreviewEntity(plan)
+                      )
                     : [],
             likedPlaceIds: data.likePlaces.map((place) => place.id),
         };
     }
 
     async fetchPlans(request: { pageKey: string | null }) {
-        const {data} = await this.client.query({
+        const { data } = await this.client.query({
             query: FetchPlansDocument,
             variables: {
                 input: {
@@ -142,7 +146,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async fetchPlansByLocation(
         request: FetchPlansByLocationRequest
     ): Promise<FetchPlansByLocationResponse> {
-        const {data} = await this.client.query({
+        const { data } = await this.client.query({
             query: PlansByLocationDocument,
             variables: {
                 input: {
@@ -163,7 +167,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async updateLikeOfPlaceInPlan(
         request: UpdateLikeOfPlaceInPlan
     ): Promise<UpdateLikeOfPlaceInPlanResponse> {
-        const {data} = await this.client.mutate({
+        const { data } = await this.client.mutate({
             mutation: UpdateLikePlaceInPlanDocument,
             variables: {
                 input: {
@@ -184,7 +188,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async uploadPlacePhotosInPlan(
         request: UploadPlacePhotosInPlanRequest
     ): Promise<UploadPlacePhotosInPlanResponse> {
-        const {data} = await this.client.mutate({
+        const { data } = await this.client.mutate({
             mutation: UploadPlacePhotoInPlanDocument,
             variables: {
                 planId: request.planId,
@@ -211,7 +215,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async fetchAvailablePlacesForPlan(
         request: FetchAvailablePlacesForPlanRequest
     ) {
-        const {data} = await this.client.query({
+        const { data } = await this.client.query({
             query: FetchAvailablePlacesForPlanCandidateDocument,
             variables: {
                 session: request.session,
@@ -231,7 +235,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async createPlansFromLocation(
         request: CreatePlanFromLocationRequest
     ): Promise<CreatePlanFromLocationResponse> {
-        const {data} = await this.client.mutate({
+        const { data } = await this.client.mutate({
             mutation: CreatePlanByLocationDocument,
             variables: {
                 input: {
@@ -242,7 +246,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                     categoriesPreferred: request.categoriesPreferred,
                     categoriesDisliked: request.categoriesDisliked,
                     createdBasedOnCurrentLocation:
-                    request.basedOnCurrentLocation,
+                        request.basedOnCurrentLocation,
                     freeTime: request.planDuration ?? undefined,
                 },
             },
@@ -258,7 +262,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async createPlanFromPlace(
         request: CreatePlanFromPlaceRequest
     ): Promise<CreatePlanFromPlaceResponse> {
-        const {data} = await this.client.mutate({
+        const { data } = await this.client.mutate({
             mutation: CreatePlanByPlaceDocument,
             variables: {
                 sessionId: request.createPlanSessionId,
@@ -274,7 +278,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async fetchCachedCreatedPlans(
         request: FetchCachedCreatedPlansRequest
     ): Promise<FetchCachedCreatedPlansResponse> {
-        const {data} = await this.client.query({
+        const { data } = await this.client.query({
             query: PlanCandidateDocument,
             variables: {
                 input: {
@@ -296,7 +300,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
 
         return {
             createdBasedOnCurrentLocation:
-            data.planCandidate.planCandidate.createdBasedOnCurrentLocation,
+                data.planCandidate.planCandidate.createdBasedOnCurrentLocation,
             plans: data.planCandidate.planCandidate.plans.map((plan) =>
                 fromGraphqlPlanEntity(plan)
             ),
@@ -307,7 +311,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async fetchPlacesToAddForPlanOfPlanCandidate(
         request: FetchPlacesToAddForPlanOfPlanCandidateRequest
     ): Promise<FetchPlacesToAddForPlanOfPlanCandidateResponse> {
-        const {data} = await this.client.query({
+        const { data } = await this.client.query({
             query: PlacesToAddForPlanOfPlanCandidateDocument,
             variables: {
                 input: {
@@ -346,7 +350,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async fetchPlacesToReplaceForPlanOfPlanCandidate(
         request: FetchPlacesToReplaceForPlanOfPlanCandidateRequest
     ): Promise<FetchPlacesToReplaceForPlanOfPlanCandidateResponse> {
-        const {data} = await this.client.query({
+        const { data } = await this.client.query({
             query: PlacesToReplaceForPlanOfPlanCandidateDocument,
             variables: {
                 input: {
@@ -366,7 +370,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async addPlaceToPlanOfPlanCandidate(
         request: AddPlaceToPlanOfPlanCandidateRequest
     ) {
-        const {data} = await this.client.mutate({
+        const { data } = await this.client.mutate({
             mutation: AddPlaceToPlanCandidateDocument,
             variables: {
                 input: {
@@ -387,7 +391,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async deletePlaceFromPlanOfPlanCandidate(
         request: DeletePlaceFromPlanOfPlanCandidateRequest
     ) {
-        const {data} = await this.client.mutate({
+        const { data } = await this.client.mutate({
             mutation: DeletePlaceFromPlanCandidateDocument,
             variables: {
                 input: {
@@ -405,7 +409,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async replacePlaceInPlanOfPlanCandidate(
         request: ReplacePlaceInPlanOfPlanCandidateRequest
     ) {
-        const {data} = await this.client.mutate({
+        const { data } = await this.client.mutate({
             mutation: ReplacePlaceOfPlanCandidateDocument,
             variables: {
                 input: {
@@ -425,7 +429,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async editPlanTitleOfPlanCandidate(
         request: EditPlanTitleOfPlanCandidateRequest
     ) {
-        const {data} = await this.client.mutate({
+        const { data } = await this.client.mutate({
             mutation: EditPlanTitleOfPlanCandidateDocument,
             variables: {
                 input: {
@@ -444,7 +448,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async fetchNearbyPlaceCategories(
         request: FetchNearbyPlaceCategoriesRequest
     ): Promise<FetchNearbyPlaceCategoriesResponse> {
-        const {data} = await this.client.query({
+        const { data } = await this.client.query({
             query: NearbyPlaceCategoriesDocument,
             variables: {
                 latitude: request.location.latitude,
@@ -470,7 +474,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async savePlanFromCandidate(
         request: SavePlanFromCandidateRequest
     ): Promise<SavePlanFromCandidateResponse> {
-        const {data} = await this.client.mutate({
+        const { data } = await this.client.mutate({
             mutation: SavePlanFromCandidateDocument,
             variables: {
                 session: request.session,
@@ -486,7 +490,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async updatePlanCandidatePlacesOrder(
         request: UpdatePlanCandidatePlacesOrderRequest
     ): Promise<UpdatePlanCandidatePlacesOrderResponse> {
-        const {data} = await this.client.mutate({
+        const { data } = await this.client.mutate({
             mutation: ChangePlacesOrderInPlanCandidateDocument,
             variables: {
                 input: {
@@ -508,7 +512,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async updateLikeAtPlaceInPlanCandidate(
         request: UpdateLikeAtPlaceInPlanCandidateRequest
     ): Promise<UpdateLikeAtPlaceInPlanCandidateResponse> {
-        const {data} = await this.client.mutate({
+        const { data } = await this.client.mutate({
             mutation: UpdateLikeAtPlaceInPlanCandidateDocument,
             variables: {
                 input: {
@@ -526,14 +530,14 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                 (plan) => fromGraphqlPlanEntity(plan)
             ),
             likedPlaceIds:
-            data.likeToPlaceInPlanCandidate.planCandidate.likedPlaceIds,
+                data.likeToPlaceInPlanCandidate.planCandidate.likedPlaceIds,
         };
     }
 
     async autoReorderPlacesInPlanCandidate(
         request: AutoReorderPlacesInPlanCandidateRequest
     ): Promise<AutoReorderPlacesInPlanCandidateResponse> {
-        const {data} = await this.client.mutate({
+        const { data } = await this.client.mutate({
             mutation: AutoReorderPlacesInPlanCandidateDocument,
             variables: {
                 input: {
@@ -544,7 +548,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         });
         return {
             PlanCandidateId:
-            data.autoReorderPlacesInPlanCandidate.planCandidateId,
+                data.autoReorderPlacesInPlanCandidate.planCandidateId,
             plan: fromGraphqlPlanEntity(
                 data.autoReorderPlacesInPlanCandidate.plan
             ),
@@ -554,7 +558,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     async fetchPlacesNearbyPlanLocation(
         request: FetchPlacesNearbyPlanLocationRequest
     ): Promise<FetchPlacesNearbyPlanLocationResponse> {
-        const {data} = await this.client.query({
+        const { data } = await this.client.query({
             query: PlacesNearbyPlanDocument,
             variables: {
                 input: {
@@ -590,16 +594,19 @@ export function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
     };
 }
 
-
-export function fromGraphqlPlanPreviewEntity(plan: PlanPreviewFragmentFragment): PlanEntity {
+export function fromGraphqlPlanPreviewEntity(
+    plan: PlanPreviewFragmentFragment
+): PlanEntity {
     return {
         id: plan.id,
         title: plan.name,
-        places: plan.places.map((place) => fromGraphqlPlacePreviewEntity(place)),
+        places: plan.places.map((place) =>
+            fromGraphqlPlacePreviewEntity(place)
+        ),
         timeInMinutes: 0,
         transitions: [],
         author: plan.author ? fromGraphQlUserEntity(plan.author) : null,
-    }
+    };
 }
 
 export function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
@@ -626,16 +633,18 @@ export function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
             })) ?? [],
         priceRange: place.priceRange
             ? {
-                priceRangeMin: place.priceRange.priceRangeMin,
-                priceRangeMax: place.priceRange.priceRangeMax,
-                googlePriceLevel: place.priceRange.googlePriceLevel,
-            }
+                  priceRangeMin: place.priceRange.priceRangeMin,
+                  priceRangeMax: place.priceRange.priceRangeMax,
+                  googlePriceLevel: place.priceRange.googlePriceLevel,
+              }
             : null,
         likeCount: place.likeCount,
     };
 }
 
-function fromGraphqlPlacePreviewEntity(place: PlacePreviewFragmentFragment): PlaceEntity {
+function fromGraphqlPlacePreviewEntity(
+    place: PlacePreviewFragmentFragment
+): PlaceEntity {
     return {
         id: place.id,
         googlePlaceId: null,
