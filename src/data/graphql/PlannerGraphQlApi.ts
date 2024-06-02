@@ -138,7 +138,9 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             },
         });
         return {
-            plans: data.plans.plans.map((plan) => fromGraphqlPlanPreviewEntity(plan)),
+            plans: data.plans.plans.map((plan) =>
+                fromGraphqlPlanPreviewEntity(plan)
+            ),
             nextPageKey: data.plans.nextPageToken ?? null,
         };
     }
