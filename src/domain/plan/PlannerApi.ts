@@ -118,7 +118,6 @@ export type FetchPlansResponse = {
 export type FetchPlansByLocationRequest = {
     location: GeoLocation;
     limit?: number;
-    pageKey: string | null;
 };
 
 export type FetchPlansByLocationResponse = {

@@ -137,10 +137,11 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         const { data } = await this.client.query({
             query: PlansByLocationDocument,
             variables: {
-                latitude: request.location.latitude,
-                longitude: request.location.longitude,
-                limit: request.limit,
-                pageKey: request.pageKey,
+                input: {
+                    latitude: request.location.latitude,
+                    longitude: request.location.longitude,
+                    limit: request.limit,
+                },
             },
         });
         return {
