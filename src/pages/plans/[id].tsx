@@ -26,6 +26,7 @@ import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
 import { useAuth } from "src/view/hooks/useAuth";
+import { useCreatePlanFromSavedPlan } from "src/view/hooks/useCreatePlanFromSavedPlan";
 import useUploadPlaceImage from "src/view/hooks/useUploadPlaceImage";
 import { useUserPlan } from "src/view/hooks/useUserPlan";
 import { NavBar } from "src/view/navigation/NavBar";
@@ -52,6 +53,8 @@ export default function PlanPage() {
     const { user, signInWithGoogle } = useAuth();
     const { userId, firebaseIdToken, likePlaceIds, updateLikePlace } =
         useUserPlan();
+    const { createPlanFromSavedPlan, isCreatingPlanFromSavedPlan } =
+        useCreatePlanFromSavedPlan();
     const uploadImageProps = useUploadPlaceImage();
     const [isPlanFooterVisible, setIsPlanFooterVisible] = useState(false);
 
@@ -259,6 +262,9 @@ export default function PlanPage() {
                 onUploadClick={() => uploadImageProps.onUpload()}
                 onClose={uploadImageProps.onCloseDialog}
             />
+            {isCreatingPlanFromSavedPlan && (
+                <LoadingModal title="カスタマイズ用のプランを準備しています。もう少しお待ちください。" />
+            )}
             <>
                 <PlanFooter visible={isPlanFooterVisible}>
                     <Button
@@ -267,6 +273,13 @@ export default function PlanPage() {
                         color={Colors.primary[400]}
                         borderColor={Colors.primary[400]}
                         borderRadius={20}
+                        onClick={() => {
+                            createPlanFromSavedPlan({
+                                userId,
+                                firebaseIdToken,
+                                planId: plan.id,
+                            });
+                        }}
                     >
                         このプランをカスタムする
                     </Button>

@@ -1,0 +1,66 @@
+import { useToast } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { hasValue } from "src/domain/util/null";
+import {
+    createPlanFromSavedPlan as createPlanFromSavedPlanAction,
+    reduxPlanCandidateSelector,
+    resetCreatePlanFromSavedPlanRequestStatus,
+} from "src/redux/planCandidate";
+import { useAppDispatch } from "src/redux/redux";
+import { Routes } from "src/view/constants/router";
+
+export const useCreatePlanFromSavedPlan = () => {
+    const dispatch = useAppDispatch();
+    const router = useRouter();
+    const [isCreatingPlanFromSavedPlan, setIsCreatingPlanFromSavedPlan] =
+        useState(false);
+    const { createPlanSession, createPlanFromSavedPlanRequestStatus } =
+        reduxPlanCandidateSelector();
+    const toast = useToast();
+
+    useEffect(() => {
+        if (
+            hasValue(createPlanSession) &&
+            createPlanFromSavedPlanRequestStatus === RequestStatuses.FULFILLED
+        ) {
+            dispatch(resetCreatePlanFromSavedPlanRequestStatus());
+            router
+                .push(Routes.plans.planCandidate.index(createPlanSession))
+                .then(() => {
+                    setIsCreatingPlanFromSavedPlan(false);
+                    toast({
+                        title: "カスタマイズ用のプランの準備ができました！",
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                    });
+                });
+        }
+    }, [createPlanSession, createPlanFromSavedPlanRequestStatus]);
+
+    const createPlanFromSavedPlan = ({
+        userId,
+        firebaseIdToken,
+        planId,
+    }: {
+        userId: string | null;
+        firebaseIdToken: string | null;
+        planId: string;
+    }) => {
+        setIsCreatingPlanFromSavedPlan(true);
+        dispatch(
+            createPlanFromSavedPlanAction({
+                userId,
+                firebaseIdToken,
+                planId,
+            })
+        );
+    };
+
+    return {
+        createPlanFromSavedPlan,
+        isCreatingPlanFromSavedPlan,
+    };
+};
