@@ -104,6 +104,7 @@ export type FetchPlanRequest = {
 export type FetchPlanResponse = {
     plan: PlanEntity | null;
     likedPlaceIds: string[];
+    nearbyPlans: PlanEntity[];
 };
 
 export type FetchPlansRequest = {
