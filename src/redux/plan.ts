@@ -24,6 +24,7 @@ export type PlanState = {
     plansByUser: Plan[] | null;
 
     preview: Plan | null;
+    nearbyPlans: Plan[] | null;
     likePlaceIds: string[];
 
     placeIdToCreatePlan: string | null;
@@ -50,6 +51,7 @@ const initialState: PlanState = {
     plansByUser: null,
 
     preview: null,
+    nearbyPlans: null,
     likePlaceIds: [],
 
     placeIdToCreatePlan: null,
@@ -96,9 +98,7 @@ type FetchNearByPlans = { currentLocation: GeoLocation; limit: number };
 export const fetchNearbyPlans = createAsyncThunk(
     "plan/fetchNearbyPlans",
     async ({ currentLocation, limit }: FetchNearByPlans, { getState }) => {
-        const { plansNearby } = (
-            getState() as RootState
-        ).plan;
+        const { plansNearby } = (getState() as RootState).plan;
 
         // すでに取得している場合はスキップ
         if (plansNearby !== null) {
@@ -132,11 +132,15 @@ export const fetchPlan = createAsyncThunk(
             userId,
             firebaseIdToken,
         });
+
         // TODO: ユーザー情報を取得する
         return {
             plan: response.plan
                 ? createPlanFromPlanEntity(response.plan)
                 : null,
+            nearbyPlans: response.nearbyPlans.map((plan) =>
+                createPlanFromPlanEntity(plan)
+            ),
             likedPlaceIds: response.likedPlaceIds,
         };
     }
@@ -271,6 +275,7 @@ export const slice = createSlice({
             })
             .addCase(fetchPlan.fulfilled, (state, { payload }) => {
                 state.preview = payload.plan;
+                state.nearbyPlans = payload.nearbyPlans;
                 state.likePlaceIds = payload.likedPlaceIds;
                 state.fetchPlanRequestStatus = RequestStatuses.FULFILLED;
             })
