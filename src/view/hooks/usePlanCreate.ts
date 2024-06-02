@@ -1,6 +1,6 @@
 import { getAuth } from "@firebase/auth";
 import { useRouter } from "next/router";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
