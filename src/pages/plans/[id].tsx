@@ -207,7 +207,7 @@ export default function PlanPage() {
                         currentLocation={null}
                     />
                 </VStack>
-                <VStack w="100%" spacing={Padding.p32} pt={Padding.p32}>
+                <VStack w="100%" spacing={Padding.p32} pt={Padding.p16}>
                     {nearbyPlans?.length > 0 && (
                         <PlanPageSection
                             title="近くのプラン"
