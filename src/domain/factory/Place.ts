@@ -20,7 +20,7 @@ export function createPlaceFromPlaceEntity(entity: PlaceEntity): Place {
             id: category.id,
             displayName: category.displayName,
         })),
-        priceRange: {
+        priceRange: entity.priceRange && {
             min: entity.priceRange.priceRangeMin,
             max: entity.priceRange.priceRangeMax,
             googlePriceLevel: entity.priceRange.googlePriceLevel,
