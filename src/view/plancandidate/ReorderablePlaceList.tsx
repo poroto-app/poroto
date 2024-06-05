@@ -1,4 +1,4 @@
-import { HStack, Icon, Image, Text, VStack } from "@chakra-ui/react";
+import { Button, HStack, Icon, Image, Text, VStack } from "@chakra-ui/react";
 import {
     DndContext,
     DragEndEvent,
@@ -23,23 +23,88 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { forwardRef, useState } from "react";
-import { MdDragIndicator } from "react-icons/md";
+import { MdDirectionsWalk, MdDragIndicator } from "react-icons/md";
 import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { Transition } from "src/domain/models/Transition";
+import {
+    DialogPositions,
+    FullscreenDialog,
+} from "src/view/common/FullscreenDialog";
+import { RoundedDialog } from "src/view/common/RoundedDialog";
+import { Colors } from "src/view/constants/color";
+import { Padding } from "src/view/constants/padding";
+import { PlaceChipContextAction } from "src/view/plandetail/PlaceChipContextAction";
 import styled from "styled-components";
 
 type Props = {
+    visible: boolean;
     places: Place[];
     transitions: Transition[];
     onReorderPlaces: (places: Place[]) => void;
+    onAutoReorderPlaces: () => void;
+    onClose: () => void;
 };
+
+export function ReorderablePlaceDialog({
+    visible,
+    places,
+    transitions,
+    onReorderPlaces,
+    onAutoReorderPlaces,
+    onClose,
+}: Props) {
+    return (
+        <FullscreenDialog
+            visible={visible}
+            onClickOutside={onClose}
+            position={DialogPositions.BOTTOM}
+        >
+            <RoundedDialog>
+                <VStack
+                    w="100%"
+                    spacing={Padding.p16}
+                    px={Padding.p8}
+                    pb={Padding.p32}
+                    pt={Padding.p16}
+                >
+                    <HStack w="100%">
+                        <PlaceChipContextAction
+                            label="歩く距離を最短にする"
+                            icon={MdDirectionsWalk}
+                            onClick={onAutoReorderPlaces}
+                        />
+                    </HStack>
+                    <ReorderablePlaceList
+                        places={places}
+                        transitions={transitions}
+                        onReorderPlaces={onReorderPlaces}
+                    />
+                    <Button
+                        w="100%"
+                        variant="outline"
+                        color={Colors.primary[400]}
+                        borderColor={Colors.primary[400]}
+                        borderRadius={20}
+                        onClick={onClose}
+                    >
+                        とじる
+                    </Button>
+                </VStack>
+            </RoundedDialog>
+        </FullscreenDialog>
+    );
+}
 
 export function ReorderablePlaceList({
     places,
     transitions,
     onReorderPlaces,
-}: Props) {
+}: {
+    places: Place[];
+    transitions: Transition[];
+    onReorderPlaces: (places: Place[]) => void;
+}) {
     const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null);
     const sensors = useSensors(useSensor(PointerSensor));
 
@@ -108,7 +173,6 @@ function ReorderblePlaceItem({
         transform,
         transition,
     } = useSortable({ id: place.id });
-
     const style = {
         transform: CSS.Transform.toString(transform),
         transition,
@@ -165,13 +229,17 @@ export const PlaceListItem = forwardRef<
         draggableAttributes?: DraggableAttributes;
         draggableListeners?: DraggableSyntheticListeners;
     }
->(function Component(
+>(function PlaceListItemComponent(
     { place, transitions, draggableAttributes, draggableListeners },
     ref
 ) {
     const transition = transitions.find((t) => t.toPlaceId === place.id);
     return (
-        <HStack w="100%" spacing={4} backgroundColor="white">
+        <HStack
+            w="100%"
+            spacing={4}
+            backgroundColor={Colors.dialog.backgroundColor}
+        >
             <HStack flex={1}>
                 <Image
                     width={48}
