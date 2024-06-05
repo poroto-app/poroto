@@ -248,14 +248,18 @@ export const savePlanFromCandidate = createAsyncThunk(
 );
 
 type UpdatePlacesOrderInPlanCandidateProps = {
-    session: string;
+    planCandidateSetId: string;
     planId: string;
     placeIds: string[];
 };
 export const updatePlacesOrderInPlanCandidate = createAsyncThunk(
     "planCandidate/updatePlacesOrderInPlanCandidate",
     async (
-        { session, planId, placeIds }: UpdatePlacesOrderInPlanCandidateProps,
+        {
+            planCandidateSetId,
+            planId,
+            placeIds,
+        }: UpdatePlacesOrderInPlanCandidateProps,
         { dispatch }
     ) => {
         // Previewの内容は先に書き換える
@@ -263,7 +267,7 @@ export const updatePlacesOrderInPlanCandidate = createAsyncThunk(
 
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.updatePlanCandidatePlacesOrder({
-            session,
+            planCandidateSetId,
             planId,
             placeIds,
         });

@@ -481,7 +481,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             mutation: ChangePlacesOrderInPlanCandidateDocument,
             variables: {
                 input: {
-                    session: request.session,
+                    session: request.planCandidateSetId,
                     planId: request.planId,
                     placeIds: request.placeIds,
                     currentLatitude: request.currentLocation?.latitude,
