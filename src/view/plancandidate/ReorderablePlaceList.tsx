@@ -261,7 +261,10 @@ export const PlaceListItem = forwardRef<
                     <Text lineHeight={1}>{place.name}</Text>
                     {transition && (
                         <Text fontSize="0.9rem" color="rgba(0,0,0,.6)">
-                            前の場所から {transition.durationInMinutes}分
+                            {transition.fromPlaceId === null
+                                ? "出発地点"
+                                : "前の場所"}
+                            から {transition.durationInMinutes}分
                         </Text>
                     )}
                 </VStack>
