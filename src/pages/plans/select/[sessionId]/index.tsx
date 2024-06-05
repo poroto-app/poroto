@@ -37,6 +37,7 @@ import { DialogAddPlace } from "src/view/plancandidate/DialogAddPlace";
 import { DialogDeletePlace } from "src/view/plancandidate/DialogDeletePlace";
 import { DialogReplacePlace } from "src/view/plancandidate/DialogReplacePlace";
 import { PlanCandidatesGallery } from "src/view/plancandidate/PlanCandidatesGallery";
+import { ReorderablePlaceDialog } from "src/view/plancandidate/ReorderablePlaceList";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
@@ -223,7 +224,14 @@ function PlanDetailPage({
         planId: planId,
     });
 
-    const { handleOptimizeRoute } = usePlanPlaceReorder();
+    const {
+        placesReordered,
+        isReorderDialogVisible,
+        showReorderDialog,
+        closeReorderDialog,
+        handleOnReorderPlaces,
+        handleOptimizeRoute,
+    } = usePlanPlaceReorder({ planId });
 
     const {
         deletePlaceFromPlan,
@@ -351,14 +359,9 @@ function PlanDetailPage({
                     color={Colors.primary[400]}
                     borderColor={Colors.primary[400]}
                     borderRadius={20}
-                    onClick={() =>
-                        handleOptimizeRoute({
-                            planCandidateId: planCandidateSetId,
-                            planId: planId,
-                        })
-                    }
+                    onClick={() => showReorderDialog()}
                 >
-                    歩く距離を最短にする
+                    場所を並び替え
                 </Button>
                 <Button
                     variant="solid"
@@ -407,6 +410,25 @@ function PlanDetailPage({
                 isDeleting={isDeletingPlace}
                 onDelete={deletePlaceFromPlan}
                 onClose={closeDialogToDelete}
+            />
+            <ReorderablePlaceDialog
+                visible={isReorderDialogVisible}
+                places={placesReordered}
+                transitions={plan.transitions}
+                onReorderPlaces={(places) =>
+                    handleOnReorderPlaces({
+                        placeIds: places.map((p) => p.id),
+                        planCandidateSetId,
+                        planId,
+                    })
+                }
+                onAutoReorderPlaces={() =>
+                    handleOptimizeRoute({
+                        planCandidateSetId,
+                        planId,
+                    })
+                }
+                onClose={closeReorderDialog}
             />
         </>
     );
