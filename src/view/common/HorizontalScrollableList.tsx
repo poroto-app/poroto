@@ -8,6 +8,7 @@ type Props = {
     pageButtonOffsetY?: number;
     px?: number | string;
     pageButtonVisible?: boolean;
+    roundedEdgeCorner?: boolean;
     children?: ReactNode;
 };
 
@@ -16,6 +17,7 @@ export const HorizontalScrollableList = ({
     pageButtonOffsetY = 0,
     px = 0,
     pageButtonVisible = isPC,
+    roundedEdgeCorner = isPC,
     children,
 }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -58,6 +60,7 @@ export const HorizontalScrollableList = ({
                 ref={containerRef}
                 w="100%"
                 px={px}
+                borderRadius={roundedEdgeCorner ? "20px" : 0}
                 overflowX="auto"
                 overflowY="hidden"
                 alignItems="flex-start"
