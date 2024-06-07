@@ -3,7 +3,7 @@ import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { MdOutlineLocationOn, MdOutlineNearMe } from "react-icons/md";
+import { MdOutlineExplore, MdOutlineNearMe } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
@@ -21,6 +21,7 @@ import { AdInPlanDetail } from "src/view/ad/AdInPlanDetail";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NotFound } from "src/view/common/NotFound";
+import { SectionTitle } from "src/view/common/SectionTitle";
 import { AnalyticsEvents } from "src/view/constants/analytics";
 import { Colors } from "src/view/constants/color";
 import { Padding } from "src/view/constants/padding";
@@ -46,6 +47,7 @@ import { LoginCallMessage } from "src/view/plandetail/LoginCallMessage";
 import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
+import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -200,7 +202,14 @@ export default function PlanPage() {
                         <LoginCallMessage onLogin={signInWithGoogle} />
                     </Box>
                 )}
-                <PlanPageSection title="プランの情報">
+                <PlanPageSection
+                    sectionHeader={
+                        <SectionTitle
+                            title="プランの情報"
+                            px={Size.PlanDetail.px}
+                        />
+                    }
+                >
                     <VStack>
                         <PlanInfoSection
                             durationInMinutes={plan.timeInMinutes}
@@ -209,7 +218,11 @@ export default function PlanPage() {
                         <AdInPlanDetail />
                     </VStack>
                 </PlanPageSection>
-                <PlanPageSection title="プラン">
+                <PlanPageSection
+                    sectionHeader={
+                        <SectionTitle title="プラン" px={Size.PlanDetail.px} />
+                    }
+                >
                     <PlanPlaceList
                         plan={plan}
                         likePlaceIds={likePlaceIds}
@@ -220,8 +233,13 @@ export default function PlanPage() {
                     />
                 </PlanPageSection>
                 <PlanPageSection
-                    title="プラン内の場所"
-                    description="マーカーをクリックすると場所の詳細が表示されます"
+                    sectionHeader={
+                        <SectionTitle
+                            title="プラン内の場所"
+                            description="マーカーをクリックすると場所の詳細が表示されます"
+                            px={Size.PlanDetail.px}
+                        />
+                    }
                 >
                     <PlaceMap places={plan.places} />
                 </PlanPageSection>
@@ -235,9 +253,14 @@ export default function PlanPage() {
                 <VStack w="100%" spacing={Padding.p32} pt={Padding.p16}>
                     {nearbyPlans?.length > 0 && (
                         <PlanPageSection
-                            title="近くのプラン"
-                            icon={MdOutlineNearMe}
                             contentPaddingX={0}
+                            sectionHeader={
+                                <PlanListSectionTitle
+                                    title="近くのプラン"
+                                    icon={MdOutlineNearMe}
+                                    px={Size.PlanDetail.px}
+                                />
+                            }
                         >
                             <PlanList
                                 plans={nearbyPlans}
@@ -255,9 +278,14 @@ export default function PlanPage() {
                         </PlanPageSection>
                     )}
                     <PlanPageSection
-                        title={`新しいプランを作ってみませんか？`}
-                        icon={MdOutlineLocationOn}
                         contentPaddingX={0}
+                        sectionHeader={
+                            <PlanListSectionTitle
+                                title="新しいプランを作ってみませんか？"
+                                icon={MdOutlineExplore}
+                                px={Size.PlanDetail.px}
+                            />
+                        }
                     >
                         <NearbyPlaceList
                             places={placesNearbyPlanLocation}
