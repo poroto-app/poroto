@@ -18,13 +18,13 @@ export type PlanState = {
     nextPageTokenPlansRecentlyCreated: string | null;
 
     plansNearby: Plan[] | null;
-    nextPageTokenPlansNearby: string | null;
 
     placesNearbyPlanLocation: Place[] | null;
 
     plansByUser: Plan[] | null;
 
     preview: Plan | null;
+    nearbyPlans: Plan[] | null;
     likePlaceIds: string[];
 
     placeIdToCreatePlan: string | null;
@@ -45,13 +45,13 @@ const initialState: PlanState = {
     nextPageTokenPlansRecentlyCreated: null,
 
     plansNearby: null,
-    nextPageTokenPlansNearby: null,
 
     placesNearbyPlanLocation: null,
 
     plansByUser: null,
 
     preview: null,
+    nearbyPlans: null,
     likePlaceIds: [],
 
     placeIdToCreatePlan: null,
@@ -98,19 +98,16 @@ type FetchNearByPlans = { currentLocation: GeoLocation; limit: number };
 export const fetchNearbyPlans = createAsyncThunk(
     "plan/fetchNearbyPlans",
     async ({ currentLocation, limit }: FetchNearByPlans, { getState }) => {
-        const { nextPageTokenPlansNearby, plansNearby } = (
-            getState() as RootState
-        ).plan;
+        const { plansNearby } = (getState() as RootState).plan;
 
         // すでに取得している場合はスキップ
-        if (plansNearby !== null && nextPageTokenPlansNearby === null) {
+        if (plansNearby !== null) {
             return null;
         }
 
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const { plans, pageKey } = await plannerApi.fetchPlansByLocation({
             location: currentLocation,
-            pageKey: nextPageTokenPlansNearby,
             limit,
         });
 
@@ -135,11 +132,15 @@ export const fetchPlan = createAsyncThunk(
             userId,
             firebaseIdToken,
         });
+
         // TODO: ユーザー情報を取得する
         return {
             plan: response.plan
                 ? createPlanFromPlanEntity(response.plan)
                 : null,
+            nearbyPlans: response.nearbyPlans.map((plan) =>
+                createPlanFromPlanEntity(plan)
+            ),
             likedPlaceIds: response.likedPlaceIds,
         };
     }
@@ -274,6 +275,7 @@ export const slice = createSlice({
             })
             .addCase(fetchPlan.fulfilled, (state, { payload }) => {
                 state.preview = payload.plan;
+                state.nearbyPlans = payload.nearbyPlans;
                 state.likePlaceIds = payload.likedPlaceIds;
                 state.fetchPlanRequestStatus = RequestStatuses.FULFILLED;
             })
@@ -314,7 +316,6 @@ export const slice = createSlice({
 
                 if (state.plansNearby === null) state.plansNearby = [];
                 state.plansNearby.push(...payload.plans);
-                state.nextPageTokenPlansNearby = payload.nextPageToken;
             })
             .addCase(fetchNearbyPlans.rejected, (state, action) => {
                 state.fetchNearbyPlansRequestStatus = RequestStatuses.REJECTED;

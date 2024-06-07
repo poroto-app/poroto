@@ -15,7 +15,9 @@ import { LocalStorageKeys } from "src/view/constants/localStorageKey";
 export const useAuth = () => {
     const dispatch = useAppDispatch();
     const { user, firebaseIdToken } = reduxAuthSelector();
-    const [isLoggedInUser, setIsLoggedInUser] = useState(false);
+    const [isLoggedInUser, setIsLoggedInUser] = useState(
+        hasValue(firebaseIdToken)
+    );
 
     useEffect(() => {
         setIsLoggedInUser(getLoggedIn() || hasValue(firebaseIdToken));

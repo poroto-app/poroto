@@ -35,6 +35,10 @@ export interface PlannerApi {
         request: CreatePlanFromPlaceRequest
     ): Promise<CreatePlanFromPlaceResponse>;
 
+    createPlanCandidateSetFromSavedPlan(
+        request: CreatePlanCandidateSetFromSavedPlanRequest
+    ): Promise<CreatePlanCandidateSetFromSavedPlanResponse>;
+
     fetchCachedCreatedPlans(
         request: FetchCachedCreatedPlansRequest
     ): Promise<FetchCachedCreatedPlansResponse>;
@@ -104,6 +108,7 @@ export type FetchPlanRequest = {
 export type FetchPlanResponse = {
     plan: PlanEntity | null;
     likedPlaceIds: string[];
+    nearbyPlans: PlanEntity[];
 };
 
 export type FetchPlansRequest = {
@@ -118,7 +123,6 @@ export type FetchPlansResponse = {
 export type FetchPlansByLocationRequest = {
     location: GeoLocation;
     limit?: number;
-    pageKey: string | null;
 };
 
 export type FetchPlansByLocationResponse = {
@@ -173,6 +177,18 @@ export type CreatePlanFromPlaceRequest = {
 export type CreatePlanFromPlaceResponse = {
     createPlanSessionId: string;
     plan: PlanEntity;
+};
+
+export type CreatePlanCandidateSetFromSavedPlanRequest = {
+    userId: string | null;
+    firebaseIdToken: string | null;
+    planId: string;
+};
+
+export type CreatePlanCandidateSetFromSavedPlanResponse = {
+    planCandidateSetId: string;
+    plans: PlanEntity[];
+    likedPlaceIds: string[];
 };
 
 export type FetchCachedCreatedPlansRequest = {

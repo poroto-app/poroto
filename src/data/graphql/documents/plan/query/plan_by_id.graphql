@@ -2,6 +2,9 @@ query FetchPlanById($input: PlanInput!) {
     plan(input: $input) {
         plan {
             ...PlanFullFragment
+            nearbyPlans {
+                ...PlanPreviewFragment
+            }
         }
     }
 }

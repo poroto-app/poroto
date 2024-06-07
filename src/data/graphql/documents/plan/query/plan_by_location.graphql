@@ -1,5 +1,5 @@
-query PlansByLocation($latitude: Float!, $longitude: Float!, $limit: Int, $pageKey: String) {
-    plansByLocation(input: {latitude: $latitude, longitude: $longitude, limit: $limit, pageKey: $pageKey}) {
+query PlansByLocation($input: PlansByLocationInput!) {
+    plansByLocation(input: $input) {
         pageKey
         plans {
             ...PlanFullFragment

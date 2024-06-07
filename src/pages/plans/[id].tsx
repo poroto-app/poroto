@@ -1,11 +1,13 @@
-import { Box, Center, useToast, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, useToast, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { MdOutlineExplore, MdOutlineNearMe } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { hasValue } from "src/domain/util/null";
 import { setSearchLocation } from "src/redux/location";
 import {
     fetchPlacesNearbyPlanLocation,
@@ -19,11 +21,15 @@ import { AdInPlanDetail } from "src/view/ad/AdInPlanDetail";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NotFound } from "src/view/common/NotFound";
+import { SectionTitle } from "src/view/common/SectionTitle";
 import { AnalyticsEvents } from "src/view/constants/analytics";
+import { Colors } from "src/view/constants/color";
+import { Padding } from "src/view/constants/padding";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
 import { useAuth } from "src/view/hooks/useAuth";
+import { useCreatePlanFromSavedPlan } from "src/view/hooks/useCreatePlanFromSavedPlan";
 import useUploadPlaceImage from "src/view/hooks/useUploadPlaceImage";
 import { useUserPlan } from "src/view/hooks/useUserPlan";
 import { NavBar } from "src/view/navigation/NavBar";
@@ -31,6 +37,8 @@ import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButto
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
+import { PlanFooter } from "src/view/plan/PlanFooter";
+import { PlanList } from "src/view/plan/PlanList";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
@@ -39,6 +47,7 @@ import { LoginCallMessage } from "src/view/plandetail/LoginCallMessage";
 import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
+import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 
 export default function PlanPage() {
     const { id } = useRouter().query;
@@ -49,10 +58,14 @@ export default function PlanPage() {
     const { user, signInWithGoogle } = useAuth();
     const { userId, firebaseIdToken, likePlaceIds, updateLikePlace } =
         useUserPlan();
+    const { createPlanFromSavedPlan, isCreatingPlanFromSavedPlan } =
+        useCreatePlanFromSavedPlan();
     const uploadImageProps = useUploadPlaceImage();
+    const [isPlanFooterVisible, setIsPlanFooterVisible] = useState(false);
 
     const {
         preview: plan,
+        nearbyPlans,
         placesNearbyPlanLocation,
         fetchPlanRequestStatus,
         showPlanCreatedModal,
@@ -121,6 +134,24 @@ export default function PlanPage() {
         dispatch(fetchPlacesNearbyPlanLocation({ planId: id, limit: 10 }));
     }, [id, userId, firebaseIdToken]);
 
+    // Footerの表示制御
+    useEffect(() => {
+        // 自らが作者の場合はフッターを表示しない
+        if (hasValue(user) && user.id === plan?.author?.id) {
+            setIsPlanFooterVisible(false);
+            return;
+        }
+
+        // Footerの高さ分スクロールしたら表示する
+        const scrollHandler = () => {
+            setIsPlanFooterVisible(scrollY >= Size.PlanCandidate.Footer.h);
+        };
+        window.addEventListener("scroll", scrollHandler);
+        return () => {
+            window.removeEventListener("scroll", scrollHandler);
+        };
+    }, [user, plan?.author?.id]);
+
     if (
         !fetchPlanRequestStatus ||
         (fetchPlanRequestStatus === RequestStatuses.PENDING &&
@@ -171,7 +202,14 @@ export default function PlanPage() {
                         <LoginCallMessage onLogin={signInWithGoogle} />
                     </Box>
                 )}
-                <PlanPageSection title="プランの情報">
+                <PlanPageSection
+                    sectionHeader={
+                        <SectionTitle
+                            title="プランの情報"
+                            px={Size.PlanDetail.px}
+                        />
+                    }
+                >
                     <VStack>
                         <PlanInfoSection
                             durationInMinutes={plan.timeInMinutes}
@@ -180,7 +218,11 @@ export default function PlanPage() {
                         <AdInPlanDetail />
                     </VStack>
                 </PlanPageSection>
-                <PlanPageSection title="プラン">
+                <PlanPageSection
+                    sectionHeader={
+                        <SectionTitle title="プラン" px={Size.PlanDetail.px} />
+                    }
+                >
                     <PlanPlaceList
                         plan={plan}
                         likePlaceIds={likePlaceIds}
@@ -191,8 +233,13 @@ export default function PlanPage() {
                     />
                 </PlanPageSection>
                 <PlanPageSection
-                    title="プラン内の場所"
-                    description="マーカーをクリックすると場所の詳細が表示されます"
+                    sectionHeader={
+                        <SectionTitle
+                            title="プラン内の場所"
+                            description="マーカーをクリックすると場所の詳細が表示されます"
+                            px={Size.PlanDetail.px}
+                        />
+                    }
                 >
                     <PlaceMap places={plan.places} />
                 </PlanPageSection>
@@ -203,16 +250,52 @@ export default function PlanPage() {
                         currentLocation={null}
                     />
                 </VStack>
-                <PlanPageSection
-                    title={`このプランの近くの場所から、新しいプランを作って見ませんか？`}
-                >
-                    <NearbyPlaceList
-                        places={placesNearbyPlanLocation}
-                        onSelectPlace={(place) =>
-                            dispatch(setPlaceIdToCreatePlan(place.id))
+                <VStack w="100%" spacing={Padding.p32} pt={Padding.p16}>
+                    {nearbyPlans?.length > 0 && (
+                        <PlanPageSection
+                            contentPaddingX={0}
+                            sectionHeader={
+                                <PlanListSectionTitle
+                                    title="近くのプラン"
+                                    icon={MdOutlineNearMe}
+                                    px={Size.PlanDetail.px}
+                                />
+                            }
+                        >
+                            <PlanList
+                                plans={nearbyPlans}
+                                isLoading={
+                                    fetchPlanRequestStatus ===
+                                    RequestStatuses.PENDING
+                                }
+                                numPlaceHolders={6}
+                                grid={false}
+                                wrapTitle={false}
+                                showAuthor={false}
+                                px={Size.PlanDetail.px}
+                                ads={false}
+                            />
+                        </PlanPageSection>
+                    )}
+                    <PlanPageSection
+                        contentPaddingX={0}
+                        sectionHeader={
+                            <PlanListSectionTitle
+                                title="新しいプランを作ってみませんか？"
+                                icon={MdOutlineExplore}
+                                px={Size.PlanDetail.px}
+                            />
                         }
-                    />
-                </PlanPageSection>
+                    >
+                        <NearbyPlaceList
+                            places={placesNearbyPlanLocation}
+                            px={Size.PlanDetail.px}
+                            onSelectPlace={(place) =>
+                                dispatch(setPlaceIdToCreatePlan(place.id))
+                            }
+                        />
+                    </PlanPageSection>
+                </VStack>
             </VStack>
             {/*Dialogs*/}
             <PlanCreatedDialog
@@ -237,6 +320,29 @@ export default function PlanPage() {
                 onUploadClick={() => uploadImageProps.onUpload()}
                 onClose={uploadImageProps.onCloseDialog}
             />
+            {isCreatingPlanFromSavedPlan && (
+                <LoadingModal title="カスタマイズ用のプランを準備しています。もう少しお待ちください。" />
+            )}
+            <>
+                <PlanFooter visible={isPlanFooterVisible}>
+                    <Button
+                        variant="outline"
+                        flex={1}
+                        color={Colors.primary[400]}
+                        borderColor={Colors.primary[400]}
+                        borderRadius={20}
+                        onClick={() => {
+                            createPlanFromSavedPlan({
+                                userId,
+                                firebaseIdToken,
+                                planId: plan.id,
+                            });
+                        }}
+                    >
+                        このプランをカスタムする
+                    </Button>
+                </PlanFooter>
+            </>
         </Center>
     );
 }

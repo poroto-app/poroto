@@ -5,13 +5,14 @@ import { PlaceCard } from "src/view/place/PlaceCard";
 
 type Props = {
     places: Place[] | null;
+    px?: string | number;
     onSelectPlace?: (place: Place) => void;
 };
 
-export const NearbyPlaceList = ({ places, onSelectPlace }: Props) => {
+export const NearbyPlaceList = ({ places, px, onSelectPlace }: Props) => {
     if (!places) {
         return (
-            <HorizontalScrollableList>
+            <HorizontalScrollableList px={px}>
                 {createArrayWithSize(5).map((_, index) => (
                     <PlaceCard place={null} key={index} />
                 ))}
@@ -21,7 +22,7 @@ export const NearbyPlaceList = ({ places, onSelectPlace }: Props) => {
 
     // TODO: 要素が一つもないときの対応
     return (
-        <HorizontalScrollableList>
+        <HorizontalScrollableList px={px}>
             {places
                 .filter((p) => p.images.length > 0)
                 .map((place, index) => (
