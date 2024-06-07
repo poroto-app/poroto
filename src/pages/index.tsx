@@ -27,6 +27,7 @@ import { PlanList } from "src/view/plan/PlanList";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 import { PwaInstallDialog } from "src/view/top/PwaInstallDialog";
+import { PwaIosInstruction } from "src/view/top/PwaIosInstruction";
 
 type Props = {
     plansRecentlyCreated: Plan[] | null;
@@ -41,8 +42,14 @@ const IndexPage = (props: Props) => {
         fetchPlansRecentlyCreatedRequestStatus,
     } = reduxPlanSelector();
 
-    const { isPwaInstallVisible, installPwa, cancelInstallPwa } =
-        usePwaInstall();
+    const {
+        isPwaInstallVisible,
+        isPwaInstallInstructionVisible,
+        installPwa,
+        cancelInstallPwa,
+        closePwaInstallInstruction,
+        markAlreadyInstalledToIosHome,
+    } = usePwaInstall();
 
     useEffect(() => {
         // すでにプランを取得済みの場合は何もしない
@@ -106,6 +113,16 @@ const IndexPage = (props: Props) => {
                     )}
                 </InfiniteScroll>
             </VStack>
+            <PwaInstallDialog
+                visible={isPwaInstallVisible}
+                onClickInstall={() => installPwa()}
+                onClickCancel={() => cancelInstallPwa()}
+            />
+            <PwaIosInstruction
+                visible={isPwaInstallInstructionVisible}
+                onClose={closePwaInstallInstruction}
+                onClickAlreadyInstalled={markAlreadyInstalledToIosHome}
+            />
         </Layout>
     );
 };
