@@ -132,7 +132,11 @@ const Layout = ({
     }
 
     return (
-        <HorizontalScrollableList pageButtonOffsetY={-8} px={px}>
+        <HorizontalScrollableList
+            pageButtonOffsetY={-8}
+            px={px}
+            edgeCornerRadius={10}
+        >
             {children}
         </HorizontalScrollableList>
     );
