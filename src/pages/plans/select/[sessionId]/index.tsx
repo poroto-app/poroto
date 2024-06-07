@@ -253,12 +253,12 @@ function PlanDetailPage({
     const { likedPlaceIdsInPlanCandidate, updateLikeAtPlace } =
         usePlaceLikeInPlanCandidate();
 
-    const { createPlan, savePlanFromCandidateRequestStatus } = usePlanCreate({
+    const { createPlan, isCreatingPlan } = usePlanCreate({
         planCandidateSetId: planCandidateSetId,
         planId: planId,
     });
 
-    if (savePlanFromCandidateRequestStatus === RequestStatuses.PENDING) {
+    if (isCreatingPlan) {
         return <LoadingModal title="プランを作成しています" />;
     }
 
@@ -271,12 +271,13 @@ function PlanDetailPage({
             <Center
                 w="100%"
                 flexDirection="column"
-                pb={Size.PlanCandidate.Footer.h}
+                pb={Size.PlanCandidate.Footer.h + "px"}
             >
                 <VStack
                     w="100%"
                     minH={
-                        !isPC && `calc(100vh - ${Size.PlanCandidate.Footer.h})`
+                        !isPC &&
+                        `calc(100vh - ${Size.PlanCandidate.Footer.h + "px"})`
                     }
                     scrollSnapAlign="start"
                 >

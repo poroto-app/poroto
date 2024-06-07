@@ -4,6 +4,7 @@ import {
     ChangePlacesOrderInPlanCandidateDocument,
     CreatePlanByLocationDocument,
     CreatePlanByPlaceDocument,
+    CreatePlanCandidateSetFromSavedPlanDocument,
     DeletePlaceFromPlanCandidateDocument,
     EditPlanTitleOfPlanCandidateDocument,
     FetchAvailablePlacesForPlanCandidateDocument,
@@ -35,6 +36,8 @@ import {
     AddPlaceToPlanOfPlanCandidateRequest,
     AutoReorderPlacesInPlanCandidateRequest,
     AutoReorderPlacesInPlanCandidateResponse,
+    CreatePlanCandidateSetFromSavedPlanRequest,
+    CreatePlanCandidateSetFromSavedPlanResponse,
     CreatePlanFromLocationRequest,
     CreatePlanFromLocationResponse,
     CreatePlanFromPlaceRequest,
@@ -272,6 +275,31 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         return {
             createPlanSessionId: data.createPlanByPlace.session,
             plan: fromGraphqlPlanEntity(data.createPlanByPlace.plan),
+        };
+    }
+
+    async createPlanCandidateSetFromSavedPlan(
+        request: CreatePlanCandidateSetFromSavedPlanRequest
+    ): Promise<CreatePlanCandidateSetFromSavedPlanResponse> {
+        const { data } = await this.client.mutate({
+            mutation: CreatePlanCandidateSetFromSavedPlanDocument,
+            variables: {
+                input: {
+                    userId: request.userId,
+                    firebaseAuthToken: request.firebaseIdToken,
+                    savedPlanId: request.planId,
+                },
+            },
+        });
+        return {
+            planCandidateSetId:
+                data.createPlanCandidateSetFromSavedPlan.planCandidate.id,
+            likedPlaceIds:
+                data.createPlanCandidateSetFromSavedPlan.planCandidate
+                    .likedPlaceIds,
+            plans: data.createPlanCandidateSetFromSavedPlan.planCandidate.plans.map(
+                (plan) => fromGraphqlPlanEntity(plan)
+            ),
         };
     }
 

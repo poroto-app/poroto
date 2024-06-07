@@ -1,5 +1,6 @@
 export const zIndex = {
     footer: 10,
-    bottomNavigation: 100,
+    bottomNavigation: 20,
     dialog: 100,
+    navBarAvatarIcon: 1,
 };

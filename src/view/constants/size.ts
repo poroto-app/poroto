@@ -12,6 +12,10 @@ export const Size = {
     PlaceCardPaddingH: Padding.p16,
     NavBar: {
         height: "50px",
+        avatar: {
+            width: 33,
+            height: 33,
+        },
     },
     BottomNavigation: {
         height: 50,
@@ -48,7 +52,7 @@ export const Size = {
     },
     PlanCandidate: {
         Footer: {
-            h: "80px",
+            h: 80,
         },
     },
 };

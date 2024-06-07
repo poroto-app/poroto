@@ -35,6 +35,10 @@ export interface PlannerApi {
         request: CreatePlanFromPlaceRequest
     ): Promise<CreatePlanFromPlaceResponse>;
 
+    createPlanCandidateSetFromSavedPlan(
+        request: CreatePlanCandidateSetFromSavedPlanRequest
+    ): Promise<CreatePlanCandidateSetFromSavedPlanResponse>;
+
     fetchCachedCreatedPlans(
         request: FetchCachedCreatedPlansRequest
     ): Promise<FetchCachedCreatedPlansResponse>;
@@ -173,6 +177,18 @@ export type CreatePlanFromPlaceRequest = {
 export type CreatePlanFromPlaceResponse = {
     createPlanSessionId: string;
     plan: PlanEntity;
+};
+
+export type CreatePlanCandidateSetFromSavedPlanRequest = {
+    userId: string | null;
+    firebaseIdToken: string | null;
+    planId: string;
+};
+
+export type CreatePlanCandidateSetFromSavedPlanResponse = {
+    planCandidateSetId: string;
+    plans: PlanEntity[];
+    likedPlaceIds: string[];
 };
 
 export type FetchCachedCreatedPlansRequest = {

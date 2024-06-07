@@ -1,0 +1,7 @@
+mutation CreatePlanCandidateSetFromSavedPlan($input: CreatePlanCandidateSetFromSavedPlanInput!) {
+    createPlanCandidateSetFromSavedPlan(input: $input) {
+        planCandidate {
+            ...PlanCandidateFullFragment
+        }
+    }
+}

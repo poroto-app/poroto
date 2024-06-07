@@ -32,6 +32,7 @@ export type PlanCandidateState = {
 
     createPlanFromLocationRequestStatus: RequestStatus | null;
     createPlanFromPlaceRequestStatus: RequestStatus | null;
+    createPlanFromSavedPlanRequestStatus: RequestStatus | null;
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
     updateLikeAtPlaceInPlanCandidateRequestStatus: RequestStatus | null;
@@ -56,6 +57,7 @@ const initialState: PlanCandidateState = {
 
     createPlanFromLocationRequestStatus: null,
     createPlanFromPlaceRequestStatus: null,
+    createPlanFromSavedPlanRequestStatus: null,
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
     updateLikeAtPlaceInPlanCandidateRequestStatus: null,
@@ -132,6 +134,36 @@ export const createPlanFromPlace = createAsyncThunk(
         });
         return {
             plan: createPlanFromPlanEntity(plan),
+        };
+    }
+);
+
+type CreatePlanFromSavedPlanProps = {
+    userId: string | null;
+    firebaseIdToken: string | null;
+    planId: string;
+};
+export const createPlanFromSavedPlan = createAsyncThunk(
+    "planCandidate/createPlanFromSavedPlan",
+    async ({
+        userId,
+        firebaseIdToken,
+        planId,
+    }: CreatePlanFromSavedPlanProps) => {
+        logEvent(getAnalytics(), AnalyticsEvents.CreatePlan.FromSavedPlan);
+
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const { plans, planCandidateSetId, likedPlaceIds } =
+            await plannerApi.createPlanCandidateSetFromSavedPlan({
+                userId,
+                firebaseIdToken,
+                planId,
+            });
+
+        return {
+            planCandidateSetId,
+            plans: plans.map((p) => createPlanFromPlanEntity(p)),
+            likedPlaceIds,
         };
     }
 );
@@ -425,6 +457,10 @@ export const slice = createSlice({
             state.createPlanFromPlaceRequestStatus = null;
         },
 
+        resetCreatePlanFromSavedPlanRequestStatus: (state) => {
+            state.createPlanFromSavedPlanRequestStatus = null;
+        },
+
         resetAutoReorderPlacesInPlanCandidateRequestStatus: (state) => {
             state.autoReorderPlacesInPlanCandidateRequestStatus = null;
         },
@@ -486,6 +522,26 @@ export const slice = createSlice({
             )
             .addCase(createPlanFromPlace.rejected, (state, action) => {
                 state.createPlanFromPlaceRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
+            // Create Plan From Saved Plan
+            .addCase(createPlanFromSavedPlan.pending, (state) => {
+                state.createPlanFromSavedPlanRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(
+                createPlanFromSavedPlan.fulfilled,
+                (state, { payload }) => {
+                    state.createPlanFromSavedPlanRequestStatus =
+                        RequestStatuses.FULFILLED;
+
+                    state.createPlanSession = payload.planCandidateSetId;
+                    state.plansCreated = payload.plans;
+                    state.likedPlaceIds = payload.likedPlaceIds;
+                }
+            )
+            .addCase(createPlanFromSavedPlan.rejected, (state) => {
+                state.createPlanFromSavedPlanRequestStatus =
                     RequestStatuses.REJECTED;
             })
             // Save Plan From Candidate
@@ -653,6 +709,7 @@ export const {
     resetPlanCandidates,
     resetCreatePlanFromLocationRequestStatus,
     resetCreatePlanFromPlaceRequestStatus,
+    resetCreatePlanFromSavedPlanRequestStatus,
     resetAutoReorderPlacesInPlanCandidateRequestStatus,
 } = slice.actions;
 

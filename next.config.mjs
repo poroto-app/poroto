@@ -30,6 +30,9 @@ const nextConfig = {
     eslint: {
         ignoreDuringBuilds: true,
     },
+    images: {
+        domains: ['lh3.googleusercontent.com'],
+    },
     env: {
         APP_ENV: process.env.APP_ENV,
 
