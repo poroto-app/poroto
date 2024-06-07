@@ -108,6 +108,7 @@ export type FetchPlanRequest = {
 export type FetchPlanResponse = {
     plan: PlanEntity | null;
     likedPlaceIds: string[];
+    nearbyPlans: PlanEntity[];
 };
 
 export type FetchPlansRequest = {
@@ -122,7 +123,6 @@ export type FetchPlansResponse = {
 export type FetchPlansByLocationRequest = {
     location: GeoLocation;
     limit?: number;
-    pageKey: string | null;
 };
 
 export type FetchPlansByLocationResponse = {

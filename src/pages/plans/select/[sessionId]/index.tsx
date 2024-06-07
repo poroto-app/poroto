@@ -13,6 +13,7 @@ import { ErrorPage } from "src/view/common/ErrorPage";
 import { Layout } from "src/view/common/Layout";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NotFound } from "src/view/common/NotFound";
+import { SectionTitle } from "src/view/common/SectionTitle";
 import { Colors } from "src/view/constants/color";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
@@ -297,7 +298,14 @@ function PlanDetailPage({
                     spacing="16px"
                     boxSizing="border-box"
                 >
-                    <PlanPageSection title="プランの情報">
+                    <PlanPageSection
+                        sectionHeader={
+                            <SectionTitle
+                                title="プランの情報"
+                                px={Size.PlanDetail.px}
+                            />
+                        }
+                    >
                         <VStack>
                             <PlanInfoSection
                                 durationInMinutes={plan.timeInMinutes}
@@ -306,7 +314,14 @@ function PlanDetailPage({
                             <AdInPlanDetail />
                         </VStack>
                     </PlanPageSection>
-                    <PlanPageSection title="プラン">
+                    <PlanPageSection
+                        sectionHeader={
+                            <SectionTitle
+                                title="プラン"
+                                px={Size.PlanDetail.px}
+                            />
+                        }
+                    >
                         <PlanPlaceList
                             plan={plan}
                             likePlaceIds={likedPlaceIdsInPlanCandidate}
@@ -328,8 +343,13 @@ function PlanDetailPage({
                         />
                     </PlanPageSection>
                     <PlanPageSection
-                        title="プラン内の場所"
-                        description="マーカーをクリックすると場所の詳細が表示されます"
+                        sectionHeader={
+                            <SectionTitle
+                                title="プラン内の場所"
+                                description="マーカーをクリックすると場所の詳細が表示されます"
+                                px={Size.PlanDetail.px}
+                            />
+                        }
                     >
                         <PlaceMap places={plan.places} />
                     </PlanPageSection>

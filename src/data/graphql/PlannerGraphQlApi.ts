@@ -13,12 +13,13 @@ import {
     FetchPlansDocument,
     NearbyPlaceCategoriesDocument,
     PlaceFullFragmentFragment,
+    PlacePreviewFragmentFragment,
     PlacesNearbyPlanDocument,
     PlacesToAddForPlanOfPlanCandidateDocument,
     PlacesToReplaceForPlanOfPlanCandidateDocument,
     PlanCandidateDocument,
-    PlanCandidateFullFragmentFragment,
     PlanFullFragmentFragment,
+    PlanPreviewFragmentFragment,
     PlansByLocationDocument,
     ReplacePlaceOfPlanCandidateDocument,
     SavePlanFromCandidateDocument,
@@ -29,7 +30,6 @@ import {
 } from "src/data/graphql/generated";
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
-import { PlanCandidateEntity } from "src/domain/models/PlanCandidateEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";
 import { UserEntity } from "src/domain/models/UserEntity";
 import {
@@ -93,6 +93,12 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                     data.plan !== null
                         ? fromGraphqlPlanEntity(data.plan.plan)
                         : null,
+                nearbyPlans:
+                    data.plan != null
+                        ? data.plan.plan.nearbyPlans.map((plan) =>
+                              fromGraphqlPlanPreviewEntity(plan)
+                          )
+                        : [],
                 likedPlaceIds: [],
             };
         }
@@ -115,6 +121,12 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
                 data.plan !== null
                     ? fromGraphqlPlanEntity(data.plan.plan)
                     : null,
+            nearbyPlans:
+                data.plan != null
+                    ? data.plan.plan.nearbyPlans.map((plan) =>
+                          fromGraphqlPlanPreviewEntity(plan)
+                      )
+                    : [],
             likedPlaceIds: data.likePlaces.map((place) => place.id),
         };
     }
@@ -140,10 +152,11 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         const { data } = await this.client.query({
             query: PlansByLocationDocument,
             variables: {
-                latitude: request.location.latitude,
-                longitude: request.location.longitude,
-                limit: request.limit,
-                pageKey: request.pageKey,
+                input: {
+                    latitude: request.location.latitude,
+                    longitude: request.location.longitude,
+                    limit: request.limit,
+                },
             },
         });
         return {
@@ -594,18 +607,6 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
 type GraphQlPlanEntity = PlanFullFragmentFragment;
 type GraphQlPlaceEntity = PlaceFullFragmentFragment;
 
-function fromGraphqlPlanCandidateEntity(
-    planCandidate: PlanCandidateFullFragmentFragment
-): PlanCandidateEntity {
-    return {
-        id: planCandidate.id,
-        plans: planCandidate.plans.map((plan) => fromGraphqlPlanEntity(plan)),
-        likedPlaceIds: planCandidate.likedPlaceIds,
-        createdBasedONCurrentLocation:
-            planCandidate.createdBasedOnCurrentLocation,
-    };
-}
-
 export function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
     return {
         id: plan.id,
@@ -617,6 +618,21 @@ export function fromGraphqlPlanEntity(plan: GraphQlPlanEntity): PlanEntity {
             toPlaceId: transition.to.id,
             durationInMinutes: transition.duration,
         })),
+        author: plan.author ? fromGraphQlUserEntity(plan.author) : null,
+    };
+}
+
+export function fromGraphqlPlanPreviewEntity(
+    plan: PlanPreviewFragmentFragment
+): PlanEntity {
+    return {
+        id: plan.id,
+        title: plan.name,
+        places: plan.places.map((place) =>
+            fromGraphqlPlacePreviewEntity(place)
+        ),
+        timeInMinutes: 0,
+        transitions: [],
         author: plan.author ? fromGraphQlUserEntity(plan.author) : null,
     };
 }
@@ -650,6 +666,35 @@ export function fromGraphqlPlaceEntity(place: GraphQlPlaceEntity): PlaceEntity {
                   googlePriceLevel: place.priceRange.googlePriceLevel,
               }
             : null,
+        likeCount: place.likeCount,
+    };
+}
+
+function fromGraphqlPlacePreviewEntity(
+    place: PlacePreviewFragmentFragment
+): PlaceEntity {
+    return {
+        id: place.id,
+        googlePlaceId: null,
+        name: place.name,
+        images: place.images.map((image) => ({
+            default: image.default,
+            small: image.small ?? null,
+            large: image.large ?? null,
+            isGooglePhotos: image.google,
+        })),
+        address: hasValue(place.address) ? place.address : null,
+        location: {
+            latitude: 0,
+            longitude: 0,
+        },
+        estimatedStayDuration: 0,
+        categories:
+            place.categories?.map((category) => ({
+                id: category.id,
+                displayName: category.name,
+            })) ?? [],
+        priceRange: null,
         likeCount: place.likeCount,
     };
 }

@@ -34,7 +34,7 @@ export const Size = {
         },
     },
     PlanDetail: {
-        px: "16px",
+        px: Padding.p16,
     },
     PlanList: {
         SavedPlan: {

@@ -25,3 +25,20 @@ fragment PlaceFullFragment on Place {
     }
     likeCount
 }
+
+fragment PlacePreviewFragment on Place {
+    id
+    name
+    images {
+        default
+        small
+        large
+        google
+    }
+    address
+    categories {
+        id
+        name
+    }
+    likeCount
+}
