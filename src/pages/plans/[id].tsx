@@ -1,11 +1,12 @@
-import { Box, Center, useToast, VStack } from "@chakra-ui/react";
+import { Box, Button, Center, useToast, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Place } from "src/domain/models/Place";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { hasValue } from "src/domain/util/null";
 import { setSearchLocation } from "src/redux/location";
 import {
     fetchPlacesNearbyPlanLocation,
@@ -20,10 +21,12 @@ import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NotFound } from "src/view/common/NotFound";
 import { AnalyticsEvents } from "src/view/constants/analytics";
+import { Colors } from "src/view/constants/color";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
 import { useAuth } from "src/view/hooks/useAuth";
+import { useCreatePlanFromSavedPlan } from "src/view/hooks/useCreatePlanFromSavedPlan";
 import useUploadPlaceImage from "src/view/hooks/useUploadPlaceImage";
 import { useUserPlan } from "src/view/hooks/useUserPlan";
 import { NavBar } from "src/view/navigation/NavBar";
@@ -31,6 +34,7 @@ import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButto
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
 import { PlaceMap } from "src/view/plan/PlaceMap";
 import { PlanCreatedDialog } from "src/view/plan/PlanCreatedDialog";
+import { PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import DialogUploadImage from "src/view/plancandidate/DialogUploadImage";
 import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
@@ -49,7 +53,10 @@ export default function PlanPage() {
     const { user, signInWithGoogle } = useAuth();
     const { userId, firebaseIdToken, likePlaceIds, updateLikePlace } =
         useUserPlan();
+    const { createPlanFromSavedPlan, isCreatingPlanFromSavedPlan } =
+        useCreatePlanFromSavedPlan();
     const uploadImageProps = useUploadPlaceImage();
+    const [isPlanFooterVisible, setIsPlanFooterVisible] = useState(false);
 
     const {
         preview: plan,
@@ -120,6 +127,24 @@ export default function PlanPage() {
         );
         dispatch(fetchPlacesNearbyPlanLocation({ planId: id, limit: 10 }));
     }, [id, userId, firebaseIdToken]);
+
+    // Footerの表示制御
+    useEffect(() => {
+        // 自らが作者の場合はフッターを表示しない
+        if (hasValue(user) && user.id === plan?.author?.id) {
+            setIsPlanFooterVisible(false);
+            return;
+        }
+
+        // Footerの高さ分スクロールしたら表示する
+        const scrollHandler = () => {
+            setIsPlanFooterVisible(scrollY >= Size.PlanCandidate.Footer.h);
+        };
+        window.addEventListener("scroll", scrollHandler);
+        return () => {
+            window.removeEventListener("scroll", scrollHandler);
+        };
+    }, [user, plan?.author?.id]);
 
     if (
         !fetchPlanRequestStatus ||
@@ -237,6 +262,29 @@ export default function PlanPage() {
                 onUploadClick={() => uploadImageProps.onUpload()}
                 onClose={uploadImageProps.onCloseDialog}
             />
+            {isCreatingPlanFromSavedPlan && (
+                <LoadingModal title="カスタマイズ用のプランを準備しています。もう少しお待ちください。" />
+            )}
+            <>
+                <PlanFooter visible={isPlanFooterVisible}>
+                    <Button
+                        variant="outline"
+                        flex={1}
+                        color={Colors.primary[400]}
+                        borderColor={Colors.primary[400]}
+                        borderRadius={20}
+                        onClick={() => {
+                            createPlanFromSavedPlan({
+                                userId,
+                                firebaseIdToken,
+                                planId: plan.id,
+                            });
+                        }}
+                    >
+                        このプランをカスタムする
+                    </Button>
+                </PlanFooter>
+            </>
         </Center>
     );
 }

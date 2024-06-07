@@ -52,7 +52,7 @@ export const Size = {
     },
     PlanCandidate: {
         Footer: {
-            h: "80px",
+            h: 80,
         },
     },
 };
