@@ -253,12 +253,12 @@ function PlanDetailPage({
     const { likedPlaceIdsInPlanCandidate, updateLikeAtPlace } =
         usePlaceLikeInPlanCandidate();
 
-    const { createPlan, savePlanFromCandidateRequestStatus } = usePlanCreate({
+    const { createPlan, isCreatingPlan } = usePlanCreate({
         planCandidateSetId: planCandidateSetId,
         planId: planId,
     });
 
-    if (savePlanFromCandidateRequestStatus === RequestStatuses.PENDING) {
+    if (isCreatingPlan) {
         return <LoadingModal title="プランを作成しています" />;
     }
 
