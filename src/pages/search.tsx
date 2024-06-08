@@ -20,6 +20,7 @@ export default function SearchPage() {
 
     return (
         <Layout
+            height="auto"
             navBar={<NavBar />}
             bottomNavigation={
                 <BottomNavigation page={BottomNavigationPages.Search} />
