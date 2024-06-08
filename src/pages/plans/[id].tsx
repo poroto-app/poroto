@@ -144,7 +144,7 @@ export default function PlanPage() {
 
         // Footerの高さ分スクロールしたら表示する
         const scrollHandler = () => {
-            setIsPlanFooterVisible(scrollY >= Size.PlanCandidate.Footer.h);
+            setIsPlanFooterVisible(scrollY >= Size.PlanFooter.h);
         };
         window.addEventListener("scroll", scrollHandler);
         return () => {

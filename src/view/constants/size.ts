@@ -50,9 +50,7 @@ export const Size = {
         h: "200px",
         borderRadius: "20px",
     },
-    PlanCandidate: {
-        Footer: {
-            h: 80,
-        },
+    PlanFooter: {
+        h: 80,
     },
 };
