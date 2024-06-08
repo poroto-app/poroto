@@ -79,7 +79,7 @@ export function PlanDetailPageHeader({
                     ref={infoRef}
                     spacing={Size.PlanDetailHeader.Info.spacingY + "px"}
                 >
-                    <Center px={Size.PlanDetailHeader.px} flex={1} zIndex={0}>
+                    <Center px={Size.PlanDetailHeader.px} w="100%" maxW={Size.PlanDetailHeader.maxW} flex={1} zIndex={0}>
                         <PlaceImageGallery
                             places={placesWithImages}
                             currentPage={currentPage}

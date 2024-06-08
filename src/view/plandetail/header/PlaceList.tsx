@@ -17,6 +17,8 @@ export function PlaceList({ places, onClickPlace }: Props) {
             w="100%"
             overflowX="auto"
             whiteSpace="nowrap"
+            // 要素が少ないときに中央寄せになるようにする
+            justifyContent="space-evenly"
             /*親要素で余白をつけると、スクロール時に範囲外が切れてしまう*/
             px={Size.PlanDetailHeader.px}
             /*スクロールバーと要素間の余白*/
