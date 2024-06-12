@@ -29,3 +29,10 @@ export const Editable: Story = {
         isEditable: true,
     },
 };
+
+export const Editing: Story = {
+    args: {
+        user: mockUser,
+        isEditing: true,
+    },
+};
