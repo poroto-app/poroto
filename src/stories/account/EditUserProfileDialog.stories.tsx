@@ -14,6 +14,9 @@ type Story = StoryObj<typeof EditUserProfileDialog>;
 export const Primary: Story = {
     args: {
         isVisible: true,
-        user: mockUser,
+        user: {
+            ...mockUser,
+            avatarImage: "https://picsum.photos/id/45/1280/720",
+        },
     },
 };
