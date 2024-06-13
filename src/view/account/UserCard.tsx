@@ -1,4 +1,12 @@
-import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import {
+    Avatar,
+    Box,
+    Center,
+    HStack,
+    Icon,
+    Text,
+    VStack,
+} from "@chakra-ui/react";
 import { MdOutlineEdit } from "react-icons/md";
 import { User } from "src/domain/models/User";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
@@ -49,7 +57,11 @@ export function UserCard({ user, isEditable = false, onEdit }: Props) {
                     borderRadius="100%"
                     overflow="hidden"
                 >
-                    {user && <ImageWithSkeleton src={user.avatarImage} />}
+                    {user?.avatarImage ? (
+                        <ImageWithSkeleton src={user.avatarImage} />
+                    ) : (
+                        <Avatar size="full" />
+                    )}
                 </Box>
                 <Center maxW="100%" h="50px">
                     {user ? (
