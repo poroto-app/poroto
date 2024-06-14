@@ -144,7 +144,7 @@ export default function PlanPage() {
 
         // Footerの高さ分スクロールしたら表示する
         const scrollHandler = () => {
-            setIsPlanFooterVisible(scrollY >= Size.PlanCandidate.Footer.h);
+            setIsPlanFooterVisible(scrollY >= Size.PlanFooter.h);
         };
         window.addEventListener("scroll", scrollHandler);
         return () => {
@@ -166,7 +166,10 @@ export default function PlanPage() {
     if (!plan) return <NotFound />;
 
     return (
-        <Center flexDirection="column" pb="32px">
+        <Center
+            flexDirection="column"
+            pb={32 + (isPlanFooterVisible ? Size.PlanFooter.h : 0) + "px"}
+        >
             <Head>
                 <title>{plan.title} | komichi</title>
             </Head>

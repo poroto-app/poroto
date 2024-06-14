@@ -272,14 +272,11 @@ function PlanDetailPage({
             <Center
                 w="100%"
                 flexDirection="column"
-                pb={Size.PlanCandidate.Footer.h + "px"}
+                pb={Size.PlanFooter.h + "px"}
             >
                 <VStack
                     w="100%"
-                    minH={
-                        !isPC &&
-                        `calc(100vh - ${Size.PlanCandidate.Footer.h + "px"})`
-                    }
+                    minH={!isPC && `calc(100vh - ${Size.PlanFooter.h + "px"})`}
                     scrollSnapAlign="start"
                 >
                     <PlanDetailPageHeader
