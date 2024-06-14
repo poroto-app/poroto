@@ -2,7 +2,7 @@ query FetchPlans($input: PlansInput!) {
     plans(input: $input) {
         nextPageToken
         plans {
-            ...PlanFullFragment
+            ...PlanPreviewFragment
         }
     }
 }
