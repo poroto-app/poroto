@@ -23,7 +23,7 @@ export function UserAvatar({ user, onClick }: Props) {
                 alignItems="center"
                 position="relative"
             >
-                {user ? (
+                {user?.avatarImage ? (
                     <>
                         <Skeleton
                             position="absolute"
