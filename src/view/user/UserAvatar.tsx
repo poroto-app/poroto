@@ -44,6 +44,7 @@ export function UserAvatar({ user, onClick }: Props) {
                     <Avatar
                         h="33px"
                         w="33px"
+                        src={user?.avatarImage}
                         border="1px solid rgba(0,0,0,.1)"
                         backgroundColor={
                             user?.avatarImage ? "whiter" : "#a9a9a9"
