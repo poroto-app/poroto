@@ -141,7 +141,9 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             },
         });
         return {
-            plans: data.plans.plans.map((plan) => fromGraphqlPlanEntity(plan)),
+            plans: data.plans.plans.map((plan) =>
+                fromGraphqlPlanPreviewEntity(plan)
+            ),
             nextPageKey: data.plans.nextPageToken ?? null,
         };
     }
@@ -160,9 +162,8 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             },
         });
         return {
-            pageKey: data.plansByLocation.pageKey ?? null,
             plans: data.plansByLocation.plans.map((plan) =>
-                fromGraphqlPlanEntity(plan)
+                fromGraphqlPlanPreviewEntity(plan)
             ),
         };
     }
@@ -522,7 +523,7 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             mutation: ChangePlacesOrderInPlanCandidateDocument,
             variables: {
                 input: {
-                    session: request.session,
+                    session: request.planCandidateSetId,
                     planId: request.planId,
                     placeIds: request.placeIds,
                     currentLatitude: request.currentLocation?.latitude,

@@ -29,7 +29,7 @@ export const PlaceImageGallery = ({
     }, [currentPage]);
 
     return (
-        <Box position="relative">
+        <Box position="relative" w="100%">
             <AmbientBackgroundImage
                 scale={5}
                 margin={4}

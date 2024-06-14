@@ -22,3 +22,10 @@ export const Loading: Story = {
         user: null,
     },
 };
+
+export const Editable: Story = {
+    args: {
+        user: mockUser,
+        isEditable: true,
+    },
+};

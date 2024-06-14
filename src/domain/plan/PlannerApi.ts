@@ -126,7 +126,6 @@ export type FetchPlansByLocationRequest = {
 };
 
 export type FetchPlansByLocationResponse = {
-    pageKey: string | null;
     plans: PlanEntity[];
 };
 
@@ -299,7 +298,7 @@ export type SavePlanFromCandidateResponse = {
 };
 
 export type UpdatePlanCandidatePlacesOrderRequest = {
-    session: string;
+    planCandidateSetId: string;
     planId: string;
     placeIds: string[];
     currentLocation?: GeoLocation;

@@ -106,14 +106,13 @@ export const fetchNearbyPlans = createAsyncThunk(
         }
 
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
-        const { plans, pageKey } = await plannerApi.fetchPlansByLocation({
+        const { plans } = await plannerApi.fetchPlansByLocation({
             location: currentLocation,
             limit,
         });
 
         return {
             plans: plans.map((plan) => createPlanFromPlanEntity(plan)),
-            nextPageToken: pageKey,
         };
     }
 );

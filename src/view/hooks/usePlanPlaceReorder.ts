@@ -1,19 +1,47 @@
 import { ToastId, useToast } from "@chakra-ui/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Place } from "src/domain/models/Place";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { copyObject } from "src/domain/util/object";
 import {
     autoReorderPlacesInPlanCandidate,
     reduxPlanCandidateSelector,
     resetAutoReorderPlacesInPlanCandidateRequestStatus,
+    updatePlacesOrderInPlanCandidate,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
+import { usePlanCandidate } from "src/view/hooks/usePlanCandidate";
 
-export const usePlanPlaceReorder = () => {
+export const usePlanPlaceReorder = ({ planId }: { planId: string }) => {
     const dispatch = useAppDispatch();
     const toast = useToast();
+
+    const { plan, currentLocation, createdBasedOnCurrentLocation } =
+        usePlanCandidate({
+            planId: planId,
+        });
+
+    // すぐに更新がされるようにするためのコピー
+    const [placesReordered, setPlacesReordered] = useState<Place[]>(
+        plan?.places || []
+    );
+    const [updatePlaceOrderTimeoutId, setUpdatePlaceOrderTimeoutId] =
+        useState<NodeJS.Timeout | null>(null);
+    const [isReorderDialogVisible, setIsReorderDialogVisible] = useState(false);
     const { autoReorderPlacesInPlanCandidateRequestStatus } =
         reduxPlanCandidateSelector();
 
+    // プランの場所が変更されたらコピーを更新する
+    useEffect(() => {
+        if (!plan) {
+            setPlacesReordered([]);
+            return;
+        }
+
+        setPlacesReordered(plan.places);
+    }, [copyObject(plan?.places)]);
+
+    // 自動並び替え成功時にトーストを表示
     useEffect(() => {
         let toastId: ToastId | null = null;
         if (
@@ -41,7 +69,6 @@ export const usePlanPlaceReorder = () => {
         }
 
         return () => {
-            console.log(autoReorderPlacesInPlanCandidateRequestStatus);
             dispatch(resetAutoReorderPlacesInPlanCandidateRequestStatus());
             if (toastId) {
                 toast.close(toastId);
@@ -49,17 +76,62 @@ export const usePlanPlaceReorder = () => {
         };
     }, [autoReorderPlacesInPlanCandidateRequestStatus]);
 
-    const handleOptimizeRoute = ({
-        planCandidateId,
+    const showReorderDialog = () => {
+        setIsReorderDialogVisible(true);
+    };
+
+    const closeReorderDialog = () => {
+        setIsReorderDialogVisible(false);
+    };
+
+    const handleOnReorderPlaces = ({
+        placeIds,
+        planCandidateSetId,
         planId,
     }: {
-        planCandidateId: string;
+        placeIds: string[];
+        planCandidateSetId: string;
+        planId: string;
+    }) => {
+        dispatch(
+            updatePlacesOrderInPlanCandidate({
+                placeIds,
+                planCandidateSetId,
+                planId,
+            })
+        );
+    };
+
+    const handleOptimizeRoute = ({
+        planCandidateSetId,
+        planId,
+    }: {
+        planCandidateSetId: string;
         planId: string;
     }): void => {
-        dispatch(autoReorderPlacesInPlanCandidate({ planId, planCandidateId }));
+        // すでにタイムアウトが設定されていたらキャンセルする
+        if (updatePlaceOrderTimeoutId) {
+            clearTimeout(updatePlaceOrderTimeoutId);
+        }
+
+        // 連続してリクエストが飛ばないようにするためにsetTimeoutを使う
+        const id = setTimeout(() => {
+            dispatch(
+                autoReorderPlacesInPlanCandidate({
+                    planId,
+                    planCandidateId: planCandidateSetId,
+                })
+            );
+        }, 1000);
+        setUpdatePlaceOrderTimeoutId(id);
     };
 
     return {
+        placesReordered,
+        isReorderDialogVisible,
+        showReorderDialog,
+        closeReorderDialog,
         handleOptimizeRoute,
+        handleOnReorderPlaces,
     };
 };
