@@ -8,6 +8,9 @@ export type CommonTranslationKeys = {
 };
 
 export type HomeTranslationKeys = {
+    promptCreatePlan: string;
+    fromFavoritePlace: string;
+    fromCurrentLocation: string;
     recentlyCreatedPlans: string;
 };
 

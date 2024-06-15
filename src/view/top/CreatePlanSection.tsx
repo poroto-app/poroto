@@ -6,8 +6,10 @@ import { AnalyticsEvents } from "src/view/constants/analytics";
 import { Routes } from "src/view/constants/router";
 import styled from "styled-components";
 import { CreatePlanButton } from "./CreatePlanButton";
+import {useTranslation} from "react-i18next";
 
 export function CreatePlanSection() {
+    const {t} = useTranslation();
     return (
         <Center
             w="100%"
@@ -32,7 +34,7 @@ export function CreatePlanSection() {
                         fontSize="24px"
                         zIndex="10"
                     >
-                        暇つぶしプランを作ろう
+                        {t("home:promptCreatePlan")}
                     </Text>
                     <Grid
                         w="100%"
@@ -42,7 +44,7 @@ export function CreatePlanSection() {
                         transform="translateZ(0px)"
                     >
                         <CreatePlanButton
-                            title="現在地から"
+                            title={t("home:fromCurrentLocation")}
                             icon={MdOutlineLocationOn}
                             link={Routes.plans.interest()}
                             onClick={() =>
@@ -54,7 +56,7 @@ export function CreatePlanSection() {
                             }
                         />
                         <CreatePlanButton
-                            title="好きな場所から"
+                            title={t("home:fromFavoritePlace")}
                             icon={MdOutlineMap}
                             link={Routes.places.search({
                                 skipCurrentLocation: true,
