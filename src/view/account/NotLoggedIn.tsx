@@ -1,7 +1,7 @@
 import { Center, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
-import { Trans, useTranslation } from "react-i18next";
-import { TranslationNameSpaces } from "src/locales/i18n";
+import { useTranslation } from "react-i18next";
 import OnTheWayIcon from "src/view/assets/svg/on_the_way.svg";
+import { AppTrans } from "src/view/common/AppTrans";
 
 type Props = {
     onLogin?: () => void;
@@ -11,25 +11,12 @@ export function NotLoggedIn({ onLogin }: Props) {
     const { t, i18n } = useTranslation();
     const text = useBreakpointValue({
         base: (
-            <Trans
-                t={t}
-                tOptions={{
-                    ns: TranslationNameSpaces,
-                }}
+            <AppTrans
                 i18nKey="account:promptLoginTitle"
-                values={{ br: "<br/>" }}
+                values={{ br: <br /> }}
             />
         ),
-        sm: (
-            <Trans
-                t={t}
-                tOptions={{
-                    ns: TranslationNameSpaces,
-                }}
-                i18nKey="account:promptLoginTitle"
-                values={{ br: "" }}
-            />
-        ),
+        sm: <AppTrans i18nKey="account:promptLoginTitle" values={{ br: "" }} />,
     });
 
     return (
