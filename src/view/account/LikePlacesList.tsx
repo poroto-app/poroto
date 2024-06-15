@@ -1,4 +1,5 @@
 import { Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
 import { createArrayWithSize } from "src/domain/util/array";
@@ -22,11 +23,12 @@ export function LikePlacesList({
     onSelectLikePlace,
     numPlaceHolders = 6,
 }: Props) {
+    const { t } = useTranslation();
     return (
         <VStack w="100%">
             <PlanListSectionTitle
                 px={Padding.p16}
-                title="お気に入りの場所"
+                title={t("place:favoritePlaces")}
                 icon={MdOutlineFavoriteBorder}
             />
             <HorizontalScrollableList
@@ -89,6 +91,7 @@ function LikePlaces({
 }
 
 function Empty() {
+    const { t } = useTranslation();
     return (
         <VStack
             w="100%"
@@ -114,11 +117,9 @@ function Empty() {
             />
             <VStack spacing={0} alignItems="flex-start">
                 <Text fontSize="1.2rem" fontWeight="bold">
-                    まだ、旅は始まったばかり。
+                    {t("place:favoritePlacesEmptyTitle")}
                 </Text>
-                <Text>
-                    気になった場所に「いいね」すると、そこからプランを作ることができます。
-                </Text>
+                <Text>{t("place:favoritePlacesEmptyDescription")}</Text>
             </VStack>
         </VStack>
     );

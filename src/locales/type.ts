@@ -7,6 +7,16 @@ export type CommonTranslationKeys = {
     budget: string;
 };
 
+export type AccountTranslationKeys = {
+    login: string;
+    logout: string;
+    retainDataBeforeLogin: string;
+    loginByGoogle: string;
+
+    promptLoginTitle: string;
+    promptLoginDescription: string;
+};
+
 export type HomeTranslationKeys = {
     promptCreatePlan: string;
     fromFavoritePlace: string;
@@ -38,6 +48,10 @@ export type PlanTranslationKeys = {
 
     loadingMap: string;
     cannotDisplayBecauseThePlanDoesNotContainAnyPlaces: string;
+
+    savedPlans: string;
+    savedPlansEmptyTitle: string;
+    savedPlansEmptyDescription: string;
 };
 
 export type PlaceTranslationKeys = {
@@ -48,4 +62,8 @@ export type PlaceTranslationKeys = {
     category: string;
     priceRange: string;
     estimatedStayDuration: string;
+
+    favoritePlaces: string;
+    favoritePlacesEmptyTitle: string;
+    favoritePlacesEmptyDescription: string;
 };

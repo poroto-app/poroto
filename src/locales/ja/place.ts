@@ -8,4 +8,9 @@ export const PlaceTranslationJa: PlaceTranslationKeys = {
     category: "カテゴリ",
     priceRange: "価格帯",
     estimatedStayDuration: "滞在時間",
+
+    favoritePlaces: "お気に入りの場所",
+    favoritePlacesEmptyTitle: "まだ、旅は始まったばかり。",
+    favoritePlacesEmptyDescription:
+        "気になった場所に「いいね」すると、そこからプランを作ることができます。",
 };

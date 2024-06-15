@@ -27,4 +27,9 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     loadingMap: "地図を読み込んでいます",
     cannotDisplayBecauseThePlanDoesNotContainAnyPlaces:
         "プランに場所が含まれていないため表示できません。",
+
+    savedPlans: "保存したプラン",
+    savedPlansEmptyTitle: "プランを作って、保存しよう！",
+    savedPlansEmptyDescription:
+        "保存したプランはいつでも見返すことができます。",
 };

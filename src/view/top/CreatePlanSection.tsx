@@ -1,15 +1,15 @@
 import { Box, Center, Grid, Text, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
+import { useTranslation } from "react-i18next";
 import { MdOutlineLocationOn, MdOutlineMap } from "react-icons/md";
 import HangOut from "src/view/assets/svg/hangout.svg";
 import { AnalyticsEvents } from "src/view/constants/analytics";
 import { Routes } from "src/view/constants/router";
 import styled from "styled-components";
 import { CreatePlanButton } from "./CreatePlanButton";
-import {useTranslation} from "react-i18next";
 
 export function CreatePlanSection() {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     return (
         <Center
             w="100%"

@@ -1,4 +1,6 @@
 import { Center, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
+import { Trans, useTranslation } from "react-i18next";
+import { TranslationNameSpaces } from "src/locales/i18n";
 import OnTheWayIcon from "src/view/assets/svg/on_the_way.svg";
 
 type Props = {
@@ -6,15 +8,28 @@ type Props = {
 };
 
 export function NotLoggedIn({ onLogin }: Props) {
+    const { t, i18n } = useTranslation();
     const text = useBreakpointValue({
         base: (
-            <>
-                新しい景色に、
-                <br />
-                会いに行こう。
-            </>
+            <Trans
+                t={t}
+                tOptions={{
+                    ns: TranslationNameSpaces,
+                }}
+                i18nKey="account:promptLoginTitle"
+                values={{ br: "<br/>" }}
+            />
         ),
-        sm: "新しい景色に、会いに行こう。",
+        sm: (
+            <Trans
+                t={t}
+                tOptions={{
+                    ns: TranslationNameSpaces,
+                }}
+                i18nKey="account:promptLoginTitle"
+                values={{ br: "" }}
+            />
+        ),
     });
 
     return (
@@ -57,7 +72,7 @@ export function NotLoggedIn({ onLogin }: Props) {
                     onClick={onLogin}
                 >
                     <Text color="#BD9F8E" fontWeight="bold" fontSize="18px">
-                        Googleでログイン
+                        {t("account:loginByGoogle")}
                     </Text>
                 </Center>
             </VStack>
