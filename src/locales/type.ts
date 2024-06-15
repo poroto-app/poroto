@@ -1,6 +1,7 @@
 export type CommonTranslationKeys = {
     save: string;
     close: string;
+    cancel: string;
     backToHome: string;
     info: string;
     time: string;
@@ -10,11 +11,22 @@ export type CommonTranslationKeys = {
 export type AccountTranslationKeys = {
     login: string;
     logout: string;
-    retainDataBeforeLogin: string;
     loginByGoogle: string;
+
+    retainDataBeforeLogin: string;
+    retainData: string;
+    retainingData: string;
+    retainingDataWaitMessage: string;
+    retainDataSuccess: string;
+    retainDataFailed: string;
+    retainDataCanceledMessage: string;
+    retainDataRetryLaterMessage: string;
 
     promptLoginTitle: string;
     promptLoginDescription: string;
+
+    promptRetainDataBeforeLoginTitle: string;
+    promptRetainDataBeforeLoginDescription: string;
 };
 
 export type HomeTranslationKeys = {

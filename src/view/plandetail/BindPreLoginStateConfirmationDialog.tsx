@@ -1,5 +1,6 @@
 import { Button, Center, Spinner, Text, VStack } from "@chakra-ui/react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import {
     RequestStatus,
     RequestStatuses,
@@ -8,6 +9,7 @@ import Awesome from "src/view/assets/svg/awesome.svg";
 import Balloon from "src/view/assets/svg/balloons.svg";
 import Notify from "src/view/assets/svg/notify.svg";
 import Party from "src/view/assets/svg/party.svg";
+import { AppTrans } from "src/view/common/AppTrans";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
@@ -90,16 +92,17 @@ function Confirm({
     onClickYes?: () => void;
     onCanceled: () => void;
 }) {
+    const { t } = useTranslation();
     return (
         <>
             <VStack>
                 <Text textAlign="center" fontSize="24px" fontWeight="bold">
-                    ログイン前の状態を
-                    <br />
-                    引き継ぎますか？
+                    <AppTrans
+                        i18nKey={"account:promptRetainDataBeforeLoginTitle"}
+                    />
                 </Text>
                 <Text>
-                    「保存したプラン」や「いいね」した記録を引き継ぐことができます。
+                    {t("account:promptRetainDataBeforeLoginDescription")}
                 </Text>
             </VStack>
             <Balloon
@@ -109,9 +112,11 @@ function Confirm({
                 }}
             />
             <VStack w="100%">
-                <RoundedButton onClick={onClickYes}>引き継ぐ</RoundedButton>
+                <RoundedButton onClick={onClickYes}>
+                    {t("account:retainData")}
+                </RoundedButton>
                 <Button onClick={onCanceled} variant="text">
-                    キャンセル
+                    {t("common:cancel")}
                 </Button>
             </VStack>
         </>
@@ -119,14 +124,11 @@ function Confirm({
 }
 
 function Cancel({ onClose }: { onClose?: OnClickHandler }) {
+    const { t } = useTranslation();
     return (
         <>
             <Text textAlign="center" fontSize="24px" fontWeight="bold">
-                引き継ぎは
-                <br />
-                ログインメニューから
-                <br />
-                いつでもできます！
+                <AppTrans i18nKey={"account:retainDataCanceledMessage"} />
             </Text>
             <Awesome
                 viewBox="0 0 616.25771 629"
@@ -135,19 +137,18 @@ function Cancel({ onClose }: { onClose?: OnClickHandler }) {
                 }}
             />
             <RoundedButton outlined color="black" onClick={onClose}>
-                とじる
+                {t("common:close")}
             </RoundedButton>
         </>
     );
 }
 
 function Pending() {
+    const { t } = useTranslation();
     return (
         <>
             <Text textAlign="center" fontSize="24px" fontWeight="bold">
-                データを
-                <br />
-                引き継いでいます...
+                <AppTrans i18nKey={"account:retainingData"} />
             </Text>
             <Center h="200px">
                 <Spinner
@@ -158,16 +159,17 @@ function Pending() {
                     size="xl"
                 />
             </Center>
-            <Text>しばらくお待ちください！</Text>
+            <Text>{t("account:retainingDataWaitMessage")}</Text>
         </>
     );
 }
 
 function Success({ onClose }: { onClose?: OnClickHandler }) {
+    const { t } = useTranslation();
     return (
         <>
             <Text textAlign="center" fontSize="24px" fontWeight="bold">
-                引き継ぎが成功しました！
+                {t("account:retainDataSuccess")}
             </Text>
             <Party
                 viewBox="0 0 1001.27346 688.36187"
@@ -176,23 +178,22 @@ function Success({ onClose }: { onClose?: OnClickHandler }) {
                 }}
             />
             <RoundedButton outlined color="black" onClick={onClose}>
-                とじる
+                {t("common:close")}
             </RoundedButton>
         </>
     );
 }
 
 function Error({ onClose }: { onClose?: OnClickHandler }) {
+    const { t } = useTranslation();
     return (
         <>
             <VStack>
                 <Text textAlign="center" fontSize="24px" fontWeight="bold">
-                    引き継ぎに失敗しました
+                    {t("account:retainDataFailed")}
                 </Text>
                 <Text color="rgba(0,0,0,.65)">
-                    しばらく時間をおいて再度お試しください。
-                    <br />
-                    引き継ぎはログインメニューからいつでもできます！
+                    <AppTrans i18nKey={"account:retainDataRetryLaterMessage"} />
                 </Text>
             </VStack>
             <Notify
@@ -203,7 +204,7 @@ function Error({ onClose }: { onClose?: OnClickHandler }) {
                 }}
             />
             <RoundedButton outlined color="black" onClick={onClose}>
-                とじる
+                {t("common:close")}
             </RoundedButton>
         </>
     );
