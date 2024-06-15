@@ -2,6 +2,7 @@ import { Link } from "@chakra-ui/next-js";
 import { HStack, Icon, Text } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { IconType } from "react-icons";
 import {
     MdOutlineCameraAlt,
@@ -71,6 +72,7 @@ export const PlaceChipActionInstagram = ({
 }: {
     placeName: string;
 }) => {
+    const { t } = useTranslation();
     return (
         <Link
             href={`https://www.instagram.com/explore/tags/${encodeURIComponent(
@@ -86,7 +88,7 @@ export const PlaceChipActionInstagram = ({
             }
         >
             <PlaceChipContextAction
-                label="Instagramで検索"
+                label={t("place:searchByInstagram")}
                 icon={SiInstagram}
             />
         </Link>
@@ -102,6 +104,7 @@ export const PlaceChipActionGoogleMaps = ({
     googlePlaceId: string;
     onClick?: OnClickHandler;
 }) => {
+    const { t } = useTranslation();
     const url = new URL("https://www.google.com/maps/search/");
     url.searchParams.set("api", "1");
     url.searchParams.set("query", placeName);
@@ -118,7 +121,7 @@ export const PlaceChipActionGoogleMaps = ({
             }
         >
             <PlaceChipContextAction
-                label="Google Mapsで検索"
+                label={t("place:searchByGoogleMaps")}
                 icon={SiGooglemaps}
             />
         </Link>
@@ -133,6 +136,7 @@ export const PlaceChipActionCamera = ({
     placeId,
     onFileChanged,
 }: PlaceChipActionCameraProps) => {
+    const { t } = useTranslation();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     return (
@@ -148,7 +152,7 @@ export const PlaceChipActionCamera = ({
             >
                 <Icon w="16px" h="16px" as={MdOutlineCameraAlt} />
                 <Text fontSize="0.8rem" whiteSpace="nowrap">
-                    写真をアップロード
+                    {t("place:uploadPhoto")}
                 </Text>
             </HStack>
             <input

@@ -1,6 +1,7 @@
 import { Center, Spinner, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { MdTrendingUp } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
@@ -36,6 +37,7 @@ type Props = {
 
 const IndexPage = (props: Props) => {
     const dispatch = useAppDispatch();
+    const { t } = useTranslation();
     const {
         plansRecentlyCreated,
         nextPageTokenPlansRecentlyCreated,
@@ -101,7 +103,7 @@ const IndexPage = (props: Props) => {
                 >
                     <PlanList plans={plansRecentlyCreated} px={Size.top.px}>
                         <PlanListSectionTitle
-                            title="最近作成されたプラン"
+                            title={t("home:recentlyCreatedPlans")}
                             icon={MdTrendingUp}
                         />
                     </PlanList>

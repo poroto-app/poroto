@@ -1,6 +1,7 @@
 import { Box, Center, HStack, Text, VStack } from "@chakra-ui/react";
 import { InfoWindow, Marker } from "@react-google-maps/api";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
@@ -19,9 +20,14 @@ export const PlaceMap = ({ places }: Props) => {
 };
 
 const Map = ({ places }: { places: Place[] }) => {
+    const { t } = useTranslation();
     if (places.length === 0)
         return (
-            <MapPlaceHolder text="プランに場所が含まれていないため表示できません。" />
+            <MapPlaceHolder
+                text={t(
+                    "plan:cannotDisplayBecauseThePlanDoesNotContainAnyPlaces"
+                )}
+            />
         );
 
     return (
@@ -33,9 +39,7 @@ const Map = ({ places }: { places: Place[] }) => {
                 lat: places[0].location.latitude,
                 lng: places[0].location.longitude,
             }}
-            loadingPlaceHolder={
-                <MapPlaceHolder text="地図を読み込んでいます" />
-            }
+            loadingPlaceHolder={<MapPlaceHolder text={t("plan:loadingMap")} />}
         >
             {places.map((place, i) => (
                 <PlaceMarkerWithInfoWindow
@@ -55,6 +59,7 @@ const PlaceMarkerWithInfoWindow = ({
     place: Place;
     defaultVisible?: boolean;
 }) => {
+    const { t } = useTranslation();
     const [isInfoWindowVisible, setIsInfoWindowVisible] =
         useState(defaultVisible);
     const markerRef = useRef<Marker>(null);
@@ -109,7 +114,7 @@ const PlaceMarkerWithInfoWindow = ({
                                 as="button"
                                 onClick={() => setIsInfoWindowVisible(false)}
                             >
-                                閉じる
+                                {t("common:close")}
                             </Text>
                         </VStack>
                     </HStack>
