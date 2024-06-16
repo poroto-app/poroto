@@ -53,6 +53,10 @@ export type HomeTranslationKeys = {
     recentlyCreatedPlans: string;
 };
 
+export type LocationTranslationKeys = {
+    fetchCurrentLocationInProgress: string;
+};
+
 export type NavigationTranslationKeys = {
     home: string;
     search: string;
@@ -95,6 +99,7 @@ export type PlanTranslationKeys = {
     createPlanFromOtherLocation: string;
     createPlanFromThisPlace: string;
     createPlanFromSelectedPlace: string;
+    createPlanFromFavoritePlace: string;
 
     customizePlan: string;
     customizePlanCreated: string;

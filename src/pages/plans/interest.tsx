@@ -31,6 +31,7 @@ import { AnalyticsEvents } from "src/view/constants/analytics";
 import { LocalStorageKeys } from "src/view/constants/localStorageKey";
 import { PageMetaData } from "src/view/constants/meta";
 import { Routes } from "src/view/constants/router";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { useLocation } from "src/view/hooks/useLocation";
 import { CategorySelect } from "src/view/interest/CategorySelect";
 import { CouldNotFindAnyPlace } from "src/view/interest/CouldNotFindAnyPlace";
@@ -62,6 +63,7 @@ export default function Page() {
 function PlanInterestPage() {
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const { t } = useAppTranslation();
     const { getCurrentLocation, location, fetchCurrentLocationStatus } =
         useLocation();
     const [currentCategory, setCurrentCategory] =
@@ -192,6 +194,7 @@ function PlanInterestPage() {
     if (!searchLocation)
         return (
             <FetchLocationDialog
+                skipLocationLabel={t("plan:createPlanFromFavoritePlace")}
                 isSkipCurrentLocationVisible={true}
                 fetchLocationRequestStatus={fetchCurrentLocationStatus}
                 onRetry={() => getCurrentLocation().then()}

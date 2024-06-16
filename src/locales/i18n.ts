@@ -7,6 +7,7 @@ import { initReactI18next } from "react-i18next";
 import { AccountTranslationEn } from "src/locales/en/account";
 import { CommonTranslationEn } from "src/locales/en/common";
 import { HomeTranslationEn } from "src/locales/en/home";
+import { LocationTranslationEn } from "src/locales/en/location";
 import { NavigationTranslationEn } from "src/locales/en/navigation";
 import { OgpTranslationEn } from "src/locales/en/ogp";
 import { PlaceTranslationEn } from "src/locales/en/place";
@@ -15,6 +16,7 @@ import { PwaTranslationEn } from "src/locales/en/pwa";
 import { AccountTranslationJa } from "src/locales/ja/account";
 import { CommonTranslationJa } from "src/locales/ja/common";
 import { HomeTranslationJa } from "src/locales/ja/home";
+import { LocationTranslationJa } from "src/locales/ja/location";
 import { NavigationTranslationJa } from "src/locales/ja/navigation";
 import { OgpTranslationJa } from "src/locales/ja/ogp";
 import { PlaceTranslationJa } from "src/locales/ja/place";
@@ -24,6 +26,7 @@ import {
     AccountTranslationKeys,
     CommonTranslationKeys,
     HomeTranslationKeys,
+    LocationTranslationKeys,
     NavigationTranslationKeys,
     OgpTranslationKeys,
     PlaceTranslationKeys,
@@ -34,9 +37,10 @@ import {
 export type TranslationResourceType = {
     common: CommonTranslationKeys;
     account: AccountTranslationKeys;
+    home: HomeTranslationKeys;
+    location: LocationTranslationKeys;
     navigation: NavigationTranslationKeys;
     ogp: OgpTranslationKeys;
-    home: HomeTranslationKeys;
     place: PlaceTranslationKeys;
     plan: PlanTranslationKeys;
     pwa: PwaTranslationKeys;
@@ -49,6 +53,7 @@ export const translationResources: {
         common: CommonTranslationJa,
         account: AccountTranslationJa,
         home: HomeTranslationJa,
+        location: LocationTranslationJa,
         navigation: NavigationTranslationJa,
         ogp: OgpTranslationJa,
         plan: PlanTranslationJa,
@@ -59,6 +64,7 @@ export const translationResources: {
         common: CommonTranslationEn,
         account: AccountTranslationEn,
         home: HomeTranslationEn,
+        location: LocationTranslationEn,
         navigation: NavigationTranslationEn,
         ogp: OgpTranslationEn,
         plan: PlanTranslationEn,

@@ -26,6 +26,7 @@ export const PlanTranslationEn: PlanTranslationKeys = {
     createPlanFromOtherLocation: "Create plan from another location",
     createPlanFromThisPlace: "Create plan from this place",
     createPlanFromSelectedPlace: "Create plan from selected place",
+    createPlanFromFavoritePlace: "Create plan from favorite place",
 
     customizePlan: "Customize this plan",
     customizePlanCreated: "The plan for customization is ready!",

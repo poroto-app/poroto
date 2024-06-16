@@ -8,12 +8,13 @@ import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { LottiePlayer } from "src/view/common/LottiePlayer";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import { Routes } from "src/view/constants/router";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import animationDataFailedLocation from "src/view/lottie/location-failed.json";
 import animationDataLoadingLocation from "src/view/lottie/location-loading.json";
 
 type Props = {
     fetchLocationRequestStatus: RequestStatus | null;
-    skipLocationLabel?: string;
+    skipLocationLabel: string;
     isSkipCurrentLocationVisible?: boolean;
     onRetry: () => void;
 };
@@ -21,7 +22,7 @@ type Props = {
 export function FetchLocationDialog({
     fetchLocationRequestStatus,
     isSkipCurrentLocationVisible = false,
-    skipLocationLabel = "好きな場所からプランを作成する",
+    skipLocationLabel,
     onRetry,
 }: Props) {
     return (
@@ -62,12 +63,13 @@ function Fetching({
     skipLocationLabel: string;
     isSkipCurrentLocationVisible: boolean;
 }) {
+    const { t } = useAppTranslation();
     return (
         <VStack w="100%">
             <Box w="100%" position="relative" h="250px">
                 <LottiePlayer animationData={animationDataLoadingLocation} />
             </Box>
-            <Text>位置情報を取得しています...</Text>
+            <Text>{t("location:fetchCurrentLocationInProgress")}</Text>
             {isSkipCurrentLocationVisible && (
                 <Link
                     href={Routes.places.search({ skipCurrentLocation: true })}
