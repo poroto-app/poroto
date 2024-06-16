@@ -2,14 +2,15 @@ import { useToast } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useEffect, useState } from "react";
 import { isSafari } from "react-device-detect";
+import { useTranslation } from "react-i18next";
 import { hasValue } from "src/domain/util/null";
 import { AnalyticsEvents } from "src/view/constants/analytics";
 import { LocalStorageKeys } from "src/view/constants/localStorageKey";
 import { isPC } from "src/view/constants/userAgent";
 
-// TODO: iOSのインストール手順をダイアログで見せる（インストール手順をスクリーンショットで見せる）
 export const usePwaInstall = () => {
     const toast = useToast();
+    const { t } = useTranslation();
     const [pwaInstallEvent, setPwaInstallEvent] = useState<Event | null>(null);
     const [isPwaSupported, setIsPwaSupported] = useState(false);
     const [isRunningOnPwa, setIsRunningOnPwa] = useState(false);
@@ -50,7 +51,7 @@ export const usePwaInstall = () => {
 
     const markAlreadyInstalledToIosHome = () => {
         toast({
-            title: "ご回答いただき、ありがとうございます。",
+            title: t("pwa:pwaInstallationConfirmedResponse"),
             status: "success",
             duration: 3000,
             isClosable: true,
@@ -100,7 +101,7 @@ export const usePwaInstall = () => {
 
     const handleAppInstalled = () => {
         toast({
-            title: "ホームに追加されました",
+            title: t("pwa:addedToHomeScreen"),
             status: "success",
             duration: 5000,
             isClosable: true,

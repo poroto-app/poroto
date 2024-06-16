@@ -138,8 +138,10 @@ export type PlaceTranslationKeys = {
 
 export type PwaTranslationKeys = {
     addToHomeScreen: string;
+    addedToHomeScreen: string;
     alreadyAddedToHomeScreen: string;
     addToHomeScreenInstructionTitle: string;
 
     promptAddToHomeScreen: string;
+    pwaInstallationConfirmedResponse: string;
 };
