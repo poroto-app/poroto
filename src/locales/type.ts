@@ -137,6 +137,8 @@ export type PlaceTranslationKeys = {
     recommendedTouristSpotsTitle: string;
     promptRecommendedTouristSpotsSearching: string;
     recommendedTouristSearchFailed: string;
+
+    loginToSaveFavoritePlace: string;
 };
 
 export type PwaTranslationKeys = {

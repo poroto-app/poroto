@@ -27,4 +27,7 @@ export const PlaceTranslationJa: PlaceTranslationKeys = {
         "おすすめの観光スポットを探しています...",
     recommendedTouristSearchFailed:
         "おすすめの観光地を取得中にエラーが発生しました。",
+
+    loginToSaveFavoritePlace:
+        "ログインすると気に入った場所を保存することができます。",
 };
