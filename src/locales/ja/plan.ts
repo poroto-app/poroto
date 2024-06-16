@@ -13,6 +13,10 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     promptCreateNewPlan: "新しいプランを作ってみませんか？",
     promptPreparingCustomPlan:
         "カスタマイズ用のプランを準備しています。もう少しお待ちください",
+    promptSearchingNearbyPlans: "近くのプランを検索しています...",
+    promptTurnOnLocationServiceToSearchNearbyPlans:
+        "位置情報を許可すると、近くのプランを探すことができます。",
+    promptLocationServiceUnavailable: "位置情報をオンにしてプランを取得",
 
     placesInPlan: "プラン内の場所",
     clickMarkerToShowPlaceDetail:

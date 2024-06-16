@@ -40,7 +40,7 @@ export type NavigationTranslationKeys = {
     home: string;
     search: string;
     myPage: string;
-}
+};
 
 export type PlanTranslationKeys = {
     plan: string;
@@ -54,6 +54,9 @@ export type PlanTranslationKeys = {
     promptShareCreatedPlan: string;
     promptCreateNewPlan: string;
     promptPreparingCustomPlan: string;
+    promptSearchingNearbyPlans: string;
+    promptTurnOnLocationServiceToSearchNearbyPlans: string;
+    promptLocationServiceUnavailable: string;
 
     placesInPlan: string;
     clickMarkerToShowPlaceDetail: string;
