@@ -18,6 +18,14 @@ import {
     PlanTranslationKeys,
     PwaTranslationKeys,
 } from "src/locales/type";
+import {CommonTranslationEn} from "src/locales/en/common";
+import {AccountTranslationEn} from "src/locales/en/account";
+import {HomeTranslationEn} from "src/locales/en/home";
+import {NavigationTranslationEn} from "src/locales/en/navigation";
+import {OgpTranslationEn} from "src/locales/en/ogp";
+import {PlanTranslationEn} from "src/locales/en/plan";
+import {PlaceTranslationEn} from "src/locales/en/place";
+import {PwaTranslationEn} from "src/locales/en/pwa";
 
 export type TranslationResourceType = {
     common: CommonTranslationKeys;
@@ -43,6 +51,16 @@ export const resources: {
         place: PlaceTranslationJa,
         pwa: PwaTranslationJa,
     },
+    en: {
+        common: CommonTranslationEn,
+        account: AccountTranslationEn,
+        home: HomeTranslationEn,
+        navigation: NavigationTranslationEn,
+        ogp: OgpTranslationEn,
+        plan: PlanTranslationEn,
+        place: PlaceTranslationEn,
+        pwa: PwaTranslationEn,
+    }
 } as const;
 
 export const TranslationNameSpaces = Object.keys(
