@@ -6,7 +6,7 @@ export const PlanTranslationEn: PlanTranslationKeys = {
 
     addNewPlaceToPlanConfirmTitle: "Do you want to add this place to the plan?",
     addNewPlaceToPlanMinuteFromPreviousPlace:
-        "{{minute}} minutes from the previous place",
+        "{{minute}} min from the previous",
     addNewPlaceToPlanTitle: "Add a new place to the plan",
 
     cannotDisplayBecauseThePlanDoesNotContainAnyPlaces:
@@ -57,9 +57,9 @@ export const PlanTranslationEn: PlanTranslationKeys = {
     reorderPlaces: "Reorder places",
     reorderPlacesFailed: "Failed to reorder places",
     reorderPlacesMinuteFromPreviousPlace:
-        "{{minute}} minutes from the previous place",
+        "{{minute}} min from the previous place",
     reorderPlacesMinuteFromStartLocation:
-        "{{minute}} minutes from the starting location",
+        "{{minute}} min from the starting location",
     reorderPlacesMinimizeWalkingDistance: "Minimize walking distance",
     reorderPlacesSuccess: "Successfully reordered places",
 
