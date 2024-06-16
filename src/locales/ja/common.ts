@@ -7,6 +7,7 @@ export const CommonTranslationJa: CommonTranslationKeys = {
     edit: "編集",
     backToHome: "ホームに戻る",
     reload: "再読み込み",
+    retry: "再試行",
 
     info: "情報",
     time: "時間",

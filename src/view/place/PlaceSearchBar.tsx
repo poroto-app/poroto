@@ -1,5 +1,6 @@
 import { Icon } from "@chakra-ui/react";
 import { FormEvent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { MdClose, MdSearch } from "react-icons/md";
 import { hasValue } from "src/domain/util/null";
 import styled from "styled-components";
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export function PlaceSearchBar({ defaultValue = "", onSearch }: Props) {
+    const { t } = useTranslation();
     const [lastUsedQuery, setLastUsedQuery] = useState<string | null>(null);
     const [value, setValue] = useState(defaultValue);
 
@@ -56,7 +58,7 @@ export function PlaceSearchBar({ defaultValue = "", onSearch }: Props) {
                 <TextField
                     autoFocus
                     type="text"
-                    placeholder="場所を検索"
+                    placeholder={t("place:searchPlace")}
                     value={value}
                     onChange={(e) => setValue(e.currentTarget.value)}
                 />

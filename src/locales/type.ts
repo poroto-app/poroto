@@ -5,6 +5,7 @@ export type CommonTranslationKeys = {
     edit: string;
     backToHome: string;
     reload: string;
+    retry: string;
 
     info: string;
     time: string;
@@ -106,6 +107,11 @@ export type PlanTranslationKeys = {
 };
 
 export type PlaceTranslationKeys = {
+    searchPlace: string;
+    skipCurrentLocationRetrieval: string;
+    tapToSelectPlace: string;
+    createPlanFromSelectedPlace: string;
+
     searchByInstagram: string;
     searchByGoogleMaps: string;
     uploadPhoto: string;
@@ -118,6 +124,11 @@ export type PlaceTranslationKeys = {
     favoritePlaces: string;
     favoritePlacesEmptyTitle: string;
     favoritePlacesEmptyDescription: string;
+
+    showRecommendedTouristSpots: string;
+    recommendedTouristSpotsTitle: string;
+    promptRecommendedTouristSpotsSearching: string;
+    recommendedTouristSearchFailed: string;
 };
 
 export type PwaTranslationKeys = {

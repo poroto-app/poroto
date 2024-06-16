@@ -61,6 +61,7 @@ function PlaceSearchPage() {
     const router = useRouter();
     const isSkipFetchCurrentLocation =
         router.query[RouteParams.SkipCurrentLocation] === "true";
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const { currentLocation } = reduxLocationSelector();
     const { placeSearchResults, placeSelected, moveToSelectedLocation } =
@@ -172,7 +173,7 @@ function PlaceSearchPage() {
     if (fetchCurrentLocationStatus && !location)
         return (
             <FetchLocationDialog
-                skipLocationLabel="現在地取得をスキップする"
+                skipLocationLabel={t("place:skipCurrentLocationRetrieval")}
                 isSkipCurrentLocationVisible={true}
                 fetchLocationRequestStatus={
                     fetchCurrentLocationStatus ?? RequestStatuses.PENDING
@@ -184,7 +185,7 @@ function PlaceSearchPage() {
     return (
         <VStack w="100%" h="100%" spacing={0}>
             <Head>
-                <title>好きな場所からプランを作る | komichi</title>
+                <title>{t("ogp:placeSearchPageTitle")}</title>
             </Head>
             <NavBar />
             <VStack w="100%" h="100%" position="relative">
@@ -262,6 +263,7 @@ const SearchButton = ({
     placeSelected: boolean;
     onClick: () => void;
 }) => {
+    const { t } = useTranslation();
     return (
         <Center
             position="fixed"
@@ -277,8 +279,8 @@ const SearchButton = ({
                     onClick={onClick}
                 >
                     {placeSelected
-                        ? "タップして場所を選択"
-                        : "指定した場所からプランを作成"}
+                        ? t("place:tapToSelectPlace")
+                        : t("place:createPlanFromSelectedPlace")}
                 </RoundedIconButton>
             </Box>
         </Center>
