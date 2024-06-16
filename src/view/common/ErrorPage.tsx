@@ -46,14 +46,14 @@ export function ErrorPage({ navBar }: Props) {
                         borderRadius="50px"
                         onClick={handleReload}
                     >
-                        再読込
+                        {t("common:reload")}
                     </Button>
                     <Link
                         href={Routes.home}
                         w="100%"
                         _hover={{ textDecoration: "none" }}
                     >
-                        <RoundedButton>ホームに戻る</RoundedButton>
+                        <RoundedButton>{t("common:backToHome")}</RoundedButton>
                     </Link>
                 </>
             }

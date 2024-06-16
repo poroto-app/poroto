@@ -4,6 +4,8 @@ export type CommonTranslationKeys = {
     cancel: string;
     edit: string;
     backToHome: string;
+    reload: string;
+
     info: string;
     time: string;
     budget: string;
