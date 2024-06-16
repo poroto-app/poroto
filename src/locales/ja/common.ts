@@ -1,6 +1,7 @@
 import { CommonTranslationKeys } from "src/locales/type";
 
 export const CommonTranslationJa: CommonTranslationKeys = {
+    add: "追加",
     save: "保存",
     cancel: "キャンセル",
     close: "とじる",

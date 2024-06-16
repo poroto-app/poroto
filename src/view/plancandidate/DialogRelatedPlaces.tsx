@@ -250,6 +250,7 @@ export function PlaceListItem({
     images: ImageType[];
     onClick: OnClickHandler;
 }) {
+    const { t } = useTranslation();
     return (
         <VStack spacing="16px">
             <AspectRatio
@@ -287,7 +288,9 @@ export function PlaceListItem({
                 </HStack>
                 {transition && (
                     <Text color="#686868">
-                        前の場所から{Math.round(transition.durationInMinutes)}分
+                        {t("plan:addNewPlaceToPlanMinuteFromPreviousPlace", {
+                            minute: Math.round(transition.durationInMinutes),
+                        })}
                     </Text>
                 )}
             </VStack>

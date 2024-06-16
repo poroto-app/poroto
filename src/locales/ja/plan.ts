@@ -11,6 +11,10 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     createPlan: "プランを作成",
     createPlanFromOtherLocation: "他の場所からプランを作成",
 
+    addNewPlaceToPlanTitle: "プランに新しい場所を追加",
+    addNewPlaceToPlanMinuteFromPreviousPlace: "前の場所から{{minute}}分",
+    addNewPlaceToPlanConfirmTitle: "この場所をプランに追加しますか？",
+
     nearbyPlans: "近くのプラン",
     nearbyPlansEmptyTitle: "近くで作成されたプランはありませんでした",
     nearbyPlansEmptyDescription: "最初のプランを作ってみませんか？",
