@@ -105,6 +105,9 @@ export type PlanTranslationKeys = {
     loadingMap: string;
     loadingPlan: string;
 
+    loginRecommendationTitle: string;
+    loginRecommendationDescription: string;
+
     nearbyPlans: string;
     nearbyPlansEmptyDescription: string;
     nearbyPlansEmptyTitle: string;
