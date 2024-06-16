@@ -11,7 +11,8 @@ export const AccountTranslationJa: AccountTranslationKeys = {
     retainingDataWaitMessage: "しばらくお待ちください！",
     retainDataSuccess: "引き継ぎが成功しました！",
     retainDataFailed: "引き継ぎに失敗しました。",
-    retainDataCanceledMessage: "引き継ぎは<br/>ログインメニューから<br/>いつでもできます！",
+    retainDataCanceledMessage:
+        "引き継ぎは<br/>ログインメニューから<br/>いつでもできます！",
     retainDataRetryLaterMessage:
         " しばらく時間をおいて再度お試しください。<br/> 引き継ぎはログインメニューからいつでもできます！",
 
