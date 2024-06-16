@@ -5,6 +5,10 @@ export const AccountTranslationJa: AccountTranslationKeys = {
     logout: "ログアウト",
     loginByGoogle: "Googleでログイン",
 
+    name: "名前",
+    editProfile: "プロフィールを編集",
+    editProfileImage: "写真を編集",
+
     retainDataBeforeLogin: "ログイン前のデータを引き継ぐ",
     retainData: "引き継ぐ",
     retainingData: "データを<br />引き継いでいます...",

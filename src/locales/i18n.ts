@@ -3,16 +3,17 @@ import { initReactI18next } from "react-i18next";
 import { AccountTranslationJa } from "src/locales/ja/account";
 import { CommonTranslationJa } from "src/locales/ja/common";
 import { HomeTranslationJa } from "src/locales/ja/home";
+import { NavigationTranslationJa } from "src/locales/ja/navigation";
 import { PlaceTranslationJa } from "src/locales/ja/place";
 import { PlanTranslationJa } from "src/locales/ja/plan";
 import {
     AccountTranslationKeys,
     CommonTranslationKeys,
-    HomeTranslationKeys, NavigationTranslationKeys,
+    HomeTranslationKeys,
+    NavigationTranslationKeys,
     PlaceTranslationKeys,
     PlanTranslationKeys,
 } from "src/locales/type";
-import {NavigationTranslationJa} from "src/locales/ja/navigation";
 
 export type TranslationResourceType = {
     common: CommonTranslationKeys;

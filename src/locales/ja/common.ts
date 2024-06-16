@@ -4,6 +4,7 @@ export const CommonTranslationJa: CommonTranslationKeys = {
     save: "保存",
     cancel: "キャンセル",
     close: "とじる",
+    edit: "編集",
     backToHome: "ホームに戻る",
     info: "情報",
     time: "時間",

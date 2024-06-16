@@ -99,9 +99,9 @@ function Empty() {
             />
             <VStack spacing={0} alignItems="flex-start">
                 <Text fontSize="1.2rem" fontWeight="bold">
-                    プランを作って、保存しよう！
+                    {t("plan:savedPlansEmptyTitle")}
                 </Text>
-                <Text>保存したプランはいつでも見返すことができます。</Text>
+                <Text>{t("plan:savedPlansEmptyDescription")}</Text>
             </VStack>
         </VStack>
     );
