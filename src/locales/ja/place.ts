@@ -8,7 +8,11 @@ export const PlaceTranslationJa: PlaceTranslationKeys = {
 
     searchByInstagram: "Instagramで検索",
     searchByGoogleMaps: "Googleマップで検索",
-    uploadPhoto: "写真をアップロード",
+
+    uploadPlacePhoto: "写真をアップロード",
+    uploadPlacePhotoSuccess: "写真のアップロードが完了しました",
+    uploadPlacePhotoFailed: "写真のアップロードに失敗しました",
+    uploadPlacePhotoFailedDescription: "もう一度試してみてください。",
 
     address: "住所",
     category: "カテゴリ",

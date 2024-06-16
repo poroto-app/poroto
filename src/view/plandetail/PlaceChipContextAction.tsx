@@ -152,7 +152,7 @@ export const PlaceChipActionCamera = ({
             >
                 <Icon w="16px" h="16px" as={MdOutlineCameraAlt} />
                 <Text fontSize="0.8rem" whiteSpace="nowrap">
-                    {t("place:uploadPhoto")}
+                    {t("place:uploadPlacePhoto")}
                 </Text>
             </HStack>
             <input

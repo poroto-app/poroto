@@ -127,7 +127,11 @@ export type PlaceTranslationKeys = {
 
     searchByInstagram: string;
     searchByGoogleMaps: string;
-    uploadPhoto: string;
+
+    uploadPlacePhoto: string;
+    uploadPlacePhotoSuccess: string;
+    uploadPlacePhotoFailed: string;
+    uploadPlacePhotoFailedDescription: string;
 
     address: string;
     category: string;
