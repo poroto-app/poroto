@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { IconType } from "react-icons";
 import { MdCurrencyYen, MdSchedule } from "react-icons/md";
 import { DateHelper } from "src/domain/util/date";
-import { AppTrans } from "src/view/common/AppTrans";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import styled from "styled-components";
 
 type Props = {
@@ -69,18 +69,14 @@ export const PlanSummaryBudget = ({
     minBudget: number;
     maxBudget: number;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <PlanSummary title={t("common:budget")} icon={MdCurrencyYen}>
             <VStack alignItems="flex-start" w="100%" spacing={0}>
                 {minBudget > 0 && <Text>{`${minBudget}`}</Text>}
                 {maxBudget > 0 && (
                     <Text>
-                        ~
-                        <AppTrans
-                            i18nKey="common:priceLabel"
-                            values={{ price: maxBudget }}
-                        />
+                        `~${t("common:priceLabel", { price: maxBudget })}`
                     </Text>
                 )}
             </VStack>
