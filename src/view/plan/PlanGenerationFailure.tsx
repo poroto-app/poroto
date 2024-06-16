@@ -16,7 +16,7 @@ export const PlanGenerationFailure = ({ navBar }: Props) => {
         <FailurePage
             title="Sorry"
             navBar={navBar}
-            statusDescription={t("plan:failedToCreatePlan")}
+            statusDescription={t("plan:createPlanFailed")}
             image={
                 <Image
                     w="100%"

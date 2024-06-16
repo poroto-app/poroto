@@ -280,7 +280,7 @@ const SearchButton = ({
                 >
                     {placeSelected
                         ? t("place:tapToSelectPlace")
-                        : t("place:createPlanFromSelectedPlace")}
+                        : t("plan:createPlanFromSelectedPlace")}
                 </RoundedIconButton>
             </Box>
         </Center>

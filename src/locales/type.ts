@@ -1,31 +1,29 @@
 export type CommonTranslationKeys = {
     add: string;
-    delete: string;
-    save: string;
-    close: string;
-    cancel: string;
-    edit: string;
     backToHome: string;
-    reload: string;
-    retry: string;
+    budget: string;
+    cancel: string;
+    close: string;
+    delete: string;
+    edit: string;
 
     info: string;
-    time: string;
-    budget: string;
-    YYYYMMDDHHMM: string;
 
     minutesLabel: string;
+    notFound: string;
     priceLabel: string;
 
+    reload: string;
+    retry: string;
+    save: string;
     serverError: string;
-    notFound: string;
+
+    time: string;
+    YYYYMMDDHHMM: string;
 };
 
-export type AccountTranslationKeys = {
-    login: string;
-    logout: string;
-    loginByGoogle: string;
 
+export type AccountTranslationKeys = {
     name: string;
     editProfile: string;
     editProfileImage: string;
@@ -38,12 +36,14 @@ export type AccountTranslationKeys = {
     retainDataFailed: string;
     retainDataCanceledMessage: string;
     retainDataRetryLaterMessage: string;
+    retainDataBeforeLoginTitle: string;
+    retainDataBeforeLoginDescription: string;
 
-    promptLoginTitle: string;
-    promptLoginDescription: string;
-
-    promptRetainDataBeforeLoginTitle: string;
-    promptRetainDataBeforeLoginDescription: string;
+    login: string;
+    loginByGoogle: string;
+    loginTitle: string;
+    loginDescription: string;
+    logout: string;
 };
 
 export type HomeTranslationKeys = {
@@ -72,76 +72,69 @@ export type OgpTranslationKeys = {
 };
 
 export type PlanTranslationKeys = {
-    plan: string;
-    album: string;
-    loadingPlan: string;
-    planInfo: string;
-    saveThisPlan: string;
-    copyPlanUrl: string;
-    copiedPlanUrl: string;
-    createPlan: string;
-    createPlanFromOtherLocation: string;
-
-    addNewPlaceToPlanTitle: string;
-    addNewPlaceToPlanMinuteFromPreviousPlace: string;
     addNewPlaceToPlanConfirmTitle: string;
+    addNewPlaceToPlanMinuteFromPreviousPlace: string;
+    addNewPlaceToPlanTitle: string;
+    album: string;
+
+    cannotDisplayBecauseThePlanDoesNotContainAnyPlaces: string;
+    clickMarkerToShowPlaceDetail: string;
+    copiedPlanUrl: string;
+    copyPlanUrl: string;
+    createNewPlanTitle: string;
+    createPlan: string;
+    createPlanFailed: string;
+    createPlanFailedDescription: string;
+    createPlanFailedTitle: string;
+    createPlanFromOtherLocation: string;
+    createPlanFromThisPlace: string;
+    createPlanFromSelectedPlace: string;
+    createPlanInProgressTitle: string;
+    customizePlan: string;
+    customizePlanCreated: string;
+    customizePlanCreating: string;
 
     deletePlaceFromPlanConfirmTitle: string;
 
-    customizePlan: string;
-    customizePlanCreating: string;
-    customizePlanCreated: string;
-
-    promptShareCreatedPlan: string;
-    promptCreateNewPlan: string;
-    promptSearchingNearbyPlans: string;
-    promptLocationPermissionDenied: string;
-    promptLocationPermissionNotGranted: string;
+    loadingMap: string;
+    loadingPlan: string;
 
     nearbyPlans: string;
-    nearbyPlansEmptyTitle: string;
     nearbyPlansEmptyDescription: string;
+    nearbyPlansEmptyTitle: string;
 
-    placesInPlan: string;
-    clickMarkerToShowPlaceDetail: string;
-
-    saveAsImage: string;
-    searchRouteOnGoogleMaps: string;
-
-    failedToCreatePlan: string;
-
-    loadingMap: string;
-    cannotDisplayBecauseThePlanDoesNotContainAnyPlaces: string;
-
-    savedPlans: string;
-    savedPlansEmptyTitle: string;
-    savedPlansEmptyDescription: string;
-
-    showPlan: string;
-
-    createPlanInProgressTitle: string;
-    createPlanFailedTitle: string;
-    createPlanFailedDescription: string;
-
-    createPlanFromThisPlace: string;
-
-    planCreatingTitle: string;
+    plan: string;
     planCreateFailedTitle: string;
     planCreatedSuccessfullyTitle: string;
+    planCreatingTitle: string;
+    planInfo: string;
+    placesInPlan: string;
 
     reorderPlaces: string;
-    reorderPlacesSuccess: string;
     reorderPlacesFailed: string;
-    reorderPlacesMinuteFromStartLocation: string;
     reorderPlacesMinuteFromPreviousPlace: string;
+    reorderPlacesMinuteFromStartLocation: string;
     reorderPlacesMinimizeWalkingDistance: string;
+    reorderPlacesSuccess: string;
+
+    saveAsImage: string;
+    saveThisPlan: string;
+    savedPlans: string;
+    savedPlansEmptyDescription: string;
+    savedPlansEmptyTitle: string;
+    searchNearbyPlansInProgress: string;
+    searchNearbyPlansLocationPermissionDenied: string;
+    searchNearbyPlansLocationPermissionNotGranted: string;
+    searchRouteOnGoogleMaps: string;
+    shareCreatedPlanMessage: string;
+    showPlan: string;
 };
+
 
 export type PlaceTranslationKeys = {
     searchPlace: string;
     skipCurrentLocationRetrieval: string;
     tapToSelectPlace: string;
-    createPlanFromSelectedPlace: string;
 
     searchByInstagram: string;
     searchByGoogleMaps: string;
@@ -164,10 +157,10 @@ export type PlaceTranslationKeys = {
     favoritePlacesEmptyTitle: string;
     favoritePlacesEmptyDescription: string;
 
-    showRecommendedTouristSpots: string;
+    recommendedTouristSpotsShow: string;
     recommendedTouristSpotsTitle: string;
-    promptRecommendedTouristSpotsSearching: string;
-    recommendedTouristSearchFailed: string;
+    recommendedTouristSpotsSearching: string;
+    recommendedTouristSpotsSearchFailed: string;
 
     loginToSaveFavoritePlace: string;
 

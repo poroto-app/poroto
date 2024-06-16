@@ -12,11 +12,11 @@ export function NotLoggedIn({ onLogin }: Props) {
     const text = useBreakpointValue({
         base: (
             <AppTrans
-                i18nKey="account:promptLoginTitle"
+                i18nKey="account:loginTitle"
                 values={{ br: <br /> }}
             />
         ),
-        sm: <AppTrans i18nKey="account:promptLoginTitle" values={{ br: "" }} />,
+        sm: <AppTrans i18nKey="account:loginTitle" values={{ br: "" }} />,
     });
 
     return (
@@ -45,7 +45,7 @@ export function NotLoggedIn({ onLogin }: Props) {
                     <Text fontSize="32px" fontWeight="bold">
                         {text}
                     </Text>
-                    <Text>{t("account:promptLoginDescription")}</Text>
+                    <Text>{t("account:loginDescription")}</Text>
                 </VStack>
                 <Center
                     as="button"

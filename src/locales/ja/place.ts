@@ -4,7 +4,6 @@ export const PlaceTranslationJa: PlaceTranslationKeys = {
     searchPlace: "場所を検索",
     skipCurrentLocationRetrieval: "現在地取得をスキップする",
     tapToSelectPlace: "場所を選択",
-    createPlanFromSelectedPlace: "選択した場所からプランを作成",
 
     searchByInstagram: "Instagramで検索",
     searchByGoogleMaps: "Googleマップで検索",
@@ -28,11 +27,11 @@ export const PlaceTranslationJa: PlaceTranslationKeys = {
     favoritePlacesEmptyDescription:
         "気になった場所に「いいね」すると、そこからプランを作ることができます。",
 
-    showRecommendedTouristSpots: "おすすめの観光スポットを表示",
+    recommendedTouristSpotsShow: "おすすめの観光スポットを表示",
     recommendedTouristSpotsTitle: "おすすめの観光スポット",
-    promptRecommendedTouristSpotsSearching:
+    recommendedTouristSpotsSearching:
         "おすすめの観光スポットを探しています...",
-    recommendedTouristSearchFailed:
+    recommendedTouristSpotsSearchFailed:
         "おすすめの観光地を取得中にエラーが発生しました。",
 
     loginToSaveFavoritePlace:

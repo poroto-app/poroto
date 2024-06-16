@@ -20,12 +20,12 @@ export const AccountTranslationJa: AccountTranslationKeys = {
     retainDataRetryLaterMessage:
         "しばらく時間をおいて再度お試しください。<br/> 引き継ぎはログインメニューからいつでもできます！",
 
-    promptLoginTitle: "新しい景色に、{{br}}会いに行こう。",
-    promptLoginDescription:
+    loginTitle: "新しい景色に、{{br}}会いに行こう。",
+    loginDescription:
         "作成したプランやお気に入りの場所をいつでも見られるようになります。",
 
-    promptRetainDataBeforeLoginTitle:
+    retainDataBeforeLoginTitle:
         "ログイン前の状態を<br />引き継ぎますか？",
-    promptRetainDataBeforeLoginDescription:
+    retainDataBeforeLoginDescription:
         "「保存したプラン」や「いいね」した記録を引き継ぐことができます。",
 };

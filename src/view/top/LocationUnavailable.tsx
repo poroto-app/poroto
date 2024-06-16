@@ -35,11 +35,11 @@ export function LocationUnavailable({
             />
             <Text fontWeight="bold" fontSize="20px">
                 {locationPermission === LocationPermissions.GRANTED
-                    ? t("plan:promptSearchingNearbyPlans")
+                    ? t("plan:searchNearbyPlansInProgress")
                     : locationPermission === LocationPermissions.DENIED
                       ? // TODO: iOSの場合は許可方法を伝えるページを作る
-                        t("plan:promptLocationPermissionDenied")
-                      : t("plan:promptLocationPermissionNotGranted")}
+                        t("plan:searchNearbyPlansLocationPermissionDenied")
+                      : t("plan:searchNearbyPlansLocationPermissionNotGranted")}
             </Text>
             <Switch
                 size="lg"

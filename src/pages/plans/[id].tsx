@@ -83,7 +83,7 @@ export default function PlanPage() {
 
         toast({
             title: t("plan:copiedPlanUrl"),
-            description: t("plan:promptShareCreatedPlan"),
+            description: t("plan:shareCreatedPlanMessage"),
             status: "success",
             duration: 3000, // ポップアップが表示される時間（ミリ秒）
             isClosable: true,
@@ -289,7 +289,7 @@ export default function PlanPage() {
                         contentPaddingX={0}
                         sectionHeader={
                             <PlanListSectionTitle
-                                title={t("plan:promptCreateNewPlan")}
+                                title={t("plan:createNewPlanTitle")}
                                 icon={MdOutlineExplore}
                                 px={Size.PlanDetail.px}
                             />

@@ -10,6 +10,7 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     copiedPlanUrl: "プランのURLをコピーしました",
     createPlan: "プランを作成",
     createPlanFromOtherLocation: "他の場所からプランを作成",
+    createPlanFromSelectedPlace: "選択した場所からプランを作成",
 
     addNewPlaceToPlanTitle: "プランに新しい場所を追加",
     addNewPlaceToPlanMinuteFromPreviousPlace: "前の場所から{{minute}}分",
@@ -26,12 +27,12 @@ export const PlanTranslationJa: PlanTranslationKeys = {
         "カスタマイズ用のプランを準備しています。もう少しお待ちください",
     customizePlanCreated: "カスタマイズ用のプランの準備ができました！",
 
-    promptShareCreatedPlan: "作ったプランを共有してみましょう！",
-    promptCreateNewPlan: "新しいプランを作ってみませんか？",
-    promptSearchingNearbyPlans: "近くのプランを検索しています...",
-    promptLocationPermissionDenied:
+    shareCreatedPlanMessage: "作ったプランを共有してみましょう！",
+    createNewPlanTitle: "新しいプランを作ってみませんか？",
+    searchNearbyPlansInProgress: "近くのプランを検索しています...",
+    searchNearbyPlansLocationPermissionDenied:
         "位置情報を許可すると、近くのプランを探すことができます。",
-    promptLocationPermissionNotGranted: "位置情報をオンにしてプランを取得",
+    searchNearbyPlansLocationPermissionNotGranted: "位置情報をオンにしてプランを取得",
 
     placesInPlan: "プラン内の場所",
     clickMarkerToShowPlaceDetail:
@@ -41,7 +42,7 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     searchRouteOnGoogleMaps: "Googleマップで経路を調べる",
     customizePlan: "このプランをカスタマイズする",
 
-    failedToCreatePlan: "プランを作成することができませんでした",
+    createPlanFailed: "プランを作成することができませんでした",
 
     loadingMap: "地図を読み込んでいます",
     cannotDisplayBecauseThePlanDoesNotContainAnyPlaces:

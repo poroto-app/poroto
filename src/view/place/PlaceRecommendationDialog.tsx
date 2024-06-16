@@ -116,7 +116,7 @@ const Loading = () => {
                     color={Colors.primary[400]}
                     size="32px"
                 />
-                <Text>{t("place:promptRecommendedTouristSpotsSearching")}</Text>
+                <Text>{t("place:recommendedTouristSpotsSearching")}</Text>
             </VStack>
         </Center>
     );
@@ -128,7 +128,7 @@ const Error = ({ onRetry }: { onRetry?: () => void }) => {
         <Center w="100%" h="100%">
             <VStack w="100%" spacing="16px">
                 <TowingIcon viewBox="0 0 648 648" height="300px" />
-                <Text>{t("place:recommendedTouristSearchFailed")}</Text>
+                <Text>{t("place:recommendedTouristSpotsSearchFailed")}</Text>
                 {onRetry && (
                     <RoundedButton onClick={onRetry}>
                         {t("common:retry")}

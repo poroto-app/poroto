@@ -98,11 +98,11 @@ function Confirm({
             <VStack>
                 <Text textAlign="center" fontSize="24px" fontWeight="bold">
                     <AppTrans
-                        i18nKey={"account:promptRetainDataBeforeLoginTitle"}
+                        i18nKey={"account:retainDataBeforeLoginTitle"}
                     />
                 </Text>
                 <Text>
-                    {t("account:promptRetainDataBeforeLoginDescription")}
+                    {t("account:retainDataBeforeLoginDescription")}
                 </Text>
             </VStack>
             <Balloon

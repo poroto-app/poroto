@@ -18,7 +18,7 @@ export function ShowPlaceRecommendationButton({ onClick }: Props) {
             onClick={onClick}
         >
             <Text color="#2D59C9">
-                {t("place:showRecommendedTouristSpots")}
+                {t("place:recommendedTouristSpotsShow")}
             </Text>
         </Box>
     );
