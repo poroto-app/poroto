@@ -58,15 +58,19 @@ export type PlanTranslationKeys = {
     loadingPlan: string;
     planInfo: string;
     saveThisPlan: string;
-    nearbyPlans: string;
     copiedPlanUrl: string;
+    createPlan: string;
 
     promptShareCreatedPlan: string;
     promptCreateNewPlan: string;
     promptPreparingCustomPlan: string;
     promptSearchingNearbyPlans: string;
-    promptTurnOnLocationServiceToSearchNearbyPlans: string;
-    promptLocationServiceUnavailable: string;
+    promptLocationPermissionDenied: string;
+    promptLocationPermissionNotGranted: string;
+
+    nearbyPlans: string;
+    nearbyPlansEmptyTitle: string;
+    nearbyPlansEmptyDescription: string;
 
     placesInPlan: string;
     clickMarkerToShowPlaceDetail: string;
