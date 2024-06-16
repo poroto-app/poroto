@@ -44,5 +44,7 @@ export const PlanTranslationJa: PlanTranslationKeys = {
 
     createPlanFromThisPlace: "この場所からプランを作る",
 
+    planCreatingTitle: "プランを作成しています",
+    planCreateFailedTitle: "プランの作成に失敗しました",
     planCreatedSuccessfullyTitle: "プランが完成しました!",
 };

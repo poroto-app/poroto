@@ -106,6 +106,8 @@ export type PlanTranslationKeys = {
 
     createPlanFromThisPlace: string;
 
+    planCreatingTitle: string;
+    planCreateFailedTitle: string;
     planCreatedSuccessfullyTitle: string;
 };
 

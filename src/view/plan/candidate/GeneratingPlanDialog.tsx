@@ -5,6 +5,7 @@ import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import animationDataCreating from "src/view/lottie/creating_map.json";
 import animationDataFailed from "src/view/lottie/fail.json";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     onClose: () => void;
@@ -40,6 +41,7 @@ export function GeneratingPlanDialog({ visible, failed, onClose }: Props) {
 }
 
 function Generating() {
+    const {t} = useTranslation();
     return (
         <VStack>
             <Box position="relative" h="100px" w="100%" my="32px">
@@ -49,13 +51,14 @@ function Generating() {
                 />
             </Box>
             <Text fontSize="24px" fontWeight="bold">
-                プランを作成しています
+                {t("plan:planCreatingTitle")}
             </Text>
         </VStack>
     );
 }
 
 function Failed({ onClose }: { onClose: () => void }) {
+    const {t} = useTranslation();
     return (
         <VStack spacing="16px">
             <VStack>
@@ -67,10 +70,12 @@ function Failed({ onClose }: { onClose: () => void }) {
                     />
                 </Box>
                 <Text fontSize="24px" fontWeight="bold">
-                    プランの作成に失敗しました
+                    {t("plan:planCreateFailedTitle")}
                 </Text>
             </VStack>
-            <RoundedButton onClick={onClose}>閉じる</RoundedButton>
+            <RoundedButton onClick={onClose}>
+                {t("common:close")}
+            </RoundedButton>
         </VStack>
     );
 }
