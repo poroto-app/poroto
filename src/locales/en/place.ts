@@ -13,18 +13,18 @@ export const PlaceTranslationEn: PlaceTranslationKeys = {
         "Like a place you are interested in to create a plan from it.",
     favoritePlacesEmptyTitle: "Your journey has just begun.",
 
-    loginToSaveFavoritePlace:
-        "Log in to save your favorite places.",
+    loginToSaveFavoritePlace: "Log in to save your favorite places.",
 
     recommendedTouristSpotsSearchFailed:
         "An error occurred while retrieving recommended tourist spots.",
-    recommendedTouristSpotsSearching: "Searching for recommended tourist spots...",
+    recommendedTouristSpotsSearching:
+        "Searching for recommended tourist spots...",
     recommendedTouristSpotsShow: "Show recommended tourist spots",
     recommendedTouristSpotsTitle: "Recommended Tourist Spots",
 
     relatedPlacesDescription: "Tap a place you are interested in",
     relatedPlacesShow: "Show related places",
-    relatedPlacesTitle: "Places related to \"{{placeName}}\"",
+    relatedPlacesTitle: 'Places related to "{{placeName}}"',
     replacePlace: "Replace",
     replacePlaceConfirmTitle: "Do you want to replace this place?",
 

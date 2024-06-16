@@ -5,13 +5,13 @@ export const PlanTranslationEn: PlanTranslationKeys = {
     plan: "Plan",
 
     addNewPlaceToPlanConfirmTitle: "Do you want to add this place to the plan?",
-    addNewPlaceToPlanMinuteFromPreviousPlace: "{{minute}} minutes from the previous place",
+    addNewPlaceToPlanMinuteFromPreviousPlace:
+        "{{minute}} minutes from the previous place",
     addNewPlaceToPlanTitle: "Add a new place to the plan",
 
     cannotDisplayBecauseThePlanDoesNotContainAnyPlaces:
         "Cannot display because the plan does not contain any places.",
-    clickMarkerToShowPlaceDetail:
-        "Click the marker to show place details",
+    clickMarkerToShowPlaceDetail: "Click the marker to show place details",
 
     copiedPlanUrl: "Plan URL copied",
     copyPlanUrl: "Copy Plan URL",
@@ -55,8 +55,10 @@ export const PlanTranslationEn: PlanTranslationKeys = {
 
     reorderPlaces: "Reorder places",
     reorderPlacesFailed: "Failed to reorder places",
-    reorderPlacesMinuteFromPreviousPlace: "{{minute}} minutes from the previous place",
-    reorderPlacesMinuteFromStartLocation: "{{minute}} minutes from the starting location",
+    reorderPlacesMinuteFromPreviousPlace:
+        "{{minute}} minutes from the previous place",
+    reorderPlacesMinuteFromStartLocation:
+        "{{minute}} minutes from the starting location",
     reorderPlacesMinimizeWalkingDistance: "Minimize walking distance",
     reorderPlacesSuccess: "Successfully reordered places",
 
@@ -65,8 +67,7 @@ export const PlanTranslationEn: PlanTranslationKeys = {
     showPlan: "View plan",
 
     savedPlans: "Saved Plans",
-    savedPlansEmptyDescription:
-        "You can review the saved plans anytime.",
+    savedPlansEmptyDescription: "You can review the saved plans anytime.",
     savedPlansEmptyTitle: "Create and save a plan!",
 
     searchNearbyPlansInProgress: "Searching for nearby plans...",
