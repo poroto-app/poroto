@@ -11,6 +11,7 @@ export const CommonTranslationJa: CommonTranslationKeys = {
     reload: "再読み込み",
     retry: "再試行",
     save: "保存",
+    upload: "アップロード",
 
     info: "情報",
 

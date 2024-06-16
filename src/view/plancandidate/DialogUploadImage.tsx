@@ -9,6 +9,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { OnClickHandler } from "src/view/types/handler";
 
@@ -75,6 +76,7 @@ const Confirm = ({
     onUpload: OnClickHandler;
     onClose: OnClickHandler;
 }) => {
+    const { t } = useTranslation();
     return (
         <VStack h="100%" w="100%" px="16px" py="16px">
             <VStack w="100%" flex={1} justifyContent="center" spacing="32px">
@@ -98,17 +100,15 @@ const Confirm = ({
                     ))}
                 </HStack>
                 <Text fontSize="20px" fontWeight="bold" color="#574836">
-                    {imageUrls.length === 1
-                        ? "こちらの画像をアップロードしますか？"
-                        : "これらの画像をアップロードしますか？"}
+                    {t("place:uploadPlacePhotoConfirmTitle")}
                 </Text>
             </VStack>
             <HStack mt="32px" pb="48px">
                 <Button onClick={onClose} variant="text">
-                    キャンセル
+                    {t("common:cancel")}
                 </Button>
                 <Button onClick={onUpload} colorScheme="red">
-                    アップロード
+                    {t("common:upload")}
                 </Button>
             </HStack>
         </VStack>

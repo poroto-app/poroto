@@ -37,6 +37,7 @@ export const PlaceTranslationJa: PlaceTranslationKeys = {
     tapToSelectPlace: "場所を選択",
 
     uploadPlacePhoto: "写真をアップロード",
+    uploadPlacePhotoConfirmTitle: "この写真をアップロードしますか？",
     uploadPlacePhotoFailed: "写真のアップロードに失敗しました",
     uploadPlacePhotoFailedDescription: "もう一度試してみてください。",
     uploadPlacePhotoSuccess: "写真のアップロードが完了しました",

@@ -9,6 +9,7 @@ export type CommonTranslationKeys = {
     reload: string;
     retry: string;
     save: string;
+    upload: string;
 
     info: string;
 
@@ -171,6 +172,7 @@ export type PlaceTranslationKeys = {
     tapToSelectPlace: string;
 
     uploadPlacePhoto: string;
+    uploadPlacePhotoConfirmTitle: string;
     uploadPlacePhotoFailed: string;
     uploadPlacePhotoFailedDescription: string;
     uploadPlacePhotoSuccess: string;
