@@ -7,7 +7,7 @@ export function AppTrans({
     values,
 }: {
     i18nKey: ParseKeys<Namespace, TOptions, string>;
-    values?: {};
+    values?: { [key: string]: string | number | JSX.Element }
 }) {
     const { t } = useTranslation();
     return (
