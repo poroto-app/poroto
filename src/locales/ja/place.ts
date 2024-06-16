@@ -9,6 +9,9 @@ export const PlaceTranslationJa: PlaceTranslationKeys = {
     searchByInstagram: "Instagramで検索",
     searchByGoogleMaps: "Googleマップで検索",
 
+    nearbyPlacesSearching: "近くに何があるかを探しています...",
+    selectPlaceCategoryMessage: "どんな場所に行きたいですか？",
+
     uploadPlacePhoto: "写真をアップロード",
     uploadPlacePhotoSuccess: "写真のアップロードが完了しました",
     uploadPlacePhotoFailed: "写真のアップロードに失敗しました",

@@ -231,6 +231,7 @@ export function PlanInterestPageComponent({
     handleRejectCategory,
     navBar,
 }: Props) {
+    const { t } = useTranslation();
     if (!currentCategory) {
         if (
             matchInterestRequestStatus === RequestStatuses.FULFILLED &&
@@ -241,12 +242,12 @@ export function PlanInterestPageComponent({
         if (matchInterestRequestStatus === RequestStatuses.REJECTED)
             return <ErrorPage />;
 
-        return <LoadingModal title="近くに何があるかを探しています。" />;
+        return <LoadingModal title={t("place:nearbyPlacesSearching")} />;
     }
 
     return (
         <MatchInterestPageTemplate
-            message="どんな場所に行きたいですか？"
+            message={t("place:selectPlaceCategoryMessage")}
             navBar={navBar}
         >
             <CategorySelect
