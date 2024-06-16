@@ -33,6 +33,10 @@ const nextConfig = {
     images: {
         domains: ['lh3.googleusercontent.com'],
     },
+    i18n: {
+        defaultLocale: 'ja',
+        locales: ['ja', 'en'],
+    },
     env: {
         APP_ENV: process.env.APP_ENV,
 
