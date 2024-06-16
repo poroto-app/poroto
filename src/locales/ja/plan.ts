@@ -32,4 +32,6 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     savedPlansEmptyTitle: "プランを作って、保存しよう！",
     savedPlansEmptyDescription:
         "保存したプランはいつでも見返すことができます。",
+
+    createPlanFromThisPlace: "この場所からプランを作る",
 };

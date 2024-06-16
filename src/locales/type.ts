@@ -64,6 +64,8 @@ export type PlanTranslationKeys = {
     savedPlans: string;
     savedPlansEmptyTitle: string;
     savedPlansEmptyDescription: string;
+
+    createPlanFromThisPlace: string;
 };
 
 export type PlaceTranslationKeys = {

@@ -1,5 +1,6 @@
 import { Box, Button, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Place } from "src/domain/models/Place";
 import { copyObject } from "src/domain/util/object";
 import {
@@ -21,6 +22,7 @@ export const CreatePlanDialog = ({
     onClickClose,
     onClickCreatePlan,
 }: Props) => {
+    const { t } = useTranslation();
     // ダイアログを閉じるときに、placeをnullにするとエラーになってしまうため
     // placeのキャッシュを作成し、それを表示する
     const [placeCache, setPlaceCache] = useState(place);
@@ -75,7 +77,7 @@ export const CreatePlanDialog = ({
                     </Box>
                     <VStack w="100%">
                         <RoundedButton onClick={() => onClickCreatePlan(place)}>
-                            この場所からプランを作る
+                            {t("plan:createPlanFromThisPlace")}
                         </RoundedButton>
                         <Button
                             w="100%"
@@ -86,7 +88,7 @@ export const CreatePlanDialog = ({
                                 backgroundColor: "none",
                             }}
                         >
-                            キャンセル
+                            {t("common:cancel")}
                         </Button>
                     </VStack>
                 </VStack>
