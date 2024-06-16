@@ -8,14 +8,16 @@ import { PlanTranslationJa } from "src/locales/ja/plan";
 import {
     AccountTranslationKeys,
     CommonTranslationKeys,
-    HomeTranslationKeys,
+    HomeTranslationKeys, NavigationTranslationKeys,
     PlaceTranslationKeys,
     PlanTranslationKeys,
 } from "src/locales/type";
+import {NavigationTranslationJa} from "src/locales/ja/navigation";
 
 export type TranslationResourceType = {
     common: CommonTranslationKeys;
     account: AccountTranslationKeys;
+    navigation: NavigationTranslationKeys;
     home: HomeTranslationKeys;
     place: PlaceTranslationKeys;
     plan: PlanTranslationKeys;
@@ -28,6 +30,7 @@ export const resources: {
         common: CommonTranslationJa,
         account: AccountTranslationJa,
         home: HomeTranslationJa,
+        navigation: NavigationTranslationJa,
         plan: PlanTranslationJa,
         place: PlaceTranslationJa,
     },

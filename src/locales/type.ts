@@ -36,6 +36,12 @@ export type HomeTranslationKeys = {
     recentlyCreatedPlans: string;
 };
 
+export type NavigationTranslationKeys = {
+    home: string;
+    search: string;
+    myPage: string;
+}
+
 export type PlanTranslationKeys = {
     plan: string;
     album: string;

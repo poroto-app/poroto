@@ -4,6 +4,7 @@ import { IconType } from "react-icons";
 import { MdAccountCircle, MdHome, MdSearch } from "react-icons/md";
 import { Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     page: NavigationPage;
@@ -18,6 +19,7 @@ export type NavigationPage =
     (typeof BottomNavigationPages)[keyof typeof BottomNavigationPages];
 
 export function BottomNavigation({ page }: Props) {
+    const {t} = useTranslation();
     return (
         <Center
             as="nav"
@@ -31,19 +33,19 @@ export function BottomNavigation({ page }: Props) {
             <HStack w="100%" maxW="600px">
                 <NavigationItem
                     icon={MdHome}
-                    label="ホーム"
+                    label={t("navigation:home")}
                     link={Routes.home}
                     isActive={page === BottomNavigationPages.Home}
                 />
                 <NavigationItem
                     icon={MdSearch}
-                    label="探す"
+                    label={t("navigation:search")}
                     link={Routes.search}
                     isActive={page === BottomNavigationPages.Search}
                 />
                 <NavigationItem
                     icon={MdAccountCircle}
-                    label="マイページ"
+                    label={t("navigation:myPage")}
                     link={Routes.account}
                     isActive={page === BottomNavigationPages.Account}
                 />
