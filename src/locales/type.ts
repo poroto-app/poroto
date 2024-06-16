@@ -73,6 +73,7 @@ export type PlanTranslationKeys = {
     loadingPlan: string;
     planInfo: string;
     saveThisPlan: string;
+    copyPlanUrl: string;
     copiedPlanUrl: string;
     createPlan: string;
 
@@ -104,6 +105,8 @@ export type PlanTranslationKeys = {
     savedPlansEmptyDescription: string;
 
     createPlanFromThisPlace: string;
+
+    planCreatedSuccessfullyTitle: string;
 };
 
 export type PlaceTranslationKeys = {

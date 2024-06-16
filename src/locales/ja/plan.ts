@@ -6,6 +6,7 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     loadingPlan: "プランを読み込んでいます",
     planInfo: "プランの情報",
     saveThisPlan: "このプランを保存",
+    copyPlanUrl: "プランのURLをコピー",
     copiedPlanUrl: "プランのURLをコピーしました",
     createPlan: "プランを作成",
 
@@ -42,4 +43,6 @@ export const PlanTranslationJa: PlanTranslationKeys = {
         "保存したプランはいつでも見返すことができます。",
 
     createPlanFromThisPlace: "この場所からプランを作る",
+
+    planCreatedSuccessfullyTitle: "プランが完成しました!",
 };
