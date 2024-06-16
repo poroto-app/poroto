@@ -97,13 +97,9 @@ function Confirm({
         <>
             <VStack>
                 <Text textAlign="center" fontSize="24px" fontWeight="bold">
-                    <AppTrans
-                        i18nKey={"account:retainDataBeforeLoginTitle"}
-                    />
+                    <AppTrans i18nKey={"account:retainDataBeforeLoginTitle"} />
                 </Text>
-                <Text>
-                    {t("account:retainDataBeforeLoginDescription")}
-                </Text>
+                <Text>{t("account:retainDataBeforeLoginDescription")}</Text>
             </VStack>
             <Balloon
                 viewBox="0 0 571.75671 700.46347"

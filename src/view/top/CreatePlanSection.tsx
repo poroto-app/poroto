@@ -34,7 +34,7 @@ export function CreatePlanSection() {
                         fontSize="24px"
                         zIndex="10"
                     >
-                        {t("home:promptCreatePlan")}
+                        {t("home:createPlanTitle")}
                     </Text>
                     <Grid
                         w="100%"
@@ -44,7 +44,7 @@ export function CreatePlanSection() {
                         transform="translateZ(0px)"
                     >
                         <CreatePlanButton
-                            title={t("home:fromCurrentLocation")}
+                            title={t("home:createPlanFromCurrentLocation")}
                             icon={MdOutlineLocationOn}
                             link={Routes.plans.interest()}
                             onClick={() =>
@@ -56,7 +56,7 @@ export function CreatePlanSection() {
                             }
                         />
                         <CreatePlanButton
-                            title={t("home:fromFavoritePlace")}
+                            title={t("home:createPlanFromFavoritePlace")}
                             icon={MdOutlineMap}
                             link={Routes.places.search({
                                 skipCurrentLocation: true,

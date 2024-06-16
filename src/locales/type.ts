@@ -6,22 +6,21 @@ export type CommonTranslationKeys = {
     close: string;
     delete: string;
     edit: string;
+    reload: string;
+    retry: string;
+    save: string;
 
     info: string;
 
     minutesLabel: string;
-    notFound: string;
     priceLabel: string;
+    notFound: string;
 
-    reload: string;
-    retry: string;
-    save: string;
     serverError: string;
 
     time: string;
     YYYYMMDDHHMM: string;
 };
-
 
 export type AccountTranslationKeys = {
     name: string;
@@ -47,9 +46,9 @@ export type AccountTranslationKeys = {
 };
 
 export type HomeTranslationKeys = {
-    promptCreatePlan: string;
-    fromFavoritePlace: string;
-    fromCurrentLocation: string;
+    createPlanTitle: string;
+    createPlanFromFavoritePlace: string;
+    createPlanFromCurrentLocation: string;
     recentlyCreatedPlans: string;
 };
 
@@ -72,24 +71,30 @@ export type OgpTranslationKeys = {
 };
 
 export type PlanTranslationKeys = {
+    album: string;
+    plan: string;
+
     addNewPlaceToPlanConfirmTitle: string;
     addNewPlaceToPlanMinuteFromPreviousPlace: string;
     addNewPlaceToPlanTitle: string;
-    album: string;
 
     cannotDisplayBecauseThePlanDoesNotContainAnyPlaces: string;
     clickMarkerToShowPlaceDetail: string;
+
     copiedPlanUrl: string;
     copyPlanUrl: string;
-    createNewPlanTitle: string;
+
     createPlan: string;
+    createNewPlanTitle: string;
+    createPlanInProgressTitle: string;
     createPlanFailed: string;
     createPlanFailedDescription: string;
     createPlanFailedTitle: string;
+
     createPlanFromOtherLocation: string;
     createPlanFromThisPlace: string;
     createPlanFromSelectedPlace: string;
-    createPlanInProgressTitle: string;
+
     customizePlan: string;
     customizePlanCreated: string;
     customizePlanCreating: string;
@@ -103,10 +108,10 @@ export type PlanTranslationKeys = {
     nearbyPlansEmptyDescription: string;
     nearbyPlansEmptyTitle: string;
 
-    plan: string;
     planCreateFailedTitle: string;
     planCreatedSuccessfullyTitle: string;
     planCreatingTitle: string;
+
     planInfo: string;
     placesInPlan: string;
 
@@ -119,6 +124,8 @@ export type PlanTranslationKeys = {
 
     saveAsImage: string;
     saveThisPlan: string;
+    showPlan: string;
+
     savedPlans: string;
     savedPlansEmptyDescription: string;
     savedPlansEmptyTitle: string;
@@ -126,50 +133,47 @@ export type PlanTranslationKeys = {
     searchNearbyPlansLocationPermissionDenied: string;
     searchNearbyPlansLocationPermissionNotGranted: string;
     searchRouteOnGoogleMaps: string;
+
     shareCreatedPlanMessage: string;
-    showPlan: string;
 };
 
-
 export type PlaceTranslationKeys = {
-    searchPlace: string;
-    skipCurrentLocationRetrieval: string;
-    tapToSelectPlace: string;
-
-    searchByInstagram: string;
-    searchByGoogleMaps: string;
-
-    nearbyPlacesSearching: string;
-    selectPlaceCategoryMessage: string;
-
-    uploadPlacePhoto: string;
-    uploadPlacePhotoSuccess: string;
-    uploadPlacePhotoFailed: string;
-    uploadPlacePhotoFailedDescription: string;
-
     address: string;
     category: string;
-    priceRange: string;
     estimatedStayDuration: string;
+    nearbyPlacesSearching: string;
     noInformation: string;
+    priceRange: string;
 
     favoritePlaces: string;
-    favoritePlacesEmptyTitle: string;
     favoritePlacesEmptyDescription: string;
-
-    recommendedTouristSpotsShow: string;
-    recommendedTouristSpotsTitle: string;
-    recommendedTouristSpotsSearching: string;
-    recommendedTouristSpotsSearchFailed: string;
+    favoritePlacesEmptyTitle: string;
 
     loginToSaveFavoritePlace: string;
 
+    recommendedTouristSpotsSearchFailed: string;
+    recommendedTouristSpotsSearching: string;
+    recommendedTouristSpotsShow: string;
+    recommendedTouristSpotsTitle: string;
+
+    relatedPlacesDescription: string;
     relatedPlacesShow: string;
     relatedPlacesTitle: string;
-    relatedPlacesDescription: string;
-
     replacePlace: string;
     replacePlaceConfirmTitle: string;
+
+    searchByGoogleMaps: string;
+    searchByInstagram: string;
+    searchPlace: string;
+    selectPlaceCategoryMessage: string;
+    skipCurrentLocationRetrieval: string;
+
+    tapToSelectPlace: string;
+
+    uploadPlacePhoto: string;
+    uploadPlacePhotoFailed: string;
+    uploadPlacePhotoFailedDescription: string;
+    uploadPlacePhotoSuccess: string;
 };
 
 export type PwaTranslationKeys = {

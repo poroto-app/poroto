@@ -10,12 +10,7 @@ type Props = {
 export function NotLoggedIn({ onLogin }: Props) {
     const { t, i18n } = useTranslation();
     const text = useBreakpointValue({
-        base: (
-            <AppTrans
-                i18nKey="account:loginTitle"
-                values={{ br: <br /> }}
-            />
-        ),
+        base: <AppTrans i18nKey="account:loginTitle" values={{ br: <br /> }} />,
         sm: <AppTrans i18nKey="account:loginTitle" values={{ br: "" }} />,
     });
 

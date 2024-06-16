@@ -1,74 +1,76 @@
 import { PlanTranslationKeys } from "src/locales/type";
 
 export const PlanTranslationJa: PlanTranslationKeys = {
-    plan: "プラン",
     album: "アルバム",
-    loadingPlan: "プランを読み込んでいます",
-    planInfo: "プランの情報",
-    saveThisPlan: "このプランを保存",
-    copyPlanUrl: "プランのURLをコピー",
+    plan: "プラン",
+
+    addNewPlaceToPlanConfirmTitle: "この場所をプランに追加しますか？",
+    addNewPlaceToPlanMinuteFromPreviousPlace: "前の場所から{{minute}}分",
+    addNewPlaceToPlanTitle: "プランに新しい場所を追加",
+
+    cannotDisplayBecauseThePlanDoesNotContainAnyPlaces:
+        "プランに場所が含まれていないため表示できません。",
+    clickMarkerToShowPlaceDetail:
+        "マーカーをクリックすると場所の詳細が表示されます",
+
     copiedPlanUrl: "プランのURLをコピーしました",
+    copyPlanUrl: "プランのURLをコピー",
+
     createPlan: "プランを作成",
+    createNewPlanTitle: "新しいプランを作ってみませんか？",
+    createPlanInProgressTitle: "プランを作成しています",
+    createPlanFailed: "プランを作成することができませんでした",
+    createPlanFailedDescription: "他の場所からプランを作成してみませんか？",
+    createPlanFailedTitle: "プランを作成できませんでした",
+
     createPlanFromOtherLocation: "他の場所からプランを作成",
+    createPlanFromThisPlace: "この場所からプランを作る",
     createPlanFromSelectedPlace: "選択した場所からプランを作成",
 
-    addNewPlaceToPlanTitle: "プランに新しい場所を追加",
-    addNewPlaceToPlanMinuteFromPreviousPlace: "前の場所から{{minute}}分",
-    addNewPlaceToPlanConfirmTitle: "この場所をプランに追加しますか？",
+    customizePlan: "このプランをカスタマイズする",
+    customizePlanCreated: "カスタマイズ用のプランの準備ができました！",
+    customizePlanCreating:
+        "カスタマイズ用のプランを準備しています。もう少しお待ちください",
 
     deletePlaceFromPlanConfirmTitle:
         "<bold>「{{name}}」</bold>をプランから削除しますか？",
 
+    loadingMap: "地図を読み込んでいます",
+    loadingPlan: "プランを読み込んでいます",
+
     nearbyPlans: "近くのプラン",
-    nearbyPlansEmptyTitle: "近くで作成されたプランはありませんでした",
     nearbyPlansEmptyDescription: "最初のプランを作ってみませんか？",
+    nearbyPlansEmptyTitle: "近くで作成されたプランはありませんでした",
 
-    customizePlanCreating:
-        "カスタマイズ用のプランを準備しています。もう少しお待ちください",
-    customizePlanCreated: "カスタマイズ用のプランの準備ができました！",
+    planCreateFailedTitle: "プランの作成に失敗しました",
+    planCreatedSuccessfullyTitle: "プランが完成しました!",
+    planCreatingTitle: "プランを作成しています",
 
-    shareCreatedPlanMessage: "作ったプランを共有してみましょう！",
-    createNewPlanTitle: "新しいプランを作ってみませんか？",
+    planInfo: "プランの情報",
+    placesInPlan: "プラン内の場所",
+
+    reorderPlaces: "場所を並び替え",
+    reorderPlacesFailed: "並び替えに失敗しました",
+    reorderPlacesMinuteFromPreviousPlace: "前の場所から{{minute}}分",
+    reorderPlacesMinuteFromStartLocation: "出発地点から{{minute}}分",
+    reorderPlacesMinimizeWalkingDistance: "歩く距離を最短にする",
+    reorderPlacesSuccess: "並び替えが成功しました",
+
+    saveAsImage: "画像として保存",
+    saveThisPlan: "このプランを保存",
+    showPlan: "プランをみてみる",
+
+    savedPlans: "保存したプラン",
+    savedPlansEmptyDescription:
+        "保存したプランはいつでも見返すことができます。",
+    savedPlansEmptyTitle: "プランを作って、保存しよう！",
+
     searchNearbyPlansInProgress: "近くのプランを検索しています...",
     searchNearbyPlansLocationPermissionDenied:
         "位置情報を許可すると、近くのプランを探すことができます。",
-    searchNearbyPlansLocationPermissionNotGranted: "位置情報をオンにしてプランを取得",
-
-    placesInPlan: "プラン内の場所",
-    clickMarkerToShowPlaceDetail:
-        "マーカーをクリックすると場所の詳細が表示されます",
-
-    saveAsImage: "画像として保存",
+    searchNearbyPlansLocationPermissionNotGranted:
+        "位置情報をオンにしてプランを取得",
     searchRouteOnGoogleMaps: "Googleマップで経路を調べる",
-    customizePlan: "このプランをカスタマイズする",
 
-    createPlanFailed: "プランを作成することができませんでした",
-
-    loadingMap: "地図を読み込んでいます",
-    cannotDisplayBecauseThePlanDoesNotContainAnyPlaces:
-        "プランに場所が含まれていないため表示できません。",
-
-    savedPlans: "保存したプラン",
-    savedPlansEmptyTitle: "プランを作って、保存しよう！",
-    savedPlansEmptyDescription:
-        "保存したプランはいつでも見返すことができます。",
-
-    showPlan: "プランをみてみる",
-
-    createPlanInProgressTitle: "プランを作成しています",
-    createPlanFailedTitle: "プランを作成できませんでした",
-    createPlanFailedDescription: "他の場所からプランを作成してみませんか？",
-
-    createPlanFromThisPlace: "この場所からプランを作る",
-
-    planCreatingTitle: "プランを作成しています",
-    planCreateFailedTitle: "プランの作成に失敗しました",
-    planCreatedSuccessfullyTitle: "プランが完成しました!",
-
-    reorderPlaces: "場所を並び替え",
-    reorderPlacesSuccess: "並び替えが成功しました",
-    reorderPlacesFailed: "並び替えに失敗しました",
-    reorderPlacesMinuteFromStartLocation: "出発地点から{{minute}}分",
-    reorderPlacesMinuteFromPreviousPlace: "前の場所から{{minute}}分",
-    reorderPlacesMinimizeWalkingDistance: "歩く距離を最短にする",
+    shareCreatedPlanMessage: "作ったプランを共有してみましょう！",
 };
