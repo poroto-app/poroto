@@ -65,7 +65,7 @@ export const PlanTranslationEn: PlanTranslationKeys = {
 
     saveAsImage: "Save as image",
     saveThisPlan: "Save this plan",
-    showPlan: "View plan",
+    showPlan: "View this plan!",
 
     savedPlans: "Saved Plans",
     savedPlansEmptyDescription: "You can review the saved plans anytime.",
