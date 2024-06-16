@@ -114,6 +114,9 @@ export type PlanTranslationKeys = {
     planCreatingTitle: string;
     planCreateFailedTitle: string;
     planCreatedSuccessfullyTitle: string;
+
+    reorderPlacesSuccess: string;
+    reorderPlacesFailed: string;
 };
 
 export type PlaceTranslationKeys = {

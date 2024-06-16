@@ -50,4 +50,7 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     planCreatingTitle: "プランを作成しています",
     planCreateFailedTitle: "プランの作成に失敗しました",
     planCreatedSuccessfullyTitle: "プランが完成しました!",
+
+    reorderPlacesSuccess: "並び替えが成功しました",
+    reorderPlacesFailed: "並び替えに失敗しました",
 };

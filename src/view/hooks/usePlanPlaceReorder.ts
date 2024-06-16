@@ -1,5 +1,6 @@
 import { ToastId, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Place } from "src/domain/models/Place";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { copyObject } from "src/domain/util/object";
@@ -15,6 +16,7 @@ import { usePlanCandidate } from "src/view/hooks/usePlanCandidate";
 export const usePlanPlaceReorder = ({ planId }: { planId: string }) => {
     const dispatch = useAppDispatch();
     const toast = useToast();
+    const { t } = useTranslation();
 
     const { plan, currentLocation, createdBasedOnCurrentLocation } =
         usePlanCandidate({
@@ -49,7 +51,7 @@ export const usePlanPlaceReorder = ({ planId }: { planId: string }) => {
             RequestStatuses.FULFILLED
         ) {
             toastId = toast({
-                title: "並び替えが成功しました",
+                title: t("plan:reorderPlacesSuccess"),
                 status: "success",
                 duration: 3000,
                 isClosable: true,
@@ -59,7 +61,7 @@ export const usePlanPlaceReorder = ({ planId }: { planId: string }) => {
             RequestStatuses.REJECTED
         ) {
             toastId = toast({
-                title: "並び替えに失敗しました",
+                title: t("plan:reorderPlacesFailed"),
                 status: "error",
                 duration: 3000,
                 isClosable: true,
