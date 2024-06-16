@@ -10,6 +10,7 @@ export type CommonTranslationKeys = {
     info: string;
     time: string;
     budget: string;
+    YYYYMMDDHHMM: string;
 
     minutesLabel: string;
     priceLabel: string;
