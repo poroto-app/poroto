@@ -1,14 +1,14 @@
 import { Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import MobileLogin from "src/view/assets/svg/mobile_login.svg";
 import { RoundedButton } from "src/view/common/RoundedButton";
-import {useTranslation} from "react-i18next";
 
 type Props = {
     onLogin?: () => void;
 };
 
 export const LoginCallMessage = ({ onLogin }: Props) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     return (
         <VStack
             w="100%"

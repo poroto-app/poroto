@@ -39,7 +39,8 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     loadingPlan: "プランを読み込んでいます",
 
     loginRecommendationTitle: "あなただけのプランを、いつもそばに",
-    loginRecommendationDescription: "ログインすると、作成したプランをいつでも見返すことができます。",
+    loginRecommendationDescription:
+        "ログインすると、作成したプランをいつでも見返すことができます。",
 
     nearbyPlans: "近くのプラン",
     nearbyPlansEmptyDescription: "最初のプランを作ってみませんか？",
