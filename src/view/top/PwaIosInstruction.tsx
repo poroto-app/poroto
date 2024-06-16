@@ -8,12 +8,12 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import { isIPad13 } from "react-device-detect";
+import { useTranslation } from "react-i18next";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import { Asset } from "src/view/constants/asset";
 import { Padding } from "src/view/constants/padding";
-import {useTranslation} from "react-i18next";
 
 type Props = {
     visible: boolean;
@@ -37,7 +37,7 @@ export function PwaIosInstruction({
     onClose,
     onClickAlreadyInstalled,
 }: Props) {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const [currentTab, setCurrentTab] = useState<InstructionTab>(defaultTab);
     const videoRef = useRef<HTMLVideoElement>(null);
 

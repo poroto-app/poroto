@@ -124,7 +124,7 @@ const TabPanelInformation = ({
     if (isCategoryEmpty && isPriceRangeEmpty && isEstimatedStayDurationEmpty) {
         return (
             <Center w="100%" h="100%">
-                <Text color="#574836">情報がありません</Text>
+                <Text color="#574836">{t("place:noInformation")}</Text>
             </Center>
         );
     }

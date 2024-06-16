@@ -10,6 +10,8 @@ export type CommonTranslationKeys = {
     time: string;
     budget: string;
 
+    minutesLabel: string;
+
     serverError: string;
     notFound: string;
 };
@@ -99,6 +101,7 @@ export type PlaceTranslationKeys = {
     category: string;
     priceRange: string;
     estimatedStayDuration: string;
+    noInformation: string;
 
     favoritePlaces: string;
     favoritePlacesEmptyTitle: string;
