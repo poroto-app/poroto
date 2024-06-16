@@ -2,6 +2,7 @@ import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
 import {
@@ -39,17 +40,18 @@ import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTempla
 
 export default function Page() {
     const router = useRouter();
+    const { t } = useTranslation();
     return (
         <>
             <Head>
                 <title>
-                    {PageMetaData.plans.interest.title(
+                    {PageMetaData(t).plans.interest.title(
                         router.query["location"] !== "true"
                     )}
                 </title>
                 <meta
                     name="description"
-                    content={PageMetaData.plans.interest.description}
+                    content={PageMetaData(t).plans.interest.description}
                 />
             </Head>
             <PlanInterestPage />

@@ -5,6 +5,7 @@ import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Provider } from "react-redux";
 import { copyObject } from "src/domain/util/object";
 import "src/locales/i18n";
@@ -20,14 +21,15 @@ import { Theme } from "src/view/common/Theme";
 import { PageMetaData } from "src/view/constants/meta";
 
 function App({ Component, pageProps }: AppProps) {
+    const { t } = useTranslation();
     return (
         <>
             <Head>
                 <meta charSet="utf-8" />
-                <title>{PageMetaData.top.title}</title>
+                <title>{PageMetaData(t).top.title}</title>
                 <meta
                     name="description"
-                    content={PageMetaData.top.description}
+                    content={PageMetaData(t).top.description}
                 />
                 <meta name="locale" content="ja" />
                 <meta
@@ -47,11 +49,11 @@ function App({ Component, pageProps }: AppProps) {
                 />
                 <link rel="icon" type="image/png" href="/favicon/favicon.png" />
                 {/* ogp */}
-                <meta property="og:title" content={PageMetaData.top.title} />
+                <meta property="og:title" content={PageMetaData(t).top.title} />
                 <meta property="og:site_name" content="komichi" />
                 <meta
                     property="og:description"
-                    content={PageMetaData.top.description}
+                    content={PageMetaData(t).top.description}
                 />
                 <meta property="og:url" content="https://komichi.app/" />
                 <meta

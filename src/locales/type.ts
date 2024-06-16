@@ -54,6 +54,18 @@ export type NavigationTranslationKeys = {
     myPage: string;
 };
 
+export type OgpTranslationKeys = {
+    topPageTitle: string;
+    topPageDescription: string;
+
+    placeSearchPageTitle: string;
+    placeSearchPageDescription: string;
+
+    planInterestPageFromCurrentLocationTitle: string;
+    planInterestPageFromSelectedPlaceTitle: string;
+    planInterestPageDescription: string;
+};
+
 export type PlanTranslationKeys = {
     plan: string;
     album: string;

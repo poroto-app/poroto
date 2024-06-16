@@ -4,6 +4,7 @@ import { AccountTranslationJa } from "src/locales/ja/account";
 import { CommonTranslationJa } from "src/locales/ja/common";
 import { HomeTranslationJa } from "src/locales/ja/home";
 import { NavigationTranslationJa } from "src/locales/ja/navigation";
+import { OgpTranslationJa } from "src/locales/ja/ogp";
 import { PlaceTranslationJa } from "src/locales/ja/place";
 import { PlanTranslationJa } from "src/locales/ja/plan";
 import { PwaTranslationJa } from "src/locales/ja/pwa";
@@ -12,6 +13,7 @@ import {
     CommonTranslationKeys,
     HomeTranslationKeys,
     NavigationTranslationKeys,
+    OgpTranslationKeys,
     PlaceTranslationKeys,
     PlanTranslationKeys,
     PwaTranslationKeys,
@@ -21,6 +23,7 @@ export type TranslationResourceType = {
     common: CommonTranslationKeys;
     account: AccountTranslationKeys;
     navigation: NavigationTranslationKeys;
+    ogp: OgpTranslationKeys;
     home: HomeTranslationKeys;
     place: PlaceTranslationKeys;
     plan: PlanTranslationKeys;
@@ -35,6 +38,7 @@ export const resources: {
         account: AccountTranslationJa,
         home: HomeTranslationJa,
         navigation: NavigationTranslationJa,
+        ogp: OgpTranslationJa,
         plan: PlanTranslationJa,
         place: PlaceTranslationJa,
         pwa: PwaTranslationJa,

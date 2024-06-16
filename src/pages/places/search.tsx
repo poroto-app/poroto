@@ -3,6 +3,7 @@ import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { MdDone, MdOutlineTouchApp } from "react-icons/md";
 import { GeoLocation } from "src/data/graphql/generated";
 import { PlaceSearchResult } from "src/domain/models/PlaceSearchResult";
@@ -41,13 +42,14 @@ import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
 import { ShowPlaceRecommendationButton } from "src/view/place/ShowPlaceRecommendationButton";
 
 export default function Page() {
+    const { t } = useTranslation();
     return (
         <>
             <Head>
-                <title>{PageMetaData.place.search.title}</title>
+                <title>{PageMetaData(t).place.search.title}</title>
                 <meta
                     name="description"
-                    content={PageMetaData.place.search.description}
+                    content={PageMetaData(t).place.search.description}
                 />
             </Head>
             <PlaceSearchPage />
