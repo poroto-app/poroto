@@ -6,6 +6,7 @@ import { HomeTranslationJa } from "src/locales/ja/home";
 import { NavigationTranslationJa } from "src/locales/ja/navigation";
 import { PlaceTranslationJa } from "src/locales/ja/place";
 import { PlanTranslationJa } from "src/locales/ja/plan";
+import { PwaTranslationJa } from "src/locales/ja/pwa";
 import {
     AccountTranslationKeys,
     CommonTranslationKeys,
@@ -13,6 +14,7 @@ import {
     NavigationTranslationKeys,
     PlaceTranslationKeys,
     PlanTranslationKeys,
+    PwaTranslationKeys,
 } from "src/locales/type";
 
 export type TranslationResourceType = {
@@ -22,6 +24,7 @@ export type TranslationResourceType = {
     home: HomeTranslationKeys;
     place: PlaceTranslationKeys;
     plan: PlanTranslationKeys;
+    pwa: PwaTranslationKeys;
 };
 
 export const resources: {
@@ -34,6 +37,7 @@ export const resources: {
         navigation: NavigationTranslationJa,
         plan: PlanTranslationJa,
         place: PlaceTranslationJa,
+        pwa: PwaTranslationJa,
     },
 } as const;
 

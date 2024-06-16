@@ -104,3 +104,11 @@ export type PlaceTranslationKeys = {
     favoritePlacesEmptyTitle: string;
     favoritePlacesEmptyDescription: string;
 };
+
+export type PwaTranslationKeys = {
+    addToHomeScreen: string;
+    alreadyAddedToHomeScreen: string;
+    addToHomeScreenInstructionTitle: string;
+
+    promptAddToHomeScreen: string;
+};

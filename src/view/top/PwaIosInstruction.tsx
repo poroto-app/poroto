@@ -13,6 +13,7 @@ import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import { Asset } from "src/view/constants/asset";
 import { Padding } from "src/view/constants/padding";
+import {useTranslation} from "react-i18next";
 
 type Props = {
     visible: boolean;
@@ -36,6 +37,7 @@ export function PwaIosInstruction({
     onClose,
     onClickAlreadyInstalled,
 }: Props) {
+    const {t} = useTranslation();
     const [currentTab, setCurrentTab] = useState<InstructionTab>(defaultTab);
     const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -60,7 +62,7 @@ export function PwaIosInstruction({
                     spacing="16px"
                 >
                     <Text px={Padding.p16} fontSize="24px">
-                        ホーム画面への追加方法
+                        {t("pwa:addToHomeScreenInstructionTitle")}
                     </Text>
                     <VStack w="100%" flex={1}>
                         <Center w="100%" px={Padding.p16}>
@@ -121,10 +123,12 @@ export function PwaIosInstruction({
                                 colorScheme="blue"
                                 onClick={onClickAlreadyInstalled}
                             >
-                                すでにホームに追加されています
+                                {t("pwa:alreadyAddedToHomeScreen")}
                             </Button>
                         )}
-                        <RoundedButton onClick={onClose}>とじる</RoundedButton>
+                        <RoundedButton onClick={onClose}>
+                            {t("common:close")}
+                        </RoundedButton>
                     </VStack>
                 </VStack>
             </RoundedDialog>
