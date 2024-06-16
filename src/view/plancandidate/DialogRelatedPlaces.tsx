@@ -250,7 +250,7 @@ export function PlaceListItem({
     images: ImageType[];
     onClick: OnClickHandler;
 }) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <VStack spacing="16px">
             <AspectRatio
