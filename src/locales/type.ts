@@ -1,5 +1,6 @@
 export type CommonTranslationKeys = {
     add: string;
+    delete: string;
     save: string;
     close: string;
     cancel: string;
@@ -84,6 +85,8 @@ export type PlanTranslationKeys = {
     addNewPlaceToPlanTitle: string;
     addNewPlaceToPlanMinuteFromPreviousPlace: string;
     addNewPlaceToPlanConfirmTitle: string;
+
+    deletePlaceFromPlanConfirmTitle: string;
 
     customizePlan: string;
     customizePlanCreating: string;

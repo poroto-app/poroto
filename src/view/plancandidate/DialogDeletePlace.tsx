@@ -10,7 +10,9 @@ import {
 } from "@chakra-ui/react";
 import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
+import { AppTrans } from "src/view/common/AppTrans";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 
 type Props = {
     placeToDelete: Place | null;
@@ -27,6 +29,7 @@ export function DialogDeletePlace({
     onDelete,
     onClose,
 }: Props) {
+    const { t } = useAppTranslation();
     const image =
         placeToDelete && placeToDelete.images.length > 0
             ? placeToDelete.images[0]
@@ -92,12 +95,15 @@ export function DialogDeletePlace({
                                 )}
                             </Box>
                             <Text fontSize="18px">
-                                <b>「{placeToDelete.name}」</b>を削除しますか？
+                                <AppTrans
+                                    i18nKey="plan:deletePlaceFromPlanConfirmTitle"
+                                    values={{ name: placeToDelete.name }}
+                                />
                             </Text>
                         </VStack>
                         <HStack mt="auto" pb="48px">
                             <Button onClick={onClose} variant="text">
-                                キャンセル
+                                {t("common:cancel")}
                             </Button>
                             <Button
                                 onClick={() =>
@@ -107,7 +113,7 @@ export function DialogDeletePlace({
                                 }
                                 colorScheme="red"
                             >
-                                削除
+                                {t("common:delete")}
                             </Button>
                         </HStack>
                     </VStack>

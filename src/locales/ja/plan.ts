@@ -15,6 +15,9 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     addNewPlaceToPlanMinuteFromPreviousPlace: "前の場所から{{minute}}分",
     addNewPlaceToPlanConfirmTitle: "この場所をプランに追加しますか？",
 
+    deletePlaceFromPlanConfirmTitle:
+        "<bold>「{{name}}」</bold>をプランから削除しますか？",
+
     nearbyPlans: "近くのプラン",
     nearbyPlansEmptyTitle: "近くで作成されたプランはありませんでした",
     nearbyPlansEmptyDescription: "最初のプランを作ってみませんか？",

@@ -15,6 +15,10 @@ export function AppTrans({
             t={t}
             tOptions={{
                 ns: TranslationNameSpaces,
+                interpolation: { escapeValue: false },
+            }}
+            components={{
+                bold: <strong />,
             }}
             i18nKey={i18nKey}
             values={values}

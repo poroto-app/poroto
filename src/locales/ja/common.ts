@@ -2,13 +2,14 @@ import { CommonTranslationKeys } from "src/locales/type";
 
 export const CommonTranslationJa: CommonTranslationKeys = {
     add: "追加",
-    save: "保存",
+    backToHome: "ホームに戻る",
     cancel: "キャンセル",
     close: "とじる",
+    delete: "削除",
     edit: "編集",
-    backToHome: "ホームに戻る",
     reload: "再読み込み",
     retry: "再試行",
+    save: "保存",
 
     info: "情報",
     time: "時間",
