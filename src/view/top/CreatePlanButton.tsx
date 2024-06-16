@@ -30,9 +30,9 @@ export function CreatePlanButton({ title, icon, link, onClick }: Props) {
                     color="rgba(22, 19, 17, .8)"
                     fontWeight="bold"
                     whiteSpace="nowrap"
-                >
-                    {title}
-                </Text>
+                    textAlign="center"
+                    dangerouslySetInnerHTML={{ __html: title }}
+                />
             </VStack>
         </Link>
     );
