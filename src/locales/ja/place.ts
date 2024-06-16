@@ -37,4 +37,11 @@ export const PlaceTranslationJa: PlaceTranslationKeys = {
 
     loginToSaveFavoritePlace:
         "ログインすると気に入った場所を保存することができます。",
+
+    relatedPlacesShow: "関連する場所を表示",
+    relatedPlacesTitle: "「{{placeName}}」に関連する場所",
+    relatedPlacesDescription: "気になった場所をタップ",
+
+    replacePlace: "入れ替える",
+    replacePlaceConfirmTitle: "この場所と入れ替えますか？",
 };

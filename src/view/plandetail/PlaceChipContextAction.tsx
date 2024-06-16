@@ -58,9 +58,10 @@ export const PlaceChipActionShowRelatedPlaces = ({
 }: {
     onClick: OnClickHandler;
 }) => {
+    const { t } = useTranslation();
     return (
         <PlaceChipContextAction
-            label="関連した場所を表示"
+            label={t("place:relatedPlacesShow")}
             icon={MdOutlineFindReplace}
             onClick={onClick}
         />

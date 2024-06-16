@@ -159,6 +159,13 @@ export type PlaceTranslationKeys = {
     recommendedTouristSearchFailed: string;
 
     loginToSaveFavoritePlace: string;
+
+    relatedPlacesShow: string;
+    relatedPlacesTitle: string;
+    relatedPlacesDescription: string;
+
+    replacePlace: string;
+    replacePlaceConfirmTitle: string;
 };
 
 export type PwaTranslationKeys = {
