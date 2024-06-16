@@ -14,7 +14,7 @@ export const AccountTranslationJa: AccountTranslationKeys = {
     retainDataCanceledMessage:
         "引き継ぎは<br/>ログインメニューから<br/>いつでもできます！",
     retainDataRetryLaterMessage:
-        " しばらく時間をおいて再度お試しください。<br/> 引き継ぎはログインメニューからいつでもできます！",
+        "しばらく時間をおいて再度お試しください。<br/> 引き継ぎはログインメニューからいつでもできます！",
 
     promptLoginTitle: "新しい景色に、{{br}}会いに行こう。",
     promptLoginDescription:

@@ -45,9 +45,7 @@ export function NotLoggedIn({ onLogin }: Props) {
                     <Text fontSize="32px" fontWeight="bold">
                         {text}
                     </Text>
-                    <Text>
-                        作成したプランやお気に入りの場所をいつでも見られるようになります。
-                    </Text>
+                    <Text>{t("account:promptLoginDescription")}</Text>
                 </VStack>
                 <Center
                     as="button"
