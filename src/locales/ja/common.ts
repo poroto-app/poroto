@@ -14,6 +14,7 @@ export const CommonTranslationJa: CommonTranslationKeys = {
     budget: "予算",
 
     minutesLabel: "{{minutes}}分",
+    priceLabel: "{{price}}円",
 
     serverError: "サーバーでエラーが発生しました。",
     notFound: "お探しのページが見つかりませんでした。",

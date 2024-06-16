@@ -12,6 +12,7 @@ export type CommonTranslationKeys = {
     budget: string;
 
     minutesLabel: string;
+    priceLabel: string;
 
     serverError: string;
     notFound: string;
@@ -76,6 +77,7 @@ export type PlanTranslationKeys = {
     copyPlanUrl: string;
     copiedPlanUrl: string;
     createPlan: string;
+    createPlanFromOtherLocation: string;
 
     promptShareCreatedPlan: string;
     promptCreateNewPlan: string;
@@ -121,6 +123,7 @@ export type PlaceTranslationKeys = {
     searchByGoogleMaps: string;
     uploadPhoto: string;
 
+    address: string;
     category: string;
     priceRange: string;
     estimatedStayDuration: string;

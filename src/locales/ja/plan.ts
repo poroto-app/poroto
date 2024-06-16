@@ -9,6 +9,7 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     copyPlanUrl: "プランのURLをコピー",
     copiedPlanUrl: "プランのURLをコピーしました",
     createPlan: "プランを作成",
+    createPlanFromOtherLocation: "他の場所からプランを作成",
 
     nearbyPlans: "近くのプラン",
     nearbyPlansEmptyTitle: "近くで作成されたプランはありませんでした",

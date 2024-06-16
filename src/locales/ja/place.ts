@@ -10,6 +10,7 @@ export const PlaceTranslationJa: PlaceTranslationKeys = {
     searchByGoogleMaps: "Googleマップで検索",
     uploadPhoto: "写真をアップロード",
 
+    address: "住所",
     category: "カテゴリ",
     priceRange: "価格帯",
     estimatedStayDuration: "滞在時間",
