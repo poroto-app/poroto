@@ -1,11 +1,11 @@
 import { Box, Center, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { LottiePlayer } from "src/view/common/LottiePlayer";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import animationDataCreating from "src/view/lottie/creating_map.json";
 import animationDataFailed from "src/view/lottie/fail.json";
-import {useTranslation} from "react-i18next";
 
 type Props = {
     onClose: () => void;
@@ -41,7 +41,7 @@ export function GeneratingPlanDialog({ visible, failed, onClose }: Props) {
 }
 
 function Generating() {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     return (
         <VStack>
             <Box position="relative" h="100px" w="100%" my="32px">
@@ -58,7 +58,7 @@ function Generating() {
 }
 
 function Failed({ onClose }: { onClose: () => void }) {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     return (
         <VStack spacing="16px">
             <VStack>
@@ -73,9 +73,7 @@ function Failed({ onClose }: { onClose: () => void }) {
                     {t("plan:planCreateFailedTitle")}
                 </Text>
             </VStack>
-            <RoundedButton onClick={onClose}>
-                {t("common:close")}
-            </RoundedButton>
+            <RoundedButton onClick={onClose}>{t("common:close")}</RoundedButton>
         </VStack>
     );
 }
