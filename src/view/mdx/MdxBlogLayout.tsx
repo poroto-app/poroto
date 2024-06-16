@@ -7,12 +7,12 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
+import { Namespace, TFunction } from "i18next";
 import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { MDXBlogProvider } from "src/view/mdx/MDXBlogProvider";
 import { MdxMeta } from "src/view/mdx/MdxMeta";
 import { NavBar } from "src/view/navigation/NavBar";
-import { TransactFn } from "store2";
 
 type Props = {
     children?: ReactNode;
@@ -42,14 +42,13 @@ export function MdxBlogLayout({ children, meta }: Props) {
     );
 }
 
-const formatDate = (t: TransactFn, dateString: string) => {
+const formatDate = (t: TFunction<Namespace, string>, dateString: string) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
     const hour = ("0" + date.getHours()).slice(-2);
     const minute = ("0" + date.getMinutes()).slice(-2);
-    // @ts-ignore
     return t("common:YYYYMMDDHHMM", {
         year,
         month,
@@ -60,7 +59,7 @@ const formatDate = (t: TransactFn, dateString: string) => {
 };
 
 const Header = ({ meta }: { meta: MdxMeta }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <VStack w="100%" alignItems="flex-start">
             <Image src={meta.image} w="100%" mt={{ base: 0, sm: "32px" }} />
