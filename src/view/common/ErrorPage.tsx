@@ -1,6 +1,7 @@
 import { Link } from "@chakra-ui/next-js";
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
 import Notify from "src/view/assets/svg/notify.svg";
 import { FailurePage } from "src/view/common/FailurePage";
 import { RoundedButton } from "src/view/common/RoundedButton";
@@ -13,6 +14,7 @@ type Props = {
 
 export function ErrorPage({ navBar }: Props) {
     const router = useRouter();
+    const { t } = useTranslation();
 
     const handleReload = () => {
         router.reload();
@@ -23,7 +25,7 @@ export function ErrorPage({ navBar }: Props) {
             navBar={navBar}
             title="505"
             statusMessage="Server Error"
-            statusDescription="サーバーでエラーが発生しました。"
+            statusDescription={t("common:serverError")}
             image={
                 <Notify
                     viewBox="0 0 790 512.20805"

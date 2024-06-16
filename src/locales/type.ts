@@ -6,6 +6,9 @@ export type CommonTranslationKeys = {
     info: string;
     time: string;
     budget: string;
+
+    serverError: string;
+    notFound: string;
 };
 
 export type AccountTranslationKeys = {

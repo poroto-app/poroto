@@ -8,4 +8,7 @@ export const CommonTranslationJa: CommonTranslationKeys = {
     info: "情報",
     time: "時間",
     budget: "予算",
+
+    serverError: "サーバーでエラーが発生しました。",
+    notFound: "お探しのページが見つかりませんでした。",
 };
