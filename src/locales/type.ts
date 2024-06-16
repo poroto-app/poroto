@@ -124,6 +124,9 @@ export type PlanTranslationKeys = {
     reorderPlaces: string;
     reorderPlacesSuccess: string;
     reorderPlacesFailed: string;
+    reorderPlacesMinuteFromStartLocation: string;
+    reorderPlacesMinuteFromPreviousPlace: string;
+    reorderPlacesMinimizeWalkingDistance: string;
 };
 
 export type PlaceTranslationKeys = {

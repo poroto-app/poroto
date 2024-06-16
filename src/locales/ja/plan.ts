@@ -60,4 +60,7 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     reorderPlaces: "場所を並び替え",
     reorderPlacesSuccess: "並び替えが成功しました",
     reorderPlacesFailed: "並び替えに失敗しました",
+    reorderPlacesMinuteFromStartLocation: "出発地点から{{minute}}分",
+    reorderPlacesMinuteFromPreviousPlace: "前の場所から{{minute}}分",
+    reorderPlacesMinimizeWalkingDistance: "歩く距離を最短にする",
 };

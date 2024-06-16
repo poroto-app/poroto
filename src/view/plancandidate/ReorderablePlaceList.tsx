@@ -34,6 +34,7 @@ import {
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import { Colors } from "src/view/constants/color";
 import { Padding } from "src/view/constants/padding";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { PlaceChipContextAction } from "src/view/plandetail/PlaceChipContextAction";
 import styled from "styled-components";
 
@@ -54,6 +55,7 @@ export function ReorderablePlaceDialog({
     onAutoReorderPlaces,
     onClose,
 }: Props) {
+    const { t } = useAppTranslation();
     return (
         <FullscreenDialog
             visible={visible}
@@ -70,7 +72,9 @@ export function ReorderablePlaceDialog({
                 >
                     <HStack w="100%">
                         <PlaceChipContextAction
-                            label="歩く距離を最短にする"
+                            label={t(
+                                "plan:reorderPlacesMinimizeWalkingDistance"
+                            )}
                             icon={MdDirectionsWalk}
                             onClick={onAutoReorderPlaces}
                         />
@@ -88,7 +92,7 @@ export function ReorderablePlaceDialog({
                         borderRadius={20}
                         onClick={onClose}
                     >
-                        とじる
+                        {t("common:close")}
                     </Button>
                 </VStack>
             </RoundedDialog>
@@ -233,6 +237,7 @@ export const PlaceListItem = forwardRef<
     { place, transitions, draggableAttributes, draggableListeners },
     ref
 ) {
+    const { t } = useAppTranslation();
     const transition = transitions.find((t) => t.toPlaceId === place.id);
     return (
         <HStack
@@ -262,9 +267,14 @@ export const PlaceListItem = forwardRef<
                     {transition && (
                         <Text fontSize="0.9rem" color="rgba(0,0,0,.6)">
                             {transition.fromPlaceId === null
-                                ? "出発地点"
-                                : "前の場所"}
-                            から {transition.durationInMinutes}分
+                                ? t(
+                                      "plan:reorderPlacesMinuteFromStartLocation",
+                                      { minute: transition.durationInMinutes }
+                                  )
+                                : t(
+                                      "plan:reorderPlacesMinuteFromPreviousPlace",
+                                      { minute: transition.durationInMinutes }
+                                  )}
                         </Text>
                     )}
                 </VStack>
