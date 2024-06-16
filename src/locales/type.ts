@@ -21,6 +21,8 @@ export type CommonTranslationKeys = {
 
     time: string;
     YYYYMMDDHHMM: string;
+    labelHour: string;
+    labelMinute: string;
 };
 
 export type AccountTranslationKeys = {

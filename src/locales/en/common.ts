@@ -23,4 +23,6 @@ export const CommonTranslationEn: CommonTranslationKeys = {
 
     time: "Time",
     YYYYMMDDHHMM: "{{year}}/{{month}}/{{day}} {{hour}}:{{minute}}",
+    labelHour: "hr",
+    labelMinute: "min",
 };

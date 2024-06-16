@@ -53,8 +53,11 @@ export const PlanInfoTagDuration = ({
     return (
         <PlanInfoTag title={t("common:time")} icon={MdSchedule}>
             <Text>
-                {DateHelper.formatHHMM(durationInMinutes)}(~{" "}
-                {DateHelper.dateToHHMM(endPlanDate)})
+                {DateHelper.formatHHMM(durationInMinutes, {
+                    hour: t("common:labelHour"),
+                    minute: t("common:labelMinute"),
+                })}
+                (~ {DateHelper.dateToHHMM(endPlanDate)})
             </Text>
         </PlanInfoTag>
     );

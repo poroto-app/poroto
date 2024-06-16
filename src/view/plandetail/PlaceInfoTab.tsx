@@ -167,7 +167,10 @@ const TabPanelInformation = ({
                     <InformationTag
                         key="estimatedStayDuration"
                         icon={MdSchedule}
-                        value={DateHelper.formatHHMM(estimatedStayDuration)}
+                        value={DateHelper.formatHHMM(estimatedStayDuration, {
+                            hour: t("common:labelHour"),
+                            minute: t("common:labelMinute"),
+                        })}
                         label={t("place:estimatedStayDuration")}
                     />
                 )}

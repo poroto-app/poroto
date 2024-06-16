@@ -55,7 +55,12 @@ export const PlanSummaryDuration = ({
     return (
         <PlanSummary title={t("common:time")} icon={MdSchedule}>
             <VStack alignItems="flex-start" w="100%" spacing={0}>
-                <Text>{DateHelper.formatHHMM(durationInMinutes)}</Text>
+                <Text>
+                    {DateHelper.formatHHMM(durationInMinutes, {
+                        hour: t("common:labelHour"),
+                        minute: t("common:labelMinute"),
+                    })}
+                </Text>
                 <Text color="gray">~ {DateHelper.dateToHHMM(endPlanDate)}</Text>
             </VStack>
         </PlanSummary>
