@@ -1,5 +1,5 @@
+import { useTranslation } from "next-i18next";
 import Link from "next/link";
-import { useTranslation } from "react-i18next";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { Plan } from "src/domain/models/Plan";
 import { generateGoogleMapUrl } from "src/domain/util/googleMap";

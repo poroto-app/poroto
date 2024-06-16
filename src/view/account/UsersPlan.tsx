@@ -1,6 +1,6 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { CSSProperties } from "react";
-import { useTranslation } from "react-i18next";
 import { MdOutlineBookmarkBorder } from "react-icons/md";
 import { Transition, TransitionStatus } from "react-transition-group";
 import { Plan } from "src/domain/models/Plan";

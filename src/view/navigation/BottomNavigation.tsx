@@ -1,6 +1,6 @@
 import { Link } from "@chakra-ui/next-js";
 import { Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { IconType } from "react-icons";
 import { MdAccountCircle, MdHome, MdSearch } from "react-icons/md";
 import { Routes } from "src/view/constants/router";

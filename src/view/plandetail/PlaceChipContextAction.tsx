@@ -1,8 +1,8 @@
 import { Link } from "@chakra-ui/next-js";
 import { HStack, Icon, Text } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
+import { useTranslation } from "next-i18next";
 import { useRef } from "react";
-import { useTranslation } from "react-i18next";
 import { IconType } from "react-icons";
 import {
     MdOutlineCameraAlt,

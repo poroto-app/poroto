@@ -1,6 +1,6 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { MutableRefObject, forwardRef } from "react";
-import { useTranslation } from "react-i18next";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import { hasValue } from "src/domain/util/null";

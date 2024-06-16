@@ -1,5 +1,5 @@
 import { useToast } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { reduxAuthSelector } from "src/redux/auth";
 import { reduxPlanSelector, updatePlaceLikeInPlan } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";

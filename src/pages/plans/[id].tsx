@@ -1,9 +1,9 @@
 import { Box, Button, Center, useToast, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
+import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { MdOutlineExplore, MdOutlineNearMe } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
 import { getPlanPriceRange } from "src/domain/models/Plan";

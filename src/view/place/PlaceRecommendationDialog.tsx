@@ -8,7 +8,7 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { MdClose } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
 import {

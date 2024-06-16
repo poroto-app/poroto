@@ -1,6 +1,6 @@
 import { Box, Divider, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { forwardRef } from "react";
-import { useTranslation } from "react-i18next";
 import Logo from "src/view/assets/svg/logo.svg";
 import { AppTrans } from "src/view/common/AppTrans";
 

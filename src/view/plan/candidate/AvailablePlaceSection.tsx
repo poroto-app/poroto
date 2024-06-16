@@ -1,5 +1,5 @@
 import { Grid, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { Place } from "src/domain/models/Place";
 import { createArrayWithSize } from "src/domain/util/array";
 import { AvailablePlace } from "src/view/plan/candidate/AvailablePlace";

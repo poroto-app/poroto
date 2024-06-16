@@ -1,8 +1,8 @@
 import { useToast } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
+import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 import { isSafari } from "react-device-detect";
-import { useTranslation } from "react-i18next";
 import { hasValue } from "src/domain/util/null";
 import { AnalyticsEvents } from "src/view/constants/analytics";
 import { LocalStorageKeys } from "src/view/constants/localStorageKey";

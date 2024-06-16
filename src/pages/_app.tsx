@@ -1,14 +1,14 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import { appWithTranslation } from "next-i18next";
+import { appWithTranslation, useTranslation } from "next-i18next";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { Provider } from "react-redux";
 import { copyObject } from "src/domain/util/object";
 import "src/locales/i18n";
+import { i18nAppConfig } from "src/locales/i18n";
 import {
     popHistoryStack,
     pushHistoryStack,
@@ -126,4 +126,4 @@ const History = () => {
     return <></>;
 };
 
-export default appWithTranslation(App);
+export default appWithTranslation(App, i18nAppConfig);

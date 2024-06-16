@@ -1,6 +1,6 @@
 import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { ReactNode, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { IconType } from "react-icons";
 import { MdCurrencyYen, MdSchedule } from "react-icons/md";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";

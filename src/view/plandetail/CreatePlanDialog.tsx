@@ -1,6 +1,6 @@
 import { Box, Button, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { Place } from "src/domain/models/Place";
 import { copyObject } from "src/domain/util/object";
 import {

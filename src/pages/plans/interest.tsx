@@ -1,8 +1,8 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
+import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
 import {
