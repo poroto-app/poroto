@@ -109,12 +109,19 @@ export type PlanTranslationKeys = {
     savedPlansEmptyTitle: string;
     savedPlansEmptyDescription: string;
 
+    showPlan: string;
+
+    createPlanInProgressTitle: string;
+    createPlanFailedTitle: string;
+    createPlanFailedDescription: string;
+
     createPlanFromThisPlace: string;
 
     planCreatingTitle: string;
     planCreateFailedTitle: string;
     planCreatedSuccessfullyTitle: string;
 
+    reorderPlaces: string;
     reorderPlacesSuccess: string;
     reorderPlacesFailed: string;
 };

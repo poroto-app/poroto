@@ -1,6 +1,7 @@
 import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { hasValue } from "src/domain/util/null";
@@ -43,8 +44,8 @@ import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
 
-// TODO: 編集途中でログインした場合は、いいねした場所を引き継げるようにする
 const SelectPlanPage = () => {
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
 
     const router = useRouter();
@@ -89,7 +90,7 @@ const SelectPlanPage = () => {
             isCreatingPlanFromLocation ||
             isFetchingPlanCandidate
         )
-            return <LoadingModal title="プランを作成しています" />;
+            return <LoadingModal title={t("plan:createPlanInProgressTitle")} />;
 
         // プラン候補取得失敗
         if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.REJECTED)
@@ -129,11 +130,9 @@ const SelectPlanPage = () => {
                         </Box>
                         <VStack spacing="8px">
                             <Text fontSize="1.2rem" fontWeight="bold">
-                                プランを作成できませんでした
+                                {t("plan:createPlanFailedTitle")}
                             </Text>
-                            <Text>
-                                他の場所からプランを作成してみませんか？
-                            </Text>
+                            <Text>{t("plan:createPlanFailedDescription")}</Text>
                         </VStack>
                     </VStack>
                     <AvailablePlaceSection
@@ -174,7 +173,7 @@ const SelectPlanPage = () => {
                         onClick={scrollToPlanDetailPage}
                     >
                         <Text color="white" fontWeight="bold" fontSize="18px">
-                            プランをみてみる
+                            {t("plan:showPlan")}
                         </Text>
                     </ButtonWithBlur>
                 </VStack>
@@ -207,6 +206,7 @@ function PlanDetailPage({
     planCandidateSetId,
     isPlanFooterVisible,
 }: Props) {
+    const { t } = useTranslation();
     const { plan, currentLocation, createdBasedOnCurrentLocation } =
         usePlanCandidate({
             planId: planId,
@@ -268,7 +268,7 @@ function PlanDetailPage({
     });
 
     if (isCreatingPlan) {
-        return <LoadingModal title="プランを作成しています" />;
+        return <LoadingModal title={t("plan:createPlanInProgressTitle")} />;
     }
 
     if (!plan || !planId) {
@@ -306,7 +306,7 @@ function PlanDetailPage({
                     <PlanPageSection
                         sectionHeader={
                             <SectionTitle
-                                title="プランの情報"
+                                title={t("plan:planInfo")}
                                 px={Size.PlanDetail.px}
                             />
                         }
@@ -322,7 +322,7 @@ function PlanDetailPage({
                     <PlanPageSection
                         sectionHeader={
                             <SectionTitle
-                                title="プラン"
+                                title={t("plan:plan")}
                                 px={Size.PlanDetail.px}
                             />
                         }
@@ -350,8 +350,10 @@ function PlanDetailPage({
                     <PlanPageSection
                         sectionHeader={
                             <SectionTitle
-                                title="プラン内の場所"
-                                description="マーカーをクリックすると場所の詳細が表示されます"
+                                title={t("plan:placesInPlan")}
+                                description={t(
+                                    "plan:clickMarkerToShowPlaceDetail"
+                                )}
                                 px={Size.PlanDetail.px}
                             />
                         }
@@ -379,7 +381,7 @@ function PlanDetailPage({
                     borderRadius={20}
                     onClick={() => showReorderDialog()}
                 >
-                    場所を並び替え
+                    {t("plan:reorderPlaces")}
                 </Button>
                 <Button
                     variant="solid"
@@ -389,7 +391,7 @@ function PlanDetailPage({
                     borderRadius={20}
                     onClick={() => createPlan({ planId: plan.id })}
                 >
-                    このプランを保存
+                    {t("plan:saveThisPlan")}
                 </Button>
             </PlanFooter>
             {/*Dialog*/}

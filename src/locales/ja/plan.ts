@@ -45,12 +45,19 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     savedPlansEmptyDescription:
         "保存したプランはいつでも見返すことができます。",
 
+    showPlan: "プランをみてみる",
+
+    createPlanInProgressTitle: "プランを作成しています",
+    createPlanFailedTitle: "プランを作成できませんでした",
+    createPlanFailedDescription: "他の場所からプランを作成してみませんか？",
+
     createPlanFromThisPlace: "この場所からプランを作る",
 
     planCreatingTitle: "プランを作成しています",
     planCreateFailedTitle: "プランの作成に失敗しました",
     planCreatedSuccessfullyTitle: "プランが完成しました!",
 
+    reorderPlaces: "場所を並び替え",
     reorderPlacesSuccess: "並び替えが成功しました",
     reorderPlacesFailed: "並び替えに失敗しました",
 };
