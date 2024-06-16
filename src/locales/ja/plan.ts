@@ -15,10 +15,12 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     nearbyPlansEmptyTitle: "近くで作成されたプランはありませんでした",
     nearbyPlansEmptyDescription: "最初のプランを作ってみませんか？",
 
+    customizePlanCreating:
+        "カスタマイズ用のプランを準備しています。もう少しお待ちください",
+    customizePlanCreated: "カスタマイズ用のプランの準備ができました！",
+
     promptShareCreatedPlan: "作ったプランを共有してみましょう！",
     promptCreateNewPlan: "新しいプランを作ってみませんか？",
-    promptPreparingCustomPlan:
-        "カスタマイズ用のプランを準備しています。もう少しお待ちください",
     promptSearchingNearbyPlans: "近くのプランを検索しています...",
     promptLocationPermissionDenied:
         "位置情報を許可すると、近くのプランを探すことができます。",

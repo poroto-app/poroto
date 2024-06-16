@@ -79,9 +79,12 @@ export type PlanTranslationKeys = {
     createPlan: string;
     createPlanFromOtherLocation: string;
 
+    customizePlan: string;
+    customizePlanCreating: string;
+    customizePlanCreated: string;
+
     promptShareCreatedPlan: string;
     promptCreateNewPlan: string;
-    promptPreparingCustomPlan: string;
     promptSearchingNearbyPlans: string;
     promptLocationPermissionDenied: string;
     promptLocationPermissionNotGranted: string;
@@ -95,7 +98,6 @@ export type PlanTranslationKeys = {
 
     saveAsImage: string;
     searchRouteOnGoogleMaps: string;
-    customizePlan: string;
 
     failedToCreatePlan: string;
 

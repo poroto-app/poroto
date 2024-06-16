@@ -329,7 +329,7 @@ export default function PlanPage() {
                 onClose={uploadImageProps.onCloseDialog}
             />
             {isCreatingPlanFromSavedPlan && (
-                <LoadingModal title={t("plan:promptPreparingCustomPlan")} />
+                <LoadingModal title={t("plan:customizePlanCreating")} />
             )}
             <>
                 <PlanFooter visible={isPlanFooterVisible}>
