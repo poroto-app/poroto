@@ -1,14 +1,9 @@
 import { useToast } from "@chakra-ui/react";
 import { getApp } from "firebase/app";
-import {
-    getDownloadURL,
-    getStorage,
-    ref,
-    StorageReference,
-    uploadBytesResumable,
-} from "firebase/storage";
+import { getStorage, ref } from "firebase/storage";
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
+import { uploadDataToCloudStorage } from "src/data/cloudstorage/upload";
 import { getFileExtension } from "src/domain/util/file";
 import { reduxAuthSelector } from "src/redux/auth";
 import { reduxPlanSelector, uploadPlacePhotosInPlan } from "src/redux/plan";
@@ -98,7 +93,10 @@ const useUploadPlaceImage = () => {
                     }
 
                     const storageRef = ref(storage, `images/${uniqueFileName}`);
-                    const { downloadUrl } = await uploadFile(file, storageRef);
+                    const { downloadUrl } = await uploadDataToCloudStorage(
+                        file,
+                        storageRef
+                    );
                     return { downloadUrl, size, placeId };
                 }
             );
@@ -188,33 +186,5 @@ function fetchImageSizeFromFile(
         image.src = URL.createObjectURL(file);
     });
 }
-
-const uploadFile = (
-    file: File,
-    storageRef: StorageReference
-): Promise<{ downloadUrl: string }> => {
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    return new Promise((resolve, reject) => {
-        uploadTask.on(
-            "state_changed",
-            () => {
-                // TODO: 進捗状況を表示する
-            },
-            (error) => {
-                reject(error);
-            },
-            async () => {
-                try {
-                    const downloadUrl = await getDownloadURL(
-                        uploadTask.snapshot.ref
-                    );
-                    resolve({ downloadUrl });
-                } catch (error) {
-                    reject(error);
-                }
-            }
-        );
-    });
-};
 
 export default useUploadPlaceImage;
