@@ -29,6 +29,11 @@ declare global {
             ADSENSE_CLIENT: string
             ADSENSE_SLOT_TOP_PAGE_IN_ARTICLE: string
             ADSENSE_SLOT_PLAN_DETAIL_IN_ARTICLE: string
+
+            // ==============================
+            // Cloud Storage
+            // ==============================
+            CLOUD_STORAGE_IMAGE_BUCKET: string
         }
     }
 }

@@ -65,7 +65,9 @@ const nextConfig = {
 
         BASIC_AUTH_USERNAME: process.env.BASIC_AUTH_USERNAME,
         BASIC_AUTH_PASSWORD: process.env.BASIC_AUTH_PASSWORD,
+
         CLOUD_STORAGE_POROTO_PLACE_IMAGES: process.env.CLOUD_STORAGE_POROTO_PLACE_IMAGES,
+        CLOUD_STORAGE_IMAGE_BUCKET: process.env.CLOUD_STORAGE_IMAGE_BUCKET,
     },
     webpack: (config) => {
         config.module.rules.push({

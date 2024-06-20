@@ -24,7 +24,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/locales/i18next.d.ts"
+    "src/locales/i18next.d.ts",
+    "env.d.ts"
   ],
   "exclude": [
     "node_modules"
