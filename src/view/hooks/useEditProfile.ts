@@ -4,12 +4,15 @@ import { getStorage, ref } from "firebase/storage";
 import { useState } from "react";
 import { uploadDataToCloudStorage } from "src/data/cloudstorage/upload";
 import { hasValue } from "src/domain/util/null";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { useAuth } from "src/view/hooks/useAuth";
 import { v4 as uuidv4 } from "uuid";
 
 export const useEditProfile = () => {
+    const { t } = useAppTranslation();
     const toast = useToast();
     const { user, firebaseUserId } = useAuth();
+    const [isUpdatingUserProfile, setIsUpdatingUserProfile] = useState(false);
     const [isEditUserProfileDialogVisible, setIsEditUserProfileDialogVisible] =
         useState(false);
 
@@ -28,31 +31,30 @@ export const useEditProfile = () => {
         name?: string;
         profileImageBlob?: Blob;
     }) => {
+        setIsUpdatingUserProfile(false);
         if (!firebaseUserId) {
             return;
         }
 
+        setIsUpdatingUserProfile(true);
         try {
             await _updateProfile({ firebaseUserId, name, profileImageBlob });
-        } catch (e) {
-            // TODO: i18n 対応する
             toast({
-                title: "プロフィールの更新に失敗しました",
+                title: t("account:editProfileSuccess"),
+                status: "success",
+                duration: 3000,
+                isClosable: true,
+            });
+        } catch (e) {
+            toast({
+                title: t("account:editProfileFailed"),
                 status: "error",
                 duration: 3000,
                 isClosable: true,
             });
-            return;
+        } finally {
+            setIsUpdatingUserProfile(false);
         }
-
-        // TODO: plannerに更新を通知する
-        // TODO: i18n 対応する
-        toast({
-            title: "プロフィールを更新しました",
-            status: "success",
-            duration: 3000,
-            isClosable: true,
-        });
     };
 
     // TODO: redux に移動する
@@ -65,6 +67,7 @@ export const useEditProfile = () => {
         name?: string;
         profileImageBlob?: Blob;
     }) => {
+        // TODO: plannerに更新を通知する
         if (profileImageBlob) {
             const firebaseApp = getApp();
             const storage = getStorage(
@@ -90,6 +93,7 @@ export const useEditProfile = () => {
             isEditUserProfileDialogVisible &&
             hasValue(user) &&
             hasValue(firebaseUserId),
+        isUpdatingUserProfile,
         openEditUserProfileDialog,
         closeEditUserProfileDialog,
         updateProfile,

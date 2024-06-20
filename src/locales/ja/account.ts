@@ -4,6 +4,8 @@ export const AccountTranslationJa: AccountTranslationKeys = {
     name: "名前",
     editProfile: "プロフィールを編集",
     editProfileImage: "写真を編集",
+    editProfileSuccess: "プロフィールを保存しました。",
+    editProfileFailed: "プロフィールの更新に失敗しました。",
 
     retainDataBeforeLogin: "ログイン前のデータを引き継ぐ",
     retainData: "引き継ぐ",
