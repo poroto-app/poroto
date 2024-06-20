@@ -249,6 +249,7 @@ export type Mutation = {
   replacePlaceOfPlanCandidate: ReplacePlaceOfPlanCandidateOutput;
   savePlanFromCandidate: SavePlanFromCandidateOutput;
   updatePlanCollageImage: UpdatePlanCollageImageOutput;
+  updateUserProfile: UpdateUserProfileOutput;
   uploadPlacePhotoInPlan: UploadPlacePhotoInPlanOutput;
 };
 
@@ -325,6 +326,11 @@ export type MutationSavePlanFromCandidateArgs = {
 
 export type MutationUpdatePlanCollageImageArgs = {
   input: UpdatePlanCollageImageInput;
+};
+
+
+export type MutationUpdateUserProfileArgs = {
+  input: UpdateUserProfileInput;
 };
 
 
@@ -626,6 +632,17 @@ export type UpdatePlanCollageImageInput = {
 export type UpdatePlanCollageImageOutput = {
   __typename?: 'UpdatePlanCollageImageOutput';
   plan: Plan;
+};
+
+export type UpdateUserProfileInput = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  profileImageUrl?: InputMaybe<Scalars['String']['input']>;
+  userId: Scalars['ID']['input'];
+};
+
+export type UpdateUserProfileOutput = {
+  __typename?: 'UpdateUserProfileOutput';
+  user: User;
 };
 
 export type UploadPlacePhotoInPlanInput = {
