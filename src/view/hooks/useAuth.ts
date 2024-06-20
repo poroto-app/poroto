@@ -14,7 +14,7 @@ import { LocalStorageKeys } from "src/view/constants/localStorageKey";
 
 export const useAuth = () => {
     const dispatch = useAppDispatch();
-    const { user, firebaseIdToken } = reduxAuthSelector();
+    const { user, firebaseUserId, firebaseIdToken } = reduxAuthSelector();
     const [isLoggedInUser, setIsLoggedInUser] = useState(
         hasValue(firebaseIdToken)
     );
@@ -36,7 +36,14 @@ export const useAuth = () => {
         signOut(auth).then();
     };
 
-    return { user, isLoggedInUser, signInWithGoogle, logout, setLoggedIn };
+    return {
+        user,
+        firebaseUserId,
+        isLoggedInUser,
+        signInWithGoogle,
+        logout,
+        setLoggedIn,
+    };
 };
 
 const setLoggedIn = (loggedIn: boolean) => {
