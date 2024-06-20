@@ -66,6 +66,7 @@ function Account({ user }: { user: User | null }) {
         isEditUserProfileDialogVisible,
         openEditUserProfileDialog,
         closeEditUserProfileDialog,
+        updateProfile,
     } = useEditProfile();
 
     return (
@@ -96,6 +97,9 @@ function Account({ user }: { user: User | null }) {
                     user={user}
                     isVisible={isEditUserProfileDialogVisible}
                     onClose={closeEditUserProfileDialog}
+                    onSaveProfile={({ name, profileImageBlob }) =>
+                        updateProfile({ name, profileImageBlob })
+                    }
                 />
             </>
         </>
