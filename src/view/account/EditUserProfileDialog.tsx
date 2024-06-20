@@ -14,7 +14,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
 import {
     MdArrowBack,
@@ -29,15 +29,12 @@ import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import { Padding } from "src/view/constants/padding";
-import { useCropImage } from "src/view/hooks/useCropImage";
+import { ImageData, useCropImage } from "src/view/hooks/useCropImage";
 
 type Props = {
     isVisible: boolean;
     user: User;
-    onSaveProfile?: (props: {
-        name?: string;
-        profileImageUrl?: string;
-    }) => void;
+    onSaveProfile?: (props: { name?: string; profileImageBlob?: Blob }) => void;
     onClose?: () => void;
 };
 
@@ -47,11 +44,15 @@ export function EditUserProfileDialog({
     onSaveProfile,
     onClose,
 }: Props) {
-    const [userName, setUserName] = useState(user.name);
+    const [userName, setUserName] = useState(user?.name);
     const [imageToCrop, setImageToCrop] = useState<string | null>(null);
-    const [croppedImage, setCroppedImage] = useState<string | null>(null);
+    const [croppedImage, setCroppedImage] = useState<ImageData | null>(null);
     const [isLoadingFileInput, setIsLoadingFileInput] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        setUserName(user?.name);
+    }, [user]);
 
     const handleOnEditPhoto = () => {
         fileInputRef.current?.click();
@@ -74,7 +75,10 @@ export function EditUserProfileDialog({
     };
 
     const handleOnSave = () => {
-        onSaveProfile?.({ name: userName });
+        onSaveProfile?.({
+            name: userName,
+            profileImageBlob: croppedImage?.blob,
+        });
     };
 
     const handleOnCloseImageEditor = () => {
@@ -89,7 +93,7 @@ export function EditUserProfileDialog({
     const handleOnCropImage = ({
         croppedImage,
     }: {
-        croppedImage: string | null;
+        croppedImage: ImageData | null;
     }) => {
         setImageToCrop(null);
         handleOnCloseImageEditor();
@@ -115,7 +119,9 @@ export function EditUserProfileDialog({
                     ) : (
                         <ProfileEditor
                             userName={userName}
-                            profileImageUrl={croppedImage ?? user.avatarImage}
+                            profileImageUrl={
+                                croppedImage?.dataUrl ?? user?.avatarImage
+                            }
                             isLoadingFileInput={isLoadingFileInput}
                             onUpdateUserName={setUserName}
                             onUpdateProfileImage={handleOnEditPhoto}
@@ -269,7 +275,7 @@ function ProfileImageEditor({
     onSave,
 }: {
     src: string;
-    onSave: (params: { croppedImage: string }) => void;
+    onSave: (params: { croppedImage: ImageData | null }) => void;
     onClose: () => void;
 }) {
     const { t } = useTranslation();
