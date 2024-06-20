@@ -6,6 +6,7 @@ import {
     fetchByFirebaseUser,
     reduxAuthSelector,
     resetAuthUser,
+    setFirebaseUID,
 } from "src/redux/auth";
 import { useAppDispatch } from "src/redux/redux";
 import { useAuth } from "src/view/hooks/useAuth";
@@ -19,6 +20,7 @@ export function Auth() {
         const auth = getAuth();
         auth.onAuthStateChanged(async (firebaseUser) => {
             setLoggedIn(hasValue(firebaseUser));
+            dispatch(setFirebaseUID({ firebaseUID: firebaseUser?.uid }));
 
             if (firebaseUser) {
                 const idToken = await firebaseUser.getIdToken();
