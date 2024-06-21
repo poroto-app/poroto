@@ -39,6 +39,7 @@ export const useAuth = () => {
     return {
         user,
         firebaseUserId,
+        firebaseIdToken,
         isLoggedInUser,
         signInWithGoogle,
         logout,
