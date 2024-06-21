@@ -1,9 +1,7 @@
 import {
     getDownloadURL,
     StorageReference,
-    StringFormat,
     uploadBytesResumable,
-    uploadString,
     UploadTask,
 } from "firebase/storage";
 
@@ -12,27 +10,10 @@ export async function uploadDataToCloudStorage(
     storageRef: StorageReference
 ): Promise<{ downloadUrl: string }> {
     const uploadTask = uploadBytesResumable(storageRef, data);
-    return upload(uploadTask, storageRef);
+    return upload(uploadTask);
 }
 
-export async function uploadStringToCloudStorage({
-    data,
-    format,
-    storageRef,
-}: {
-    data: string;
-    format: StringFormat;
-    storageRef: StorageReference;
-}): Promise<{ downloadUrl: string }> {
-    const { metadata, ref } = await uploadString(storageRef, data, format);
-    const downloadUrl = await getDownloadURL(ref);
-    return { downloadUrl };
-}
-
-function upload(
-    uploadTask: UploadTask,
-    storageRef: StorageReference
-): Promise<{ downloadUrl: string }> {
+function upload(uploadTask: UploadTask): Promise<{ downloadUrl: string }> {
     return new Promise((resolve, reject) => {
         uploadTask.on(
             "state_changed",
