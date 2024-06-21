@@ -36,10 +36,6 @@ const nextConfig = {
         ],
         remotePatterns: [
             {
-                protocol: 'https',
-                hostname: 'firebasestorage.googleapis.com',
-            },
-            {
                 protocol: process.env.CLOUD_STORAGE_IMAGE_BUCKET_PROTOCOL,
                 hostname: process.env.CLOUD_STORAGE_IMAGE_BUCKET_HOST,
                 pathname: `/${process.env.CLOUD_STORAGE_IMAGE_BUCKET_NAME}/**`,
