@@ -78,6 +78,19 @@ export type ChangePlacesOrderInPlanCandidateOutput = {
   plan: Plan;
 };
 
+export type CreatePlanByCategoryInput = {
+  categoryId: Scalars['String']['input'];
+  latitude: Scalars['Float']['input'];
+  longitude: Scalars['Float']['input'];
+  radiusInKm: Scalars['Float']['input'];
+};
+
+export type CreatePlanByCategoryOutput = {
+  __typename?: 'CreatePlanByCategoryOutput';
+  planCandidateSetId: Scalars['String']['output'];
+  plans: Array<Plan>;
+};
+
 export type CreatePlanByGooglePlaceIdInput = {
   categoriesDisliked?: InputMaybe<Array<Scalars['String']['input']>>;
   categoriesPreferred?: InputMaybe<Array<Scalars['String']['input']>>;
@@ -128,6 +141,21 @@ export type CreatePlanCandidateSetFromSavedPlanInput = {
 export type CreatePlanCandidateSetFromSavedPlanOutput = {
   __typename?: 'CreatePlanCandidateSetFromSavedPlanOutput';
   planCandidate: PlanCandidate;
+};
+
+export type CreatePlanPlaceCategory = {
+  __typename?: 'CreatePlanPlaceCategory';
+  displayNameEn: Scalars['String']['output'];
+  displayNameJa: Scalars['String']['output'];
+  id: Scalars['String']['output'];
+  imageUrl: Scalars['String']['output'];
+};
+
+export type CreatePlanPlaceCategorySet = {
+  __typename?: 'CreatePlanPlaceCategorySet';
+  categories: Array<CreatePlanPlaceCategory>;
+  displayNameEn: Scalars['String']['output'];
+  displayNameJa: Scalars['String']['output'];
 };
 
 export type DeletePlaceFromPlanCandidateInput = {
@@ -238,6 +266,7 @@ export type Mutation = {
   autoReorderPlacesInPlanCandidate: AutoReorderPlacesInPlanCandidateOutput;
   bindPlanCandidateSetToUser: BindPlanCandidateSetToUserOutput;
   changePlacesOrderInPlanCandidate: ChangePlacesOrderInPlanCandidateOutput;
+  createPlanByCategory: CreatePlanByCategoryOutput;
   createPlanByLocation: CreatePlanByLocationOutput;
   createPlanByPlace: CreatePlanByPlaceOutput;
   createPlanCandidateSetFromSavedPlan: CreatePlanCandidateSetFromSavedPlanOutput;
@@ -249,6 +278,7 @@ export type Mutation = {
   replacePlaceOfPlanCandidate: ReplacePlaceOfPlanCandidateOutput;
   savePlanFromCandidate: SavePlanFromCandidateOutput;
   updatePlanCollageImage: UpdatePlanCollageImageOutput;
+  updateUserProfile: UpdateUserProfileOutput;
   uploadPlacePhotoInPlan: UploadPlacePhotoInPlanOutput;
 };
 
@@ -270,6 +300,11 @@ export type MutationBindPlanCandidateSetToUserArgs = {
 
 export type MutationChangePlacesOrderInPlanCandidateArgs = {
   input: ChangePlacesOrderInPlanCandidateInput;
+};
+
+
+export type MutationCreatePlanByCategoryArgs = {
+  input: CreatePlanByCategoryInput;
 };
 
 
@@ -325,6 +360,11 @@ export type MutationSavePlanFromCandidateArgs = {
 
 export type MutationUpdatePlanCollageImageArgs = {
   input: UpdatePlanCollageImageInput;
+};
+
+
+export type MutationUpdateUserProfileArgs = {
+  input: UpdateUserProfileInput;
 };
 
 
@@ -512,6 +552,7 @@ export type Query = {
   firebaseUser: User;
   likePlaces: Array<Place>;
   nearbyPlaceCategories: NearbyPlaceCategoryOutput;
+  placeCategories: Array<CreatePlanPlaceCategorySet>;
   placesNearPlan: PlacesNearPlanOutput;
   placesRecommendation: PlacesRecommendationOutput;
   placesToAddForPlanCandidate: PlacesToAddForPlanCandidateOutput;
@@ -626,6 +667,17 @@ export type UpdatePlanCollageImageInput = {
 export type UpdatePlanCollageImageOutput = {
   __typename?: 'UpdatePlanCollageImageOutput';
   plan: Plan;
+};
+
+export type UpdateUserProfileInput = {
+  name?: InputMaybe<Scalars['String']['input']>;
+  profileImageUrl?: InputMaybe<Scalars['String']['input']>;
+  userId: Scalars['ID']['input'];
+};
+
+export type UpdateUserProfileOutput = {
+  __typename?: 'UpdateUserProfileOutput';
+  user: User;
 };
 
 export type UploadPlacePhotoInPlanInput = {
