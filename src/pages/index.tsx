@@ -1,6 +1,9 @@
 import { VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
+import { CreatePlanPlaceCategorySet } from "src/domain/models/CreatePlanPlaceCategory";
+import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { TranslationNameSpaces, i18nAppConfig } from "src/locales/i18n";
 import { Layout } from "src/view/common/Layout";
 import { Size } from "src/view/constants/size";
@@ -14,7 +17,9 @@ import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { PwaInstallDialog } from "src/view/top/PwaInstallDialog";
 import { PwaIosInstruction } from "src/view/top/PwaIosInstruction";
 
-type Props = {};
+type Props = {
+    categorySets: CreatePlanPlaceCategorySet[];
+};
 
 const IndexPage = (props: Props) => {
     const {
@@ -65,8 +70,15 @@ const IndexPage = (props: Props) => {
 };
 
 export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => {
+    const plannerApi: PlannerApi = new PlannerGraphQlApi();
+
+    const { categories } = await plannerApi.fetchCreatePlanPlaceCategories({
+        locale: locale,
+    });
+
     return {
         props: {
+            categorySets: categories,
             ...(await serverSideTranslations(
                 locale,
                 TranslationNameSpaces,
