@@ -1,0 +1,12 @@
+query PlaceCategories {
+    placeCategories {
+        displayNameJa
+        displayNameEn
+        categories {
+            id
+            displayNameJa
+            displayNameEn
+            imageUrl
+        }
+    }
+}
