@@ -1,3 +1,9 @@
+export const Locales = {
+    Ja: "ja",
+    En: "en",
+};
+export type Locale = (typeof Locales)[keyof typeof Locales];
+
 export type CommonTranslationKeys = {
     add: string;
     backToHome: string;
