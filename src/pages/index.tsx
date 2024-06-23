@@ -25,7 +25,6 @@ import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { PwaInstallDialog } from "src/view/top/PwaInstallDialog";
 import { PwaIosInstruction } from "src/view/top/PwaIosInstruction";
-import {createPlanFromPlanEntity} from "src/domain/factory/Plan";
 
 type Props = {
     categorySets: CreatePlanPlaceCategorySet[];
