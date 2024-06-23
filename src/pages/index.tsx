@@ -1,4 +1,4 @@
-import { Text, VStack } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
@@ -6,15 +6,20 @@ import { CreatePlanPlaceCategorySet } from "src/domain/models/CreatePlanPlaceCat
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { TranslationNameSpaces, i18nAppConfig } from "src/locales/i18n";
 import { CreatePlanCategoryList } from "src/view/category/CreatePlanCategoryList";
+import { CreatePlanRangeDialog } from "src/view/category/CreatePlanRangeDialog";
 import { Layout } from "src/view/common/Layout";
 import { Padding } from "src/view/constants/padding";
 import { Size } from "src/view/constants/size";
+import { useCreatePlanCategory } from "src/view/hooks/useCreatePlanCategory";
+import { useGooglePlaceSearch } from "src/view/hooks/useGooglePlaceSearch";
 import { usePwaInstall } from "src/view/hooks/usePwaInstall";
 import {
     BottomNavigation,
     BottomNavigationPages,
 } from "src/view/navigation/BottomNavigation";
 import { NavBar } from "src/view/navigation/NavBar";
+import { PlaceSearchBar } from "src/view/place/PlaceSearchBar";
+import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { PwaInstallDialog } from "src/view/top/PwaInstallDialog";
 import { PwaIosInstruction } from "src/view/top/PwaIosInstruction";
@@ -32,6 +37,24 @@ const IndexPage = (props: Props) => {
         closePwaInstallInstruction,
         markAlreadyInstalledToIosHome,
     } = usePwaInstall();
+
+    const {
+        category,
+        mapCenter,
+        isCreatePlanCategoryRangeDialogVisible,
+        setMapCenter,
+        onSelectCreatePlanCategory,
+        onSelectCreatePlanRange,
+        onCloseCreatePlanCategoryRangeDialog,
+    } = useCreatePlanCategory();
+
+    const {
+        placeSearchResults,
+        searchGooglePlacesByQuery,
+        onSelectedSearchResult,
+    } = useGooglePlaceSearch({
+        onMoveToSelectedLocation: ({ location }) => setMapCenter(location),
+    });
 
     return (
         <Layout
@@ -63,7 +86,12 @@ const IndexPage = (props: Props) => {
                             今の気分からお任せでプランを作ってみましょう！
                         </Text>
                     </VStack>
-                    <CreatePlanCategoryList categorySets={props.categorySets} />
+                    <CreatePlanCategoryList
+                        categorySets={props.categorySets}
+                        onSelectCategory={(category) =>
+                            onSelectCreatePlanCategory({ category })
+                        }
+                    />
                 </VStack>
             </VStack>
             <>
@@ -76,6 +104,41 @@ const IndexPage = (props: Props) => {
                     visible={isPwaInstallInstructionVisible}
                     onClose={closePwaInstallInstruction}
                     onClickAlreadyInstalled={markAlreadyInstalledToIosHome}
+                />
+                <CreatePlanRangeDialog
+                    defaultMapCenter={mapCenter}
+                    visible={isCreatePlanCategoryRangeDialogVisible}
+                    onClose={onCloseCreatePlanCategoryRangeDialog}
+                    onConfirm={onSelectCreatePlanRange}
+                    googlePlaceSearchBar={
+                        <VStack
+                            px={Padding.p8}
+                            py={Padding.p16}
+                            top={0}
+                            left={0}
+                            right={0}
+                            position="relative"
+                        >
+                            <PlaceSearchBar
+                                onSearch={searchGooglePlacesByQuery}
+                            />
+                            <Box
+                                w="100%"
+                                backgroundColor="white"
+                                borderRadius={5}
+                                boxShadow={
+                                    placeSearchResults &&
+                                    placeSearchResults.length !== 0 &&
+                                    "0px 5px 20px 0px rgb(0 0 0 / 10%)"
+                                }
+                            >
+                                <PlaceSearchResults
+                                    places={placeSearchResults}
+                                    onClickPlace={onSelectedSearchResult}
+                                />
+                            </Box>
+                        </VStack>
+                    }
                 />
             </>
         </Layout>

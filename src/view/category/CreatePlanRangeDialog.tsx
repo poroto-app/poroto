@@ -11,10 +11,11 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { Circle, Marker } from "@react-google-maps/api";
-import { useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { MdArrowBack, MdDirectionsCar, MdDirectionsWalk } from "react-icons/md";
 import { RiPinDistanceFill } from "react-icons/ri";
 import { GeoLocation } from "src/data/graphql/generated";
+import { copyObject } from "src/domain/util/object";
 import {
     DialogPositions,
     FullscreenDialog,
@@ -27,14 +28,18 @@ import { Padding } from "src/view/constants/padding";
 
 type Props = {
     visible: boolean;
-    minRangeInKm: number;
+    minRangeInKm?: number;
+    defaultMapCenter?: GeoLocation;
     onClose: () => void;
     onConfirm: (props: { range: number; location: GeoLocation }) => void;
+    googlePlaceSearchBar?: ReactElement;
 };
 
 export function CreatePlanRangeDialog({
     visible,
+    defaultMapCenter,
     minRangeInKm = 2,
+    googlePlaceSearchBar,
     onClose,
     onConfirm,
 }: Props) {
@@ -47,6 +52,13 @@ export function CreatePlanRangeDialog({
     const handleOnConfirm = () => {
         onConfirm({ range: rangeInKm, location });
     };
+
+    useEffect(() => {
+        if (defaultMapCenter) {
+            setMapCenter(defaultMapCenter);
+            setLocation(defaultMapCenter);
+        }
+    }, [copyObject(defaultMapCenter)]);
 
     return (
         <FullscreenDialog
@@ -133,6 +145,7 @@ export function CreatePlanRangeDialog({
                                     });
                                 }}
                             />
+                            {googlePlaceSearchBar && googlePlaceSearchBar}
                             <VStack
                                 w="150px"
                                 justifyContent="center"
@@ -161,7 +174,6 @@ export function CreatePlanRangeDialog({
                             </VStack>
                         </MapViewer>
                     </Box>
-
                     <Center w="100%" py={Padding.p16} px={Padding.p24}>
                         <Slider
                             aria-label="slider-ex-1"
@@ -186,7 +198,7 @@ export function CreatePlanRangeDialog({
                             </SliderThumb>
                         </Slider>
                     </Center>
-                    <RoundedButton w="100%">
+                    <RoundedButton w="100%" onClick={handleOnConfirm}>
                         選択した範囲でプランを作成
                     </RoundedButton>
                 </VStack>
