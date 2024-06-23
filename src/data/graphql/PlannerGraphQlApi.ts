@@ -3,6 +3,7 @@ import {
     AddPlaceToPlanCandidateDocument,
     AutoReorderPlacesInPlanCandidateDocument,
     ChangePlacesOrderInPlanCandidateDocument,
+    CreatePlanByCategoryDocument,
     CreatePlanByLocationDocument,
     CreatePlanByPlaceDocument,
     CreatePlanCandidateSetFromSavedPlanDocument,
@@ -38,6 +39,8 @@ import {
     AddPlaceToPlanOfPlanCandidateRequest,
     AutoReorderPlacesInPlanCandidateRequest,
     AutoReorderPlacesInPlanCandidateResponse,
+    CreatePlanByCategoryRequest,
+    CreatePlanByCategoryResponse,
     CreatePlanCandidateSetFromSavedPlanRequest,
     CreatePlanCandidateSetFromSavedPlanResponse,
     CreatePlanFromLocationRequest,
@@ -281,6 +284,29 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         return {
             createPlanSessionId: data.createPlanByPlace.session,
             plan: fromGraphqlPlanEntity(data.createPlanByPlace.plan),
+        };
+    }
+
+    async createPlanByCategory(
+        request: CreatePlanByCategoryRequest
+    ): Promise<CreatePlanByCategoryResponse> {
+        const { data } = await this.client.mutate({
+            mutation: CreatePlanByCategoryDocument,
+            variables: {
+                input: {
+                    categoryId: request.categoryId,
+                    latitude: request.location.latitude,
+                    longitude: request.location.longitude,
+                    radiusInKm: request.radiusInKm,
+                },
+            },
+        });
+
+        return {
+            planCandidateSetId: data.createPlanByCategory.planCandidateSetId,
+            plans: data.createPlanByCategory.plans.map((plan) =>
+                fromGraphqlPlanEntity(plan)
+            ),
         };
     }
 

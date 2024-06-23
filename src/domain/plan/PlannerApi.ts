@@ -37,6 +37,10 @@ export interface PlannerApi {
         request: CreatePlanFromPlaceRequest
     ): Promise<CreatePlanFromPlaceResponse>;
 
+    createPlanByCategory(
+        request: CreatePlanByCategoryRequest
+    ): Promise<CreatePlanByCategoryResponse>;
+
     createPlanCandidateSetFromSavedPlan(
         request: CreatePlanCandidateSetFromSavedPlanRequest
     ): Promise<CreatePlanCandidateSetFromSavedPlanResponse>;
@@ -185,6 +189,17 @@ export type CreatePlanFromPlaceRequest = {
 export type CreatePlanFromPlaceResponse = {
     createPlanSessionId: string;
     plan: PlanEntity;
+};
+
+export type CreatePlanByCategoryRequest = {
+    categoryId: string;
+    location: GeoLocation;
+    radiusInKm: number;
+};
+
+export type CreatePlanByCategoryResponse = {
+    planCandidateSetId: string;
+    plans: PlanEntity[];
 };
 
 export type CreatePlanCandidateSetFromSavedPlanRequest = {
