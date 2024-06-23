@@ -122,7 +122,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => {
     let nextPageKey: string | null = null;
     try {
         console.info({
-            page: "/",
+            page: "/search",
             message: "Fetching Recently Created Plans...",
         });
         const response = await plannerApi.fetchPlans({
@@ -134,7 +134,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => {
         nextPageKey = response.nextPageKey;
     } catch (e) {
         console.error({
-            page: "/",
+            page: "/search",
             message: "Failed to fetch Recently Created Plans .",
             error: e,
         });
@@ -153,7 +153,7 @@ export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => {
         };
     } finally {
         console.info({
-            page: "/",
+            page: "/search",
             message: "Fetched Recently Created Plans.",
         });
     }

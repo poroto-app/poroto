@@ -25,6 +25,7 @@ import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { PwaInstallDialog } from "src/view/top/PwaInstallDialog";
 import { PwaIosInstruction } from "src/view/top/PwaIosInstruction";
+import {createPlanFromPlanEntity} from "src/domain/factory/Plan";
 
 type Props = {
     categorySets: CreatePlanPlaceCategorySet[];
@@ -149,21 +150,45 @@ const IndexPage = (props: Props) => {
 export const getStaticProps: GetStaticProps<Props> = async ({ locale }) => {
     const plannerApi: PlannerApi = new PlannerGraphQlApi();
 
-    const { categories } = await plannerApi.fetchCreatePlanPlaceCategories({
-        locale: locale,
-    });
+    try {
+        console.info({
+            page: "/",
+            message: "Fetching Create Plan Place Categories...",
+        });
+        const { categories } = await plannerApi.fetchCreatePlanPlaceCategories({
+            locale: locale,
+        });
 
-    return {
-        props: {
-            categorySets: categories,
-            ...(await serverSideTranslations(
-                locale,
-                TranslationNameSpaces,
-                i18nAppConfig
-            )),
-        },
-        revalidate: 60,
-    };
+        return {
+            props: {
+                categorySets: categories,
+                ...(await serverSideTranslations(
+                    locale,
+                    TranslationNameSpaces,
+                    i18nAppConfig
+                )),
+            },
+            revalidate: 60 * 60,
+        };
+    } catch (e) {
+        console.error({
+            page: "/",
+            message: "Failed to fetch Create Plan Place Categories.",
+            error: e,
+        });
+
+        return {
+            props: {
+                categorySets: [],
+                ...(await serverSideTranslations(
+                    locale,
+                    TranslationNameSpaces,
+                    i18nAppConfig
+                )),
+            },
+            revalidate: 30,
+        };
+    }
 };
 
 export default IndexPage;
