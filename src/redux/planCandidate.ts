@@ -157,7 +157,7 @@ export const createPlanByCategory = createAsyncThunk(
         const response = await plannerApi.createPlanByCategory({
             categoryId,
             location,
-            rangeInKm,
+            radiusInKm: rangeInKm,
         });
 
         return {
@@ -490,6 +490,10 @@ export const slice = createSlice({
             state.createPlanFromPlaceRequestStatus = null;
         },
 
+        resetCreatePlanByCategoryRequestStatus: (state) => {
+            state.createPlanByCategoryRequestStatus = null;
+        },
+
         resetCreatePlanFromSavedPlanRequestStatus: (state) => {
             state.createPlanFromSavedPlanRequestStatus = null;
         },
@@ -757,6 +761,7 @@ export const {
     resetPlanCandidates,
     resetCreatePlanFromLocationRequestStatus,
     resetCreatePlanFromPlaceRequestStatus,
+    resetCreatePlanByCategoryRequestStatus,
     resetCreatePlanFromSavedPlanRequestStatus,
     resetAutoReorderPlacesInPlanCandidateRequestStatus,
 } = slice.actions;

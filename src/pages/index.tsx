@@ -8,6 +8,7 @@ import { TranslationNameSpaces, i18nAppConfig } from "src/locales/i18n";
 import { CreatePlanCategoryList } from "src/view/category/CreatePlanCategoryList";
 import { CreatePlanRangeDialog } from "src/view/category/CreatePlanRangeDialog";
 import { Layout } from "src/view/common/Layout";
+import { LoadingModal } from "src/view/common/LoadingModal";
 import { Padding } from "src/view/constants/padding";
 import { Size } from "src/view/constants/size";
 import { useCreatePlanCategory } from "src/view/hooks/useCreatePlanCategory";
@@ -39,9 +40,9 @@ const IndexPage = (props: Props) => {
     } = usePwaInstall();
 
     const {
-        category,
         mapCenter,
         isCreatePlanCategoryRangeDialogVisible,
+        isCreatingPlanFromCategory,
         setMapCenter,
         onSelectCreatePlanCategory,
         onSelectCreatePlanRange,
@@ -135,6 +136,9 @@ const IndexPage = (props: Props) => {
                         </VStack>
                     }
                 />
+                {isCreatingPlanFromCategory && (
+                    <LoadingModal title={t("plan:createPlanInProgressTitle")} />
+                )}
             </>
         </Layout>
     );

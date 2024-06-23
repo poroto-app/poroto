@@ -12,10 +12,12 @@ import {
 } from "@chakra-ui/react";
 import { Circle, Marker } from "@react-google-maps/api";
 import { ReactElement, useEffect, useState } from "react";
+import { IconType } from "react-icons";
 import { MdArrowBack, MdDirectionsCar, MdDirectionsWalk } from "react-icons/md";
 import { RiPinDistanceFill } from "react-icons/ri";
 import { GeoLocation } from "src/data/graphql/generated";
 import { copyObject } from "src/domain/util/object";
+import { AppTrans } from "src/view/common/AppTrans";
 import {
     DialogPositions,
     FullscreenDialog,
@@ -26,13 +28,14 @@ import { RoundedDialog } from "src/view/common/RoundedDialog";
 import { locationSinjukuStation } from "src/view/constants/location";
 import { Padding } from "src/view/constants/padding";
 import { isPC } from "src/view/constants/userAgent";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 
 type Props = {
     visible: boolean;
     minRangeInKm?: number;
     defaultMapCenter?: GeoLocation;
     onClose: () => void;
-    onConfirm: (props: { range: number; location: GeoLocation }) => void;
+    onConfirm: (props: { rangeInKm: number; location: GeoLocation }) => void;
     googlePlaceSearchBar?: ReactElement;
 };
 
@@ -44,6 +47,7 @@ export function CreatePlanRangeDialog({
     onClose,
     onConfirm,
 }: Props) {
+    const { t } = useAppTranslation();
     const [rangeInKm, setRangeInKm] = useState(minRangeInKm);
     const [mapCenter, setMapCenter] = useState<GeoLocation>(
         locationSinjukuStation
@@ -63,7 +67,7 @@ export function CreatePlanRangeDialog({
     };
 
     const handleOnConfirm = () => {
-        onConfirm({ range: rangeInKm, location });
+        onConfirm({ rangeInKm, location });
     };
 
     useEffect(() => {
@@ -164,7 +168,7 @@ export function CreatePlanRangeDialog({
                             />
                             {googlePlaceSearchBar && googlePlaceSearchBar}
                             <VStack
-                                w="150px"
+                                w="170px"
                                 justifyContent="center"
                                 px={Padding.p8}
                                 py={Padding.p8}
@@ -183,17 +187,12 @@ export function CreatePlanRangeDialog({
                                 {rangeInKm < 10 && (
                                     <DirectionTime
                                         icon={MdDirectionsWalk}
-                                        time={
-                                            calcDirectionWalkTime(rangeInKm) +
-                                            "分"
-                                        }
+                                        time={calcDirectionWalkTime(rangeInKm)}
                                     />
                                 )}
                                 <DirectionTime
                                     icon={MdDirectionsCar}
-                                    time={
-                                        calcDirectionCarTime(rangeInKm) + "分"
-                                    }
+                                    time={calcDirectionCarTime(rangeInKm)}
                                 />
                             </VStack>
                         </MapViewer>
@@ -223,7 +222,7 @@ export function CreatePlanRangeDialog({
                         </Slider>
                     </Center>
                     <RoundedButton w="100%" onClick={handleOnConfirm}>
-                        選択した範囲でプランを作成
+                        {t("plan:createPlanByCategory")}
                     </RoundedButton>
                 </VStack>
             </RoundedDialog>
@@ -231,7 +230,7 @@ export function CreatePlanRangeDialog({
     );
 }
 
-const DirectionTime = ({ icon, time }) => {
+const DirectionTime = ({ icon, time }: { icon: IconType; time: number }) => {
     return (
         <HStack
             w="100%"
@@ -240,9 +239,15 @@ const DirectionTime = ({ icon, time }) => {
             borderRadius="5px"
             px={Padding.p4}
             spacing={Padding.p4}
+            justifyContent="space-between"
         >
             <Icon as={icon} width="20px" height="20px" />
-            <Text>およそ {time}</Text>
+            <Text>
+                <AppTrans
+                    i18nKey={"common:minuteApproximatelyLabel"}
+                    values={{ minutes: time }}
+                />
+            </Text>
         </HStack>
     );
 };
