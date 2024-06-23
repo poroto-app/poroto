@@ -50,6 +50,18 @@ export function CreatePlanRangeDialog({
     );
     const [location, setLocation] = useState(mapCenter);
 
+    const calcDirectionWalkTime = (distanceInKm: number) => {
+        const walkSpeed = 4;
+        const walkTime = distanceInKm / walkSpeed;
+        return Math.ceil(walkTime * 60);
+    }
+
+    const calcDirectionCarTime = (distanceInKm: number) => {
+        const carSpeed = 60;
+        const carTime = distanceInKm / carSpeed;
+        return Math.ceil(carTime * 60);
+    }
+
     const handleOnConfirm = () => {
         onConfirm({ range: rangeInKm, location });
     };
@@ -168,13 +180,15 @@ export function CreatePlanRangeDialog({
                                         {rangeInKm} km
                                     </Text>
                                 </Box>
-                                <DirectionTime
-                                    icon={MdDirectionsWalk}
-                                    time="10分"
-                                />
+                                {
+                                    rangeInKm < 10 && <DirectionTime
+                                        icon={MdDirectionsWalk}
+                                        time={calcDirectionWalkTime(rangeInKm) + "分"}
+                                    />
+                                }
                                 <DirectionTime
                                     icon={MdDirectionsCar}
-                                    time="1分"
+                                    time={calcDirectionCarTime(rangeInKm) + "分"}
                                 />
                             </VStack>
                         </MapViewer>
@@ -184,7 +198,7 @@ export function CreatePlanRangeDialog({
                             aria-label="slider-ex-1"
                             w="100%"
                             min={0}
-                            max={50}
+                            max={80}
                             defaultValue={rangeInKm}
                             value={rangeInKm}
                             colorScheme="green"
