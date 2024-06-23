@@ -25,6 +25,7 @@ import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import { locationSinjukuStation } from "src/view/constants/location";
 import { Padding } from "src/view/constants/padding";
+import { isPC } from "src/view/constants/userAgent";
 
 type Props = {
     visible: boolean;
@@ -63,11 +64,15 @@ export function CreatePlanRangeDialog({
     return (
         <FullscreenDialog
             visible={visible}
-            height="calc(100% - 16px)"
+            height={isPC ? "800px" : "calc(100% - 16px)"}
+            width={!isPC && "100%"}
+            maxHeight="100%"
+            maxWidth="100%"
+            paddingX={isPC && Padding.p8}
+            position={isPC ? DialogPositions.CENTER : DialogPositions.BOTTOM}
             onClickOutside={onClose}
-            position={DialogPositions.BOTTOM}
         >
-            <RoundedDialog h="100%">
+            <RoundedDialog h="100%" w={isPC ? "900px" : "100%"} maxW="100%">
                 <VStack
                     w="100%"
                     h="100%"
