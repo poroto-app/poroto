@@ -1,4 +1,4 @@
-import { VStack } from "@chakra-ui/react";
+import { VStack, Text } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
@@ -17,6 +17,7 @@ import { NavBar } from "src/view/navigation/NavBar";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { PwaInstallDialog } from "src/view/top/PwaInstallDialog";
 import { PwaIosInstruction } from "src/view/top/PwaIosInstruction";
+import {Padding} from "src/view/constants/padding";
 
 type Props = {
     categorySets: CreatePlanPlaceCategorySet[];
@@ -53,7 +54,11 @@ const IndexPage = (props: Props) => {
                     onClickInstall={() => installPwa()}
                     onClickCancel={() => cancelInstallPwa()}
                 />
-                <VStack w="100%">
+                <VStack w="100%" spacing={Padding.p16} pt={Padding.p32}>
+                    <VStack w="100%" px={Size.top.px} spacing={0}>
+                        <Text fontWeight="bold" fontSize="1.5rem">どんなことしたい気分？</Text>
+                        <Text color="rgba(0,0,0,.8)">今の気分からお任せでプランを作ってみましょう！</Text>
+                    </VStack>
                     <CreatePlanCategoryList categorySets={props.categorySets} />
                 </VStack>
             </VStack>
