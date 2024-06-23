@@ -2,7 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { CreatePlanCategoryList } from "src/view/category/CreatePlanCategoryList";
 
 export default {
-    title: "category/CreatePlanCategoryList",
+    title: "create_plan_category/CreatePlanCategoryList",
     component: CreatePlanCategoryList,
     tags: ["autodocs"],
     parameters: {},

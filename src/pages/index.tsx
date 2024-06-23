@@ -1,4 +1,4 @@
-import { VStack, Text } from "@chakra-ui/react";
+import { Text, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
@@ -7,6 +7,7 @@ import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { TranslationNameSpaces, i18nAppConfig } from "src/locales/i18n";
 import { CreatePlanCategoryList } from "src/view/category/CreatePlanCategoryList";
 import { Layout } from "src/view/common/Layout";
+import { Padding } from "src/view/constants/padding";
 import { Size } from "src/view/constants/size";
 import { usePwaInstall } from "src/view/hooks/usePwaInstall";
 import {
@@ -17,7 +18,6 @@ import { NavBar } from "src/view/navigation/NavBar";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { PwaInstallDialog } from "src/view/top/PwaInstallDialog";
 import { PwaIosInstruction } from "src/view/top/PwaIosInstruction";
-import {Padding} from "src/view/constants/padding";
 
 type Props = {
     categorySets: CreatePlanPlaceCategorySet[];
@@ -56,8 +56,12 @@ const IndexPage = (props: Props) => {
                 />
                 <VStack w="100%" spacing={Padding.p16} pt={Padding.p32}>
                     <VStack w="100%" px={Size.top.px} spacing={0}>
-                        <Text fontWeight="bold" fontSize="1.5rem">どんなことしたい気分？</Text>
-                        <Text color="rgba(0,0,0,.8)">今の気分からお任せでプランを作ってみましょう！</Text>
+                        <Text fontWeight="bold" fontSize="1.5rem">
+                            どんなことしたい気分？
+                        </Text>
+                        <Text color="rgba(0,0,0,.8)">
+                            今の気分からお任せでプランを作ってみましょう！
+                        </Text>
                     </VStack>
                     <CreatePlanCategoryList categorySets={props.categorySets} />
                 </VStack>
