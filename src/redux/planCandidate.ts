@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
+import { GeoLocation } from "src/domain/models/GeoLocation";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
 import { Place } from "src/domain/models/Place";
@@ -15,7 +16,6 @@ import {
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { RootState } from "src/redux/redux";
 import { AnalyticsEvents } from "src/view/constants/analytics";
-import {GeoLocation} from "src/domain/models/GeoLocation";
 
 export type PlanCandidateState = {
     createPlanSession: string | null;
@@ -142,30 +142,30 @@ export const createPlanFromPlace = createAsyncThunk(
 );
 
 type CreatePlanByCategoryProps = {
-    categoryId: string,
-    location: GeoLocation,
-    rangeInKm: number,
+    categoryId: string;
+    location: GeoLocation;
+    rangeInKm: number;
 };
 export const createPlanByCategory = createAsyncThunk(
-  'planCandidate/createPlanByCategory',
-  async ({categoryId, location, rangeInKm}: CreatePlanByCategoryProps) => {
-    logEvent(getAnalytics(), AnalyticsEvents.CreatePlan.Create, {
-        categoryId,
-    });
+    "planCandidate/createPlanByCategory",
+    async ({ categoryId, location, rangeInKm }: CreatePlanByCategoryProps) => {
+        logEvent(getAnalytics(), AnalyticsEvents.CreatePlan.Create, {
+            category: categoryId,
+        });
 
-    const plannerApi: PlannerApi = new PlannerGraphQlApi();
-    const response = await plannerApi.createPlanByCategory({
-        categoryId,
-        location,
-        rangeInKm,
-    });
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.createPlanByCategory({
+            categoryId,
+            location,
+            rangeInKm,
+        });
 
-    return {
-        planCandidateSetId: response.planCandidateSetId,
-        plans: response.plans.map((plan) => createPlanFromPlanEntity(plan)),
-    };
-  }
-)
+        return {
+            planCandidateSetId: response.planCandidateSetId,
+            plans: response.plans.map((plan) => createPlanFromPlanEntity(plan)),
+        };
+    }
+);
 
 type CreatePlanFromSavedPlanProps = {
     userId: string | null;
@@ -559,15 +559,18 @@ export const slice = createSlice({
             })
             // Create Plan By Category
             .addCase(createPlanByCategory.pending, (state, action) => {
-                state.createPlanByCategoryRequestStatus = RequestStatuses.PENDING;
+                state.createPlanByCategoryRequestStatus =
+                    RequestStatuses.PENDING;
             })
-            .addCase(createPlanByCategory.fulfilled, (state, {payload}) => {
-                state.createPlanByCategoryRequestStatus = RequestStatuses.FULFILLED;
+            .addCase(createPlanByCategory.fulfilled, (state, { payload }) => {
+                state.createPlanByCategoryRequestStatus =
+                    RequestStatuses.FULFILLED;
                 state.createPlanSession = payload.planCandidateSetId;
                 state.plansCreated = payload.plans;
             })
             .addCase(createPlanByCategory.rejected, (state, action) => {
-                state.createPlanByCategoryRequestStatus = RequestStatuses.REJECTED;
+                state.createPlanByCategoryRequestStatus =
+                    RequestStatuses.REJECTED;
             })
             // Create Plan From Saved Plan
             .addCase(createPlanFromSavedPlan.pending, (state) => {

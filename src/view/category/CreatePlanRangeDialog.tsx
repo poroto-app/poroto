@@ -54,13 +54,13 @@ export function CreatePlanRangeDialog({
         const walkSpeed = 4;
         const walkTime = distanceInKm / walkSpeed;
         return Math.ceil(walkTime * 60);
-    }
+    };
 
     const calcDirectionCarTime = (distanceInKm: number) => {
         const carSpeed = 60;
         const carTime = distanceInKm / carSpeed;
         return Math.ceil(carTime * 60);
-    }
+    };
 
     const handleOnConfirm = () => {
         onConfirm({ range: rangeInKm, location });
@@ -180,15 +180,20 @@ export function CreatePlanRangeDialog({
                                         {rangeInKm} km
                                     </Text>
                                 </Box>
-                                {
-                                    rangeInKm < 10 && <DirectionTime
+                                {rangeInKm < 10 && (
+                                    <DirectionTime
                                         icon={MdDirectionsWalk}
-                                        time={calcDirectionWalkTime(rangeInKm) + "分"}
+                                        time={
+                                            calcDirectionWalkTime(rangeInKm) +
+                                            "分"
+                                        }
                                     />
-                                }
+                                )}
                                 <DirectionTime
                                     icon={MdDirectionsCar}
-                                    time={calcDirectionCarTime(rangeInKm) + "分"}
+                                    time={
+                                        calcDirectionCarTime(rangeInKm) + "分"
+                                    }
                                 />
                             </VStack>
                         </MapViewer>
