@@ -11,6 +11,7 @@ import { Layout } from "src/view/common/Layout";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { Padding } from "src/view/constants/padding";
 import { Size } from "src/view/constants/size";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { useCreatePlanCategory } from "src/view/hooks/useCreatePlanCategory";
 import { useGooglePlaceSearch } from "src/view/hooks/useGooglePlaceSearch";
 import { usePwaInstall } from "src/view/hooks/usePwaInstall";
@@ -30,6 +31,7 @@ type Props = {
 };
 
 const IndexPage = (props: Props) => {
+    const { t } = useAppTranslation();
     const {
         isPwaInstallVisible,
         isPwaInstallInstructionVisible,
@@ -81,10 +83,10 @@ const IndexPage = (props: Props) => {
                 <VStack w="100%" spacing={Padding.p16} pt={Padding.p32}>
                     <VStack w="100%" px={Size.top.px} spacing={0}>
                         <Text fontWeight="bold" fontSize="1.5rem">
-                            どんなことしたい気分？
+                            {t("plan:createPlanByCategoryTitle")}
                         </Text>
                         <Text color="rgba(0,0,0,.8)">
-                            今の気分からお任せでプランを作ってみましょう！
+                            {t("plan:createPlanByCategoryDescription")}
                         </Text>
                     </VStack>
                     <CreatePlanCategoryList

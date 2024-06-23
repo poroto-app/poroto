@@ -20,6 +20,7 @@ export type CommonTranslationKeys = {
     info: string;
 
     minutesLabel: string;
+    minuteApproximatelyLabel: string;
     priceLabel: string;
     notFound: string;
 
@@ -108,6 +109,11 @@ export type PlanTranslationKeys = {
     createPlanFromThisPlace: string;
     createPlanFromSelectedPlace: string;
     createPlanFromFavoritePlace: string;
+
+    createPlanByCategoryTitle: string;
+    createPlanByCategoryDescription: string;
+    createPlanByCategorySelectRangeTitle: string;
+    createPlanByCategory: string;
 
     customizePlan: string;
     customizePlanCreated: string;

@@ -106,7 +106,7 @@ export function CreatePlanRangeDialog({
                             />
                         </Center>
                         <Text flex={1} fontWeight="semibold" fontSize={18}>
-                            どこまで行く？
+                            {t("plan:createPlanByCategorySelectRangeTitle")}
                         </Text>
                     </HStack>
                     <Box
