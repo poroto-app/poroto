@@ -15,6 +15,7 @@ import {
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { RootState } from "src/redux/redux";
 import { AnalyticsEvents } from "src/view/constants/analytics";
+import {GeoLocation} from "src/domain/models/GeoLocation";
 
 export type PlanCandidateState = {
     createPlanSession: string | null;
@@ -32,6 +33,7 @@ export type PlanCandidateState = {
 
     createPlanFromLocationRequestStatus: RequestStatus | null;
     createPlanFromPlaceRequestStatus: RequestStatus | null;
+    createPlanByCategoryRequestStatus: RequestStatus | null;
     createPlanFromSavedPlanRequestStatus: RequestStatus | null;
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
@@ -57,6 +59,7 @@ const initialState: PlanCandidateState = {
 
     createPlanFromLocationRequestStatus: null,
     createPlanFromPlaceRequestStatus: null,
+    createPlanByCategoryRequestStatus: null,
     createPlanFromSavedPlanRequestStatus: null,
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
@@ -137,6 +140,32 @@ export const createPlanFromPlace = createAsyncThunk(
         };
     }
 );
+
+type CreatePlanByCategoryProps = {
+    categoryId: string,
+    location: GeoLocation,
+    rangeInKm: number,
+};
+export const createPlanByCategory = createAsyncThunk(
+  'planCandidate/createPlanByCategory',
+  async ({categoryId, location, rangeInKm}: CreatePlanByCategoryProps) => {
+    logEvent(getAnalytics(), AnalyticsEvents.CreatePlan.Create, {
+        categoryId,
+    });
+
+    const plannerApi: PlannerApi = new PlannerGraphQlApi();
+    const response = await plannerApi.createPlanByCategory({
+        categoryId,
+        location,
+        rangeInKm,
+    });
+
+    return {
+        planCandidateSetId: response.planCandidateSetId,
+        plans: response.plans.map((plan) => createPlanFromPlanEntity(plan)),
+    };
+  }
+)
 
 type CreatePlanFromSavedPlanProps = {
     userId: string | null;
@@ -527,6 +556,18 @@ export const slice = createSlice({
             .addCase(createPlanFromPlace.rejected, (state, action) => {
                 state.createPlanFromPlaceRequestStatus =
                     RequestStatuses.REJECTED;
+            })
+            // Create Plan By Category
+            .addCase(createPlanByCategory.pending, (state, action) => {
+                state.createPlanByCategoryRequestStatus = RequestStatuses.PENDING;
+            })
+            .addCase(createPlanByCategory.fulfilled, (state, {payload}) => {
+                state.createPlanByCategoryRequestStatus = RequestStatuses.FULFILLED;
+                state.createPlanSession = payload.planCandidateSetId;
+                state.plansCreated = payload.plans;
+            })
+            .addCase(createPlanByCategory.rejected, (state, action) => {
+                state.createPlanByCategoryRequestStatus = RequestStatuses.REJECTED;
             })
             // Create Plan From Saved Plan
             .addCase(createPlanFromSavedPlan.pending, (state) => {
