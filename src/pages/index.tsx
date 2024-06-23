@@ -95,11 +95,6 @@ const IndexPage = (props: Props) => {
                 </VStack>
             </VStack>
             <>
-                <PwaInstallDialog
-                    visible={isPwaInstallVisible}
-                    onClickInstall={() => installPwa()}
-                    onClickCancel={() => cancelInstallPwa()}
-                />
                 <PwaIosInstruction
                     visible={isPwaInstallInstructionVisible}
                     onClose={closePwaInstallInstruction}
