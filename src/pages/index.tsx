@@ -5,6 +5,7 @@ import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { CreatePlanPlaceCategorySet } from "src/domain/models/CreatePlanPlaceCategory";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { TranslationNameSpaces, i18nAppConfig } from "src/locales/i18n";
+import { CreatePlanCategoryList } from "src/view/category/CreatePlanCategoryList";
 import { Layout } from "src/view/common/Layout";
 import { Size } from "src/view/constants/size";
 import { usePwaInstall } from "src/view/hooks/usePwaInstall";
@@ -52,6 +53,9 @@ const IndexPage = (props: Props) => {
                     onClickInstall={() => installPwa()}
                     onClickCancel={() => cancelInstallPwa()}
                 />
+                <VStack w="100%">
+                    <CreatePlanCategoryList categorySets={props.categorySets} />
+                </VStack>
             </VStack>
             <>
                 <PwaInstallDialog

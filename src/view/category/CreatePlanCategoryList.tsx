@@ -3,6 +3,7 @@ import { CreatePlanPlaceCategorySet } from "src/domain/models/CreatePlanPlaceCat
 import { CreatePlanCategory } from "src/view/category/CreatePlanCategory";
 import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
 import { Padding } from "src/view/constants/padding";
+import { Size } from "src/view/constants/size";
 
 export type Props = {
     categorySets: CreatePlanPlaceCategorySet[];
@@ -19,6 +20,7 @@ export function CreatePlanCategoryList({ categorySets }: Props) {
                         overflowX="hidden"
                         alignItems="flex-start"
                         spacing={Padding.p4}
+                        px={Size.top.px}
                     >
                         <Text
                             fontSize="18px"
