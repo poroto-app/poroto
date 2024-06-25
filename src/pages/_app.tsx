@@ -1,11 +1,13 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { appWithTranslation } from "next-i18next";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
 import { copyObject } from "src/domain/util/object";
+import "src/locales/i18n";
 import {
     popHistoryStack,
     pushHistoryStack,
@@ -17,7 +19,7 @@ import { FirebaseProvider } from "src/view/common/FirebaseProvider";
 import { Theme } from "src/view/common/Theme";
 import { PageMetaData } from "src/view/constants/meta";
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
     return (
         <>
             <Head>
@@ -121,3 +123,5 @@ const History = () => {
 
     return <></>;
 };
+
+export default appWithTranslation(App);
