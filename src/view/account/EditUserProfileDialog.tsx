@@ -13,9 +13,9 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { useRef, useState } from "react";
 import Cropper from "react-easy-crop";
-import { useTranslation } from "react-i18next";
 import {
     MdArrowBack,
     MdClose,

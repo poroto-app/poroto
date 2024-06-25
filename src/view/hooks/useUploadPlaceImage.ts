@@ -7,8 +7,8 @@ import {
     StorageReference,
     uploadBytesResumable,
 } from "firebase/storage";
+import { useTranslation } from "next-i18next";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
 import { getFileExtension } from "src/domain/util/file";
 import { reduxAuthSelector } from "src/redux/auth";
 import { reduxPlanSelector, uploadPlacePhotosInPlan } from "src/redux/plan";

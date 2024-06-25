@@ -1,7 +1,7 @@
 import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { hasValue } from "src/domain/util/null";

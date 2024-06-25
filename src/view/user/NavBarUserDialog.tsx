@@ -1,7 +1,7 @@
 import { Box, HStack, Icon, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
+import { useTranslation } from "next-i18next";
 import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
 import { IconType } from "react-icons";
 import { MdLogin, MdLogout, MdOutlineBackup } from "react-icons/md";
 import { User } from "src/domain/models/User";

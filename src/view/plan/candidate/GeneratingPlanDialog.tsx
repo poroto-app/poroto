@@ -1,5 +1,5 @@
 import { Box, Center, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { LottiePlayer } from "src/view/common/LottiePlayer";
 import { RoundedButton } from "src/view/common/RoundedButton";

@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import html2canvas from "html2canvas";
+import { useTranslation } from "next-i18next";
 import { useRef } from "react";
-import { useTranslation } from "react-i18next";
 import { MdOutlinePhotoCamera } from "react-icons/md";
 import { Plan } from "src/domain/models/Plan";
 import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent";

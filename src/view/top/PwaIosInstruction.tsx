@@ -6,9 +6,9 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { useEffect, useRef, useState } from "react";
 import { isIPad13 } from "react-device-detect";
-import { useTranslation } from "react-i18next";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";

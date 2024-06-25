@@ -11,9 +11,9 @@ import {
     useMediaQuery,
     VStack,
 } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import * as process from "process";
 import { useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { MdLink, MdOutlineCameraAlt, MdOutlineInfo } from "react-icons/md";
 import { ImageSize } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";

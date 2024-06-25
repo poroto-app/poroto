@@ -21,6 +21,8 @@ export type CommonTranslationKeys = {
 
     time: string;
     YYYYMMDDHHMM: string;
+    labelHour: string;
+    labelMinute: string;
 };
 
 export type AccountTranslationKeys = {
@@ -51,6 +53,10 @@ export type HomeTranslationKeys = {
     createPlanFromFavoritePlace: string;
     createPlanFromCurrentLocation: string;
     recentlyCreatedPlans: string;
+};
+
+export type LocationTranslationKeys = {
+    fetchCurrentLocationInProgress: string;
 };
 
 export type NavigationTranslationKeys = {
@@ -95,6 +101,7 @@ export type PlanTranslationKeys = {
     createPlanFromOtherLocation: string;
     createPlanFromThisPlace: string;
     createPlanFromSelectedPlace: string;
+    createPlanFromFavoritePlace: string;
 
     customizePlan: string;
     customizePlanCreated: string;

@@ -1,6 +1,6 @@
 import { Box, Center, Grid, Text, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import { MdOutlineLocationOn, MdOutlineMap } from "react-icons/md";
 import HangOut from "src/view/assets/svg/hangout.svg";
 import { AnalyticsEvents } from "src/view/constants/analytics";

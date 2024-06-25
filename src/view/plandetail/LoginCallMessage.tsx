@@ -1,5 +1,5 @@
 import { Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import MobileLogin from "src/view/assets/svg/mobile_login.svg";
 import { RoundedButton } from "src/view/common/RoundedButton";
 

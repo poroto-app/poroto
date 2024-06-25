@@ -1,12 +1,13 @@
 import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { ReactNode, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { IconType } from "react-icons";
 import { MdCurrencyYen, MdSchedule } from "react-icons/md";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
 import { DateHelper } from "src/domain/util/date";
 import { Size } from "src/view/constants/size";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 
 type Props = {
@@ -116,7 +117,7 @@ const TabPanelInformation = ({
     priceRange: PriceRange | null;
     estimatedStayDuration: number;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const isEstimatedStayDurationEmpty = estimatedStayDuration === 0;
     const isCategoryEmpty = categories.length === 0;
     const isPriceRangeEmpty = !priceRange || priceRange.max === 0;
@@ -159,7 +160,9 @@ const TabPanelInformation = ({
                     <InformationTag
                         key="priceRange"
                         icon={MdCurrencyYen}
-                        value={`${priceRange.min}~${priceRange.max} 円`}
+                        value={`${priceRange.min}~${t("common:priceLabel", {
+                            price: priceRange.max,
+                        })}`}
                         label={t("place:priceRange")}
                     />
                 )}
@@ -167,7 +170,10 @@ const TabPanelInformation = ({
                     <InformationTag
                         key="estimatedStayDuration"
                         icon={MdSchedule}
-                        value={DateHelper.formatHHMM(estimatedStayDuration)}
+                        value={DateHelper.formatHHMM(estimatedStayDuration, {
+                            hour: t("common:labelHour"),
+                            minute: t("common:labelMinute"),
+                        })}
                         label={t("place:estimatedStayDuration")}
                     />
                 )}

@@ -15,9 +15,9 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 import { isMobile, isTablet } from "react-device-detect";
-import { useTranslation } from "react-i18next";
 import { MdClose } from "react-icons/md";
 import {
     ImageSizes,

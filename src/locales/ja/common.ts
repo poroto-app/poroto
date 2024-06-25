@@ -23,4 +23,6 @@ export const CommonTranslationJa: CommonTranslationKeys = {
 
     time: "時間",
     YYYYMMDDHHMM: "{{year}}年{{month}}月{{day}}日 {{hour}}:{{minute}}",
+    labelHour: "時間",
+    labelMinute: "分",
 };

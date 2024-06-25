@@ -1,7 +1,7 @@
 import { Box, Button, Center, HStack, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { CSSProperties } from "react";
-import { useTranslation } from "react-i18next";
 import { Transition, TransitionStatus } from "react-transition-group";
 import { AppTrans } from "src/view/common/AppTrans";
 import { RoundedButton } from "src/view/common/RoundedButton";

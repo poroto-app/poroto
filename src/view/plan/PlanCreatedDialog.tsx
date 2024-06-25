@@ -1,5 +1,5 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import HappyNewsIcon from "src/view/assets/svg/happy_news.svg";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 

@@ -1,5 +1,5 @@
 import { Center, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import OnTheWayIcon from "src/view/assets/svg/on_the_way.svg";
 import { AppTrans } from "src/view/common/AppTrans";
 

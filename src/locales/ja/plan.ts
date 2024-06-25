@@ -26,6 +26,7 @@ export const PlanTranslationJa: PlanTranslationKeys = {
     createPlanFromOtherLocation: "他の場所からプランを作成",
     createPlanFromThisPlace: "この場所からプランを作る",
     createPlanFromSelectedPlace: "選択した場所からプランを作成",
+    createPlanFromFavoritePlace: "好きな場所からプランを作成する",
 
     customizePlan: "このプランをカスタマイズする",
     customizePlanCreated: "カスタマイズ用のプランの準備ができました！",

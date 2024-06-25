@@ -1,7 +1,7 @@
 import { Link } from "@chakra-ui/next-js";
 import { Button } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
 import Notify from "src/view/assets/svg/notify.svg";
 import { FailurePage } from "src/view/common/FailurePage";
 import { RoundedButton } from "src/view/common/RoundedButton";

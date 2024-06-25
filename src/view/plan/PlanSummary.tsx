@@ -1,6 +1,6 @@
 import { Box, Icon, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { ReactNode } from "react";
-import { useTranslation } from "react-i18next";
 import { IconType } from "react-icons";
 import { MdCurrencyYen, MdSchedule } from "react-icons/md";
 import { DateHelper } from "src/domain/util/date";
@@ -55,7 +55,12 @@ export const PlanSummaryDuration = ({
     return (
         <PlanSummary title={t("common:time")} icon={MdSchedule}>
             <VStack alignItems="flex-start" w="100%" spacing={0}>
-                <Text>{DateHelper.formatHHMM(durationInMinutes)}</Text>
+                <Text>
+                    {DateHelper.formatHHMM(durationInMinutes, {
+                        hour: t("common:labelHour"),
+                        minute: t("common:labelMinute"),
+                    })}
+                </Text>
                 <Text color="gray">~ {DateHelper.dateToHHMM(endPlanDate)}</Text>
             </VStack>
         </PlanSummary>

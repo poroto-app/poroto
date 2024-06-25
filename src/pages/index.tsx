@@ -1,7 +1,8 @@
 import { Center, Spinner, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import { MdTrendingUp } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
@@ -10,6 +11,7 @@ import { Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { hasValue } from "src/domain/util/null";
+import { TranslationNameSpaces, i18nAppConfig } from "src/locales/i18n";
 import {
     fetchPlansRecentlyCreated,
     pushPlansRecentlyCreated,
@@ -129,7 +131,11 @@ const IndexPage = (props: Props) => {
     );
 };
 
-export const getStaticProps: GetStaticProps<Props> = async () => {
+export const getStaticProps: GetStaticProps<Props> = async ({
+    locale,
+    defaultLocale,
+}) => {
+    console.log("locale", locale);
     const plannerApi: PlannerApi = new PlannerGraphQlApi();
 
     let plans: Plan[] = [];
@@ -157,6 +163,11 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
             props: {
                 plansRecentlyCreated: null,
                 nextPageTokenPlansRecentlyCreated: null,
+                ...(await serverSideTranslations(
+                    locale,
+                    TranslationNameSpaces,
+                    i18nAppConfig
+                )),
             },
             revalidate: 30,
         };
@@ -171,6 +182,11 @@ export const getStaticProps: GetStaticProps<Props> = async () => {
         props: {
             plansRecentlyCreated: plans,
             nextPageTokenPlansRecentlyCreated: nextPageKey,
+            ...(await serverSideTranslations(
+                locale,
+                TranslationNameSpaces,
+                i18nAppConfig
+            )),
         },
         revalidate: 60,
     };
