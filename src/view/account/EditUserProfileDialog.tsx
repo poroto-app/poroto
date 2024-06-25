@@ -15,6 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import Cropper from "react-easy-crop";
+import { useTranslation } from "react-i18next";
 import {
     MdArrowBack,
     MdClose,
@@ -157,6 +158,7 @@ function ProfileEditor({
     onClose: () => void;
     onSave: () => void;
 }) {
+    const { t } = useTranslation();
     const [focusUserName, setFocusUserName] = useState(false);
 
     return (
@@ -171,7 +173,7 @@ function ProfileEditor({
         >
             <HStack w="100%" pb={Padding.p16}>
                 <Text flex={1} fontWeight="semibold" fontSize={18}>
-                    プロフィールを編集
+                    {t("account:editProfile")}
                 </Text>
                 <Center as="button" onClick={onClose}>
                     <Icon
@@ -220,7 +222,7 @@ function ProfileEditor({
                             />
                         )}
                         <Text fontWeight={600} fontSize={14}>
-                            編集
+                            {t("common:edit")}
                         </Text>
                     </HStack>
                 </Center>
@@ -240,7 +242,7 @@ function ProfileEditor({
                     }
                     fontSize="12px"
                 >
-                    名前
+                    {t("account:name")}
                 </Text>
                 <Input
                     border="none"
@@ -255,7 +257,7 @@ function ProfileEditor({
                 />
             </VStack>
             <RoundedButton onClick={onSave}>
-                <Text>保存</Text>
+                <Text>{t("common:save")}</Text>
             </RoundedButton>
         </VStack>
     );
@@ -270,6 +272,8 @@ function ProfileImageEditor({
     onSave: (params: { croppedImage: string }) => void;
     onClose: () => void;
 }) {
+    const { t } = useTranslation();
+
     const {
         crop,
         zoom,
@@ -299,7 +303,7 @@ function ProfileImageEditor({
                     />
                 </Center>
                 <Text flex={1} fontWeight="semibold" fontSize={18}>
-                    写真を編集
+                    {t("account:editProfileImage")}
                 </Text>
                 <Button
                     colorScheme="blue"
@@ -307,7 +311,7 @@ function ProfileImageEditor({
                     onClick={handleSave}
                     isLoading={isCropInProgress}
                 >
-                    保存
+                    {t("common:save")}
                 </Button>
             </HStack>
             <Box flex={1} width="100%" overflow="hidden" position="relative">

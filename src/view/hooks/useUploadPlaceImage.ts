@@ -8,6 +8,7 @@ import {
     uploadBytesResumable,
 } from "firebase/storage";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { getFileExtension } from "src/domain/util/file";
 import { reduxAuthSelector } from "src/redux/auth";
 import { reduxPlanSelector, uploadPlacePhotosInPlan } from "src/redux/plan";
@@ -40,6 +41,7 @@ export type UploadPlaceImageProps = {
 const useUploadPlaceImage = () => {
     const dispatch = useAppDispatch();
     const toast = useToast();
+    const { t } = useTranslation();
 
     const [localPlaceImageFiles, setLocalPlaceImageFiles] = useState<
         PlaceImageFile[]
@@ -125,7 +127,7 @@ const useUploadPlaceImage = () => {
             );
 
             toast({
-                title: "画像のアップロードが完了しました",
+                title: t("place:uploadPlacePhotoSuccess"),
                 status: "success",
                 duration: 3000,
                 isClosable: true,
@@ -134,8 +136,8 @@ const useUploadPlaceImage = () => {
             setUploadRequestStatus(UploadRequestStatus.FULFILLED);
         } catch (error) {
             toast({
-                title: "画像のアップロードに失敗しました",
-                description: "もう一度試してみてください。",
+                title: t("place:uploadPlacePhotoFailed"),
+                description: t("place:uploadPlacePhotoFailedDescription"),
                 status: "error",
                 duration: 5000,
                 isClosable: true,

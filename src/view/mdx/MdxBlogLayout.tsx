@@ -7,7 +7,9 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
+import { Namespace, TFunction } from "i18next";
 import { ReactNode } from "react";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { MDXBlogProvider } from "src/view/mdx/MDXBlogProvider";
 import { MdxMeta } from "src/view/mdx/MdxMeta";
 import { NavBar } from "src/view/navigation/NavBar";
@@ -40,17 +42,24 @@ export function MdxBlogLayout({ children, meta }: Props) {
     );
 }
 
-const formatDate = (dateString: string) => {
+const formatDate = (t: TFunction<Namespace, string>, dateString: string) => {
     const date = new Date(dateString);
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
     const hour = ("0" + date.getHours()).slice(-2);
     const minute = ("0" + date.getMinutes()).slice(-2);
-    return `${year}月${month}年${day}日 ${hour}:${minute}`;
+    return t("common:YYYYMMDDHHMM", {
+        year,
+        month,
+        day,
+        hour,
+        minute,
+    });
 };
 
 const Header = ({ meta }: { meta: MdxMeta }) => {
+    const { t } = useAppTranslation();
     return (
         <VStack w="100%" alignItems="flex-start">
             <Image src={meta.image} w="100%" mt={{ base: 0, sm: "32px" }} />
@@ -68,7 +77,9 @@ const Header = ({ meta }: { meta: MdxMeta }) => {
                 <Avatar src={meta.authorImage} name={meta.author} size="md" />
                 <VStack alignItems="flex-start" spacing={0}>
                     <Text>{meta.author}</Text>
-                    <Text color="rgba(0,0,0,.6)">{formatDate(meta.date)}</Text>
+                    <Text color="rgba(0,0,0,.6)">
+                        {formatDate(t, meta.date)}
+                    </Text>
                 </VStack>
             </HStack>
         </VStack>

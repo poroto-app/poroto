@@ -1,4 +1,5 @@
 import { Grid, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import { Place } from "src/domain/models/Place";
 import { createArrayWithSize } from "src/domain/util/array";
 import { AvailablePlace } from "src/view/plan/candidate/AvailablePlace";
@@ -14,12 +15,13 @@ export function AvailablePlaceSection({
     isFetching,
     onClickPlace,
 }: Props) {
+    const { t } = useTranslation();
     if (!places && !isFetching) return <></>;
 
     return (
         <VStack w="100%" maxW="600px" alignItems="flex-start">
             <Text fontWeight="bold" fontSize="20px">
-                他の場所からプランを作る
+                {t("plan:createPlanFromOtherLocation")}
             </Text>
             <Grid
                 w="100%"

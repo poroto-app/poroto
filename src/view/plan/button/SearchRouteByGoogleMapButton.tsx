@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { Plan } from "src/domain/models/Plan";
 import { generateGoogleMapUrl } from "src/domain/util/googleMap";
@@ -15,6 +16,7 @@ export function SearchRouteByGoogleMapButton({
     currentLocation,
     createdBasedOnCurrentLocation,
 }: Props) {
+    const { t } = useTranslation();
     const startLocationOfRoute =
         currentLocation && createdBasedOnCurrentLocation
             ? currentLocation
@@ -30,7 +32,7 @@ export function SearchRouteByGoogleMapButton({
             style={{ width: "100%" }}
         >
             <PlanActionButton
-                text="Google Mapで経路を調べる"
+                text={t("plan:searchRouteOnGoogleMaps")}
                 imageUrl="/images/google_map_logo.png"
             />
         </Link>

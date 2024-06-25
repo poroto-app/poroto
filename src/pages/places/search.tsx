@@ -3,6 +3,7 @@ import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { MdDone, MdOutlineTouchApp } from "react-icons/md";
 import { GeoLocation } from "src/data/graphql/generated";
 import { PlaceSearchResult } from "src/domain/models/PlaceSearchResult";
@@ -41,13 +42,14 @@ import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
 import { ShowPlaceRecommendationButton } from "src/view/place/ShowPlaceRecommendationButton";
 
 export default function Page() {
+    const { t } = useTranslation();
     return (
         <>
             <Head>
-                <title>{PageMetaData.place.search.title}</title>
+                <title>{PageMetaData(t).place.search.title}</title>
                 <meta
                     name="description"
-                    content={PageMetaData.place.search.description}
+                    content={PageMetaData(t).place.search.description}
                 />
             </Head>
             <PlaceSearchPage />
@@ -59,6 +61,7 @@ function PlaceSearchPage() {
     const router = useRouter();
     const isSkipFetchCurrentLocation =
         router.query[RouteParams.SkipCurrentLocation] === "true";
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const { currentLocation } = reduxLocationSelector();
     const { placeSearchResults, placeSelected, moveToSelectedLocation } =
@@ -170,7 +173,7 @@ function PlaceSearchPage() {
     if (fetchCurrentLocationStatus && !location)
         return (
             <FetchLocationDialog
-                skipLocationLabel="現在地取得をスキップする"
+                skipLocationLabel={t("place:skipCurrentLocationRetrieval")}
                 isSkipCurrentLocationVisible={true}
                 fetchLocationRequestStatus={
                     fetchCurrentLocationStatus ?? RequestStatuses.PENDING
@@ -182,7 +185,7 @@ function PlaceSearchPage() {
     return (
         <VStack w="100%" h="100%" spacing={0}>
             <Head>
-                <title>好きな場所からプランを作る | komichi</title>
+                <title>{t("ogp:placeSearchPageTitle")}</title>
             </Head>
             <NavBar />
             <VStack w="100%" h="100%" position="relative">
@@ -260,6 +263,7 @@ const SearchButton = ({
     placeSelected: boolean;
     onClick: () => void;
 }) => {
+    const { t } = useTranslation();
     return (
         <Center
             position="fixed"
@@ -275,8 +279,8 @@ const SearchButton = ({
                     onClick={onClick}
                 >
                     {placeSelected
-                        ? "タップして場所を選択"
-                        : "指定した場所からプランを作成"}
+                        ? t("place:tapToSelectPlace")
+                        : t("plan:createPlanFromSelectedPlace")}
                 </RoundedIconButton>
             </Box>
         </Center>

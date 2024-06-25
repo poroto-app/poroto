@@ -1,8 +1,10 @@
 import { Box, Icon, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { useTranslation } from "react-i18next";
 import { IconType } from "react-icons";
 import { MdCurrencyYen, MdSchedule } from "react-icons/md";
 import { DateHelper } from "src/domain/util/date";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import styled from "styled-components";
 
 type Props = {
@@ -45,12 +47,13 @@ export const PlanSummaryDuration = ({
 }: {
     durationInMinutes: number;
 }) => {
+    const { t } = useTranslation();
     const endPlanDate = DateHelper.add(
         new Date(),
         durationInMinutes * DateHelper.Minute
     );
     return (
-        <PlanSummary title="時間" icon={MdSchedule}>
+        <PlanSummary title={t("common:time")} icon={MdSchedule}>
             <VStack alignItems="flex-start" w="100%" spacing={0}>
                 <Text>{DateHelper.formatHHMM(durationInMinutes)}</Text>
                 <Text color="gray">~ {DateHelper.dateToHHMM(endPlanDate)}</Text>
@@ -66,11 +69,16 @@ export const PlanSummaryBudget = ({
     minBudget: number;
     maxBudget: number;
 }) => {
+    const { t } = useAppTranslation();
     return (
-        <PlanSummary title="予算" icon={MdCurrencyYen}>
+        <PlanSummary title={t("common:budget")} icon={MdCurrencyYen}>
             <VStack alignItems="flex-start" w="100%" spacing={0}>
                 {minBudget > 0 && <Text>{`${minBudget}`}</Text>}
-                {maxBudget > 0 && <Text>{`~${maxBudget}円`}</Text>}
+                {maxBudget > 0 && (
+                    <Text>
+                        `~${t("common:priceLabel", { price: maxBudget })}`
+                    </Text>
+                )}
             </VStack>
         </PlanSummary>
     );

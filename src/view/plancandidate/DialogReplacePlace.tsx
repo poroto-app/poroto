@@ -1,4 +1,5 @@
 import { Place } from "src/domain/models/Place";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { DialogRelatedPlaces } from "src/view/plancandidate/DialogRelatedPlaces";
 
 type Props = {
@@ -23,16 +24,19 @@ export function DialogReplacePlace({
     onReplacePlace,
     onCloseDialog,
 }: Props) {
+    const { t } = useAppTranslation();
     return (
         <DialogRelatedPlaces
             visible={isDialogVisible}
-            titleSelectScreen={`「${
-                placesInPlan.find((p) => p.id === placeIdToBeReplaced)?.name
-            }」に関連する場所`}
-            titleConfirmScreen="この場所と入れ替えますか？"
+            titleSelectScreen={t("place:relatedPlacesTitle", {
+                placeName: placesInPlan.find(
+                    (p) => p.id === placeIdToBeReplaced
+                )?.name,
+            })}
+            titleConfirmScreen={t("place:replacePlaceConfirmTitle")}
             placesRecommended={placesToReplace}
             updating={isReplacingPlace}
-            buttonLabelUpdatePlace="入れ替える"
+            buttonLabelUpdatePlace={t("place:replacePlace")}
             onClickRelatedPlace={(placeId) =>
                 placeIdToBeReplaced &&
                 onReplacePlace({

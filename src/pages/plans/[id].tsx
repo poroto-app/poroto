@@ -3,6 +3,7 @@ import { getAnalytics, logEvent } from "@firebase/analytics";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { MdOutlineExplore, MdOutlineNearMe } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
 import { getPlanPriceRange } from "src/domain/models/Plan";
@@ -50,6 +51,7 @@ import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 
 export default function PlanPage() {
+    const { t } = useTranslation();
     const { id } = useRouter().query;
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -80,8 +82,8 @@ export default function PlanPage() {
         navigator.clipboard.writeText(url);
 
         toast({
-            title: "プランのURLをコピーしました",
-            description: "作ったプランを共有してみましょう！",
+            title: t("plan:copiedPlanUrl"),
+            description: t("plan:shareCreatedPlanMessage"),
             status: "success",
             duration: 3000, // ポップアップが表示される時間（ミリ秒）
             isClosable: true,
@@ -158,7 +160,7 @@ export default function PlanPage() {
             // プランを取得したあとで、同じプランを再取得したときに画面がロード中になるのを防ぐ
             plan?.id !== id)
     )
-        return <LoadingModal title="プランを読み込んでいます" />;
+        return <LoadingModal title={t("plan:loadingPlan")} />;
 
     if (fetchPlanRequestStatus === RequestStatuses.REJECTED)
         return <ErrorPage />;
@@ -208,7 +210,7 @@ export default function PlanPage() {
                 <PlanPageSection
                     sectionHeader={
                         <SectionTitle
-                            title="プランの情報"
+                            title={t("plan:planInfo")}
                             px={Size.PlanDetail.px}
                         />
                     }
@@ -223,7 +225,10 @@ export default function PlanPage() {
                 </PlanPageSection>
                 <PlanPageSection
                     sectionHeader={
-                        <SectionTitle title="プラン" px={Size.PlanDetail.px} />
+                        <SectionTitle
+                            title={t("plan:plan")}
+                            px={Size.PlanDetail.px}
+                        />
                     }
                 >
                     <PlanPlaceList
@@ -238,8 +243,8 @@ export default function PlanPage() {
                 <PlanPageSection
                     sectionHeader={
                         <SectionTitle
-                            title="プラン内の場所"
-                            description="マーカーをクリックすると場所の詳細が表示されます"
+                            title={t("plan:placesInPlan")}
+                            description={t("plan:clickMarkerToShowPlaceDetail")}
                             px={Size.PlanDetail.px}
                         />
                     }
@@ -259,7 +264,7 @@ export default function PlanPage() {
                             contentPaddingX={0}
                             sectionHeader={
                                 <PlanListSectionTitle
-                                    title="近くのプラン"
+                                    title={t("plan:nearbyPlans")}
                                     icon={MdOutlineNearMe}
                                     px={Size.PlanDetail.px}
                                 />
@@ -284,7 +289,7 @@ export default function PlanPage() {
                         contentPaddingX={0}
                         sectionHeader={
                             <PlanListSectionTitle
-                                title="新しいプランを作ってみませんか？"
+                                title={t("plan:createNewPlanTitle")}
                                 icon={MdOutlineExplore}
                                 px={Size.PlanDetail.px}
                             />
@@ -324,7 +329,7 @@ export default function PlanPage() {
                 onClose={uploadImageProps.onCloseDialog}
             />
             {isCreatingPlanFromSavedPlan && (
-                <LoadingModal title="カスタマイズ用のプランを準備しています。もう少しお待ちください。" />
+                <LoadingModal title={t("plan:customizePlanCreating")} />
             )}
             <>
                 <PlanFooter visible={isPlanFooterVisible}>
@@ -342,7 +347,7 @@ export default function PlanPage() {
                             });
                         }}
                     >
-                        このプランをカスタムする
+                        {t("plan:customizePlan")}
                     </Button>
                 </PlanFooter>
             </>

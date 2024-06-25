@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import * as process from "process";
 import { useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { MdLink, MdOutlineCameraAlt, MdOutlineInfo } from "react-icons/md";
 import { ImageSize } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
@@ -44,6 +45,7 @@ export function PlanDetailPageHeader({
     onUpdateLikePlace,
     onCopyPlanUrl,
 }: Props) {
+    const { t } = useTranslation();
     const [currentPage, setCurrentPage] = useState(0);
     const [isLargerThanHeaderWidth] = useMediaQuery(
         `(min-width: ${Size.PlanDetailHeader.maxW})`
@@ -142,7 +144,7 @@ export function PlanDetailPageHeader({
                         opacity={activeTab === PlanHeaderTabs.Info ? 1 : 0.3}
                         leftIcon={<Icon as={MdOutlineInfo} />}
                     >
-                        情報
+                        {t("common:info")}
                     </Button>
                     <Button
                         onClick={() => setActiveTab(PlanHeaderTabs.Collage)}
@@ -152,7 +154,7 @@ export function PlanDetailPageHeader({
                         opacity={activeTab === PlanHeaderTabs.Collage ? 1 : 0.3}
                         leftIcon={<Icon as={MdOutlineCameraAlt} />}
                     >
-                        アルバム
+                        {t("plan:album")}
                     </Button>
                 </HStack>
             )}

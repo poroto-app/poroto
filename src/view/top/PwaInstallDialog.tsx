@@ -1,7 +1,9 @@
 import { Box, Button, Center, HStack, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import { CSSProperties } from "react";
+import { useTranslation } from "react-i18next";
 import { Transition, TransitionStatus } from "react-transition-group";
+import { AppTrans } from "src/view/common/AppTrans";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { Size } from "src/view/constants/size";
 
@@ -26,6 +28,7 @@ export function PwaInstallDialog({
     onClickInstall,
     onClickCancel,
 }: Props) {
+    const { t } = useTranslation();
     return (
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -69,9 +72,9 @@ export function PwaInstallDialog({
                                     fontWeight="bold"
                                     color="#45413E"
                                 >
-                                    komichiを
-                                    <br />
-                                    ホームに追加しますか?
+                                    <AppTrans
+                                        i18nKey={"pwa:promptAddToHomeScreen"}
+                                    />
                                 </Text>
                             </HStack>
                             <HStack
@@ -84,14 +87,14 @@ export function PwaInstallDialog({
                                     variant="link"
                                     onClick={onClickCancel}
                                 >
-                                    キャンセル
+                                    {t("common:cancel")}
                                 </Button>
                                 <Box flex={1}>
                                     <RoundedButton
                                         onClick={onClickInstall}
                                         color="#BF756E"
                                     >
-                                        ホームに追加
+                                        {t("pwa:addToHomeScreen")}
                                     </RoundedButton>
                                 </Box>
                             </HStack>

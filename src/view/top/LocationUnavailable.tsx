@@ -1,4 +1,5 @@
 import { Switch, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "react-i18next";
 import MapIcon from "src/view/assets/svg/map.svg";
 import {
     LocationPermission,
@@ -11,11 +12,13 @@ type Props = {
     onClickSwitch: () => void;
 };
 
+// TODO: search ディレクトリに移動する
 export function LocationUnavailable({
     locationPermission,
     isUpdating,
     onClickSwitch,
 }: Props) {
+    const { t } = useTranslation();
     const handleOnClickSwitch = () => {
         if (locationPermission === LocationPermissions.GRANTED) return;
         onClickSwitch();
@@ -32,11 +35,11 @@ export function LocationUnavailable({
             />
             <Text fontWeight="bold" fontSize="20px">
                 {locationPermission === LocationPermissions.GRANTED
-                    ? "近くのプランを探しています..."
+                    ? t("plan:searchNearbyPlansInProgress")
                     : locationPermission === LocationPermissions.DENIED
                       ? // TODO: iOSの場合は許可方法を伝えるページを作る
-                        "位置情報を許可すると、近くのプランを探すことができます。"
-                      : "位置情報をオンにしてプランを取得"}
+                        t("plan:searchNearbyPlansLocationPermissionDenied")
+                      : t("plan:searchNearbyPlansLocationPermissionNotGranted")}
             </Text>
             <Switch
                 size="lg"
