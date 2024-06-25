@@ -16,6 +16,7 @@ import { RootState } from "src/redux/redux";
 export type AuthState = {
     user: User | null;
 
+    firebaseUserId: string | null;
     firebaseIdToken: string | null;
 
     fetchByFirebaseUserStatus: RequestStatus | null;
@@ -23,6 +24,7 @@ export type AuthState = {
 
 const initialState: AuthState = {
     user: null,
+    firebaseUserId: null,
     firebaseIdToken: null,
     fetchByFirebaseUserStatus: null,
 };
@@ -64,6 +66,12 @@ export const slice = createSlice({
     name: "auth",
     initialState,
     reducers: {
+        setFirebaseUID: (
+            state,
+            { payload }: PayloadAction<{ firebaseUID: string | null }>
+        ) => {
+            state.firebaseUserId = payload.firebaseUID;
+        },
         setUser: (state, { payload }: PayloadAction<{ user: User }>) => {
             state.user = payload.user;
         },
@@ -89,7 +97,7 @@ export const slice = createSlice({
     },
 });
 
-export const { setUser, resetAuthUser } = slice.actions;
+export const { setUser, setFirebaseUID, resetAuthUser } = slice.actions;
 export const authReducer = slice.reducer;
 export const reduxAuthSelector = () =>
     useSelector((state: RootState) => state.auth);

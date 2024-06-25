@@ -700,7 +700,7 @@ function fromGraphqlPlacePreviewEntity(
     };
 }
 
-function fromGraphQlUserEntity(
+export function fromGraphQlUserEntity(
     userEntity: UserFullFragmentFragment
 ): UserEntity {
     return {

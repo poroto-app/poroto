@@ -4,6 +4,8 @@ export const AccountTranslationEn: AccountTranslationKeys = {
     name: "Name",
     editProfile: "Edit Profile",
     editProfileImage: "Edit Photo",
+    editProfileSuccess: "Profile saved.",
+    editProfileFailed: "Failed to update profile.",
 
     retainDataBeforeLogin: "Retain data before login",
     retainData: "Retain",

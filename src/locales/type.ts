@@ -29,6 +29,8 @@ export type AccountTranslationKeys = {
     name: string;
     editProfile: string;
     editProfileImage: string;
+    editProfileSuccess: string;
+    editProfileFailed: string;
 
     retainDataBeforeLogin: string;
     retainData: string;
