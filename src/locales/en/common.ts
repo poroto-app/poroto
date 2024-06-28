@@ -16,6 +16,7 @@ export const CommonTranslationEn: CommonTranslationKeys = {
     info: "Info",
 
     minutesLabel: "{{minutes}} minutes",
+    minuteApproximatelyLabel: "About {{minutes}} min",
     priceLabel: "{{price}} yen",
     notFound: "The page you are looking for was not found.",
 

@@ -1,8 +1,10 @@
+import { CreatePlanPlaceCategorySet } from "src/domain/models/CreatePlanPlaceCategory";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";
 import { Transition } from "src/domain/models/Transition";
+import { Locale } from "src/locales/type";
 
 export interface PlannerApi {
     // ==============================================================
@@ -34,6 +36,10 @@ export interface PlannerApi {
     createPlanFromPlace(
         request: CreatePlanFromPlaceRequest
     ): Promise<CreatePlanFromPlaceResponse>;
+
+    createPlanByCategory(
+        request: CreatePlanByCategoryRequest
+    ): Promise<CreatePlanByCategoryResponse>;
 
     createPlanCandidateSetFromSavedPlan(
         request: CreatePlanCandidateSetFromSavedPlanRequest
@@ -97,6 +103,13 @@ export interface PlannerApi {
     fetchPlacesNearbyPlanLocation(
         request: FetchPlacesNearbyPlanLocationRequest
     ): Promise<FetchPlacesNearbyPlanLocationResponse>;
+
+    // ==============================================================
+    // Category
+    // ==============================================================
+    fetchCreatePlanPlaceCategories(
+        request: FetchCreatePlanPlaceCategoriesRequest
+    ): Promise<FetchCreatePlanPlaceCategoriesResponse>;
 }
 
 export type FetchPlanRequest = {
@@ -176,6 +189,17 @@ export type CreatePlanFromPlaceRequest = {
 export type CreatePlanFromPlaceResponse = {
     createPlanSessionId: string;
     plan: PlanEntity;
+};
+
+export type CreatePlanByCategoryRequest = {
+    categoryId: string;
+    location: GeoLocation;
+    radiusInKm: number;
+};
+
+export type CreatePlanByCategoryResponse = {
+    planCandidateSetId: string;
+    plans: PlanEntity[];
 };
 
 export type CreatePlanCandidateSetFromSavedPlanRequest = {
@@ -354,4 +378,12 @@ export type UploadPlacePhotosInPlanRequest = {
 
 export type UploadPlacePhotosInPlanResponse = {
     plan: PlanEntity;
+};
+
+export type FetchCreatePlanPlaceCategoriesRequest = {
+    locale: Locale;
+};
+
+export type FetchCreatePlanPlaceCategoriesResponse = {
+    categories: CreatePlanPlaceCategorySet[];
 };

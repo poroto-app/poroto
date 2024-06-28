@@ -1,7 +1,9 @@
+import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
 import {
     AddPlaceToPlanCandidateDocument,
     AutoReorderPlacesInPlanCandidateDocument,
     ChangePlacesOrderInPlanCandidateDocument,
+    CreatePlanByCategoryDocument,
     CreatePlanByLocationDocument,
     CreatePlanByPlaceDocument,
     CreatePlanCandidateSetFromSavedPlanDocument,
@@ -12,6 +14,7 @@ import {
     FetchPlanByIdWithUserDocument,
     FetchPlansDocument,
     NearbyPlaceCategoriesDocument,
+    PlaceCategoriesDocument,
     PlaceFullFragmentFragment,
     PlacePreviewFragmentFragment,
     PlacesNearbyPlanDocument,
@@ -28,7 +31,7 @@ import {
     UploadPlacePhotoInPlanDocument,
     UserFullFragmentFragment,
 } from "src/data/graphql/generated";
-import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
+import { CreatePlanPlaceCategory } from "src/domain/models/CreatePlanPlaceCategory";
 import { PlaceEntity } from "src/domain/models/PlaceEntity";
 import { PlanEntity } from "src/domain/models/PlanEntity";
 import { UserEntity } from "src/domain/models/UserEntity";
@@ -36,6 +39,8 @@ import {
     AddPlaceToPlanOfPlanCandidateRequest,
     AutoReorderPlacesInPlanCandidateRequest,
     AutoReorderPlacesInPlanCandidateResponse,
+    CreatePlanByCategoryRequest,
+    CreatePlanByCategoryResponse,
     CreatePlanCandidateSetFromSavedPlanRequest,
     CreatePlanCandidateSetFromSavedPlanResponse,
     CreatePlanFromLocationRequest,
@@ -47,6 +52,8 @@ import {
     FetchAvailablePlacesForPlanRequest,
     FetchCachedCreatedPlansRequest,
     FetchCachedCreatedPlansResponse,
+    FetchCreatePlanPlaceCategoriesRequest,
+    FetchCreatePlanPlaceCategoriesResponse,
     FetchNearbyPlaceCategoriesRequest,
     FetchNearbyPlaceCategoriesResponse,
     FetchPlacesNearbyPlanLocationRequest,
@@ -73,6 +80,7 @@ import {
     UploadPlacePhotosInPlanResponse,
 } from "src/domain/plan/PlannerApi";
 import { hasValue } from "src/domain/util/null";
+import { Locales } from "src/locales/type";
 
 export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
     // ==============================================================
@@ -276,6 +284,29 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
         return {
             createPlanSessionId: data.createPlanByPlace.session,
             plan: fromGraphqlPlanEntity(data.createPlanByPlace.plan),
+        };
+    }
+
+    async createPlanByCategory(
+        request: CreatePlanByCategoryRequest
+    ): Promise<CreatePlanByCategoryResponse> {
+        const { data } = await this.client.mutate({
+            mutation: CreatePlanByCategoryDocument,
+            variables: {
+                input: {
+                    categoryId: request.categoryId,
+                    latitude: request.location.latitude,
+                    longitude: request.location.longitude,
+                    radiusInKm: request.radiusInKm,
+                },
+            },
+        });
+
+        return {
+            planCandidateSetId: data.createPlanByCategory.planCandidateSetId,
+            plans: data.createPlanByCategory.plans.map((plan) =>
+                fromGraphqlPlanEntity(plan)
+            ),
         };
     }
 
@@ -601,6 +632,33 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             places: data.placesNearPlan.places.map((place) =>
                 fromGraphqlPlaceEntity(place)
             ),
+        };
+    }
+
+    async fetchCreatePlanPlaceCategories(
+        request: FetchCreatePlanPlaceCategoriesRequest
+    ): Promise<FetchCreatePlanPlaceCategoriesResponse> {
+        const { data } = await this.client.query({
+            query: PlaceCategoriesDocument,
+        });
+        return {
+            categories: data.placeCategories.map((category) => ({
+                displayName:
+                    request.locale === Locales.Ja
+                        ? category.displayNameJa
+                        : category.displayNameEn,
+                categories: category.categories.map(
+                    (c) =>
+                        ({
+                            id: c.id,
+                            displayName:
+                                request.locale === Locales.Ja
+                                    ? c.displayNameJa
+                                    : c.displayNameEn,
+                            imageUrl: c.imageUrl,
+                        }) as CreatePlanPlaceCategory
+                ),
+            })),
         };
     }
 }

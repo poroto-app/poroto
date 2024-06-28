@@ -1,0 +1,8 @@
+mutation CreatePlanByCategory($input: CreatePlanByCategoryInput!) {
+    createPlanByCategory(input: $input) {
+        planCandidateSetId
+        plans {
+            ...PlanFullFragment
+        }
+    }
+}

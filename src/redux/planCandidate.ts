@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
+import { GeoLocation } from "src/domain/models/GeoLocation";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
 import { Place } from "src/domain/models/Place";
@@ -32,6 +33,7 @@ export type PlanCandidateState = {
 
     createPlanFromLocationRequestStatus: RequestStatus | null;
     createPlanFromPlaceRequestStatus: RequestStatus | null;
+    createPlanByCategoryRequestStatus: RequestStatus | null;
     createPlanFromSavedPlanRequestStatus: RequestStatus | null;
     savePlanFromCandidateRequestStatus: RequestStatus | null;
     updatePlacesOrderInPlanCandidateRequestStatus: RequestStatus | null;
@@ -57,6 +59,7 @@ const initialState: PlanCandidateState = {
 
     createPlanFromLocationRequestStatus: null,
     createPlanFromPlaceRequestStatus: null,
+    createPlanByCategoryRequestStatus: null,
     createPlanFromSavedPlanRequestStatus: null,
     savePlanFromCandidateRequestStatus: null,
     updatePlacesOrderInPlanCandidateRequestStatus: null,
@@ -134,6 +137,32 @@ export const createPlanFromPlace = createAsyncThunk(
         });
         return {
             plan: createPlanFromPlanEntity(plan),
+        };
+    }
+);
+
+type CreatePlanByCategoryProps = {
+    categoryId: string;
+    location: GeoLocation;
+    rangeInKm: number;
+};
+export const createPlanByCategory = createAsyncThunk(
+    "planCandidate/createPlanByCategory",
+    async ({ categoryId, location, rangeInKm }: CreatePlanByCategoryProps) => {
+        logEvent(getAnalytics(), AnalyticsEvents.CreatePlan.Create, {
+            category: categoryId,
+        });
+
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response = await plannerApi.createPlanByCategory({
+            categoryId,
+            location,
+            radiusInKm: rangeInKm,
+        });
+
+        return {
+            planCandidateSetId: response.planCandidateSetId,
+            plans: response.plans.map((plan) => createPlanFromPlanEntity(plan)),
         };
     }
 );
@@ -461,6 +490,10 @@ export const slice = createSlice({
             state.createPlanFromPlaceRequestStatus = null;
         },
 
+        resetCreatePlanByCategoryRequestStatus: (state) => {
+            state.createPlanByCategoryRequestStatus = null;
+        },
+
         resetCreatePlanFromSavedPlanRequestStatus: (state) => {
             state.createPlanFromSavedPlanRequestStatus = null;
         },
@@ -526,6 +559,21 @@ export const slice = createSlice({
             )
             .addCase(createPlanFromPlace.rejected, (state, action) => {
                 state.createPlanFromPlaceRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
+            // Create Plan By Category
+            .addCase(createPlanByCategory.pending, (state, action) => {
+                state.createPlanByCategoryRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(createPlanByCategory.fulfilled, (state, { payload }) => {
+                state.createPlanByCategoryRequestStatus =
+                    RequestStatuses.FULFILLED;
+                state.createPlanSession = payload.planCandidateSetId;
+                state.plansCreated = payload.plans;
+            })
+            .addCase(createPlanByCategory.rejected, (state, action) => {
+                state.createPlanByCategoryRequestStatus =
                     RequestStatuses.REJECTED;
             })
             // Create Plan From Saved Plan
@@ -713,6 +761,7 @@ export const {
     resetPlanCandidates,
     resetCreatePlanFromLocationRequestStatus,
     resetCreatePlanFromPlaceRequestStatus,
+    resetCreatePlanByCategoryRequestStatus,
     resetCreatePlanFromSavedPlanRequestStatus,
     resetAutoReorderPlacesInPlanCandidateRequestStatus,
 } = slice.actions;
