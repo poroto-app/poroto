@@ -1,4 +1,5 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import HappyNewsIcon from "src/view/assets/svg/happy_news.svg";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 
@@ -13,6 +14,7 @@ export function PlanCreatedDialog({
     onClickClose,
     visible,
 }: Props) {
+    const { t } = useTranslation();
     return (
         <FullscreenDialog onClickOutside={onClickClose} visible={visible}>
             <VStack
@@ -32,7 +34,7 @@ export function PlanCreatedDialog({
                     }}
                 />
                 <Text fontSize="24px" fontWeight="bold">
-                    プランが完成しました!
+                    {t("plan:planCreatedSuccessfullyTitle")}
                 </Text>
                 <VStack spacing="8px" w="100%">
                     <Box
@@ -46,7 +48,7 @@ export function PlanCreatedDialog({
                         fontSize="16px"
                         onClick={onClickCopyUrl}
                     >
-                        プランのURLをコピー
+                        {t("plan:copyPlanUrl")}
                     </Box>
                     <Box
                         as="button"
@@ -57,7 +59,7 @@ export function PlanCreatedDialog({
                         fontSize="16px"
                         onClick={onClickClose}
                     >
-                        とじる
+                        {t("common:close")}
                     </Box>
                 </VStack>
             </VStack>

@@ -7,6 +7,7 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { MdOutlineEdit } from "react-icons/md";
 import { User } from "src/domain/models/User";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export function UserCard({ user, isEditable = false, onEdit }: Props) {
+    const { t } = useTranslation();
     return (
         <Center
             w="100%"
@@ -47,7 +49,7 @@ export function UserCard({ user, isEditable = false, onEdit }: Props) {
                             color="rgba(0,0,0,.5)"
                             as={MdOutlineEdit}
                         />
-                        <Text>編集</Text>
+                        <Text>{t("common:edit")}</Text>
                     </HStack>
                 )}
                 <Box

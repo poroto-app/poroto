@@ -1,4 +1,5 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { CSSProperties } from "react";
 import { MdOutlineBookmarkBorder } from "react-icons/md";
 import { Transition, TransitionStatus } from "react-transition-group";
@@ -25,6 +26,7 @@ const transitionStyles: {
 };
 
 export function UsersPlan({ plans, isLoading }: Props) {
+    const { t } = useTranslation();
     return (
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -58,7 +60,7 @@ export function UsersPlan({ plans, isLoading }: Props) {
                             ads={false}
                         >
                             <PlanListSectionTitle
-                                title="保存したプラン"
+                                title={t("plan:savedPlans")}
                                 icon={MdOutlineBookmarkBorder}
                                 px={Padding.p16}
                             />
@@ -71,6 +73,7 @@ export function UsersPlan({ plans, isLoading }: Props) {
 }
 
 function Empty() {
+    const { t } = useTranslation();
     return (
         <VStack
             w="100%"
@@ -96,9 +99,9 @@ function Empty() {
             />
             <VStack spacing={0} alignItems="flex-start">
                 <Text fontSize="1.2rem" fontWeight="bold">
-                    プランを作って、保存しよう！
+                    {t("plan:savedPlansEmptyTitle")}
                 </Text>
-                <Text>保存したプランはいつでも見返すことができます。</Text>
+                <Text>{t("plan:savedPlansEmptyDescription")}</Text>
             </VStack>
         </VStack>
     );

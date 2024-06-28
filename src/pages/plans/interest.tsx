@@ -1,4 +1,5 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
+import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
@@ -30,6 +31,7 @@ import { AnalyticsEvents } from "src/view/constants/analytics";
 import { LocalStorageKeys } from "src/view/constants/localStorageKey";
 import { PageMetaData } from "src/view/constants/meta";
 import { Routes } from "src/view/constants/router";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { useLocation } from "src/view/hooks/useLocation";
 import { CategorySelect } from "src/view/interest/CategorySelect";
 import { CouldNotFindAnyPlace } from "src/view/interest/CouldNotFindAnyPlace";
@@ -39,17 +41,18 @@ import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTempla
 
 export default function Page() {
     const router = useRouter();
+    const { t } = useTranslation();
     return (
         <>
             <Head>
                 <title>
-                    {PageMetaData.plans.interest.title(
+                    {PageMetaData(t).plans.interest.title(
                         router.query["location"] !== "true"
                     )}
                 </title>
                 <meta
                     name="description"
-                    content={PageMetaData.plans.interest.description}
+                    content={PageMetaData(t).plans.interest.description}
                 />
             </Head>
             <PlanInterestPage />
@@ -60,6 +63,7 @@ export default function Page() {
 function PlanInterestPage() {
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const { t } = useAppTranslation();
     const { getCurrentLocation, location, fetchCurrentLocationStatus } =
         useLocation();
     const [currentCategory, setCurrentCategory] =
@@ -190,6 +194,7 @@ function PlanInterestPage() {
     if (!searchLocation)
         return (
             <FetchLocationDialog
+                skipLocationLabel={t("plan:createPlanFromFavoritePlace")}
                 isSkipCurrentLocationVisible={true}
                 fetchLocationRequestStatus={fetchCurrentLocationStatus}
                 onRetry={() => getCurrentLocation().then()}
@@ -229,6 +234,7 @@ export function PlanInterestPageComponent({
     handleRejectCategory,
     navBar,
 }: Props) {
+    const { t } = useTranslation();
     if (!currentCategory) {
         if (
             matchInterestRequestStatus === RequestStatuses.FULFILLED &&
@@ -239,12 +245,12 @@ export function PlanInterestPageComponent({
         if (matchInterestRequestStatus === RequestStatuses.REJECTED)
             return <ErrorPage />;
 
-        return <LoadingModal title="近くに何があるかを探しています。" />;
+        return <LoadingModal title={t("place:nearbyPlacesSearching")} />;
     }
 
     return (
         <MatchInterestPageTemplate
-            message="どんな場所に行きたいですか？"
+            message={t("place:selectPlaceCategoryMessage")}
             navBar={navBar}
         >
             <CategorySelect

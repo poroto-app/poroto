@@ -1,5 +1,11 @@
 import { useState } from "react";
 import { Area } from "react-easy-crop";
+import { hasValue } from "src/domain/util/null";
+
+export type ImageData = {
+    dataUrl: string;
+    blob: Blob;
+};
 
 export const useCropImage = ({
     originalImageSrc,
@@ -8,7 +14,10 @@ export const useCropImage = ({
 }) => {
     const [zoom, setZoom] = useState(1);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
-    const [croppedImage, setCroppedImage] = useState(null);
+    const [croppedImageDataUrl, setCroppedImageDataUrl] = useState<
+        string | null
+    >(null);
+    const [croppedImageBlob, setCroppedImageBlob] = useState<Blob | null>();
     const [isCropInProgress, setIsCropInProgress] = useState(false);
     const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(
         null
@@ -18,7 +27,7 @@ export const useCropImage = ({
         setCroppedAreaPixels(croppedAreaPixels);
     };
 
-    const cropImage = async () => {
+    const cropImage = async (): Promise<ImageData | null> => {
         if (isCropInProgress) {
             return null;
         }
@@ -28,15 +37,20 @@ export const useCropImage = ({
         }
 
         setIsCropInProgress(true);
-        let croppedImg: string | null = null;
+        let croppedImg: {
+            dataUrl: string;
+            blob: Blob;
+        } | null = null;
         try {
-            croppedImg = await createCroppedImage(
+            const { blob, dataUrl } = await createCroppedImage(
                 originalImageSrc,
                 croppedAreaPixels,
                 0,
                 { horizontal: false, vertical: false }
             );
-            setCroppedImage(croppedImg);
+            croppedImg = { dataUrl, blob };
+            setCroppedImageDataUrl(dataUrl);
+            setCroppedImageBlob(blob);
         } finally {
             setIsCropInProgress(false);
         }
@@ -47,7 +61,13 @@ export const useCropImage = ({
     return {
         crop,
         zoom,
-        croppedImage,
+        croppedImage:
+            hasValue(croppedImageDataUrl) && hasValue(croppedImageBlob)
+                ? {
+                      dataUrl: croppedImageDataUrl,
+                      blob: croppedImageBlob,
+                  }
+                : null,
         isCropInProgress,
         setCrop,
         setZoom,
@@ -87,7 +107,7 @@ async function createCroppedImage(
     pixelCrop: Area,
     rotation = 0,
     flip = { horizontal: false, vertical: false }
-): Promise<string> {
+): Promise<ImageData> {
     const image = await createImage(imageSrc);
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
@@ -114,6 +134,10 @@ async function createCroppedImage(
     ctx.rotate(rotRad);
     ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1);
     ctx.translate(-image.width / 2, -image.height / 2);
+
+    // fill canvas with white color
+    ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, image.width, image.height);
 
     // draw rotated image
     ctx.drawImage(image, 0, 0);
@@ -144,8 +168,11 @@ async function createCroppedImage(
 
     // As a blob
     return new Promise((resolve, reject) => {
-        croppedCanvas.toBlob((file) => {
-            resolve(URL.createObjectURL(file));
+        croppedCanvas.toBlob((blob) => {
+            resolve({
+                blob,
+                dataUrl: URL.createObjectURL(blob),
+            });
 
             canvas.remove();
             croppedCanvas.remove();

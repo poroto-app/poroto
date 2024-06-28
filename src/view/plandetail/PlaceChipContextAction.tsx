@@ -1,6 +1,7 @@
 import { Link } from "@chakra-ui/next-js";
 import { HStack, Icon, Text } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
+import { useTranslation } from "next-i18next";
 import { useRef } from "react";
 import { IconType } from "react-icons";
 import {
@@ -10,6 +11,7 @@ import {
 } from "react-icons/md";
 import { SiGooglemaps, SiInstagram } from "react-icons/si";
 import { AnalyticsEvents } from "src/view/constants/analytics";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { UploadPlaceImageProps } from "src/view/hooks/useUploadPlaceImage";
 import { OnClickHandler } from "src/view/types/handler";
 
@@ -43,9 +45,10 @@ export const PlaceChipActionDelete = ({
 }: {
     onClick: OnClickHandler;
 }) => {
+    const { t } = useAppTranslation();
     return (
         <PlaceChipContextAction
-            label="削除"
+            label={t("common:delete")}
             icon={MdOutlineDeleteOutline}
             onClick={onClick}
         />
@@ -57,9 +60,10 @@ export const PlaceChipActionShowRelatedPlaces = ({
 }: {
     onClick: OnClickHandler;
 }) => {
+    const { t } = useTranslation();
     return (
         <PlaceChipContextAction
-            label="関連した場所を表示"
+            label={t("place:relatedPlacesShow")}
             icon={MdOutlineFindReplace}
             onClick={onClick}
         />
@@ -71,6 +75,7 @@ export const PlaceChipActionInstagram = ({
 }: {
     placeName: string;
 }) => {
+    const { t } = useTranslation();
     return (
         <Link
             href={`https://www.instagram.com/explore/tags/${encodeURIComponent(
@@ -86,7 +91,7 @@ export const PlaceChipActionInstagram = ({
             }
         >
             <PlaceChipContextAction
-                label="Instagramで検索"
+                label={t("place:searchByInstagram")}
                 icon={SiInstagram}
             />
         </Link>
@@ -102,6 +107,7 @@ export const PlaceChipActionGoogleMaps = ({
     googlePlaceId: string;
     onClick?: OnClickHandler;
 }) => {
+    const { t } = useTranslation();
     const url = new URL("https://www.google.com/maps/search/");
     url.searchParams.set("api", "1");
     url.searchParams.set("query", placeName);
@@ -118,7 +124,7 @@ export const PlaceChipActionGoogleMaps = ({
             }
         >
             <PlaceChipContextAction
-                label="Google Mapsで検索"
+                label={t("place:searchByGoogleMaps")}
                 icon={SiGooglemaps}
             />
         </Link>
@@ -133,6 +139,7 @@ export const PlaceChipActionCamera = ({
     placeId,
     onFileChanged,
 }: PlaceChipActionCameraProps) => {
+    const { t } = useTranslation();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     return (
@@ -148,7 +155,7 @@ export const PlaceChipActionCamera = ({
             >
                 <Icon w="16px" h="16px" as={MdOutlineCameraAlt} />
                 <Text fontSize="0.8rem" whiteSpace="nowrap">
-                    写真をアップロード
+                    {t("place:uploadPlacePhoto")}
                 </Text>
             </HStack>
             <input

@@ -1,4 +1,5 @@
 import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { ReactNode, useState } from "react";
 import { IconType } from "react-icons";
 import { MdCurrencyYen, MdSchedule } from "react-icons/md";
@@ -6,6 +7,7 @@ import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
 import { DateHelper } from "src/domain/util/date";
 import { Size } from "src/view/constants/size";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 
 type Props = {
@@ -26,6 +28,7 @@ export const PlaceInfoTab = ({
     tabHSpaacing,
     estimatedStayDuration,
 }: Props) => {
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState<PlaceInfoTab>(
         PlaceInfoTabs.Information
     );
@@ -36,7 +39,7 @@ export const PlaceInfoTab = ({
                 <Tab
                     active={activeTab === PlaceInfoTabs.Information}
                     tab={PlaceInfoTabs.Information}
-                    label="情報"
+                    label={t("common:info")}
                     onClick={setActiveTab}
                 />
             </HStack>
@@ -114,6 +117,7 @@ const TabPanelInformation = ({
     priceRange: PriceRange | null;
     estimatedStayDuration: number;
 }) => {
+    const { t } = useAppTranslation();
     const isEstimatedStayDurationEmpty = estimatedStayDuration === 0;
     const isCategoryEmpty = categories.length === 0;
     const isPriceRangeEmpty = !priceRange || priceRange.max === 0;
@@ -121,7 +125,7 @@ const TabPanelInformation = ({
     if (isCategoryEmpty && isPriceRangeEmpty && isEstimatedStayDurationEmpty) {
         return (
             <Center w="100%" h="100%">
-                <Text color="#574836">情報がありません</Text>
+                <Text color="#574836">{t("place:noInformation")}</Text>
             </Center>
         );
     }
@@ -149,23 +153,28 @@ const TabPanelInformation = ({
                         key="category"
                         icon={getPlaceCategoryIcon(categories[0])}
                         value={categories[0].displayName}
-                        label="カテゴリ"
+                        label={t("place:category")}
                     />
                 )}
                 {!isPriceRangeEmpty && (
                     <InformationTag
                         key="priceRange"
                         icon={MdCurrencyYen}
-                        value={`${priceRange.min}~${priceRange.max} 円`}
-                        label="価格帯"
+                        value={`${priceRange.min}~${t("common:priceLabel", {
+                            price: priceRange.max,
+                        })}`}
+                        label={t("place:priceRange")}
                     />
                 )}
                 {!isEstimatedStayDurationEmpty && (
                     <InformationTag
                         key="estimatedStayDuration"
                         icon={MdSchedule}
-                        value={DateHelper.formatHHMM(estimatedStayDuration)}
-                        label="予想滞在時間"
+                        value={DateHelper.formatHHMM(estimatedStayDuration, {
+                            hour: t("common:labelHour"),
+                            minute: t("common:labelMinute"),
+                        })}
+                        label={t("place:estimatedStayDuration")}
                     />
                 )}
             </HStack>

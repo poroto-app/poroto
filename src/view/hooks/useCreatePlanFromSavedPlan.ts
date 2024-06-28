@@ -1,4 +1,5 @@
 import { useToast } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
@@ -14,6 +15,7 @@ import { Routes } from "src/view/constants/router";
 export const useCreatePlanFromSavedPlan = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const { t } = useTranslation();
     const [isCreatingPlanFromSavedPlan, setIsCreatingPlanFromSavedPlan] =
         useState(false);
     const { createPlanSession, createPlanFromSavedPlanRequestStatus } =
@@ -31,7 +33,7 @@ export const useCreatePlanFromSavedPlan = () => {
                 .then(() => {
                     setIsCreatingPlanFromSavedPlan(false);
                     toast({
-                        title: "カスタマイズ用のプランの準備ができました！",
+                        title: t("plan:customizePlanCreated"),
                         status: "success",
                         duration: 3000,
                         isClosable: true,

@@ -20,7 +20,7 @@ const withMDX = mdx({
         remarkPlugins: [
             remarkUnwrapImages,
         ],
-      providerImportSource: '@mdx-js/react',
+        providerImportSource: '@mdx-js/react',
     },
 });
 
@@ -31,7 +31,20 @@ const nextConfig = {
         ignoreDuringBuilds: true,
     },
     images: {
-        domains: ['lh3.googleusercontent.com'],
+        domains: [
+            'lh3.googleusercontent.com',
+        ],
+        remotePatterns: [
+            {
+                protocol: process.env.CLOUD_STORAGE_IMAGE_BUCKET_PROTOCOL,
+                hostname: process.env.CLOUD_STORAGE_IMAGE_BUCKET_HOST,
+                pathname: `/${process.env.CLOUD_STORAGE_IMAGE_BUCKET_NAME}/**`,
+            }
+        ],
+    },
+    i18n: {
+        defaultLocale: 'ja',
+        locales: ['ja', 'en'],
     },
     env: {
         APP_ENV: process.env.APP_ENV,
@@ -61,7 +74,12 @@ const nextConfig = {
 
         BASIC_AUTH_USERNAME: process.env.BASIC_AUTH_USERNAME,
         BASIC_AUTH_PASSWORD: process.env.BASIC_AUTH_PASSWORD,
+
+
         CLOUD_STORAGE_POROTO_PLACE_IMAGES: process.env.CLOUD_STORAGE_POROTO_PLACE_IMAGES,
+        CLOUD_STORAGE_IMAGE_BUCKET_NAME: process.env.CLOUD_STORAGE_IMAGE_BUCKET_NAME,
+        CLOUD_STORAGE_IMAGE_BUCKET_PROTOCOL: process.env.CLOUD_STORAGE_IMAGE_BUCKET_PROTOCOL,
+        CLOUD_STORAGE_IMAGE_BUCKET_HOST: process.env.CLOUD_STORAGE_IMAGE_BUCKET_HOST,
     },
     webpack: (config) => {
         config.module.rules.push({

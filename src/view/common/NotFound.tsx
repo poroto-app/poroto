@@ -1,5 +1,6 @@
 import { Link } from "@chakra-ui/next-js";
 import { Image } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { FailurePage } from "src/view/common/FailurePage";
 import { Routes } from "src/view/constants/router";
 import { RoundedButton } from "./RoundedButton";
@@ -9,12 +10,13 @@ type Props = {
 };
 
 export const NotFound = ({ navBar }: Props) => {
+    const { t } = useTranslation();
     return (
         <FailurePage
             navBar={navBar}
             title="404"
             statusMessage="Not Found"
-            statusDescription="お探しのページが見つかりませんでした。"
+            statusDescription={t("common:notFound")}
             image={
                 <Image
                     w="100%"
@@ -29,7 +31,7 @@ export const NotFound = ({ navBar }: Props) => {
                     w="100%"
                     _hover={{ textDecoration: "none" }}
                 >
-                    <RoundedButton>ホームに戻る</RoundedButton>
+                    <RoundedButton>{t("common:backToHome")}</RoundedButton>
                 </Link>
             }
         />

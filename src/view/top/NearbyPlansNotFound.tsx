@@ -1,10 +1,13 @@
 import { Link } from "@chakra-ui/next-js";
 import { Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import IconTraveling from "src/view/assets/svg/traveling.svg";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { Routes } from "src/view/constants/router";
 
 export const NearbyPlansNotFound = () => {
+    const { t } = useTranslation();
+
     return (
         <VStack w="100%" spacing="32px">
             <IconTraveling
@@ -16,14 +19,14 @@ export const NearbyPlansNotFound = () => {
             />
             <VStack spacing={0}>
                 <Text fontSize="12px" color="rgba(0,0,0,.6)">
-                    近くで作成されたプランはありませんでした
+                    {t("plan:nearbyPlansEmptyTitle")}
                 </Text>
                 <Text fontSize="20px" fontWeight="bold">
-                    最初のプランを作ってみませんか？
+                    {t("plan:nearbyPlansEmptyDescription")}
                 </Text>
             </VStack>
             <Link href={Routes.plans.interest()} w="100%" maxW="400px">
-                <RoundedButton>プランを作成する</RoundedButton>
+                <RoundedButton>{t("plan:createPlan")}</RoundedButton>
             </Link>
         </VStack>
     );

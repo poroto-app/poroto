@@ -1,16 +1,18 @@
 import { Box } from "@chakra-ui/react";
 import html2canvas from "html2canvas";
+import { useTranslation } from "next-i18next";
 import { useRef } from "react";
 import { MdOutlinePhotoCamera } from "react-icons/md";
 import { Plan } from "src/domain/models/Plan";
-import { PlanActionButton } from "src/view/plan/button/PlanActionButton";
 import { PlanScreenShotComponent } from "src/view/plan/PlanScreenShotComponent";
+import { PlanActionButton } from "src/view/plan/button/PlanActionButton";
 
 type Props = {
     plan: Plan;
 };
 
 export function SavePlanAsImageButton({ plan }: Props) {
+    const { t } = useTranslation();
     const plansRef = useRef<HTMLDivElement>();
 
     const handleOnClickSaveAsImage = async () => {
@@ -36,7 +38,7 @@ export function SavePlanAsImageButton({ plan }: Props) {
     return (
         <>
             <PlanActionButton
-                text="画像で保存する"
+                text={t("plan:saveAsImage")}
                 icon={MdOutlinePhotoCamera}
                 onClick={handleOnClickSaveAsImage}
             />

@@ -1,20 +1,17 @@
 import { Center, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import OnTheWayIcon from "src/view/assets/svg/on_the_way.svg";
+import { AppTrans } from "src/view/common/AppTrans";
 
 type Props = {
     onLogin?: () => void;
 };
 
 export function NotLoggedIn({ onLogin }: Props) {
+    const { t, i18n } = useTranslation();
     const text = useBreakpointValue({
-        base: (
-            <>
-                新しい景色に、
-                <br />
-                会いに行こう。
-            </>
-        ),
-        sm: "新しい景色に、会いに行こう。",
+        base: <AppTrans i18nKey="account:loginTitle" values={{ br: <br /> }} />,
+        sm: <AppTrans i18nKey="account:loginTitle" values={{ br: "" }} />,
     });
 
     return (
@@ -43,9 +40,7 @@ export function NotLoggedIn({ onLogin }: Props) {
                     <Text fontSize="32px" fontWeight="bold">
                         {text}
                     </Text>
-                    <Text>
-                        作成したプランやお気に入りの場所をいつでも見られるようになります。
-                    </Text>
+                    <Text>{t("account:loginDescription")}</Text>
                 </VStack>
                 <Center
                     as="button"
@@ -57,7 +52,7 @@ export function NotLoggedIn({ onLogin }: Props) {
                     onClick={onLogin}
                 >
                     <Text color="#BD9F8E" fontWeight="bold" fontSize="18px">
-                        Googleでログイン
+                        {t("account:loginByGoogle")}
                     </Text>
                 </Center>
             </VStack>

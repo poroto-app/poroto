@@ -1,4 +1,5 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { MutableRefObject, forwardRef } from "react";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
@@ -35,6 +36,7 @@ export const PlanScreenShotComponent = forwardRef<HTMLDivElement, Props>(
 );
 
 const PlaceListItem = ({ place }: { place: Place }) => {
+    const { t } = useTranslation();
     return (
         <VStack
             spacing={0}
@@ -46,7 +48,7 @@ const PlaceListItem = ({ place }: { place: Place }) => {
             <Text fontSize="16px">{place.name}</Text>
             {hasValue(place.address) && (
                 <Text fontSize="16px" color="#808080">
-                    住所 {place.address}
+                    {t("place:address")} {place.address}
                 </Text>
             )}
         </VStack>

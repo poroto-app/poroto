@@ -1,11 +1,13 @@
 import { GraphQlRepository } from "src/data/graphql/GraphQlRepository";
 import {
+    fromGraphQlUserEntity,
     fromGraphqlPlaceEntity,
     fromGraphqlPlanEntity,
 } from "src/data/graphql/PlannerGraphQlApi";
 import {
     BindPlanCandidateSetToUserDocument,
     FirebaseUserDocument,
+    UpdateUserProfileDocument,
     UserDocument,
 } from "src/data/graphql/generated";
 import {
@@ -15,6 +17,8 @@ import {
     FetchByFirebaseUserResponse,
     FetchUserRequest,
     FetchUserResponse,
+    UpdateProfileRequest,
+    UpdateProfileResponse,
     UserApi,
 } from "src/domain/user/UserApi";
 
@@ -85,6 +89,27 @@ export class PlannerUserGraphqlApi
 
         return {
             userId: data.bindPlanCandidateSetToUser.user.id,
+        };
+    }
+
+    async updateProfile(
+        request: UpdateProfileRequest
+    ): Promise<UpdateProfileResponse> {
+        const { data } = await this.clientWithAuthHeader({
+            token: request.firebaseToken,
+        }).mutate({
+            mutation: UpdateUserProfileDocument,
+            variables: {
+                input: {
+                    userId: request.userId,
+                    name: request.name,
+                    profileImageUrl: request.photoUrl,
+                },
+            },
+        });
+
+        return {
+            user: fromGraphQlUserEntity(data.updateUserProfile.user),
         };
     }
 }

@@ -12,6 +12,10 @@ export interface UserApi {
     bindPlanCandidateSetsToUser(
         request: BindPlanCandidateSetsToUserRequest
     ): Promise<BindPlanCandidateSetsToUserResponse>;
+
+    updateProfile(
+        request: UpdateProfileRequest
+    ): Promise<UpdateProfileResponse>;
 }
 
 export function createUserFromEntity(entity: UserEntity): User {
@@ -58,4 +62,15 @@ export type BindPlanCandidateSetsToUserRequest = {
 
 export type BindPlanCandidateSetsToUserResponse = {
     userId: string;
+};
+
+export type UpdateProfileRequest = {
+    userId: string;
+    firebaseToken: string;
+    name?: string;
+    photoUrl?: string;
+};
+
+export type UpdateProfileResponse = {
+    user: UserEntity;
 };

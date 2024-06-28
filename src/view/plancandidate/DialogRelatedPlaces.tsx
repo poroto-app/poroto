@@ -15,6 +15,7 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 import { isMobile, isTablet } from "react-device-detect";
 import { MdClose } from "react-icons/md";
@@ -31,6 +32,7 @@ import { copyObject } from "src/domain/util/object";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { RoundedButton } from "src/view/common/RoundedButton";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import {
     PlaceChipActionGoogleMaps,
@@ -163,6 +165,7 @@ function SelectPlaceToUpdateScreen({
     onClickUpdate: (placeId: string) => void;
     onClose: () => void;
 }) {
+    const { t } = useTranslation();
     if (placesRecommended == null) return <LoadingScreen />;
 
     const isPC = !isMobile && !isTablet;
@@ -182,7 +185,7 @@ function SelectPlaceToUpdateScreen({
                         {dialogTitle}
                     </Text>
                     <Text color="#9F8D76" fontWeight="bold">
-                        気になった場所をタップ
+                        {t("place:relatedPlacesDescription")}
                     </Text>
                 </VStack>
                 <Box as="button" onClick={onClose}>
@@ -247,6 +250,7 @@ export function PlaceListItem({
     images: ImageType[];
     onClick: OnClickHandler;
 }) {
+    const { t } = useAppTranslation();
     return (
         <VStack spacing="16px">
             <AspectRatio
@@ -284,7 +288,9 @@ export function PlaceListItem({
                 </HStack>
                 {transition && (
                     <Text color="#686868">
-                        前の場所から{Math.round(transition.durationInMinutes)}分
+                        {t("plan:addNewPlaceToPlanMinuteFromPreviousPlace", {
+                            minute: Math.round(transition.durationInMinutes),
+                        })}
                     </Text>
                 )}
             </VStack>
@@ -341,6 +347,7 @@ export function ConfirmToUpdateScreen({
     onClickUpdate: () => void;
     onCancel: () => void;
 }) {
+    const { t } = useAppTranslation();
     return (
         <VStack w="100%" h="100%" spacing="24px" maxW="600px">
             <VStack w="100%" pt="32px" spacing="24px" flex={1}>
@@ -388,7 +395,7 @@ export function ConfirmToUpdateScreen({
             </VStack>
             <HStack w="100%" pb="48px" px="20px">
                 <RoundedButton w="100%" outlined onClick={onCancel}>
-                    キャンセル
+                    {t("common:cancel")}
                 </RoundedButton>
                 <RoundedButton w="100%" onClick={onClickUpdate}>
                     {buttonLabelUpdatePlace}

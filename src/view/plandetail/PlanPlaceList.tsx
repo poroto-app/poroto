@@ -12,6 +12,7 @@ import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import { Transition } from "src/domain/models/Transition";
 import { DateHelper } from "src/domain/util/date";
+import { AppTrans } from "src/view/common/AppTrans";
 import { Colors } from "src/view/constants/color";
 import { UploadPlaceImageProps } from "src/view/hooks/useUploadPlaceImage";
 import {
@@ -267,7 +268,12 @@ const ListItemWalk = ({ transition }: { transition: Transition }) => {
                     color={Colors.beige["400"]}
                 />
                 <VStack alignItems="flex-start" spacing={0}>
-                    <Text>{transition.durationInMinutes}分</Text>
+                    <Text>
+                        <AppTrans
+                            i18nKey="common:minutesLabel"
+                            values={{ minutes: transition.durationInMinutes }}
+                        />
+                    </Text>
                 </VStack>
             </HStack>
         </HStack>

@@ -11,6 +11,7 @@ import {
     useMediaQuery,
     VStack,
 } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import * as process from "process";
 import { useRef, useState } from "react";
 import { MdLink, MdOutlineCameraAlt, MdOutlineInfo } from "react-icons/md";
@@ -44,6 +45,7 @@ export function PlanDetailPageHeader({
     onUpdateLikePlace,
     onCopyPlanUrl,
 }: Props) {
+    const { t } = useTranslation();
     const [currentPage, setCurrentPage] = useState(0);
     const [isLargerThanHeaderWidth] = useMediaQuery(
         `(min-width: ${Size.PlanDetailHeader.maxW})`
@@ -142,7 +144,7 @@ export function PlanDetailPageHeader({
                         opacity={activeTab === PlanHeaderTabs.Info ? 1 : 0.3}
                         leftIcon={<Icon as={MdOutlineInfo} />}
                     >
-                        情報
+                        {t("common:info")}
                     </Button>
                     <Button
                         onClick={() => setActiveTab(PlanHeaderTabs.Collage)}
@@ -152,7 +154,7 @@ export function PlanDetailPageHeader({
                         opacity={activeTab === PlanHeaderTabs.Collage ? 1 : 0.3}
                         leftIcon={<Icon as={MdOutlineCameraAlt} />}
                     >
-                        アルバム
+                        {t("plan:album")}
                     </Button>
                 </HStack>
             )}

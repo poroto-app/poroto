@@ -1,5 +1,6 @@
 import { Link } from "@chakra-ui/next-js";
 import { Image } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { ReactNode } from "react";
 import { FailurePage } from "src/view/common/FailurePage";
 import { Routes } from "src/view/constants/router";
@@ -10,11 +11,12 @@ type Props = {
 };
 
 export const PlanGenerationFailure = ({ navBar }: Props) => {
+    const { t } = useTranslation();
     return (
         <FailurePage
             title="Sorry"
             navBar={navBar}
-            statusDescription="プランを作成することができませんでした。"
+            statusDescription={t("plan:createPlanFailed")}
             image={
                 <Image
                     w="100%"
@@ -29,7 +31,7 @@ export const PlanGenerationFailure = ({ navBar }: Props) => {
                     w="100%"
                     _hover={{ textDecoration: "none" }}
                 >
-                    <RoundedButton>ホームに戻る</RoundedButton>
+                    <RoundedButton>{t("common:backToHome")}</RoundedButton>
                 </Link>
             }
         />

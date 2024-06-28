@@ -1,3 +1,4 @@
+import { useTranslation } from "next-i18next";
 import { MdOutlineExplore } from "react-icons/md";
 import { Plan } from "src/domain/models/Plan";
 import { isPC } from "src/view/constants/userAgent";
@@ -27,6 +28,7 @@ export function NearbyPlanList({
     isFetchingCurrentLocation,
     onRequestFetchNearByPlans,
 }: Props) {
+    const { t } = useTranslation();
     return (
         <PlanList
             plans={plans}
@@ -43,7 +45,7 @@ export function NearbyPlanList({
             px={px}
         >
             <PlanListSectionTitle
-                title="近くのプラン"
+                title={t("plan:nearbyPlans")}
                 icon={MdOutlineExplore}
                 px={px}
             />

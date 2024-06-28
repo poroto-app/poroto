@@ -1,6 +1,8 @@
 import { Box, Divider, HStack, Image, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { forwardRef } from "react";
 import Logo from "src/view/assets/svg/logo.svg";
+import { AppTrans } from "src/view/common/AppTrans";
 
 type CollagePlace = {
     name: string;
@@ -16,6 +18,7 @@ type CollageProps = {
 
 export const CollageTemplate = forwardRef<HTMLDivElement, CollageProps>(
     function CollageTemplateComponent({ title, places, introduction }, ref) {
+        const { t } = useTranslation();
         return (
             <VStack
                 ref={ref}
@@ -90,7 +93,11 @@ export const CollageTemplate = forwardRef<HTMLDivElement, CollageProps>(
                                     fontWeight="bold"
                                     fontSize="32px"
                                 >
-                                    滞在時間：{place.duration}分
+                                    {t("place:estimatedStayDuration")}：
+                                    <AppTrans
+                                        i18nKey={"common:minutesLabel"}
+                                        values={{ minutes: place.duration }}
+                                    />
                                 </Text>
                             </VStack>
                         </HStack>

@@ -8,6 +8,7 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { MdClose } from "react-icons/md";
 import { Place } from "src/domain/models/Place";
 import {
@@ -42,6 +43,7 @@ export function PlaceRecommendationDialog({
     onRetry,
     onSelectPlace,
 }: Props) {
+    const { t } = useTranslation();
     return (
         <FullscreenDialog
             position={DialogPositions.BOTTOM}
@@ -69,7 +71,7 @@ export function PlaceRecommendationDialog({
                                 fontSize="20px"
                                 textAlign="center"
                             >
-                                おすすめの観光地
+                                {t("place:recommendedTouristSpotsTitle")}
                             </Text>
                             <Center
                                 cursor="pointer"
@@ -105,6 +107,7 @@ export function PlaceRecommendationDialog({
 }
 
 const Loading = () => {
+    const { t } = useTranslation();
     return (
         <Center w="100%" h="100%">
             <VStack spacing="16px">
@@ -113,20 +116,23 @@ const Loading = () => {
                     color={Colors.primary[400]}
                     size="32px"
                 />
-                <Text>おすすめの観光地を探しています...</Text>
+                <Text>{t("place:recommendedTouristSpotsSearching")}</Text>
             </VStack>
         </Center>
     );
 };
 
 const Error = ({ onRetry }: { onRetry?: () => void }) => {
+    const { t } = useTranslation();
     return (
         <Center w="100%" h="100%">
             <VStack w="100%" spacing="16px">
                 <TowingIcon viewBox="0 0 648 648" height="300px" />
-                <Text>おすすめの観光地を取得中にエラーが発生しました。</Text>
+                <Text>{t("place:recommendedTouristSpotsSearchFailed")}</Text>
                 {onRetry && (
-                    <RoundedButton onClick={onRetry}>再試行</RoundedButton>
+                    <RoundedButton onClick={onRetry}>
+                        {t("common:retry")}
+                    </RoundedButton>
                 )}
             </VStack>
         </Center>

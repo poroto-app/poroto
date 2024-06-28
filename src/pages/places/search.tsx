@@ -1,25 +1,16 @@
 import { Box, Center, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
+import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { MdDone, MdOutlineTouchApp } from "react-icons/md";
 import { GeoLocation } from "src/data/graphql/generated";
-import { PlaceSearchResult } from "src/domain/models/PlaceSearchResult";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
-import { copyObject } from "src/domain/util/object";
+import { setCurrentLocation, setSearchLocation } from "src/redux/location";
 import {
-    reduxLocationSelector,
-    setCurrentLocation,
-    setSearchLocation,
-} from "src/redux/location";
-import {
-    fetchGeoLocationByPlaceId,
-    reduxPlaceSearchSelector,
     resetPlaceSearchResults,
     resetSelectedLocation,
-    searchPlacesByQuery,
-    setMoveToSelectedLocation,
     setSelectedLocation,
 } from "src/redux/placeSearch";
 import { useAppDispatch } from "src/redux/redux";
@@ -30,6 +21,7 @@ import { PageMetaData } from "src/view/constants/meta";
 import { RouteParams, Routes } from "src/view/constants/router";
 import { Size } from "src/view/constants/size";
 import { zIndex } from "src/view/constants/zIndex";
+import { useGooglePlaceSearch } from "src/view/hooks/useGooglePlaceSearch";
 import { useLocation } from "src/view/hooks/useLocation";
 import { usePlaceRecommendation } from "src/view/hooks/usePlaceRecommendation";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
@@ -41,13 +33,14 @@ import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
 import { ShowPlaceRecommendationButton } from "src/view/place/ShowPlaceRecommendationButton";
 
 export default function Page() {
+    const { t } = useTranslation();
     return (
         <>
             <Head>
-                <title>{PageMetaData.place.search.title}</title>
+                <title>{PageMetaData(t).place.search.title}</title>
                 <meta
                     name="description"
-                    content={PageMetaData.place.search.description}
+                    content={PageMetaData(t).place.search.description}
                 />
             </Head>
             <PlaceSearchPage />
@@ -59,10 +52,13 @@ function PlaceSearchPage() {
     const router = useRouter();
     const isSkipFetchCurrentLocation =
         router.query[RouteParams.SkipCurrentLocation] === "true";
+    const { t } = useTranslation();
     const dispatch = useAppDispatch();
-    const { currentLocation } = reduxLocationSelector();
-    const { placeSearchResults, placeSelected, moveToSelectedLocation } =
-        reduxPlaceSearchSelector();
+    const [searchQuery, setSearchQuery] = useState<string>("");
+    const [mapCenter, setMapCenter] = useState<GeoLocation>(
+        locationSinjukuStation
+    );
+
     const {
         fetchCurrentLocationStatus,
         getCurrentLocation,
@@ -70,10 +66,18 @@ function PlaceSearchPage() {
         resetLocationState,
         checkGeolocationPermission,
     } = useLocation();
-    const [searchQuery, setSearchQuery] = useState<string>("");
-    const [mapCenter, setMapCenter] = useState<GeoLocation>(
-        locationSinjukuStation
-    );
+
+    const {
+        placeSearchResults,
+        placeSelected,
+        searchGooglePlacesByQuery,
+        onSelectedSearchResult,
+    } = useGooglePlaceSearch({
+        onMoveToSelectedLocation: ({ location }) => {
+            setMapCenter(location);
+        },
+    });
+
     const {
         isPlaceRecommendationButtonVisible,
         isPlaceRecommendationDialogVisible,
@@ -125,29 +129,6 @@ function PlaceSearchPage() {
         };
     }, []);
 
-    useEffect(() => {
-        if (placeSelected && moveToSelectedLocation) {
-            setMapCenter(placeSelected.location);
-        }
-
-        return () => {
-            dispatch(setMoveToSelectedLocation(false));
-        };
-    }, [
-        copyObject(currentLocation),
-        copyObject(placeSelected),
-        moveToSelectedLocation,
-    ]);
-
-    const handleOnSearch = (value: string) => {
-        dispatch(searchPlacesByQuery({ query: value }));
-    };
-
-    const handleOnClickPlace = (placeSearchResult: PlaceSearchResult) => {
-        dispatch(fetchGeoLocationByPlaceId({ placeId: placeSearchResult.id }));
-        dispatch(resetPlaceSearchResults());
-    };
-
     const handleOnSelectLocation = (location: GeoLocation) => {
         dispatch(setSelectedLocation({ location, placeId: null }));
     };
@@ -170,7 +151,7 @@ function PlaceSearchPage() {
     if (fetchCurrentLocationStatus && !location)
         return (
             <FetchLocationDialog
-                skipLocationLabel="現在地取得をスキップする"
+                skipLocationLabel={t("place:skipCurrentLocationRetrieval")}
                 isSkipCurrentLocationVisible={true}
                 fetchLocationRequestStatus={
                     fetchCurrentLocationStatus ?? RequestStatuses.PENDING
@@ -182,7 +163,7 @@ function PlaceSearchPage() {
     return (
         <VStack w="100%" h="100%" spacing={0}>
             <Head>
-                <title>好きな場所からプランを作る | komichi</title>
+                <title>{t("ogp:placeSearchPageTitle")}</title>
             </Head>
             <NavBar />
             <VStack w="100%" h="100%" position="relative">
@@ -205,7 +186,7 @@ function PlaceSearchPage() {
                     <Box w="100%">
                         <PlaceSearchBar
                             defaultValue={searchQuery}
-                            onSearch={handleOnSearch}
+                            onSearch={searchGooglePlacesByQuery}
                         />
                     </Box>
                     {isPlaceRecommendationButtonVisible && (
@@ -224,8 +205,8 @@ function PlaceSearchPage() {
                         }
                     >
                         <PlaceSearchResults
-                            places={(placeSearchResults || []).slice(0, 5)}
-                            onClickPlace={handleOnClickPlace}
+                            places={placeSearchResults}
+                            onClickPlace={onSelectedSearchResult}
                         />
                     </Box>
                 </VStack>
@@ -260,6 +241,7 @@ const SearchButton = ({
     placeSelected: boolean;
     onClick: () => void;
 }) => {
+    const { t } = useTranslation();
     return (
         <Center
             position="fixed"
@@ -275,8 +257,8 @@ const SearchButton = ({
                     onClick={onClick}
                 >
                     {placeSelected
-                        ? "タップして場所を選択"
-                        : "指定した場所からプランを作成"}
+                        ? t("place:tapToSelectPlace")
+                        : t("plan:createPlanFromSelectedPlace")}
                 </RoundedIconButton>
             </Box>
         </Center>

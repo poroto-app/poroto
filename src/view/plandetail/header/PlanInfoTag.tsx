@@ -1,8 +1,10 @@
 import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
 import { MdCurrencyYen, MdSchedule } from "react-icons/md";
 import { DateHelper } from "src/domain/util/date";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 
 type Props = {
     title: string;
@@ -43,15 +45,19 @@ export const PlanInfoTagDuration = ({
 }: {
     durationInMinutes: number;
 }) => {
+    const { t } = useTranslation();
     const endPlanDate = DateHelper.add(
         new Date(),
         durationInMinutes * DateHelper.Minute
     );
     return (
-        <PlanInfoTag title="時間" icon={MdSchedule}>
+        <PlanInfoTag title={t("common:time")} icon={MdSchedule}>
             <Text>
-                {DateHelper.formatHHMM(durationInMinutes)}(~{" "}
-                {DateHelper.dateToHHMM(endPlanDate)})
+                {DateHelper.formatHHMM(durationInMinutes, {
+                    hour: t("common:labelHour"),
+                    minute: t("common:labelMinute"),
+                })}
+                (~ {DateHelper.dateToHHMM(endPlanDate)})
             </Text>
         </PlanInfoTag>
     );
@@ -64,11 +70,14 @@ export const PlanInfoTagBudget = ({
     minBudget: number;
     maxBudget: number;
 }) => {
+    const { t } = useAppTranslation();
     return (
-        <PlanInfoTag title="予算" icon={MdCurrencyYen}>
+        <PlanInfoTag title={t("common:budget")} icon={MdCurrencyYen}>
             <HStack alignItems="flex-start" w="100%" spacing={0}>
                 {minBudget > 0 && <Text>{`${minBudget}`}</Text>}
-                {maxBudget > 0 && <Text>{`~${maxBudget}円`}</Text>}
+                {maxBudget > 0 && (
+                    <Text>{`~${t("common:priceLabel", { price: maxBudget })}`}</Text>
+                )}
             </HStack>
         </PlanInfoTag>
     );

@@ -1,4 +1,5 @@
 import { Text } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { Plan } from "src/domain/models/Plan";
 import { User } from "src/domain/models/User";
 import { PlanList } from "src/view/plan/PlanList";
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export function PlanListUser({ user, plans, isLoading = false }: Props) {
+    const { t } = useTranslation();
     if (!user) return <></>;
 
     return (
@@ -23,7 +25,7 @@ export function PlanListUser({ user, plans, isLoading = false }: Props) {
                 textAlign="center"
                 py="16x"
             >
-                保存したプラン
+                {t("plan:savedPlans")}
             </Text>
         </PlanList>
     );

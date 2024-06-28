@@ -2,10 +2,12 @@ export const AnalyticsEvents = {
     CreatePlan: {
         FromLikePlace: "create_plan_from_like_place",
         FromCurrentLocation: "create_plan_from_current_location",
+        FromCategory: "create_plan_from_category",
         FromSelectedLocation: "create_plan_from_selected_location",
         FromPlaceNearbyPlan: "create_plan_from_place_nearby_plan",
         FromSavedPlan: "create_plan_from_saved_plan",
 
+        SelectCreatePlanCategory: "select_create_plan_category",
         StartCreatePlanFromSelectedLocation:
             "start_create_plan_from_selected_location",
 

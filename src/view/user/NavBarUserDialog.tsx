@@ -1,5 +1,6 @@
 import { Box, HStack, Icon, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
+import { useTranslation } from "next-i18next";
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
 import { MdLogin, MdLogout, MdOutlineBackup } from "react-icons/md";
@@ -59,10 +60,11 @@ export function NavBarUserDialog({
 }
 
 export function NavBarNonLoginUserDialog({ onLogin }: { onLogin: () => void }) {
+    const { t } = useTranslation();
     return (
         <NavBarUserDialogContainer>
             <DialogItem icon={MdLogin} onClick={onLogin}>
-                ログイン
+                {t("account:login")}
             </DialogItem>
         </NavBarUserDialogContainer>
     );
@@ -75,6 +77,7 @@ export function NavBarLoginUserDialog({
     onLogout: OnClickHandler;
     onBindPreLoginState: OnClickHandler;
 }) {
+    const { t } = useTranslation();
     return (
         <NavBarUserDialogContainer>
             {hasValue(onBindPreLoginState) && (
@@ -82,11 +85,11 @@ export function NavBarLoginUserDialog({
                     icon={MdOutlineBackup}
                     onClick={onBindPreLoginState}
                 >
-                    ログイン前のデータを引き継ぐ
+                    {t("account:retainDataBeforeLogin")}
                 </DialogItem>
             )}
             <DialogItem icon={MdLogout} onClick={onLogout}>
-                ログアウト
+                {t("account:logout")}
             </DialogItem>
         </NavBarUserDialogContainer>
     );

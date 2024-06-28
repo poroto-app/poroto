@@ -1,5 +1,6 @@
 import { Box, Center, Grid, Text, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
+import { useTranslation } from "next-i18next";
 import { MdOutlineLocationOn, MdOutlineMap } from "react-icons/md";
 import HangOut from "src/view/assets/svg/hangout.svg";
 import { AnalyticsEvents } from "src/view/constants/analytics";
@@ -8,6 +9,7 @@ import styled from "styled-components";
 import { CreatePlanButton } from "./CreatePlanButton";
 
 export function CreatePlanSection() {
+    const { t } = useTranslation();
     return (
         <Center
             w="100%"
@@ -32,7 +34,7 @@ export function CreatePlanSection() {
                         fontSize="24px"
                         zIndex="10"
                     >
-                        暇つぶしプランを作ろう
+                        {t("home:createPlanTitle")}
                     </Text>
                     <Grid
                         w="100%"
@@ -42,7 +44,7 @@ export function CreatePlanSection() {
                         transform="translateZ(0px)"
                     >
                         <CreatePlanButton
-                            title="現在地から"
+                            title={t("home:createPlanFromCurrentLocation")}
                             icon={MdOutlineLocationOn}
                             link={Routes.plans.interest()}
                             onClick={() =>
@@ -54,7 +56,7 @@ export function CreatePlanSection() {
                             }
                         />
                         <CreatePlanButton
-                            title="好きな場所から"
+                            title={t("home:createPlanFromFavoritePlace")}
                             icon={MdOutlineMap}
                             link={Routes.places.search({
                                 skipCurrentLocation: true,

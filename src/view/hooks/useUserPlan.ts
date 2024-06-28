@@ -1,10 +1,12 @@
 import { useToast } from "@chakra-ui/react";
+import { useTranslation } from "next-i18next";
 import { reduxAuthSelector } from "src/redux/auth";
 import { reduxPlanSelector, updatePlaceLikeInPlan } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 
 export const useUserPlan = () => {
     const dispatch = useAppDispatch();
+    const { t } = useTranslation();
     const { likePlaceIds } = reduxPlanSelector();
     const { user, firebaseIdToken } = reduxAuthSelector();
     const toast = useToast();
@@ -21,7 +23,7 @@ export const useUserPlan = () => {
         if (!user || !firebaseIdToken) {
             // TODO: ダイアログで表示する
             toast({
-                title: "ログインすると気に入った場所を保存することができます。",
+                title: t("place:loginToSaveFavoritePlace"),
                 status: "info",
                 duration: 3000,
                 isClosable: true,
