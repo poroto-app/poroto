@@ -75,7 +75,7 @@ function Account({ user }: { user: User | null }) {
                 <Box px={Padding.p16} w="100%">
                     <UserCard
                         user={user}
-                        isEditable={process.env.APP_ENV === "development"}
+                        isEditable={true}
                         onEdit={openEditUserProfileDialog}
                     />
                 </Box>
