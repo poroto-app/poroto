@@ -26,8 +26,6 @@ export type PlanCandidateState = {
     placesAvailableForPlan: Place[] | null;
 
     categoryCandidates: LocationCategoryWithPlace[] | null;
-    categoriesAccepted: LocationCategory[] | null;
-    categoriesRejected: LocationCategory[] | null;
     // 直前に発火したリクエストの結果と、新しく行ったリクエストの結果を区別できるようにするために利用する
     fetchLocationCategoryRequestId: string | null;
 
@@ -53,8 +51,6 @@ const initialState: PlanCandidateState = {
     planIdPreview: null,
 
     categoryCandidates: null,
-    categoriesAccepted: null,
-    categoriesRejected: null,
     fetchLocationCategoryRequestId: null,
 
     createPlanFromLocationRequestStatus: null,
@@ -76,20 +72,25 @@ type CreatePlanFromCurrentLocationProps = {
         longitude: number;
     };
     googlePlaceId?: string;
+    categoriesAccepted?: LocationCategory[];
+    categoriesRejected?: LocationCategory[];
 };
 export const createPlanFromLocation = createAsyncThunk(
     "planCandidate/createPlanFromCurrentLocation",
     async (
-        { location, googlePlaceId }: CreatePlanFromCurrentLocationProps,
+        {
+            location,
+            googlePlaceId,
+            categoriesAccepted,
+            categoriesRejected,
+        }: CreatePlanFromCurrentLocationProps,
         { dispatch, getState }
     ) => {
         logEvent(getAnalytics(), AnalyticsEvents.CreatePlan.Create);
 
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
 
-        const { createPlanSession, categoriesAccepted, categoriesRejected } = (
-            getState() as RootState
-        ).planCandidate;
+        const { createPlanSession } = (getState() as RootState).planCandidate;
 
         const { currentLocation } = (getState() as RootState).location;
         const isCurrentLocation =
@@ -437,31 +438,7 @@ export const slice = createSlice({
             state.plansCreated[planIndexToUpdate] = payload.plan;
         },
 
-        pushAcceptedCategory: (
-            state,
-            { payload }: PayloadAction<{ category: LocationCategory }>
-        ) => {
-            if (!state.categoriesAccepted) state.categoriesAccepted = [];
-            state.categoriesAccepted.push(payload.category);
-            state.categoryCandidates = state.categoryCandidates.filter(
-                (category) => category.name != payload.category.name
-            );
-        },
-        pushRejectedCategory: (
-            state,
-            { payload }: PayloadAction<{ category: LocationCategory }>
-        ) => {
-            if (!state.categoriesRejected) state.categoriesRejected = [];
-            state.categoriesRejected.push(payload.category);
-            state.categoryCandidates = state.categoryCandidates.filter(
-                (category) => category.name != payload.category.name
-            );
-        },
-
         resetInterest: (state) => {
-            state.categoryCandidates = null;
-            state.categoriesRejected = null;
-            state.categoriesAccepted = null;
             state.fetchLocationCategoryRequestId = null;
         },
 
@@ -473,10 +450,6 @@ export const slice = createSlice({
             state.likedPlaceIds = null;
 
             state.planIdPreview = null;
-
-            state.categoryCandidates = null;
-            state.categoriesRejected = null;
-            state.categoriesAccepted = null;
 
             state.savePlanFromCandidateRequestStatus = null;
             state.updatePlacesOrderInPlanCandidateRequestStatus = null;
@@ -734,8 +707,6 @@ export const slice = createSlice({
                         RequestStatuses.FULFILLED;
 
                     state.categoryCandidates = payload.categories;
-                    state.categoriesAccepted = [];
-                    state.categoriesRejected = [];
                     state.fetchLocationCategoryRequestId = payload.requestId;
 
                     state.createPlanSession = payload.planCandidateId;
@@ -753,9 +724,6 @@ export const {
 
     setCreatedPlans,
     updatePlanOfPlanCandidate,
-
-    pushAcceptedCategory,
-    pushRejectedCategory,
 
     resetInterest,
     resetPlanCandidates,

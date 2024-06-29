@@ -13,8 +13,6 @@ import {
 import {
     createPlanFromLocation,
     fetchNearbyPlaceCategories,
-    pushAcceptedCategory,
-    pushRejectedCategory,
     reduxPlanCandidateSelector,
     resetInterest,
     setCreatedPlans,
@@ -54,6 +52,12 @@ export const useCreatePlanInterest = () => {
         useLocation();
 
     // カテゴリ選択
+    const [categoriesAccepted, setCategoriesAccepted] = useState<
+        LocationCategory[]
+    >([]);
+    const [categoriesRejected, setCategoriesRejected] = useState<
+        LocationCategory[]
+    >([]);
     const [currentCategory, setCurrentCategory] =
         useState<LocationCategoryWithPlace | null>(null);
     const [matchInterestRequestId, setMatchInterestRequestId] = useState<
@@ -62,17 +66,19 @@ export const useCreatePlanInterest = () => {
 
     const handleAcceptCategory = (category: LocationCategory) => {
         logEvent(getAnalytics(), AnalyticsEvents.Interests.SelectCategory);
-        dispatch(pushAcceptedCategory({ category }));
+        setCategoriesAccepted((prev) => [...prev, category]);
     };
 
     const handleRejectCategory = (category: LocationCategory) => {
-        dispatch(pushRejectedCategory({ category }));
+        setCategoriesRejected((prev) => [...prev, category]);
     };
 
     // 状態のリセット
     useEffect(() => {
         dispatch(resetInterest());
         setMatchInterestRequestId(null);
+        setCategoriesAccepted([]);
+        setCategoriesRejected([]);
 
         // 2回目以降、プランを作成するときに、前回の結果が残らないようにする
         dispatch(
@@ -89,6 +95,8 @@ export const useCreatePlanInterest = () => {
             dispatch(resetInterest());
             setCurrentCategory(null);
             setMatchInterestRequestId(null);
+            setCategoriesAccepted([]);
+            setCategoriesRejected([]);
 
             // 場所を指定してプラン作成 -> 現在地からプラン作成
             // を行うと、指定した場所の情報が残り、そこからプランを作成してしまうためリセットする
@@ -97,6 +105,25 @@ export const useCreatePlanInterest = () => {
             );
         };
     }, []);
+
+    // 付近の場所のカテゴリが検索されたときと、カテゴリが選択されたときに、次のカテゴリを選択する
+    useEffect(() => {
+        if (!categoryCandidates) return;
+
+        const categoriesSelected =
+            categoriesAccepted.concat(categoriesRejected);
+        const categoriesNotSelected = categoryCandidates.filter((category) =>
+            categoriesSelected.every((c) => c.name !== category.name)
+        );
+
+        if (categoriesNotSelected.length > 0) {
+            setCurrentCategory(categoriesNotSelected[0]);
+        }
+    }, [
+        categoryCandidates?.length,
+        categoriesAccepted.length,
+        categoriesRejected.length,
+    ]);
 
     // 検索する場所が指定されていない場合は、現在地を取得する
     useEffect(() => {
@@ -135,20 +162,18 @@ export const useCreatePlanInterest = () => {
         }
     }, [searchLocation, matchInterestRequestId]);
 
-    // 付近の場所のカテゴリが選択されたら
-    useEffect(() => {
-        // TODO: hooks 内で管理する
-        if (categoryCandidates && categoryCandidates.length > 0) {
-            setCurrentCategory(categoryCandidates[0]);
-        }
-    }, [categoryCandidates?.length]);
-
     // カテゴリが最後まで選択されたら、プランを作成する
     useEffect(() => {
-        if (
+        const categoriesSelected =
+            categoriesAccepted.concat(categoriesRejected);
+        const isAllCategorySelected =
             categoryCandidates &&
-            categoryCandidates.length === 0 &&
-            searchLocation &&
+            categoryCandidates.length === categoriesSelected.length;
+
+        const locationToCreatePlan = paramGeoLocation ?? searchLocation;
+        if (
+            isAllCategorySelected &&
+            locationToCreatePlan &&
             createPlanSession
         ) {
             const googlePlaceId =
@@ -157,8 +182,10 @@ export const useCreatePlanInterest = () => {
 
             dispatch(
                 createPlanFromLocation({
-                    location: searchLocation,
+                    location: locationToCreatePlan,
                     googlePlaceId,
+                    categoriesAccepted,
+                    categoriesRejected,
                 })
             );
 
@@ -180,9 +207,10 @@ export const useCreatePlanInterest = () => {
         }
     }, [
         categoryCandidates?.length,
+        categoriesAccepted.length,
+        categoriesRejected.length,
         searchLocation,
         searchPlaceId,
-        paramGooglePlaceId,
         createPlanSession,
     ]);
 
