@@ -8,6 +8,7 @@ export type Props = {
     statusMessage?: string;
     statusDescription?: string;
     description?: ReactNode;
+    smallTitle?: boolean;
 
     image: ReactNode;
 
@@ -21,6 +22,7 @@ export function FailurePage({
     statusMessage,
     statusDescription,
     description,
+    smallTitle = false,
     image,
     actions,
     navBar = <NavBar />,
@@ -35,6 +37,7 @@ export function FailurePage({
                             title={title}
                             statusMessage={statusMessage}
                             statusDescription={statusDescription}
+                            smallTitle={smallTitle}
                         />
                         <ErrorImage image={image} />
                         <VStack
@@ -57,10 +60,12 @@ function Header({
     title,
     statusMessage,
     statusDescription,
+    smallTitle,
 }: {
     title: string;
     statusMessage?: string;
     statusDescription?: string;
+    smallTitle: boolean;
 }) {
     return (
         <VStack
@@ -74,7 +79,11 @@ function Header({
                     {statusMessage}
                 </Text>
             )}
-            <Text fontSize="80px" lineHeight={1} fontWeight="bold">
+            <Text
+                fontSize={smallTitle ? 30 : 80}
+                lineHeight={1}
+                fontWeight="bold"
+            >
                 {title}
             </Text>
             {statusDescription && (
