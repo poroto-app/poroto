@@ -3,25 +3,19 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { appWithTranslation, useTranslation } from "next-i18next";
 import { AppProps } from "next/app";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { Provider } from "react-redux";
-import { copyObject } from "src/domain/util/object";
 import "src/locales/i18n";
 import { i18nAppConfig } from "src/locales/i18n";
-import {
-    popHistoryStack,
-    pushHistoryStack,
-    reduxHistorySelector,
-} from "src/redux/history";
-import { reduxStore, useAppDispatch } from "src/redux/redux";
+import { reduxStore } from "src/redux/redux";
 import { Auth } from "src/view/common/Auth";
 import { FirebaseProvider } from "src/view/common/FirebaseProvider";
 import { Theme } from "src/view/common/Theme";
 import { PageMetaData } from "src/view/constants/meta";
+import { History } from "src/view/provider/History";
 
 function App({ Component, pageProps }: AppProps) {
     const { t } = useTranslation();
+
     return (
         <>
             <Head>
@@ -80,50 +74,5 @@ function App({ Component, pageProps }: AppProps) {
         </>
     );
 }
-
-// ページ遷移を記録するためのコンポーネント
-const History = () => {
-    const dispatch = useAppDispatch();
-    const router = useRouter();
-    const { historyStack } = reduxHistorySelector();
-
-    useEffect(() => {
-        dispatch(
-            pushHistoryStack({
-                path: router.asPath,
-                key: history.state.key,
-            })
-        );
-    }, []);
-
-    useEffect(() => {
-        const handlePopState = (e: PopStateEvent) => {
-            dispatch(
-                popHistoryStack({
-                    path: e.state.path,
-                    key: e.state.key,
-                })
-            );
-        };
-
-        const handleRouteChange = () => {
-            dispatch(
-                pushHistoryStack({
-                    path: router.asPath,
-                    key: history.state.key,
-                })
-            );
-        };
-
-        router.events.on("routeChangeComplete", handleRouteChange);
-        window.addEventListener("popstate", handlePopState);
-        return () => {
-            router.events.off("routeChangeComplete", handleRouteChange);
-            window.removeEventListener("popstate", handlePopState);
-        };
-    }, [copyObject(historyStack)]);
-
-    return <></>;
-};
 
 export default appWithTranslation(App, i18nAppConfig);
