@@ -11,6 +11,7 @@ import { Auth } from "src/view/common/Auth";
 import { FirebaseProvider } from "src/view/common/FirebaseProvider";
 import { Theme } from "src/view/common/Theme";
 import { PageMetaData } from "src/view/constants/meta";
+import { ErrorLogger } from "src/view/provider/ErrorLogger";
 import { History } from "src/view/provider/History";
 
 function App({ Component, pageProps }: AppProps) {
@@ -67,6 +68,7 @@ function App({ Component, pageProps }: AppProps) {
                 <Provider store={reduxStore}>
                     <Auth />
                     <FirebaseProvider />
+                    <ErrorLogger />
                     <History />
                     <Component {...pageProps} />
                 </Provider>
