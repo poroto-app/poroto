@@ -9,6 +9,12 @@ export const Size = {
             px: Padding.p24,
         },
     },
+    CreatePlanCategory: {
+        CategoryImage: {
+            width: 300,
+            height: 200,
+        },
+    },
     PlaceCardPaddingH: Padding.p16,
     NavBar: {
         height: "50px",
