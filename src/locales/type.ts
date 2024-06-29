@@ -57,6 +57,11 @@ export type AccountTranslationKeys = {
     logout: string;
 };
 
+export type ErrorTranslationKeys = {
+    errorTitle: string;
+    errorDescription: string;
+};
+
 export type HomeTranslationKeys = {
     createPlanTitle: string;
     createPlanFromFavoritePlace: string;
