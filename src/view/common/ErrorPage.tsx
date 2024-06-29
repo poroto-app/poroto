@@ -24,8 +24,8 @@ export function ErrorPage({ navBar }: Props) {
         <FailurePage
             navBar={navBar}
             title="505"
-            statusMessage="Server Error"
-            statusDescription={t("common:serverError")}
+            statusMessage={t("error:serverErrorStatusMessage")}
+            statusDescription={t("error:serverErrorDescription")}
             image={
                 <Notify
                     viewBox="0 0 790 512.20805"

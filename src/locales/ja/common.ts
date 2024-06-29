@@ -18,9 +18,6 @@ export const CommonTranslationJa: CommonTranslationKeys = {
     minutesLabel: "{{minutes}}分",
     minuteApproximatelyLabel: "およそ {{minutes}}分",
     priceLabel: "{{price}}円",
-    notFound: "お探しのページが見つかりませんでした。",
-
-    serverError: "サーバーでエラーが発生しました。",
 
     time: "時間",
     YYYYMMDDHHMM: "{{year}}年{{month}}月{{day}}日 {{hour}}:{{minute}}",

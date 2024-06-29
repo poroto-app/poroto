@@ -22,6 +22,7 @@ export const AnalyticsEvents = {
         Like: "edit_plan_like",
         AutoReorder: "edit_plan_auto_reorder",
     },
+    Error: "app_error",
     Plan: {
         View: "plan_view",
         CopyPlanUrl: "copy_plan_url",
