@@ -16,7 +16,6 @@ const Template: StoryFn<typeof MapPinSelector> = (args) => {
             pinnedLocation={location}
             onSelectLocation={(location) => {
                 setLocation(location);
-                console.log(location);
             }}
         />
     );
