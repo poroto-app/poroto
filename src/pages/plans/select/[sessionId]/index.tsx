@@ -52,9 +52,6 @@ const SelectPlanPage = () => {
     const { sessionId } = router.query;
     const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
     const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
-    const { isPlanFooterVisible, planDetailPageRef, scrollToPlanDetailPage } =
-        usePlanCandidateGalleryPageAutoScroll();
-
     const {
         plansCreated,
         placesAvailableForPlan,
@@ -72,6 +69,10 @@ const SelectPlanPage = () => {
             refPlanCandidateGallery.current?.scrollIntoView();
         },
     });
+    const { isPlanFooterVisible, planDetailPageRef, scrollToPlanDetailPage } =
+        usePlanCandidateGalleryPageAutoScroll({
+            planCandidateId: sessionId as string,
+        });
 
     if (!plansCreated) {
         // ページ読み込み直後
