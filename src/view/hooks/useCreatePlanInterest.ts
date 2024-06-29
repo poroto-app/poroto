@@ -106,7 +106,7 @@ export const useCreatePlanInterest = () => {
         };
     }, []);
 
-    // 付近の場所のカテゴリが検索されたときと、カテゴリが選択されたときに、次のカテゴリを選択する
+    // 選択画面に表示するカテゴリを更新
     useEffect(() => {
         if (!categoryCandidates) return;
 
@@ -145,17 +145,18 @@ export const useCreatePlanInterest = () => {
         );
     }, [location]);
 
-    // 検索する場所が指定されたら、興味を持つ場所を検索
+    // 付近のカテゴリを取得
     useEffect(() => {
         // 重複してリクエストを送信しない
         if (matchInterestRequestId) return;
 
-        if (paramGeoLocation || searchLocation) {
+        const locationToSearch = paramGeoLocation ?? searchLocation;
+        if (locationToSearch) {
             const requestId = Date.now().toString();
             setMatchInterestRequestId(requestId);
             dispatch(
                 fetchNearbyPlaceCategories({
-                    location: paramGeoLocation ?? searchLocation,
+                    location: locationToSearch,
                     requestId,
                 })
             );

@@ -440,6 +440,7 @@ export const slice = createSlice({
 
         resetInterest: (state) => {
             state.fetchLocationCategoryRequestId = null;
+            state.categoryCandidates = null;
         },
 
         resetPlanCandidates: (state) => {
