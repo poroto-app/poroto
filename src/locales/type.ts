@@ -22,9 +22,6 @@ export type CommonTranslationKeys = {
     minutesLabel: string;
     minuteApproximatelyLabel: string;
     priceLabel: string;
-    notFound: string;
-
-    serverError: string;
 
     time: string;
     YYYYMMDDHHMM: string;
@@ -60,6 +57,12 @@ export type AccountTranslationKeys = {
 export type ErrorTranslationKeys = {
     errorTitle: string;
     errorDescription: string;
+
+    serverErrorStatusMessage: string;
+    serverErrorDescription: string;
+
+    notFoundStatusMessage: string;
+    notFoundDescription: string;
 };
 
 export type HomeTranslationKeys = {

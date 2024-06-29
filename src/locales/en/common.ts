@@ -18,9 +18,6 @@ export const CommonTranslationEn: CommonTranslationKeys = {
     minutesLabel: "{{minutes}} minutes",
     minuteApproximatelyLabel: "About {{minutes}} min",
     priceLabel: "{{price}} yen",
-    notFound: "The page you are looking for was not found.",
-
-    serverError: "A server error occurred.",
 
     time: "Time",
     YYYYMMDDHHMM: "{{year}}/{{month}}/{{day}} {{hour}}:{{minute}}",

@@ -15,8 +15,8 @@ export const NotFound = ({ navBar }: Props) => {
         <FailurePage
             navBar={navBar}
             title="404"
-            statusMessage="Not Found"
-            statusDescription={t("common:notFound")}
+            statusMessage={t("error:notFoundStatusMessage")}
+            statusDescription={t("error:notFoundDescription")}
             image={
                 <Image
                     w="100%"
