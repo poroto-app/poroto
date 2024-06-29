@@ -1,6 +1,6 @@
 import { ErrorTranslationKeys } from "src/locales/type";
 
 export const ErrorTranslationJa: ErrorTranslationKeys = {
-    errorTitle: "ごめんなさーい！",
-    errorDescription: "どうやら問題が発生したようです。",
+    errorTitle: "ごめんなさい！",
+    errorDescription: "どうやら問題が発生したようです。 お手数ですが、ページを再読み込みしてください。",
 };
