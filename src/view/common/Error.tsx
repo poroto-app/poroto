@@ -5,10 +5,19 @@ import { RoundedButton } from "src/view/common/RoundedButton";
 
 type Props = {
     navBar?: boolean;
+    onReload?: () => void;
 };
 
-export function Error({ navBar }: Props) {
+export function Error({ navBar, onReload }: Props) {
     const { t } = useTranslation();
+
+    const handleOnReload = () => {
+        onReload?.();
+        if (typeof window !== "undefined") {
+            window.location.reload();
+        }
+    };
+
     return (
         <FailurePage
             navBar={navBar}
@@ -25,7 +34,7 @@ export function Error({ navBar }: Props) {
                 />
             }
             actions={
-                <RoundedButton onClick={() => window.location.reload()}>
+                <RoundedButton onClick={handleOnReload}>
                     {t("common:reload")}
                 </RoundedButton>
             }
