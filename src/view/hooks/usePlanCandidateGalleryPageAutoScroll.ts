@@ -123,10 +123,6 @@ export const usePlanCandidateGalleryPageAutoScroll = ({
         };
 
         const handlePopState = (e: PopStateEvent) => {
-            console.log({
-                event: "POP",
-                shouldScrollToPlanDetailPage,
-            });
             if (shouldScrollToPlanDetailPage) {
                 window.scrollTo({
                     top: 0,

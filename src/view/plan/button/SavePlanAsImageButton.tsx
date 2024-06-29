@@ -28,7 +28,6 @@ export function SavePlanAsImageButton({ plan }: Props) {
             downloadLink.download = `${plan.id}.jpg`;
             document.body.append(downloadLink);
             downloadLink.click();
-            console.log(downloadLink);
             document.body.removeChild(downloadLink);
         } else {
             window.open(targetImageUri);

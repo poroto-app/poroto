@@ -82,6 +82,7 @@ function Fetching({
     );
 }
 
+// TODO: i18n
 function Failed({
     skipLocationLabel,
     onClickReFetch,

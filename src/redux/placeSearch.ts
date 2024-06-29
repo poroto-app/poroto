@@ -26,8 +26,6 @@ type SearchPlacesByQueryProps = {
 export const searchPlacesByQuery = createAsyncThunk(
     "placeSearch/searchPlacesByQuery",
     async ({ query }: SearchPlacesByQueryProps, { dispatch, getState }) => {
-        console.log("Search Places By Query", { query });
-
         if (query === "") {
             dispatch(resetPlaceSearchResults());
             return;

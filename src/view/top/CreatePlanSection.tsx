@@ -46,7 +46,7 @@ export function CreatePlanSection() {
                         <CreatePlanButton
                             title={t("home:createPlanFromCurrentLocation")}
                             icon={MdOutlineLocationOn}
-                            link={Routes.plans.interest()}
+                            link={Routes.plans.interest({})}
                             onClick={() =>
                                 logEvent(
                                     getAnalytics(),

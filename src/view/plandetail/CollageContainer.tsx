@@ -13,20 +13,11 @@ export function CollageContainer({ children }: Props) {
 
     useEffect(() => {
         const handleResize = () => {
-            // console.log({
-            //     collageContainerRef: collageContainerRef.current,
-            //     collageRef: collageRef.current,
-            // })
             if (collageContainerRef.current && collageRef.current) {
                 const containerHeight =
                     collageContainerRef.current.clientHeight;
                 const collageHeight = collageRef.current.clientHeight;
                 const scaleValue = containerHeight / collageHeight;
-                console.log({
-                    containerHeight,
-                    collageHeight,
-                    scaleValue,
-                });
                 setScale(scaleValue);
             }
         };

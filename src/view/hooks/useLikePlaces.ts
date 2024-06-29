@@ -35,7 +35,14 @@ export const useLikePlaces = () => {
         );
         // ダイアログの背景固定を解除するためにモーダルを閉じる
         dispatch(setPlaceIdToCreatePlan(null));
-        router.push(Routes.plans.interest(true)).then();
+        router
+            .push(
+                Routes.plans.interest({
+                    location: place.location,
+                    googlePlaceId: place.googlePlaceId,
+                })
+            )
+            .then();
     };
 
     useEffect(() => {
