@@ -7,6 +7,7 @@ import {
     Flex,
     HStack,
     Icon,
+    Skeleton,
     Text,
     VStack,
 } from "@chakra-ui/react";
@@ -268,60 +269,79 @@ function Schedule({
                                 as={MdArrowRight}
                             />
                         )}
-                        <Box
-                            as="button"
-                            w={
-                                Size.PlanDetailHeader.Schedule.Place.width +
-                                "px"
-                            }
-                            h={
-                                Size.PlanDetailHeader.Schedule.Place.height +
-                                "px"
-                            }
-                            overflow="hidden"
-                            borderRadius="10px"
-                            position="relative"
-                            border={i === activeIndex && "3px solid #84A6FF"}
+                        <SchedulePlaceCard
+                            place={place}
+                            index={i}
+                            isActive={activeIndex === i}
                             onClick={() => onClickPlace?.({ place, index: i })}
-                        >
-                            {place.images.length > 0 && (
-                                <Image
-                                    src={place.images[0].small}
-                                    alt={place.name}
-                                    width={
-                                        Size.PlanDetailHeader.Schedule.Place
-                                            .width
-                                    }
-                                    height={
-                                        Size.PlanDetailHeader.Schedule.Place
-                                            .height
-                                    }
-                                    quality={30}
-                                    style={{
-                                        width: "100%",
-                                        height: "100%",
-                                        objectFit: "cover",
-                                        userSelect: "none",
-                                    }}
-                                />
-                            )}
-                            <Box
-                                backgroundColor="#373737"
-                                color="white"
-                                borderRadius="10px"
-                                position="absolute"
-                                left={Padding.p4}
-                                bottom={Padding.p4}
-                                px={Padding.p4}
-                            >
-                                <Text fontSize="0.75rem" fontWeight="bold">
-                                    Spot {i + 1}
-                                </Text>
-                            </Box>
-                        </Box>
+                        />
                     </HStack>
                 ))}
             </HorizontalScrollableList>
         </VStack>
+    );
+}
+
+function SchedulePlaceCard({
+    place,
+    isActive,
+    index,
+    onClick,
+}: {
+    place: Place;
+    index: number;
+    isActive?: boolean;
+    onClick?: () => void;
+}) {
+    const [isImageLoaded, setIsImageLoaded] = useState(false);
+    return (
+        <Box
+            as="button"
+            w={Size.PlanDetailHeader.Schedule.Place.width + "px"}
+            h={Size.PlanDetailHeader.Schedule.Place.height + "px"}
+            overflow="hidden"
+            borderRadius="10px"
+            position="relative"
+            border={isActive && "3px solid #84A6FF"}
+            onClick={onClick}
+        >
+            <Skeleton
+                isLoaded={isImageLoaded}
+                position="absolute"
+                top={0}
+                right={0}
+                bottom={0}
+                left={0}
+            />
+            {place.images.length > 0 && (
+                <Image
+                    src={place.images[0].small}
+                    alt={place.name}
+                    width={Size.PlanDetailHeader.Schedule.Place.width}
+                    height={Size.PlanDetailHeader.Schedule.Place.height}
+                    quality={30}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        userSelect: "none",
+                    }}
+                    onLoad={() => setIsImageLoaded(true)}
+                />
+            )}
+            <Box
+                backgroundColor="#373737"
+                color="white"
+                borderRadius="10px"
+                position="absolute"
+                left={Padding.p4}
+                bottom={Padding.p4}
+                px={Padding.p4}
+            >
+                <Text fontSize="0.75rem" fontWeight="bold">
+                    Spot {index + 1}
+                </Text>
+            </Box>
+        </Box>
     );
 }
