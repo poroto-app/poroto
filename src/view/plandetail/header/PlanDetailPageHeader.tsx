@@ -24,10 +24,12 @@ import {
 import { ImageSize } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
+import { AppTrans } from "src/view/common/AppTrans";
 import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
 import { Padding } from "src/view/constants/padding";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
+import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { CollageContainer } from "src/view/plandetail/CollageContainer";
 import { CollageTemplate } from "src/view/plandetail/CollageTemplate";
 import { PlaceImageGallery } from "src/view/plandetail/header/PlaceImageGallery";
@@ -227,6 +229,7 @@ function Schedule({
     activeIndex?: number;
     onClickPlace?: (props: { place: Place; index: number }) => void;
 }) {
+    const { t } = useAppTranslation();
     return (
         <VStack
             zIndex={1}
@@ -241,7 +244,7 @@ function Schedule({
                     h={Size.PlanDetailHeader.Schedule.Title.height}
                 >
                     <Text color="#704E26" fontWeight="bold" fontSize="20px">
-                        Schedule
+                        {t("plan:scheduleTitle")}
                     </Text>
                 </Box>
                 <Box
@@ -340,7 +343,10 @@ function SchedulePlaceCard({
                 px={Padding.p4}
             >
                 <Text fontSize="0.75rem" fontWeight="bold">
-                    Spot {index + 1}
+                    <AppTrans
+                        i18nKey="plan:scheduleSpotLabel"
+                        values={{ value: index }}
+                    />
                 </Text>
             </Box>
         </Box>
