@@ -12,17 +12,25 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
+import Image from "next/image";
 import * as process from "process";
 import { useRef, useState } from "react";
-import { MdLink, MdOutlineCameraAlt, MdOutlineInfo } from "react-icons/md";
+import {
+    MdArrowRight,
+    MdLink,
+    MdOutlineCameraAlt,
+    MdOutlineInfo,
+} from "react-icons/md";
 import { ImageSize } from "src/domain/models/Image";
+import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
+import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
+import { Padding } from "src/view/constants/padding";
 import { Size } from "src/view/constants/size";
 import { isPC } from "src/view/constants/userAgent";
 import { CollageContainer } from "src/view/plandetail/CollageContainer";
 import { CollageTemplate } from "src/view/plandetail/CollageTemplate";
 import { PlaceImageGallery } from "src/view/plandetail/header/PlaceImageGallery";
-import { PlaceList } from "src/view/plandetail/header/PlaceList";
 
 type Props = {
     plan: Plan;
@@ -74,9 +82,60 @@ export function PlanDetailPageHeader({
             spacing="16px"
             overflow="hidden"
         >
+            <HStack
+                w="100%"
+                spacing="16px"
+                justifyContent="flex-end"
+                zIndex={1}
+                px={Size.PlanDetailHeader.px}
+                maxW={Size.PlanDetailHeader.maxW}
+            >
+                <VStack
+                    alignSelf="center"
+                    w="100%"
+                    mb="16px"
+                    alignItems="flex-start"
+                    justifyContent="center"
+                >
+                    <Text color="white" fontWeight="bold" fontSize="20px">
+                        {plan.title}
+                    </Text>
+                    {plan.author && (
+                        <HStack>
+                            <Avatar
+                                name={plan.author.name}
+                                src={plan.author.avatarImage}
+                                size="sm"
+                            />
+                            <Text color="white">{plan.author.name}</Text>
+                        </HStack>
+                    )}
+                </VStack>
+                <HStack alignSelf="center">
+                    {onCopyPlanUrl && (
+                        <Circle
+                            as="button"
+                            px="6px"
+                            py="4px"
+                            backgroundColor="#875643"
+                            color="#282828"
+                            onClick={onCopyPlanUrl}
+                        >
+                            <Icon
+                                w="32px"
+                                h="32px"
+                                color="#FFFFFF"
+                                as={MdLink}
+                                transform="rotate(-45deg)"
+                            />
+                        </Circle>
+                    )}
+                </HStack>
+            </HStack>
             {activeTab === PlanHeaderTabs.Info ? (
                 <VStack
                     w="100%"
+                    maxW={Size.PlanDetailHeader.maxW}
                     flex={1}
                     ref={infoRef}
                     spacing={Size.PlanDetailHeader.Info.spacingY + "px"}
@@ -96,21 +155,11 @@ export function PlanDetailPageHeader({
                             onPageChange={(page) => setCurrentPage(page)}
                         />
                     </Center>
-                    <Box
-                        zIndex={1}
-                        alignSelf="center"
-                        w={!isLargerThanHeaderWidth && "100%"}
-                        maxW={
-                            isLargerThanHeaderWidth
-                                ? "100%"
-                                : Size.PlanDetailHeader.maxW
-                        }
-                    >
-                        <PlaceList
-                            places={plan.places}
-                            onClickPlace={({ index }) => setCurrentPage(index)}
-                        />
-                    </Box>
+                    <Schedule
+                        places={plan.places}
+                        activeIndex={currentPage}
+                        onClickPlace={({ index }) => setCurrentPage(index)}
+                    />
                 </VStack>
             ) : (
                 <Flex
@@ -149,7 +198,6 @@ export function PlanDetailPageHeader({
                     <Button
                         onClick={() => setActiveTab(PlanHeaderTabs.Collage)}
                         color="white"
-                        background="linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)"
                         backgroundSize="200% auto"
                         opacity={activeTab === PlanHeaderTabs.Collage ? 1 : 0.3}
                         leftIcon={<Icon as={MdOutlineCameraAlt} />}
@@ -158,55 +206,93 @@ export function PlanDetailPageHeader({
                     </Button>
                 </HStack>
             )}
-            <HStack
-                w="100%"
-                spacing="16px"
-                justifyContent="flex-end"
-                zIndex={1}
-                px={Size.PlanDetailHeader.px}
-                maxW={Size.PlanDetailHeader.maxW}
-            >
-                <VStack
-                    alignSelf="center"
-                    w="100%"
-                    mb="16px"
-                    alignItems="flex-start"
-                    justifyContent="center"
-                >
-                    {plan.author && (
-                        <HStack>
-                            <Avatar
-                                name={plan.author.name}
-                                src={plan.author.avatarImage}
-                            />
-                            <Text color="white">{plan.author.name}</Text>
-                        </HStack>
-                    )}
-                    <Text color="white" fontWeight="bold" fontSize="20px">
-                        {plan.title}
+        </VStack>
+    );
+}
+
+function Schedule({
+    places,
+    activeIndex = 0,
+    onClickPlace,
+}: {
+    places: Place[];
+    activeIndex?: number;
+    onClickPlace?: (props: { place: Place; index: number }) => void;
+}) {
+    return (
+        <VStack w="100%" alignItems="flex-start" spacing={Padding.p16}>
+            <HStack w="100%" px={Size.PlanDetailHeader.px}>
+                <Box backgroundColor="white" px={Padding.p4}>
+                    <Text color="#704E26" fontWeight="bold" fontSize="20px">
+                        Schedule
                     </Text>
-                </VStack>
-                <HStack alignSelf="center">
-                    {onCopyPlanUrl && (
-                        <Circle
-                            as="button"
-                            px="6px"
-                            py="4px"
-                            backgroundColor="#875643"
-                            color="#282828"
-                            onClick={onCopyPlanUrl}
-                        >
-                            <Icon
-                                w="32px"
-                                h="32px"
-                                color="#FFFFFF"
-                                as={MdLink}
-                                transform="rotate(-45deg)"
-                            />
-                        </Circle>
-                    )}
-                </HStack>
+                </Box>
+                <Box
+                    flex={1}
+                    h="3px"
+                    backgroundImage="radial-gradient(circle, white 0, white 5px, transparent 5px)"
+                    backgroundSize="20px 2px"
+                    backgroundRepeat="repeat-x"
+                    backgroundPosition="left center"
+                />
             </HStack>
+            <HorizontalScrollableList
+                alignItems="center"
+                edgeCornerRadius={10}
+                pageButtonOpacity={0.6}
+                px={Size.PlanDetailHeader.px}
+            >
+                {places.map((place, i) => (
+                    <HStack key={i}>
+                        {i > 0 && (
+                            <Icon
+                                color="white"
+                                h="32px"
+                                w="32px"
+                                as={MdArrowRight}
+                            />
+                        )}
+                        <Box
+                            as="button"
+                            w="100px"
+                            h="80px"
+                            overflow="hidden"
+                            borderRadius="10px"
+                            position="relative"
+                            border={i === activeIndex && "3px solid #84A6FF"}
+                            onClick={() => onClickPlace?.({ place, index: i })}
+                        >
+                            {place.images.length > 0 && (
+                                <Image
+                                    src={place.images[0].small}
+                                    alt={place.name}
+                                    width={100}
+                                    height={80}
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "cover",
+                                        userSelect: "none",
+                                    }}
+                                />
+                            )}
+                            <Box
+                                backgroundColor="#373737"
+                                color="white"
+                                borderRadius="10px"
+                                position="absolute"
+                                left={Padding.p4}
+                                bottom={Padding.p4}
+                                px={Padding.p4}
+                            >
+                                <Text fontSize="0.75rem" fontWeight="bold">
+                                    Spot {i + 1}
+                                </Text>
+                            </Box>
+                        </Box>
+                    </HStack>
+                ))}
+            </HorizontalScrollableList>
         </VStack>
     );
 }
