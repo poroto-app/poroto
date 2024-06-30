@@ -86,7 +86,7 @@ export function PlanDetailPageHeader({
                     justifyContent="flex-end"
                     zIndex={1}
                     px={Size.PlanDetailHeader.px}
-                    maxW={Size.PlanDetailHeader.maxW}
+                    maxW={`min(100vw, ${Size.PlanDetailHeader.maxW})`}
                 >
                     <VStack
                         alignSelf="center"
@@ -133,14 +133,14 @@ export function PlanDetailPageHeader({
                     <VStack
                         ref={infoRef}
                         w="100%"
-                        maxW={Size.PlanDetailHeader.maxW}
+                        maxW={`min(100vw, ${Size.PlanDetailHeader.maxW})`}
                         py={Padding.p16}
                         flex={1}
                         spacing={Size.PlanDetailHeader.Info.spacingY + "px"}
                     >
                         <Center
                             w="100%"
-                            maxW={Size.PlanDetailHeader.maxW}
+                            maxW={`min(100vw, ${Size.PlanDetailHeader.maxW})`}
                             px={Size.PlanDetailHeader.px}
                             flex={1}
                             zIndex={0}
