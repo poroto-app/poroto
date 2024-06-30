@@ -191,9 +191,9 @@ export function PlanDetailPageHeader({
                     <HStack>
                         <Button
                             onClick={() => setActiveTab(PlanHeaderTabs.Info)}
-                            color="white"
-                            backgroundColor="#AC8E6C"
-                            _hover={{ background: "#b8a998" }}
+                            color="#704E26"
+                            backgroundColor="white"
+                            _hover={{ background: "white" }}
                             opacity={
                                 activeTab === PlanHeaderTabs.Info ? 1 : 0.3
                             }
@@ -345,7 +345,7 @@ function SchedulePlaceCard({
                 <Text fontSize="0.75rem" fontWeight="bold">
                     <AppTrans
                         i18nKey="plan:scheduleSpotLabel"
-                        values={{ value: index }}
+                        values={{ value: index + 1}}
                     />
                 </Text>
             </Box>
