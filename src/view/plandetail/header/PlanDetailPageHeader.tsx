@@ -84,17 +84,15 @@ export function PlanDetailPageHeader({
         >
             <VStack w="100%" h="100%" maxH="700px" spacing={Padding.p16}>
                 <HStack
-                    w="100%"
+                    w={`min(100vw, ${Size.PlanDetailHeader.maxW})`}
                     spacing="16px"
                     justifyContent="flex-end"
                     zIndex={1}
                     px={Size.PlanDetailHeader.px}
-                    maxW={`min(100vw, ${Size.PlanDetailHeader.maxW})`}
                 >
                     <VStack
                         alignSelf="center"
                         w="100%"
-                        mb="16px"
                         alignItems="flex-start"
                         justifyContent="center"
                     >
@@ -135,15 +133,13 @@ export function PlanDetailPageHeader({
                 {activeTab === PlanHeaderTabs.Info ? (
                     <VStack
                         ref={infoRef}
-                        w="100%"
-                        maxW={`min(100vw, ${Size.PlanDetailHeader.maxW})`}
+                        w={`min(100vw, ${Size.PlanDetailHeader.maxW})`}
                         py={Padding.p16}
                         flex={1}
                         spacing={Size.PlanDetailHeader.Info.spacingY + "px"}
                     >
                         <Center
-                            w="100%"
-                            maxW={`min(100vw, ${Size.PlanDetailHeader.maxW})`}
+                            w={`min(100vw, ${Size.PlanDetailHeader.maxW})`}
                             px={Size.PlanDetailHeader.px}
                             flex={1}
                             zIndex={0}
@@ -345,7 +341,7 @@ function SchedulePlaceCard({
                 <Text fontSize="0.75rem" fontWeight="bold">
                     <AppTrans
                         i18nKey="plan:scheduleSpotLabel"
-                        values={{ value: index + 1}}
+                        values={{ value: index + 1 }}
                     />
                 </Text>
             </Box>
