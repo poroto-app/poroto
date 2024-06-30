@@ -7,9 +7,12 @@ type Props = {
     scrollAmount?: number;
     pageButtonOffsetY?: number;
     px?: number | string;
+    spacing?: number | string;
+    alignItems?: string;
     pageButtonVisible?: boolean;
     roundedEdgeCorner?: boolean;
     edgeCornerRadius?: number;
+    pageButtonOpacity?: number;
     children?: ReactNode;
 };
 
@@ -17,9 +20,12 @@ export const HorizontalScrollableList = ({
     scrollAmount = 400,
     pageButtonOffsetY = 0,
     px = 0,
+    spacing,
+    alignItems = "flex-start",
     pageButtonVisible = isPC,
     roundedEdgeCorner = isPC,
     edgeCornerRadius = 20,
+    pageButtonOpacity = 1,
     children,
 }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -62,10 +68,11 @@ export const HorizontalScrollableList = ({
                 ref={containerRef}
                 w="100%"
                 px={px}
+                spacing={spacing}
                 borderRadius={roundedEdgeCorner ? edgeCornerRadius + "px" : 0}
                 overflowX="auto"
                 overflowY="hidden"
-                alignItems="flex-start"
+                alignItems={alignItems}
                 scrollSnapType="x mandatory"
                 sx={{
                     "::-webkit-scrollbar": {
@@ -81,6 +88,7 @@ export const HorizontalScrollableList = ({
                     right="auto"
                     offsetY={pageButtonOffsetY}
                     visible={pageButtonVisible}
+                    opacity={pageButtonOpacity}
                     onClick={() => scroll("left")}
                 >
                     <Icon as={MdArrowBackIos} />
@@ -90,6 +98,7 @@ export const HorizontalScrollableList = ({
                     right={0}
                     offsetY={pageButtonOffsetY}
                     visible={pageButtonVisible}
+                    opacity={pageButtonOpacity}
                     onClick={() => scroll("right")}
                 >
                     <Icon as={MdArrowForwardIos} />
@@ -104,6 +113,7 @@ const PageButton = ({
     right,
     offsetY,
     visible,
+    opacity,
     onClick,
     children,
 }: {
@@ -111,12 +121,14 @@ const PageButton = ({
     right: number | string;
     offsetY: number;
     visible: boolean;
+    opacity: number;
     onClick?: () => void;
     children: ReactNode;
 }) => {
     return (
         <Center
             visibility={visible ? "visible" : "hidden"}
+            opacity={opacity}
             position="absolute"
             top="50%"
             left={left}

@@ -5,6 +5,7 @@ import { IconType } from "react-icons";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
+import { Padding } from "src/view/constants/padding";
 import { Size } from "src/view/constants/size";
 import { PlanHeaderPlaceCard } from "src/view/plandetail/header/PlanHeaderPlaceCard";
 
@@ -43,7 +44,6 @@ export const PlaceImageGallery = ({
             <Box
                 position="relative"
                 alignSelf="center"
-                borderRadius="20px"
                 overflow="hidden"
                 w="100%"
                 h={Size.PlanDetailHeader.imageH + "px"}
@@ -60,6 +60,7 @@ export const PlaceImageGallery = ({
                         perPage: 1,
                         type: "slide",
                         height: Size.PlanDetailHeader.imageH + "px",
+                        gap: Padding.p32,
                     }}
                 >
                     {places.map((place, i) => (

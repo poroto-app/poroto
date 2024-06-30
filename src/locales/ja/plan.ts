@@ -83,5 +83,8 @@ export const PlanTranslationJa: PlanTranslationKeys = {
         "位置情報をオンにしてプランを取得",
     searchRouteOnGoogleMaps: "Googleマップで経路を調べる",
 
+    scheduleTitle: "Schedule",
+    scheduleSpotLabel: "Spot {{value}}",
+
     shareCreatedPlanMessage: "作ったプランを共有してみましょう！",
 };
