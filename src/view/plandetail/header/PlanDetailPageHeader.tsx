@@ -186,26 +186,32 @@ export function PlanDetailPageHeader({
                 {process.env.APP_ENV === "development" && (
                     <HStack>
                         <Button
-                            onClick={() => setActiveTab(PlanHeaderTabs.Info)}
-                            color="#704E26"
-                            backgroundColor="white"
-                            _hover={{ background: "white" }}
+                            color="white"
+                            backgroundColor="rgba(0,0,0,.2)"
+                            _hover={{ background: "rgba(0,0,0,.3)" }}
+                            borderRadius="20px"
                             opacity={
                                 activeTab === PlanHeaderTabs.Info ? 1 : 0.3
                             }
                             leftIcon={<Icon as={MdOutlineInfo} />}
+                            onClick={() => setActiveTab(PlanHeaderTabs.Info)}
                         >
                             {t("common:info")}
                         </Button>
                         <Button
-                            onClick={() => setActiveTab(PlanHeaderTabs.Collage)}
                             color="white"
                             backgroundSize="200% auto"
                             background="linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)"
+                            _hover={{
+                                background:
+                                    "linear-gradient(90deg, #505FD0 0%, #7B45B9 23%, #DA2E79 62%, #FDC769 100%)",
+                            }}
+                            borderRadius="20px"
                             opacity={
                                 activeTab === PlanHeaderTabs.Collage ? 1 : 0.3
                             }
                             leftIcon={<Icon as={MdOutlineCameraAlt} />}
+                            onClick={() => setActiveTab(PlanHeaderTabs.Collage)}
                         >
                             {t("plan:album")}
                         </Button>
