@@ -3,6 +3,7 @@ import { MdLocationOn } from "react-icons/md";
 import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
+import { Padding } from "src/view/constants/padding";
 import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
 
 type Props = {
@@ -19,11 +20,20 @@ export function PlanHeaderPlaceCard({
     onUpdateLike,
 }: Props) {
     return (
-        <Box position="relative" w="100%" h="100%">
-            <ImageWithSkeleton
-                src={getImageSizeOf(ImageSizes.Large, place.images[0])}
-                isGoogleImage={place.images[0].isGoogleImage}
-            />
+        <Box
+            backgroundColor="white"
+            borderRadius="20px"
+            w="100%"
+            h="100%"
+            p={Padding.p8}
+            position="relative"
+        >
+            <Box borderRadius="12px" w="100%" h="100%" overflow="hidden">
+                <ImageWithSkeleton
+                    src={getImageSizeOf(ImageSizes.Large, place.images[0])}
+                    isGoogleImage={place.images[0].isGoogleImage}
+                />
+            </Box>
             <HStack
                 position="absolute"
                 top={0}
@@ -35,9 +45,9 @@ export function PlanHeaderPlaceCard({
             >
                 <HStack
                     backgroundColor="white"
-                    borderRadius="5px"
-                    px="4px"
-                    py="2px"
+                    borderRadius="20px"
+                    px={Padding.p8}
+                    py={Padding.p4}
                     top="16px"
                     left="16px"
                     userSelect="none"
