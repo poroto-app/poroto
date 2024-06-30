@@ -55,9 +55,6 @@ export function PlanDetailPageHeader({
 }: Props) {
     const { t } = useTranslation();
     const [currentPage, setCurrentPage] = useState(0);
-    const [isLargerThanHeaderWidth] = useMediaQuery(
-        `(min-width: ${Size.PlanDetailHeader.maxW})`
-    );
     const placesWithImages = plan.places.filter(
         (place) => place.images.length > 0
     );
@@ -77,8 +74,9 @@ export function PlanDetailPageHeader({
             flex={1}
             w="100%"
             h="100%"
+            maxH="700px"
             py="32px"
-            background="linear-gradient(180deg, #7D6447 0%, #644B2E 70%, #3d2b15 100%)"
+            backgroundColor="#6F5231"
             spacing="16px"
             overflow="hidden"
         >
@@ -115,16 +113,15 @@ export function PlanDetailPageHeader({
                     {onCopyPlanUrl && (
                         <Circle
                             as="button"
-                            px="6px"
-                            py="4px"
-                            backgroundColor="#875643"
-                            color="#282828"
+                            px="8px"
+                            py="8px"
+                            backgroundColor="rgba(255, 255, 255, .8)"
                             onClick={onCopyPlanUrl}
                         >
                             <Icon
-                                w="32px"
-                                h="32px"
-                                color="#FFFFFF"
+                                w="24px"
+                                h="24px"
+                                color="#875643"
                                 as={MdLink}
                                 transform="rotate(-45deg)"
                             />
