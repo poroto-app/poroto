@@ -258,9 +258,10 @@ function Schedule({
                 edgeCornerRadius={10}
                 pageButtonOpacity={0.6}
                 px={Size.PlanDetailHeader.px}
+                spacing={0}
             >
                 {places.map((place, i) => (
-                    <HStack key={i}>
+                    <HStack key={i} spacing={0}>
                         {i > 0 && (
                             <Icon
                                 color="white"

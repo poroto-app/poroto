@@ -7,6 +7,7 @@ type Props = {
     scrollAmount?: number;
     pageButtonOffsetY?: number;
     px?: number | string;
+    spacing?: number | string;
     alignItems?: string;
     pageButtonVisible?: boolean;
     roundedEdgeCorner?: boolean;
@@ -19,6 +20,7 @@ export const HorizontalScrollableList = ({
     scrollAmount = 400,
     pageButtonOffsetY = 0,
     px = 0,
+    spacing,
     alignItems = "flex-start",
     pageButtonVisible = isPC,
     roundedEdgeCorner = isPC,
@@ -66,6 +68,7 @@ export const HorizontalScrollableList = ({
                 ref={containerRef}
                 w="100%"
                 px={px}
+                spacing={spacing}
                 borderRadius={roundedEdgeCorner ? edgeCornerRadius + "px" : 0}
                 overflowX="auto"
                 overflowY="hidden"
