@@ -58,7 +58,10 @@ const SelectPlanPage = () => {
     const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
     const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
     const { isPlanFooterVisible, planDetailPageRef, scrollToPlanDetailPage } =
-        usePlanCandidateGalleryPageAutoScroll();
+        usePlanCandidateGalleryPageAutoScroll({
+            // うまく動作しないことが多いので、一時的に JS によるスクロールスナップを行わない
+            isScrollSnapEnabled: false,
+        });
 
     const {
         plansCreated,

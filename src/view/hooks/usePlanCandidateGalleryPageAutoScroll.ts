@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 
-export const usePlanCandidateGalleryPageAutoScroll = () => {
+export const usePlanCandidateGalleryPageAutoScroll = ({
+    isScrollSnapEnabled,
+                                                      }: {
+   isScrollSnapEnabled: boolean;
+}) => {
     const isAutoScrollingRef = useRef(false);
     const prevScrollYRef = useRef(0);
     const planDetailPageRef = useRef<HTMLDivElement>(null);
@@ -86,13 +90,15 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
     };
 
     useEffect(() => {
-        window.addEventListener("scroll", scrollListener);
+        if(isScrollSnapEnabled) {
+            window.addEventListener("scroll", scrollListener);
+        }
 
         return () => {
             window.removeEventListener("scroll", scrollListener);
             clearTimeout(scrollTimeout);
         };
-    }, [isAutoScrollingRef]);
+    }, [isAutoScrollingRef, isScrollSnapEnabled]);
 
     return {
         planDetailPageRef,
