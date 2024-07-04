@@ -6,6 +6,7 @@ import {
     createPlanFromPlace,
     fetchAvailablePlacesForPlan,
     fetchCachedCreatedPlans,
+    fetchDestinationPlaces,
     reduxPlanCandidateSelector,
     resetCreatePlanFromPlaceRequestStatus,
 } from "src/redux/planCandidate";
@@ -46,6 +47,13 @@ export const usePlanCandidateSet = ({
                 session: planCandidateSetId,
                 userId: user?.id,
                 firebaseIdToken,
+            })
+        );
+
+        // 目的地の候補を取得
+        dispatch(
+            fetchDestinationPlaces({
+                planCandidateSetId,
             })
         );
     }, [
