@@ -1,6 +1,12 @@
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 
-export const usePlanCandidateGalleryPageAutoScroll = () => {
+export const usePlanCandidateGalleryPageAutoScroll = ({
+    planCandidateId,
+}: {
+    planCandidateId: string;
+}) => {
+    const router = useRouter();
     const isAutoScrollingRef = useRef(false);
     const prevScrollYRef = useRef(0);
     const planDetailPageRef = useRef<HTMLDivElement>(null);
@@ -93,6 +99,51 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
             clearTimeout(scrollTimeout);
         };
     }, [isAutoScrollingRef]);
+
+    // プラン詳細画面で戻るボタンを押したときに、プラン一覧画面にスクロールする
+    useEffect(() => {
+        let shouldScrollToPlanDetailPage = false;
+        const handleScroll = () => {
+            if (!planDetailPageRef.current) return;
+
+            const planCandidateIdInHistory =
+                window.history.state?.planCandidateId;
+            const isLowerOfPlanDetailPage =
+                window.scrollY >= planDetailPageRef.current.offsetTop;
+            if (
+                isLowerOfPlanDetailPage &&
+                planCandidateIdInHistory != planCandidateId
+            ) {
+                // 何度も戻るボタンを押さなくても良いように
+                // 一度だけ History にエントリーを追加する
+                window.history.pushState({ planCandidateId }, "");
+            }
+
+            shouldScrollToPlanDetailPage = isLowerOfPlanDetailPage;
+        };
+
+        const handlePopState = (e: PopStateEvent) => {
+            console.log({
+                event: "POP",
+                shouldScrollToPlanDetailPage,
+            });
+            if (shouldScrollToPlanDetailPage) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+                router.events.emit("routeChangeComplete", router.asPath);
+                e.preventDefault();
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("popstate", handlePopState);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("popstate", handlePopState);
+        };
+    }, []);
 
     return {
         planDetailPageRef,
