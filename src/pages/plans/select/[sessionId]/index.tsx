@@ -74,10 +74,12 @@ const SelectPlanPage = () => {
     } = usePlanCandidateSet({
         planCandidateSetId: sessionId as string,
         onCreatedPlanFromPlace: ({ plansCreated }) => {
+            // プラン作成完了後、ページトップに移動し、作成されたプランを中央に表示
             setSelectedPlanIndex(plansCreated.length - 1);
-
-            // プラン一覧の上部にスクロールする
-            refPlanCandidateGallery.current?.scrollIntoView();
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+            });
         },
     });
 
