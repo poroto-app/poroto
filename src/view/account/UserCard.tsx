@@ -7,8 +7,7 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
-import { MdOutlineEdit } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 import { User } from "src/domain/models/User";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { Padding } from "src/view/constants/padding";
@@ -20,7 +19,6 @@ type Props = {
 };
 
 export function UserCard({ user, isEditable = false, onEdit }: Props) {
-    const { t } = useTranslation();
     return (
         <Center
             w="100%"
@@ -31,27 +29,6 @@ export function UserCard({ user, isEditable = false, onEdit }: Props) {
             boxShadow="0px 0px 20px #F0DFCA"
         >
             <VStack spacing={Padding.p16} position="relative" w="100%">
-                {isEditable && (
-                    <HStack
-                        as="button"
-                        px="8px"
-                        py="4px"
-                        border="1px solid rgba(0,0,0,.1)"
-                        borderRadius="20px"
-                        position="absolute"
-                        top="12px"
-                        right="12px"
-                        onClick={onEdit}
-                    >
-                        <Icon
-                            w="24px"
-                            h="24px"
-                            color="rgba(0,0,0,.5)"
-                            as={MdOutlineEdit}
-                        />
-                        <Text>{t("common:edit")}</Text>
-                    </HStack>
-                )}
                 <Box
                     width="100px"
                     height="100px"
@@ -67,9 +44,29 @@ export function UserCard({ user, isEditable = false, onEdit }: Props) {
                 </Box>
                 <Center maxW="100%" h="50px">
                     {user ? (
-                        <Text fontWeight="bold" fontSize="32px">
-                            {user.name}
-                        </Text>
+                        <HStack spacing={Padding.p8}>
+                            <Text fontWeight="bold" fontSize="32px">
+                                {user.name}
+                            </Text>
+                            {isEditable && (
+                                <Center
+                                    as="button"
+                                    w="36px"
+                                    h="36px"
+                                    border="1px solid rgba(0,0,0,.1)"
+                                    _hover={{ backgroundColor: "gray.100" }}
+                                    borderRadius="20px"
+                                    onClick={onEdit}
+                                >
+                                    <Icon
+                                        w="20px"
+                                        h="20px"
+                                        color="rgba(0,0,0,.5)"
+                                        as={MdEdit}
+                                    />
+                                </Center>
+                            )}
+                        </HStack>
                     ) : (
                         <Box
                             borderRadius="30px"
