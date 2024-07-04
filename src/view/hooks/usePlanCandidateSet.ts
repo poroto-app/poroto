@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { reduxAuthSelector } from "src/redux/auth";
@@ -21,7 +21,6 @@ export const usePlanCandidateSet = ({
 }) => {
     const dispatch = useAppDispatch();
     const { user, firebaseIdToken } = reduxAuthSelector();
-    const [isCreatingPlan, setIsCreatingPlan] = useState(false);
     const {
         plansCreated,
         placesAvailableForPlan,
@@ -77,12 +76,6 @@ export const usePlanCandidateSet = ({
         }
     }, [planCandidateSetId, plansCreated?.length]);
 
-    useEffect(() => {
-        setIsCreatingPlan(
-            createPlanFromPlaceRequestStatus === RequestStatuses.PENDING
-        );
-    }, [createPlanFromPlaceRequestStatus]);
-
     // 指定した場所からプランを作成できたら、そのプランが選択されている状態にする
     useEffect(() => {
         if (createPlanFromPlaceRequestStatus !== RequestStatuses.FULFILLED)
@@ -114,7 +107,8 @@ export const usePlanCandidateSet = ({
     return {
         plansCreated,
         placesAvailableForPlan,
-        isCreatingPlan,
+        isCreatingPlan:
+            createPlanFromPlaceRequestStatus === RequestStatuses.PENDING,
         createPlanFromPlaceRequestStatus,
         createPlanFromLocationRequestStatus,
         fetchAvailablePlacesForPlanRequestStatus,

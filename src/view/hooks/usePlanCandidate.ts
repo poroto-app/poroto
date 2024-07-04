@@ -56,12 +56,6 @@ export const usePlanCandidate = ({ planId }: { planId?: string }) => {
     }) => {
         // ダイアログが表示されている状態だとスクロールできないので先に閉じる
         setPlaceIdToCreatePlan(null);
-
-        // トップまでスクロール(1sスリープ)
-        setTimeout(() => {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        }, 300);
-
         dispatch(
             createPlanFromPlace({
                 createPlanSessionId: planCandidateSetId,

@@ -91,6 +91,18 @@ const SelectPlanPage = () => {
             ? plansCreated[selectedPlanIndex].id
             : null;
 
+    const handleOnCreatePlan = () => {
+        // トップまでスクロール(1sスリープ)
+        setTimeout(() => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }, 200);
+
+        // プラン作成中は最後のプランにフォーカスをさせる
+        if (plansCreated?.length > 0) {
+            setSelectedPlanIndex(plansCreated.length - 1);
+        }
+    };
+
     if (!plansCreated) {
         // ページ読み込み直後
         const isLoadingPlan =
@@ -202,6 +214,7 @@ const SelectPlanPage = () => {
                     planId={currentPlanId}
                     planCandidateSetId={sessionId as string}
                     isPlanFooterVisible={isPlanFooterVisible}
+                    onCreatePlan={() => handleOnCreatePlan()}
                 />
             </Box>
         </VStack>
@@ -212,12 +225,14 @@ type Props = {
     planId: string | null;
     planCandidateSetId: string;
     isPlanFooterVisible: boolean;
+    onCreatePlan?: () => void;
 };
 
 function PlanDetailPage({
     planId,
     planCandidateSetId,
     isPlanFooterVisible,
+    onCreatePlan,
 }: Props) {
     const { t } = useTranslation();
     const {
@@ -450,12 +465,13 @@ function PlanDetailPage({
             <CreatePlanDialog
                 place={placeToCreatePlan}
                 onClickClose={() => onCloseCreatePlanFromPlace()}
-                onClickCreatePlan={(place) =>
+                onClickCreatePlan={(place) => {
                     onCreatePlanFromPlace({
                         planCandidateSetId: planCandidateSetId,
                         placeId: place.id,
-                    })
-                }
+                    });
+                    onCreatePlan?.();
+                }}
             />
             <DialogReplacePlace
                 placesInPlan={plan.places}
