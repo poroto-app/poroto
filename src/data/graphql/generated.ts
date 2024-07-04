@@ -170,6 +170,16 @@ export type DeletePlaceFromPlanCandidateOutput = {
   planCandidateId: Scalars['String']['output'];
 };
 
+export type DestinationCandidatePlacesForPlanCandidateInput = {
+  planCandidateSetId: Scalars['ID']['input'];
+  planId: Scalars['ID']['input'];
+};
+
+export type DestinationCandidatePlacesForPlanCandidateOutput = {
+  __typename?: 'DestinationCandidatePlacesForPlanCandidateOutput';
+  places: Array<Place>;
+};
+
 export type EditPlanTitleOfPlanCandidateInput = {
   planCandidateId: Scalars['String']['input'];
   planId: Scalars['String']['input'];
@@ -549,6 +559,7 @@ export type PriceRange = {
 export type Query = {
   __typename?: 'Query';
   availablePlacesForPlan: AvailablePlacesForPlan;
+  destinationCandidatePlacesForPlanCandidate: DestinationCandidatePlacesForPlanCandidateOutput;
   firebaseUser: User;
   likePlaces: Array<Place>;
   nearbyPlaceCategories: NearbyPlaceCategoryOutput;
@@ -568,6 +579,11 @@ export type Query = {
 
 export type QueryAvailablePlacesForPlanArgs = {
   input: AvailablePlacesForPlanInput;
+};
+
+
+export type QueryDestinationCandidatePlacesForPlanCandidateArgs = {
+  input: DestinationCandidatePlacesForPlanCandidateInput;
 };
 
 
