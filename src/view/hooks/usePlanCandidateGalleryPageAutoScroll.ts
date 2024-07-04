@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 
 export const usePlanCandidateGalleryPageAutoScroll = ({
     isScrollSnapEnabled,
-                                                      }: {
-   isScrollSnapEnabled: boolean;
+}: {
+    isScrollSnapEnabled: boolean;
 }) => {
     const isAutoScrollingRef = useRef(false);
     const prevScrollYRef = useRef(0);
@@ -90,7 +90,7 @@ export const usePlanCandidateGalleryPageAutoScroll = ({
     };
 
     useEffect(() => {
-        if(isScrollSnapEnabled) {
+        if (isScrollSnapEnabled) {
             window.addEventListener("scroll", scrollListener);
         }
 
