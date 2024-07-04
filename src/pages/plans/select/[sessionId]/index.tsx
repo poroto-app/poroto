@@ -66,6 +66,7 @@ const SelectPlanPage = () => {
     const {
         plansCreated,
         placesAvailableForPlan,
+        isCreatingPlan,
         createPlanFromPlaceRequestStatus,
         createPlanFromLocationRequestStatus,
         fetchAvailablePlacesForPlanRequestStatus,
@@ -180,6 +181,7 @@ const SelectPlanPage = () => {
                     <PlanCandidatesGallery
                         planCandidates={plansCreated}
                         activePlanIndex={selectedPlanIndex}
+                        isCreating={isCreatingPlan}
                         onActiveIndexChange={setSelectedPlanIndex}
                     />
                     <ButtonWithBlur
