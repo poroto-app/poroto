@@ -50,6 +50,16 @@ export const Size = {
         h: "200px",
         borderRadius: "20px",
     },
+    PlanCandidatesGallery: {
+        Card: {
+            borderRadius: 20,
+            w: 300,
+            h: {
+                active: 500,
+                inactive: 450,
+            },
+        },
+    },
     PlanFooter: {
         h: 80,
     },

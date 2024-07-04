@@ -3,6 +3,7 @@ import "@splidejs/splide/css";
 import { useState } from "react";
 import { Image, getDefaultPlaceImage } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
+import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { StoryImagePreview } from "src/view/plancandidate/StoryImagePreview";
 
@@ -28,12 +29,18 @@ export function PlanCandidateGalleryCard({
     );
 
     return (
-        <Center h="500px">
+        <Center h={Size.PlanCandidatesGallery.Card.h.active + "px"}>
             <Box
                 transition="all 0.3s ease-in-out"
-                w="300px"
-                h={isActive ? "500px" : "450px"}
-                borderRadius="20px"
+                w={Size.PlanCandidatesGallery.Card.w + "px"}
+                h={
+                    isActive
+                        ? Size.PlanCandidatesGallery.Card.h.active + "px"
+                        : Size.PlanCandidatesGallery.Card.h.inactive + "px"
+                }
+                borderRadius={
+                    Size.PlanCandidatesGallery.Card.borderRadius + "px"
+                }
                 overflow="hidden"
                 position="relative"
                 filter={isActive ? "none" : "blur(1px)"}
