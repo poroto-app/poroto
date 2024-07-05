@@ -7,10 +7,10 @@ import {
     Flex,
     HStack,
     Icon,
+    Image,
     Skeleton,
     Text,
     VStack,
-    Image,
 } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import * as process from "process";
@@ -322,8 +322,8 @@ function SchedulePlaceCard({
                 <Image
                     src={place.images[0].small}
                     alt={place.name}
-                    width={Size.PlanDetailHeader.Schedule.Place.width+"px"}
-                    height={Size.PlanDetailHeader.Schedule.Place.height+"px"}
+                    width={Size.PlanDetailHeader.Schedule.Place.width + "px"}
+                    height={Size.PlanDetailHeader.Schedule.Place.height + "px"}
                     style={{
                         width: "100%",
                         height: "100%",
