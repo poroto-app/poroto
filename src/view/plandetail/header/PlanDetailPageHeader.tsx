@@ -166,7 +166,7 @@ export function PlanDetailPageHeader({
                             isPC &&
                             Size.PlanDetailHeader.Info.spacingY +
                                 parseInt(Padding.p16.replace("px", "")) +
-                                Size.PlanDetailHeader.imageH +
+                                Size.PlanDetailHeader.image.h +
                                 Size.PlanDetailHeader.Schedule.Title.height +
                                 parseInt(Padding.p16.replace("px", "")) +
                                 Size.PlanDetailHeader.Schedule.Place.height +

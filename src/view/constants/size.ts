@@ -23,7 +23,10 @@ export const Size = {
         maxH: "900px",
         maxW: "500px",
         px: Padding.p16,
-        imageH: 300,
+        image: {
+            h: 350,
+            maxW: 300,
+        },
         Schedule: {
             Title: {
                 height: 30,

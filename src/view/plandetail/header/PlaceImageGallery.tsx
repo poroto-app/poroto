@@ -30,7 +30,7 @@ export const PlaceImageGallery = ({
     }, [currentPage]);
 
     return (
-        <Box position="relative" w="100%">
+        <Box position="relative" w={Size.PlanDetailHeader.image.maxW + "px"}>
             <AmbientBackgroundImage
                 scale={1.5}
                 margin={4}
@@ -45,9 +45,9 @@ export const PlaceImageGallery = ({
                 position="relative"
                 alignSelf="center"
                 overflow="hidden"
-                w="100%"
-                h={Size.PlanDetailHeader.imageH + "px"}
-                maxW={Size.PlanDetailHeader.maxW}
+                w={`min(100%, ${Size.PlanDetailHeader.image.maxW}px)`}
+                h={Size.PlanDetailHeader.image.h + "px"}
+                maxW={Size.PlanDetailHeader.image.maxW + "px"}
             >
                 <Splide
                     ref={refSplide}
@@ -59,7 +59,7 @@ export const PlaceImageGallery = ({
                         pagination: false,
                         perPage: 1,
                         type: "slide",
-                        height: Size.PlanDetailHeader.imageH + "px",
+                        height: Size.PlanDetailHeader.image.h + "px",
                         gap: Padding.p32,
                     }}
                 >
@@ -134,7 +134,7 @@ function AmbientBackgroundImage({
             bottom={0}
             left={0}
             w="100%"
-            h={`calc(${Size.PlanDetailHeader.imageH + "px"})`}
+            h={`calc(${Size.PlanDetailHeader.image.h + "px"})`}
         >
             <Image
                 w={`calc(${100 / scale}% + ${margin / scale}px)`}
