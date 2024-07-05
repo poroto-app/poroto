@@ -57,12 +57,6 @@ const SelectPlanPage = () => {
     const { sessionId } = router.query;
     const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
     const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
-    const { isPlanFooterVisible, planDetailPageRef, scrollToPlanDetailPage } =
-        usePlanCandidateGalleryPageAutoScroll({
-            // うまく動作しないことが多いので、一時的に JS によるスクロールスナップを行わない
-            isScrollSnapEnabled: false,
-        });
-
     const {
         plansCreated,
         placesAvailableForPlan,
@@ -83,6 +77,12 @@ const SelectPlanPage = () => {
             });
         },
     });
+    const { isPlanFooterVisible, planDetailPageRef, scrollToPlanDetailPage } =
+        usePlanCandidateGalleryPageAutoScroll({
+            planCandidateId: sessionId as string,
+            // うまく動作しないことが多いので、一時的に JS によるスクロールスナップを行わない
+            isScrollSnapEnabled: false,
+        });
 
     const currentPlanId =
         hasValue(selectedPlanIndex) &&
