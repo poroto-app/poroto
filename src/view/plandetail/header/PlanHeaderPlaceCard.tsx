@@ -25,7 +25,6 @@ export function PlanHeaderPlaceCard({
             borderRadius="20px"
             w="100%"
             h="100%"
-            p={Padding.p8}
             position="relative"
         >
             <Box borderRadius="12px" w="100%" h="100%" overflow="hidden">
@@ -39,7 +38,7 @@ export function PlanHeaderPlaceCard({
                 top={0}
                 left={0}
                 right={0}
-                p="16px"
+                p={Padding.p16}
                 alignItems="flex-start"
                 justifyContent="space-between"
             >
