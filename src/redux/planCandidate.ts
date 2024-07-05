@@ -24,6 +24,12 @@ export type PlanCandidateState = {
     createdBasedOnCurrentLocation: boolean | null;
     plansCreated: Plan[] | null;
     placesAvailableForPlan: Place[] | null;
+    placesForDestination:
+        | {
+              planCandidateId: string;
+              places: Place[];
+          }[]
+        | null;
 
     categoryCandidates: LocationCategoryWithPlace[] | null;
     // 直前に発火したリクエストの結果と、新しく行ったリクエストの結果を区別できるようにするために利用する
@@ -40,6 +46,7 @@ export type PlanCandidateState = {
     fetchCachedCreatedPlansRequestStatus: RequestStatus | null;
     fetchAvailablePlacesForPlanRequestStatus: RequestStatus | null;
     fetchNearbyPlaceCategoriesRequestStatus: RequestStatus | null;
+    fetchDestinationCandidatePlacesRequestStatus: RequestStatus | null;
 };
 
 const initialState: PlanCandidateState = {
@@ -49,6 +56,7 @@ const initialState: PlanCandidateState = {
     plansCreated: null,
     placesAvailableForPlan: null,
     planIdPreview: null,
+    placesForDestination: null,
 
     categoryCandidates: null,
     fetchLocationCategoryRequestId: null,
@@ -64,6 +72,7 @@ const initialState: PlanCandidateState = {
     fetchCachedCreatedPlansRequestStatus: null,
     fetchAvailablePlacesForPlanRequestStatus: null,
     fetchNearbyPlaceCategoriesRequestStatus: null,
+    fetchDestinationCandidatePlacesRequestStatus: null,
 };
 
 type CreatePlanFromCurrentLocationProps = {
@@ -282,6 +291,31 @@ export const fetchNearbyPlaceCategories = createAsyncThunk(
             requestId,
             planCandidateId: response.session,
             categories: categriesWithPlace,
+        };
+    }
+);
+
+type FetchDestinationPlacesProps = {
+    planCandidateSetId: string;
+};
+export const fetchDestinationPlaces = createAsyncThunk(
+    "planCandidate/fetchDestinationPlaces",
+    async ({ planCandidateSetId }: FetchDestinationPlacesProps) => {
+        const plannerApi: PlannerApi = new PlannerGraphQlApi();
+        const response =
+            await plannerApi.fetchPlacesForDestinationOfPlanCandidates({
+                planCandidateSetId,
+            });
+
+        return {
+            placesForPlanCandidates: response.placesForPlanCandidates.map(
+                (placesForPlanCandidate) => ({
+                    planCandidateId: placesForPlanCandidate.planCandidateId,
+                    places: placesForPlanCandidate.places.map((place) =>
+                        createPlaceFromPlaceEntity(place)
+                    ),
+                })
+            ),
         };
     }
 );
@@ -715,6 +749,20 @@ export const slice = createSlice({
             )
             .addCase(fetchNearbyPlaceCategories.rejected, (state) => {
                 state.fetchNearbyPlaceCategoriesRequestStatus =
+                    RequestStatuses.REJECTED;
+            })
+            // Fetch Destination Candidate Places
+            .addCase(fetchDestinationPlaces.pending, (state) => {
+                state.fetchDestinationCandidatePlacesRequestStatus =
+                    RequestStatuses.PENDING;
+            })
+            .addCase(fetchDestinationPlaces.fulfilled, (state, { payload }) => {
+                state.fetchDestinationCandidatePlacesRequestStatus =
+                    RequestStatuses.FULFILLED;
+                state.placesForDestination = payload.placesForPlanCandidates;
+            })
+            .addCase(fetchDestinationPlaces.rejected, (state) => {
+                state.fetchDestinationCandidatePlacesRequestStatus =
                     RequestStatuses.REJECTED;
             });
     },

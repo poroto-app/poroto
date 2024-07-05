@@ -1,0 +1,10 @@
+query DestinationCandidatePlacesForPlanCandidate($input: DestinationCandidatePlacesForPlanCandidateInput!) {
+    destinationCandidatePlacesForPlanCandidate(input: $input) {
+        placesForPlanCandidates {
+            planCandidateId
+            places {
+                ...PlaceFullFragment
+            }
+        }
+    }
+}

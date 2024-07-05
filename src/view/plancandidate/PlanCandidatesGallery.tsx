@@ -1,8 +1,9 @@
-import { Center } from "@chakra-ui/react";
+import { Box, Center, Skeleton } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { useEffect, useRef, useState } from "react";
 import { Plan } from "src/domain/models/Plan";
+import { Size } from "src/view/constants/size";
 import { Time } from "src/view/constants/time";
 import { PlanCandidateGalleryCard } from "src/view/plancandidate/PlanCandidatesGalleryCard";
 import { styled } from "styled-components";
@@ -11,6 +12,7 @@ export type Props = {
     planCandidates: Plan[];
     defaultActivePlanIndex?: number;
     activePlanIndex?: number;
+    isCreating?: boolean;
     onActiveIndexChange?: (index: number) => void;
 };
 
@@ -18,6 +20,7 @@ export function PlanCandidatesGallery({
     planCandidates,
     defaultActivePlanIndex = 0,
     activePlanIndex,
+    isCreating = false,
     onActiveIndexChange,
 }: Props) {
     const [activeIndex, setActiveIndex] = useState(defaultActivePlanIndex);
@@ -91,6 +94,18 @@ export function PlanCandidatesGallery({
                         />
                     </SplideSlide>
                 ))}
+                {isCreating && (
+                    <Box
+                        w={Size.PlanCandidatesGallery.Card.w}
+                        h={Size.PlanCandidatesGallery.Card.h.inactive}
+                        borderRadius={
+                            Size.PlanCandidatesGallery.Card.borderRadius
+                        }
+                        overflow="hidden"
+                    >
+                        <Skeleton w="100%" h="100%" />
+                    </Box>
+                )}
             </SlideContainer>
         </Center>
     );

@@ -19,7 +19,9 @@ export function PlaceCard({
 }: Props) {
     if (!place) return <PlaceCardSkeleton />;
 
-    const image = place.images[0];
+    // TODO: 画像が存在しない場合に、プレースホルダーを表示する
+    const image = place.images?.length > 0 ? place.images[0] : null;
+
     return (
         <Box
             w={w}
@@ -32,8 +34,8 @@ export function PlaceCard({
             onClick={onClick}
         >
             <ImageWithSkeleton
-                src={image.default}
-                isGoogleImage={image.isGoogleImage}
+                src={image?.default || ""}
+                isGoogleImage={image?.isGoogleImage || false}
                 attributionToBottom={false}
             />
             <VStack

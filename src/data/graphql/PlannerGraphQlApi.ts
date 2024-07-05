@@ -8,6 +8,7 @@ import {
     CreatePlanByPlaceDocument,
     CreatePlanCandidateSetFromSavedPlanDocument,
     DeletePlaceFromPlanCandidateDocument,
+    DestinationCandidatePlacesForPlanCandidateDocument,
     EditPlanTitleOfPlanCandidateDocument,
     FetchAvailablePlacesForPlanCandidateDocument,
     FetchPlanByIdDocument,
@@ -56,6 +57,8 @@ import {
     FetchCreatePlanPlaceCategoriesResponse,
     FetchNearbyPlaceCategoriesRequest,
     FetchNearbyPlaceCategoriesResponse,
+    FetchPlacesForDestinationOfPlanCandidatesRequest,
+    FetchPlacesForDestinationOfPlanCandidatesResponse,
     FetchPlacesNearbyPlanLocationRequest,
     FetchPlacesNearbyPlanLocationResponse,
     FetchPlacesToAddForPlanOfPlanCandidateRequest,
@@ -424,6 +427,31 @@ export class PlannerGraphQlApi extends GraphQlRepository implements PlannerApi {
             places: data.placesToReplaceForPlanCandidate.places.map((place) =>
                 fromGraphqlPlaceEntity(place)
             ),
+        };
+    }
+
+    async fetchPlacesForDestinationOfPlanCandidates(
+        request: FetchPlacesForDestinationOfPlanCandidatesRequest
+    ): Promise<FetchPlacesForDestinationOfPlanCandidatesResponse> {
+        const { data } = await this.client.query({
+            query: DestinationCandidatePlacesForPlanCandidateDocument,
+            variables: {
+                input: {
+                    planCandidateSetId: request.planCandidateSetId,
+                },
+            },
+        });
+
+        return {
+            placesForPlanCandidates:
+                data.destinationCandidatePlacesForPlanCandidate.placesForPlanCandidates.map(
+                    (placeForPlanCandidate) => ({
+                        planCandidateId: placeForPlanCandidate.planCandidateId,
+                        places: placeForPlanCandidate.places.map((place) =>
+                            fromGraphqlPlaceEntity(place)
+                        ),
+                    })
+                ),
         };
     }
 
