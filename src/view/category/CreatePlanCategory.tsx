@@ -20,15 +20,16 @@ export function CreatePlanCategory({ category, onClick }: Props) {
             position="relative"
             onClick={onClick}
         >
-            <Skeleton
-                position="absolute"
-                top={0}
-                right={0}
-                bottom={0}
-                left={0}
-                transition="opacity .3s"
-                opacity={isImageLoading ? 1 : 0}
-            />
+            {/*TDOO：もとにもどす*/}
+            {/*<Skeleton*/}
+            {/*    position="absolute"*/}
+            {/*    top={0}*/}
+            {/*    right={0}*/}
+            {/*    bottom={0}*/}
+            {/*    left={0}*/}
+            {/*    transition="opacity .3s"*/}
+            {/*    opacity={isImageLoading ? 1 : 0}*/}
+            {/*/>*/}
             <Image
                 width={Size.CreatePlanCategory.CategoryImage.width+"px"}
                 height={Size.CreatePlanCategory.CategoryImage.height+"px"}
