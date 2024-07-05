@@ -241,11 +241,10 @@ function Schedule({
         >
             <HStack w="100%" px={Size.PlanDetailHeader.px}>
                 <Box
-                    backgroundColor="white"
                     px={Padding.p4}
                     h={Size.PlanDetailHeader.Schedule.Title.height}
                 >
-                    <Text color="#704E26" fontWeight="bold" fontSize="20px">
+                    <Text color="white" fontWeight="bold" fontSize="20px">
                         {t("plan:scheduleTitle")}
                     </Text>
                 </Box>
