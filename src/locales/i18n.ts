@@ -6,6 +6,7 @@ import { UserConfig } from "next-i18next";
 import { initReactI18next } from "react-i18next";
 import { AccountTranslationEn } from "src/locales/en/account";
 import { CommonTranslationEn } from "src/locales/en/common";
+import { ErrorTranslationEn } from "src/locales/en/error";
 import { HomeTranslationEn } from "src/locales/en/home";
 import { LocationTranslationEn } from "src/locales/en/location";
 import { NavigationTranslationEn } from "src/locales/en/navigation";
@@ -15,6 +16,7 @@ import { PlanTranslationEn } from "src/locales/en/plan";
 import { PwaTranslationEn } from "src/locales/en/pwa";
 import { AccountTranslationJa } from "src/locales/ja/account";
 import { CommonTranslationJa } from "src/locales/ja/common";
+import { ErrorTranslationJa } from "src/locales/ja/error";
 import { HomeTranslationJa } from "src/locales/ja/home";
 import { LocationTranslationJa } from "src/locales/ja/location";
 import { NavigationTranslationJa } from "src/locales/ja/navigation";
@@ -25,6 +27,7 @@ import { PwaTranslationJa } from "src/locales/ja/pwa";
 import {
     AccountTranslationKeys,
     CommonTranslationKeys,
+    ErrorTranslationKeys,
     HomeTranslationKeys,
     LocationTranslationKeys,
     NavigationTranslationKeys,
@@ -37,6 +40,7 @@ import {
 export type TranslationResourceType = {
     common: CommonTranslationKeys;
     account: AccountTranslationKeys;
+    error: ErrorTranslationKeys;
     home: HomeTranslationKeys;
     location: LocationTranslationKeys;
     navigation: NavigationTranslationKeys;
@@ -52,6 +56,7 @@ export const translationResources: {
     ja: {
         common: CommonTranslationJa,
         account: AccountTranslationJa,
+        error: ErrorTranslationJa,
         home: HomeTranslationJa,
         location: LocationTranslationJa,
         navigation: NavigationTranslationJa,
@@ -63,6 +68,7 @@ export const translationResources: {
     en: {
         common: CommonTranslationEn,
         account: AccountTranslationEn,
+        error: ErrorTranslationEn,
         home: HomeTranslationEn,
         location: LocationTranslationEn,
         navigation: NavigationTranslationEn,
