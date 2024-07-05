@@ -167,6 +167,9 @@ export type PlanTranslationKeys = {
     searchNearbyPlansLocationPermissionNotGranted: string;
     searchRouteOnGoogleMaps: string;
 
+    scheduleTitle: string;
+    scheduleSpotLabel: string;
+
     shareCreatedPlanMessage: string;
 };
 

@@ -84,5 +84,8 @@ export const PlanTranslationEn: PlanTranslationKeys = {
         "Enable location access to get plans",
     searchRouteOnGoogleMaps: "Search route on Google Maps",
 
+    scheduleTitle: "Schedule",
+    scheduleSpotLabel: "Spot {{value}}",
+
     shareCreatedPlanMessage: "Share the plan you created!",
 };
