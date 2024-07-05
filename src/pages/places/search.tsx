@@ -145,7 +145,12 @@ function PlaceSearchPage() {
                 searchPlaceId: placeSelected.placeId,
             })
         );
-        await router.push(Routes.plans.interest(true));
+        await router.push(
+            Routes.plans.interest({
+                location: placeSelected.location,
+                googlePlaceId: placeSelected.placeId,
+            })
+        );
     };
 
     if (fetchCurrentLocationStatus && !location)

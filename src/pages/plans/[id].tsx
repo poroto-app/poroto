@@ -108,7 +108,12 @@ export default function PlanPage() {
         );
         // ダイアログの背景固定を解除するためにモーダルを閉じる
         dispatch(setPlaceIdToCreatePlan(null));
-        await router.push(Routes.plans.interest(true));
+        await router.push(
+            Routes.plans.interest({
+                location: place.location,
+                googlePlaceId: place.googlePlaceId,
+            })
+        );
     };
 
     useEffect(() => {

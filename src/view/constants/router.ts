@@ -1,3 +1,5 @@
+import { GeoLocation } from "src/domain/models/GeoLocation";
+
 export const RouteParams = {
     SkipCurrentLocation: "skipCurrentLocation",
 };
@@ -9,9 +11,29 @@ export const Routes = {
     account: "/account",
     plans: {
         plan: (id: string) => `/plans/${id}`,
-        interest: (byLocation?: boolean) => {
+        interest: ({
+            location,
+            googlePlaceId,
+        }: {
+            location?: GeoLocation;
+            googlePlaceId?: string;
+        }) => {
             let url = "/plans/interest";
-            if (byLocation) url += "?location=true";
+            const urlParams = new URLSearchParams();
+
+            if (location) {
+                urlParams.append("lat", location.latitude.toString());
+                urlParams.append("lng", location.longitude.toString());
+            }
+
+            if (googlePlaceId) {
+                urlParams.append("googlePlaceId", googlePlaceId);
+            }
+
+            if (urlParams.toString()) {
+                url += `?${urlParams.toString()}`;
+            }
+
             return url;
         },
         planCandidate: {
