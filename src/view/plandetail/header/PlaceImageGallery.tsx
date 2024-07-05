@@ -32,9 +32,9 @@ export const PlaceImageGallery = ({
     return (
         <Box position="relative" w="100%">
             <AmbientBackgroundImage
-                scale={5}
+                scale={1.5}
                 margin={4}
-                blur={5}
+                blur={20}
                 contrast={120}
                 src={getImageSizeOf(
                     ImageSizes.Large,
