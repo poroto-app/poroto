@@ -1,5 +1,4 @@
-import { Avatar, Center, Skeleton } from "@chakra-ui/react";
-import Image from "next/image";
+import { Avatar, Center, Image, Skeleton } from "@chakra-ui/react";
 import { User } from "src/domain/models/User";
 import { Size } from "src/view/constants/size";
 import { zIndex } from "src/view/constants/zIndex";
@@ -33,8 +32,8 @@ export function UserAvatar({ user, onClick }: Props) {
                             left="0"
                         />
                         <Image
-                            height={33}
-                            width={33}
+                            height={33 + "px"}
+                            width={33 + "px"}
                             alt="avatar image"
                             src={user.avatarImage}
                             style={{ zIndex: zIndex.navBarAvatarIcon }}
