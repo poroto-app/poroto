@@ -5,6 +5,7 @@ import { IconType } from "react-icons";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
+import { Padding } from "src/view/constants/padding";
 import { Size } from "src/view/constants/size";
 import { PlanHeaderPlaceCard } from "src/view/plandetail/header/PlanHeaderPlaceCard";
 
@@ -29,11 +30,11 @@ export const PlaceImageGallery = ({
     }, [currentPage]);
 
     return (
-        <Box position="relative" w="100%">
+        <Box position="relative" w={Size.PlanDetailHeader.image.maxW + "px"}>
             <AmbientBackgroundImage
-                scale={5}
+                scale={1.5}
                 margin={4}
-                blur={5}
+                blur={20}
                 contrast={120}
                 src={getImageSizeOf(
                     ImageSizes.Large,
@@ -43,11 +44,10 @@ export const PlaceImageGallery = ({
             <Box
                 position="relative"
                 alignSelf="center"
-                borderRadius="20px"
                 overflow="hidden"
-                w="100%"
-                h={Size.PlanDetailHeader.imageH + "px"}
-                maxW={Size.PlanDetailHeader.maxW}
+                w={`min(100%, ${Size.PlanDetailHeader.image.maxW}px)`}
+                h={Size.PlanDetailHeader.image.h + "px"}
+                maxW={Size.PlanDetailHeader.image.maxW + "px"}
             >
                 <Splide
                     ref={refSplide}
@@ -59,7 +59,8 @@ export const PlaceImageGallery = ({
                         pagination: false,
                         perPage: 1,
                         type: "slide",
-                        height: Size.PlanDetailHeader.imageH + "px",
+                        height: Size.PlanDetailHeader.image.h + "px",
+                        gap: Padding.p32,
                     }}
                 >
                     {places.map((place, i) => (
@@ -133,7 +134,7 @@ function AmbientBackgroundImage({
             bottom={0}
             left={0}
             w="100%"
-            h={`calc(${Size.PlanDetailHeader.imageH + "px"})`}
+            h={`calc(${Size.PlanDetailHeader.image.h + "px"})`}
         >
             <Image
                 w={`calc(${100 / scale}% + ${margin / scale}px)`}

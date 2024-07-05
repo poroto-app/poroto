@@ -1,5 +1,4 @@
 import { Padding } from "src/view/constants/padding";
-import { isPC } from "src/view/constants/userAgent";
 
 export const Size = {
     mainContentWidth: "var(--size-main-content-width)",
@@ -7,6 +6,12 @@ export const Size = {
         px: Padding.p16,
         SectionTitle: {
             px: Padding.p24,
+        },
+    },
+    CreatePlanCategory: {
+        CategoryImage: {
+            width: 300,
+            height: 200,
         },
     },
     PlaceCardPaddingH: Padding.p16,
@@ -24,10 +29,18 @@ export const Size = {
         maxH: "900px",
         maxW: "500px",
         px: Padding.p16,
-        imageH: 300,
-        PlaceList: {
-            height: 160,
-            scrollBarHeight: isPC ? 8 : 0,
+        image: {
+            h: 350,
+            maxW: 300,
+        },
+        Schedule: {
+            Title: {
+                height: 30,
+            },
+            Place: {
+                width: 120,
+                height: 80,
+            },
         },
         Info: {
             spacingY: 16,
@@ -49,6 +62,16 @@ export const Size = {
         w: "200px",
         h: "200px",
         borderRadius: "20px",
+    },
+    PlanCandidatesGallery: {
+        Card: {
+            borderRadius: 20,
+            w: 300,
+            h: {
+                active: 500,
+                inactive: 450,
+            },
+        },
     },
     PlanFooter: {
         h: 80,

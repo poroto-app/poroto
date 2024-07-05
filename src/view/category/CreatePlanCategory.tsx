@@ -1,6 +1,7 @@
 import { Box, Image, Text, VStack } from "@chakra-ui/react";
+import { useState } from "react";
 import { CreatePlanPlaceCategory } from "src/domain/models/CreatePlanPlaceCategory";
-import { isPC } from "src/view/constants/userAgent";
+import { Size } from "src/view/constants/size";
 
 type Props = {
     category: CreatePlanPlaceCategory;
@@ -8,23 +9,34 @@ type Props = {
 };
 
 export function CreatePlanCategory({ category, onClick }: Props) {
-    const width = isPC ? 300 : 200;
-    const height = isPC ? 200 : 100;
+    const [isImageLoading, setIsImageLoading] = useState(true);
     return (
         <Box
-            minW={width}
-            w={width}
-            h={height}
+            minW={Size.CreatePlanCategory.CategoryImage.width}
+            w={Size.CreatePlanCategory.CategoryImage.width}
+            h={Size.CreatePlanCategory.CategoryImage.height}
             overflow="hidden"
             borderRadius="10px"
             position="relative"
             onClick={onClick}
         >
+            {/*TDOO：もとにもどす*/}
+            {/*<Skeleton*/}
+            {/*    position="absolute"*/}
+            {/*    top={0}*/}
+            {/*    right={0}*/}
+            {/*    bottom={0}*/}
+            {/*    left={0}*/}
+            {/*    transition="opacity .3s"*/}
+            {/*    opacity={isImageLoading ? 1 : 0}*/}
+            {/*/>*/}
             <Image
-                w={width}
-                h={height}
-                objectFit="cover"
+                width={Size.CreatePlanCategory.CategoryImage.width + "px"}
+                height={Size.CreatePlanCategory.CategoryImage.height + "px"}
                 src={category.imageUrl}
+                alt={category.displayName}
+                style={{ objectFit: "cover" }}
+                onLoad={() => setIsImageLoading(false)}
             />
             <VStack
                 userSelect="none"

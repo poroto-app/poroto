@@ -1,6 +1,14 @@
+import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 
-export const usePlanCandidateGalleryPageAutoScroll = () => {
+export const usePlanCandidateGalleryPageAutoScroll = ({
+    planCandidateId,
+    isScrollSnapEnabled,
+}: {
+    planCandidateId: string;
+    isScrollSnapEnabled: boolean;
+}) => {
+    const router = useRouter();
     const isAutoScrollingRef = useRef(false);
     const prevScrollYRef = useRef(0);
     const planDetailPageRef = useRef<HTMLDivElement>(null);
@@ -17,7 +25,7 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
     };
 
     let scrollTimeout: NodeJS.Timeout | null = null;
-    const scrollListener = () => {
+    const scrollListenerToSnap = () => {
         if (scrollTimeout) clearTimeout(scrollTimeout);
 
         if (!planDetailPageRef.current) return;
@@ -48,7 +56,6 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
         }
 
         const isUpperOfPlanDetailPage = currentScroll < offsetTopPlanDetailPage;
-        setIsUpperOfPlanDetailPage(isUpperOfPlanDetailPage);
         if (isAutoScrollingRef.current) {
             isAutoScrollingRef.current = isUpperOfPlanDetailPage;
             setIsAutoScrolling(isUpperOfPlanDetailPage);
@@ -80,19 +87,77 @@ export const usePlanCandidateGalleryPageAutoScroll = () => {
             isAutoScrollingRef.current = false;
             setIsAutoScrolling(false);
         }
+    };
 
+    // Footerの表示・非表示を制御する
+    const scrollListerToShowFooter = () => {
+        if (!planDetailPageRef.current) return;
+
+        const currentScroll = window.scrollY;
+        const offsetTopPlanDetailPage = planDetailPageRef.current.offsetTop;
         const isUpperOfPlanDetailPage = currentScroll < offsetTopPlanDetailPage;
         setIsUpperOfPlanDetailPage(isUpperOfPlanDetailPage);
     };
 
     useEffect(() => {
-        window.addEventListener("scroll", scrollListener);
+        if (isScrollSnapEnabled) {
+            window.addEventListener("scroll", scrollListenerToSnap);
+        }
 
         return () => {
-            window.removeEventListener("scroll", scrollListener);
+            window.removeEventListener("scroll", scrollListenerToSnap);
             clearTimeout(scrollTimeout);
         };
-    }, [isAutoScrollingRef]);
+    }, [isAutoScrollingRef, isScrollSnapEnabled]);
+
+    useEffect(() => {
+        window.addEventListener("scroll", scrollListerToShowFooter);
+
+        return () => {
+            window.removeEventListener("scroll", scrollListerToShowFooter);
+        };
+    }, []);
+
+    // プラン詳細画面で戻るボタンを押したときに、プラン一覧画面にスクロールする
+    useEffect(() => {
+        let shouldScrollToPlanDetailPage = false;
+        const handleScroll = () => {
+            if (!planDetailPageRef.current) return;
+
+            const planCandidateIdInHistory =
+                window.history.state?.planCandidateId;
+            const isLowerOfPlanDetailPage =
+                window.scrollY >= planDetailPageRef.current.offsetTop;
+            if (
+                isLowerOfPlanDetailPage &&
+                planCandidateIdInHistory != planCandidateId
+            ) {
+                // 何度も戻るボタンを押さなくても良いように
+                // 一度だけ History にエントリーを追加する
+                window.history.pushState({ planCandidateId }, "");
+            }
+
+            shouldScrollToPlanDetailPage = isLowerOfPlanDetailPage;
+        };
+
+        const handlePopState = (e: PopStateEvent) => {
+            if (shouldScrollToPlanDetailPage) {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth",
+                });
+                router.events.emit("routeChangeComplete", router.asPath);
+                e.preventDefault();
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        window.addEventListener("popstate", handlePopState);
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+            window.removeEventListener("popstate", handlePopState);
+        };
+    }, []);
 
     return {
         planDetailPageRef,

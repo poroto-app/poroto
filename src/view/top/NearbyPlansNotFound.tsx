@@ -25,7 +25,7 @@ export const NearbyPlansNotFound = () => {
                     {t("plan:nearbyPlansEmptyDescription")}
                 </Text>
             </VStack>
-            <Link href={Routes.plans.interest()} w="100%" maxW="400px">
+            <Link href={Routes.plans.interest({})} w="100%" maxW="400px">
                 <RoundedButton>{t("plan:createPlan")}</RoundedButton>
             </Link>
         </VStack>

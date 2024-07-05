@@ -22,9 +22,6 @@ export type CommonTranslationKeys = {
     minutesLabel: string;
     minuteApproximatelyLabel: string;
     priceLabel: string;
-    notFound: string;
-
-    serverError: string;
 
     time: string;
     YYYYMMDDHHMM: string;
@@ -55,6 +52,17 @@ export type AccountTranslationKeys = {
     loginTitle: string;
     loginDescription: string;
     logout: string;
+};
+
+export type ErrorTranslationKeys = {
+    errorTitle: string;
+    errorDescription: string;
+
+    serverErrorStatusMessage: string;
+    serverErrorDescription: string;
+
+    notFoundStatusMessage: string;
+    notFoundDescription: string;
 };
 
 export type HomeTranslationKeys = {
@@ -158,6 +166,9 @@ export type PlanTranslationKeys = {
     searchNearbyPlansLocationPermissionDenied: string;
     searchNearbyPlansLocationPermissionNotGranted: string;
     searchRouteOnGoogleMaps: string;
+
+    scheduleTitle: string;
+    scheduleSpotLabel: string;
 
     shareCreatedPlanMessage: string;
 };

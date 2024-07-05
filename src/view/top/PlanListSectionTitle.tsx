@@ -6,16 +6,20 @@ type Props = {
     title: string;
     icon: IconType;
     px?: string | number;
+    pt?: string | number;
+    pb?: string | number;
 };
 
 export function PlanListSectionTitle({
     title,
     icon,
     px = Size.top.SectionTitle.px,
+    pt = "32px",
+    pb = "32px",
 }: Props) {
     return (
         <VStack w="100%" alignItems="flex-start">
-            <VStack py="32px" px={px} alignItems="flex-start" spacing={4}>
+            <VStack pt={pt} pb={pb} px={px} alignItems="flex-start" spacing={4}>
                 <HStack color="#3E3E3E">
                     <Icon w="32px" h="32px" as={icon} />
                     <Text

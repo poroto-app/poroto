@@ -61,6 +61,10 @@ export interface PlannerApi {
         request: FetchPlacesToReplaceForPlanOfPlanCandidateRequest
     ): Promise<FetchPlacesToReplaceForPlanOfPlanCandidateResponse>;
 
+    fetchPlacesForDestinationOfPlanCandidates(
+        request: FetchPlacesForDestinationOfPlanCandidatesRequest
+    ): Promise<FetchPlacesForDestinationOfPlanCandidatesResponse>;
+
     addPlaceToPlanOfPlanCandidate(
         request: AddPlaceToPlanOfPlanCandidateRequest
     ): Promise<AddPlaceToPlanOfPlanCandidateResponse>;
@@ -249,6 +253,17 @@ export type FetchPlacesToReplaceForPlanOfPlanCandidateRequest = {
 
 export type FetchPlacesToReplaceForPlanOfPlanCandidateResponse = {
     places: PlaceEntity[];
+};
+
+export type FetchPlacesForDestinationOfPlanCandidatesRequest = {
+    planCandidateSetId: string;
+};
+
+export type FetchPlacesForDestinationOfPlanCandidatesResponse = {
+    placesForPlanCandidates: {
+        planCandidateId: string;
+        places: PlaceEntity[];
+    }[];
 };
 
 export type AddPlaceToPlanOfPlanCandidateRequest = {
