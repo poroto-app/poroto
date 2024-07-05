@@ -10,9 +10,9 @@ import {
     Skeleton,
     Text,
     VStack,
+    Image,
 } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
-import Image from "next/image";
 import * as process from "process";
 import { useRef, useState } from "react";
 import {
@@ -322,9 +322,8 @@ function SchedulePlaceCard({
                 <Image
                     src={place.images[0].small}
                     alt={place.name}
-                    width={Size.PlanDetailHeader.Schedule.Place.width}
-                    height={Size.PlanDetailHeader.Schedule.Place.height}
-                    quality={30}
+                    width={Size.PlanDetailHeader.Schedule.Place.width+"px"}
+                    height={Size.PlanDetailHeader.Schedule.Place.height+"px"}
                     style={{
                         width: "100%",
                         height: "100%",
