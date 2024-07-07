@@ -12,12 +12,13 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { Circle, Marker } from "@react-google-maps/api";
-import { CSSProperties, ReactElement, useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { IconType } from "react-icons";
 import {
     MdArrowBack,
     MdDirectionsCar,
     MdDirectionsWalk,
+    MdLocationOn,
     MdTouchApp,
 } from "react-icons/md";
 import { RiPinDistanceFill } from "react-icons/ri";
@@ -36,6 +37,8 @@ import { locationSinjukuStation } from "src/view/constants/location";
 import { Padding } from "src/view/constants/padding";
 import { isPC } from "src/view/constants/userAgent";
 import { useAppTranslation } from "src/view/hooks/useAppTranslation";
+import { useLocation } from "src/view/hooks/useLocation";
+import { PlaceSearch, PlaceSearchProps } from "src/view/place/PlaceSearch";
 
 type Props = {
     visible: boolean;
@@ -43,16 +46,18 @@ type Props = {
     defaultMapCenter?: GeoLocation;
     onClose: () => void;
     onConfirm: (props: { rangeInKm: number; location: GeoLocation }) => void;
-    googlePlaceSearchBar?: ReactElement;
-};
+} & PlaceSearchProps;
 
 export function CreatePlanRangeDialog({
     visible,
     defaultMapCenter,
     minRangeInKm = 2,
-    googlePlaceSearchBar,
     onClose,
     onConfirm,
+
+    googlePlaceSearchResults,
+    onSearchGooglePlacesByQuery,
+    onClickGooglePlaceSearchResult,
 }: Props) {
     const { t } = useAppTranslation();
     const toast = useToast();
@@ -61,6 +66,7 @@ export function CreatePlanRangeDialog({
         locationSinjukuStation
     );
     const [location, setLocation] = useState<GeoLocation>(null);
+    const { location: currentLocation, getCurrentLocation } = useLocation();
 
     const calcDirectionWalkTime = (distanceInKm: number) => {
         const walkSpeed = 4;
@@ -187,7 +193,24 @@ export function CreatePlanRangeDialog({
                                     }}
                                 />
                             )}
-                            {googlePlaceSearchBar && googlePlaceSearchBar}
+                            <Box w="100%" position="relative">
+                                <PlaceSearch
+                                    onSearchGooglePlacesByQuery={
+                                        onSearchGooglePlacesByQuery
+                                    }
+                                    onClickGooglePlaceSearchResult={
+                                        onClickGooglePlaceSearchResult
+                                    }
+                                    googlePlaceSearchResults={
+                                        googlePlaceSearchResults
+                                    }
+                                    placeSearchActions={
+                                        <SetByCurrentLocationButton
+                                            onClick={getCurrentLocation}
+                                        />
+                                    }
+                                />
+                            </Box>
                             <VStack
                                 w="170px"
                                 justifyContent="center"
@@ -317,5 +340,22 @@ function TapMapOverlay() {
                 </Center>
             )}
         </Transition>
+    );
+}
+
+function SetByCurrentLocationButton({ onClick }: { onClick: () => void }) {
+    return (
+        <HStack
+            as="button"
+            backgroundColor="white"
+            color="#2D59C9"
+            borderRadius="50px"
+            px={Padding.p8}
+            py={Padding.p4}
+            onClick={onClick}
+        >
+            <Icon as={MdLocationOn} />
+            <Text>現在地を中心にする</Text>
+        </HStack>
     );
 }

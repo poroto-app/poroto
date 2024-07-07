@@ -28,8 +28,7 @@ import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
 import { NavBar } from "src/view/navigation/NavBar";
 import { MapPinSelector } from "src/view/place/MapPinSelector";
 import { PlaceRecommendationDialog } from "src/view/place/PlaceRecommendationDialog";
-import { PlaceSearchBar } from "src/view/place/PlaceSearchBar";
-import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
+import { PlaceSearch } from "src/view/place/PlaceSearch";
 import { ShowPlaceRecommendationButton } from "src/view/place/ShowPlaceRecommendationButton";
 
 export default function Page() {
@@ -179,42 +178,25 @@ function PlaceSearchPage() {
                         pinnedLocation={placeSelected?.location}
                     />
                 </Box>
-                <VStack
+                <Box
                     w="100%"
                     maxW={Size.mainContentWidth}
                     pt="24px"
                     px="8px"
-                    spacing={4}
-                    position="relative"
                     zIndex={10}
+                    position="relative"
                 >
-                    <Box w="100%">
-                        <PlaceSearchBar
-                            defaultValue={searchQuery}
-                            onSearch={searchGooglePlacesByQuery}
-                        />
-                    </Box>
-                    {isPlaceRecommendationButtonVisible && (
-                        <ShowPlaceRecommendationButton
-                            onClick={onOpenPlaceRecommendationDialog}
-                        />
-                    )}
-                    <Box
-                        w="100%"
-                        backgroundColor="white"
-                        borderRadius={5}
-                        boxShadow={
-                            placeSearchResults &&
-                            placeSearchResults.length !== 0 &&
-                            "0px 5px 20px 0px rgb(0 0 0 / 10%)"
+                    <PlaceSearch
+                        googlePlaceSearchResults={placeSearchResults}
+                        onSearchGooglePlacesByQuery={searchGooglePlacesByQuery}
+                        onClickGooglePlaceSearchResult={onSelectedSearchResult}
+                        placeSearchActions={
+                            <ShowPlaceRecommendationButton
+                                onClick={onOpenPlaceRecommendationDialog}
+                            />
                         }
-                    >
-                        <PlaceSearchResults
-                            places={placeSearchResults}
-                            onClickPlace={onSelectedSearchResult}
-                        />
-                    </Box>
-                </VStack>
+                    />
+                </Box>
                 {/*
             MEMO:
             `space-between` で余白をつけようとすると、その部分を選択できなくなってしまうため、
