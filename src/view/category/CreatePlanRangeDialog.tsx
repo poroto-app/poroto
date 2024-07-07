@@ -8,13 +8,20 @@ import {
     SliderThumb,
     SliderTrack,
     Text,
+    useToast,
     VStack,
 } from "@chakra-ui/react";
 import { Circle, Marker } from "@react-google-maps/api";
-import { ReactElement, useEffect, useState } from "react";
+import { CSSProperties, ReactElement, useEffect, useState } from "react";
 import { IconType } from "react-icons";
-import { MdArrowBack, MdDirectionsCar, MdDirectionsWalk } from "react-icons/md";
+import {
+    MdArrowBack,
+    MdDirectionsCar,
+    MdDirectionsWalk,
+    MdTouchApp,
+} from "react-icons/md";
 import { RiPinDistanceFill } from "react-icons/ri";
+import { Transition, TransitionStatus } from "react-transition-group";
 import { GeoLocation } from "src/data/graphql/generated";
 import { copyObject } from "src/domain/util/object";
 import { AppTrans } from "src/view/common/AppTrans";
@@ -48,11 +55,12 @@ export function CreatePlanRangeDialog({
     onConfirm,
 }: Props) {
     const { t } = useAppTranslation();
+    const toast = useToast();
     const [rangeInKm, setRangeInKm] = useState(minRangeInKm);
     const [mapCenter, setMapCenter] = useState<GeoLocation>(
         locationSinjukuStation
     );
-    const [location, setLocation] = useState(mapCenter);
+    const [location, setLocation] = useState<GeoLocation>(null);
 
     const calcDirectionWalkTime = (distanceInKm: number) => {
         const walkSpeed = 4;
@@ -67,6 +75,15 @@ export function CreatePlanRangeDialog({
     };
 
     const handleOnConfirm = () => {
+        if (!location) {
+            toast({
+                title: t("plan:createPlanByCategoryLocationNotSelectedError"),
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
         onConfirm({ rangeInKm, location });
     };
 
@@ -143,29 +160,33 @@ export function CreatePlanRangeDialog({
                                 },
                             })}
                         >
-                            <Marker
-                                position={{
-                                    lat: location.latitude,
-                                    lng: location.longitude,
-                                }}
-                            />
-                            <Circle
-                                center={{
-                                    lat: location.latitude,
-                                    lng: location.longitude,
-                                }}
-                                radius={rangeInKm * 1000}
-                                options={{
-                                    fillColor: "#099C5E",
-                                    strokeColor: "#099C5E",
-                                }}
-                                onClick={(e) => {
-                                    setLocation({
-                                        latitude: e.latLng.lat(),
-                                        longitude: e.latLng.lng(),
-                                    });
-                                }}
-                            />
+                            {location && (
+                                <Marker
+                                    position={{
+                                        lat: location.latitude,
+                                        lng: location.longitude,
+                                    }}
+                                />
+                            )}
+                            {location && (
+                                <Circle
+                                    center={{
+                                        lat: location.latitude,
+                                        lng: location.longitude,
+                                    }}
+                                    radius={rangeInKm * 1000}
+                                    options={{
+                                        fillColor: "#099C5E",
+                                        strokeColor: "#099C5E",
+                                    }}
+                                    onClick={(e) => {
+                                        setLocation({
+                                            latitude: e.latLng.lat(),
+                                            longitude: e.latLng.lng(),
+                                        });
+                                    }}
+                                />
+                            )}
                             {googlePlaceSearchBar && googlePlaceSearchBar}
                             <VStack
                                 w="170px"
@@ -196,6 +217,7 @@ export function CreatePlanRangeDialog({
                                 />
                             </VStack>
                         </MapViewer>
+                        <TapMapOverlay />
                     </Box>
                     <Center w="100%" py={Padding.p16} px={Padding.p24}>
                         <Slider
@@ -221,8 +243,14 @@ export function CreatePlanRangeDialog({
                             </SliderThumb>
                         </Slider>
                     </Center>
-                    <RoundedButton w="100%" onClick={handleOnConfirm}>
-                        {t("plan:createPlanByCategory")}
+                    <RoundedButton
+                        w="100%"
+                        onClick={handleOnConfirm}
+                        disabled={!location}
+                    >
+                        {location
+                            ? t("plan:createPlanByCategory")
+                            : t("plan:createPlanByCategorySelectLocationTitle")}
                     </RoundedButton>
                 </VStack>
             </RoundedDialog>
@@ -251,3 +279,43 @@ const DirectionTime = ({ icon, time }: { icon: IconType; time: number }) => {
         </HStack>
     );
 };
+
+function TapMapOverlay() {
+    const { t } = useAppTranslation();
+    const [isFirstTap, setIsFirstTap] = useState(true);
+
+    const transitionStyles: { [key in TransitionStatus]: CSSProperties } = {
+        unmounted: { opacity: 0, visibility: "hidden" },
+        entering: { opacity: 0, visibility: "visible" },
+        entered: { opacity: 1, visibility: "visible" },
+        exiting: { opacity: 0, visibility: "visible" },
+        exited: { opacity: 0, visibility: "hidden" },
+    };
+
+    return (
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        <Transition in={isFirstTap} timeout={300}>
+            {(state) => (
+                <Center
+                    style={transitionStyles[state]}
+                    backgroundColor="rgba(0,0,0,.7)"
+                    onClick={() => setIsFirstTap(false)}
+                    transition="opacity 0.3s"
+                    position="absolute"
+                    top={0}
+                    right={0}
+                    bottom={0}
+                    left={0}
+                >
+                    <VStack color="white" spacing={Padding.p16}>
+                        <Icon as={MdTouchApp} w="48px" h="48px" />
+                        <Text fontWeight="bold" fontSize="20px">
+                            {t("plan:createPlanByCategorySelectLocationTitle")}
+                        </Text>
+                    </VStack>
+                </Center>
+            )}
+        </Transition>
+    );
+}

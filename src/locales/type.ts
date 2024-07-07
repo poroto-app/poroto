@@ -124,6 +124,8 @@ export type PlanTranslationKeys = {
     createPlanByCategoryDescription: string;
     createPlanByCategorySelectRangeTitle: string;
     createPlanByCategory: string;
+    createPlanByCategorySelectLocationTitle: string;
+    createPlanByCategoryLocationNotSelectedError: string;
 
     customizePlan: string;
     customizePlanCreated: string;
