@@ -19,11 +19,13 @@ export function ImageWithSkeleton({
     attributionPaddingY = "24px",
     onClick,
 }: Props) {
+    // SSR のときにはスケルトンが表示されないようにする
+    const [isLoading, setIsLoading] = useState(typeof window !== "undefined");
+
     const gradationBackground = attributionToBottom
         ? "linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.30) 30%, rgba(0, 0, 0, 0.50) 100%)"
         : "linear-gradient(0deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.30) 30%, rgba(0, 0, 0, 0.50) 100%)";
 
-    const [isLoading, setIsLoading] = useState(true);
     return (
         <Box
             w="100%"
@@ -45,8 +47,9 @@ export function ImageWithSkeleton({
                 src={src}
                 alt={alt}
                 objectFit="cover"
-                w={isLoading ? "0" : "100%"}
+                w="100%"
                 h="100%"
+                loading="eager"
                 onLoad={() => setIsLoading(false)}
                 scrollSnapAlign="start"
             />
