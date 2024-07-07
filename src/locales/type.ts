@@ -74,6 +74,7 @@ export type HomeTranslationKeys = {
 
 export type LocationTranslationKeys = {
     fetchCurrentLocationInProgress: string;
+    fetchCurrentLocationFailed: string;
 };
 
 export type NavigationTranslationKeys = {

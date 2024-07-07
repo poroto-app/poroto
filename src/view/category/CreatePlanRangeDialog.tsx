@@ -7,6 +7,7 @@ import {
     SliderFilledTrack,
     SliderThumb,
     SliderTrack,
+    Spinner,
     Text,
     useToast,
     VStack,
@@ -24,7 +25,7 @@ import {
 import { RiPinDistanceFill } from "react-icons/ri";
 import { Transition, TransitionStatus } from "react-transition-group";
 import { GeoLocation } from "src/data/graphql/generated";
-import { copyObject } from "src/domain/util/object";
+import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { AppTrans } from "src/view/common/AppTrans";
 import {
     DialogPositions,
@@ -66,7 +67,6 @@ export function CreatePlanRangeDialog({
         locationSinjukuStation
     );
     const [location, setLocation] = useState<GeoLocation>(null);
-    const { location: currentLocation, getCurrentLocation } = useLocation();
 
     const calcDirectionWalkTime = (distanceInKm: number) => {
         const walkSpeed = 4;
@@ -78,6 +78,17 @@ export function CreatePlanRangeDialog({
         const carSpeed = 60;
         const carTime = distanceInKm / carSpeed;
         return Math.ceil(carTime * 60);
+    };
+
+    const handleSetLocation = ({
+        location,
+        moveCenter = true,
+    }: {
+        location: GeoLocation;
+        moveCenter?: boolean;
+    }) => {
+        setLocation(location);
+        if (moveCenter) setMapCenter(location);
     };
 
     const handleOnConfirm = () => {
@@ -94,11 +105,8 @@ export function CreatePlanRangeDialog({
     };
 
     useEffect(() => {
-        if (defaultMapCenter) {
-            setMapCenter(defaultMapCenter);
-            setLocation(defaultMapCenter);
-        }
-    }, [copyObject(defaultMapCenter)]);
+        if (defaultMapCenter) handleSetLocation({ location: defaultMapCenter });
+    }, [defaultMapCenter?.latitude, defaultMapCenter?.longitude]);
 
     return (
         <FullscreenDialog
@@ -146,9 +154,12 @@ export function CreatePlanRangeDialog({
                                 lng: mapCenter.longitude,
                             }}
                             onClick={(e) => {
-                                setLocation({
-                                    latitude: e.latLng.lat(),
-                                    longitude: e.latLng.lng(),
+                                handleSetLocation({
+                                    location: {
+                                        latitude: e.latLng.lat(),
+                                        longitude: e.latLng.lng(),
+                                    },
+                                    moveCenter: false,
                                 });
                             }}
                             options={() => ({
@@ -186,14 +197,22 @@ export function CreatePlanRangeDialog({
                                         strokeColor: "#099C5E",
                                     }}
                                     onClick={(e) => {
-                                        setLocation({
-                                            latitude: e.latLng.lat(),
-                                            longitude: e.latLng.lng(),
+                                        handleSetLocation({
+                                            location: {
+                                                latitude: e.latLng.lat(),
+                                                longitude: e.latLng.lng(),
+                                            },
+                                            moveCenter: false,
                                         });
                                     }}
                                 />
                             )}
-                            <Box w="100%" position="relative">
+                            <Box
+                                w="100%"
+                                position="absolute"
+                                pt={Padding.p24}
+                                px={Padding.p8}
+                            >
                                 <PlaceSearch
                                     onSearchGooglePlacesByQuery={
                                         onSearchGooglePlacesByQuery
@@ -206,7 +225,9 @@ export function CreatePlanRangeDialog({
                                     }
                                     placeSearchActions={
                                         <SetByCurrentLocationButton
-                                            onClick={getCurrentLocation}
+                                            onGetCurrentLocation={(location) =>
+                                                handleSetLocation({ location })
+                                            }
                                         />
                                     }
                                 />
@@ -343,18 +364,46 @@ function TapMapOverlay() {
     );
 }
 
-function SetByCurrentLocationButton({ onClick }: { onClick: () => void }) {
+function SetByCurrentLocationButton({
+    onGetCurrentLocation,
+}: {
+    onGetCurrentLocation: (location: GeoLocation) => void;
+}) {
+    const { t } = useAppTranslation();
+    const toast = useToast();
+    const [isFetching, setIsFetching] = useState(false);
+    const { getCurrentLocation, fetchCurrentLocationStatus } = useLocation();
+
+    const handleOnClick = async () => {
+        const currentLocation = await getCurrentLocation();
+        if (currentLocation) onGetCurrentLocation(currentLocation);
+    };
+
+    useEffect(() => {
+        setIsFetching(fetchCurrentLocationStatus === RequestStatuses.PENDING);
+        if (fetchCurrentLocationStatus === RequestStatuses.REJECTED) {
+            toast({
+                title: t("location:fetchCurrentLocationFailed"),
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "top",
+            });
+        }
+    }, [fetchCurrentLocationStatus]);
+
     return (
         <HStack
             as="button"
             backgroundColor="white"
             color="#2D59C9"
             borderRadius="50px"
+            boxShadow="2px 2px 4px #A2A2A2"
             px={Padding.p8}
             py={Padding.p4}
-            onClick={onClick}
+            onClick={handleOnClick}
         >
-            <Icon as={MdLocationOn} />
+            {isFetching ? <Spinner size="sm" /> : <Icon as={MdLocationOn} />}
             <Text>現在地を中心にする</Text>
         </HStack>
     );
