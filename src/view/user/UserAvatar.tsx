@@ -12,7 +12,6 @@ type Props = {
 };
 
 export function UserAvatar({ user, onClick }: Props) {
-    const [onImageLoaded, setOnImageLoaded] = useState();
     return (
         <Center onClick={onClick}>
             <Center
