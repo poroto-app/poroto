@@ -1,9 +1,7 @@
-import { Avatar, Center, Skeleton } from "@chakra-ui/react";
-import Image from "next/image";
-import { useState } from "react";
+import { Avatar, Center } from "@chakra-ui/react";
 import { User } from "src/domain/models/User";
+import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { Size } from "src/view/constants/size";
-import { zIndex } from "src/view/constants/zIndex";
 import { appImageLoader } from "src/view/image/appImageLoader";
 
 type Props = {
@@ -26,7 +24,13 @@ export function UserAvatar({ user, onClick }: Props) {
                 position="relative"
             >
                 {user?.avatarImage ? (
-                    <UserAvatarImage url={user.avatarImage} />
+                    <ImageWithSkeleton
+                        src={appImageLoader({
+                            src: user.avatarImage,
+                            width: Size.NavBar.avatar.width,
+                        })}
+                        alt="avatar image"
+                    />
                 ) : (
                     <Avatar
                         h="33px"
@@ -40,32 +44,5 @@ export function UserAvatar({ user, onClick }: Props) {
                 )}
             </Center>
         </Center>
-    );
-}
-
-function UserAvatarImage({ url }: { url: string }) {
-    const [isLoaded, setIsLoaded] = useState(false);
-    return (
-        <>
-            <Skeleton
-                opacity={isLoaded ? 0 : 1}
-                position="absolute"
-                top="0"
-                right="0"
-                bottom="0"
-                left="0"
-            />
-            <Image
-                height={33}
-                width={33}
-                alt="avatar image"
-                src={url}
-                style={{
-                    zIndex: zIndex.navBarAvatarIcon,
-                }}
-                loader={appImageLoader}
-                onLoad={() => setIsLoaded(true)}
-            />
-        </>
     );
 }
