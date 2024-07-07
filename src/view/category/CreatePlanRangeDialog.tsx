@@ -330,7 +330,7 @@ function TapMapOverlay() {
 
     const transitionStyles: { [key in TransitionStatus]: CSSProperties } = {
         unmounted: { opacity: 0, visibility: "hidden" },
-        entering: { opacity: 0, visibility: "visible" },
+        entering: { opacity: 1, visibility: "visible" },
         entered: { opacity: 1, visibility: "visible" },
         exiting: { opacity: 0, visibility: "visible" },
         exited: { opacity: 0, visibility: "hidden" },
@@ -343,7 +343,7 @@ function TapMapOverlay() {
             {(state) => (
                 <Center
                     style={transitionStyles[state]}
-                    backgroundColor="rgba(0,0,0,.7)"
+                    backgroundColor="rgba(0,0,0,.5)"
                     onClick={() => setIsFirstTap(false)}
                     transition="opacity 0.3s"
                     position="absolute"
