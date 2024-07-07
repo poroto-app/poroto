@@ -343,7 +343,7 @@ function TapMapOverlay() {
             {(state) => (
                 <Center
                     style={transitionStyles[state]}
-                    backgroundColor="rgba(0,0,0,.5)"
+                    backgroundColor="rgba(0,0,0,.2)"
                     onClick={() => setIsFirstTap(false)}
                     transition="opacity 0.3s"
                     position="absolute"
