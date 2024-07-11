@@ -33,6 +33,8 @@ export const PlanTranslationJa: PlanTranslationKeys = {
         "今の気分からお任せでプランを作ってみましょう！",
     createPlanByCategorySelectRangeTitle: "どこまで行く？",
     createPlanByCategory: "選択した範囲でプランを作成",
+    createPlanByCategorySelectLocationTitle: "タップして場所を選択",
+    createPlanByCategoryLocationNotSelectedError: "場所が選択されていません。",
 
     customizePlan: "このプランをカスタマイズする",
     customizePlanCreated: "カスタマイズ用のプランの準備ができました！",

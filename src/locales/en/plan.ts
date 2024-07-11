@@ -33,6 +33,8 @@ export const PlanTranslationEn: PlanTranslationKeys = {
         "Let's create a plan from your current mood!",
     createPlanByCategorySelectRangeTitle: "How far are you going?",
     createPlanByCategory: "Create a plan within the selected range",
+    createPlanByCategorySelectLocationTitle: "Tap to select a location",
+    createPlanByCategoryLocationNotSelectedError: "Location is not selected.",
 
     customizePlan: "Customize this plan",
     customizePlanCreated: "The plan for customization is ready!",
