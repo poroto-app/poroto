@@ -1,7 +1,8 @@
-import { Box, Image, Text, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 import { CreatePlanPlaceCategory } from "src/domain/models/CreatePlanPlaceCategory";
+import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { Size } from "src/view/constants/size";
+import { appImageLoader } from "src/view/image/appImageLoader";
 
 type Props = {
     category: CreatePlanPlaceCategory;
@@ -9,7 +10,6 @@ type Props = {
 };
 
 export function CreatePlanCategory({ category, onClick }: Props) {
-    const [isImageLoading, setIsImageLoading] = useState(true);
     return (
         <Box
             minW={Size.CreatePlanCategory.CategoryImage.width}
@@ -20,23 +20,12 @@ export function CreatePlanCategory({ category, onClick }: Props) {
             position="relative"
             onClick={onClick}
         >
-            {/*TDOO：もとにもどす*/}
-            {/*<Skeleton*/}
-            {/*    position="absolute"*/}
-            {/*    top={0}*/}
-            {/*    right={0}*/}
-            {/*    bottom={0}*/}
-            {/*    left={0}*/}
-            {/*    transition="opacity .3s"*/}
-            {/*    opacity={isImageLoading ? 1 : 0}*/}
-            {/*/>*/}
-            <Image
-                width={Size.CreatePlanCategory.CategoryImage.width + "px"}
-                height={Size.CreatePlanCategory.CategoryImage.height + "px"}
-                src={category.imageUrl}
+            <ImageWithSkeleton
+                src={appImageLoader({
+                    src: category.imageUrl,
+                    width: Size.CreatePlanCategory.CategoryImage.width,
+                })}
                 alt={category.displayName}
-                style={{ objectFit: "cover" }}
-                onLoad={() => setIsImageLoading(false)}
             />
             <VStack
                 userSelect="none"

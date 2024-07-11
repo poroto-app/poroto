@@ -75,11 +75,15 @@ const nextConfig = {
         BASIC_AUTH_USERNAME: process.env.BASIC_AUTH_USERNAME,
         BASIC_AUTH_PASSWORD: process.env.BASIC_AUTH_PASSWORD,
 
-
+        // Cloud Storage
         CLOUD_STORAGE_POROTO_PLACE_IMAGES: process.env.CLOUD_STORAGE_POROTO_PLACE_IMAGES,
         CLOUD_STORAGE_IMAGE_BUCKET_NAME: process.env.CLOUD_STORAGE_IMAGE_BUCKET_NAME,
         CLOUD_STORAGE_IMAGE_BUCKET_PROTOCOL: process.env.CLOUD_STORAGE_IMAGE_BUCKET_PROTOCOL,
         CLOUD_STORAGE_IMAGE_BUCKET_HOST: process.env.CLOUD_STORAGE_IMAGE_BUCKET_HOST,
+
+        // Image Optimization
+        IMAGE_OPTIMIZATION_API_PROTOCOL: process.env.IMAGE_OPTIMIZATION_API_PROTOCOL,
+        IMAGE_OPTIMIZATION_API_HOST: process.env.IMAGE_OPTIMIZATION_API_HOST,
     },
     webpack: (config) => {
         config.module.rules.push({

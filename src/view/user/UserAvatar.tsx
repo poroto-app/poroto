@@ -1,7 +1,8 @@
-import { Avatar, Center, Image, Skeleton } from "@chakra-ui/react";
+import { Avatar, Center } from "@chakra-ui/react";
 import { User } from "src/domain/models/User";
+import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { Size } from "src/view/constants/size";
-import { zIndex } from "src/view/constants/zIndex";
+import { appImageLoader } from "src/view/image/appImageLoader";
 
 type Props = {
     user: User | null;
@@ -23,22 +24,13 @@ export function UserAvatar({ user, onClick }: Props) {
                 position="relative"
             >
                 {user?.avatarImage ? (
-                    <>
-                        <Skeleton
-                            position="absolute"
-                            top="0"
-                            right="0"
-                            bottom="0"
-                            left="0"
-                        />
-                        <Image
-                            height={33 + "px"}
-                            width={33 + "px"}
-                            alt="avatar image"
-                            src={user.avatarImage}
-                            style={{ zIndex: zIndex.navBarAvatarIcon }}
-                        />
-                    </>
+                    <ImageWithSkeleton
+                        src={appImageLoader({
+                            src: user.avatarImage,
+                            width: Size.NavBar.avatar.width,
+                        })}
+                        alt="avatar image"
+                    />
                 ) : (
                     <Avatar
                         h="33px"
