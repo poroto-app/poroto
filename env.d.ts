@@ -36,6 +36,12 @@ declare global {
             CLOUD_STORAGE_IMAGE_BUCKET_NAME: string
             CLOUD_STORAGE_IMAGE_BUCKET_PROTOCOL: string
             CLOUD_STORAGE_IMAGE_BUCKET_HOST: string
+
+            // ==============================
+            // Image Optimization
+            // ==============================
+            IMAGE_OPTIMIZATION_API_PROTOCOL: string
+            IMAGE_OPTIMIZATION_API_HOST: string
         }
     }
 }

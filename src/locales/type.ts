@@ -74,6 +74,7 @@ export type HomeTranslationKeys = {
 
 export type LocationTranslationKeys = {
     fetchCurrentLocationInProgress: string;
+    fetchCurrentLocationFailed: string;
 };
 
 export type NavigationTranslationKeys = {
@@ -124,6 +125,8 @@ export type PlanTranslationKeys = {
     createPlanByCategoryDescription: string;
     createPlanByCategorySelectRangeTitle: string;
     createPlanByCategory: string;
+    createPlanByCategorySelectLocationTitle: string;
+    createPlanByCategoryLocationNotSelectedError: string;
 
     customizePlan: string;
     customizePlanCreated: string;

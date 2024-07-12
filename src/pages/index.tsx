@@ -1,4 +1,4 @@
-import { Box, Text, VStack } from "@chakra-ui/react";
+import { Text, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
@@ -20,8 +20,6 @@ import {
     BottomNavigationPages,
 } from "src/view/navigation/BottomNavigation";
 import { NavBar } from "src/view/navigation/NavBar";
-import { PlaceSearchBar } from "src/view/place/PlaceSearchBar";
-import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { PwaInstallDialog } from "src/view/top/PwaInstallDialog";
 import { PwaIosInstruction } from "src/view/top/PwaIosInstruction";
@@ -108,35 +106,9 @@ const IndexPage = (props: Props) => {
                     visible={isCreatePlanCategoryRangeDialogVisible}
                     onClose={onCloseCreatePlanCategoryRangeDialog}
                     onConfirm={onSelectCreatePlanRange}
-                    googlePlaceSearchBar={
-                        <VStack
-                            px={Padding.p8}
-                            py={Padding.p16}
-                            top={0}
-                            left={0}
-                            right={0}
-                            position="relative"
-                        >
-                            <PlaceSearchBar
-                                onSearch={searchGooglePlacesByQuery}
-                            />
-                            <Box
-                                w="100%"
-                                backgroundColor="white"
-                                borderRadius={5}
-                                boxShadow={
-                                    placeSearchResults &&
-                                    placeSearchResults.length !== 0 &&
-                                    "0px 5px 20px 0px rgb(0 0 0 / 10%)"
-                                }
-                            >
-                                <PlaceSearchResults
-                                    places={placeSearchResults}
-                                    onClickPlace={onSelectedSearchResult}
-                                />
-                            </Box>
-                        </VStack>
-                    }
+                    googlePlaceSearchResults={placeSearchResults}
+                    onSearchGooglePlacesByQuery={searchGooglePlacesByQuery}
+                    onClickGooglePlaceSearchResult={onSelectedSearchResult}
                 />
                 {isCreatingPlanFromCategory && (
                     <LoadingModal title={t("plan:createPlanInProgressTitle")} />

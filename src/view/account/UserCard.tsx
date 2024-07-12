@@ -16,9 +16,15 @@ type Props = {
     user: User | null;
     isEditable?: boolean;
     onEdit?: () => void;
+    onClickAvatarIcon?: () => void;
 };
 
-export function UserCard({ user, isEditable = false, onEdit }: Props) {
+export function UserCard({
+    user,
+    isEditable = false,
+    onEdit,
+    onClickAvatarIcon,
+}: Props) {
     return (
         <Center
             w="100%"
@@ -37,7 +43,9 @@ export function UserCard({ user, isEditable = false, onEdit }: Props) {
                     overflow="hidden"
                 >
                     {user?.avatarImage ? (
-                        <ImageWithSkeleton src={user.avatarImage} />
+                        <Box as="button" onClick={onClickAvatarIcon}>
+                            <ImageWithSkeleton src={user.avatarImage} />
+                        </Box>
                     ) : (
                         <Avatar size="full" />
                     )}

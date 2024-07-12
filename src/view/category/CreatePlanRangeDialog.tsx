@@ -7,16 +7,25 @@ import {
     SliderFilledTrack,
     SliderThumb,
     SliderTrack,
+    Spinner,
     Text,
+    useToast,
     VStack,
 } from "@chakra-ui/react";
 import { Circle, Marker } from "@react-google-maps/api";
-import { ReactElement, useEffect, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { IconType } from "react-icons";
-import { MdArrowBack, MdDirectionsCar, MdDirectionsWalk } from "react-icons/md";
+import {
+    MdArrowBack,
+    MdDirectionsCar,
+    MdDirectionsWalk,
+    MdLocationOn,
+    MdTouchApp,
+} from "react-icons/md";
 import { RiPinDistanceFill } from "react-icons/ri";
+import { Transition, TransitionStatus } from "react-transition-group";
 import { GeoLocation } from "src/data/graphql/generated";
-import { copyObject } from "src/domain/util/object";
+import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { AppTrans } from "src/view/common/AppTrans";
 import {
     DialogPositions,
@@ -29,6 +38,8 @@ import { locationSinjukuStation } from "src/view/constants/location";
 import { Padding } from "src/view/constants/padding";
 import { isPC } from "src/view/constants/userAgent";
 import { useAppTranslation } from "src/view/hooks/useAppTranslation";
+import { useLocation } from "src/view/hooks/useLocation";
+import { PlaceSearch, PlaceSearchProps } from "src/view/place/PlaceSearch";
 
 type Props = {
     visible: boolean;
@@ -36,23 +47,26 @@ type Props = {
     defaultMapCenter?: GeoLocation;
     onClose: () => void;
     onConfirm: (props: { rangeInKm: number; location: GeoLocation }) => void;
-    googlePlaceSearchBar?: ReactElement;
-};
+} & PlaceSearchProps;
 
 export function CreatePlanRangeDialog({
     visible,
     defaultMapCenter,
     minRangeInKm = 2,
-    googlePlaceSearchBar,
     onClose,
     onConfirm,
+
+    googlePlaceSearchResults,
+    onSearchGooglePlacesByQuery,
+    onClickGooglePlaceSearchResult,
 }: Props) {
     const { t } = useAppTranslation();
+    const toast = useToast();
     const [rangeInKm, setRangeInKm] = useState(minRangeInKm);
     const [mapCenter, setMapCenter] = useState<GeoLocation>(
         locationSinjukuStation
     );
-    const [location, setLocation] = useState(mapCenter);
+    const [location, setLocation] = useState<GeoLocation>(null);
 
     const calcDirectionWalkTime = (distanceInKm: number) => {
         const walkSpeed = 4;
@@ -66,16 +80,33 @@ export function CreatePlanRangeDialog({
         return Math.ceil(carTime * 60);
     };
 
+    const handleSetLocation = ({
+        location,
+        moveCenter = true,
+    }: {
+        location: GeoLocation;
+        moveCenter?: boolean;
+    }) => {
+        setLocation(location);
+        if (moveCenter) setMapCenter(location);
+    };
+
     const handleOnConfirm = () => {
+        if (!location) {
+            toast({
+                title: t("plan:createPlanByCategoryLocationNotSelectedError"),
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+            });
+            return;
+        }
         onConfirm({ rangeInKm, location });
     };
 
     useEffect(() => {
-        if (defaultMapCenter) {
-            setMapCenter(defaultMapCenter);
-            setLocation(defaultMapCenter);
-        }
-    }, [copyObject(defaultMapCenter)]);
+        if (defaultMapCenter) handleSetLocation({ location: defaultMapCenter });
+    }, [defaultMapCenter?.latitude, defaultMapCenter?.longitude]);
 
     return (
         <FullscreenDialog
@@ -123,9 +154,12 @@ export function CreatePlanRangeDialog({
                                 lng: mapCenter.longitude,
                             }}
                             onClick={(e) => {
-                                setLocation({
-                                    latitude: e.latLng.lat(),
-                                    longitude: e.latLng.lng(),
+                                handleSetLocation({
+                                    location: {
+                                        latitude: e.latLng.lat(),
+                                        longitude: e.latLng.lng(),
+                                    },
+                                    moveCenter: false,
                                 });
                             }}
                             options={() => ({
@@ -143,30 +177,61 @@ export function CreatePlanRangeDialog({
                                 },
                             })}
                         >
-                            <Marker
-                                position={{
-                                    lat: location.latitude,
-                                    lng: location.longitude,
-                                }}
-                            />
-                            <Circle
-                                center={{
-                                    lat: location.latitude,
-                                    lng: location.longitude,
-                                }}
-                                radius={rangeInKm * 1000}
-                                options={{
-                                    fillColor: "#099C5E",
-                                    strokeColor: "#099C5E",
-                                }}
-                                onClick={(e) => {
-                                    setLocation({
-                                        latitude: e.latLng.lat(),
-                                        longitude: e.latLng.lng(),
-                                    });
-                                }}
-                            />
-                            {googlePlaceSearchBar && googlePlaceSearchBar}
+                            {location && (
+                                <Marker
+                                    position={{
+                                        lat: location.latitude,
+                                        lng: location.longitude,
+                                    }}
+                                />
+                            )}
+                            {location && (
+                                <Circle
+                                    center={{
+                                        lat: location.latitude,
+                                        lng: location.longitude,
+                                    }}
+                                    radius={rangeInKm * 1000}
+                                    options={{
+                                        fillColor: "#099C5E",
+                                        strokeColor: "#099C5E",
+                                    }}
+                                    onClick={(e) => {
+                                        handleSetLocation({
+                                            location: {
+                                                latitude: e.latLng.lat(),
+                                                longitude: e.latLng.lng(),
+                                            },
+                                            moveCenter: false,
+                                        });
+                                    }}
+                                />
+                            )}
+                            <Box
+                                w="100%"
+                                position="absolute"
+                                pt={Padding.p24}
+                                px={Padding.p8}
+                            >
+                                <PlaceSearch
+                                    onSearchGooglePlacesByQuery={
+                                        onSearchGooglePlacesByQuery
+                                    }
+                                    onClickGooglePlaceSearchResult={
+                                        onClickGooglePlaceSearchResult
+                                    }
+                                    googlePlaceSearchResults={
+                                        googlePlaceSearchResults
+                                    }
+                                    placeSearchActions={
+                                        <SetByCurrentLocationButton
+                                            onGetCurrentLocation={(location) =>
+                                                handleSetLocation({ location })
+                                            }
+                                        />
+                                    }
+                                />
+                            </Box>
                             <VStack
                                 w="170px"
                                 justifyContent="center"
@@ -196,6 +261,7 @@ export function CreatePlanRangeDialog({
                                 />
                             </VStack>
                         </MapViewer>
+                        <TapMapOverlay />
                     </Box>
                     <Center w="100%" py={Padding.p16} px={Padding.p24}>
                         <Slider
@@ -221,8 +287,14 @@ export function CreatePlanRangeDialog({
                             </SliderThumb>
                         </Slider>
                     </Center>
-                    <RoundedButton w="100%" onClick={handleOnConfirm}>
-                        {t("plan:createPlanByCategory")}
+                    <RoundedButton
+                        w="100%"
+                        onClick={handleOnConfirm}
+                        disabled={!location}
+                    >
+                        {location
+                            ? t("plan:createPlanByCategory")
+                            : t("plan:createPlanByCategorySelectLocationTitle")}
                     </RoundedButton>
                 </VStack>
             </RoundedDialog>
@@ -251,3 +323,88 @@ const DirectionTime = ({ icon, time }: { icon: IconType; time: number }) => {
         </HStack>
     );
 };
+
+function TapMapOverlay() {
+    const { t } = useAppTranslation();
+    const [isFirstTap, setIsFirstTap] = useState(true);
+
+    const transitionStyles: { [key in TransitionStatus]: CSSProperties } = {
+        unmounted: { opacity: 0, visibility: "hidden" },
+        entering: { opacity: 1, visibility: "visible" },
+        entered: { opacity: 1, visibility: "visible" },
+        exiting: { opacity: 0, visibility: "visible" },
+        exited: { opacity: 0, visibility: "hidden" },
+    };
+
+    return (
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        <Transition in={isFirstTap} timeout={300}>
+            {(state) => (
+                <Center
+                    style={transitionStyles[state]}
+                    backgroundColor="rgba(0,0,0,.2)"
+                    onClick={() => setIsFirstTap(false)}
+                    transition="opacity 0.3s"
+                    position="absolute"
+                    top={0}
+                    right={0}
+                    bottom={0}
+                    left={0}
+                >
+                    <VStack color="white" spacing={Padding.p16}>
+                        <Icon as={MdTouchApp} w="48px" h="48px" />
+                        <Text fontWeight="bold" fontSize="20px">
+                            {t("plan:createPlanByCategorySelectLocationTitle")}
+                        </Text>
+                    </VStack>
+                </Center>
+            )}
+        </Transition>
+    );
+}
+
+function SetByCurrentLocationButton({
+    onGetCurrentLocation,
+}: {
+    onGetCurrentLocation: (location: GeoLocation) => void;
+}) {
+    const { t } = useAppTranslation();
+    const toast = useToast();
+    const [isFetching, setIsFetching] = useState(false);
+    const { getCurrentLocation, fetchCurrentLocationStatus } = useLocation();
+
+    const handleOnClick = async () => {
+        const currentLocation = await getCurrentLocation();
+        if (currentLocation) onGetCurrentLocation(currentLocation);
+    };
+
+    useEffect(() => {
+        setIsFetching(fetchCurrentLocationStatus === RequestStatuses.PENDING);
+        if (fetchCurrentLocationStatus === RequestStatuses.REJECTED) {
+            toast({
+                title: t("location:fetchCurrentLocationFailed"),
+                status: "error",
+                duration: 3000,
+                isClosable: true,
+                position: "top",
+            });
+        }
+    }, [fetchCurrentLocationStatus]);
+
+    return (
+        <HStack
+            as="button"
+            backgroundColor="white"
+            color="#2D59C9"
+            borderRadius="50px"
+            boxShadow="2px 2px 4px #A2A2A2"
+            px={Padding.p8}
+            py={Padding.p4}
+            onClick={handleOnClick}
+        >
+            {isFetching ? <Spinner size="sm" /> : <Icon as={MdLocationOn} />}
+            <Text>現在地を中心にする</Text>
+        </HStack>
+    );
+}

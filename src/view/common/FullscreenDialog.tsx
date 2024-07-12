@@ -96,29 +96,33 @@ export function FullscreenDialog({
                 exit: 200,
             }}
         >
-            {(state) => (
-                <FullscreenDialogWrapper
-                    style={{
-                        ...transitionStyles[state],
-                    }}
-                >
-                    <Container position={position}>
-                        {/* MEMO: FullscreenDialogWrapper にonClick属性をつけて、zIndex:9999 にしても、childrenに触れたときにonClickOutsideが発火してしまう*/}
-                        <TouchDetector onClick={onClickOutside} />
-                        <Box
-                            zIndex={9999}
-                            px={paddingX ?? padding}
-                            py={paddingY ?? padding}
-                            w={width}
-                            h={height}
-                            maxW={maxWidth}
-                            maxH={maxHeight}
-                        >
-                            {children}
-                        </Box>
-                    </Container>
-                </FullscreenDialogWrapper>
-            )}
+            {(state) =>
+                state === "exited" || state === "unmounted" ? (
+                    <></>
+                ) : (
+                    <FullscreenDialogWrapper
+                        style={{
+                            ...transitionStyles[state],
+                        }}
+                    >
+                        <Container position={position}>
+                            {/* MEMO: FullscreenDialogWrapper にonClick属性をつけて、zIndex:9999 にしても、childrenに触れたときにonClickOutsideが発火してしまう*/}
+                            <TouchDetector onClick={onClickOutside} />
+                            <Box
+                                zIndex={9999}
+                                px={paddingX ?? padding}
+                                py={paddingY ?? padding}
+                                w={width}
+                                h={height}
+                                maxW={maxWidth}
+                                maxH={maxHeight}
+                            >
+                                {children}
+                            </Box>
+                        </Container>
+                    </FullscreenDialogWrapper>
+                )
+            }
         </Transition>
     );
 }

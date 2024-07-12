@@ -77,6 +77,7 @@ function Account({ user }: { user: User | null }) {
                         user={user}
                         isEditable={true}
                         onEdit={openEditUserProfileDialog}
+                        onClickAvatarIcon={openEditUserProfileDialog}
                     />
                 </Box>
                 <LikePlacesList
