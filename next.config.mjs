@@ -3,6 +3,7 @@ import pwa from "next-pwa";
 import runtimeCaching from 'next-pwa/cache.js';
 import remarkUnwrapImages from 'remark-unwrap-images';
 import {withTamagui as tamagui} from '@tamagui/next-plugin';
+import withPlugins from 'next-compose-plugins';
 
 const withPWA = pwa({
     dest: 'public',
@@ -102,4 +103,8 @@ const nextConfig = {
     },
 };
 
-export default withPWA(withMDX(withTamagui(nextConfig)));
+export default withPlugins([
+    [withPWA],
+    [withMDX],
+    [withTamagui],
+], nextConfig);

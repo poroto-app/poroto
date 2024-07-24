@@ -77,6 +77,7 @@
     "react-redux": "^9.1.0",
     "react-transition-group": "^4.4.5",
     "remark-unwrap-images": "^4.0.0",
+    "solito": "^4.2.2",
     "styled-components": "^6.1.8",
     "tamagui": "^1.104.2",
     "uuid": "^10.0.0"
@@ -115,6 +116,7 @@
     "eslint-config-next": "13.4.10",
     "eslint-config-prettier": "^9.1.0",
     "jest": "^29.7.0",
+    "next-compose-plugins": "^2.2.1",
     "playwright": "^1.45.0",
     "prettier-plugin-organize-imports": "^4.0.0",
     "storybook": "^8.1.3",
