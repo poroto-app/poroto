@@ -16,7 +16,7 @@ export function Layout({
     height = "100%",
     navBar,
     bottomNavigation,
-    maxW = Size.mainContentWidth ,
+    maxW = Size.mainContentWidth,
     header,
     children,
 }: Props) {
@@ -38,7 +38,7 @@ export function Layout({
                 justifyContent="flex-start"
                 position="relative"
             >
-                <Box maxW={maxW+"px"} w="100%" h="100%">
+                <Box maxW={maxW + "px"} w="100%" h="100%">
                     {children}
                 </Box>
             </Center>
