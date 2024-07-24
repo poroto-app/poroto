@@ -5,6 +5,7 @@ import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
+import { OnClickHandler } from "src/types/handler";
 import Awesome from "src/view/assets/svg/awesome.svg";
 import Balloon from "src/view/assets/svg/balloons.svg";
 import Notify from "src/view/assets/svg/notify.svg";
@@ -13,7 +14,6 @@ import { AppTrans } from "src/view/common/AppTrans";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
-import { OnClickHandler } from "src/view/types/handler";
 
 type Props = {
     visible: boolean;

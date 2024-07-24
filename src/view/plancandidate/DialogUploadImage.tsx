@@ -10,8 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { useState } from "react";
+import { OnClickHandler } from "src/types/handler";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
-import { OnClickHandler } from "src/view/types/handler";
 
 type Props = {
     visible: boolean;
