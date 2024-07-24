@@ -2,7 +2,7 @@ import { Link } from "@chakra-ui/next-js";
 import { Image } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { FailurePage } from "src/view/common/FailurePage";
-import { Routes } from "src/view/constants/router";
+import { Routes } from "src/constant/router";
 import { RoundedButton } from "./RoundedButton";
 
 type Props = {

@@ -19,8 +19,8 @@ import {
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { Layout } from "src/view/common/Layout";
-import { Padding } from "src/view/constants/padding";
-import { Size } from "src/view/constants/size";
+import { Padding } from "src/constant/padding";
+import { Size } from "src/constant/size";
 import { useNearbyPlans } from "src/view/hooks/useNearbyPlans";
 import {
     BottomNavigation,

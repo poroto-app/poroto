@@ -3,7 +3,7 @@ import "@splidejs/splide/css";
 import { useState } from "react";
 import { Image, getDefaultPlaceImage } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
-import { Size } from "src/view/constants/size";
+import { Size } from "src/constant/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import { StoryImagePreview } from "src/view/plancandidate/StoryImagePreview";
 

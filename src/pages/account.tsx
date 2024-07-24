@@ -14,7 +14,7 @@ import { NotLoggedIn } from "src/view/account/NotLoggedIn";
 import { UserCard } from "src/view/account/UserCard";
 import { UsersPlan } from "src/view/account/UsersPlan";
 import { Layout } from "src/view/common/Layout";
-import { Padding } from "src/view/constants/padding";
+import { Padding } from "src/constant/padding";
 import { useAuth } from "src/view/hooks/useAuth";
 import { useEditProfile } from "src/view/hooks/useEditProfile";
 import { useLikePlaces } from "src/view/hooks/useLikePlaces";

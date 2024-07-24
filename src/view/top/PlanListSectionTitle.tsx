@@ -1,6 +1,6 @@
 import { Box, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import { Size } from "src/view/constants/size";
+import { Size } from "src/constant/size";
 
 type Props = {
     title: string;

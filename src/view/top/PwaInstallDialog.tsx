@@ -5,7 +5,7 @@ import { CSSProperties } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 import { AppTrans } from "src/view/common/AppTrans";
 import { RoundedButton } from "src/view/common/RoundedButton";
-import { Size } from "src/view/constants/size";
+import { Size } from "src/constant/size";
 
 type Props = {
     visible: boolean;

@@ -10,7 +10,7 @@ import {
     resetCreatePlanFromSavedPlanRequestStatus,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
-import { Routes } from "src/view/constants/router";
+import { Routes } from "src/constant/router";
 
 export const useCreatePlanFromSavedPlan = () => {
     const dispatch = useAppDispatch();

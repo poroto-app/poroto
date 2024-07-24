@@ -18,9 +18,9 @@ import {
     setCreatedPlans,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
-import { AnalyticsEvents } from "src/view/constants/analytics";
-import { LocalStorageKeys } from "src/view/constants/localStorageKey";
-import { Routes } from "src/view/constants/router";
+import { AnalyticsEvents } from "src/constant/analytics";
+import { LocalStorageKeys } from "src/constant/localStorageKey";
+import { Routes } from "src/constant/router";
 import { useLocation } from "src/view/hooks/useLocation";
 
 export const useCreatePlanInterest = () => {

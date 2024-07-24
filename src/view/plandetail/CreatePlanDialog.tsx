@@ -8,7 +8,7 @@ import {
     FullscreenDialog,
 } from "src/view/common/FullscreenDialog";
 import { RoundedButton } from "src/view/common/RoundedButton";
-import { Colors } from "src/view/constants/color";
+import { Colors } from "src/constant/color";
 import { PlacePreview } from "src/view/plandetail/PlacePreview";
 
 type Props = {

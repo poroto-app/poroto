@@ -24,7 +24,7 @@ import {
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
-import { Colors } from "src/view/constants/color";
+import { Colors } from "src/constant/color";
 
 type Props = {
     visible: boolean;

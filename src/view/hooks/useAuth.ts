@@ -10,7 +10,7 @@ import { hasValue } from "src/domain/util/null";
 import { reduxAuthSelector } from "src/redux/auth";
 import { useAppDispatch } from "src/redux/redux";
 import { setIsBindPreLoginStateDialogVisible } from "src/redux/user";
-import { LocalStorageKeys } from "src/view/constants/localStorageKey";
+import { LocalStorageKeys } from "src/constant/localStorageKey";
 
 export const useAuth = () => {
     const dispatch = useAppDispatch();

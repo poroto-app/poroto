@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
-import { Colors } from "src/view/constants/color";
+import { Colors } from "src/constant/color";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 
 type Props = {

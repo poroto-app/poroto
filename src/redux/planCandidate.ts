@@ -15,7 +15,7 @@ import {
 } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { RootState } from "src/redux/redux";
-import { AnalyticsEvents } from "src/view/constants/analytics";
+import { AnalyticsEvents } from "src/constant/analytics";
 
 export type PlanCandidateState = {
     createPlanSession: string | null;

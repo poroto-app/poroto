@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 import { MdOutlineExplore } from "react-icons/md";
 import { Plan } from "src/domain/models/Plan";
-import { isPC } from "src/view/constants/userAgent";
+import { isPC } from "src/constant/userAgent";
 import {
     LocationPermission,
     LocationPermissions,

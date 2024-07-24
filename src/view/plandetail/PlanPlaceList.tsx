@@ -13,7 +13,7 @@ import { Plan } from "src/domain/models/Plan";
 import { Transition } from "src/domain/models/Transition";
 import { DateHelper } from "src/domain/util/date";
 import { AppTrans } from "src/view/common/AppTrans";
-import { Colors } from "src/view/constants/color";
+import { Colors } from "src/constant/color";
 import { UploadPlaceImageProps } from "src/view/hooks/useUploadPlaceImage";
 import {
     PlaceActionHandler,

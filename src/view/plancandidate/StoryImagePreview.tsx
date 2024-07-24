@@ -9,7 +9,7 @@ import {
     getImageSizeOf,
 } from "src/domain/models/Image";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
-import { Time } from "src/view/constants/time";
+import { Time } from "src/constant/time";
 import { styled } from "styled-components";
 
 type Props = {

@@ -12,8 +12,8 @@ import { isIPad13 } from "react-device-detect";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
-import { Asset } from "src/view/constants/asset";
-import { Padding } from "src/view/constants/padding";
+import { Asset } from "src/constant/asset";
+import { Padding } from "src/constant/padding";
 
 type Props = {
     visible: boolean;

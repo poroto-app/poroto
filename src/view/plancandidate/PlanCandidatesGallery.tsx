@@ -3,8 +3,8 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { useEffect, useRef, useState } from "react";
 import { Plan } from "src/domain/models/Plan";
-import { Size } from "src/view/constants/size";
-import { Time } from "src/view/constants/time";
+import { Size } from "src/constant/size";
+import { Time } from "src/constant/time";
 import { PlanCandidateGalleryCard } from "src/view/plancandidate/PlanCandidatesGalleryCard";
 import { styled } from "styled-components";
 

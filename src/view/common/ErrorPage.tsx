@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 import Notify from "src/view/assets/svg/notify.svg";
 import { FailurePage } from "src/view/common/FailurePage";
 import { RoundedButton } from "src/view/common/RoundedButton";
-import { Colors } from "src/view/constants/color";
-import { Routes } from "src/view/constants/router";
+import { Colors } from "src/constant/color";
+import { Routes } from "src/constant/router";
 
 type Props = {
     navBar?: boolean;

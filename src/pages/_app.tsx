@@ -10,7 +10,7 @@ import { reduxStore } from "src/redux/redux";
 import { Auth } from "src/view/common/Auth";
 import { FirebaseProvider } from "src/view/common/FirebaseProvider";
 import { Theme } from "src/view/common/Theme";
-import { PageMetaData } from "src/view/constants/meta";
+import { PageMetaData } from "src/constant/meta";
 import { ErrorBoundary } from "src/view/provider/ErrorBoundary";
 import { History } from "src/view/provider/History";
 

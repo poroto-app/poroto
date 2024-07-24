@@ -9,8 +9,8 @@ import { reduxPlaceSelector, setLikePlaces } from "src/redux/place";
 import { reduxPlanSelector, setPlaceIdToCreatePlan } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { fetchUser } from "src/redux/user";
-import { AnalyticsEvents } from "src/view/constants/analytics";
-import { Routes } from "src/view/constants/router";
+import { AnalyticsEvents } from "src/constant/analytics";
+import { Routes } from "src/constant/router";
 
 export const useLikePlaces = () => {
     const router = useRouter();

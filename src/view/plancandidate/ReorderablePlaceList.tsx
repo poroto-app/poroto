@@ -32,8 +32,8 @@ import {
     FullscreenDialog,
 } from "src/view/common/FullscreenDialog";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
-import { Colors } from "src/view/constants/color";
-import { Padding } from "src/view/constants/padding";
+import { Colors } from "src/constant/color";
+import { Padding } from "src/constant/padding";
 import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { PlaceChipContextAction } from "src/view/plandetail/PlaceChipContextAction";
 import styled from "styled-components";

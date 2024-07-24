@@ -1,6 +1,6 @@
 import { Box, Image, Skeleton } from "@chakra-ui/react";
 import { useState } from "react";
-import { Asset } from "src/view/constants/asset";
+import { Asset } from "src/constant/asset";
 
 type Props = {
     src: string;

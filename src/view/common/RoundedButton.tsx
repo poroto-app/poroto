@@ -1,6 +1,6 @@
 import { ButtonProps } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { Colors } from "src/view/constants/color";
+import { Colors } from "src/constant/color";
 import styled from "styled-components";
 
 type Props = {

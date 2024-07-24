@@ -3,7 +3,7 @@ import { Text, VStack } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import IconTraveling from "src/view/assets/svg/traveling.svg";
 import { RoundedButton } from "src/view/common/RoundedButton";
-import { Routes } from "src/view/constants/router";
+import { Routes } from "src/constant/router";
 
 export const NearbyPlansNotFound = () => {
     const { t } = useTranslation();

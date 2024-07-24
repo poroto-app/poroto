@@ -1,6 +1,6 @@
 import { Box, Center, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { Colors } from "src/view/constants/color";
+import { Colors } from "src/constant/color";
 import { NavBar } from "src/view/navigation/NavBar";
 
 export type Props = {

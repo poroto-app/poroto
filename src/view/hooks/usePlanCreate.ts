@@ -9,7 +9,7 @@ import {
     savePlanFromCandidate,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
-import { Routes } from "src/view/constants/router";
+import { Routes } from "src/constant/router";
 
 type Props = {
     planCandidateSetId: string;

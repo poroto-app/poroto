@@ -21,7 +21,7 @@ import {
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
-import { Size } from "src/view/constants/size";
+import { Size } from "src/constant/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import {
     PlaceChipActionCamera,

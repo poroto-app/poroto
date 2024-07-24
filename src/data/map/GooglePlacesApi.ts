@@ -1,6 +1,6 @@
 import { Loader } from "@googlemaps/js-api-loader";
 import { GeoLocation } from "src/domain/models/GeoLocation";
-import { locationSinjukuStation } from "src/view/constants/location";
+import { locationSinjukuStation } from "src/constant/location";
 
 // MEMO: axiosで直接リクエストするとCORSエラーが発生する
 export class GooglePlacesApi {

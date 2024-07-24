@@ -6,7 +6,7 @@ import { IconType } from "react-icons";
 import { MdLogin, MdLogout, MdOutlineBackup } from "react-icons/md";
 import { User } from "src/domain/models/User";
 import { hasValue, when } from "src/domain/util/null";
-import { AnalyticsEvents } from "src/view/constants/analytics";
+import { AnalyticsEvents } from "src/constant/analytics";
 import { OnClickHandler } from "src/view/types/handler";
 import styled from "styled-components";
 

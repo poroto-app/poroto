@@ -6,7 +6,7 @@ import { MdCurrencyYen, MdSchedule } from "react-icons/md";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
 import { DateHelper } from "src/domain/util/date";
-import { Size } from "src/view/constants/size";
+import { Size } from "src/constant/size";
 import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 

@@ -10,7 +10,7 @@ import {
 import { MdEdit } from "react-icons/md";
 import { User } from "src/domain/models/User";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
-import { Padding } from "src/view/constants/padding";
+import { Padding } from "src/constant/padding";
 
 type Props = {
     user: User | null;

@@ -10,8 +10,8 @@ import {
     resetCreatePlanByCategoryRequestStatus,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
-import { AnalyticsEvents } from "src/view/constants/analytics";
-import { Routes } from "src/view/constants/router";
+import { AnalyticsEvents } from "src/constant/analytics";
+import { Routes } from "src/constant/router";
 
 export const useCreatePlanCategory = () => {
     const dispatch = useAppDispatch();

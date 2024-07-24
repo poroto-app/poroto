@@ -1,6 +1,6 @@
 import { Icon, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import { Colors } from "src/view/constants/color";
+import { Colors } from "src/constant/color";
 import styled from "styled-components";
 
 type Props = {

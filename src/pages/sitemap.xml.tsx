@@ -1,5 +1,5 @@
 import { GetServerSideProps } from "next";
-import { Routes } from "src/view/constants/router";
+import { Routes } from "src/constant/router";
 
 type Page = {
     url: string;

@@ -1,7 +1,7 @@
 import { Avatar, Center } from "@chakra-ui/react";
 import { User } from "src/domain/models/User";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
-import { Size } from "src/view/constants/size";
+import { Size } from "src/constant/size";
 import { appImageLoader } from "src/view/image/appImageLoader";
 
 type Props = {

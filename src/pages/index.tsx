@@ -9,8 +9,8 @@ import { CreatePlanCategoryList } from "src/view/category/CreatePlanCategoryList
 import { CreatePlanRangeDialog } from "src/view/category/CreatePlanRangeDialog";
 import { Layout } from "src/view/common/Layout";
 import { LoadingModal } from "src/view/common/LoadingModal";
-import { Padding } from "src/view/constants/padding";
-import { Size } from "src/view/constants/size";
+import { Padding } from "src/constant/padding";
+import { Size } from "src/constant/size";
 import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { useCreatePlanCategory } from "src/view/hooks/useCreatePlanCategory";
 import { useGooglePlaceSearch } from "src/view/hooks/useGooglePlaceSearch";

@@ -34,9 +34,9 @@ import {
 import { MapViewer } from "src/view/common/MapViewer";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
-import { locationSinjukuStation } from "src/view/constants/location";
-import { Padding } from "src/view/constants/padding";
-import { isPC } from "src/view/constants/userAgent";
+import { locationSinjukuStation } from "src/constant/location";
+import { Padding } from "src/constant/padding";
+import { isPC } from "src/constant/userAgent";
 import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { useLocation } from "src/view/hooks/useLocation";
 import { PlaceSearch, PlaceSearchProps } from "src/view/place/PlaceSearch";

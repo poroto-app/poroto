@@ -7,7 +7,7 @@ import {
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { LottiePlayer } from "src/view/common/LottiePlayer";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
-import { Routes } from "src/view/constants/router";
+import { Routes } from "src/constant/router";
 import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import animationDataFailedLocation from "src/view/lottie/location-failed.json";
 import animationDataLoadingLocation from "src/view/lottie/location-loading.json";

@@ -2,7 +2,7 @@ import { Link } from "@chakra-ui/next-js";
 import Lost from "src/view/assets/svg/lost.svg";
 import { FailurePage } from "src/view/common/FailurePage";
 import { RoundedButton } from "src/view/common/RoundedButton";
-import { Routes } from "src/view/constants/router";
+import { Routes } from "src/constant/router";
 
 type Props = {
     navBar?: boolean;

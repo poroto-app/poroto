@@ -1,7 +1,7 @@
 import { Box, Center, HStack, Icon } from "@chakra-ui/react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
-import { isPC } from "src/view/constants/userAgent";
+import { isPC } from "src/constant/userAgent";
 
 type Props = {
     scrollAmount?: number;
