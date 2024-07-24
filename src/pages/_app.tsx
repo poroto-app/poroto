@@ -13,6 +13,8 @@ import { FirebaseProvider } from "src/view/common/FirebaseProvider";
 import { Theme } from "src/view/common/Theme";
 import { ErrorBoundary } from "src/view/provider/ErrorBoundary";
 import { History } from "src/view/provider/History";
+import { TamaguiProvider } from "tamagui";
+import tamaguiConfig from "tamagui.config";
 
 function App({ Component, pageProps }: AppProps) {
     const { t } = useTranslation();
@@ -70,7 +72,13 @@ function App({ Component, pageProps }: AppProps) {
                         <Auth />
                         <FirebaseProvider />
                         <History />
-                        <Component {...pageProps} />
+                        <TamaguiProvider
+                            config={tamaguiConfig}
+                            disableInjectCSS
+                            disableRootThemeClass
+                        >
+                            <Component {...pageProps} />
+                        </TamaguiProvider>
                     </ErrorBoundary>
                 </Provider>
             </ChakraProvider>

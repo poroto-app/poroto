@@ -2,7 +2,7 @@ import mdx from '@next/mdx';
 import pwa from "next-pwa";
 import runtimeCaching from 'next-pwa/cache.js';
 import remarkUnwrapImages from 'remark-unwrap-images';
-
+import {withTamagui as tamagui} from '@tamagui/next-plugin';
 
 const withPWA = pwa({
     dest: 'public',
@@ -22,6 +22,11 @@ const withMDX = mdx({
         ],
         providerImportSource: '@mdx-js/react',
     },
+});
+
+const withTamagui = tamagui({
+    config: "./tamagui.config.ts",
+    components: ["tamagui"],
 });
 
 /** @type {import('next').NextConfig} */
@@ -97,4 +102,4 @@ const nextConfig = {
     },
 };
 
-export default withPWA(withMDX(nextConfig));
+export default withPWA(withMDX(withTamagui(nextConfig)));
