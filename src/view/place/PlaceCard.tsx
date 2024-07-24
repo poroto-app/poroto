@@ -1,8 +1,8 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
+import { Size } from "src/constant/size";
 import { Place } from "src/domain/models/Place";
 import { hasValue } from "src/domain/util/null";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
-import { Size } from "src/constant/size";
 
 type Props = {
     place: Place | null;

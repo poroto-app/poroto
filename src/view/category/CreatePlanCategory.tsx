@@ -1,7 +1,7 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
+import { Size } from "src/constant/size";
 import { CreatePlanPlaceCategory } from "src/domain/models/CreatePlanPlaceCategory";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
-import { Size } from "src/constant/size";
 import { appImageLoader } from "src/view/image/appImageLoader";
 
 type Props = {

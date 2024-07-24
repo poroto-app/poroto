@@ -8,9 +8,9 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { MdEdit } from "react-icons/md";
+import { Padding } from "src/constant/padding";
 import { User } from "src/domain/models/User";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
-import { Padding } from "src/constant/padding";
 
 type Props = {
     user: User | null;

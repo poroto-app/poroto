@@ -1,6 +1,7 @@
 import { Box, Button, VStack } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
+import { Colors } from "src/constant/color";
 import { Place } from "src/domain/models/Place";
 import { copyObject } from "src/domain/util/object";
 import {
@@ -8,7 +9,6 @@ import {
     FullscreenDialog,
 } from "src/view/common/FullscreenDialog";
 import { RoundedButton } from "src/view/common/RoundedButton";
-import { Colors } from "src/constant/color";
 import { PlacePreview } from "src/view/plandetail/PlacePreview";
 
 type Props = {

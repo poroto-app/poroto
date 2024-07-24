@@ -4,9 +4,9 @@ import { useTranslation } from "next-i18next";
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
 import { MdLogin, MdLogout, MdOutlineBackup } from "react-icons/md";
+import { AnalyticsEvents } from "src/constant/analytics";
 import { User } from "src/domain/models/User";
 import { hasValue, when } from "src/domain/util/null";
-import { AnalyticsEvents } from "src/constant/analytics";
 import { OnClickHandler } from "src/view/types/handler";
 import styled from "styled-components";
 
