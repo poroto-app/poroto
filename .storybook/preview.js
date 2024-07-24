@@ -1,9 +1,11 @@
 import {ChakraProvider} from "@chakra-ui/react";
+import {TamaguiProvider} from "tamagui";
 import {Theme} from "../src/view/common/Theme";
 import {INITIAL_VIEWPORTS} from '@storybook/addon-viewport'
 import {I18nextProvider} from "react-i18next";
 import {useEffect} from "react";
 import i18n from "./i18n";
+import tamaguiConfig from "../tamagui.config";
 
 const withChakra = (StoryFn) => {
     return (
@@ -14,8 +16,18 @@ const withChakra = (StoryFn) => {
     );
 };
 
+const withTamagui = (StoryFn) => {
+    return (
+        <TamaguiProvider
+            config={tamaguiConfig}
+        >
+            <StoryFn/>
+        </TamaguiProvider>
+    );
+}
+
 const withI18n = (StoryFn, context) => {
-    const { locale } = context.globals;
+    const {locale} = context.globals;
 
     useEffect(() => {
         i18n.changeLanguage(locale);
@@ -44,5 +56,6 @@ export const parameters = {
 
 export const decorators = [
     withChakra,
+    withTamagui,
     withI18n,
 ];
