@@ -5,7 +5,11 @@ import {DefinePlugin} from "webpack";
 
 const config: StorybookConfig = {
     "stories": ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|ts|tsx)"],
-    "addons": ["@storybook/addon-links", "@storybook/addon-essentials", "@storybook/addon-interactions"],
+    "addons": [
+        "@storybook/addon-links",
+        "@storybook/addon-essentials",
+        "@storybook/addon-interactions",
+    ],
     framework: {
         name: "@storybook/nextjs",
         options: {}
@@ -43,6 +47,7 @@ const config: StorybookConfig = {
             // tamagui
             // https://github.com/ralphwaked/tamagui-storybook-example/
             const projectRoot = path.resolve(__dirname, "..");
+            config.resolve.extensions.unshift('.web.js');
             config.resolve.alias = {
                 ...config.resolve.alias,
                 'react-native$': 'react-native-web',
@@ -63,9 +68,7 @@ const config: StorybookConfig = {
                     }
                 ],
             });
-            config.plugins.push(new DefinePlugin({
-                'process.env.TAMAGUI_TARGET': '"web"',
-            }))
+            config.plugins.push(new DefinePlugin({'process.env.TAMAGUI_TARGET': '"web"'}))
         }
         return config
     },
