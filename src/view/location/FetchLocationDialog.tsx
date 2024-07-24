@@ -1,5 +1,5 @@
-import { Link } from "@chakra-ui/next-js";
 import { Box, Button, Text, VStack } from "@chakra-ui/react";
+import { Link } from "solito/link";
 import { Routes } from "src/constant/router";
 import {
     RequestStatus,
@@ -11,6 +11,7 @@ import { LottiePlayer } from "src/view/common/LottiePlayer";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import animationDataFailedLocation from "src/view/lottie/location-failed.json";
 import animationDataLoadingLocation from "src/view/lottie/location-loading.json";
+import {Padding} from "src/constant/padding";
 
 type Props = {
     fetchLocationRequestStatus: RequestStatus | null;
@@ -73,7 +74,7 @@ function Fetching({
             {isSkipCurrentLocationVisible && (
                 <Link
                     href={Routes.places.search({ skipCurrentLocation: true })}
-                    mt="16px"
+                    viewProps={{ style: { marginTop: Padding.p16 } }}
                 >
                     <Text color="blue.600">{skipLocationLabel}</Text>
                 </Link>

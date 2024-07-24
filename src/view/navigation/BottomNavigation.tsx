@@ -1,8 +1,8 @@
-import { Link } from "@chakra-ui/next-js";
 import { Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { IconType } from "react-icons";
 import { MdAccountCircle, MdHome, MdSearch } from "react-icons/md";
+import { Link } from "solito/link";
 import { Routes } from "src/constant/router";
 import { Size } from "src/constant/size";
 
@@ -66,7 +66,7 @@ export function NavigationItem({
     isActive: boolean;
 }) {
     return (
-        <Link href={link} flex={1}>
+        <Link href={link} viewProps={{ style: { flex: 1 } }}>
             <VStack color={isActive ? "#BF756F" : "#6A6A6A"} spacing={0}>
                 <Icon w="24px" h="24px" as={icon} />
                 <Text fontSize="0.625rem">{label}</Text>

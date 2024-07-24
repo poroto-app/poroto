@@ -1,6 +1,6 @@
-import { Link } from "@chakra-ui/next-js";
 import { Icon, Text, VStack } from "@chakra-ui/react";
 import { IconType } from "react-icons";
+import { Link } from "solito/link";
 
 type Props = {
     title: string;
@@ -11,7 +11,7 @@ type Props = {
 
 export function CreatePlanButton({ title, icon, link, onClick }: Props) {
     return (
-        <Link href={link} w="100%" onClick={onClick}>
+        <Link href={link} viewProps={{ style: { width: "100%"}}} onClick={onClick}>
             <VStack
                 borderRadius="20px"
                 backgroundColor="#FFF8F3"

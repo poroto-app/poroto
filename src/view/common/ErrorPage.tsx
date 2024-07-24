@@ -1,7 +1,7 @@
-import { Link } from "@chakra-ui/next-js";
 import { Button } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { Link } from "solito/link";
 import { Colors } from "src/constant/color";
 import { Routes } from "src/constant/router";
 import Notify from "src/view/assets/svg/notify.svg";
@@ -50,8 +50,7 @@ export function ErrorPage({ navBar }: Props) {
                     </Button>
                     <Link
                         href={Routes.home}
-                        w="100%"
-                        _hover={{ textDecoration: "none" }}
+                        viewProps={{ style: { width: "100%"  } }}
                     >
                         <RoundedButton>{t("common:backToHome")}</RoundedButton>
                     </Link>

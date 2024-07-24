@@ -1,4 +1,3 @@
-import { Link } from "@chakra-ui/next-js";
 import { HStack, Icon, Text } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useTranslation } from "next-i18next";
@@ -10,6 +9,7 @@ import {
     MdOutlineFindReplace,
 } from "react-icons/md";
 import { SiGooglemaps, SiInstagram } from "react-icons/si";
+import { Link } from "solito/link";
 import { AnalyticsEvents } from "src/constant/analytics";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { UploadPlaceImageProps } from "src/hooks/useUploadPlaceImage";
