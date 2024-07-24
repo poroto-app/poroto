@@ -134,7 +134,7 @@ const TabPanelInformation = ({
         <VStack
             w="100%"
             spacing="8px"
-            px={Size.PlaceCardPaddingH}
+            px={Size.PlaceCardPaddingH + "px"}
             overflowX="hidden"
         >
             <HStack

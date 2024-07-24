@@ -28,13 +28,13 @@ export function UserCard({
     return (
         <Center
             w="100%"
-            py={Padding.p16}
-            px={Padding.p16}
+            py={Padding.p16 + "px"}
+            px={Padding.p16 + "px"}
             backgroundColor="white"
             borderRadius="20px"
             boxShadow="0px 0px 20px #F0DFCA"
         >
-            <VStack spacing={Padding.p16} position="relative" w="100%">
+            <VStack spacing={Padding.p16 + "px"} position="relative" w="100%">
                 <Box
                     width="100px"
                     height="100px"
@@ -52,7 +52,7 @@ export function UserCard({
                 </Box>
                 <Center maxW="100%" h="50px">
                     {user ? (
-                        <HStack spacing={Padding.p8}>
+                        <HStack spacing={Padding.p8 + "px"}>
                             <Text fontWeight="bold" fontSize="32px">
                                 {user.name}
                             </Text>

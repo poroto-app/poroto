@@ -180,7 +180,7 @@ function PlaceSearchPage() {
                 </Box>
                 <Box
                     w="100%"
-                    maxW={Size.mainContentWidth}
+                    maxW={Size.mainContentWidth + "px"}
                     pt="24px"
                     px="8px"
                     zIndex={10}
@@ -237,7 +237,12 @@ const SearchButton = ({
             right={0}
             zIndex={zIndex.footer}
         >
-            <Box px="8px" pb="32px" w="100%" maxW={Size.mainContentWidth}>
+            <Box
+                px="8px"
+                pb="32px"
+                w="100%"
+                maxW={Size.mainContentWidth + "px"}
+            >
                 <RoundedIconButton
                     icon={placeSelected ? MdDone : MdOutlineTouchApp}
                     disabled={!placeSelected}

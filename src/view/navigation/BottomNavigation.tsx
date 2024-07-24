@@ -25,7 +25,7 @@ export function BottomNavigation({ page }: Props) {
             as="nav"
             backgroundColor="white"
             borderTop="1px solid #EBEBEB"
-            h={Size.BottomNavigation.height}
+            h={Size.BottomNavigation.height + "px"}
             w="100%"
             px="16px"
             py="8px"

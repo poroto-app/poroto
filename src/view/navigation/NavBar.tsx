@@ -82,14 +82,14 @@ export const NavBarComponent = ({
         <HStack
             alignItems="normal"
             w="100%"
-            h={Size.NavBar.height}
+            h={Size.NavBar.height + "px"}
             backgroundColor="white"
             borderBottom="1px solid rgba(0, 0, 0, 0.1)"
-            py={Padding.p8}
+            py={Padding.p8 + "px"}
             fontSize="0.95rem"
             justifyContent="center"
         >
-            <HStack w="100%" maxW="990px" spacing={4} px={Padding.p16}>
+            <HStack w="100%" maxW="990px" spacing={4} px={Padding.p16 + "px"}>
                 {canGoBack && (
                     <Icon
                         w="20px"
@@ -120,7 +120,7 @@ const Container = styled.div`
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     padding: 8px 16px;
     font-size: 0.95rem;
-    height: ${Size.NavBar.height};
+    height: ${Size.NavBar.height + "px"};
     width: 100%;
 `;
 

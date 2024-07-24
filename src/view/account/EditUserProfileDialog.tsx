@@ -105,8 +105,8 @@ export function EditUserProfileDialog({
         <FullscreenDialog
             visible={isVisible}
             onClickOutside={onClose}
-            paddingY={Padding.p16}
-            paddingX={Padding.p8}
+            paddingY={Padding.p16 + "px"}
+            paddingX={Padding.p8 + "px"}
         >
             <RoundedDialog>
                 <VStack minH="500px">
@@ -171,13 +171,13 @@ function ProfileEditor({
         <VStack
             w="100%"
             h="100%"
-            px={Padding.p16}
-            py={Padding.p16}
+            px={Padding.p16 + "px"}
+            py={Padding.p16 + "px"}
             flex={1}
-            spacing={Padding.p16}
+            spacing={Padding.p16 + "px"}
             justifyContent="space-between"
         >
-            <HStack w="100%" pb={Padding.p16}>
+            <HStack w="100%" pb={Padding.p16 + "px"}>
                 <Text flex={1} fontWeight="semibold" fontSize={18}>
                     {t("account:editProfile")}
                 </Text>
@@ -212,8 +212,8 @@ function ProfileEditor({
                         border="1px solid rgba(0,0,0,.1)"
                         backgroundColor="white"
                         borderRadius="100"
-                        px={Padding.p16}
-                        py={Padding.p8}
+                        px={Padding.p16 + "px"}
+                        py={Padding.p8 + "px"}
                         boxShadow="rgba(0, 0, 0, 0.12) 0px 6px 16px 0px"
                         onClick={onUpdateProfileImage}
                     >
@@ -237,8 +237,8 @@ function ProfileEditor({
                 w="100%"
                 border={`1px solid ${focusUserName ? "rgba(29,155,240)" : "rgba(0,0,0,.1)"}`}
                 alignItems="flex-start"
-                px={Padding.p8}
-                py={Padding.p4}
+                px={Padding.p8 + "px"}
+                py={Padding.p4 + "px"}
                 spacing={0}
                 borderRadius="8px"
             >
@@ -299,7 +299,7 @@ function ProfileImageEditor({
 
     return (
         <VStack w="100%" h="100%" flex={1}>
-            <HStack w="100%" px={Padding.p16} py={Padding.p16}>
+            <HStack w="100%" px={Padding.p16 + "px"} py={Padding.p16 + "px"}>
                 <Center as="button" onClick={onClose}>
                     <Icon
                         w="24px"
@@ -332,7 +332,7 @@ function ProfileImageEditor({
                     showGrid={false}
                 />
             </Box>
-            <VStack px={Padding.p16} py={Padding.p16} w="100%">
+            <VStack px={Padding.p16 + "px"} py={Padding.p16 + "px"} w="100%">
                 <Center w="100%">
                     <HStack w="100%" maxW="300px">
                         <Icon

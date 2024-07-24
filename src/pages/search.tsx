@@ -79,12 +79,12 @@ export default function SearchPage(props: Props) {
                 <BottomNavigation page={BottomNavigationPages.Search} />
             }
         >
-            <VStack w="100%" pb={Padding.p32}>
+            <VStack w="100%" pb={Padding.p32 + "px"}>
                 {/* TODO: 拒否設定されている場合の対処をする */}
                 <NearbyPlanList
                     plans={plansNearby}
                     locationPermission={locationPermission}
-                    px={Size.top.px}
+                    px={Size.top.px + "px"}
                     isFetchingCurrentLocation={isFetchingCurrentLocation}
                     isFetchingNearbyPlans={isFetchingNearbyPlans}
                     onRequestFetchNearByPlans={fetchNearbyPlans}
@@ -97,7 +97,10 @@ export default function SearchPage(props: Props) {
                     hasMore={hasValue(nextPageTokenPlansRecentlyCreated)}
                     style={{ width: "100%" }}
                 >
-                    <PlanList plans={plansRecentlyCreated} px={Size.top.px}>
+                    <PlanList
+                        plans={plansRecentlyCreated}
+                        px={Size.top.px + "px"}
+                    >
                         <PlanListSectionTitle
                             title={t("home:recentlyCreatedPlans")}
                             icon={MdTrendingUp}

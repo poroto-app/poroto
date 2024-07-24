@@ -12,9 +12,9 @@ type Props = {
 export function CreatePlanCategory({ category, onClick }: Props) {
     return (
         <Box
-            minW={Size.CreatePlanCategory.CategoryImage.width}
-            w={Size.CreatePlanCategory.CategoryImage.width}
-            h={Size.CreatePlanCategory.CategoryImage.height}
+            minW={Size.CreatePlanCategory.CategoryImage.width + "px"}
+            w={Size.CreatePlanCategory.CategoryImage.width + "px"}
+            h={Size.CreatePlanCategory.CategoryImage.height + "px"}
             overflow="hidden"
             borderRadius="10px"
             position="relative"

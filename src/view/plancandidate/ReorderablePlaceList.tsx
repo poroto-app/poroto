@@ -65,10 +65,10 @@ export function ReorderablePlaceDialog({
             <RoundedDialog>
                 <VStack
                     w="100%"
-                    spacing={Padding.p16}
-                    px={Padding.p8}
-                    pb={Padding.p32}
-                    pt={Padding.p16}
+                    spacing={Padding.p16 + "px"}
+                    px={Padding.p8 + "px"}
+                    pb={Padding.p32 + "px"}
+                    pt={Padding.p16 + "px"}
                 >
                     <HStack w="100%">
                         <PlaceChipContextAction

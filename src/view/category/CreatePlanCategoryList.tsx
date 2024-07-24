@@ -18,7 +18,7 @@ export function CreatePlanCategoryList({
     onSelectCategory,
 }: Props) {
     return (
-        <VStack w="100%" overflowX="hidden" spacing={Padding.p16}>
+        <VStack w="100%" overflowX="hidden" spacing={Padding.p16 + "px"}>
             {categorySets.map((categorySet, i) => {
                 return (
                     <VStack
@@ -26,14 +26,14 @@ export function CreatePlanCategoryList({
                         w="100%"
                         overflowX="hidden"
                         alignItems="flex-start"
-                        spacing={Padding.p4}
-                        px={Size.top.px}
+                        spacing={Padding.p4 + "px"}
+                        px={Size.top.px + "px"}
                     >
                         <Text
                             fontSize="18px"
                             fontWeight="bold"
                             color="#2F2F2F"
-                            px={Padding.p8}
+                            px={Padding.p8 + "px"}
                         >
                             {categorySet.displayName}
                         </Text>

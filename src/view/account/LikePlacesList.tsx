@@ -27,12 +27,12 @@ export function LikePlacesList({
     return (
         <VStack w="100%">
             <PlanListSectionTitle
-                px={Padding.p16}
+                px={Padding.p16 + "px"}
                 title={t("place:favoritePlaces")}
                 icon={MdOutlineFavoriteBorder}
             />
             <HorizontalScrollableList
-                px={Padding.p16}
+                px={Padding.p16 + "px"}
                 pageButtonVisible={
                     isPC && hasValue(places) && places.length > 0
                 }

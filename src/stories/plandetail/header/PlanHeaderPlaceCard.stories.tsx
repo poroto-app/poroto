@@ -23,7 +23,7 @@ export const Primary: Story = {
         decorators: [
             (Story: any) => (
                 <Box
-                    w={Size.PlanDetailHeader.maxW}
+                    w={Size.PlanDetailHeader.maxW + "px"}
                     h={Size.PlanDetailHeader.image.h + "px"}
                 >
                     <Story />
@@ -47,7 +47,7 @@ export const LongName: Story = {
         decorators: [
             (Story: any) => (
                 <Box
-                    w={Size.PlanDetailHeader.maxW}
+                    w={Size.PlanDetailHeader.maxW + "px"}
                     h={Size.PlanDetailHeader.image.h + "px"}
                 >
                     <Story />

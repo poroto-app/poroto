@@ -50,22 +50,22 @@ export function PwaIosInstruction({
         <FullscreenDialog
             visible={visible}
             onClickOutside={onClose}
-            paddingX={Padding.p8}
-            paddingY={Padding.p8}
+            paddingX={Padding.p8 + "px"}
+            paddingY={Padding.p8 + "px"}
         >
             <RoundedDialog h="min(100vh, 600px)" w="min(100vw, 800px)">
                 <VStack
-                    py={Padding.p32}
+                    py={Padding.p32 + "px"}
                     h="100%"
                     w="100%"
                     maxH="100%"
                     spacing="16px"
                 >
-                    <Text px={Padding.p16} fontSize="24px">
+                    <Text px={Padding.p16 + "px"} fontSize="24px">
                         {t("pwa:addToHomeScreenInstructionTitle")}
                     </Text>
                     <VStack w="100%" flex={1}>
-                        <Center w="100%" px={Padding.p16}>
+                        <Center w="100%" px={Padding.p16 + "px"}>
                             <Tab
                                 currentTab={currentTab}
                                 onSwitchTab={setCurrentTab}
@@ -74,8 +74,8 @@ export function PwaIosInstruction({
                         <Center
                             flex={1}
                             w="100%"
-                            py={Padding.p8}
-                            px={Padding.p16}
+                            py={Padding.p8 + "px"}
+                            px={Padding.p16 + "px"}
                             backgroundColor="#DDDDDD"
                             overflow="hidden"
                         >
@@ -114,7 +114,7 @@ export function PwaIosInstruction({
                             </Center>
                         </Center>
                     </VStack>
-                    <VStack w="100%" px={Padding.p16} spacing="16px">
+                    <VStack w="100%" px={Padding.p16 + "px"} spacing="16px">
                         {onClickAlreadyInstalled && (
                             <Button
                                 w="100%"

@@ -184,7 +184,7 @@ const SelectPlanPage = () => {
             <NavBar />
             <Center
                 w="100%"
-                h={`calc(100vh - ${Size.NavBar.height})`}
+                h={`calc(100vh - ${Size.NavBar.height + "px"})`}
                 px="16px"
                 ref={refPlanCandidateGallery}
                 overflowX="hidden"
@@ -343,7 +343,7 @@ function PlanDetailPage({
                         sectionHeader={
                             <SectionTitle
                                 title={t("plan:planInfo")}
-                                px={Size.PlanDetail.px}
+                                px={Size.PlanDetail.px + "px"}
                             />
                         }
                     >
@@ -359,7 +359,7 @@ function PlanDetailPage({
                         sectionHeader={
                             <SectionTitle
                                 title={t("plan:plan")}
-                                px={Size.PlanDetail.px}
+                                px={Size.PlanDetail.px + "px"}
                             />
                         }
                     >
@@ -390,7 +390,7 @@ function PlanDetailPage({
                                 description={t(
                                     "plan:clickMarkerToShowPlaceDetail"
                                 )}
-                                px={Size.PlanDetail.px}
+                                px={Size.PlanDetail.px + "px"}
                             />
                         }
                     >
@@ -415,12 +415,14 @@ function PlanDetailPage({
                                         "plan:createPlanFromOtherLocation"
                                     )}
                                     icon={MdOutlineNearMe}
-                                    px={Size.PlanDetail.px}
+                                    px={Size.PlanDetail.px + "px"}
                                     pt={0}
                                 />
                             }
                         >
-                            <HorizontalScrollableList px={Size.PlanDetail.px}>
+                            <HorizontalScrollableList
+                                px={Size.PlanDetail.px + "px"}
+                            >
                                 {destinationPlacesForPlanCandidate.map(
                                     (place, index) => (
                                         <PlaceCard
