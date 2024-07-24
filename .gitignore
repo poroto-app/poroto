@@ -44,3 +44,7 @@ next-env.d.ts
 public/fallback-*.js
 public/workbox**
 public/sw**
+
+# expo
+.expo/
+expo-env.d.ts
