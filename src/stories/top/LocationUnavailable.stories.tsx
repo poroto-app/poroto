@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { LocationPermissions } from "src/view/hooks/useLocation";
+import { LocationPermissions } from "src/hooks/useLocation";
 import { LocationUnavailable } from "src/view/top/LocationUnavailable";
 
 export default {

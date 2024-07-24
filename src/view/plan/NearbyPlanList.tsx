@@ -1,11 +1,8 @@
 import { useTranslation } from "next-i18next";
 import { MdOutlineExplore } from "react-icons/md";
-import { Plan } from "src/domain/models/Plan";
 import { isPC } from "src/constant/userAgent";
-import {
-    LocationPermission,
-    LocationPermissions,
-} from "src/view/hooks/useLocation";
+import { Plan } from "src/domain/models/Plan";
+import { LocationPermission, LocationPermissions } from "src/hooks/useLocation";
 import { PlanList } from "src/view/plan/PlanList";
 import { LocationUnavailable } from "src/view/top/LocationUnavailable";
 import { NearbyPlansNotFound } from "src/view/top/NearbyPlansNotFound";

@@ -1,6 +1,8 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { AnalyticsEvents } from "src/constant/analytics";
+import { Routes } from "src/constant/router";
 import { Place } from "src/domain/models/Place";
 import { hasValue } from "src/domain/util/null";
 import { reduxAuthSelector } from "src/redux/auth";
@@ -9,8 +11,6 @@ import { reduxPlaceSelector, setLikePlaces } from "src/redux/place";
 import { reduxPlanSelector, setPlaceIdToCreatePlan } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { fetchUser } from "src/redux/user";
-import { AnalyticsEvents } from "src/constant/analytics";
-import { Routes } from "src/constant/router";
 
 export const useLikePlaces = () => {
     const router = useRouter();

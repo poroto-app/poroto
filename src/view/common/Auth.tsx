@@ -2,6 +2,7 @@ import { getAuth } from "@firebase/auth";
 import { useEffect } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { hasValue } from "src/domain/util/null";
+import { useAuth } from "src/hooks/useAuth";
 import {
     fetchByFirebaseUser,
     reduxAuthSelector,
@@ -9,7 +10,6 @@ import {
     setFirebaseUID,
 } from "src/redux/auth";
 import { useAppDispatch } from "src/redux/redux";
-import { useAuth } from "src/view/hooks/useAuth";
 
 export function Auth() {
     const dispatch = useAppDispatch();

@@ -10,9 +10,9 @@ import {
 } from "@chakra-ui/react";
 import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { AppTrans } from "src/view/common/AppTrans";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
-import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 
 type Props = {
     placeToDelete: Place | null;

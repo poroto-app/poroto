@@ -1,7 +1,11 @@
 import { Box, VStack } from "@chakra-ui/react";
 import { useEffect } from "react";
+import { Padding } from "src/constant/padding";
 import { User } from "src/domain/models/User";
 import { hasValue } from "src/domain/util/null";
+import { useAuth } from "src/hooks/useAuth";
+import { useEditProfile } from "src/hooks/useEditProfile";
+import { useLikePlaces } from "src/hooks/useLikePlaces";
 import {
     reduxPlanSelector,
     setPlaceIdToCreatePlan,
@@ -14,10 +18,6 @@ import { NotLoggedIn } from "src/view/account/NotLoggedIn";
 import { UserCard } from "src/view/account/UserCard";
 import { UsersPlan } from "src/view/account/UsersPlan";
 import { Layout } from "src/view/common/Layout";
-import { Padding } from "src/constant/padding";
-import { useAuth } from "src/view/hooks/useAuth";
-import { useEditProfile } from "src/view/hooks/useEditProfile";
-import { useLikePlaces } from "src/view/hooks/useLikePlaces";
 import {
     BottomNavigation,
     BottomNavigationPages,

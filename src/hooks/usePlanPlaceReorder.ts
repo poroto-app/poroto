@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Place } from "src/domain/models/Place";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { copyObject } from "src/domain/util/object";
+import { usePlanCandidate } from "src/hooks/usePlanCandidate";
 import {
     autoReorderPlacesInPlanCandidate,
     reduxPlanCandidateSelector,
@@ -11,7 +12,6 @@ import {
     updatePlacesOrderInPlanCandidate,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
-import { usePlanCandidate } from "src/view/hooks/usePlanCandidate";
 
 export const usePlanPlaceReorder = ({ planId }: { planId: string }) => {
     const dispatch = useAppDispatch();

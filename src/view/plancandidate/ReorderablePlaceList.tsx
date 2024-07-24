@@ -24,17 +24,17 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { forwardRef, useState } from "react";
 import { MdDirectionsWalk, MdDragIndicator } from "react-icons/md";
+import { Colors } from "src/constant/color";
+import { Padding } from "src/constant/padding";
 import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { Transition } from "src/domain/models/Transition";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import {
     DialogPositions,
     FullscreenDialog,
 } from "src/view/common/FullscreenDialog";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
-import { Colors } from "src/constant/color";
-import { Padding } from "src/constant/padding";
-import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { PlaceChipContextAction } from "src/view/plandetail/PlaceChipContextAction";
 import styled from "styled-components";
 

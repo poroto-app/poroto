@@ -1,5 +1,5 @@
 import { Place } from "src/domain/models/Place";
-import { useAppTranslation } from "src/view/hooks/useAppTranslation";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { DialogRelatedPlaces } from "src/view/plancandidate/DialogRelatedPlaces";
 
 type Props = {

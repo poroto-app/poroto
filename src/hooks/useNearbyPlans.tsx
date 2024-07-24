@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { useLocation } from "src/hooks/useLocation";
 import {
     fetchNearbyPlans as fetchNearbyPlansAction,
     reduxPlanSelector,
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
-import { useLocation } from "src/view/hooks/useLocation";
 
 export const useNearbyPlans = () => {
     const dispatch = useAppDispatch();

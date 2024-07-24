@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { LocalStorageKeys } from "src/constant/localStorageKey";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { hasValue, when } from "src/domain/util/null";
 import { reduxAuthSelector } from "src/redux/auth";
@@ -8,7 +9,6 @@ import {
     reduxUserSelector,
     setIsBindPreLoginStateDialogVisible,
 } from "src/redux/user";
-import { LocalStorageKeys } from "src/constant/localStorageKey";
 
 export const useBindPreLoginState = () => {
     const dispatch = useAppDispatch();

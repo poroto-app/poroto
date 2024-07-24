@@ -1,10 +1,7 @@
 import { Switch, Text, VStack } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
+import { LocationPermission, LocationPermissions } from "src/hooks/useLocation";
 import MapIcon from "src/view/assets/svg/map.svg";
-import {
-    LocationPermission,
-    LocationPermissions,
-} from "src/view/hooks/useLocation";
 
 type Props = {
     locationPermission: LocationPermission | null;

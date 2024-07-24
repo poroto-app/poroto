@@ -2,14 +2,14 @@ import { useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { hasValue } from "src/domain/util/null";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
+import { useAuth } from "src/hooks/useAuth";
 import { useAppDispatch } from "src/redux/redux";
 import {
     reduxUserSelector,
     setUpdateProfileRequestStatus,
     updateUserProfile as updateUserProfileAction,
 } from "src/redux/user";
-import { useAppTranslation } from "src/view/hooks/useAppTranslation";
-import { useAuth } from "src/view/hooks/useAuth";
 
 export const useEditProfile = () => {
     const { t } = useAppTranslation();

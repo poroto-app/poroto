@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { IconType } from "react-icons";
 import { MdCurrencyYen, MdSchedule } from "react-icons/md";
 import { DateHelper } from "src/domain/util/date";
-import { useAppTranslation } from "src/view/hooks/useAppTranslation";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import styled from "styled-components";
 
 type Props = {

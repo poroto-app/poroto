@@ -1,20 +1,20 @@
 import { Text, VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { Padding } from "src/constant/padding";
+import { Size } from "src/constant/size";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { CreatePlanPlaceCategorySet } from "src/domain/models/CreatePlanPlaceCategory";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
+import { useCreatePlanCategory } from "src/hooks/useCreatePlanCategory";
+import { useGooglePlaceSearch } from "src/hooks/useGooglePlaceSearch";
+import { usePwaInstall } from "src/hooks/usePwaInstall";
 import { TranslationNameSpaces, i18nAppConfig } from "src/locales/i18n";
 import { CreatePlanCategoryList } from "src/view/category/CreatePlanCategoryList";
 import { CreatePlanRangeDialog } from "src/view/category/CreatePlanRangeDialog";
 import { Layout } from "src/view/common/Layout";
 import { LoadingModal } from "src/view/common/LoadingModal";
-import { Padding } from "src/constant/padding";
-import { Size } from "src/constant/size";
-import { useAppTranslation } from "src/view/hooks/useAppTranslation";
-import { useCreatePlanCategory } from "src/view/hooks/useCreatePlanCategory";
-import { useGooglePlaceSearch } from "src/view/hooks/useGooglePlaceSearch";
-import { usePwaInstall } from "src/view/hooks/usePwaInstall";
 import {
     BottomNavigation,
     BottomNavigationPages,

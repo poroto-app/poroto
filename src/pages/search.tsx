@@ -5,12 +5,15 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useEffect } from "react";
 import { MdTrendingUp } from "react-icons/md";
 import InfiniteScroll from "react-infinite-scroller";
+import { Padding } from "src/constant/padding";
+import { Size } from "src/constant/size";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
 import { Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { hasValue } from "src/domain/util/null";
+import { useNearbyPlans } from "src/hooks/useNearbyPlans";
 import { TranslationNameSpaces, i18nAppConfig } from "src/locales/i18n";
 import {
     fetchPlansRecentlyCreated,
@@ -19,9 +22,6 @@ import {
 } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 import { Layout } from "src/view/common/Layout";
-import { Padding } from "src/constant/padding";
-import { Size } from "src/constant/size";
-import { useNearbyPlans } from "src/view/hooks/useNearbyPlans";
 import {
     BottomNavigation,
     BottomNavigationPages,

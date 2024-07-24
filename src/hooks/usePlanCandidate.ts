@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
+import { useLocation } from "src/hooks/useLocation";
 import {
     createPlanFromPlace,
     reduxPlanCandidateSelector,
     updatePreviewPlanId,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
-import { useLocation } from "src/view/hooks/useLocation";
 
 export const usePlanCandidate = ({ planId }: { planId?: string }) => {
     const dispatch = useAppDispatch();
