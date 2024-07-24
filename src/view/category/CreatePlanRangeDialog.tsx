@@ -210,8 +210,8 @@ export function CreatePlanRangeDialog({
                             <Box
                                 w="100%"
                                 position="absolute"
-                                pt={Padding.p24}
-                                px={Padding.p8}
+                                pt={Padding.p24 + "px"}
+                                px={Padding.p8 + "px"}
                             >
                                 <PlaceSearch
                                     onSearchGooglePlacesByQuery={
@@ -356,7 +356,7 @@ function TapMapOverlay() {
                     bottom={0}
                     left={0}
                 >
-                    <VStack color="white" spacing={Padding.p16}>
+                    <VStack color="white" spacing={Padding.p16 + "px"}>
                         <Icon as={MdTouchApp} w="48px" h="48px" />
                         <Text fontWeight="bold" fontSize="20px">
                             {t("plan:createPlanByCategorySelectLocationTitle")}
@@ -396,6 +396,7 @@ function SetByCurrentLocationButton({
         }
     }, [fetchCurrentLocationStatus]);
 
+    // TODO: i18n
     return (
         <HStack
             as="button"
@@ -403,8 +404,8 @@ function SetByCurrentLocationButton({
             color="#2D59C9"
             borderRadius="50px"
             boxShadow="2px 2px 4px #A2A2A2"
-            px={Padding.p8}
-            py={Padding.p4}
+            px={Padding.p8 + "px"}
+            py={Padding.p4 + "px"}
             onClick={handleOnClick}
         >
             {isFetching ? <Spinner size="sm" /> : <Icon as={MdLocationOn} />}

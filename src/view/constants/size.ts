@@ -1,7 +1,7 @@
 import { Padding } from "src/view/constants/padding";
 
 export const Size = {
-    mainContentWidth: "var(--size-main-content-width)",
+    mainContentWidth: 990,
     top: {
         px: Padding.p16,
         SectionTitle: {

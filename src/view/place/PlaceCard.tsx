@@ -13,8 +13,8 @@ type Props = {
 
 export function PlaceCard({
     place,
-    w = Size.PlaceCard.w,
-    h = Size.PlaceCard.h,
+    w = Size.PlaceCard.w + "px",
+    h = Size.PlaceCard.h + "px",
     onClick,
 }: Props) {
     if (!place) return <PlaceCardSkeleton />;

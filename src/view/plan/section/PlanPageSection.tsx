@@ -4,7 +4,7 @@ import { Size } from "src/view/constants/size";
 
 export type Props = {
     sectionHeader?: ReactNode;
-    contentPaddingX?: string | number;
+    contentPaddingX?: number;
     children?: ReactNode;
 };
 
@@ -16,7 +16,7 @@ export function PlanPageSection({
     return (
         <VStack w="100%" spacing={4} alignItems="flex-start">
             {sectionHeader}
-            <Box w="100%" px={contentPaddingX}>
+            <Box w="100%" px={contentPaddingX + "px"}>
                 {children}
             </Box>
         </VStack>
