@@ -2,9 +2,10 @@ import { Box, Button, Center, useToast, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { MdOutlineExplore, MdOutlineNearMe } from "react-icons/md";
+import { createParam } from "solito";
+import { useRouter } from "solito/router";
 import { AnalyticsEvents } from "src/constant/analytics";
 import { Colors } from "src/constant/color";
 import { Padding } from "src/constant/padding";
@@ -50,9 +51,11 @@ import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 
+const { useParam } = createParam<{ id: string }>();
+
 export default function PlanPage() {
     const { t } = useTranslation();
-    const { id } = useRouter().query;
+    const [id] = useParam("id");
     const dispatch = useAppDispatch();
     const router = useRouter();
     const toast = useToast();

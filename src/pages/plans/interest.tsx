@@ -1,7 +1,7 @@
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { ReactNode } from "react";
+import { createParam } from "solito";
 import { PageMetaData } from "src/constant/meta";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
@@ -19,15 +19,18 @@ import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
 import { NavBar } from "src/view/navigation/NavBar";
 import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTemplate";
 
+const { useParams } = createParam<{ location?: string }>();
+
 export default function Page() {
-    const router = useRouter();
     const { t } = useTranslation();
+    const { params } = useParams();
+
     return (
         <>
             <Head>
                 <title>
                     {PageMetaData(t).plans.interest.title(
-                        router.query["location"] !== "true"
+                        params.location !== "true"
                     )}
                 </title>
                 <meta

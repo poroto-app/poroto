@@ -1,8 +1,9 @@
 import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { MdOutlineNearMe } from "react-icons/md";
+import { createParam } from "solito";
+import { useRouter } from "solito/router";
 import { Colors } from "src/constant/color";
 import { Size } from "src/constant/size";
 import { isPC } from "src/constant/userAgent";
@@ -49,12 +50,14 @@ import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
 import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 
+const { useParams } = createParam<{ sessionId?: string }>();
+
 const SelectPlanPage = () => {
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
 
     const router = useRouter();
-    const { sessionId } = router.query;
+    const { sessionId } = useParams().params;
     const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
     const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
     const {

@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "solito/router";
 
 export const usePlanCandidateGalleryPageAutoScroll = ({
     planCandidateId,
@@ -146,7 +146,8 @@ export const usePlanCandidateGalleryPageAutoScroll = ({
                     top: 0,
                     behavior: "smooth",
                 });
-                router.events.emit("routeChangeComplete", router.asPath);
+                // TODO: fix me!
+                // router.events.emit("routeChangeComplete", router.asPath);
                 e.preventDefault();
             }
         };

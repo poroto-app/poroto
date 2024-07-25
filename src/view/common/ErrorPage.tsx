@@ -17,6 +17,7 @@ export function ErrorPage({ navBar }: Props) {
     const { t } = useTranslation();
 
     const handleReload = () => {
+        // TODO: native対応
         router.reload();
     };
 
@@ -50,7 +51,7 @@ export function ErrorPage({ navBar }: Props) {
                     </Button>
                     <Link
                         href={Routes.home}
-                        viewProps={{ style: { width: "100%"  } }}
+                        viewProps={{ style: { width: "100%" } }}
                     >
                         <RoundedButton>{t("common:backToHome")}</RoundedButton>
                     </Link>

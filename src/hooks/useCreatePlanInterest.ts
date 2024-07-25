@@ -1,6 +1,7 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { createParam } from "solito";
+import { useRouter } from "solito/router";
 import { AnalyticsEvents } from "src/constant/analytics";
 import { LocalStorageKeys } from "src/constant/localStorageKey";
 import { Routes } from "src/constant/router";
@@ -23,6 +24,12 @@ import {
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
 
+const { useParams } = createParam<{
+    lat: string;
+    lng: string;
+    googlePlaceId: string;
+}>();
+
 export const useCreatePlanInterest = () => {
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -40,7 +47,7 @@ export const useCreatePlanInterest = () => {
         lat: paramLat,
         lng: paramLng,
         googlePlaceId: paramGooglePlaceId,
-    } = router.query;
+    } = useParams().params;
     const paramGeoLocation = parseGeoLocationFromQuery({
         lat: paramLat as string,
         lng: paramLng as string,
@@ -202,9 +209,7 @@ export const useCreatePlanInterest = () => {
                 );
             }
 
-            router
-                .push(Routes.plans.planCandidate.index(createPlanSession))
-                .then();
+            router.push(Routes.plans.planCandidate.index(createPlanSession));
         }
     }, [
         categoryCandidates?.length,

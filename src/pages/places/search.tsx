@@ -2,9 +2,10 @@ import { Box, Center, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { MdDone, MdOutlineTouchApp } from "react-icons/md";
+import { createParam } from "solito";
+import { useRouter } from "solito/router";
 import { AnalyticsEvents } from "src/constant/analytics";
 import { locationSinjukuStation } from "src/constant/location";
 import { PageMetaData } from "src/constant/meta";
@@ -31,6 +32,8 @@ import { PlaceRecommendationDialog } from "src/view/place/PlaceRecommendationDia
 import { PlaceSearch } from "src/view/place/PlaceSearch";
 import { ShowPlaceRecommendationButton } from "src/view/place/ShowPlaceRecommendationButton";
 
+const { useParam } = createParam();
+
 export default function Page() {
     const { t } = useTranslation();
     return (
@@ -49,8 +52,8 @@ export default function Page() {
 
 function PlaceSearchPage() {
     const router = useRouter();
-    const isSkipFetchCurrentLocation =
-        router.query[RouteParams.SkipCurrentLocation] === "true";
+    const [skipCurrentLocation] = useParam(RouteParams.SkipCurrentLocation);
+    const isSkipFetchCurrentLocation = skipCurrentLocation === "true";
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const [searchQuery, setSearchQuery] = useState<string>("");
