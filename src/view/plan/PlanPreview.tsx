@@ -92,7 +92,7 @@ function LinkWrapper({
 }) {
     if (href)
         return (
-            <Link href={href} viewProps={{style:{width:"100%"}}}>
+            <Link href={href} viewProps={{ style: { width: "100%" } }}>
                 {children}
             </Link>
         );

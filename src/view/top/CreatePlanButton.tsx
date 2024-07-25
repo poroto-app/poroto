@@ -11,7 +11,11 @@ type Props = {
 
 export function CreatePlanButton({ title, icon, link, onClick }: Props) {
     return (
-        <Link href={link} viewProps={{ style: { width: "100%"}}} onClick={onClick}>
+        <Link
+            href={link}
+            viewProps={{ style: { width: "100%" } }}
+            onClick={onClick}
+        >
             <VStack
                 borderRadius="20px"
                 backgroundColor="#FFF8F3"
