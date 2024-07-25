@@ -1,7 +1,7 @@
 import { Box, HStack, Icon } from "@chakra-ui/react";
-import Link from "next/link";
 import { ReactNode } from "react";
 import { MdArrowBack } from "react-icons/md";
+import { Link } from "solito/link";
 import { usePathname } from "solito/navigation";
 import { useRouter } from "solito/router";
 import { Padding } from "src/constant/padding";
@@ -128,7 +128,7 @@ const Container = styled.div`
 
 const AppLogo = () => {
     return (
-        <Link href={Routes.home} style={{ height: "100%" }}>
+        <Link href={Routes.home} viewProps={{ style: { height: "100%" } }}>
             <Box h="100%">
                 <AppLogoImage
                     viewBox={

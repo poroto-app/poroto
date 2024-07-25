@@ -108,7 +108,7 @@ function Failed({
             <VStack w="100%" py="16px">
                 <Link
                     href={Routes.places.search({ skipCurrentLocation: true })}
-                    style={{ width: "100%" }}
+                    viewProps={{ style: { width: "100%" } }}
                 >
                     <Button
                         w="100%"
