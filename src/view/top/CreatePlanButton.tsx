@@ -30,6 +30,7 @@ export function CreatePlanButton({ title, icon: Icon, link, onClick }: Props) {
                 <Icon
                     color="rgba(22, 19, 17, .8)"
                     paddingBottom={Padding.p8}
+                    size={64}
                     width={64}
                     height={64}
                 />
