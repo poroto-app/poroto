@@ -21,6 +21,7 @@ export function CreatePlanSection() {
             h={!isWeb && 700}
             py={32}
             px={24}
+            overflow="hidden"
         >
             <XStack
                 w="100%"
