@@ -32,7 +32,6 @@ export default function RootLayout() {
     useEffect(() => {
         if (!language) return;
 
-        // @ts-ignore
         i18n.use(initReactI18next).init({
             ...i18nAppConfig,
             lng: language,
