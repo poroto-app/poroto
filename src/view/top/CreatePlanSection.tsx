@@ -17,11 +17,10 @@ export function CreatePlanSection() {
         <XStack
             backgroundColor="#BD9F8E"
             justifyContent="center"
-            h="100%"
             w="100%"
+            h={!isWeb && 700}
             py={32}
             px={24}
-            overflow="hidden"
         >
             <XStack
                 w="100%"
@@ -34,20 +33,23 @@ export function CreatePlanSection() {
                 {...(!isWeb && {
                     py: xs ? 0 : 32,
                     flexDirection: xs ? "column" : "row",
+                    rowGap: 0,
                 })}
             >
-                <XStack w="100%" flex={1} justifyContent={"center"}>
+                <YStack w="100%" flex={1} justifyContent="center" alignItems="center">
                     <HangOut
                         width="100%"
                         maxWidth={500}
                         height={300}
+                        maxHeight={300}
                         viewBox="0 0 785.77114 658"
                     />
-                </XStack>
+                </YStack>
                 <YStack
                     w="100%"
                     maxWidth={500}
                     flex={1}
+                    justifyContent="center"
                     alignItems="flex-start"
                     gap={16}
                 >
