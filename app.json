@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "komichi",
+    "slug": "komichi-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./public/icons/icon-512x512.png",
+    "scheme": "komichi",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./public/icons/icon-512x512.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "app.komichi"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./public/icons/icon-512x512.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "app.komichi"
+    },
+    "plugins": [
+      [
+        "expo-router",
+        {
+          "root": "src/expo"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
