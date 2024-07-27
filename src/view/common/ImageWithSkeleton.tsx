@@ -1,24 +1,18 @@
 import { Box, Image, Skeleton } from "@chakra-ui/react";
 import { useState } from "react";
 import { Asset } from "src/constant/asset";
-
-type Props = {
-    src: string;
-    alt?: string;
-    isGoogleImage?: boolean;
-    attributionToBottom?: boolean;
-    attributionPaddingY?: string;
-    onClick?: () => void;
-};
+import { ImageWithSkeletonProps } from "src/types/props";
 
 export function ImageWithSkeleton({
     src,
     alt,
+    w = "100%",
+    h = "100%",
     isGoogleImage: isGooglePhoto,
     attributionToBottom = true,
     attributionPaddingY = "24px",
     onClick,
-}: Props) {
+}: ImageWithSkeletonProps) {
     // SSR のときにはスケルトンが表示されないようにする
     const [isLoading, setIsLoading] = useState(typeof window !== "undefined");
 
@@ -47,8 +41,8 @@ export function ImageWithSkeleton({
                 src={src}
                 alt={alt}
                 objectFit="cover"
-                w="100%"
-                h="100%"
+                w={w}
+                h={h}
                 loading="eager"
                 onLoad={() => setIsLoading(false)}
                 scrollSnapAlign="start"
