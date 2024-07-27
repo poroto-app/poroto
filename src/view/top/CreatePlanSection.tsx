@@ -49,7 +49,7 @@ export function CreatePlanSection() {
                             maxWidth: 500,
                             maxHeight: 300,
                             width: "100%",
-                            height: "auto"
+                            height: "auto",
                         }}
                     />
                 </YStack>
