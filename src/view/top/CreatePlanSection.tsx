@@ -44,10 +44,13 @@ export function CreatePlanSection() {
                 >
                     <HangOut
                         width="100%"
-                        maxWidth={500}
-                        height={300}
-                        maxHeight={300}
                         viewBox="0 0 785.77114 658"
+                        style={{
+                            maxWidth: 500,
+                            maxHeight: 300,
+                            width: "100%",
+                            height: "auto"
+                        }}
                     />
                 </YStack>
                 <YStack
