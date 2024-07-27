@@ -423,9 +423,7 @@ function PlanDetailPage({
                                 />
                             }
                         >
-                            <HorizontalScrollableList
-                                px={Size.PlanDetail.px + "px"}
-                            >
+                            <HorizontalScrollableList px={Size.PlanDetail.px}>
                                 {destinationPlacesForPlanCandidate.map(
                                     (place, index) => (
                                         <PlaceCard

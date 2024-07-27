@@ -32,7 +32,7 @@ export function LikePlacesList({
                 icon={MdOutlineFavoriteBorder}
             />
             <HorizontalScrollableList
-                px={Padding.p16 + "px"}
+                px={Padding.p16}
                 pageButtonVisible={
                     isPC && hasValue(places) && places.length > 0
                 }

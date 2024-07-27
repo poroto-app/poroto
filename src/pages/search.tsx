@@ -85,7 +85,7 @@ export default function SearchPage(props: Props) {
                 <NearbyPlanList
                     plans={plansNearby}
                     locationPermission={locationPermission}
-                    px={Size.top.px + "px"}
+                    px={Size.top.px}
                     isFetchingCurrentLocation={isFetchingCurrentLocation}
                     isFetchingNearbyPlans={isFetchingNearbyPlans}
                     onRequestFetchNearByPlans={fetchNearbyPlans}
@@ -98,10 +98,7 @@ export default function SearchPage(props: Props) {
                     hasMore={hasValue(nextPageTokenPlansRecentlyCreated)}
                     style={{ width: "100%" }}
                 >
-                    <PlanList
-                        plans={plansRecentlyCreated}
-                        px={Size.top.px + "px"}
-                    >
+                    <PlanList plans={plansRecentlyCreated} px={Size.top.px}>
                         <PlanListSectionTitle
                             title={t("home:recentlyCreatedPlans")}
                             icon={MdTrendingUp}

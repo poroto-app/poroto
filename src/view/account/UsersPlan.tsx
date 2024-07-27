@@ -56,7 +56,7 @@ export function UsersPlan({ plans, isLoading }: Props) {
                             grid={false}
                             wrapTitle={false}
                             showAuthor={false}
-                            px={Padding.p16 + "px"}
+                            px={Padding.p16}
                             ads={false}
                         >
                             <PlanListSectionTitle

@@ -5,7 +5,7 @@ import { PlaceCard } from "src/view/place/PlaceCard";
 
 type Props = {
     places: Place[] | null;
-    px?: string | number;
+    px?: number;
     onSelectPlace?: (place: Place) => void;
 };
 
