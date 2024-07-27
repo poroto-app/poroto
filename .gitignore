@@ -48,3 +48,6 @@ public/sw**
 # expo
 .expo/
 expo-env.d.ts
+
+# tamagui
+.tamagui/

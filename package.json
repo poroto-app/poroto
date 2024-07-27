@@ -37,6 +37,10 @@
     "@react-google-maps/api": "^2.19.3",
     "@reduxjs/toolkit": "^2.2.1",
     "@splidejs/react-splide": "^0.7.12",
+    "@tamagui/font-inter": "^1.104.2",
+    "@tamagui/next-plugin": "^1.104.2",
+    "@tamagui/shorthands": "^1.104.2",
+    "@tamagui/themes": "^1.104.2",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "axios": "^1.7.2",
     "babel-plugin-styled-components": "^2.1.4",
@@ -74,6 +78,7 @@
     "react-transition-group": "^4.4.5",
     "remark-unwrap-images": "^4.0.0",
     "styled-components": "^6.1.8",
+    "tamagui": "^1.104.2",
     "uuid": "^10.0.0"
   },
   "devDependencies": {

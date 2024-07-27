@@ -1,9 +1,9 @@
-import { Text, View } from "react-native";
+import { Text, YStack } from "tamagui";
 
 export default function HomeScreen() {
     return (
-        <View>
+        <YStack>
             <Text>Hello from komichi.app build with expo</Text>
-        </View>
+        </YStack>
     );
 }

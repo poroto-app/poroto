@@ -1,10 +1,17 @@
 // SEE: https://styled-components.com/docs/advanced#nextjs
-import Document, { Head, Html, Main, NextScript } from "next/document";
+import Document, {
+    DocumentContext,
+    Head,
+    Html,
+    Main,
+    NextScript,
+} from "next/document";
 import Script from "next/script";
 import { ServerStyleSheet } from "styled-components";
+import tamaguiConfig from "tamagui.config";
 
 export default class AppDocument extends Document {
-    static async getInitialProps(ctx) {
+    static async getInitialProps(ctx: DocumentContext) {
         const sheet = new ServerStyleSheet();
         const originalRenderPage = ctx.renderPage;
 
@@ -22,6 +29,11 @@ export default class AppDocument extends Document {
                     <>
                         {initialProps.styles}
                         {sheet.getStyleElement()}
+                        <style
+                            dangerouslySetInnerHTML={{
+                                __html: tamaguiConfig.getCSS(),
+                            }}
+                        />
                     </>
                 ),
             };
