@@ -36,7 +36,12 @@ export function CreatePlanSection() {
                     rowGap: 0,
                 })}
             >
-                <YStack w="100%" flex={1} justifyContent="center" alignItems="center">
+                <YStack
+                    w="100%"
+                    flex={1}
+                    justifyContent="center"
+                    alignItems="center"
+                >
                     <HangOut
                         width="100%"
                         maxWidth={500}
