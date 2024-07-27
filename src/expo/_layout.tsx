@@ -4,12 +4,11 @@ import {
     ThemeProvider,
 } from "@react-navigation/native";
 import { getLocales } from "expo-localization";
-import { Slot } from "expo-router";
+import { Stack } from "expo-router/stack";
 import i18n from "i18next";
 import { useEffect, useState } from "react";
 import { initReactI18next } from "react-i18next";
 import { useColorScheme } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { i18nAppConfig } from "src/locales/i18n";
 import { TamaguiProvider } from "tamagui";
 import tamaguiConfig from "tamagui.config";
@@ -48,9 +47,12 @@ export default function RootLayout() {
             <ThemeProvider
                 value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
             >
-                <SafeAreaView>
-                    <Slot />
-                </SafeAreaView>
+                <Stack>
+                    <Stack.Screen
+                        name="(tabs)"
+                        options={{ headerShown: false }}
+                    />
+                </Stack>
             </ThemeProvider>
         </TamaguiProvider>
     );
