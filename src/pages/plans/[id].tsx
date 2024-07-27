@@ -183,7 +183,7 @@ export default function PlanPage() {
             <NavBar />
             <VStack
                 w="100%"
-                minH={!isPC && `calc(100vh - ${Size.NavBar.height})`}
+                minH={!isPC && `calc(100vh - ${Size.NavBar.height + "px"})`}
             >
                 <PlanDetailPageHeader
                     plan={plan}
@@ -208,7 +208,7 @@ export default function PlanPage() {
                 pb="32px"
             >
                 {!user && (
-                    <Box w="100%" px={Size.PlanDetail.px}>
+                    <Box w="100%" px={Size.PlanDetail.px + "px"}>
                         <LoginCallMessage onLogin={signInWithGoogle} />
                     </Box>
                 )}
@@ -216,7 +216,7 @@ export default function PlanPage() {
                     sectionHeader={
                         <SectionTitle
                             title={t("plan:planInfo")}
-                            px={Size.PlanDetail.px}
+                            px={Size.PlanDetail.px + "px"}
                         />
                     }
                 >
@@ -232,7 +232,7 @@ export default function PlanPage() {
                     sectionHeader={
                         <SectionTitle
                             title={t("plan:plan")}
-                            px={Size.PlanDetail.px}
+                            px={Size.PlanDetail.px + "px"}
                         />
                     }
                 >
@@ -250,7 +250,7 @@ export default function PlanPage() {
                         <SectionTitle
                             title={t("plan:placesInPlan")}
                             description={t("plan:clickMarkerToShowPlaceDetail")}
-                            px={Size.PlanDetail.px}
+                            px={Size.PlanDetail.px + "px"}
                         />
                     }
                 >
@@ -263,7 +263,11 @@ export default function PlanPage() {
                         currentLocation={null}
                     />
                 </VStack>
-                <VStack w="100%" spacing={Padding.p32} pt={Padding.p16}>
+                <VStack
+                    w="100%"
+                    spacing={Padding.p32 + "px"}
+                    pt={Padding.p16 + "px"}
+                >
                     {nearbyPlans?.length > 0 && (
                         <PlanPageSection
                             contentPaddingX={0}
@@ -271,7 +275,7 @@ export default function PlanPage() {
                                 <PlanListSectionTitle
                                     title={t("plan:nearbyPlans")}
                                     icon={MdOutlineNearMe}
-                                    px={Size.PlanDetail.px}
+                                    px={Size.PlanDetail.px + "px"}
                                 />
                             }
                         >
@@ -285,7 +289,7 @@ export default function PlanPage() {
                                 grid={false}
                                 wrapTitle={false}
                                 showAuthor={false}
-                                px={Size.PlanDetail.px}
+                                px={Size.PlanDetail.px + "px"}
                                 ads={false}
                             />
                         </PlanPageSection>
@@ -296,13 +300,13 @@ export default function PlanPage() {
                             <PlanListSectionTitle
                                 title={t("plan:createNewPlanTitle")}
                                 icon={MdOutlineExplore}
-                                px={Size.PlanDetail.px}
+                                px={Size.PlanDetail.px + "px"}
                             />
                         }
                     >
                         <NearbyPlaceList
                             places={placesNearbyPlanLocation}
-                            px={Size.PlanDetail.px}
+                            px={Size.PlanDetail.px + "px"}
                             onSelectPlace={(place) =>
                                 dispatch(setPlaceIdToCreatePlan(place.id))
                             }

@@ -7,7 +7,7 @@ type Props = {
     height?: string | number;
     navBar?: ReactNode;
     bottomNavigation?: ReactNode;
-    maxW?: string | number;
+    maxW?: number;
     header?: ReactNode;
     children: ReactNode;
 };
@@ -38,7 +38,7 @@ export function Layout({
                 justifyContent="flex-start"
                 position="relative"
             >
-                <Box maxW={maxW} w="100%" h="100%">
+                <Box maxW={maxW + "px"} w="100%" h="100%">
                     {children}
                 </Box>
             </Center>

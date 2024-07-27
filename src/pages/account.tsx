@@ -71,8 +71,13 @@ function Account({ user }: { user: User | null }) {
 
     return (
         <>
-            <VStack w="100%" spacing="32px" pt={Padding.p32} pb={Padding.p64}>
-                <Box px={Padding.p16} w="100%">
+            <VStack
+                w="100%"
+                spacing="32px"
+                pt={Padding.p32 + "px"}
+                pb={Padding.p64 + "px"}
+            >
+                <Box px={Padding.p16 + "px"} w="100%">
                     <UserCard
                         user={user}
                         isEditable={true}

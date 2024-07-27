@@ -56,13 +56,13 @@ export function UsersPlan({ plans, isLoading }: Props) {
                             grid={false}
                             wrapTitle={false}
                             showAuthor={false}
-                            px={Padding.p16}
+                            px={Padding.p16 + "px"}
                             ads={false}
                         >
                             <PlanListSectionTitle
                                 title={t("plan:savedPlans")}
                                 icon={MdOutlineBookmarkBorder}
-                                px={Padding.p16}
+                                px={Padding.p16 + "px"}
                             />
                         </PlanList>
                     </Box>
@@ -78,7 +78,7 @@ function Empty() {
         <VStack
             w="100%"
             h="200px"
-            px={Padding.p16}
+            px={Padding.p16 + "px"}
             spacing={{
                 base: "16px",
                 md: "32px",

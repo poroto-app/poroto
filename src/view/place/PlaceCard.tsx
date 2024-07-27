@@ -13,8 +13,8 @@ type Props = {
 
 export function PlaceCard({
     place,
-    w = Size.PlaceCard.w,
-    h = Size.PlaceCard.h,
+    w = Size.PlaceCard.w + "px",
+    h = Size.PlaceCard.h + "px",
     onClick,
 }: Props) {
     if (!place) return <PlaceCardSkeleton />;
@@ -27,7 +27,7 @@ export function PlaceCard({
             w={w}
             minW={w}
             h={h}
-            borderRadius={Size.PlaceCard.borderRadius}
+            borderRadius={Size.PlaceCard.borderRadius + "px"}
             overflow="hidden"
             position="relative"
             scrollSnapAlign="center"
@@ -79,10 +79,10 @@ export function PlaceCard({
 const PlaceCardSkeleton = () => {
     return (
         <Box
-            w={Size.PlaceCard.w}
-            minW={Size.PlaceCard.w}
-            h={Size.PlaceCard.h}
-            borderRadius={Size.PlaceCard.borderRadius}
+            w={Size.PlaceCard.w + "px"}
+            minW={Size.PlaceCard.w + "px"}
+            h={Size.PlaceCard.h + "px"}
+            borderRadius={Size.PlaceCard.borderRadius + "px"}
             backgroundColor="gray.200"
         />
     );

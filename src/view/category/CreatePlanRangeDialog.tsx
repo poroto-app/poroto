@@ -115,7 +115,7 @@ export function CreatePlanRangeDialog({
             width={!isPC && "100%"}
             maxHeight="100%"
             maxWidth="100%"
-            paddingX={isPC && Padding.p8}
+            paddingX={isPC && Padding.p8 + "px"}
             position={isPC ? DialogPositions.CENTER : DialogPositions.BOTTOM}
             onClickOutside={onClose}
         >
@@ -123,11 +123,11 @@ export function CreatePlanRangeDialog({
                 <VStack
                     w="100%"
                     h="100%"
-                    px={Padding.p16}
-                    py={Padding.p24}
+                    px={Padding.p16 + "px"}
+                    py={Padding.p24 + "px"}
                     flex={1}
                 >
-                    <HStack w="100%" pb={Padding.p8}>
+                    <HStack w="100%" pb={Padding.p8 + "px"}>
                         <Center as="button" onClick={onClose}>
                             <Icon
                                 w="24px"
@@ -210,8 +210,8 @@ export function CreatePlanRangeDialog({
                             <Box
                                 w="100%"
                                 position="absolute"
-                                pt={Padding.p24}
-                                px={Padding.p8}
+                                pt={Padding.p24 + "px"}
+                                px={Padding.p8 + "px"}
                             >
                                 <PlaceSearch
                                     onSearchGooglePlacesByQuery={
@@ -235,12 +235,12 @@ export function CreatePlanRangeDialog({
                             <VStack
                                 w="170px"
                                 justifyContent="center"
-                                px={Padding.p8}
-                                py={Padding.p8}
+                                px={Padding.p8 + "px"}
+                                py={Padding.p8 + "px"}
                                 borderRadius="10px"
                                 position="absolute"
-                                bottom={Padding.p24}
-                                right={Padding.p8}
+                                bottom={Padding.p24 + "px"}
+                                right={Padding.p8 + "px"}
                                 userSelect="none"
                                 backgroundColor="rgba(0,0,0,.6)"
                             >
@@ -263,7 +263,11 @@ export function CreatePlanRangeDialog({
                         </MapViewer>
                         <TapMapOverlay />
                     </Box>
-                    <Center w="100%" py={Padding.p16} px={Padding.p24}>
+                    <Center
+                        w="100%"
+                        py={Padding.p16 + "px"}
+                        px={Padding.p24 + "px"}
+                    >
                         <Slider
                             aria-label="slider-ex-1"
                             w="100%"
@@ -309,8 +313,8 @@ const DirectionTime = ({ icon, time }: { icon: IconType; time: number }) => {
             color="white"
             backgroundColor="#099C5E"
             borderRadius="5px"
-            px={Padding.p4}
-            spacing={Padding.p4}
+            px={Padding.p4 + "px"}
+            spacing={Padding.p4 + "px"}
             justifyContent="space-between"
         >
             <Icon as={icon} width="20px" height="20px" />
@@ -352,7 +356,7 @@ function TapMapOverlay() {
                     bottom={0}
                     left={0}
                 >
-                    <VStack color="white" spacing={Padding.p16}>
+                    <VStack color="white" spacing={Padding.p16 + "px"}>
                         <Icon as={MdTouchApp} w="48px" h="48px" />
                         <Text fontWeight="bold" fontSize="20px">
                             {t("plan:createPlanByCategorySelectLocationTitle")}
@@ -392,6 +396,7 @@ function SetByCurrentLocationButton({
         }
     }, [fetchCurrentLocationStatus]);
 
+    // TODO: i18n
     return (
         <HStack
             as="button"
@@ -399,8 +404,8 @@ function SetByCurrentLocationButton({
             color="#2D59C9"
             borderRadius="50px"
             boxShadow="2px 2px 4px #A2A2A2"
-            px={Padding.p8}
-            py={Padding.p4}
+            px={Padding.p8 + "px"}
+            py={Padding.p4 + "px"}
             onClick={handleOnClick}
         >
             {isFetching ? <Spinner size="sm" /> : <Icon as={MdLocationOn} />}

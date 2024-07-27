@@ -123,7 +123,7 @@ export const PlacePreview = ({
                 py="16px"
                 overflow="hidden"
             >
-                <HStack w="100%" px={Size.PlaceCardPaddingH}>
+                <HStack w="100%" px={Size.PlaceCardPaddingH + "px"}>
                     <Text
                         fontSize="1.15rem"
                         as="h2"
@@ -144,14 +144,14 @@ export const PlacePreview = ({
                     )}
                 </HStack>
                 <PlaceInfoTab
-                    tabHSpaacing={Size.PlaceCardPaddingH}
+                    tabHSpaacing={Size.PlaceCardPaddingH + "px"}
                     categories={categories}
                     priceRange={priceRange}
                     estimatedStayDuration={estimatedStayDuration}
                 />
                 <HStack
                     w="100%"
-                    px={Size.PlaceCardPaddingH}
+                    px={Size.PlaceCardPaddingH + "px"}
                     flexWrap={isLargerThan700 ? "wrap" : "nowrap"}
                     overflowX="auto"
                     spacing="4px"

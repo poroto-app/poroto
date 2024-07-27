@@ -79,16 +79,16 @@ export function PlanDetailPageHeader({
             flex={1}
             w="100%"
             h="100%"
-            py={Padding.p32}
+            py={Padding.p32 + "px"}
             backgroundColor="#6F5231"
         >
-            <VStack w="100%" h="100%" maxH="700px" spacing={Padding.p16}>
+            <VStack w="100%" h="100%" maxH="700px" spacing={Padding.p16 + "px"}>
                 <HStack
-                    w={`min(100vw, ${Size.PlanDetailHeader.maxW})`}
+                    w={`min(100vw, ${Size.PlanDetailHeader.maxW + "px"})`}
                     spacing="16px"
                     justifyContent="flex-end"
                     zIndex={1}
-                    px={Size.PlanDetailHeader.px}
+                    px={Size.PlanDetailHeader.px + "px"}
                 >
                     <VStack
                         alignSelf="center"
@@ -133,14 +133,14 @@ export function PlanDetailPageHeader({
                 {activeTab === PlanHeaderTabs.Info ? (
                     <VStack
                         ref={infoRef}
-                        w={`min(100vw, ${Size.PlanDetailHeader.maxW})`}
-                        py={Padding.p16}
+                        w={`min(100vw, ${Size.PlanDetailHeader.maxW + "px"})`}
+                        py={Padding.p16 + "px"}
                         flex={1}
                         spacing={Size.PlanDetailHeader.Info.spacingY + "px"}
                     >
                         <Center
-                            w={`min(100vw, ${Size.PlanDetailHeader.maxW})`}
-                            px={Size.PlanDetailHeader.px}
+                            w={`min(100vw, ${Size.PlanDetailHeader.maxW + "px"})`}
+                            px={Size.PlanDetailHeader.px + "px"}
                             flex={1}
                             zIndex={0}
                         >
@@ -165,12 +165,12 @@ export function PlanDetailPageHeader({
                         h={
                             isPC &&
                             Size.PlanDetailHeader.Info.spacingY +
-                                parseInt(Padding.p16.replace("px", "")) +
+                                Padding.p16 +
                                 Size.PlanDetailHeader.image.h +
                                 Size.PlanDetailHeader.Schedule.Title.height +
-                                parseInt(Padding.p16.replace("px", "")) +
+                                Padding.p16 +
                                 Size.PlanDetailHeader.Schedule.Place.height +
-                                parseInt(Padding.p16.replace("px", "")) +
+                                Padding.p16 +
                                 "px"
                         }
                     >
@@ -237,12 +237,12 @@ function Schedule({
             zIndex={1}
             w="100%"
             alignItems="flex-start"
-            spacing={Padding.p16}
+            spacing={Padding.p16 + "px"}
         >
-            <HStack w="100%" px={Size.PlanDetailHeader.px}>
+            <HStack w="100%" px={Size.PlanDetailHeader.px + "px"}>
                 <Box
-                    px={Padding.p4}
-                    h={Size.PlanDetailHeader.Schedule.Title.height}
+                    px={Padding.p4 + "px"}
+                    h={Size.PlanDetailHeader.Schedule.Title.height + "px"}
                 >
                     <Text color="white" fontWeight="bold" fontSize="20px">
                         {t("plan:scheduleTitle")}
@@ -261,7 +261,7 @@ function Schedule({
                 alignItems="center"
                 edgeCornerRadius={10}
                 pageButtonOpacity={0.6}
-                px={Size.PlanDetailHeader.px}
+                px={Size.PlanDetailHeader.px + "px"}
                 spacing={0}
             >
                 {places.map((place, i) => (
@@ -338,9 +338,9 @@ function SchedulePlaceCard({
                 color="white"
                 borderRadius="10px"
                 position="absolute"
-                left={Padding.p4}
-                bottom={Padding.p4}
-                px={Padding.p4}
+                left={Padding.p4 + "px"}
+                bottom={Padding.p4 + "px"}
+                px={Padding.p4 + "px"}
             >
                 <Text fontSize="0.75rem" fontWeight="bold">
                     <AppTrans

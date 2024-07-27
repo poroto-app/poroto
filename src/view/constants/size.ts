@@ -1,7 +1,7 @@
 import { Padding } from "src/view/constants/padding";
 
 export const Size = {
-    mainContentWidth: "var(--size-main-content-width)",
+    mainContentWidth: 990,
     top: {
         px: Padding.p16,
         SectionTitle: {
@@ -16,7 +16,7 @@ export const Size = {
     },
     PlaceCardPaddingH: Padding.p16,
     NavBar: {
-        height: "50px",
+        height: 50,
         avatar: {
             width: 33,
             height: 33,
@@ -26,8 +26,8 @@ export const Size = {
         height: 50,
     },
     PlanDetailHeader: {
-        maxH: "900px",
-        maxW: "500px",
+        maxH: 900,
+        maxW: 500,
         px: Padding.p16,
         image: {
             h: 350,
@@ -51,7 +51,7 @@ export const Size = {
     },
     PlanList: {
         SavedPlan: {
-            ThumbnailHeight: "250px",
+            ThumbnailHeight: 250,
         },
         LikePlace: {
             w: 200,
@@ -59,9 +59,9 @@ export const Size = {
         },
     },
     PlaceCard: {
-        w: "200px",
-        h: "200px",
-        borderRadius: "20px",
+        w: 200,
+        h: 200,
+        borderRadius: 20,
     },
     PlanCandidatesGallery: {
         Card: {

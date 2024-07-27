@@ -13,7 +13,7 @@ type Props = {
 export function PlanListSectionTitle({
     title,
     icon,
-    px = Size.top.SectionTitle.px,
+    px = Size.top.SectionTitle.px + "px",
     pt = "32px",
     pb = "32px",
 }: Props) {

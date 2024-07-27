@@ -45,7 +45,7 @@ export const PlaceImageGallery = ({
                 position="relative"
                 alignSelf="center"
                 overflow="hidden"
-                w={`min(100%, ${Size.PlanDetailHeader.image.maxW}px)`}
+                w={`min(100%, ${Size.PlanDetailHeader.image.maxW + "px"}px)`}
                 h={Size.PlanDetailHeader.image.h + "px"}
                 maxW={Size.PlanDetailHeader.image.maxW + "px"}
             >

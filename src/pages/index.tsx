@@ -68,7 +68,7 @@ const IndexPage = (props: Props) => {
         >
             <VStack
                 w="100%"
-                maxW={Size.mainContentWidth}
+                maxW={Size.mainContentWidth + "px"}
                 pt="16px"
                 pb="48px"
                 spacing="24px"
@@ -78,8 +78,12 @@ const IndexPage = (props: Props) => {
                     onClickInstall={() => installPwa()}
                     onClickCancel={() => cancelInstallPwa()}
                 />
-                <VStack w="100%" spacing={Padding.p16} pt={Padding.p32}>
-                    <VStack w="100%" px={Size.top.px} spacing={0}>
+                <VStack
+                    w="100%"
+                    spacing={Padding.p16 + "px"}
+                    pt={Padding.p32 + "px"}
+                >
+                    <VStack w="100%" px={Size.top.px + "px"} spacing={0}>
                         <Text fontWeight="bold" fontSize="1.5rem">
                             {t("plan:createPlanByCategoryTitle")}
                         </Text>

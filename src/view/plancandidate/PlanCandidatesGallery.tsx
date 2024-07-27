@@ -96,8 +96,8 @@ export function PlanCandidatesGallery({
                 ))}
                 {isCreating && (
                     <Box
-                        w={Size.PlanCandidatesGallery.Card.w}
-                        h={Size.PlanCandidatesGallery.Card.h.inactive}
+                        w={Size.PlanCandidatesGallery.Card.w + "px"}
+                        h={Size.PlanCandidatesGallery.Card.h.inactive + "px"}
                         borderRadius={
                             Size.PlanCandidatesGallery.Card.borderRadius
                         }
