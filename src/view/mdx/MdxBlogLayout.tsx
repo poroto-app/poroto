@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Namespace, TFunction } from "i18next";
 import { ReactNode } from "react";
-import { useAppTranslation } from "src/view/hooks/useAppTranslation";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { MDXBlogProvider } from "src/view/mdx/MDXBlogProvider";
 import { MdxMeta } from "src/view/mdx/MdxMeta";
 import { NavBar } from "src/view/navigation/NavBar";

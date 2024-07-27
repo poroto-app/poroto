@@ -1,14 +1,14 @@
 import { Link } from "@chakra-ui/next-js";
 import { Box, Button, Text, VStack } from "@chakra-ui/react";
+import { Routes } from "src/constant/router";
 import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { LottiePlayer } from "src/view/common/LottiePlayer";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
-import { Routes } from "src/view/constants/router";
-import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import animationDataFailedLocation from "src/view/lottie/location-failed.json";
 import animationDataLoadingLocation from "src/view/lottie/location-loading.json";
 

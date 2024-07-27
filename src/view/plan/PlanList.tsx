@@ -1,10 +1,10 @@
 import { Box, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { Routes } from "src/constant/router";
+import { Size } from "src/constant/size";
 import { Plan } from "src/domain/models/Plan";
 import { createArrayWithSize } from "src/domain/util/array";
 import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
-import { Routes } from "src/view/constants/router";
-import { Size } from "src/view/constants/size";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 import styled from "styled-components";
 import { AdInPlanList } from "../ad/AdInPlanList";

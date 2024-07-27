@@ -10,10 +10,10 @@ import {
     MdOutlineFindReplace,
 } from "react-icons/md";
 import { SiGooglemaps, SiInstagram } from "react-icons/si";
-import { AnalyticsEvents } from "src/view/constants/analytics";
-import { useAppTranslation } from "src/view/hooks/useAppTranslation";
-import { UploadPlaceImageProps } from "src/view/hooks/useUploadPlaceImage";
-import { OnClickHandler } from "src/view/types/handler";
+import { AnalyticsEvents } from "src/constant/analytics";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
+import { UploadPlaceImageProps } from "src/hooks/useUploadPlaceImage";
+import { OnClickHandler } from "src/types/handler";
 
 type Props = {
     label: string;

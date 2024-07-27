@@ -2,9 +2,9 @@ import { Box, Center, Grid, Text, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useTranslation } from "next-i18next";
 import { MdOutlineLocationOn, MdOutlineMap } from "react-icons/md";
+import { AnalyticsEvents } from "src/constant/analytics";
+import { Routes } from "src/constant/router";
 import HangOut from "src/view/assets/svg/hangout.svg";
-import { AnalyticsEvents } from "src/view/constants/analytics";
-import { Routes } from "src/view/constants/router";
 import styled from "styled-components";
 import { CreatePlanButton } from "./CreatePlanButton";
 

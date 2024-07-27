@@ -1,9 +1,9 @@
 import { Box, HStack, Icon, Text } from "@chakra-ui/react";
 import { MdLocationOn } from "react-icons/md";
+import { Padding } from "src/constant/padding";
 import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
-import { Padding } from "src/view/constants/padding";
 import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
 
 type Props = {

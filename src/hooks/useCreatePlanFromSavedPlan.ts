@@ -2,6 +2,7 @@ import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { Routes } from "src/constant/router";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { hasValue } from "src/domain/util/null";
 import {
@@ -10,7 +11,6 @@ import {
     resetCreatePlanFromSavedPlanRequestStatus,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
-import { Routes } from "src/view/constants/router";
 
 export const useCreatePlanFromSavedPlan = () => {
     const dispatch = useAppDispatch();

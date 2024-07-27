@@ -4,13 +4,13 @@ import { appWithTranslation, useTranslation } from "next-i18next";
 import { AppProps } from "next/app";
 import Head from "next/head";
 import { Provider } from "react-redux";
+import { PageMetaData } from "src/constant/meta";
 import "src/locales/i18n";
 import { i18nAppConfig } from "src/locales/i18n";
 import { reduxStore } from "src/redux/redux";
 import { Auth } from "src/view/common/Auth";
 import { FirebaseProvider } from "src/view/common/FirebaseProvider";
 import { Theme } from "src/view/common/Theme";
-import { PageMetaData } from "src/view/constants/meta";
 import { ErrorBoundary } from "src/view/provider/ErrorBoundary";
 import { History } from "src/view/provider/History";
 

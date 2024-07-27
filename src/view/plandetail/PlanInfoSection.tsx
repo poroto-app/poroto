@@ -1,6 +1,6 @@
 import { HStack } from "@chakra-ui/react";
+import { isPC } from "src/constant/userAgent";
 import { PriceRange } from "src/domain/models/PriceRange";
-import { isPC } from "src/view/constants/userAgent";
 import {
     PlanInfoTagBudget,
     PlanInfoTagDuration,

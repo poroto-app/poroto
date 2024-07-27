@@ -1,9 +1,13 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { AnalyticsEvents } from "src/constant/analytics";
+import { LocalStorageKeys } from "src/constant/localStorageKey";
+import { Routes } from "src/constant/router";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
+import { useLocation } from "src/hooks/useLocation";
 import { reduxAuthSelector } from "src/redux/auth";
 import {
     reduxLocationSelector,
@@ -18,10 +22,6 @@ import {
     setCreatedPlans,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
-import { AnalyticsEvents } from "src/view/constants/analytics";
-import { LocalStorageKeys } from "src/view/constants/localStorageKey";
-import { Routes } from "src/view/constants/router";
-import { useLocation } from "src/view/hooks/useLocation";
 
 export const useCreatePlanInterest = () => {
     const dispatch = useAppDispatch();

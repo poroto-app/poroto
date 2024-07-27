@@ -3,8 +3,8 @@ import { Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { IconType } from "react-icons";
 import { MdAccountCircle, MdHome, MdSearch } from "react-icons/md";
-import { Routes } from "src/view/constants/router";
-import { Size } from "src/view/constants/size";
+import { Routes } from "src/constant/router";
+import { Size } from "src/constant/size";
 
 type Props = {
     page: NavigationPage;

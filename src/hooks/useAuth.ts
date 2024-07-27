@@ -6,11 +6,11 @@ import {
     signOut,
 } from "@firebase/auth";
 import { useEffect, useState } from "react";
+import { LocalStorageKeys } from "src/constant/localStorageKey";
 import { hasValue } from "src/domain/util/null";
 import { reduxAuthSelector } from "src/redux/auth";
 import { useAppDispatch } from "src/redux/redux";
 import { setIsBindPreLoginStateDialogVisible } from "src/redux/user";
-import { LocalStorageKeys } from "src/view/constants/localStorageKey";
 
 export const useAuth = () => {
     const dispatch = useAppDispatch();

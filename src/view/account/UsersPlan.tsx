@@ -3,10 +3,10 @@ import { useTranslation } from "next-i18next";
 import { CSSProperties } from "react";
 import { MdOutlineBookmarkBorder } from "react-icons/md";
 import { Transition, TransitionStatus } from "react-transition-group";
+import { Padding } from "src/constant/padding";
 import { Plan } from "src/domain/models/Plan";
 import { hasValue } from "src/domain/util/null";
 import TravelModeIcon from "src/view/assets/svg/travel_mode.svg";
-import { Padding } from "src/view/constants/padding";
 import { PlanList } from "src/view/plan/PlanList";
 import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 

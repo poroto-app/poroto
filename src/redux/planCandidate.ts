@@ -1,6 +1,7 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
+import { AnalyticsEvents } from "src/constant/analytics";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { createPlaceFromPlaceEntity } from "src/domain/factory/Place";
 import { createPlanFromPlanEntity } from "src/domain/factory/Plan";
@@ -15,7 +16,6 @@ import {
 } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { RootState } from "src/redux/redux";
-import { AnalyticsEvents } from "src/view/constants/analytics";
 
 export type PlanCandidateState = {
     createPlanSession: string | null;

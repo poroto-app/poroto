@@ -2,6 +2,7 @@ import { Box, HStack } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { useEffect, useRef } from "react";
+import { Time } from "src/constant/time";
 import {
     ImageSize,
     ImageSizes,
@@ -9,7 +10,6 @@ import {
     getImageSizeOf,
 } from "src/domain/models/Image";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
-import { Time } from "src/view/constants/time";
 import { styled } from "styled-components";
 
 type Props = {

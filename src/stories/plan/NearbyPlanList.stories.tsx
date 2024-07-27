@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
+import { LocationPermissions } from "src/hooks/useLocation";
 import { mockPlans } from "src/stories/mock/plan";
-import { LocationPermissions } from "src/view/hooks/useLocation";
 import { NearbyPlanList } from "src/view/plan/NearbyPlanList";
 
 export default {

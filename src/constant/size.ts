@@ -1,4 +1,4 @@
-import { Padding } from "src/view/constants/padding";
+import { Padding } from "src/constant/padding";
 
 export const Size = {
     mainContentWidth: 990,

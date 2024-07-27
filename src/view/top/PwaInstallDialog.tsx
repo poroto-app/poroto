@@ -3,9 +3,9 @@ import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { CSSProperties } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
+import { Size } from "src/constant/size";
 import { AppTrans } from "src/view/common/AppTrans";
 import { RoundedButton } from "src/view/common/RoundedButton";
-import { Size } from "src/view/constants/size";
 
 type Props = {
     visible: boolean;

@@ -2,17 +2,17 @@ import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { ReactNode } from "react";
+import { PageMetaData } from "src/constant/meta";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
 import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
+import { useCreatePlanInterest } from "src/hooks/useCreatePlanInterest";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
-import { PageMetaData } from "src/view/constants/meta";
-import { useAppTranslation } from "src/view/hooks/useAppTranslation";
-import { useCreatePlanInterest } from "src/view/hooks/useCreatePlanInterest";
 import { CategorySelect } from "src/view/interest/CategorySelect";
 import { CouldNotFindAnyPlace } from "src/view/interest/CouldNotFindAnyPlace";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";

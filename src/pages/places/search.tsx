@@ -5,8 +5,17 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { MdDone, MdOutlineTouchApp } from "react-icons/md";
+import { AnalyticsEvents } from "src/constant/analytics";
+import { locationSinjukuStation } from "src/constant/location";
+import { PageMetaData } from "src/constant/meta";
+import { RouteParams, Routes } from "src/constant/router";
+import { Size } from "src/constant/size";
+import { zIndex } from "src/constant/zIndex";
 import { GeoLocation } from "src/data/graphql/generated";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { useGooglePlaceSearch } from "src/hooks/useGooglePlaceSearch";
+import { useLocation } from "src/hooks/useLocation";
+import { usePlaceRecommendation } from "src/hooks/usePlaceRecommendation";
 import { setCurrentLocation, setSearchLocation } from "src/redux/location";
 import {
     resetPlaceSearchResults,
@@ -15,15 +24,6 @@ import {
 } from "src/redux/placeSearch";
 import { useAppDispatch } from "src/redux/redux";
 import { RoundedIconButton } from "src/view/common/RoundedIconButton";
-import { AnalyticsEvents } from "src/view/constants/analytics";
-import { locationSinjukuStation } from "src/view/constants/location";
-import { PageMetaData } from "src/view/constants/meta";
-import { RouteParams, Routes } from "src/view/constants/router";
-import { Size } from "src/view/constants/size";
-import { zIndex } from "src/view/constants/zIndex";
-import { useGooglePlaceSearch } from "src/view/hooks/useGooglePlaceSearch";
-import { useLocation } from "src/view/hooks/useLocation";
-import { usePlaceRecommendation } from "src/view/hooks/usePlaceRecommendation";
 import { FetchLocationDialog } from "src/view/location/FetchLocationDialog";
 import { NavBar } from "src/view/navigation/NavBar";
 import { MapPinSelector } from "src/view/place/MapPinSelector";

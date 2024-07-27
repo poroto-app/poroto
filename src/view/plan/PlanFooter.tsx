@@ -1,8 +1,8 @@
 import { Center, HStack } from "@chakra-ui/react";
 import { CSSProperties, ReactNode } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
-import { Size } from "src/view/constants/size";
-import { zIndex } from "src/view/constants/zIndex";
+import { Size } from "src/constant/size";
+import { zIndex } from "src/constant/zIndex";
 
 type Props = {
     visible?: boolean;

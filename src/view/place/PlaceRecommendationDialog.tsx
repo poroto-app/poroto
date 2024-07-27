@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { MdClose } from "react-icons/md";
+import { Colors } from "src/constant/color";
 import { Place } from "src/domain/models/Place";
 import {
     RequestStatus,
@@ -24,7 +25,6 @@ import {
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
-import { Colors } from "src/view/constants/color";
 
 type Props = {
     visible: boolean;

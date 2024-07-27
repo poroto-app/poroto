@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { Meta, StoryObj } from "@storybook/react";
+import { Size } from "src/constant/size";
 import { mockPlaces } from "src/stories/mock/place";
-import { Size } from "src/view/constants/size";
 import { PlanHeaderPlaceCard } from "src/view/plandetail/header/PlanHeaderPlaceCard";
 
 export default {

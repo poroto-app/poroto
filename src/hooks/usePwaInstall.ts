@@ -3,10 +3,10 @@ import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 import { isSafari } from "react-device-detect";
+import { AnalyticsEvents } from "src/constant/analytics";
+import { LocalStorageKeys } from "src/constant/localStorageKey";
+import { isPC } from "src/constant/userAgent";
 import { hasValue } from "src/domain/util/null";
-import { AnalyticsEvents } from "src/view/constants/analytics";
-import { LocalStorageKeys } from "src/view/constants/localStorageKey";
-import { isPC } from "src/view/constants/userAgent";
 
 export const usePwaInstall = () => {
     const toast = useToast();

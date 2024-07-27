@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { Colors } from "src/view/constants/color";
+import { Colors } from "src/constant/color";
 
 type Props = {
     w?: string | number;

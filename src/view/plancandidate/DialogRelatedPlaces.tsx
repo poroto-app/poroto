@@ -29,17 +29,17 @@ import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PlacesWithCategory } from "src/domain/models/PlacesWithCategory";
 import { Transition } from "src/domain/models/Transition";
 import { copyObject } from "src/domain/util/object";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
+import { OnClickHandler } from "src/types/handler";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { RoundedButton } from "src/view/common/RoundedButton";
-import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import {
     PlaceChipActionGoogleMaps,
     PlaceChipActionInstagram,
 } from "src/view/plandetail/PlaceChipContextAction";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
-import { OnClickHandler } from "src/view/types/handler";
 
 type Props = {
     visible: boolean;

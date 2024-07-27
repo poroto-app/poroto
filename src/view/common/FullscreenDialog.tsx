@@ -1,7 +1,7 @@
 import { Box } from "@chakra-ui/react";
 import { CSSProperties, ReactNode, useEffect } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
-import { zIndex } from "src/view/constants/zIndex";
+import { zIndex } from "src/constant/zIndex";
 import styled from "styled-components";
 
 type Props = {

@@ -1,6 +1,8 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { AnalyticsEvents } from "src/constant/analytics";
+import { Routes } from "src/constant/router";
 import { CreatePlanPlaceCategory } from "src/domain/models/CreatePlanPlaceCategory";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
@@ -10,8 +12,6 @@ import {
     resetCreatePlanByCategoryRequestStatus,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
-import { AnalyticsEvents } from "src/view/constants/analytics";
-import { Routes } from "src/view/constants/router";
 
 export const useCreatePlanCategory = () => {
     const dispatch = useAppDispatch();

@@ -1,6 +1,6 @@
 import { Center, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
-import { zIndex } from "src/view/constants/zIndex";
+import { zIndex } from "src/constant/zIndex";
 import styled, { keyframes } from "styled-components";
 
 type Props = {

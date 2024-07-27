@@ -3,10 +3,10 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { useEffect, useRef } from "react";
 import { IconType } from "react-icons";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
+import { Padding } from "src/constant/padding";
+import { Size } from "src/constant/size";
 import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
-import { Padding } from "src/view/constants/padding";
-import { Size } from "src/view/constants/size";
 import { PlanHeaderPlaceCard } from "src/view/plandetail/header/PlanHeaderPlaceCard";
 
 type Props = {

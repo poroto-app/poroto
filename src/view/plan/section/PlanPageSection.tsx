@@ -1,6 +1,6 @@
 import { Box, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { Size } from "src/view/constants/size";
+import { Size } from "src/constant/size";
 
 export type Props = {
     sectionHeader?: ReactNode;

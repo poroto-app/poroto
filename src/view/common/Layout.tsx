@@ -1,7 +1,7 @@
 import { Box, Center, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
-import { Size } from "src/view/constants/size";
-import { zIndex } from "src/view/constants/zIndex";
+import { Size } from "src/constant/size";
+import { zIndex } from "src/constant/zIndex";
 
 type Props = {
     height?: string | number;

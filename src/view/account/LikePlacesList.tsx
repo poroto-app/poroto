@@ -1,14 +1,14 @@
 import { Text, VStack } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { MdOutlineFavoriteBorder } from "react-icons/md";
+import { Padding } from "src/constant/padding";
+import { Size } from "src/constant/size";
+import { isPC } from "src/constant/userAgent";
 import { Place } from "src/domain/models/Place";
 import { createArrayWithSize } from "src/domain/util/array";
 import { hasValue } from "src/domain/util/null";
 import UndrawOuterSpaceIcon from "src/view/assets/svg/outer_space.svg";
 import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
-import { Padding } from "src/view/constants/padding";
-import { Size } from "src/view/constants/size";
-import { isPC } from "src/view/constants/userAgent";
 import { PlaceCard } from "src/view/place/PlaceCard";
 import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 

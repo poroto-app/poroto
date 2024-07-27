@@ -21,15 +21,15 @@ import {
     MdOutlineCameraAlt,
     MdOutlineInfo,
 } from "react-icons/md";
+import { Padding } from "src/constant/padding";
+import { Size } from "src/constant/size";
+import { isPC } from "src/constant/userAgent";
 import { ImageSize } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { AppTrans } from "src/view/common/AppTrans";
 import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
-import { Padding } from "src/view/constants/padding";
-import { Size } from "src/view/constants/size";
-import { isPC } from "src/view/constants/userAgent";
-import { useAppTranslation } from "src/view/hooks/useAppTranslation";
 import { CollageContainer } from "src/view/plandetail/CollageContainer";
 import { CollageTemplate } from "src/view/plandetail/CollageTemplate";
 import { PlaceImageGallery } from "src/view/plandetail/header/PlaceImageGallery";

@@ -1,12 +1,12 @@
 import { Text, VStack } from "@chakra-ui/react";
+import { Padding } from "src/constant/padding";
+import { Size } from "src/constant/size";
 import {
     CreatePlanPlaceCategory,
     CreatePlanPlaceCategorySet,
 } from "src/domain/models/CreatePlanPlaceCategory";
 import { CreatePlanCategory } from "src/view/category/CreatePlanCategory";
 import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
-import { Padding } from "src/view/constants/padding";
-import { Size } from "src/view/constants/size";
 
 export type Props = {
     categorySets: CreatePlanPlaceCategorySet[];

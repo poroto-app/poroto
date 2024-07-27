@@ -13,6 +13,7 @@ import {
     VStack,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { Size } from "src/constant/size";
 import {
     getImageSizeOf,
     ImageSizes,
@@ -21,7 +22,6 @@ import {
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
-import { Size } from "src/view/constants/size";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
 import {
     PlaceChipActionCamera,

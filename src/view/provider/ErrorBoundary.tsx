@@ -1,7 +1,7 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { Component, ErrorInfo, ReactNode } from "react";
+import { AnalyticsEvents } from "src/constant/analytics";
 import { Error } from "src/view/common/Error";
-import { AnalyticsEvents } from "src/view/constants/analytics";
 
 type Props = {
     children: ReactNode;
