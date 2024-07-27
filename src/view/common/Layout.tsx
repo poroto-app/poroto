@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Size } from "src/constant/size";
 import { zIndex } from "src/constant/zIndex";
-import {View,YStack} from "tamagui";
+import { View, YStack } from "tamagui";
 
 type Props = {
     height?: string | number;
@@ -57,13 +57,17 @@ function BottomNavigationWrapper({ children }: { children: ReactNode }) {
     // TODO: Nativeに対応する
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const position:  'absolute' | 'relative' | 'static' | undefined = "fixed";
+    const position: "absolute" | "relative" | "static" | undefined = "fixed";
 
-    return <YStack
-        position={position}
-        left={0}
-        right={0}
-        bottom={0}
-        zIndex={zIndex.bottomNavigation}
-    >{children}</YStack>;
+    return (
+        <YStack
+            position={position}
+            left={0}
+            right={0}
+            bottom={0}
+            zIndex={zIndex.bottomNavigation}
+        >
+            {children}
+        </YStack>
+    );
 }
