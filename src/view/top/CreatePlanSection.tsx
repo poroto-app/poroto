@@ -5,6 +5,7 @@ import { Routes } from "src/constant/router";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { useMediaQuery } from "src/hooks/useMediaQuery";
 import HangOut from "src/view/assets/svg/hangout.svg";
+import { AppTrans } from "src/view/common/AppTrans";
 import { CreatePlanButton } from "src/view/top/CreatePlanButton";
 import { Text, XStack, YStack, isWeb } from "tamagui";
 
@@ -54,8 +55,8 @@ export function CreatePlanSection() {
                         tag="h1"
                         color="white"
                         fontWeight="bold"
-                        fontSize="24px"
-                        zIndex="10"
+                        fontSize={24}
+                        zIndex={10}
                     >
                         {t("home:createPlanTitle")}
                     </Text>
@@ -65,7 +66,13 @@ export function CreatePlanSection() {
                         filter="drop-shadow(20px 20px 60px #a18779)"
                     >
                         <CreatePlanButton
-                            title={t("home:createPlanFromCurrentLocation")}
+                            title={
+                                <AppTrans
+                                    i18nKey={
+                                        "home:createPlanFromCurrentLocation"
+                                    }
+                                />
+                            }
                             icon={Map}
                             link={Routes.plans.interest({})}
                             onClick={() =>
@@ -77,7 +84,11 @@ export function CreatePlanSection() {
                             }
                         />
                         <CreatePlanButton
-                            title={t("home:createPlanFromFavoritePlace")}
+                            title={
+                                <AppTrans
+                                    i18nKey={"home:createPlanFromFavoritePlace"}
+                                />
+                            }
                             icon={MapPin}
                             link={Routes.places.search({
                                 skipCurrentLocation: true,

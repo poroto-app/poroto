@@ -1,11 +1,11 @@
 import { IconProps } from "@tamagui/helpers-icon";
-import { NamedExoticComponent } from "react";
+import { NamedExoticComponent, ReactNode } from "react";
 import { Link } from "solito/link";
 import { Padding } from "src/constant/padding";
 import { Text, YStack } from "tamagui";
 
 type Props = {
-    title: string;
+    title: ReactNode;
     icon: NamedExoticComponent<IconProps>;
     link: string;
     onClick?: () => void;
