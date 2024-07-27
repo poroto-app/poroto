@@ -1,6 +1,6 @@
 import { ParseKeys, type Namespace, type TOptions } from "i18next";
 import { Trans, useTranslation } from "next-i18next";
-import { TranslationNameSpaces } from "src/locales/i18n";
+import { TranslationNameSpaces } from "src/locales/resources";
 
 export function AppTrans({
     i18nKey,
