@@ -1,8 +1,10 @@
-import { Box, Text, VStack } from "@chakra-ui/react";
+import { LinearGradient } from "@tamagui/linear-gradient";
+import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
 import { CreatePlanPlaceCategory } from "src/domain/models/CreatePlanPlaceCategory";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { appImageLoader } from "src/view/image/appImageLoader";
+import { Text, YStack } from "tamagui";
 
 type Props = {
     category: CreatePlanPlaceCategory;
@@ -11,37 +13,56 @@ type Props = {
 
 export function CreatePlanCategory({ category, onClick }: Props) {
     return (
-        <Box
-            minW={Size.CreatePlanCategory.CategoryImage.width + "px"}
-            w={Size.CreatePlanCategory.CategoryImage.width + "px"}
-            h={Size.CreatePlanCategory.CategoryImage.height + "px"}
+        <YStack
+            minWidth={Size.CreatePlanCategory.CategoryImage.width}
+            w={Size.CreatePlanCategory.CategoryImage.width}
+            h={Size.CreatePlanCategory.CategoryImage.height}
             overflow="hidden"
-            borderRadius="10px"
+            borderRadius={10}
             position="relative"
-            onClick={onClick}
+            onPress={onClick}
         >
             <ImageWithSkeleton
+                w={Size.CreatePlanCategory.CategoryImage.width}
+                h={Size.CreatePlanCategory.CategoryImage.height}
                 src={appImageLoader({
                     src: category.imageUrl,
                     width: Size.CreatePlanCategory.CategoryImage.width,
                 })}
                 alt={category.displayName}
             />
-            <VStack
+            <YStack
                 userSelect="none"
-                background="linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.30) 30%, rgba(0, 0, 0, 0.50) 100%)"
                 position="absolute"
-                px="16px"
-                py="8px"
                 alignItems="flex-start"
                 right={0}
                 bottom={0}
                 left={0}
             >
-                <Text color="white" fontSize="16px" fontWeight="bold">
-                    {category.displayName}
-                </Text>
-            </VStack>
-        </Box>
+                <LinearGradient
+                    width="100%"
+                    height="100%"
+                    px={Padding.p16}
+                    py={Padding.p16}
+                    colors={[
+                        "rgba(0, 0, 0, 0.00)",
+                        "rgba(0, 0, 0, 0.30)",
+                        "rgba(0, 0, 0, 0.50)",
+                    ]}
+                    start={[0, 0]}
+                    end={[0, 1]}
+                    locations={[0, 0.3, 1]}
+                >
+                    <Text
+                        color="white"
+                        fontSize={16}
+                        fontWeight="bold"
+                        zIndex={1}
+                    >
+                        {category.displayName}
+                    </Text>
+                </LinearGradient>
+            </YStack>
+        </YStack>
     );
 }

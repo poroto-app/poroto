@@ -1,4 +1,3 @@
-import { Text, VStack } from "@chakra-ui/react";
 import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
 import {
@@ -7,6 +6,7 @@ import {
 } from "src/domain/models/CreatePlanPlaceCategory";
 import { CreatePlanCategory } from "src/view/category/CreatePlanCategory";
 import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
+import { Text, YStack } from "tamagui";
 
 export type Props = {
     categorySets: CreatePlanPlaceCategorySet[];
@@ -18,26 +18,27 @@ export function CreatePlanCategoryList({
     onSelectCategory,
 }: Props) {
     return (
-        <VStack w="100%" overflowX="hidden" spacing={Padding.p16 + "px"}>
+        <YStack w="100%" gap={Padding.p16}>
             {categorySets.map((categorySet, i) => {
                 return (
-                    <VStack
+                    <YStack
                         key={i}
                         w="100%"
-                        overflowX="hidden"
                         alignItems="flex-start"
-                        spacing={Padding.p4 + "px"}
-                        px={Size.top.px + "px"}
+                        gap={Padding.p4}
                     >
                         <Text
-                            fontSize="18px"
+                            fontSize={18}
                             fontWeight="bold"
                             color="#2F2F2F"
-                            px={Padding.p8 + "px"}
+                            px={Size.top.px + Padding.p8}
                         >
                             {categorySet.displayName}
                         </Text>
-                        <HorizontalScrollableList edgeCornerRadius={10}>
+                        <HorizontalScrollableList
+                            edgeCornerRadius={10}
+                            px={Size.top.px}
+                        >
                             {categorySet.categories.map((category, j) => {
                                 return (
                                     <CreatePlanCategory
@@ -50,9 +51,9 @@ export function CreatePlanCategoryList({
                                 );
                             })}
                         </HorizontalScrollableList>
-                    </VStack>
+                    </YStack>
                 );
             })}
-        </VStack>
+        </YStack>
     );
 }
