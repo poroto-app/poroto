@@ -1,34 +1,57 @@
-import { Box, Center, Grid, Text, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
-import { useTranslation } from "next-i18next";
-import { MdOutlineLocationOn, MdOutlineMap } from "react-icons/md";
+import { Map, MapPin } from "@tamagui/lucide-icons";
 import { AnalyticsEvents } from "src/constant/analytics";
 import { Routes } from "src/constant/router";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
+import { useMediaQuery } from "src/hooks/useMediaQuery";
 import HangOut from "src/view/assets/svg/hangout.svg";
-import styled from "styled-components";
-import { CreatePlanButton } from "./CreatePlanButton";
+import { CreatePlanButton } from "src/view/top/CreatePlanButton";
+import { Text, XStack, YStack, isWeb } from "tamagui";
 
 export function CreatePlanSection() {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
+    const { xs } = useMediaQuery();
+
     return (
-        <Center
-            w="100%"
+        <XStack
             backgroundColor="#BD9F8E"
-            pt="32px"
-            pb="32px"
-            px="24px"
+            justifyContent="center"
+            h="100%"
+            w="100%"
+            py={32}
+            px={24}
             overflow="hidden"
         >
-            <Container>
-                <HangoutIcon />
-                <VStack
+            <XStack
+                w="100%"
+                maxWidth={800}
+                gap={64}
+                alignItems="center"
+                justifyContent="center"
+                $xs={{ py: 0, flexDirection: "column" }}
+                $gtXs={{ py: 32, flexDirection: "row" }}
+                {...(!isWeb && {
+                    py: xs ? 0 : 32,
+                    flexDirection: xs ? "column" : "row",
+                })}
+            >
+                <XStack w="100%" flex={1} justifyContent={"center"}>
+                    <HangOut
+                        width="100%"
+                        maxWidth={500}
+                        height={300}
+                        viewBox="0 0 785.77114 658"
+                    />
+                </XStack>
+                <YStack
                     w="100%"
-                    maxW="500px"
+                    maxWidth={500}
+                    flex={1}
                     alignItems="flex-start"
-                    spacing="16px"
+                    gap={16}
                 >
                     <Text
-                        as="h1"
+                        tag="h1"
                         color="white"
                         fontWeight="bold"
                         fontSize="24px"
@@ -36,16 +59,14 @@ export function CreatePlanSection() {
                     >
                         {t("home:createPlanTitle")}
                     </Text>
-                    <Grid
+                    <XStack
                         w="100%"
-                        templateColumns="repeat(2, 1fr)"
-                        gap="16px"
+                        gap={16}
                         filter="drop-shadow(20px 20px 60px #a18779)"
-                        transform="translateZ(0px)"
                     >
                         <CreatePlanButton
                             title={t("home:createPlanFromCurrentLocation")}
-                            icon={MdOutlineLocationOn}
+                            icon={Map}
                             link={Routes.plans.interest({})}
                             onClick={() =>
                                 logEvent(
@@ -57,7 +78,7 @@ export function CreatePlanSection() {
                         />
                         <CreatePlanButton
                             title={t("home:createPlanFromFavoritePlace")}
-                            icon={MdOutlineMap}
+                            icon={MapPin}
                             link={Routes.places.search({
                                 skipCurrentLocation: true,
                             })}
@@ -69,47 +90,9 @@ export function CreatePlanSection() {
                                 )
                             }
                         />
-                    </Grid>
-                </VStack>
-            </Container>
-        </Center>
+                    </XStack>
+                </YStack>
+            </XStack>
+        </XStack>
     );
 }
-
-const HangoutIcon = () => {
-    // MEMO: 上方向の余白を消すために200px分の高さを小さくしている
-    return (
-        <Box
-            position="relative"
-            w="100%"
-            maxW="500px"
-            pt={{ base: "calc(500px - 200px)", sm: "300px" }}
-        >
-            <HangOut
-                viewBox="0 0 785.77114 658"
-                style={{
-                    position: "absolute",
-                    top: "0",
-                    left: "0",
-                    width: "100%",
-                    height: "100%",
-                }}
-            />
-        </Box>
-    );
-};
-
-const Container = styled.div`
-    display: flex;
-    gap: 64px;
-    align-items: center;
-    flex-direction: column;
-    width: 100%;
-    max-width: 800px;
-
-    @media (min-width: 700px) {
-        padding-top: 32px;
-        padding-bottom: 32px;
-        flex-direction: row;
-    }
-`;

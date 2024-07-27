@@ -1,43 +1,47 @@
-import { Icon, Text, VStack } from "@chakra-ui/react";
-import { IconType } from "react-icons";
+import { IconProps } from "@tamagui/helpers-icon";
+import { NamedExoticComponent } from "react";
 import { Link } from "solito/link";
+import { Padding } from "src/constant/padding";
+import { Text, YStack } from "tamagui";
 
 type Props = {
     title: string;
-    icon: IconType;
+    icon: NamedExoticComponent<IconProps>;
     link: string;
     onClick?: () => void;
 };
 
-export function CreatePlanButton({ title, icon, link, onClick }: Props) {
+export function CreatePlanButton({ title, icon: Icon, link, onClick }: Props) {
     return (
         <Link
             href={link}
-            viewProps={{ style: { width: "100%" } }}
+            viewProps={{ style: { width: "100%", flex: 1 } }}
             onClick={onClick}
         >
-            <VStack
-                borderRadius="20px"
+            <YStack
+                borderRadius={20}
                 backgroundColor="#FFF8F3"
                 w="100%"
-                h="100%"
-                p="28px"
+                h={180}
+                p={28}
+                alignItems="center"
                 justifyContent="center"
             >
                 <Icon
                     color="rgba(22, 19, 17, .8)"
-                    as={icon}
-                    w="64px"
-                    h="64px"
+                    paddingBottom={Padding.p8}
+                    width={64}
+                    height={64}
                 />
                 <Text
                     color="rgba(22, 19, 17, .8)"
                     fontWeight="bold"
                     whiteSpace="nowrap"
                     textAlign="center"
-                    dangerouslySetInnerHTML={{ __html: title }}
-                />
-            </VStack>
+                >
+                    {title}
+                </Text>
+            </YStack>
         </Link>
     );
 }
