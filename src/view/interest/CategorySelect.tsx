@@ -128,7 +128,9 @@ export const CategorySelect = ({
                     overflow="hidden"
                 >
                     <SplideContainer
-                        ref={(splide) => (refSplide.current = splide)}
+                        ref={(splide) => {
+                            refSplide.current = splide;
+                        }}
                         options={{
                             type: "loop",
                             arrows: placesOfCategory.length > 0 && isPC,
