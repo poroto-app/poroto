@@ -25,9 +25,6 @@ export default function HomeScreen() {
             })
             .then(({ categories }) => {
                 setCategorySets(categories);
-                categories.map((cs) =>
-                    cs.categories.map((c) => console.log(c.imageUrl))
-                );
             });
     }, []);
 
