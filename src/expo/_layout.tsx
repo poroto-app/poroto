@@ -12,6 +12,8 @@ import { useColorScheme } from "react-native";
 import { i18nAppConfig } from "src/locales/i18n";
 import { TamaguiProvider } from "tamagui";
 import tamaguiConfig from "tamagui.config";
+import {Provider} from "react-redux";
+import {reduxStore} from "src/redux/redux";
 
 export default function RootLayout() {
     const colorScheme = useColorScheme();
@@ -47,12 +49,14 @@ export default function RootLayout() {
             <ThemeProvider
                 value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
             >
-                <Stack>
-                    <Stack.Screen
-                        name="(tabs)"
-                        options={{ headerShown: false }}
-                    />
-                </Stack>
+                <Provider store={reduxStore}>
+                    <Stack>
+                        <Stack.Screen
+                            name="(tabs)"
+                            options={{ headerShown: false }}
+                        />
+                    </Stack>
+                </Provider>
             </ThemeProvider>
         </TamaguiProvider>
     );
