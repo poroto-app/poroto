@@ -1,6 +1,5 @@
 import { Text, VStack } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
-import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
 import { isPC } from "src/constant/userAgent";
@@ -10,7 +9,6 @@ import { hasValue } from "src/domain/util/null";
 import UndrawOuterSpaceIcon from "src/view/assets/svg/outer_space.svg";
 import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
 import { PlaceCard } from "src/view/place/PlaceCard";
-import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 
 type Props = {
     places: Place[] | null;
@@ -26,11 +24,6 @@ export function LikePlacesList({
     const { t } = useTranslation();
     return (
         <VStack w="100%">
-            <PlanListSectionTitle
-                px={Padding.p16}
-                title={t("place:favoritePlaces")}
-                icon={MdOutlineFavoriteBorder}
-            />
             <HorizontalScrollableList
                 px={Padding.p16}
                 pageButtonVisible={

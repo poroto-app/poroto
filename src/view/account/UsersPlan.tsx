@@ -1,14 +1,13 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { CSSProperties } from "react";
-import { MdOutlineBookmarkBorder } from "react-icons/md";
 import { Transition, TransitionStatus } from "react-transition-group";
 import { Padding } from "src/constant/padding";
 import { Plan } from "src/domain/models/Plan";
 import { hasValue } from "src/domain/util/null";
 import TravelModeIcon from "src/view/assets/svg/travel_mode.svg";
 import { PlanList } from "src/view/plan/PlanList";
-import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
+import { PlanListSectionTitleSavedPlans } from "src/view/top/PlanListSectionTitle";
 
 type Props = {
     plans: Plan[] | null;
@@ -59,11 +58,7 @@ export function UsersPlan({ plans, isLoading }: Props) {
                             px={Padding.p16}
                             ads={false}
                         >
-                            <PlanListSectionTitle
-                                title={t("plan:savedPlans")}
-                                icon={MdOutlineBookmarkBorder}
-                                px={Padding.p16}
-                            />
+                            <PlanListSectionTitleSavedPlans />
                         </PlanList>
                     </Box>
                 )
