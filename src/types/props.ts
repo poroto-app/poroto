@@ -13,6 +13,14 @@ export type HorizontalScrollableListProps = {
     children?: ReactNode;
 };
 
+export type NavBarProps = {
+    safeAreaInsetTop?: number;
+    canGoBack?: boolean;
+    onBack?: () => void;
+    // 履歴がないときに戻るときのデフォルトのパス
+    defaultPath?: string;
+};
+
 export type ImageWithSkeletonProps = {
     src: string;
     w?: number | "100%";

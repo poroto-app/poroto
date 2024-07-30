@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { NavBarComponent } from "src/view/navigation/NavBar";
-import { NavBarUser } from "src/view/user/NavBarUser";
+import { NavBarComponent } from "src/view/navigation/NavBarComponent";
+import { NavBarUser } from "src/view/navigation/NavBarUser";
 
 export default {
     title: "user/NavBarUser",

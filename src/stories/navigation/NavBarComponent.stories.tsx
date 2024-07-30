@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { NavBarComponent } from "src/view/navigation/NavBar";
+import { NavBarComponent } from "src/view/navigation/NavBarComponent";
 
 export default {
-    title: "common/NavBar",
+    title: "navigation/NavBarComponent",
     component: NavBarComponent,
 } as Meta<typeof NavBarComponent>;
 
