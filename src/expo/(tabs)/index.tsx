@@ -29,10 +29,10 @@ export default function HomeScreen() {
     }, []);
 
     return (
-        <ScrollView h="98%" w="100%">
+        <ScrollView>
             <Layout header={<CreatePlanSection />}>
-                <YStack w="98%" gap={Padding.p16} pt={Padding.p32}>
-                    <YStack w="98%" px={Size.top.px} alignItems="center">
+                <YStack w="100%" gap={Padding.p16} pt={Padding.p32}>
+                    <YStack w="100%" px={Size.top.px} alignItems="center">
                         <Text fontWeight="bold" fontSize={22}>
                             {t("plan:createPlanByCategoryTitle")}
                         </Text>
