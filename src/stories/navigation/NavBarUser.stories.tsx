@@ -3,7 +3,7 @@ import { NavBarComponent } from "src/view/navigation/NavBarComponent";
 import { NavBarUser } from "src/view/navigation/NavBarUser";
 
 export default {
-    title: "user/NavBarUser",
+    title: "navigation/NavBarUser",
     component: NavBarUser,
     tags: ["autodocs"],
     parameters: {},
