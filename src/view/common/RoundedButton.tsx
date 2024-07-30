@@ -4,7 +4,7 @@ import { Button } from "tamagui";
 
 type Props = {
     w?: number | "100%";
-    flex: number;
+    flex?: number;
     disabled?: boolean;
     outlined?: boolean;
     children?: ReactNode;
