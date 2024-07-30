@@ -1,6 +1,6 @@
 import { Skeleton } from "@chakra-ui/react";
 import { Meta, StoryObj } from "@storybook/react";
-import { MdHome } from "react-icons/md";
+import { Home } from "@tamagui/lucide-icons";
 import { SectionTitle } from "src/view/common/SectionTitle";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 
@@ -31,7 +31,7 @@ export const WithDescription: Story = {
 
 export const Icon: Story = {
     args: {
-        sectionHeader: <SectionTitle title="Section Title" icon={MdHome} />,
+        sectionHeader: <SectionTitle title="Section Title" icon={Home} />,
         children: <Skeleton w="100%" h="100px" />,
     },
 };
