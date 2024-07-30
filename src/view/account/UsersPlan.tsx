@@ -62,7 +62,7 @@ export function UsersPlan({ plans, isLoading }: Props) {
                             <PlanListSectionTitle
                                 title={t("plan:savedPlans")}
                                 icon={MdOutlineBookmarkBorder}
-                                px={Padding.p16 + "px"}
+                                px={Padding.p16}
                             />
                         </PlanList>
                     </Box>

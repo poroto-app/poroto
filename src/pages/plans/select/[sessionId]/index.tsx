@@ -346,7 +346,7 @@ function PlanDetailPage({
                         sectionHeader={
                             <SectionTitle
                                 title={t("plan:planInfo")}
-                                px={Size.PlanDetail.px + "px"}
+                                px={Size.PlanDetail.px}
                             />
                         }
                     >
@@ -362,7 +362,7 @@ function PlanDetailPage({
                         sectionHeader={
                             <SectionTitle
                                 title={t("plan:plan")}
-                                px={Size.PlanDetail.px + "px"}
+                                px={Size.PlanDetail.px}
                             />
                         }
                     >
@@ -393,7 +393,7 @@ function PlanDetailPage({
                                 description={t(
                                     "plan:clickMarkerToShowPlaceDetail"
                                 )}
-                                px={Size.PlanDetail.px + "px"}
+                                px={Size.PlanDetail.px}
                             />
                         }
                     >
@@ -418,7 +418,7 @@ function PlanDetailPage({
                                         "plan:createPlanFromOtherLocation"
                                     )}
                                     icon={MdOutlineNearMe}
-                                    px={Size.PlanDetail.px + "px"}
+                                    px={Size.PlanDetail.px}
                                     pt={0}
                                 />
                             }

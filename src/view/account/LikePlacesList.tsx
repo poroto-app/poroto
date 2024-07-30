@@ -27,7 +27,7 @@ export function LikePlacesList({
     return (
         <VStack w="100%">
             <PlanListSectionTitle
-                px={Padding.p16 + "px"}
+                px={Padding.p16}
                 title={t("place:favoritePlaces")}
                 icon={MdOutlineFavoriteBorder}
             />
