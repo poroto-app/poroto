@@ -5981,7 +5981,7 @@
     "@tamagui/use-presence" "1.105.2"
     "@tamagui/web" "1.105.2"
 
-"@tamagui/animations-react-native@^1.105.5":
+"@tamagui/animations-react-native@^1.105.2":
   version "1.105.5"
   resolved "https://registry.yarnpkg.com/@tamagui/animations-react-native/-/animations-react-native-1.105.5.tgz#fbb88f9760f1c1851fb59ee281554e76e4347ed4"
   integrity sha512-EXxoW6X/kJ1vYs+31qmqPMYZPBXyw6g5mR9SogFcPql+EqnsQV4Al1GJpwxhLO/D7Or8KGcDmI3FAB6mx083PQ==
