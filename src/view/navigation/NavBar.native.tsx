@@ -14,9 +14,9 @@ export const NavBar = ({ canGoBack, onBack }: NavBarProps) => {
                 <NavBarUser
                     user={null}
                     safeAreaInsetTop={insets.top}
-                    onLogin={() => {}}
-                    onLogout={() => {}}
-                    onBindPreLoginState={() => {}}
+                    onLogin={() => 0}
+                    onLogout={() => 0}
+                    onBindPreLoginState={() => 0}
                 />
             }
             canGoBack={canGoBack}
