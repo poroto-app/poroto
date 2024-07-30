@@ -40,7 +40,7 @@ export const CreatePlanDialog = ({
             position={DialogPositions.BOTTOM}
             visible={place !== null && place !== undefined}
             onClickOutside={onClickClose}
-            width="800px"
+            width={800}
             maxWidth="100%"
         >
             <Box

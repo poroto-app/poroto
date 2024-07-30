@@ -25,8 +25,8 @@ export function GeneratingPlanDialog({ visible, failed, onClose }: Props) {
             visible={visible}
             onClickOutside={handleOnClickOutside}
             width="100%"
-            height="500px"
-            maxWidth="500px"
+            height={500}
+            maxWidth={500}
             maxHeight="100%"
             paddingX="16px"
             paddingY="32px"

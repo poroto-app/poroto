@@ -111,11 +111,11 @@ export function CreatePlanRangeDialog({
     return (
         <FullscreenDialog
             visible={visible}
-            height={isPC ? "800px" : "calc(100% - 16px)"}
+            height={isPC ? 800 : "100%"}
             width={!isPC && "100%"}
             maxHeight="100%"
             maxWidth="100%"
-            paddingX={isPC && Padding.p8 + "px"}
+            paddingX={isPC && Padding.p8}
             position={isPC ? DialogPositions.CENTER : DialogPositions.BOTTOM}
             onClickOutside={onClose}
         >
