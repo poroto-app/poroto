@@ -7,8 +7,8 @@ import Document, {
     NextScript,
 } from "next/document";
 import Script from "next/script";
+import tamaguiConfig from "src/tamagui/tamagui.config";
 import { ServerStyleSheet } from "styled-components";
-import tamaguiConfig from "tamagui.config";
 
 export default class AppDocument extends Document {
     static async getInitialProps(ctx: DocumentContext) {

@@ -8,13 +8,13 @@ import { PageMetaData } from "src/constant/meta";
 import "src/locales/i18n";
 import { i18nAppConfig } from "src/locales/i18n";
 import { reduxStore } from "src/redux/redux";
+import tamaguiConfig from "src/tamagui/tamagui.config";
 import { Auth } from "src/view/common/Auth";
 import { FirebaseProvider } from "src/view/common/FirebaseProvider";
 import { Theme } from "src/view/common/Theme";
 import { ErrorBoundary } from "src/view/provider/ErrorBoundary";
 import { History } from "src/view/provider/History";
 import { PortalProvider, TamaguiProvider } from "tamagui";
-import tamaguiConfig from "tamagui.config";
 
 function App({ Component, pageProps }: AppProps) {
     const { t } = useTranslation();
