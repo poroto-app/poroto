@@ -4,6 +4,7 @@ import { Button } from "tamagui";
 
 type Props = {
     w?: number | "100%";
+    flex: number;
     disabled?: boolean;
     outlined?: boolean;
     children?: ReactNode;
@@ -13,6 +14,7 @@ type Props = {
 
 export function RoundedButton({
     w = "100%",
+    flex = 1,
     disabled,
     outlined,
     color = Colors.primary["400"],
@@ -21,20 +23,21 @@ export function RoundedButton({
 }: Props) {
     return (
         <Button
-            onPress={onClick}
-            disabled={disabled ?? false}
+            alignItems="center"
             backgroundColor={disabled ? "#8b8b8b" : outlined ? "white" : color}
             borderColor={outlined ? Colors.primary["400"] : "none"}
+            borderRadius={100}
             color={outlined ? Colors.primary["400"] : "#ffffff"}
-            cursor={disabled ? "default" : "pointer"}
-            fontWeight="bold"
-            height={40}
-            alignItems="center"
-            justifyContent="center"
             columnGap={8}
+            cursor={disabled ? "default" : "pointer"}
+            disabled={disabled ?? false}
+            fontWeight="bold"
+            flex={flex}
+            height={40}
+            justifyContent="center"
             padding={8}
             width={w}
-            borderRadius={100}
+            onPress={onClick}
         >
             {children}
         </Button>
