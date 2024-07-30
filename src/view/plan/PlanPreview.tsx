@@ -1,14 +1,16 @@
-import { Avatar, HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Link } from "solito/link";
+import { Padding } from "src/constant/padding";
+import { Size } from "src/constant/size";
 import { Plan } from "src/domain/models/Plan";
+import { appImageLoader } from "src/view/image/appImageLoader";
 import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
-import styled from "styled-components";
+import { Avatar, Text, XStack, YStack } from "tamagui";
 
 type Props = {
     plan: Plan | null;
     link?: string;
-    planThumbnailHeight?: string | number;
+    planThumbnailHeight?: number;
     wrapTitle?: boolean;
     showAuthor?: boolean;
     draggableThumbnail?: boolean;
@@ -16,10 +18,15 @@ type Props = {
 
 export function PlaceHolder() {
     return (
-        <VStack w="100%" maxW="600px" alignItems="flex-start">
+        <YStack
+            w="100%"
+            maxWidth={600}
+            alignItems="flex-start"
+            gap={Padding.p8}
+        >
             <PlaceHolderBox height={300} />
             <PlaceHolderBox height={20} width={200} />
-        </VStack>
+        </YStack>
     );
 }
 
@@ -41,7 +48,13 @@ export function PlanPreview({
         .filter((v) => v !== null);
 
     return (
-        <VStack w="100%" maxW="600px" alignItems="flex-start" overflow="hidden">
+        <YStack
+            w="100%"
+            maxWidth={600}
+            alignItems="flex-start"
+            overflow="hidden"
+            gap={Padding.p8}
+        >
             <PlanThumbnail
                 images={thumbnails}
                 h={planThumbnailHeight}
@@ -51,7 +64,7 @@ export function PlanPreview({
             <LinkWrapper href={link}>
                 <Text
                     fontWeight="bold"
-                    fontSize="1.1rem"
+                    fontSize={16}
                     color="#222222"
                     whiteSpace={wrapTitle ? "normal" : "nowrap"}
                     overflow="hidden"
@@ -61,15 +74,21 @@ export function PlanPreview({
                 </Text>
             </LinkWrapper>
             {plan.author && showAuthor && (
-                <HStack w="100%">
-                    <Avatar
-                        name={plan.author.name}
-                        src={plan.author.avatarImage}
-                        size="xs"
-                    />
+                <XStack w="100%" alignItems="center" gap={Padding.p8}>
+                    <Avatar circular size={28}>
+                        <Avatar.Image
+                            source={{
+                                uri: appImageLoader({
+                                    src: plan.author?.avatarImage,
+                                    width: Size.NavBar.avatar.width,
+                                }),
+                            }}
+                            alt="avatar image"
+                        />
+                    </Avatar>
                     <Text
                         w="100%"
-                        overflowX="hidden"
+                        overflow="hidden"
                         whiteSpace="nowrap"
                         textOverflow="ellipsis"
                         fontSize={12}
@@ -77,9 +96,9 @@ export function PlanPreview({
                     >
                         {plan.author.name}
                     </Text>
-                </HStack>
+                </XStack>
             )}
-        </VStack>
+        </YStack>
     );
 }
 
@@ -99,10 +118,19 @@ function LinkWrapper({
     return <>{children}</>;
 }
 
-const PlaceHolderBox = styled.div<{ width?: number; height: number }>`
-    width: ${({ width }) => (width ? width + "px" : "100%")};
-    max-width: 100%;
-    height: ${({ height }) => height + "px"};
-    border-radius: 15px;
-    background-color: rgba(0, 0, 0, 0.1);
-`;
+function PlaceHolderBox({
+    width = "100%",
+    height,
+}: {
+    width?: number | "100%";
+    height: number;
+}) {
+    return (
+        <XStack
+            w={width}
+            h={height}
+            borderRadius={15}
+            backgroundColor="rgba(0, 0, 0, 0.1)"
+        />
+    );
+}
