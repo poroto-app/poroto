@@ -13,7 +13,7 @@ import { FirebaseProvider } from "src/view/common/FirebaseProvider";
 import { Theme } from "src/view/common/Theme";
 import { ErrorBoundary } from "src/view/provider/ErrorBoundary";
 import { History } from "src/view/provider/History";
-import { TamaguiProvider } from "tamagui";
+import { PortalProvider, TamaguiProvider } from "tamagui";
 import tamaguiConfig from "tamagui.config";
 
 function App({ Component, pageProps }: AppProps) {
@@ -74,10 +74,13 @@ function App({ Component, pageProps }: AppProps) {
                         <History />
                         <TamaguiProvider
                             config={tamaguiConfig}
+                            defaultTheme="light"
                             disableInjectCSS
                             disableRootThemeClass
                         >
-                            <Component {...pageProps} />
+                            <PortalProvider shouldAddRootHost>
+                                <Component {...pageProps} />
+                            </PortalProvider>
                         </TamaguiProvider>
                     </ErrorBoundary>
                 </Provider>
