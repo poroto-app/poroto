@@ -2,22 +2,10 @@ import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { ReactNode } from "react";
 import { Link } from "solito/link";
-import {
-    ImageSize,
-    ImageSizes,
-    Image as ImageType,
-    getImageSizeOf,
-} from "src/domain/models/Image";
+import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
+import { ImageSliderPreviewProps } from "src/types/props";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import styled from "styled-components";
-type Props = {
-    images: ImageType[];
-    imageSize?: ImageSize;
-    href?: string;
-    draggable?: boolean;
-    borderRadius?: number | string;
-    onClickImage?: (image: ImageType) => void;
-};
 
 export function ImageSliderPreview({
     images,
@@ -26,10 +14,10 @@ export function ImageSliderPreview({
     draggable = true,
     borderRadius,
     onClickImage,
-}: Props) {
+}: ImageSliderPreviewProps) {
     return (
         <SlideContainer
-            style={{ borderRadius: borderRadius }}
+            style={{ borderRadius: borderRadius + "px" }}
             options={{
                 drag: images.length > 1 && draggable,
                 arrows: images.length > 1,
