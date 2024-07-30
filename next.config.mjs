@@ -27,7 +27,7 @@ const withMDX = mdx({
 });
 
 const withTamagui = tamagui({
-    config: "./tamagui.config.ts",
+    config: "./src/tamagui/tamagui.config.ts",
     components: ["tamagui"],
 });
 
