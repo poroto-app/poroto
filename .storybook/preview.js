@@ -20,6 +20,7 @@ const withTamagui = (StoryFn) => {
     return (
         <TamaguiProvider
             config={tamaguiConfig}
+            defaultTheme="light"
         >
             <StoryFn/>
         </TamaguiProvider>
