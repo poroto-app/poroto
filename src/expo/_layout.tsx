@@ -1,19 +1,16 @@
-import {
-    DarkTheme,
-    DefaultTheme,
-    ThemeProvider,
-} from "@react-navigation/native";
+import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 import { getLocales } from "expo-localization";
 import { Stack } from "expo-router/stack";
 import i18n from "i18next";
 import { useEffect, useState } from "react";
 import { initReactI18next } from "react-i18next";
 import { useColorScheme } from "react-native";
+import { Provider } from "react-redux";
 import { i18nAppConfig } from "src/locales/i18n";
+import { reduxStore } from "src/redux/redux";
+import { tamaguiConfigAnimation } from "src/tamagui/animation";
+import tamaguiConfig from "src/tamagui/tamagui.config";
 import { TamaguiProvider } from "tamagui";
-import tamaguiConfig from "tamagui.config";
-import {Provider} from "react-redux";
-import {reduxStore} from "src/redux/redux";
 
 export default function RootLayout() {
     const colorScheme = useColorScheme();
@@ -45,10 +42,14 @@ export default function RootLayout() {
     }
 
     return (
-        <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
-            <ThemeProvider
-                value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-            >
+        <TamaguiProvider
+            config={{
+                ...tamaguiConfig,
+                animations: tamaguiConfigAnimation,
+            }}
+            defaultTheme={colorScheme!}
+        >
+            <ThemeProvider value={DefaultTheme}>
                 <Provider store={reduxStore}>
                     <Stack>
                         <Stack.Screen

@@ -1,7 +1,8 @@
 import { createInterFont } from "@tamagui/font-inter";
-import { shorthands } from '@tamagui/shorthands'
-import { themes, tokens } from '@tamagui/themes'
-import { createTamagui } from 'tamagui'
+import { shorthands } from "@tamagui/shorthands";
+import { themes, tokens } from "@tamagui/themes";
+import { tamaguiConfigAnimation } from "src/tamagui/animation";
+import { createTamagui } from "tamagui";
 
 const headingFont = createInterFont();
 const bodyFont = createInterFont();
@@ -25,15 +26,11 @@ const tamaguiConfig = createTamagui({
         gtLg: { minWidth: 1120 + 1 },
         short: { maxHeight: 820 },
         tall: { minHeight: 820 },
-        hoverNone: { hover: 'none' },
-        pointerCoarse: { pointer: 'coarse' },
-    }
-})
-
-export type AppConfig = typeof tamaguiConfig
-
-declare module 'tamagui' {
-    interface TamaguiCustomConfig extends AppConfig {}
-}
+        hoverNone: { hover: "none" },
+        pointerCoarse: { pointer: "coarse" },
+    },
+    // https://tamagui.dev/docs/core/animations
+    animations: tamaguiConfigAnimation,
+});
 
 export default tamaguiConfig;

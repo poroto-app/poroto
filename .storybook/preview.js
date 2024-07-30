@@ -5,7 +5,7 @@ import {INITIAL_VIEWPORTS} from '@storybook/addon-viewport'
 import {I18nextProvider} from "react-i18next";
 import {useEffect} from "react";
 import i18n from "./i18n";
-import tamaguiConfig from "../tamagui.config";
+import tamaguiConfig from "../src/tamagui/tamagui.config";
 
 const withChakra = (StoryFn) => {
     return (

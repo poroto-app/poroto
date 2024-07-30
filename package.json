@@ -38,7 +38,7 @@
     "@reduxjs/toolkit": "^2.2.1",
     "@splidejs/react-splide": "^0.7.12",
     "@tamagui/animations-css": "^1.105.2",
-    "@tamagui/animations-react-native": "^1.105.2",
+    "@tamagui/animations-react-native": "^1.105.5",
     "@tamagui/font-inter": "^1.105.2",
     "@tamagui/linear-gradient": "^1.105.2",
     "@tamagui/lucide-icons": "^1.105.2",
@@ -46,6 +46,7 @@
     "@tamagui/shorthands": "^1.105.2",
     "@tamagui/themes": "^1.105.2",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "add": "^2.0.6",
     "axios": "^1.7.2",
     "babel-plugin-styled-components": "^2.1.4",
     "expo": "^51.0.22",
@@ -87,7 +88,8 @@
     "solito": "^4.2.2",
     "styled-components": "^6.1.8",
     "tamagui": "^1.105.2",
-    "uuid": "^10.0.0"
+    "uuid": "^10.0.0",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
