@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { NavBarLoginUserDialog } from "src/view/user/NavBarUserDialog";
+import { NavBarLoginUserDialog } from "src/view/navigation/NavBarUserDialog";
 
 export default {
-    title: "user/NavBarLoginUserDialog",
+    title: "navigation/NavBarLoginUserDialog",
     component: NavBarLoginUserDialog,
     tags: ["autodocs"],
     parameters: {},
