@@ -1,10 +1,10 @@
-import { Button, Center, Spinner, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { useState } from "react";
+import { Padding } from "src/constant/padding";
 import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { OnClickHandler } from "src/types/handler";
 import Awesome from "src/view/assets/svg/awesome.svg";
 import Balloon from "src/view/assets/svg/balloons.svg";
@@ -14,6 +14,7 @@ import { AppTrans } from "src/view/common/AppTrans";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
+import { Button, Spinner, Text, XStack, YStack } from "tamagui";
 
 type Props = {
     visible: boolean;
@@ -32,14 +33,19 @@ export function BindPreLoginStateConfirmationDialog({
     return (
         <FullscreenDialog
             visible={visible}
-            padding="8px"
+            padding={Padding.p8}
             onClickOutside={() => {
                 if (bindingRequestStatus !== RequestStatuses.PENDING)
                     onClose?.();
             }}
         >
             <RoundedDialog>
-                <VStack px="32px" py="32px" spacing="24px">
+                <YStack
+                    px={Padding.p32}
+                    py={Padding.p32}
+                    gap={Padding.p24}
+                    alignItems="center"
+                >
                     <DialogBody
                         bindingRequestStatus={bindingRequestStatus}
                         isCanceled={isCanceled}
@@ -47,7 +53,7 @@ export function BindPreLoginStateConfirmationDialog({
                         onCanceled={() => setIsCanceled(true)}
                         onClose={onClose}
                     />
-                </VStack>
+                </YStack>
             </RoundedDialog>
         </FullscreenDialog>
     );
@@ -92,38 +98,38 @@ function Confirm({
     onClickYes?: () => void;
     onCanceled: () => void;
 }) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <>
-            <VStack>
-                <Text textAlign="center" fontSize="24px" fontWeight="bold">
+            <YStack>
+                <Text textAlign="center" fontSize={24} fontWeight="bold">
                     <AppTrans i18nKey={"account:retainDataBeforeLoginTitle"} />
                 </Text>
                 <Text>{t("account:retainDataBeforeLoginDescription")}</Text>
-            </VStack>
+            </YStack>
             <Balloon
                 viewBox="0 0 571.75671 700.46347"
                 style={{
                     height: 200,
                 }}
             />
-            <VStack w="100%">
+            <YStack w="100%" gap={Padding.p4}>
                 <RoundedButton onClick={onClickYes}>
                     {t("account:retainData")}
                 </RoundedButton>
-                <Button onClick={onCanceled} variant="text">
+                <Button chromeless onPress={onCanceled}>
                     {t("common:cancel")}
                 </Button>
-            </VStack>
+            </YStack>
         </>
     );
 }
 
 function Cancel({ onClose }: { onClose?: OnClickHandler }) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <>
-            <Text textAlign="center" fontSize="24px" fontWeight="bold">
+            <Text textAlign="center" fontSize={24} fontWeight="bold">
                 <AppTrans i18nKey={"account:retainDataCanceledMessage"} />
             </Text>
             <Awesome
@@ -140,31 +146,25 @@ function Cancel({ onClose }: { onClose?: OnClickHandler }) {
 }
 
 function Pending() {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <>
-            <Text textAlign="center" fontSize="24px" fontWeight="bold">
+            <Text textAlign="center" fontSize={24} fontWeight="bold">
                 <AppTrans i18nKey={"account:retainingData"} />
             </Text>
-            <Center h="200px">
-                <Spinner
-                    thickness="4px"
-                    speed="0.65s"
-                    emptyColor="gray.200"
-                    color="#84A6FF"
-                    size="xl"
-                />
-            </Center>
+            <XStack h={200} alignItems="center" justifyContent="center">
+                <Spinner color="#84A6FF" size="large" />
+            </XStack>
             <Text>{t("account:retainingDataWaitMessage")}</Text>
         </>
     );
 }
 
 function Success({ onClose }: { onClose?: OnClickHandler }) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <>
-            <Text textAlign="center" fontSize="24px" fontWeight="bold">
+            <Text textAlign="center" fontSize={24} fontWeight="bold">
                 {t("account:retainDataSuccess")}
             </Text>
             <Party
@@ -181,17 +181,17 @@ function Success({ onClose }: { onClose?: OnClickHandler }) {
 }
 
 function Error({ onClose }: { onClose?: OnClickHandler }) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <>
-            <VStack>
-                <Text textAlign="center" fontSize="24px" fontWeight="bold">
+            <YStack>
+                <Text textAlign="center" fontSize={24} fontWeight="bold">
                     {t("account:retainDataFailed")}
                 </Text>
                 <Text color="rgba(0,0,0,.65)">
                     <AppTrans i18nKey={"account:retainDataRetryLaterMessage"} />
                 </Text>
-            </VStack>
+            </YStack>
             <Notify
                 viewBox="0 0 790 512.20805"
                 style={{

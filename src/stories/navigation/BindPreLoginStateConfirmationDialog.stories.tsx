@@ -1,9 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
-import { BindPreLoginStateConfirmationDialog } from "src/view/plandetail/BindPreLoginStateConfirmationDialog";
+import { BindPreLoginStateConfirmationDialog } from "src/view/navigation/BindPreLoginStateConfirmationDialog";
 
 export default {
-    title: "plan_detail/BindPreLoginStateConfirmationDialog",
+    title: "navigation/BindPreLoginStateConfirmationDialog",
     component: BindPreLoginStateConfirmationDialog,
     tags: ["autodocs"],
     parameters: {},
