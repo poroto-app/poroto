@@ -4,16 +4,15 @@ import { Stack } from "expo-router/stack";
 import i18n from "i18next";
 import { useEffect, useState } from "react";
 import { initReactI18next } from "react-i18next";
-import { useColorScheme } from "react-native";
 import { Provider } from "react-redux";
 import { i18nAppConfig } from "src/locales/i18n";
 import { reduxStore } from "src/redux/redux";
 import { tamaguiConfigAnimation } from "src/tamagui/animation";
 import tamaguiConfig from "src/tamagui/tamagui.config";
+import { ScreenSizeProvider } from "src/view/provider/ScreenSizeProvider.native";
 import { TamaguiProvider } from "tamagui";
 
 export default function RootLayout() {
-    const colorScheme = useColorScheme();
     const [languageLoaded, setLanguageLoaded] = useState(false);
     const [language, setLanguage] = useState<string | null>();
 
@@ -42,23 +41,25 @@ export default function RootLayout() {
     }
 
     return (
-        <TamaguiProvider
-            config={{
-                ...tamaguiConfig,
-                animations: tamaguiConfigAnimation,
-            }}
-            defaultTheme={colorScheme!}
-        >
-            <ThemeProvider value={DefaultTheme}>
-                <Provider store={reduxStore}>
-                    <Stack>
-                        <Stack.Screen
-                            name="(tabs)"
-                            options={{ headerShown: false }}
-                        />
-                    </Stack>
-                </Provider>
-            </ThemeProvider>
-        </TamaguiProvider>
+        <Provider store={reduxStore}>
+            <TamaguiProvider
+                config={{
+                    ...tamaguiConfig,
+                    animations: tamaguiConfigAnimation,
+                }}
+                defaultTheme="light"
+            >
+                <ThemeProvider value={DefaultTheme}>
+                    <ScreenSizeProvider>
+                        <Stack>
+                            <Stack.Screen
+                                name="(tabs)"
+                                options={{ headerShown: false }}
+                            />
+                        </Stack>
+                    </ScreenSizeProvider>
+                </ThemeProvider>
+            </TamaguiProvider>
+        </Provider>
     );
 }

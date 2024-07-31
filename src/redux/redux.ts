@@ -5,6 +5,7 @@ import { authReducer } from "src/redux/auth";
 import { editPlanCandidateReducer } from "src/redux/editPlanCandidate";
 import { historyReducer } from "src/redux/history";
 import { locationReducer } from "src/redux/location";
+import { nativeReducer } from "src/redux/native";
 import { placeReducer } from "src/redux/place";
 import { placeSearchReducer } from "src/redux/placeSearch";
 import { planReducer } from "src/redux/plan";
@@ -16,6 +17,7 @@ const reducer = combineReducers({
     plan: planReducer,
     planCandidate: planCandidateReducer,
     editPlanCandidate: editPlanCandidateReducer,
+    native: nativeReducer,
     placeSearch: placeSearchReducer,
     place: placeReducer,
     location: locationReducer,
