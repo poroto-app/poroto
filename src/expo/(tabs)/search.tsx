@@ -6,6 +6,7 @@ import { useRecentlyCreatedPlans } from "src/hooks/useRecentlyCreatedPlans";
 import { reduxNativeSelector } from "src/redux/native";
 import { Layout } from "src/view/common/Layout";
 import { PlanPreview } from "src/view/plan/PlanPreview";
+import { PlanListSectionRecentlyCreated } from "src/view/top/PlanListSectionTitle";
 import { Spinner, View, XStack, YStack } from "tamagui";
 
 export default function SearchScreen() {
@@ -31,54 +32,59 @@ export default function SearchScreen() {
 
     return (
         <Layout>
-            <YStack w="100%" gap={Padding.p16}>
-                <FlatList
-                    key={getNumColumns()}
-                    style={{
-                        paddingVertical: Padding.p32,
-                        paddingHorizontal: Size.top.px,
-                    }}
-                    numColumns={getNumColumns()}
-                    data={
-                        plansRecentlyCreated ||
-                        createArrayWithSize(6).map(() => null)
-                    }
-                    refreshing={isLoadingRecentlyCreatedPlans}
-                    onEndReached={() => loadNextRecentCreatedPlans()}
-                    onEndReachedThreshold={0.5}
-                    renderItem={({ item, index }) => (
-                        <XStack
-                            key={index}
-                            flex={1}
-                            maxWidth={getNumColumns() === 3 && 300}
-                        >
-                            <PlanPreview
-                                plan={item}
-                                planThumbnailHeight={
-                                    Size.PlanList.SavedPlan.ThumbnailHeight
-                                }
-                            />
-                        </XStack>
-                    )}
-                    columnWrapperStyle={
-                        getNumColumns() > 1 && {
-                            gap: Padding.p24,
+            <YStack w="100%" gap={Padding.p16} paddingBottom={Padding.p32}>
+                <YStack w="100%">
+                    <PlanListSectionRecentlyCreated />
+                    <FlatList
+                        key={getNumColumns()}
+                        style={{
+                            paddingVertical: 0,
+                            paddingHorizontal: Size.top.px,
+                        }}
+                        numColumns={getNumColumns()}
+                        data={
+                            plansRecentlyCreated ||
+                            createArrayWithSize(6).map(() => null)
                         }
-                    }
-                    ItemSeparatorComponent={() => <View height={Padding.p48} />}
-                    ListFooterComponent={() =>
-                        canLoadMoreRecentlyCreatedPlans && (
+                        refreshing={isLoadingRecentlyCreatedPlans}
+                        onEndReached={() => loadNextRecentCreatedPlans()}
+                        onEndReachedThreshold={0.5}
+                        renderItem={({ item, index }) => (
                             <XStack
-                                py={Padding.p32}
-                                w="100%"
-                                justifyContent="center"
-                                alignItems="center"
+                                key={index}
+                                flex={1}
+                                maxWidth={getNumColumns() === 3 && 300}
                             >
-                                <Spinner size="large" color="$orange10" />
+                                <PlanPreview
+                                    plan={item}
+                                    planThumbnailHeight={
+                                        Size.PlanList.SavedPlan.ThumbnailHeight
+                                    }
+                                />
                             </XStack>
-                        )
-                    }
-                />
+                        )}
+                        columnWrapperStyle={
+                            getNumColumns() > 1 && {
+                                gap: Padding.p24,
+                            }
+                        }
+                        ItemSeparatorComponent={() => (
+                            <View height={Padding.p48} />
+                        )}
+                        ListFooterComponent={() =>
+                            canLoadMoreRecentlyCreatedPlans && (
+                                <XStack
+                                    py={Padding.p32}
+                                    w="100%"
+                                    justifyContent="center"
+                                    alignItems="center"
+                                >
+                                    <Spinner size="large" color="$orange10" />
+                                </XStack>
+                            )
+                        }
+                    />
+                </YStack>
             </YStack>
         </Layout>
     );

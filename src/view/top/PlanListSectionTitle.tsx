@@ -43,10 +43,12 @@ export function PlanListSectionTitle({
                     </Text>
                 </XStack>
                 <XStack
-                    w="100%"
+                    w="auto"
                     h={4}
+                    alignSelf="stretch"
                     backgroundColor="#3E3E3E"
                     borderRadius={10}
+                    borderBlockStyle="solid"
                 />
             </YStack>
         </YStack>
