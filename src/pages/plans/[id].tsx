@@ -3,7 +3,6 @@ import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { MdOutlineExplore, MdOutlineNearMe } from "react-icons/md";
 import { createParam } from "solito";
 import { useRouter } from "solito/router";
 import { AnalyticsEvents } from "src/constant/analytics";
@@ -49,7 +48,10 @@ import { LoginCallMessage } from "src/view/plandetail/LoginCallMessage";
 import { NearbyPlaceList } from "src/view/plandetail/NearbyPlaceList";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
-import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
+import {
+    PlanListSectionTitleCreatePlan,
+    PlanListSectionTitleNearbyPlans,
+} from "src/view/top/PlanListSectionTitle";
 
 const { useParam } = createParam<{ id: string }>();
 
@@ -275,9 +277,7 @@ export default function PlanPage() {
                         <PlanPageSection
                             contentPaddingX={0}
                             sectionHeader={
-                                <PlanListSectionTitle
-                                    title={t("plan:nearbyPlans")}
-                                    icon={MdOutlineNearMe}
+                                <PlanListSectionTitleNearbyPlans
                                     px={Size.PlanDetail.px}
                                 />
                             }
@@ -299,13 +299,7 @@ export default function PlanPage() {
                     )}
                     <PlanPageSection
                         contentPaddingX={0}
-                        sectionHeader={
-                            <PlanListSectionTitle
-                                title={t("plan:createNewPlanTitle")}
-                                icon={MdOutlineExplore}
-                                px={Size.PlanDetail.px}
-                            />
-                        }
+                        sectionHeader={<PlanListSectionTitleCreatePlan />}
                     >
                         <NearbyPlaceList
                             places={placesNearbyPlanLocation}

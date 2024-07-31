@@ -1,5 +1,3 @@
-import { Box } from "@chakra-ui/react";
-import "@splidejs/splide/css";
 import {
     getDefaultPlaceImage,
     Image,
@@ -7,11 +5,12 @@ import {
     ImageSizes,
 } from "src/domain/models/Image";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
+import { XStack } from "tamagui";
 
 type Props = {
     images: Image[];
     imageSize?: ImageSize;
-    h?: string | number;
+    h?: number;
     link?: string;
     draggable?: boolean;
 };
@@ -19,7 +18,7 @@ type Props = {
 export const PlanThumbnail = ({
     images,
     imageSize = ImageSizes.Small,
-    h = "300px",
+    h = 300,
     link,
     draggable,
 }: Props) => {
@@ -28,14 +27,14 @@ export const PlanThumbnail = ({
     }
 
     return (
-        <Box w="100%" h={h}>
+        <XStack w="100%" h={h}>
             <ImageSliderPreview
                 images={images}
                 imageSize={imageSize}
-                borderRadius="10px"
+                borderRadius={10}
                 href={link}
                 draggable={draggable}
             />
-        </Box>
+        </XStack>
     );
 };

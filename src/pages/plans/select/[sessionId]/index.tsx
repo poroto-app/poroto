@@ -1,7 +1,6 @@
 import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { useRef, useState } from "react";
-import { MdOutlineNearMe } from "react-icons/md";
 import { createParam } from "solito";
 import { useRouter } from "solito/router";
 import { Colors } from "src/constant/color";
@@ -48,7 +47,7 @@ import { CreatePlanDialog } from "src/view/plandetail/CreatePlanDialog";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
 import { PlanDetailPageHeader } from "src/view/plandetail/header/PlanDetailPageHeader";
-import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
+import { PlanListSectionTitleCreatePlanFromOtherLocation } from "src/view/top/PlanListSectionTitle";
 
 const { useParams } = createParam<{ sessionId?: string }>();
 
@@ -413,14 +412,7 @@ function PlanDetailPage({
                         <PlanPageSection
                             contentPaddingX={0}
                             sectionHeader={
-                                <PlanListSectionTitle
-                                    title={t(
-                                        "plan:createPlanFromOtherLocation"
-                                    )}
-                                    icon={MdOutlineNearMe}
-                                    px={Size.PlanDetail.px}
-                                    pt={0}
-                                />
+                                <PlanListSectionTitleCreatePlanFromOtherLocation />
                             }
                         >
                             <HorizontalScrollableList px={Size.PlanDetail.px}>
