@@ -4,26 +4,19 @@ import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { createParam } from "solito";
-import { useRouter } from "solito/router";
 import { AnalyticsEvents } from "src/constant/analytics";
 import { Colors } from "src/constant/color";
 import { Padding } from "src/constant/padding";
-import { Routes } from "src/constant/router";
 import { Size } from "src/constant/size";
 import { isPC } from "src/constant/userAgent";
-import { Place } from "src/domain/models/Place";
 import { getPlanPriceRange } from "src/domain/models/Plan";
-import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { hasValue } from "src/domain/util/null";
 import { useAuth } from "src/hooks/useAuth";
 import { useCreatePlanFromSavedPlan } from "src/hooks/useCreatePlanFromSavedPlan";
+import { usePlan } from "src/hooks/usePlan";
 import useUploadPlaceImage from "src/hooks/useUploadPlaceImage";
 import { useUserPlan } from "src/hooks/useUserPlan";
-import { setSearchLocation } from "src/redux/location";
 import {
-    fetchPlacesNearbyPlanLocation,
-    fetchPlan,
-    reduxPlanSelector,
     setPlaceIdToCreatePlan,
     setShowPlanCreatedModal,
 } from "src/redux/plan";
@@ -59,7 +52,6 @@ export default function PlanPage() {
     const { t } = useTranslation();
     const [id] = useParam("id");
     const dispatch = useAppDispatch();
-    const router = useRouter();
     const toast = useToast();
 
     const { user, signInWithGoogle } = useAuth();
@@ -69,15 +61,16 @@ export default function PlanPage() {
         useCreatePlanFromSavedPlan();
     const uploadImageProps = useUploadPlaceImage();
     const [isPlanFooterVisible, setIsPlanFooterVisible] = useState(false);
-
     const {
-        preview: plan,
+        plan,
         nearbyPlans,
         placesNearbyPlanLocation,
-        fetchPlanRequestStatus,
         showPlanCreatedModal,
         placeIdToCreatePlan,
-    } = reduxPlanSelector();
+        isFetchingPlan,
+        planError,
+        createPlan,
+    } = usePlan({ planId: id });
 
     const handleOnCopyPlanUrl = () => {
         logEvent(getAnalytics(), AnalyticsEvents.Plan.CopyPlanUrl, {
@@ -94,57 +87,6 @@ export default function PlanPage() {
             isClosable: true,
         });
     };
-
-    // TODO: hooksで管理する
-    const handleOnCreatePlan = async ({ place }: { place: Place }) => {
-        logEvent(
-            getAnalytics(),
-            AnalyticsEvents.CreatePlan.FromPlaceNearbyPlan,
-            {
-                planId: plan.id,
-                placeId: place.id,
-            }
-        );
-        dispatch(
-            setSearchLocation({
-                searchLocation: place.location,
-                searchPlaceId: place.googlePlaceId,
-            })
-        );
-        // ダイアログの背景固定を解除するためにモーダルを閉じる
-        dispatch(setPlaceIdToCreatePlan(null));
-        await router.push(
-            Routes.plans.interest({
-                location: place.location,
-                googlePlaceId: place.googlePlaceId,
-            })
-        );
-    };
-
-    useEffect(() => {
-        logEvent(getAnalytics(), AnalyticsEvents.Plan.View, {
-            planId: id,
-        });
-
-        return () => {
-            // 他のページに遷移するときにモーダルを閉じる
-            // (戻るボタンでトップページに遷移したときの対応)
-            dispatch(setShowPlanCreatedModal(false));
-            dispatch(setPlaceIdToCreatePlan(null));
-        };
-    }, []);
-
-    useEffect(() => {
-        if (typeof id !== "string") return;
-        dispatch(
-            fetchPlan({
-                planId: id,
-                userId: userId,
-                firebaseIdToken: firebaseIdToken,
-            })
-        );
-        dispatch(fetchPlacesNearbyPlanLocation({ planId: id, limit: 10 }));
-    }, [id, userId, firebaseIdToken]);
 
     // Footerの表示制御
     useEffect(() => {
@@ -164,18 +106,13 @@ export default function PlanPage() {
         };
     }, [user, plan?.author?.id]);
 
-    if (
-        !fetchPlanRequestStatus ||
-        (fetchPlanRequestStatus === RequestStatuses.PENDING &&
-            // プランを取得したあとで、同じプランを再取得したときに画面がロード中になるのを防ぐ
-            plan?.id !== id)
-    )
+    if (isFetchingPlan) {
         return <LoadingModal title={t("plan:loadingPlan")} />;
-
-    if (fetchPlanRequestStatus === RequestStatuses.REJECTED)
+    } else if (planError) {
         return <ErrorPage />;
-
-    if (!plan) return <NotFound />;
+    } else if (!plan) {
+        return <NotFound />;
+    }
 
     return (
         <Center
@@ -284,10 +221,7 @@ export default function PlanPage() {
                         >
                             <PlanList
                                 plans={nearbyPlans}
-                                isLoading={
-                                    fetchPlanRequestStatus ===
-                                    RequestStatuses.PENDING
-                                }
+                                isLoading={isFetchingPlan}
                                 numPlaceHolders={6}
                                 grid={false}
                                 wrapTitle={false}
@@ -325,7 +259,7 @@ export default function PlanPage() {
                     (place) => place.id === placeIdToCreatePlan
                 )}
                 onClickClose={() => dispatch(setPlaceIdToCreatePlan(null))}
-                onClickCreatePlan={(place) => handleOnCreatePlan({ place })}
+                onClickCreatePlan={(place) => createPlan({ place })}
             />
             <DialogUploadImage
                 visible={uploadImageProps.isUploadPlacePhotoDialogVisible}
