@@ -103,7 +103,7 @@ function PlanListItem({
     showAuthor?: boolean;
 }) {
     return (
-        <Box minW={grid ? "100%" : "300px"}>
+        <Box minW={grid ? "100%" : Size.PlanList.Card.minW}>
             <PlanPreview
                 link={plan && Routes.plans.plan(plan.id)}
                 plan={plan}
@@ -145,17 +145,23 @@ const Layout = ({
 const GridLayout = styled.div<{ px?: number }>`
     display: grid;
     width: 100%;
-    column-gap: 24px;
-    row-gap: 48px;
+    column-gap: ${Size.PlanList.RecentlyCreated.columnGap}px;
+    row-gap: ${Size.PlanList.RecentlyCreated.rowGap}px;
     padding: ${({ px }) => px + "px"};
 
     grid-template-columns: 1fr;
 
-    @media (min-width: calc(600px + 16px + 16px)) {
+    @media (min-width: ${({ px }) =>
+            Size.PlanList.Card.minW * 2 +
+            Size.PlanList.RecentlyCreated.columnGap +
+            px * 2}px) {
         grid-template-columns: 1fr 1fr;
     }
 
-    @media (min-width: calc(900px + 32px + 16px)) {
+    @media (min-width: ${({ px }) =>
+            Size.PlanList.Card.minW * 3 +
+            Size.PlanList.RecentlyCreated.columnGap * 2 +
+            px * 2}px) {
         grid-template-columns: 1fr 1fr 1fr;
     }
 `;

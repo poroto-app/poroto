@@ -50,12 +50,19 @@ export const Size = {
         px: Padding.p16,
     },
     PlanList: {
+        Card: {
+            minW: 300,
+        },
         SavedPlan: {
             ThumbnailHeight: 250,
         },
         LikePlace: {
             w: 200,
             h: 250,
+        },
+        RecentlyCreated: {
+            columnGap: Padding.p24,
+            rowGap: Padding.p48,
         },
     },
     PlaceCard: {
