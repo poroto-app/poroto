@@ -12,12 +12,11 @@ export type Props = {
     statusDescription?: string;
     description?: ParseKeys<Namespace, TOptions, string>;
     smallTitle?: boolean;
+    navBar?: boolean;
 
     image: ReactNode;
 
     actions?: ReactNode;
-
-    navBar?: ReactNode;
 };
 
 export function FailurePage({
@@ -28,27 +27,27 @@ export function FailurePage({
     smallTitle = false,
     image,
     actions,
-    navBar = <NavBar />,
+    navBar = true,
 }: Props) {
     return (
         <YStack w="100%" h="100%">
-            {navBar}
+            {navBar && <NavBar />}
             <YStack
                 alignItems="center"
                 justifyContent="center"
                 w="100%"
                 flex={1}
-                py={Padding.p32}
+                pt={Padding.p32}
+                pb={Padding.p48}
                 px={Padding.p16}
             >
-                <YStack h="100%" maxWidth="600px">
+                <YStack h="100%" w="100%" maxWidth={600}>
                     <YStack
                         alignItems="center"
                         justifyContent="center"
                         flexDirection="column"
                         flex={1}
                         w="100%"
-                        h="100%"
                         px={Padding.p16}
                     >
                         <Header
@@ -66,7 +65,7 @@ export function FailurePage({
                             )}
                         </YStack>
                     </YStack>
-                    <YStack w="100%" gap={Padding.p8}>
+                    <YStack w="100%" gap={Padding.p8} justifyContent="center">
                         {actions}
                     </YStack>
                 </YStack>
@@ -106,7 +105,7 @@ function Header({
                 {title}
             </Text>
             {statusDescription && (
-                <Text color="rgba(0,0,0,.6)" mt={Padding.p16}>
+                <Text color="rgba(0,0,0,.6)" mt={Padding.p4}>
                     {statusDescription}
                 </Text>
             )}
