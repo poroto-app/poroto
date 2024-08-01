@@ -17,14 +17,18 @@ export function SectionTitle({ title, description, icon: Icon, px }: Props) {
         <YStack alignItems="flex-start" px={px} gap={Padding.p4}>
             <XStack>
                 {Icon && <Icon size={24} />}
-                <Text fontWeight="bold" fontSize="20px" color="#3E3E3E">
+                <YStack>
                     {title.split("\n").map((line, index) => (
-                        <span key={index}>
+                        <Text
+                            key={index}
+                            fontWeight="bold"
+                            fontSize={20}
+                            color="#3E3E3E"
+                        >
                             {line}
-                            <br />
-                        </span>
+                        </Text>
                     ))}
-                </Text>
+                </YStack>
             </XStack>
             {description && (
                 <Text fontSize="14px" color="#718096">
