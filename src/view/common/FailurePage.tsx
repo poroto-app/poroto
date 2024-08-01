@@ -37,7 +37,7 @@ export function FailurePage({
                 alignItems="center"
                 justifyContent="center"
                 w="100%"
-                h="100%"
+                flex={1}
                 py={Padding.p32}
                 px={Padding.p16}
             >
