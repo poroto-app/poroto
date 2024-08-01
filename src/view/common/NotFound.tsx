@@ -1,7 +1,7 @@
-import { Image } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { Link } from "solito/link";
 import { Routes } from "src/constant/router";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
+import TakenIcon from "src/view/assets/svg/taken.svg";
 import { FailurePage } from "src/view/common/FailurePage";
 import { RoundedButton } from "./RoundedButton";
 
@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const NotFound = ({ navBar }: Props) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <FailurePage
             navBar={navBar}
@@ -18,11 +18,10 @@ export const NotFound = ({ navBar }: Props) => {
             statusMessage={t("error:notFoundStatusMessage")}
             statusDescription={t("error:notFoundDescription")}
             image={
-                <Image
-                    w="100%"
-                    objectFit="cover"
-                    src="/images/404.png"
-                    alt="Not Found"
+                <TakenIcon
+                    width="100%"
+                    height="auto"
+                    viewBox="0 0 672.5315 738.39398"
                 />
             }
             actions={
