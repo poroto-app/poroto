@@ -1,9 +1,8 @@
-import { Button } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
-import { useRouter } from "next/router";
 import { Link } from "solito/link";
 import { Colors } from "src/constant/color";
 import { Routes } from "src/constant/router";
+import { useAppRouter } from "src/hooks/useAppRouter";
 import Notify from "src/view/assets/svg/notify.svg";
 import { FailurePage } from "src/view/common/FailurePage";
 import { RoundedButton } from "src/view/common/RoundedButton";
@@ -13,12 +12,11 @@ type Props = {
 };
 
 export function ErrorPage({ navBar }: Props) {
-    const router = useRouter();
+    const router = useAppRouter();
     const { t } = useTranslation();
 
     const handleReload = () => {
-        // TODO: native対応
-        router.reload();
+        router.reload().then();
     };
 
     return (
@@ -38,17 +36,14 @@ export function ErrorPage({ navBar }: Props) {
             }
             actions={
                 <>
-                    <Button
+                    <RoundedButton
                         w="100%"
-                        variant="outline"
+                        outlined={true}
                         color={Colors.primary["400"]}
-                        borderWidth="2px"
-                        borderColor={Colors.primary["400"]}
-                        borderRadius="50px"
                         onClick={handleReload}
                     >
                         {t("common:reload")}
-                    </Button>
+                    </RoundedButton>
                     <Link
                         href={Routes.home}
                         viewProps={{ style: { width: "100%" } }}

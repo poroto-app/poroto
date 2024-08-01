@@ -1,13 +1,16 @@
-import { Box, Center, Text, VStack } from "@chakra-ui/react";
+import { type Namespace, ParseKeys, type TOptions } from "i18next";
 import { ReactNode } from "react";
 import { Colors } from "src/constant/color";
+import { Padding } from "src/constant/padding";
+import { AppTrans } from "src/view/common/AppTrans";
 import { NavBar } from "src/view/navigation/NavBar";
+import { Text, YStack } from "tamagui";
 
 export type Props = {
     title: string;
     statusMessage?: string;
     statusDescription?: string;
-    description?: ReactNode;
+    description?: ParseKeys<Namespace, TOptions, string>;
     smallTitle?: boolean;
 
     image: ReactNode;
@@ -28,11 +31,26 @@ export function FailurePage({
     navBar = <NavBar />,
 }: Props) {
     return (
-        <VStack w="100%" h="100%">
+        <YStack w="100%" h="100%">
             {navBar}
-            <Center w="100%" h="100%" py="32px" px="16px">
-                <VStack w="100%" h="100%" maxW="600px">
-                    <Center flexDirection="column" flex={1} w="100%" px="16px">
+            <YStack
+                alignItems="center"
+                justifyContent="center"
+                w="100%"
+                h="100%"
+                py={Padding.p32}
+                px={Padding.p16}
+            >
+                <YStack h="100%" maxWidth="600px">
+                    <YStack
+                        alignItems="center"
+                        justifyContent="center"
+                        flexDirection="column"
+                        flex={1}
+                        w="100%"
+                        h="100%"
+                        px={Padding.p16}
+                    >
                         <Header
                             title={title}
                             statusMessage={statusMessage}
@@ -40,19 +58,20 @@ export function FailurePage({
                             smallTitle={smallTitle}
                         />
                         <ErrorImage image={image} />
-                        <VStack
-                            spacing={0}
-                            w="100%"
-                            alignItems="center"
-                            color="rgba(0,0,0,.6)"
-                        >
-                            {description}
-                        </VStack>
-                    </Center>
-                    <VStack w="100%">{actions}</VStack>
-                </VStack>
-            </Center>
-        </VStack>
+                        <YStack gap={0} w="100%" alignItems="center">
+                            {description && (
+                                <Text color="rgba(0,0,0,.6)">
+                                    <AppTrans i18nKey={description} />
+                                </Text>
+                            )}
+                        </YStack>
+                    </YStack>
+                    <YStack w="100%" gap={Padding.p8}>
+                        {actions}
+                    </YStack>
+                </YStack>
+            </YStack>
+        </YStack>
     );
 }
 
@@ -68,40 +87,39 @@ function Header({
     smallTitle: boolean;
 }) {
     return (
-        <VStack
-            color={Colors.primary["400"]}
-            w="100%"
-            alignItems="flex-start"
-            spacing={0}
-        >
+        <YStack w="100%" alignItems="flex-start" gap={0}>
             {statusMessage && (
-                <Text fontSize="32px" lineHeight={1}>
+                <Text
+                    fontSize={32}
+                    lineHeight={32}
+                    color={Colors.primary["400"]}
+                >
                     {statusMessage}
                 </Text>
             )}
             <Text
                 fontSize={smallTitle ? 30 : 80}
-                lineHeight={1}
+                lineHeight={smallTitle ? 30 : 80}
                 fontWeight="bold"
+                color={Colors.primary["400"]}
             >
                 {title}
             </Text>
             {statusDescription && (
-                <Text color="rgba(0,0,0,.6)" mt="16px">
+                <Text color="rgba(0,0,0,.6)" mt={Padding.p16}>
                     {statusDescription}
                 </Text>
             )}
-            <Center w="100%"></Center>
-        </VStack>
+        </YStack>
     );
 }
 
 function ErrorImage({ image }: { image: ReactNode }) {
     return (
-        <Center w="100%">
-            <Box w="100%" maxW="450px" my="32px">
+        <YStack w="100%" alignItems="center" justifyContent="center">
+            <YStack w="100%" maxWidth={450} my={Padding.p32}>
                 {image}
-            </Box>
-        </Center>
+            </YStack>
+        </YStack>
     );
 }
