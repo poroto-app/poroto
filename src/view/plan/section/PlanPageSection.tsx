@@ -1,6 +1,7 @@
-import { Box, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
+import { YStack } from "tamagui";
 
 export type Props = {
     sectionHeader?: ReactNode;
@@ -14,11 +15,11 @@ export function PlanPageSection({
     children,
 }: Props) {
     return (
-        <VStack w="100%" spacing={4} alignItems="flex-start">
+        <YStack w="100%" gap={Padding.p8} alignItems="flex-start">
             {sectionHeader}
-            <Box w="100%" px={contentPaddingX + "px"}>
+            <YStack w="100%" px={contentPaddingX}>
                 {children}
-            </Box>
-        </VStack>
+            </YStack>
+        </YStack>
     );
 }
