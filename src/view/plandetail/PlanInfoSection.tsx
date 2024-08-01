@@ -1,10 +1,10 @@
-import { HStack } from "@chakra-ui/react";
-import { isPC } from "src/constant/userAgent";
+import { Padding } from "src/constant/padding";
 import { PriceRange } from "src/domain/models/PriceRange";
 import {
     PlanInfoTagBudget,
     PlanInfoTagDuration,
 } from "src/view/plandetail/header/PlanInfoTag";
+import { YStack } from "tamagui";
 
 export function PlanInfoSection({
     durationInMinutes,
@@ -14,15 +14,7 @@ export function PlanInfoSection({
     priceRange: PriceRange;
 }) {
     return (
-        <HStack
-            spacing={2}
-            w="100%"
-            alignSelf="center"
-            overflowX="auto"
-            flexWrap={isPC ? "wrap" : "nowrap"}
-            scrollSnapType="x mandatory"
-            scrollPaddingLeft="16px"
-        >
+        <YStack gap={Padding.p4} w="100%" alignSelf="center">
             <PlanInfoTagDuration durationInMinutes={durationInMinutes} />
             {(priceRange.min !== 0 || priceRange.max !== 0) && (
                 <PlanInfoTagBudget
@@ -30,6 +22,6 @@ export function PlanInfoSection({
                     maxBudget={priceRange.max}
                 />
             )}
-        </HStack>
+        </YStack>
     );
 }
