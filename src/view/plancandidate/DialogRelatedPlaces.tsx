@@ -394,10 +394,10 @@ export function ConfirmToUpdateScreen({
                 </VStack>
             </VStack>
             <HStack w="100%" pb="48px" px="20px">
-                <RoundedButton w="100%" outlined onClick={onCancel}>
+                <RoundedButton flex={1} w="100%" outlined onClick={onCancel}>
                     {t("common:cancel")}
                 </RoundedButton>
-                <RoundedButton w="100%" onClick={onClickUpdate}>
+                <RoundedButton flex={1} w="100%" onClick={onClickUpdate}>
                     {buttonLabelUpdatePlace}
                 </RoundedButton>
             </HStack>
