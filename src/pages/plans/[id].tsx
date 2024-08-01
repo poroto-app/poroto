@@ -25,7 +25,11 @@ import { AdInPlanDetail } from "src/view/ad/AdInPlanDetail";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NotFound } from "src/view/common/NotFound";
-import { SectionTitle } from "src/view/common/SectionTitle";
+import {
+    SectionTitlePlan,
+    SectionTitlePlanInfo,
+    SectionTitlePlanPlaces,
+} from "src/view/common/SectionTitle";
 import { NavBar } from "src/view/navigation/NavBar";
 import { SavePlanAsImageButton } from "src/view/plan/button/SavePlanAsImageButton";
 import { SearchRouteByGoogleMapButton } from "src/view/plan/button/SearchRouteByGoogleMapButton";
@@ -70,7 +74,11 @@ export default function PlanPage() {
         isFetchingPlan,
         planError,
         createPlan,
-    } = usePlan({ planId: id });
+    } = usePlan({
+        planId: id,
+        user,
+        firebaseIdToken,
+    });
 
     const handleOnCopyPlanUrl = () => {
         logEvent(getAnalytics(), AnalyticsEvents.Plan.CopyPlanUrl, {
@@ -87,6 +95,21 @@ export default function PlanPage() {
             isClosable: true,
         });
     };
+
+    useEffect(() => {
+        if (id) {
+            logEvent(getAnalytics(), AnalyticsEvents.Plan.View, {
+                id,
+            });
+        }
+
+        return () => {
+            // 他のページに遷移するときにモーダルを閉じる
+            // (戻るボタンでトップページに遷移したときの対応)
+            dispatch(setShowPlanCreatedModal(false));
+            dispatch(setPlaceIdToCreatePlan(null));
+        };
+    }, [id]);
 
     // Footerの表示制御
     useEffect(() => {
@@ -154,14 +177,7 @@ export default function PlanPage() {
                         <LoginCallMessage onLogin={signInWithGoogle} />
                     </Box>
                 )}
-                <PlanPageSection
-                    sectionHeader={
-                        <SectionTitle
-                            title={t("plan:planInfo")}
-                            px={Size.PlanDetail.px}
-                        />
-                    }
-                >
+                <PlanPageSection sectionHeader={<SectionTitlePlanInfo />}>
                     <VStack>
                         <PlanInfoSection
                             durationInMinutes={plan.timeInMinutes}
@@ -170,14 +186,7 @@ export default function PlanPage() {
                         <AdInPlanDetail />
                     </VStack>
                 </PlanPageSection>
-                <PlanPageSection
-                    sectionHeader={
-                        <SectionTitle
-                            title={t("plan:plan")}
-                            px={Size.PlanDetail.px}
-                        />
-                    }
-                >
+                <PlanPageSection sectionHeader={<SectionTitlePlan />}>
                     <PlanPlaceList
                         plan={plan}
                         likePlaceIds={likePlaceIds}
@@ -187,15 +196,7 @@ export default function PlanPage() {
                         }
                     />
                 </PlanPageSection>
-                <PlanPageSection
-                    sectionHeader={
-                        <SectionTitle
-                            title={t("plan:placesInPlan")}
-                            description={t("plan:clickMarkerToShowPlaceDetail")}
-                            px={Size.PlanDetail.px}
-                        />
-                    }
-                >
+                <PlanPageSection sectionHeader={<SectionTitlePlanPlaces />}>
                     <PlaceMap places={plan.places} />
                 </PlanPageSection>
                 <VStack w="100%" px="16px">
