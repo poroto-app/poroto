@@ -1,12 +1,14 @@
+const brown = {
+    400: "#ac8e6c",
+    500: "#8c6d5c",
+    600: "#6c4d4c",
+    700: "#4c2d3c",
+    800: "#2c230d",
+} as const;
+
 export const Colors = {
     green: "#539565",
-    brown: {
-        400: "var(--color-brown-400)",
-        500: "var(--color-brown-500)",
-        600: "var(--color-brown-600)",
-        700: "var(--color-brown-700)",
-        800: "var(--color-brown-800)",
-    },
+    brown,
 
     beige: {
         200: "var(--color-beige-200)",
@@ -15,15 +17,9 @@ export const Colors = {
         500: "var(--color-beige-500)",
     },
 
-    primary: {
-        400: "var(--color-primary-400)",
-        500: "var(--color-primary-500)",
-        600: "var(--color-primary-600)",
-        700: "var(--color-primary-700)",
-        800: "var(--color-primary-800)",
-    },
+    primary: brown,
 
     dialog: {
         backgroundColor: "#FFF8F3",
     },
-};
+} as const;
