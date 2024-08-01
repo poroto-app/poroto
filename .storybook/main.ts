@@ -59,7 +59,7 @@ const config: StorybookConfig = {
                     {
                         loader: "tamagui-loader",
                         options: {
-                            config: "tamagui.config.js",
+                            config: ".storybook/tamagui.config.ts",
                             components: ['tamagui'],
                             importsWhitelist: ['constants.js', 'colors.js'],
                             logTimings: true,
