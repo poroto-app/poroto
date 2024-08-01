@@ -34,9 +34,10 @@ export function Error({ navBar, onReload }: Props) {
                 />
             }
             actions={
-                <RoundedButton onClick={handleOnReload}>
-                    {t("common:reload")}
-                </RoundedButton>
+                <RoundedButton
+                    label={t("common:reload")}
+                    onClick={handleOnReload}
+                />
             }
         />
     );

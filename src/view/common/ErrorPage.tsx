@@ -1,11 +1,12 @@
-import { useTranslation } from "next-i18next";
 import { Link } from "solito/link";
 import { Colors } from "src/constant/color";
 import { Routes } from "src/constant/router";
 import { useAppRouter } from "src/hooks/useAppRouter";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import Notify from "src/view/assets/svg/notify.svg";
 import { FailurePage } from "src/view/common/FailurePage";
 import { RoundedButton } from "src/view/common/RoundedButton";
+import { isWeb } from "tamagui";
 
 type Props = {
     navBar?: boolean;
@@ -13,7 +14,7 @@ type Props = {
 
 export function ErrorPage({ navBar }: Props) {
     const router = useAppRouter();
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
 
     const handleReload = () => {
         router.reload().then();
@@ -28,27 +29,24 @@ export function ErrorPage({ navBar }: Props) {
             image={
                 <Notify
                     viewBox="0 0 790 512.20805"
-                    style={{
-                        width: "100%",
-                        height: "100%",
-                    }}
+                    width={isWeb ? "100%" : 300}
+                    height={isWeb ? "100%" : 300}
                 />
             }
             actions={
                 <>
                     <RoundedButton
                         w="100%"
+                        label={t("common:reload")}
                         outlined={true}
                         color={Colors.primary["400"]}
                         onClick={handleReload}
-                    >
-                        {t("common:reload")}
-                    </RoundedButton>
+                    />
                     <Link
                         href={Routes.home}
                         viewProps={{ style: { width: "100%" } }}
                     >
-                        <RoundedButton>{t("common:backToHome")}</RoundedButton>
+                        <RoundedButton label={t("common:backToHome")} />
                     </Link>
                 </>
             }
