@@ -1,5 +1,6 @@
 import { FlatList } from "react-native";
 import { Padding } from "src/constant/padding";
+import { Routes } from "src/constant/router";
 import { Size } from "src/constant/size";
 import { createArrayWithSize } from "src/domain/util/array";
 import { useRecentlyCreatedPlans } from "src/hooks/useRecentlyCreatedPlans";
@@ -60,6 +61,7 @@ export default function SearchScreen() {
                                     planThumbnailHeight={
                                         Size.PlanList.SavedPlan.ThumbnailHeight
                                     }
+                                    link={item && Routes.plans.plan(item.id)}
                                 />
                             </XStack>
                         )}
