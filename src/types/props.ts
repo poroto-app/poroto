@@ -1,6 +1,11 @@
 import { ReactNode } from "react";
 import { ImageSize, Image as ImageType } from "src/domain/models/Image";
 
+export type FadeInFadeOutTransitionProps = {
+    duration?: number;
+    children?: ReactNode;
+};
+
 export type HorizontalScrollableListProps = {
     scrollAmount?: number;
     pageButtonOffsetY?: number;
@@ -40,4 +45,9 @@ export type ImageSliderPreviewProps = {
     draggable?: boolean;
     borderRadius?: number;
     onClickImage?: (image: ImageType) => void;
+};
+
+export type RotateTransitionProps = {
+    duration?: number;
+    children?: ReactNode;
 };

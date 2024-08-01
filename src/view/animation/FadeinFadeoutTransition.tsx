@@ -1,3 +1,4 @@
+import { FadeInFadeOutTransitionProps } from "src/types/props";
 import styled, { keyframes } from "styled-components";
 
 const fadeinFadeOut = keyframes`
@@ -10,7 +11,14 @@ const fadeinFadeOut = keyframes`
   }
 `;
 
-export const FadeInFadeOutTransition = styled.div`
-    animation: ${fadeinFadeOut} 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-        alternate-reverse infinite;
+const Transition = styled.div<{ duration: number }>`
+    animation: ${fadeinFadeOut} ${({ duration }) => duration}ms
+        cubic-bezier(0.25, 0.46, 0.45, 0.94) alternate-reverse infinite;
 `;
+
+export function FadeInFadeOutTransition({
+    duration = 750,
+    children,
+}: FadeInFadeOutTransitionProps) {
+    return <Transition duration={duration}>{children}</Transition>;
+}
