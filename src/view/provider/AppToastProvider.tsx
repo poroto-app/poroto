@@ -1,3 +1,4 @@
+import { isAndroid } from "@tamagui/constants";
 import { AlertCircle, Check, Info } from "@tamagui/lucide-icons";
 import {
     Toast,
@@ -51,8 +52,12 @@ const ToastComponent = () => {
         <Toast
             key={currentToast.id}
             duration={currentToast.duration ?? 3000}
-            enterStyle={{ opacity: 0, scale: 0.5, y: -25 }}
-            exitStyle={{ opacity: 0, scale: 1, y: -20 }}
+            enterStyle={{
+                opacity: 0,
+                scale: 0.5,
+                y: isAndroid ? "-20px" : -20,
+            }}
+            exitStyle={{ opacity: 0, scale: 1, y: isAndroid ? "-20px" : -20 }}
             y={0}
             opacity={1}
             scale={1}

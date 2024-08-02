@@ -9,8 +9,8 @@ import { i18nAppConfig } from "src/locales/i18n";
 import { reduxStore } from "src/redux/redux";
 import { tamaguiConfigAnimation } from "src/tamagui/animation";
 import tamaguiConfig from "src/tamagui/tamagui.config";
-import { AppToastProvider } from "src/view/provider/AppToastProvider";
 import { NavBar } from "src/view/navigation/NavBar";
+import { AppToastProvider } from "src/view/provider/AppToastProvider";
 import { ScreenSizeProvider } from "src/view/provider/ScreenSizeProvider.native";
 import { TamaguiProvider } from "tamagui";
 
