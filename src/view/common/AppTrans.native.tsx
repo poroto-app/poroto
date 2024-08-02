@@ -1,6 +1,7 @@
 import { ParseKeys, type Namespace, type TOptions } from "i18next";
-import { Trans, useTranslation } from "next-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { TranslationNameSpaces } from "src/locales/resources";
+import { Text } from "tamagui";
 
 export function AppTrans({
     i18nKey,
@@ -19,6 +20,7 @@ export function AppTrans({
             }}
             components={{
                 bold: <strong />,
+                br: <Text>{"\n"}</Text>,
             }}
             i18nKey={i18nKey}
             values={values}

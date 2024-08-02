@@ -4,6 +4,7 @@ import runtimeCaching from 'next-pwa/cache.js';
 import remarkUnwrapImages from 'remark-unwrap-images';
 import {withTamagui as tamagui} from '@tamagui/next-plugin';
 import withPlugins from 'next-compose-plugins';
+import { withExpo } from "@expo/next-adapter";
 
 const withPWA = pwa({
     dest: 'public',
@@ -36,6 +37,11 @@ const nextConfig = {
     eslint: {
         ignoreDuringBuilds: true,
     },
+    transpilePackages: [
+        "react-native",
+        "expo",
+        // Add more React Native / Expo packages here...
+    ],
     images: {
         domains: [
             'lh3.googleusercontent.com',
@@ -104,6 +110,7 @@ const nextConfig = {
 };
 
 export default withPlugins([
+    [withExpo],
     [withPWA],
     [withMDX],
     [withTamagui],

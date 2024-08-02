@@ -75,7 +75,9 @@ export function StoryImagePreview({
     return (
         <Box w="100%" h="100%" overflow="hidden" position="relative">
             <SlideContainer
-                ref={(splide) => (refSplide.current = splide)}
+                ref={(splide) => {
+                    refSplide.current = splide;
+                }}
                 options={{
                     type: "loop",
                     arrows: false,

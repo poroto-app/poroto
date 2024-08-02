@@ -14,7 +14,8 @@ import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { hasValue } from "src/domain/util/null";
 import { useNearbyPlans } from "src/hooks/useNearbyPlans";
-import { TranslationNameSpaces, i18nAppConfig } from "src/locales/i18n";
+import { i18nAppConfig } from "src/locales/i18n";
+import { TranslationNameSpaces } from "src/locales/resources";
 import {
     fetchPlansRecentlyCreated,
     pushPlansRecentlyCreated,

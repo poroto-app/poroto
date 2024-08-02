@@ -62,7 +62,9 @@ export function PlanCandidatesGallery({
     return (
         <Center w="100%" h="100%">
             <SlideContainer
-                ref={(splide) => (refSplide.current = splide)}
+                ref={(splide) => {
+                    refSplide.current = splide;
+                }}
                 onMove={(splide) => setActiveIndex(splide.index)}
                 options={{
                     type: "slide",
