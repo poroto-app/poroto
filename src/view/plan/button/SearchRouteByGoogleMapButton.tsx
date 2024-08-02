@@ -1,8 +1,8 @@
-import { useTranslation } from "next-i18next";
 import { Link } from "solito/link";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { Plan } from "src/domain/models/Plan";
 import { generateGoogleMapUrl } from "src/domain/util/googleMap";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { PlanActionButton } from "src/view/plan/button/PlanActionButton";
 
 type Props = {
@@ -16,7 +16,7 @@ export function SearchRouteByGoogleMapButton({
     currentLocation,
     createdBasedOnCurrentLocation,
 }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const startLocationOfRoute =
         currentLocation && createdBasedOnCurrentLocation
             ? currentLocation
