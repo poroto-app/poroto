@@ -1,8 +1,8 @@
 import { getAuth } from "@firebase/auth";
 import { useEffect, useState } from "react";
-import { useRouter } from "solito/router";
 import { Routes } from "src/constant/router";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { useAppRouter } from "src/hooks/useAppRouter";
 import { setShowPlanCreatedModal } from "src/redux/plan";
 import {
     reduxPlanCandidateSelector,
@@ -18,7 +18,7 @@ type Props = {
 
 export const usePlanCreate = ({ planCandidateSetId, planId }: Props) => {
     const dispatch = useAppDispatch();
-    const router = useRouter();
+    const router = useAppRouter();
     const { preview: plan, savePlanFromCandidateRequestStatus } =
         reduxPlanCandidateSelector();
     const [isCreatingPlan, setIsCreatingPlan] = useState(false);
@@ -40,14 +40,12 @@ export const usePlanCreate = ({ planCandidateSetId, planId }: Props) => {
     useEffect(() => {
         if (!plan) return;
         if (savePlanFromCandidateRequestStatus === RequestStatuses.FULFILLED) {
-            router.push(Routes.plans.plan(plan.id));
-            dispatch(setShowPlanCreatedModal(true));
-            // TODO: 遷移が終了したタイミングでモーダルが閉じるようにする
-            return () => {
+            router.push(Routes.plans.plan(plan.id)).then(() => {
+                dispatch(setShowPlanCreatedModal(true));
                 setIsCreatingPlan(false);
                 // 戻ったときに再リダイレクトされないようにする
                 dispatch(resetPlanCandidates());
-            };
+            });
         }
     }, [planId, savePlanFromCandidateRequestStatus]);
 

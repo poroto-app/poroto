@@ -1,13 +1,13 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useEffect, useState } from "react";
 import { createParam } from "solito";
-import { useRouter } from "solito/router";
 import { AnalyticsEvents } from "src/constant/analytics";
 import { LocalStorageKeys } from "src/constant/localStorageKey";
 import { Routes } from "src/constant/router";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { LocationCategory } from "src/domain/models/LocationCategory";
 import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
+import { useAppRouter } from "src/hooks/useAppRouter";
 import { useLocation } from "src/hooks/useLocation";
 import { reduxAuthSelector } from "src/redux/auth";
 import {
@@ -32,7 +32,7 @@ const { useParams } = createParam<{
 
 export const useCreatePlanInterest = () => {
     const dispatch = useAppDispatch();
-    const router = useRouter();
+    const router = useAppRouter();
 
     const {
         categoryCandidates,

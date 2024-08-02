@@ -1,5 +1,5 @@
 import { usePathname } from "solito/navigation";
-import { useRouter } from "solito/router";
+import { useAppRouter } from "src/hooks/useAppRouter";
 import { useAuth } from "src/hooks/useAuth";
 import { useBindPreLoginState } from "src/hooks/useBindPreLoginState";
 import { reduxHistorySelector } from "src/redux/history";
@@ -9,7 +9,7 @@ import { NavBarComponent } from "src/view/navigation/NavBarComponent";
 import { NavBarUser } from "src/view/navigation/NavBarUser";
 
 export const NavBar = ({ canGoBack, defaultPath }: NavBarProps) => {
-    const router = useRouter();
+    const router = useAppRouter();
     const { historyStack } = reduxHistorySelector();
     const { user, signInWithGoogle, logout } = useAuth();
     const {
