@@ -1,8 +1,7 @@
-import { Icon } from "@chakra-ui/react";
+import { IconProps } from "@tamagui/helpers-icon";
+import { Calendar, JapaneseYen } from "@tamagui/lucide-icons";
 import { useTranslation } from "next-i18next";
-import { ReactNode, useState } from "react";
-import { IconType } from "react-icons";
-import { MdCurrencyYen, MdSchedule } from "react-icons/md";
+import { NamedExoticComponent, ReactNode, useState } from "react";
 import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
@@ -173,7 +172,7 @@ const TabPanelInformation = ({
                     {!isPriceRangeEmpty && (
                         <InformationTag
                             key="priceRange"
-                            icon={MdCurrencyYen}
+                            icon={JapaneseYen}
                             value={`${priceRange.min}~${t("common:priceLabel", {
                                 price: priceRange.max,
                             })}`}
@@ -183,7 +182,7 @@ const TabPanelInformation = ({
                     {!isEstimatedStayDurationEmpty && (
                         <InformationTag
                             key="estimatedStayDuration"
-                            icon={MdSchedule}
+                            icon={Calendar}
                             value={DateHelper.formatHHMM(
                                 estimatedStayDuration,
                                 {
@@ -201,11 +200,11 @@ const TabPanelInformation = ({
 };
 
 const InformationTag = ({
-    icon,
+    icon: Icon,
     value,
     label,
 }: {
-    icon: IconType;
+    icon: NamedExoticComponent<IconProps>;
     value: string;
     label: string;
 }) => {
@@ -220,7 +219,7 @@ const InformationTag = ({
             justifyContent="space-between"
             alignItems="flex-start"
         >
-            <Icon as={icon} w="24px" h="24px" color="#946A35" />
+            <Icon size={24} color="#946A35" />
             <YStack gap={0} alignItems="flex-start">
                 <Text fontSize={14} color="#574836" whiteSpace="nowrap">
                     {label}

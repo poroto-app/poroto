@@ -3,7 +3,6 @@ import {
     Center,
     Image as ChakraImage,
     HStack,
-    Icon,
     Text,
     VStack,
 } from "@chakra-ui/react";
@@ -25,8 +24,8 @@ import { Place } from "src/domain/models/Place";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { SelectButton } from "src/view/interest/SelectButton";
+import { PlaceCategoryIcon } from "src/view/place/PlaceCategoryIcon";
 import { styled } from "styled-components";
-import { getPlaceCategoryIcon } from "../plan/PlaceCategoryIcon";
 
 /**
  * @param interactiveAnimation trueの場合、スライドして切り替わることを示すためのアニメーションを表示する
@@ -280,11 +279,10 @@ function PlaceThumbnail({
                 background="linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.20) 20%, rgba(0, 0, 0, 0.50) 40%, rgba(0, 0, 0, 0.80) 100%)"
             >
                 <HStack>
-                    <Icon
-                        w="24px"
-                        h="24px"
+                    <PlaceCategoryIcon
+                        category={category}
+                        size={24}
                         color="white"
-                        as={getPlaceCategoryIcon(category)}
                     />
                     <Text color="white">{place.name}</Text>
                 </HStack>

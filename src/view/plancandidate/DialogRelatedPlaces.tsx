@@ -35,7 +35,7 @@ import { OnClickHandler } from "src/types/handler";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { RoundedButton } from "src/view/common/RoundedButton";
-import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
+import { PlaceCategoryIcon } from "src/view/place/PlaceCategoryIcon";
 import {
     PlaceChipActionGoogleMaps,
     PlaceChipActionInstagram,
@@ -206,8 +206,9 @@ function SelectPlaceToUpdateScreen({
                         {placesWithCategories?.map((pwc, i) => (
                             <Tab key={i} display="block">
                                 <HStack>
-                                    <Icon
-                                        as={getPlaceCategoryIcon(pwc.category)}
+                                    <PlaceCategoryIcon
+                                        size={18}
+                                        category={pwc.category}
                                     />
                                     <Text>{pwc.category.displayName}</Text>
                                 </HStack>
@@ -275,13 +276,10 @@ export function PlaceListItem({
             </AspectRatio>
             <VStack spacing={0}>
                 <HStack spacing="4px" alignItems="flex-start" onClick={onClick}>
-                    <Icon
-                        w="24px"
-                        h="24px"
+                    <PlaceCategoryIcon
+                        category={categories.length > 0 ? categories[0] : null}
+                        size={24}
                         color="#946A35"
-                        as={getPlaceCategoryIcon(
-                            categories.length > 0 ? categories[0] : null
-                        )}
                     />
                     <Text fontWeight="bold" color="#574836">
                         {name}
