@@ -10,6 +10,7 @@ export type CommonTranslationKeys = {
     budget: string;
     cancel: string;
     close: string;
+    currentLocation: string;
     delete: string;
     edit: string;
     reload: string;
