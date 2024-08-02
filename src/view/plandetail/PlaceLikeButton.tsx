@@ -1,3 +1,4 @@
+import { isAndroid } from "@tamagui/constants";
 import { Heart } from "@tamagui/lucide-icons";
 import { Padding } from "src/constant/padding";
 import { Button, Text, XStack } from "tamagui";
@@ -27,7 +28,9 @@ export const PlaceLikeButton = ({
         >
             <XStack
                 alignItems="center"
-                shadowColor="rgba(220, 183, 141)"
+                elevationAndroid={10}
+                shadowColor={isAndroid ? "#a45800" : "#dcb78d"}
+                shadowOpacity={1}
                 shadowOffset={{ width: 0, height: 0 }}
                 shadowRadius={5}
                 borderRadius={50}

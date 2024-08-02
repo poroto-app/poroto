@@ -1,3 +1,4 @@
+import { isAndroid } from "@tamagui/constants";
 import { ReactNode, useState } from "react";
 import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
@@ -186,7 +187,8 @@ function Container({
             width={w}
             overflow="hidden"
             backgroundColor="white"
-            shadowColor="#f0dfca"
+            elevationAndroid={10}
+            shadowColor={isAndroid ? "#a45800" : "#dcb78d"}
             shadowOffset={{ width: 0, height: 0 }}
             shadowRadius={20}
             shadowOpacity={1}
