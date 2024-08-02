@@ -1,6 +1,6 @@
-import { HStack, Icon, Text } from "@chakra-ui/react";
-import { motion } from "framer-motion";
-import { MdFavorite } from "react-icons/md";
+import { Heart } from "@tamagui/lucide-icons";
+import { Padding } from "src/constant/padding";
+import { Button, Text, XStack } from "tamagui";
 
 type Props = {
     isLiked: boolean;
@@ -14,28 +14,35 @@ export const PlaceLikeButton = ({
     onUpdateLike,
 }: Props) => {
     return (
-        <motion.button
-            whileTap={{ scale: 1.1 }}
-            whileHover={{ scale: 1.2 }}
-            onClick={() => onUpdateLike(!isLiked)}
+        <Button
+            unstyled
+            transition="cubic-bezier(0, 0, 0.14, 0.98) 0.2s"
+            hoverStyle={{
+                scale: !isLiked && 1.2,
+            }}
+            pressStyle={{
+                scale: !isLiked && 0.8,
+            }}
+            onPress={() => onUpdateLike(!isLiked)}
         >
-            <HStack
+            <XStack
                 alignItems="center"
-                boxShadow="0px 0px 5px 0px rgba(220, 183, 141, 1)"
-                borderRadius="50px"
+                shadowColor="rgba(220, 183, 141)"
+                shadowOffset={{ width: 0, height: 0 }}
+                shadowRadius={5}
+                borderRadius={50}
                 backgroundColor="white"
-                px="8px"
-                py="4px"
-                spacing="8px"
+                px={Padding.p8}
+                py={Padding.p4}
+                gap={Padding.p8}
             >
-                <Icon
-                    w="20px"
-                    h="20px"
-                    color={isLiked ? "red" : "#767676"}
-                    as={isLiked ? MdFavorite : MdFavorite}
+                <Heart
+                    size={20}
+                    fill={isLiked ? "red" : "#767676"}
+                    borderWidth={0}
                 />
                 <Text fontWeight="bold">{likeCount}</Text>
-            </HStack>
-        </motion.button>
+            </XStack>
+        </Button>
     );
 };
