@@ -37,7 +37,7 @@ export default function PlanPage() {
     }
 
     return (
-        <ScrollView width="100%" h="100%">
+        <ScrollView width="100%" h="100%" backgroundColor="white">
             <Layout>
                 <YStack gap={Padding.p16}>
                     <PlanPageSection sectionHeader={<SectionTitlePlanInfo />}>
