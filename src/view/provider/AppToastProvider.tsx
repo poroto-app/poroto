@@ -68,7 +68,9 @@ const ToastComponent = () => {
             }
             viewportName={currentToast.viewportName}
             unstyled
-            borderRadius={10}
+            width="100%"
+            maxWidth={isWeb && 400}
+            borderRadius={5}
             backgroundColor={toastColor()}
         >
             <XStack
@@ -76,9 +78,10 @@ const ToastComponent = () => {
                 px={Padding.p16}
                 py={Padding.p8}
                 alignItems="center"
+                width="100%"
             >
                 <ToastIcon preset={currentToast.burntOptions?.preset} />
-                <YStack flex={1} maxWidth={300}>
+                <YStack flex={1}>
                     <Toast.Title fontWeight="bold" color="white">
                         {currentToast.title}
                     </Toast.Title>
