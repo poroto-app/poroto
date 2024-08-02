@@ -19,6 +19,7 @@ import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 import { isMobile, isTablet } from "react-device-detect";
 import { MdClose } from "react-icons/md";
+import { Padding } from "src/constant/padding";
 import {
     ImageSizes,
     Image as ImageType,
@@ -379,7 +380,7 @@ export function ConfirmToUpdateScreen({
                 </VStack>
                 <VStack w="100%">
                     <PlaceInfoTab
-                        tabHSpaacing="20px"
+                        tabHSpacing={Padding.p24}
                         priceRange={place.priceRange}
                         categories={place.categories}
                         estimatedStayDuration={place.estimatedStayDuration}
