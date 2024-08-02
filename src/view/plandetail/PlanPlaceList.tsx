@@ -1,14 +1,6 @@
-import {
-    Box,
-    Center,
-    Divider,
-    HStack,
-    Icon,
-    Text,
-    VStack,
-} from "@chakra-ui/react";
-import { MdAdd, MdOutlineDirectionsWalk } from "react-icons/md";
+import { Footprints, Plus } from "@tamagui/lucide-icons";
 import { Colors } from "src/constant/color";
+import { Padding } from "src/constant/padding";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import { Transition } from "src/domain/models/Transition";
@@ -19,6 +11,7 @@ import {
     PlaceActionHandler,
     PlacePreview,
 } from "src/view/plandetail/PlacePreview";
+import { Text, XStack, YStack } from "tamagui";
 
 type Props = {
     plan: Plan;
@@ -54,9 +47,9 @@ export function PlanPlaceList({
     });
 
     return (
-        <VStack spacing="0" w="100%">
+        <YStack gap={0} w="100%">
             {createdBasedOnCurrentLocation && (
-                <VStack w="100%" spacing={0}>
+                <YStack w="100%" gap={0}>
                     <ScheduleListItem label="現在地" />
                     <ListItemWalk
                         transition={plan.transitions.find(
@@ -64,11 +57,11 @@ export function PlanPlaceList({
                             (t) => t.fromPlaceId == null
                         )}
                     />
-                </VStack>
+                </YStack>
             )}
             {plan.places.map((place, i) => (
-                <VStack key={i} w="100%" spacing="0">
-                    <VStack w="100%" spacing="16px">
+                <YStack key={i} w="100%" gap={0}>
+                    <YStack w="100" gap={0}>
                         <ScheduleListItem
                             label={DateHelper.dateToHHMM(
                                 schedules[i].startTime
@@ -88,15 +81,15 @@ export function PlanPlaceList({
                         <ScheduleListItem
                             label={DateHelper.dateToHHMM(schedules[i].endTime)}
                         />
-                    </VStack>
+                    </YStack>
                     <ListItemWalk
                         transition={plan.transitions.find(
                             (t) => t.fromPlaceId == place.id
                         )}
                     />
-                </VStack>
+                </YStack>
             ))}
-        </VStack>
+        </YStack>
     );
 }
 
@@ -166,7 +159,13 @@ const PlaceListItem = ({
     onClickDeletePlace?: (placeId: string) => void;
 } & PlaceActionHandler) => {
     return (
-        <VStack spacing="16px" w="100%" pl="24px" position="relative">
+        <YStack
+            w="100%"
+            gap={Padding.p16}
+            py={Padding.p16}
+            pl={Padding.p24}
+            position="relative"
+        >
             <PlacePreview
                 googlePlaceId={place.googlePlaceId}
                 placeId={place.id}
@@ -196,24 +195,24 @@ const PlaceListItem = ({
                 }
             />
             {onClickAddPlace && (
-                <Center
-                    as="button"
-                    color="#BD9F8E"
-                    border="1.5px solid #BD9F8E"
-                    borderRadius="20px"
+                <YStack
+                    tag="button"
+                    borderWidth={1.5}
+                    borderColor="#BD9F8E"
+                    borderRadius={20}
                     w="100%"
-                    py="4px"
-                    onClick={() =>
+                    py={Padding.p4}
+                    onPress={() =>
                         onClickAddPlace({
                             previousPlaceId: place.id,
                         })
                     }
                 >
-                    <Icon as={MdAdd} />
-                </Center>
+                    <Plus color="#BD9F8E" />
+                </YStack>
             )}
             {/* スケジュールを表すバー */}
-            <Box
+            <XStack
                 w="8px"
                 backgroundColor="#ECCEAC"
                 position="absolute"
@@ -221,61 +220,65 @@ const PlaceListItem = ({
                 bottom="-16px"
                 left="4px"
             />
-        </VStack>
+        </YStack>
     );
 };
 
-// TODO: コンポーネントとして切り出しする
-const ScheduleListItem = ({ label }: { label }) => {
+const ScheduleListItem = ({
+    label,
+    pt,
+    pb,
+}: {
+    label: string;
+    pt?: number;
+    pb?: number;
+}) => {
     return (
-        <HStack w="100%" spacing={4}>
-            <Box
-                w="16px"
-                h="16px"
-                border="4px solid transparent"
-                borderRadius="50% "
-                outline="4px solid #ecceac"
+        <XStack w="100%" gap={Padding.p8} pt={pt} pb={pb}>
+            <XStack
+                w={16}
+                h={16}
+                borderWidth={4}
+                borderColor="transparent"
+                outlineWidth={4}
+                outlineColor="#ecceac"
+                outlineStyle="solid"
+                borderRadius="50%"
                 backgroundColor="white"
                 zIndex={1}
             />
             <Text fontWeight="bold" fontSize="16px">
                 {label}
             </Text>
-        </HStack>
+        </XStack>
     );
 };
 
-// TODO: コンポーネントとして切り出しする
 const ListItemWalk = ({ transition }: { transition: Transition }) => {
     if (!transition) return <></>;
 
     return (
-        <HStack w="100%" position="relative">
-            <Divider
+        <XStack w="100%" position="relative" py={Padding.p8}>
+            <YStack
                 position="absolute"
-                left="8px"
-                top="0"
-                bottom="0"
-                orientation="vertical"
+                left={8}
+                top={0}
+                bottom={0}
+                borderLeftWidth={1}
                 borderColor="rgba(0,0,0,.3)"
                 borderStyle="dashed"
             />
-            <HStack w="100%" py="12px" pl="20px">
-                <Icon
-                    as={MdOutlineDirectionsWalk}
-                    w="20px"
-                    h="20px"
-                    color={Colors.beige["400"]}
-                />
-                <VStack alignItems="flex-start" spacing={0}>
+            <XStack w="100%" pl={Padding.p24} gap={Padding.p8}>
+                <Footprints size={20} color={Colors.beige["400"]} />
+                <YStack alignItems="flex-start" gap={0}>
                     <Text>
                         <AppTrans
                             i18nKey="common:minutesLabel"
                             values={{ minutes: transition.durationInMinutes }}
                         />
                     </Text>
-                </VStack>
-            </HStack>
-        </HStack>
+                </YStack>
+            </XStack>
+        </XStack>
     );
 };
