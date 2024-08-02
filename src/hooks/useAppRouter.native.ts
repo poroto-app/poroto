@@ -9,5 +9,6 @@ export const useAppRouter = (): AppRouter => {
             router.push(url, as, transitionOptions);
         },
         reload: async () => reloadAsync(),
+        back: () => router.back(),
     };
 };

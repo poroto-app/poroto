@@ -11,4 +11,5 @@ export type AppRouter = {
         }
     ) => Promise<void>;
     reload: () => Promise<void>;
+    back: () => void;
 };
