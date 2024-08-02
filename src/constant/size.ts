@@ -14,7 +14,6 @@ export const Size = {
             height: 200,
         },
     },
-    PlaceCardPaddingH: Padding.p16,
     NavBar: {
         height: 50,
         avatar: {
@@ -63,6 +62,10 @@ export const Size = {
         RecentlyCreated: {
             columnGap: Padding.p24,
             rowGap: Padding.p48,
+        },
+        Schedule: {
+            dotRadius: 20,
+            borderWidth: 4,
         },
     },
     PlaceCard: {

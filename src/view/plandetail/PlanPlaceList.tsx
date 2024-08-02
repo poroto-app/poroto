@@ -1,6 +1,7 @@
 import { Footprints, Plus } from "@tamagui/lucide-icons";
 import { Colors } from "src/constant/color";
 import { Padding } from "src/constant/padding";
+import { Size } from "src/constant/size";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import { Transition } from "src/domain/models/Transition";
@@ -217,12 +218,15 @@ const PlaceListItem = ({
             )}
             {/* スケジュールを表すバー */}
             <XStack
-                w="8px"
+                w={8}
                 backgroundColor="#ECCEAC"
                 position="absolute"
-                top="-16px"
-                bottom="-16px"
-                left="4px"
+                top={-Size.PlanList.Schedule.dotRadius}
+                bottom={-Size.PlanList.Schedule.dotRadius}
+                left={
+                    Size.PlanList.Schedule.dotRadius / 2 -
+                    Size.PlanList.Schedule.borderWidth
+                }
             />
         </YStack>
     );
@@ -240,18 +244,15 @@ const ScheduleListItem = ({
     return (
         <XStack w="100%" gap={Padding.p16} pt={pt} pb={pb} alignItems="center">
             <XStack
-                w={16}
-                h={16}
-                borderWidth={4}
-                borderColor="transparent"
-                outlineWidth={4}
-                outlineColor="#ecceac"
-                outlineStyle="solid"
-                borderRadius="50%"
+                w={Size.PlanList.Schedule.dotRadius}
+                h={Size.PlanList.Schedule.dotRadius}
+                borderWidth={Size.PlanList.Schedule.borderWidth}
+                borderColor="#ECCEAC"
+                borderRadius={999}
                 backgroundColor="white"
                 zIndex={1}
             />
-            <Text fontWeight="bold" fontSize="16px">
+            <Text fontWeight="bold" fontSize={16}>
                 {label}
             </Text>
         </XStack>
@@ -262,17 +263,21 @@ const ListItemWalk = ({ transition }: { transition: Transition }) => {
     if (!transition) return <></>;
 
     return (
-        <XStack w="100%" position="relative" py={Padding.p8}>
+        <XStack w="100%" position="relative" py={Padding.p16}>
             <YStack
                 position="absolute"
-                left={8}
+                left={Size.PlanList.Schedule.dotRadius / 2}
                 top={0}
                 bottom={0}
                 borderLeftWidth={1}
                 borderColor="rgba(0,0,0,.3)"
                 borderStyle="dashed"
             />
-            <XStack w="100%" pl={Padding.p24} gap={Padding.p8}>
+            <XStack
+                w="100%"
+                pl={Padding.p16 + Size.PlanList.Schedule.dotRadius}
+                gap={Padding.p8}
+            >
                 <Footprints size={20} color={Colors.beige["400"]} />
                 <YStack alignItems="flex-start" gap={0}>
                     <Text>
