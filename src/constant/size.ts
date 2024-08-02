@@ -72,6 +72,7 @@ export const Size = {
         w: 200,
         h: 200,
         borderRadius: 20,
+        px: Padding.p16,
     },
     PlanCandidatesGallery: {
         Card: {
