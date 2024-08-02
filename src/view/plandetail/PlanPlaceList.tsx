@@ -197,6 +197,8 @@ const PlaceListItem = ({
             {onClickAddPlace && (
                 <YStack
                     tag="button"
+                    alignItems="center"
+                    justifyContent="center"
                     borderWidth={1.5}
                     borderColor="#BD9F8E"
                     borderRadius={20}
@@ -208,7 +210,7 @@ const PlaceListItem = ({
                         })
                     }
                 >
-                    <Plus color="#BD9F8E" />
+                    <Plus color="#BD9F8E" size={20} />
                 </YStack>
             )}
             {/* スケジュールを表すバー */}
