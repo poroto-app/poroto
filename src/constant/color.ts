@@ -6,16 +6,17 @@ const brown = {
     800: "#2c230d",
 } as const;
 
+const beige = {
+    200: "#f7f5ee",
+    300: "#d8bfc5",
+    400: "#bba0a6",
+    500: "#958797",
+} as const;
+
 export const Colors = {
     green: "#539565",
     brown,
-
-    beige: {
-        200: "var(--color-beige-200)",
-        300: "var(--color-beige-300)",
-        400: "var(--color-beige-400)",
-        500: "var(--color-beige-500)",
-    },
+    beige,
 
     primary: brown,
 
