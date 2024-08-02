@@ -39,7 +39,8 @@ export const PlaceLikeButton = ({
                 <Heart
                     size={20}
                     fill={isLiked ? "red" : "#767676"}
-                    borderWidth={0}
+                    outlineColor="white"
+                    strokeWidth={0}
                 />
                 <Text fontWeight="bold">{likeCount}</Text>
             </XStack>
