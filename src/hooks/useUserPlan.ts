@@ -1,15 +1,15 @@
-import { useToast } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
+import { useToastController } from "@tamagui/toast";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { reduxAuthSelector } from "src/redux/auth";
 import { reduxPlanSelector, updatePlaceLikeInPlan } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
 
 export const useUserPlan = () => {
     const dispatch = useAppDispatch();
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const { likePlaceIds } = reduxPlanSelector();
     const { user, firebaseIdToken } = reduxAuthSelector();
-    const toast = useToast();
+    const toast = useToastController();
 
     const updateLikePlace = ({
         planId,
@@ -22,11 +22,8 @@ export const useUserPlan = () => {
     }) => {
         if (!user || !firebaseIdToken) {
             // TODO: ダイアログで表示する
-            toast({
-                title: t("place:loginToSaveFavoritePlace"),
-                status: "info",
+            toast.show(t("place:loginToSaveFavoritePlace"), {
                 duration: 3000,
-                isClosable: true,
             });
             return;
         }

@@ -1,10 +1,10 @@
-import { useToast } from "@chakra-ui/react";
+import { useToastController } from "@tamagui/toast";
 import { getApp } from "firebase/app";
 import { getStorage, ref } from "firebase/storage";
-import { useTranslation } from "next-i18next";
 import { useState } from "react";
 import { uploadDataToCloudStorage } from "src/data/cloudstorage/upload";
 import { getFileExtension } from "src/domain/util/file";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { reduxAuthSelector } from "src/redux/auth";
 import { reduxPlanSelector, uploadPlacePhotosInPlan } from "src/redux/plan";
 import { useAppDispatch } from "src/redux/redux";
@@ -35,8 +35,8 @@ export type UploadPlaceImageProps = {
 
 const useUploadPlaceImage = () => {
     const dispatch = useAppDispatch();
-    const toast = useToast();
-    const { t } = useTranslation();
+    const toast = useToastController();
+    const { t } = useAppTranslation();
 
     const [localPlaceImageFiles, setLocalPlaceImageFiles] = useState<
         PlaceImageFile[]
@@ -124,21 +124,18 @@ const useUploadPlaceImage = () => {
                 })
             );
 
-            toast({
-                title: t("place:uploadPlacePhotoSuccess"),
-                status: "success",
+            toast.show(t("place:uploadPlacePhotoSuccess"), {
                 duration: 3000,
-                isClosable: true,
             });
             setLocalPlaceImageFiles([]);
             setUploadRequestStatus(UploadRequestStatus.FULFILLED);
         } catch (error) {
-            toast({
-                title: t("place:uploadPlacePhotoFailed"),
-                description: t("place:uploadPlacePhotoFailedDescription"),
-                status: "error",
+            toast.show(t("place:uploadPlacePhotoFailed"), {
+                message: t("place:uploadPlacePhotoFailedDescription"),
                 duration: 5000,
-                isClosable: true,
+                burntOptions: {
+                    preset: "error",
+                },
             });
             setLocalPlaceImageFiles([]);
             setUploadRequestStatus(UploadRequestStatus.REJECTED);
