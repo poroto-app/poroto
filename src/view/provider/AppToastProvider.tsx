@@ -1,4 +1,3 @@
-import { isAndroid } from "@tamagui/constants";
 import { AlertCircle, Check, Info } from "@tamagui/lucide-icons";
 import {
     Toast,
@@ -10,7 +9,7 @@ import { ReactNode } from "react";
 import { Padding } from "src/constant/padding";
 import { hasValue } from "src/domain/util/null";
 import { reduxNativeSelector } from "src/redux/native";
-import { XStack, YStack } from "tamagui";
+import { isWeb, XStack, YStack } from "tamagui";
 
 export function AppToastProvider({ children }: { children?: ReactNode }) {
     const { safeAreaTop, safeAreaRight, safeAreaLeft } = reduxNativeSelector();
@@ -51,17 +50,22 @@ const ToastComponent = () => {
     return (
         <Toast
             key={currentToast.id}
+            onOpenChange={currentToast.onOpenChange}
             duration={currentToast.duration ?? 3000}
+            transition="all ease-in 800ms"
             enterStyle={{
                 opacity: 0,
                 scale: 0.5,
-                y: isAndroid ? "-20px" : -20,
+                y: -20,
             }}
-            exitStyle={{ opacity: 0, scale: 1, y: isAndroid ? "-20px" : -20 }}
+            exitStyle={{ opacity: 0, scale: 1, y: -20 }}
             y={0}
             opacity={1}
             scale={1}
-            animation="medium"
+            {
+                // Android で animation を指定して動作させるとエラーが発生する
+                ...(isWeb && { animation: "medium" })
+            }
             viewportName={currentToast.viewportName}
             unstyled
             borderRadius={10}
