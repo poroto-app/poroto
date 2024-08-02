@@ -82,7 +82,7 @@
     "remark-unwrap-images": "^4.0.0",
     "solito": "^4.2.2",
     "styled-components": "^6.1.8",
-    "tamagui": "^1.104.2",
+    "tamagui": "^1.106.0",
     "uuid": "^10.0.0"
   },
   "devDependencies": {
