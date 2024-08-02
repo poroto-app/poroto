@@ -223,14 +223,13 @@ const InformationTag = ({
                 <Text fontSize={14} color="#574836" whiteSpace="nowrap">
                     {label}
                 </Text>
-                <Text color="#574836" whiteSpace="nowrap">
-                    {value.split("\n").map((l) => (
-                        <>
+                <YStack>
+                    {value.split("\n").map((l, i) => (
+                        <Text color="#574836" whiteSpace="nowrap" key={i}>
                             {l}
-                            <br />
-                        </>
+                        </Text>
                     ))}
-                </Text>
+                </YStack>
             </YStack>
         </YStack>
     );
