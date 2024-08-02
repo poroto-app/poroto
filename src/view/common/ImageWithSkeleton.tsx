@@ -11,6 +11,7 @@ export function ImageWithSkeleton({
     isGoogleImage: isGooglePhoto,
     attributionToBottom = true,
     attributionPaddingY = "24px",
+    objectFit = "cover",
     onClick,
 }: ImageWithSkeletonProps) {
     // SSR のときにはスケルトンが表示されないようにする
@@ -40,7 +41,7 @@ export function ImageWithSkeleton({
             <Image
                 src={src}
                 alt={alt}
-                objectFit="cover"
+                objectFit={objectFit}
                 w={w}
                 h={h}
                 loading="eager"

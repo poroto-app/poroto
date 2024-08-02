@@ -35,6 +35,7 @@ export type ImageWithSkeletonProps = {
     isGoogleImage?: boolean;
     attributionToBottom?: boolean;
     attributionPaddingY?: string;
+    objectFit?: "contain" | "cover" | "fill" | "none";
     onClick?: () => void;
 };
 
