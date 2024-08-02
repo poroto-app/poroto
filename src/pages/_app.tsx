@@ -9,7 +9,7 @@ import "src/locales/i18n";
 import { i18nAppConfig } from "src/locales/i18n";
 import { reduxStore } from "src/redux/redux";
 import tamaguiConfig from "src/tamagui/tamagui.config";
-import { AppToastProvider } from "src/view/common/AppToastProvider";
+import { AppToastProvider } from "src/view/provider/AppToastProvider";
 import { Auth } from "src/view/common/Auth";
 import { FirebaseProvider } from "src/view/common/FirebaseProvider";
 import { Theme } from "src/view/common/Theme";
