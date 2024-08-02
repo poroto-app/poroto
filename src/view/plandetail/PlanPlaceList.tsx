@@ -1,4 +1,5 @@
 import { Footprints, Plus } from "@tamagui/lucide-icons";
+import { useTranslation } from "next-i18next";
 import { Colors } from "src/constant/color";
 import { Padding } from "src/constant/padding";
 import { Place } from "src/domain/models/Place";
@@ -40,6 +41,7 @@ export function PlanPlaceList({
     onClickDeletePlace,
     onUpdateLikeAtPlace,
 }: Props) {
+    const { t } = useTranslation();
     const schedules = generateSchedules({
         places: plan.places,
         startTime,
@@ -50,7 +52,7 @@ export function PlanPlaceList({
         <YStack gap={0} w="100%">
             {createdBasedOnCurrentLocation && (
                 <YStack w="100%" gap={0}>
-                    <ScheduleListItem label="現在地" />
+                    <ScheduleListItem label={t("common:currentLocation")} />
                     <ListItemWalk
                         transition={plan.transitions.find(
                             // 現在地から最初の場所への移動ではPlaceがないので、fromPlaceIdがnullのものを取得する
@@ -236,7 +238,7 @@ const ScheduleListItem = ({
     pb?: number;
 }) => {
     return (
-        <XStack w="100%" gap={Padding.p8} pt={pt} pb={pb}>
+        <XStack w="100%" gap={Padding.p16} pt={pt} pb={pb} alignItems="center">
             <XStack
                 w={16}
                 h={16}
