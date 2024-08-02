@@ -15,7 +15,6 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 import { isMobile, isTablet } from "react-device-detect";
 import { MdClose } from "react-icons/md";
@@ -166,7 +165,7 @@ function SelectPlaceToUpdateScreen({
     onClickUpdate: (placeId: string) => void;
     onClose: () => void;
 }) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     if (placesRecommended == null) return <LoadingScreen />;
 
     const isPC = !isMobile && !isTablet;

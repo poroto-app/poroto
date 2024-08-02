@@ -1,7 +1,7 @@
 import { Text } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { Plan } from "src/domain/models/Plan";
 import { User } from "src/domain/models/User";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { PlanList } from "src/view/plan/PlanList";
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 };
 
 export function PlanListUser({ user, plans, isLoading = false }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     if (!user) return <></>;
 
     return (

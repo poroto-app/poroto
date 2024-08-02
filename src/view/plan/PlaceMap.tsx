@@ -1,9 +1,9 @@
 import { Box, Center, HStack, Text, VStack } from "@chakra-ui/react";
 import { InfoWindow, Marker } from "@react-google-maps/api";
-import { useTranslation } from "next-i18next";
 import { useRef, useState } from "react";
 import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { MapViewer } from "src/view/common/MapViewer";
 
@@ -20,7 +20,7 @@ export const PlaceMap = ({ places }: Props) => {
 };
 
 const Map = ({ places }: { places: Place[] }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     if (places.length === 0)
         return (
             <MapPlaceHolder
@@ -59,7 +59,7 @@ const PlaceMarkerWithInfoWindow = ({
     place: Place;
     defaultVisible?: boolean;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const [isInfoWindowVisible, setIsInfoWindowVisible] =
         useState(defaultVisible);
     const markerRef = useRef<Marker>(null);

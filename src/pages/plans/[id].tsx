@@ -1,6 +1,5 @@
 import { Box, Button, Center, useToast, VStack } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
-import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
 import { createParam } from "solito";
@@ -11,6 +10,7 @@ import { Size } from "src/constant/size";
 import { isPC } from "src/constant/userAgent";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { hasValue } from "src/domain/util/null";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { useAuth } from "src/hooks/useAuth";
 import { useCreatePlanFromSavedPlan } from "src/hooks/useCreatePlanFromSavedPlan";
 import { usePlan } from "src/hooks/usePlan";
@@ -53,7 +53,7 @@ import {
 const { useParam } = createParam<{ id: string }>();
 
 export default function PlanPage() {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const [id] = useParam("id");
     const dispatch = useAppDispatch();
     const toast = useToast();

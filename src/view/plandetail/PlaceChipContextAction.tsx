@@ -8,7 +8,6 @@ import {
     Replace,
     Trash,
 } from "@tamagui/lucide-icons";
-import { useTranslation } from "next-i18next";
 import { NamedExoticComponent, ReactNode, useRef } from "react";
 import { Link } from "solito/link";
 import { AnalyticsEvents } from "src/constant/analytics";
@@ -87,7 +86,7 @@ export const PlaceChipActionInstagram = ({
 }: {
     placeName: string;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <Link
             href={`https://www.instagram.com/explore/tags/${encodeURIComponent(
@@ -119,7 +118,7 @@ export const PlaceChipActionGoogleMaps = ({
     googlePlaceId: string;
     onClick?: OnClickHandler;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const url = new URL("https://www.google.com/maps/search/");
     url.searchParams.set("api", "1");
     url.searchParams.set("query", placeName);
@@ -151,7 +150,7 @@ export const PlaceChipActionCamera = ({
     placeId,
     onFileChanged,
 }: PlaceChipActionCameraProps) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     return (

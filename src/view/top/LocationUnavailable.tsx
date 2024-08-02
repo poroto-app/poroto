@@ -1,5 +1,5 @@
 import { Switch, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { LocationPermission, LocationPermissions } from "src/hooks/useLocation";
 import MapIcon from "src/view/assets/svg/map.svg";
 
@@ -15,7 +15,7 @@ export function LocationUnavailable({
     isUpdating,
     onClickSwitch,
 }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const handleOnClickSwitch = () => {
         if (locationPermission === LocationPermissions.GRANTED) return;
         onClickSwitch();

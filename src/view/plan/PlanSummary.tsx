@@ -1,5 +1,4 @@
 import { Box, Icon, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
 import { MdCurrencyYen, MdSchedule } from "react-icons/md";
@@ -47,7 +46,7 @@ export const PlanSummaryDuration = ({
 }: {
     durationInMinutes: number;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const endPlanDate = DateHelper.add(
         new Date(),
         durationInMinutes * DateHelper.Minute

@@ -1,7 +1,7 @@
 import { Grid, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { Place } from "src/domain/models/Place";
 import { createArrayWithSize } from "src/domain/util/array";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { AvailablePlace } from "src/view/plan/candidate/AvailablePlace";
 
 type Props = {
@@ -15,7 +15,7 @@ export function AvailablePlaceSection({
     isFetching,
     onClickPlace,
 }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     if (!places && !isFetching) return <></>;
 
     return (

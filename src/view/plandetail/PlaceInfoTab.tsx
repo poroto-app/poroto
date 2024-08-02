@@ -1,6 +1,5 @@
 import { IconProps } from "@tamagui/helpers-icon";
 import { Calendar, JapaneseYen } from "@tamagui/lucide-icons";
-import { useTranslation } from "next-i18next";
 import { NamedExoticComponent, ReactNode, useState } from "react";
 import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
@@ -30,7 +29,7 @@ export const PlaceInfoTab = ({
     tabHSpacing,
     estimatedStayDuration,
 }: Props) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const [activeTab, setActiveTab] = useState<PlaceInfoTab>(
         PlaceInfoTabs.Information
     );

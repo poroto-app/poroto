@@ -13,7 +13,6 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { useEffect, useRef, useState } from "react";
 import Cropper from "react-easy-crop";
 import {
@@ -25,6 +24,7 @@ import {
 } from "react-icons/md";
 import { Padding } from "src/constant/padding";
 import { User } from "src/domain/models/User";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { ImageData, useCropImage } from "src/hooks/useCropImage";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
@@ -164,7 +164,7 @@ function ProfileEditor({
     onClose: () => void;
     onSave: () => void;
 }) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const [focusUserName, setFocusUserName] = useState(false);
 
     return (
@@ -278,7 +278,7 @@ function ProfileImageEditor({
     onSave: (params: { croppedImage: ImageData | null }) => void;
     onClose: () => void;
 }) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
 
     const {
         crop,

@@ -1,9 +1,9 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { MutableRefObject, forwardRef } from "react";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import { hasValue } from "src/domain/util/null";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { PlanSummaryDuration } from "src/view/plan/PlanSummary";
 import styled from "styled-components";
 
@@ -36,7 +36,7 @@ export const PlanScreenShotComponent = forwardRef<HTMLDivElement, Props>(
 );
 
 const PlaceListItem = ({ place }: { place: Place }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <VStack
             spacing={0}

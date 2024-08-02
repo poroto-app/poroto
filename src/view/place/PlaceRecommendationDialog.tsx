@@ -8,7 +8,6 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { MdClose } from "react-icons/md";
 import { Colors } from "src/constant/color";
 import { Place } from "src/domain/models/Place";
@@ -17,6 +16,7 @@ import {
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
 import { hasValue } from "src/domain/util/null";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import TowingIcon from "src/view/assets/svg/towing.svg";
 import {
     DialogPositions,
@@ -43,7 +43,7 @@ export function PlaceRecommendationDialog({
     onRetry,
     onSelectPlace,
 }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <FullscreenDialog
             position={DialogPositions.BOTTOM}
@@ -107,7 +107,7 @@ export function PlaceRecommendationDialog({
 }
 
 const Loading = () => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <Center w="100%" h="100%">
             <VStack spacing="16px">
@@ -123,7 +123,7 @@ const Loading = () => {
 };
 
 const Error = ({ onRetry }: { onRetry?: () => void }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <Center w="100%" h="100%">
             <VStack w="100%" spacing="16px">

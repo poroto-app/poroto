@@ -14,6 +14,7 @@ import { Size } from "src/constant/size";
 import { zIndex } from "src/constant/zIndex";
 import { GeoLocation } from "src/data/graphql/generated";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { useGooglePlaceSearch } from "src/hooks/useGooglePlaceSearch";
 import { useLocation } from "src/hooks/useLocation";
 import { usePlaceRecommendation } from "src/hooks/usePlaceRecommendation";
@@ -54,7 +55,7 @@ function PlaceSearchPage() {
     const router = useRouter();
     const [skipCurrentLocation] = useParam(RouteParams.SkipCurrentLocation);
     const isSkipFetchCurrentLocation = skipCurrentLocation === "true";
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const dispatch = useAppDispatch();
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [mapCenter, setMapCenter] = useState<GeoLocation>(
@@ -231,7 +232,7 @@ const SearchButton = ({
     placeSelected: boolean;
     onClick: () => void;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <Center
             position="fixed"

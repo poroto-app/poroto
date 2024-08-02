@@ -1,11 +1,11 @@
 import { Footprints, Plus } from "@tamagui/lucide-icons";
-import { useTranslation } from "next-i18next";
 import { Colors } from "src/constant/color";
 import { Padding } from "src/constant/padding";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import { Transition } from "src/domain/models/Transition";
 import { DateHelper } from "src/domain/util/date";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { UploadPlaceImageProps } from "src/hooks/useUploadPlaceImage";
 import { AppTrans } from "src/view/common/AppTrans";
 import {
@@ -41,7 +41,7 @@ export function PlanPlaceList({
     onClickDeletePlace,
     onUpdateLikeAtPlace,
 }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const schedules = generateSchedules({
         places: plan.places,
         startTime,

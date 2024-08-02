@@ -1,5 +1,4 @@
 import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { useRef, useState } from "react";
 import { createParam } from "solito";
 import { useRouter } from "solito/router";
@@ -9,6 +8,7 @@ import { isPC } from "src/constant/userAgent";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { hasValue } from "src/domain/util/null";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { usePlaceLikeInPlanCandidate } from "src/hooks/usePlaceLikeInPlanCandidate";
 import { usePlanCandidate } from "src/hooks/usePlanCandidate";
 import { usePlanCandidateGalleryPageAutoScroll } from "src/hooks/usePlanCandidateGalleryPageAutoScroll";
@@ -52,7 +52,7 @@ import { PlanListSectionTitleCreatePlanFromOtherLocation } from "src/view/top/Pl
 const { useParams } = createParam<{ sessionId?: string }>();
 
 const SelectPlanPage = () => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const dispatch = useAppDispatch();
 
     const router = useRouter();
@@ -236,7 +236,7 @@ function PlanDetailPage({
     isPlanFooterVisible,
     onCreatePlan,
 }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const {
         plan,
         currentLocation,
