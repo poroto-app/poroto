@@ -1,10 +1,10 @@
 import { useToast } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
-import { useRouter } from "solito/router";
 import { Routes } from "src/constant/router";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { hasValue } from "src/domain/util/null";
+import { useAppRouter } from "src/hooks/useAppRouter";
 import {
     createPlanFromSavedPlan as createPlanFromSavedPlanAction,
     reduxPlanCandidateSelector,
@@ -14,7 +14,7 @@ import { useAppDispatch } from "src/redux/redux";
 
 export const useCreatePlanFromSavedPlan = () => {
     const dispatch = useAppDispatch();
-    const router = useRouter();
+    const router = useAppRouter();
     const { t } = useTranslation();
     const [isCreatingPlanFromSavedPlan, setIsCreatingPlanFromSavedPlan] =
         useState(false);
@@ -28,18 +28,18 @@ export const useCreatePlanFromSavedPlan = () => {
             createPlanFromSavedPlanRequestStatus === RequestStatuses.FULFILLED
         ) {
             dispatch(resetCreatePlanFromSavedPlanRequestStatus());
-            router.push(Routes.plans.planCandidate.index(createPlanSession));
-
-            // TODO: 遷移が終了したタイミングでモーダルが閉じるようにする
-            return () => {
-                setIsCreatingPlanFromSavedPlan(false);
-                toast({
-                    title: t("plan:customizePlanCreated"),
-                    status: "success",
-                    duration: 3000,
-                    isClosable: true,
+            router
+                .push(Routes.plans.planCandidate.index(createPlanSession))
+                .then(() => {
+                    // 遷移が終了したタイミングでモーダルが閉じるようにする
+                    setIsCreatingPlanFromSavedPlan(false);
+                    toast({
+                        title: t("plan:customizePlanCreated"),
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                    });
                 });
-            };
         }
     }, [createPlanSession, createPlanFromSavedPlanRequestStatus]);
 
