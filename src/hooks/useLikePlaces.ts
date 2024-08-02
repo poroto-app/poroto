@@ -1,6 +1,6 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useRouter } from "solito/router";
 import { AnalyticsEvents } from "src/constant/analytics";
 import { Routes } from "src/constant/router";
 import { Place } from "src/domain/models/Place";
@@ -35,14 +35,12 @@ export const useLikePlaces = () => {
         );
         // ダイアログの背景固定を解除するためにモーダルを閉じる
         dispatch(setPlaceIdToCreatePlan(null));
-        router
-            .push(
-                Routes.plans.interest({
-                    location: place.location,
-                    googlePlaceId: place.googlePlaceId,
-                })
-            )
-            .then();
+        router.push(
+            Routes.plans.interest({
+                location: place.location,
+                googlePlaceId: place.googlePlaceId,
+            })
+        );
     };
 
     useEffect(() => {

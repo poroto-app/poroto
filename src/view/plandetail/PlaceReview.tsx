@@ -1,5 +1,5 @@
 import { Avatar, HStack, Text, VStack } from "@chakra-ui/react";
-import Link from "next/link";
+import { Link } from "solito/link";
 
 export type Props = {
     authorName: string;

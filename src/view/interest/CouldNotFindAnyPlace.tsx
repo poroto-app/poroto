@@ -1,4 +1,4 @@
-import { Link } from "@chakra-ui/next-js";
+import { Link } from "solito/link";
 import { Routes } from "src/constant/router";
 import Lost from "src/view/assets/svg/lost.svg";
 import { FailurePage } from "src/view/common/FailurePage";
@@ -26,8 +26,7 @@ export function CouldNotFindAnyPlace({ navBar }: Props) {
             actions={
                 <Link
                     href={Routes.home}
-                    w="100%"
-                    _hover={{ textDecoration: "none" }}
+                    viewProps={{ style: { width: "100%" } }}
                 >
                     <RoundedButton>ホームに戻る</RoundedButton>
                 </Link>

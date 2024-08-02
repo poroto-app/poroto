@@ -1,7 +1,7 @@
 import { Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
 import axios from "axios";
-import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Link } from "solito/link";
 import { Response as OpenGraphResponse } from "src/pages/api/v1/openGraph";
 
 type Props = {
@@ -40,7 +40,12 @@ export function MdxLinkCard({ href }: Props) {
             });
     }, []);
 
-    if (!ogData) return <Link href={href} />;
+    if (!ogData)
+        return (
+            <Link href={href}>
+                <Text>{href}</Text>
+            </Link>
+        );
 
     return (
         <Link href={href}>

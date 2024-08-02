@@ -1,8 +1,9 @@
 import { Box, HStack, Icon } from "@chakra-ui/react";
-import Link from "next/link";
-import { useRouter } from "next/router";
 import { ReactNode } from "react";
 import { MdArrowBack } from "react-icons/md";
+import { Link } from "solito/link";
+import { usePathname } from "solito/navigation";
+import { useRouter } from "solito/router";
 import { Padding } from "src/constant/padding";
 import { Routes } from "src/constant/router";
 import { Size } from "src/constant/size";
@@ -34,17 +35,18 @@ export const NavBar = ({ canGoBack, defaultPath }: Props) => {
     } = useBindPreLoginState();
 
     const handleOnBack = async () => {
-        const isHome = router.pathname === "/";
+        const pathname = usePathname();
+        const isHome = pathname === "/";
         if (isHome) return;
 
         // 一つ前のページがporotoのページでない
         if (historyStack.length <= 1) {
-            if (defaultPath) await router.push(defaultPath);
-            else await router.push("/");
+            if (defaultPath) router.push(defaultPath);
+            else router.push("/");
             return;
         }
 
-        await router.back();
+        router.back();
     };
 
     return (
@@ -126,7 +128,7 @@ const Container = styled.div`
 
 const AppLogo = () => {
     return (
-        <Link href={Routes.home} style={{ height: "100%" }}>
+        <Link href={Routes.home} viewProps={{ style: { height: "100%" } }}>
             <Box h="100%">
                 <AppLogoImage
                     viewBox={

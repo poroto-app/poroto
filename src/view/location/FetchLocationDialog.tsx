@@ -1,5 +1,6 @@
-import { Link } from "@chakra-ui/next-js";
 import { Box, Button, Text, VStack } from "@chakra-ui/react";
+import { Link } from "solito/link";
+import { Padding } from "src/constant/padding";
 import { Routes } from "src/constant/router";
 import {
     RequestStatus,
@@ -73,7 +74,7 @@ function Fetching({
             {isSkipCurrentLocationVisible && (
                 <Link
                     href={Routes.places.search({ skipCurrentLocation: true })}
-                    mt="16px"
+                    viewProps={{ style: { marginTop: Padding.p16 } }}
                 >
                     <Text color="blue.600">{skipLocationLabel}</Text>
                 </Link>
@@ -107,7 +108,7 @@ function Failed({
             <VStack w="100%" py="16px">
                 <Link
                     href={Routes.places.search({ skipCurrentLocation: true })}
-                    style={{ width: "100%" }}
+                    viewProps={{ style: { width: "100%" } }}
                 >
                     <Button
                         w="100%"

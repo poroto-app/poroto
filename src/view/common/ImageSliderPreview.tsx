@@ -1,7 +1,7 @@
-import { Link } from "@chakra-ui/next-js";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { ReactNode } from "react";
+import { Link } from "solito/link";
 import {
     ImageSize,
     ImageSizes,
@@ -124,7 +124,10 @@ function LinkWrapper({
 }) {
     if (href)
         return (
-            <Link href={href} w="100%" h="100%">
+            <Link
+                href={href}
+                viewProps={{ style: { width: "100%", height: "100%" } }}
+            >
                 {children}
             </Link>
         );

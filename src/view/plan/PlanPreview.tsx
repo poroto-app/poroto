@@ -1,6 +1,6 @@
-import { Link } from "@chakra-ui/next-js";
 import { Avatar, HStack, Text, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { Link } from "solito/link";
 import { Plan } from "src/domain/models/Plan";
 import { PlanThumbnail } from "src/view/plan/PlanThumbnail";
 import styled from "styled-components";
@@ -92,7 +92,7 @@ function LinkWrapper({
 }) {
     if (href)
         return (
-            <Link href={href} w="100%">
+            <Link href={href} viewProps={{ style: { width: "100%" } }}>
                 {children}
             </Link>
         );

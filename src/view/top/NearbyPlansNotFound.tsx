@@ -1,6 +1,6 @@
-import { Link } from "@chakra-ui/next-js";
 import { Text, VStack } from "@chakra-ui/react";
 import { useTranslation } from "next-i18next";
+import { Link } from "solito/link";
 import { Routes } from "src/constant/router";
 import IconTraveling from "src/view/assets/svg/traveling.svg";
 import { RoundedButton } from "src/view/common/RoundedButton";
@@ -25,7 +25,10 @@ export const NearbyPlansNotFound = () => {
                     {t("plan:nearbyPlansEmptyDescription")}
                 </Text>
             </VStack>
-            <Link href={Routes.plans.interest({})} w="100%" maxW="400px">
+            <Link
+                href={Routes.plans.interest({})}
+                viewProps={{ style: { width: "100%", maxWidth: 400 } }}
+            >
                 <RoundedButton>{t("plan:createPlan")}</RoundedButton>
             </Link>
         </VStack>

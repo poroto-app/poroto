@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next";
-import Link from "next/link";
+import { Link } from "solito/link";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { Plan } from "src/domain/models/Plan";
 import { generateGoogleMapUrl } from "src/domain/util/googleMap";
@@ -29,7 +29,7 @@ export function SearchRouteByGoogleMapButton({
                 startLocation: startLocationOfRoute,
             })}
             target="_blank"
-            style={{ width: "100%" }}
+            viewProps={{ style: { width: "100%" } }}
         >
             <PlanActionButton
                 text={t("plan:searchRouteOnGoogleMaps")}

@@ -1,6 +1,6 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useRouter } from "solito/router";
 import { AnalyticsEvents } from "src/constant/analytics";
 import { Routes } from "src/constant/router";
 import { CreatePlanPlaceCategory } from "src/domain/models/CreatePlanPlaceCategory";
@@ -79,12 +79,9 @@ export const useCreatePlanCategory = () => {
             createPlanSession &&
             createPlanByCategoryRequestStatus === RequestStatuses.FULFILLED
         ) {
-            router
-                .push(Routes.plans.planCandidate.index(createPlanSession))
-                .then(() => {
-                    setIsCreatingPlanFromCategory(false);
-                    dispatch(resetCreatePlanByCategoryRequestStatus());
-                });
+            router.push(Routes.plans.planCandidate.index(createPlanSession));
+            setIsCreatingPlanFromCategory(false);
+            dispatch(resetCreatePlanByCategoryRequestStatus());
         }
     }, [createPlanSession, createPlanByCategoryRequestStatus]);
 
