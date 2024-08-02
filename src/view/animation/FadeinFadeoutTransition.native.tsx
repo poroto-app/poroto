@@ -1,3 +1,4 @@
+import { isAndroid } from "@tamagui/constants";
 import { useEffect, useRef } from "react";
 import { Animated } from "react-native";
 import { FadeInFadeOutTransitionProps } from "src/types/props";
@@ -6,6 +7,11 @@ export function FadeInFadeOutTransition({
     duration = 750,
     children,
 }: FadeInFadeOutTransitionProps) {
+    // TODO: Androidだとうまくループしない
+    if (isAndroid) {
+        return <>{children}</>;
+    }
+
     const animation = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
