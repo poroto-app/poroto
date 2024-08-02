@@ -1,4 +1,3 @@
-import { Text } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { IconProps } from "@tamagui/helpers-icon";
 import {
@@ -15,7 +14,7 @@ import { Padding } from "src/constant/padding";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { UploadPlaceImageProps } from "src/hooks/useUploadPlaceImage";
 import { OnClickHandler } from "src/types/handler";
-import { XStack } from "tamagui";
+import { Text, XStack } from "tamagui";
 
 type Props = {
     label: string;
