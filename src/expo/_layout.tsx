@@ -8,7 +8,6 @@ import { useColorScheme } from "react-native";
 import { Provider } from "react-redux";
 import { i18nAppConfig } from "src/locales/i18n";
 import { reduxStore } from "src/redux/redux";
-import { tamaguiConfigAnimation } from "src/tamagui/animation";
 import tamaguiConfig from "src/tamagui/tamagui.config";
 import { TamaguiProvider } from "tamagui";
 
@@ -42,13 +41,7 @@ export default function RootLayout() {
     }
 
     return (
-        <TamaguiProvider
-            config={{
-                ...tamaguiConfig,
-                animations: tamaguiConfigAnimation,
-            }}
-            defaultTheme={colorScheme!}
-        >
+        <TamaguiProvider config={tamaguiConfig} defaultTheme={colorScheme!}>
             <ThemeProvider value={DefaultTheme}>
                 <Provider store={reduxStore}>
                     <Stack>
