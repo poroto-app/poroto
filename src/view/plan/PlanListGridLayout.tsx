@@ -40,16 +40,10 @@ function Container({
     children,
 }: { children?: ReactNode } & PlanListProps) {
     if (hasValue(loadMore)) {
-        {
-            /* TODO: React 18に対応 */
-        }
-        {
-            /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
-        }
-        {
-            /* @ts-ignore */
-        }
         return (
+            // TODO: React 18に対応
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             <InfiniteScroll
                 loadMore={() => loadMore()}
                 hasMore={canLoadMore}

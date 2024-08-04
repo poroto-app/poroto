@@ -8,13 +8,20 @@ import { isWeb, YStack } from "tamagui";
 export function PlanList(props: PlanListProps) {
     return (
         <YStack w="100%" gap={Padding.p8} alignItems="center">
-            {props.children}
-            <Layout {...props} />
+            {props.header}
+            <ListBody {...props} />
         </YStack>
     );
 }
 
-const Layout = (props: PlanListProps) => {
+const ListBody = (props: PlanListProps) => {
+    const isEmptyResult =
+        !props.isLoading && (!props.plans || props.plans.length === 0);
+
+    if (isEmptyResult && props.emptyFallback) {
+        return props.emptyFallback;
+    }
+
     if (props.grid) {
         return (
             <YStack w="100%">

@@ -49,16 +49,15 @@ export function UsersPlan({ plans, isLoading }: Props) {
                         <PlanList
                             plans={plans}
                             isLoading={isLoading}
-                            empty={<Empty />}
                             numPlaceHolders={6}
                             grid={false}
                             wrapTitle={false}
                             showAuthor={false}
                             px={Padding.p16}
                             ads={false}
-                        >
-                            <PlanListSectionTitleSavedPlans />
-                        </PlanList>
+                            emptyFallback={<Empty />}
+                            header={<PlanListSectionTitleSavedPlans />}
+                        />
                     </Box>
                 )
             }

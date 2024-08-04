@@ -19,6 +19,7 @@ import {
 import { NavBar } from "src/view/navigation/NavBar";
 import { NearbyPlanList } from "src/view/plan/NearbyPlanList";
 import { PlanList } from "src/view/plan/PlanList";
+import { PlanListSectionRecentlyCreated } from "src/view/top/PlanListSectionTitle";
 
 type Props = {
     plansRecentlyCreated: Plan[] | null;
@@ -67,6 +68,7 @@ export default function SearchPage(props: Props) {
                     isLoading={isLoadingRecentlyCreatedPlans}
                     canLoadMore={canLoadMoreRecentlyCreatedPlans}
                     loadMore={() => loadNextRecentCreatedPlans()}
+                    header={<PlanListSectionRecentlyCreated />}
                 />
             </VStack>
         </Layout>

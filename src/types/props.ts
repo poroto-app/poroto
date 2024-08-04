@@ -63,9 +63,10 @@ export type PlanListProps = {
     wrapTitle?: boolean;
     showAuthor?: boolean;
 
-    ads?: boolean;
+    header?: ReactNode;
+    emptyFallback?: ReactNode;
 
-    children?: ReactNode;
+    ads?: boolean;
 };
 
 export type RotateTransitionProps = {

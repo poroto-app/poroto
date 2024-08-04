@@ -18,17 +18,15 @@ export default function SearchScreen() {
         <ScrollView>
             <Layout>
                 <YStack w="100%" gap={Padding.p16} paddingBottom={Padding.p32}>
-                    <YStack w="100%">
-                        <PlanListSectionRecentlyCreated />
-                        <PlanList
-                            grid
-                            px={Size.top.px}
-                            plans={plansRecentlyCreated}
-                            isLoading={isLoadingRecentlyCreatedPlans}
-                            canLoadMore={canLoadMoreRecentlyCreatedPlans}
-                            loadMore={() => loadNextRecentCreatedPlans()}
-                        />
-                    </YStack>
+                    <PlanList
+                        grid
+                        px={Size.top.px}
+                        plans={plansRecentlyCreated}
+                        isLoading={isLoadingRecentlyCreatedPlans}
+                        canLoadMore={canLoadMoreRecentlyCreatedPlans}
+                        loadMore={() => loadNextRecentCreatedPlans()}
+                        header={<PlanListSectionRecentlyCreated />}
+                    />
                 </YStack>
             </Layout>
         </ScrollView>
