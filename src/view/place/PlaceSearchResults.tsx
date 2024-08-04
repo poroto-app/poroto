@@ -1,6 +1,6 @@
-import { Text, VStack } from "@chakra-ui/react";
+import { Padding } from "src/constant/padding";
 import { PlaceSearchResult } from "src/domain/models/PlaceSearchResult";
-import styled from "styled-components";
+import { Text, YStack } from "tamagui";
 
 type Props = {
     places: PlaceSearchResult[];
@@ -9,23 +9,23 @@ type Props = {
 
 export function PlaceSearchResults({ places, onClickPlace }: Props) {
     return (
-        <VStack w="100%">
+        <YStack w="100%">
             {places.map((place, i) => (
-                <ListItem key={i} onClick={() => onClickPlace(place)}>
+                <YStack
+                    key={i}
+                    w="100%"
+                    py={Padding.p16}
+                    px={Padding.p16}
+                    borderBottomWidth={1}
+                    borderColor="rgba(0, 0, 0, 0.15)"
+                    onPress={() => onClickPlace(place)}
+                >
                     <Text>{place.name}</Text>
-                    <Text fontSize="0.8rem" opacity="0.7">
+                    <Text fontSize={13} opacity={0.7}>
                         {place.address}
                     </Text>
-                </ListItem>
+                </YStack>
             ))}
-        </VStack>
+        </YStack>
     );
 }
-
-const ListItem = styled.div`
-    width: 100%;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-    padding: 12px 16px;
-    cursor: pointer;
-    user-select: none;
-`;
