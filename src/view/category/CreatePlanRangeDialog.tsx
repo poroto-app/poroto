@@ -1,28 +1,19 @@
+import { IconProps } from "@tamagui/helpers-icon";
 import {
-    Box,
-    Center,
-    HStack,
-    Icon,
-    Slider,
-    SliderFilledTrack,
-    SliderThumb,
-    SliderTrack,
-    Spinner,
-    Text,
-    useToast,
-    VStack,
-} from "@chakra-ui/react";
-import { Circle, Marker } from "@react-google-maps/api";
-import { CSSProperties, useEffect, useState } from "react";
-import { IconType } from "react-icons";
+    ArrowLeft,
+    Car,
+    Footprints,
+    MapPin,
+    MousePointerClick,
+    Ruler,
+} from "@tamagui/lucide-icons";
+import { useToastController } from "@tamagui/toast";
 import {
-    MdArrowBack,
-    MdDirectionsCar,
-    MdDirectionsWalk,
-    MdLocationOn,
-    MdTouchApp,
-} from "react-icons/md";
-import { RiPinDistanceFill } from "react-icons/ri";
+    CSSProperties,
+    NamedExoticComponent,
+    useEffect,
+    useState,
+} from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 import { locationSinjukuStation } from "src/constant/location";
 import { Padding } from "src/constant/padding";
@@ -31,15 +22,17 @@ import { GeoLocation } from "src/data/graphql/generated";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { useLocation } from "src/hooks/useLocation";
+import { OnClickHandler } from "src/types/handler";
+import { CreatePlanLocationMap } from "src/view/category/CreatePlanLocationMap";
 import { AppTrans } from "src/view/common/AppTrans";
 import {
     DialogPositions,
     FullscreenDialog,
 } from "src/view/common/FullscreenDialog";
-import { MapViewer } from "src/view/common/MapViewer";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import { PlaceSearch, PlaceSearchProps } from "src/view/place/PlaceSearch";
+import { Slider, Spinner, Text, XStack, YStack } from "tamagui";
 
 type Props = {
     visible: boolean;
@@ -61,24 +54,12 @@ export function CreatePlanRangeDialog({
     onClickGooglePlaceSearchResult,
 }: Props) {
     const { t } = useAppTranslation();
-    const toast = useToast();
+    const toast = useToastController();
     const [rangeInKm, setRangeInKm] = useState(minRangeInKm);
+    const [location, setLocation] = useState<GeoLocation>(null);
     const [mapCenter, setMapCenter] = useState<GeoLocation>(
         locationSinjukuStation
     );
-    const [location, setLocation] = useState<GeoLocation>(null);
-
-    const calcDirectionWalkTime = (distanceInKm: number) => {
-        const walkSpeed = 4;
-        const walkTime = distanceInKm / walkSpeed;
-        return Math.ceil(walkTime * 60);
-    };
-
-    const calcDirectionCarTime = (distanceInKm: number) => {
-        const carSpeed = 60;
-        const carTime = distanceInKm / carSpeed;
-        return Math.ceil(carTime * 60);
-    };
 
     const handleSetLocation = ({
         location,
@@ -93,11 +74,9 @@ export function CreatePlanRangeDialog({
 
     const handleOnConfirm = () => {
         if (!location) {
-            toast({
-                title: t("plan:createPlanByCategoryLocationNotSelectedError"),
-                status: "error",
+            toast.show(t("plan:createPlanByCategoryLocationNotSelectedError"), {
+                burntOptions: { preset: "error" },
                 duration: 3000,
-                isClosable: true,
             });
             return;
         }
@@ -120,98 +99,37 @@ export function CreatePlanRangeDialog({
             onClickOutside={onClose}
         >
             <RoundedDialog h="100%" w={isPC ? "900px" : "100%"} maxW="100%">
-                <VStack
+                <YStack
                     w="100%"
                     h="100%"
-                    px={Padding.p16 + "px"}
-                    py={Padding.p24 + "px"}
+                    px={Padding.p16}
+                    py={Padding.p24}
                     flex={1}
                 >
-                    <HStack w="100%" pb={Padding.p8 + "px"}>
-                        <Center as="button" onClick={onClose}>
-                            <Icon
-                                w="24px"
-                                h="24px"
-                                color="rgba(0,0,0,.5)"
-                                as={MdArrowBack}
-                            />
-                        </Center>
-                        <Text flex={1} fontWeight="semibold" fontSize={18}>
-                            {t("plan:createPlanByCategorySelectRangeTitle")}
-                        </Text>
-                    </HStack>
-                    <Box
+                    <DialogTitle onBack={onClose} />
+                    <YStack
                         flex={1}
                         w="100%"
-                        borderRadius="20px"
+                        borderRadius={20}
                         overflow="hidden"
                         position="relative"
                     >
-                        <MapViewer
-                            zoom={14}
-                            center={{
-                                lat: mapCenter.latitude,
-                                lng: mapCenter.longitude,
-                            }}
-                            onClick={(e) => {
+                        <CreatePlanLocationMap
+                            location={location}
+                            mapCenter={mapCenter}
+                            rangeInKm={rangeInKm}
+                            onClickLocation={(location) => {
                                 handleSetLocation({
-                                    location: {
-                                        latitude: e.latLng.lat(),
-                                        longitude: e.latLng.lng(),
-                                    },
+                                    location,
                                     moveCenter: false,
                                 });
                             }}
-                            options={() => ({
-                                fullscreenControl: false,
-                                mapTypeControl: false,
-                                streetViewControlOptions: {
-                                    position:
-                                        google.maps.ControlPosition
-                                            .RIGHT_CENTER,
-                                },
-                                zoomControlOptions: {
-                                    position:
-                                        google.maps.ControlPosition
-                                            .RIGHT_CENTER,
-                                },
-                            })}
                         >
-                            {location && (
-                                <Marker
-                                    position={{
-                                        lat: location.latitude,
-                                        lng: location.longitude,
-                                    }}
-                                />
-                            )}
-                            {location && (
-                                <Circle
-                                    center={{
-                                        lat: location.latitude,
-                                        lng: location.longitude,
-                                    }}
-                                    radius={rangeInKm * 1000}
-                                    options={{
-                                        fillColor: "#099C5E",
-                                        strokeColor: "#099C5E",
-                                    }}
-                                    onClick={(e) => {
-                                        handleSetLocation({
-                                            location: {
-                                                latitude: e.latLng.lat(),
-                                                longitude: e.latLng.lng(),
-                                            },
-                                            moveCenter: false,
-                                        });
-                                    }}
-                                />
-                            )}
-                            <Box
+                            <XStack
                                 w="100%"
                                 position="absolute"
-                                pt={Padding.p24 + "px"}
-                                px={Padding.p8 + "px"}
+                                pt={Padding.p24}
+                                px={Padding.p8}
                             >
                                 <PlaceSearch
                                     onSearchGooglePlacesByQuery={
@@ -231,100 +149,57 @@ export function CreatePlanRangeDialog({
                                         />
                                     }
                                 />
-                            </Box>
-                            <VStack
-                                w="170px"
-                                justifyContent="center"
-                                px={Padding.p8 + "px"}
-                                py={Padding.p8 + "px"}
-                                borderRadius="10px"
-                                position="absolute"
-                                bottom={Padding.p24 + "px"}
-                                right={Padding.p8 + "px"}
-                                userSelect="none"
-                                backgroundColor="rgba(0,0,0,.6)"
-                            >
-                                <Box color="white">
-                                    <Text fontWeight="bold">
-                                        {rangeInKm} km
-                                    </Text>
-                                </Box>
-                                {rangeInKm < 10 && (
-                                    <DirectionTime
-                                        icon={MdDirectionsWalk}
-                                        time={calcDirectionWalkTime(rangeInKm)}
-                                    />
-                                )}
-                                <DirectionTime
-                                    icon={MdDirectionsCar}
-                                    time={calcDirectionCarTime(rangeInKm)}
-                                />
-                            </VStack>
-                        </MapViewer>
+                            </XStack>
+                            <DirectionIndicator rangeInKm={rangeInKm} />
+                        </CreatePlanLocationMap>
                         <TapMapOverlay />
-                    </Box>
-                    <Center
+                    </YStack>
+                    <YStack
                         w="100%"
-                        py={Padding.p16 + "px"}
-                        px={Padding.p24 + "px"}
+                        alignItems="center"
+                        justifyContent="center"
+                        py={Padding.p24}
+                        px={Padding.p24}
                     >
-                        <Slider
-                            aria-label="slider-ex-1"
-                            w="100%"
-                            min={0}
-                            max={80}
-                            defaultValue={rangeInKm}
-                            value={rangeInKm}
-                            colorScheme="green"
-                            onChange={(value) =>
-                                setRangeInKm(Math.max(minRangeInKm, value))
+                        <RangeInput
+                            rangeInKm={rangeInKm}
+                            onValueChange={(value) =>
+                               setRangeInKm(Math.max(minRangeInKm, value))
                             }
-                        >
-                            <SliderTrack>
-                                <SliderFilledTrack />
-                            </SliderTrack>
-                            <SliderThumb boxSize={6}>
-                                <Icon
-                                    as={RiPinDistanceFill}
-                                    color="green.400"
-                                />
-                            </SliderThumb>
-                        </Slider>
-                    </Center>
+                        />
+                    </YStack>
                     <RoundedButton
                         w="100%"
                         onClick={handleOnConfirm}
                         disabled={!location}
-                    >
-                        {location
-                            ? t("plan:createPlanByCategory")
-                            : t("plan:createPlanByCategorySelectLocationTitle")}
-                    </RoundedButton>
-                </VStack>
+                        label={
+                            location
+                                ? t("plan:createPlanByCategory")
+                                : t("plan:createPlanByCategorySelectLocationTitle")
+                        }
+                    />
+                </YStack>
             </RoundedDialog>
         </FullscreenDialog>
     );
 }
 
-const DirectionTime = ({ icon, time }: { icon: IconType; time: number }) => {
+const DialogTitle = ({ onBack }: { onBack: OnClickHandler }) => {
+    const { t } = useAppTranslation();
     return (
-        <HStack
-            w="100%"
-            color="white"
-            backgroundColor="#099C5E"
-            borderRadius="5px"
-            px={Padding.p4 + "px"}
-            spacing={Padding.p4 + "px"}
-            justifyContent="space-between"
-        >
-            <Icon as={icon} width="20px" height="20px" />
-            <Text>
-                <AppTrans
-                    i18nKey={"common:minuteApproximatelyLabel"}
-                    values={{ minutes: time }}
-                />
+        <XStack w="100%" pb={Padding.p8} gap={Padding.p8} alignItems="center">
+            <XStack
+                tag="button"
+                onPress={onBack}
+                alignItems="center"
+                justifyContent="center"
+            >
+                <ArrowLeft size={24} color="rgba(0,0,0,.5)" />
+            </XStack>
+            <Text flex={1} fontWeight="semibold" fontSize={18}>
+                {t("plan:createPlanByCategorySelectRangeTitle")}
             </Text>
-        </HStack>
+        </XStack>
     );
 };
 
@@ -345,10 +220,12 @@ function TapMapOverlay() {
         // @ts-ignore
         <Transition in={isFirstTap} timeout={300}>
             {(state) => (
-                <Center
+                <XStack
+                    alignItems="center"
+                    justifyContent="center"
                     style={transitionStyles[state]}
-                    backgroundColor="rgba(0,0,0,.2)"
-                    onClick={() => setIsFirstTap(false)}
+                    backgroundColor="rgba(0,0,0,.4)"
+                    onPress={() => setIsFirstTap(false)}
                     transition="opacity 0.3s"
                     position="absolute"
                     top={0}
@@ -356,13 +233,13 @@ function TapMapOverlay() {
                     bottom={0}
                     left={0}
                 >
-                    <VStack color="white" spacing={Padding.p16 + "px"}>
-                        <Icon as={MdTouchApp} w="48px" h="48px" />
-                        <Text fontWeight="bold" fontSize="20px">
+                    <YStack gap={Padding.p16} alignItems="center">
+                        <MousePointerClick size={48} color="white" />
+                        <Text fontWeight="bold" fontSize={20} color="white">
                             {t("plan:createPlanByCategorySelectLocationTitle")}
                         </Text>
-                    </VStack>
-                </Center>
+                    </YStack>
+                </XStack>
             )}
         </Transition>
     );
@@ -374,7 +251,7 @@ function SetByCurrentLocationButton({
     onGetCurrentLocation: (location: GeoLocation) => void;
 }) {
     const { t } = useAppTranslation();
-    const toast = useToast();
+    const toast = useToastController();
     const [isFetching, setIsFetching] = useState(false);
     const { getCurrentLocation, fetchCurrentLocationStatus } = useLocation();
 
@@ -386,30 +263,141 @@ function SetByCurrentLocationButton({
     useEffect(() => {
         setIsFetching(fetchCurrentLocationStatus === RequestStatuses.PENDING);
         if (fetchCurrentLocationStatus === RequestStatuses.REJECTED) {
-            toast({
-                title: t("location:fetchCurrentLocationFailed"),
-                status: "error",
+            toast.show(t("location:fetchCurrentLocationFailed"), {
+                burntOptions: { preset: "error" },
                 duration: 3000,
-                isClosable: true,
-                position: "top",
             });
         }
     }, [fetchCurrentLocationStatus]);
 
     // TODO: i18n
     return (
-        <HStack
-            as="button"
+        <XStack
+            tag="button"
+            alignItems="center"
             backgroundColor="white"
-            color="#2D59C9"
-            borderRadius="50px"
-            boxShadow="2px 2px 4px #A2A2A2"
-            px={Padding.p8 + "px"}
-            py={Padding.p4 + "px"}
-            onClick={handleOnClick}
+            borderRadius={50}
+            shadowRadius={4}
+            shadowOffset={{ width: 2, height: 2 }}
+            shadowColor="#A2A2A2"
+            px={Padding.p8}
+            py={Padding.p4}
+            gap={Padding.p4}
+            onPress={handleOnClick}
         >
-            {isFetching ? <Spinner size="sm" /> : <Icon as={MdLocationOn} />}
-            <Text>現在地を中心にする</Text>
-        </HStack>
+            {isFetching ? (
+                <Spinner size="small" />
+            ) : (
+                <MapPin size={14} color="#2D59C9" />
+            )}
+            <Text fontSize={14} color="#2D59C9">
+                現在地を中心にする
+            </Text>
+        </XStack>
+    );
+}
+
+function DirectionIndicator({ rangeInKm }: { rangeInKm: number }) {
+    const calcDirectionWalkTime = (distanceInKm: number) => {
+        const walkSpeed = 4;
+        const walkTime = distanceInKm / walkSpeed;
+        return Math.ceil(walkTime * 60);
+    };
+
+    const calcDirectionCarTime = (distanceInKm: number) => {
+        const carSpeed = 60;
+        const carTime = distanceInKm / carSpeed;
+        return Math.ceil(carTime * 60);
+    };
+
+    return (
+        <YStack
+            w={170}
+            alignItems="center"
+            justifyContent="center"
+            px={Padding.p8}
+            py={Padding.p8}
+            gap={Padding.p8}
+            borderRadius={10}
+            position="absolute"
+            bottom={Padding.p24}
+            right={Padding.p8}
+            userSelect="none"
+            backgroundColor="rgba(0,0,0,.6)"
+        >
+            <Text fontWeight="bold" color="white">
+                {rangeInKm} km
+            </Text>
+            {rangeInKm < 10 && (
+                <DirectionTime
+                    icon={Footprints}
+                    time={calcDirectionWalkTime(rangeInKm)}
+                />
+            )}
+            <DirectionTime icon={Car} time={calcDirectionCarTime(rangeInKm)} />
+        </YStack>
+    );
+}
+
+const DirectionTime = ({
+    icon: Icon,
+    time,
+}: {
+    icon: NamedExoticComponent<IconProps>;
+    time: number;
+}) => {
+    return (
+        <XStack
+            w="100%"
+            alignItems="center"
+            justifyContent="space-between"
+            backgroundColor="#099C5E"
+            borderRadius={5}
+            px={Padding.p4}
+            gap={Padding.p4}
+        >
+            <Icon size={20} color="white" />
+            <Text color="white">
+                <AppTrans
+                    i18nKey={"common:minuteApproximatelyLabel"}
+                    values={{ minutes: time }}
+                />
+            </Text>
+        </XStack>
+    );
+};
+
+function RangeInput({
+    rangeInKm,
+    onValueChange,
+}: {
+    rangeInKm: number;
+    onValueChange: (value: number) => void;
+}) {
+    return (
+        <Slider
+            theme="green"
+            h={4}
+            w="100%"
+            min={0}
+            max={80}
+            defaultValue={[rangeInKm]}
+            value={[rangeInKm]}
+            onValueChange={(values) => onValueChange(values[0])}
+        >
+            <Slider.Track backgroundColor="#E2E8F0">
+                <Slider.TrackActive backgroundColor="#38A169" />
+            </Slider.Track>
+            <Slider.Thumb
+                size={32}
+                circular
+                index={0}
+                justifyContent="center"
+                alignItems="center"
+                padding={Padding.p4}
+            >
+                <Ruler size={20} color="#38A169" />
+            </Slider.Thumb>
+        </Slider>
     );
 }

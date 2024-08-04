@@ -20,7 +20,7 @@ export function PlaceSearch({
     const isEmptySearchResults =
         !googlePlaceSearchResults || googlePlaceSearchResults.length === 0;
     return (
-        <VStack spacing={4}>
+        <VStack spacing={4} w="100%">
             <PlaceSearchBar onSearch={onSearchGooglePlacesByQuery} />
             {isEmptySearchResults && placeSearchActions && placeSearchActions}
             <Box
