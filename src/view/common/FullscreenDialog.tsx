@@ -1,24 +1,20 @@
-import { Box } from "@chakra-ui/react";
-import { CSSProperties, ReactNode, useEffect } from "react";
-import { Transition, TransitionStatus } from "react-transition-group";
-import { zIndex } from "src/constant/zIndex";
-import styled from "styled-components";
+import { ReactNode, useState } from "react";
+import { Dialog, Sheet } from "tamagui";
 
 type Props = {
     position?: DialogPosition;
     visible: boolean;
     children: ReactNode;
-    onClickOutside?: () => void;
     padding?: string | number;
     paddingX?: string | number;
     paddingY?: string | number;
-    width?: string;
-    height?: string;
-    maxWidth?: string;
-    maxHeight?: string;
+    width?: number | "" | "100%";
+    height?: number | "" | "100%";
+    maxWidth?: number | "100%";
+    maxHeight?: number | "80%" | "100%";
+    onClickOutside?: () => void;
 };
 
-// TODO: スワイプインする
 export const DialogPositions = {
     CENTER: "center",
     BOTTOM: "bottom",
@@ -26,18 +22,8 @@ export const DialogPositions = {
 export type DialogPosition =
     (typeof DialogPositions)[keyof typeof DialogPositions];
 
-const transitionStyles: {
-    [key in TransitionStatus]: CSSProperties | undefined;
-} = {
-    entering: { opacity: 0 },
-    entered: { opacity: 1 },
-    exiting: { opacity: 0 },
-    exited: { opacity: 0, visibility: "hidden" },
-    unmounted: { opacity: 0, visibility: "hidden" },
-};
-
 export function FullscreenDialog({
-    position = DialogPositions.CENTER,
+    position: dialogPosition = DialogPositions.CENTER,
     visible,
     width,
     height,
@@ -49,108 +35,77 @@ export function FullscreenDialog({
     paddingY,
     children,
 }: Props) {
-    // スクロールしたときに画面が動かないようにする
-    const fixScroll = () => {
-        document.body.style.top = `-${window.scrollY}px`;
-        document.body.style.right = "0";
-        document.body.style.left = "0";
-        document.body.style.bottom = "0";
-        document.body.style.overflow = "hidden";
-        document.body.style.position = "fixed";
-    };
-
-    const resetFixScroll = () => {
-        const scrollY = parseInt(document.body.style.top || "0");
-        document.body.style.overflow = "";
-        document.body.style.position = "";
-        document.body.style.top = "";
-        document.body.style.right = "";
-        document.body.style.left = "";
-        document.body.style.bottom = "";
-        // MEMO: これをやらないと、スクロール位置が元に戻らない
-        window.scrollTo(0, scrollY * -1);
-    };
-
-    useEffect(() => {
-        // コンポーネントが表示されなくなったときに、スクロール位置を元に戻す
-        return () => {
-            resetFixScroll();
-        };
-    }, []);
-
-    useEffect(() => {
-        if (visible) {
-            fixScroll();
-        } else {
-            resetFixScroll();
-        }
-    }, [visible]);
+    const [sheetPosition, setSheetPosition] = useState(0);
+    if (dialogPosition === DialogPositions.BOTTOM) {
+        return (
+            <Sheet
+                animation="medium"
+                dismissOnSnapToBottom
+                forceRemoveScrollEnabled={visible}
+                modal
+                open={visible}
+                snapPoints={height ? [height] : ["80%"]}
+                snapPointsMode="mixed"
+                position={sheetPosition}
+                onPositionChange={setSheetPosition}
+                onOpenChange={(open) => {
+                    if (!open && onClickOutside) {
+                        onClickOutside();
+                    }
+                }}
+            >
+                <Sheet.Overlay
+                    animation="slow"
+                    enterStyle={{ opacity: 0 }}
+                    exitStyle={{ opacity: 0 }}
+                />
+                <Sheet.Handle />
+                <Sheet.Frame
+                    alignSelf="center"
+                    width={width}
+                    height={height}
+                    maxWidth={maxWidth}
+                    maxHeight={maxHeight}
+                    padding={padding}
+                    paddingHorizontal={paddingX}
+                    paddingVertical={paddingY}
+                >
+                    {children}
+                </Sheet.Frame>
+            </Sheet>
+        );
+    }
 
     return (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        <Transition
-            in={visible}
-            timeout={{
-                enter: 200,
-                exit: 200,
-            }}
-        >
-            {(state) =>
-                state === "exited" || state === "unmounted" ? (
-                    <></>
-                ) : (
-                    <FullscreenDialogWrapper
-                        style={{
-                            ...transitionStyles[state],
-                        }}
-                    >
-                        <Container position={position}>
-                            {/* MEMO: FullscreenDialogWrapper にonClick属性をつけて、zIndex:9999 にしても、childrenに触れたときにonClickOutsideが発火してしまう*/}
-                            <TouchDetector onClick={onClickOutside} />
-                            <Box
-                                zIndex={9999}
-                                px={paddingX ?? padding}
-                                py={paddingY ?? padding}
-                                w={width}
-                                h={height}
-                                maxW={maxWidth}
-                                maxH={maxHeight}
-                            >
-                                {children}
-                            </Box>
-                        </Container>
-                    </FullscreenDialogWrapper>
-                )
-            }
-        </Transition>
+        <Dialog open={visible}>
+            <Dialog.Portal
+                width="100%"
+                height="100%"
+                justifyContent="center"
+                alignItems={"center"}
+                paddingHorizontal={paddingX ?? padding}
+                paddingVertical={paddingY ?? padding}
+            >
+                <Dialog.Overlay
+                    opacity={0.5}
+                    enterStyle={{ opacity: 0 }}
+                    exitStyle={{ opacity: 0 }}
+                    onPress={onClickOutside}
+                />
+                <Dialog.Content
+                    backgroundColor="transparent"
+                    width={width}
+                    height={height}
+                    maxWidth={maxWidth}
+                    maxHeight={maxHeight}
+                    p={0}
+                    animateOnly={["transform", "opacity"]}
+                    enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
+                    exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
+                >
+                    {children}
+                </Dialog.Content>
+            </Dialog.Portal>
+        </Dialog>
     );
 }
-
-const FullscreenDialogWrapper = styled.div`
-    background-color: rgba(0, 0, 0, 0.5);
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: ${zIndex.dialog};
-    transition: all 0.2s linear;
-`;
-
-const Container = styled.div<{ position: DialogPosition }>`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: ${({ position }) =>
-        position === DialogPositions.BOTTOM ? "flex-end" : "center"};
-`;
-
-const TouchDetector = styled.div`
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-`;

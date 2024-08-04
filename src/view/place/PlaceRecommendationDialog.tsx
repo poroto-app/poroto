@@ -47,10 +47,10 @@ export function PlaceRecommendationDialog({
     return (
         <FullscreenDialog
             position={DialogPositions.BOTTOM}
-            width="800px"
+            width={800}
             maxWidth="100%"
-            height="min(80vh, 600px)"
-            maxHeight="min(80vh, 600px)"
+            height={600}
+            maxHeight="80%"
             visible={visible}
             onClickOutside={onClose}
         >

@@ -1,9 +1,9 @@
 import { HStack } from "@chakra-ui/react";
 import { Meta, StoryObj } from "@storybook/react";
-import { UserAvatar } from "src/view/user/UserAvatar";
+import { UserAvatar } from "src/view/navigation/UserAvatar";
 
 export default {
-    title: "user/UserAvatar",
+    title: "navigation/UserAvatar",
     component: UserAvatar,
     tags: ["autodocs"],
     parameters: {},

@@ -142,12 +142,12 @@ const Layout = ({
     );
 };
 
-const GridLayout = styled.div<{ px?: string | number }>`
+const GridLayout = styled.div<{ px?: number }>`
     display: grid;
     width: 100%;
     column-gap: 24px;
     row-gap: 48px;
-    padding: ${({ px }) => px};
+    padding: ${({ px }) => px + "px"};
 
     grid-template-columns: 1fr;
 

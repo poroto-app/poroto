@@ -18,7 +18,8 @@
     "storybook": "storybook dev -p 6006 --ci",
     "storybook:build": "storybook build",
     "storybook:test": "test-storybook",
-    "graphql:gen": "graphql-codegen --config codegen.ts"
+    "graphql:gen": "graphql-codegen --config codegen.ts",
+    "upgrade:tamagui": "yarn up '*tamagui*'@latest '@tamagui/*'@latest"
   },
   "dependencies": {
     "@apollo/client": "^3.10.3",
@@ -37,13 +38,17 @@
     "@react-google-maps/api": "^2.19.3",
     "@reduxjs/toolkit": "^2.2.1",
     "@splidejs/react-splide": "^0.7.12",
-    "@tamagui/font-inter": "^1.104.2",
-    "@tamagui/linear-gradient": "^1.104.2",
-    "@tamagui/lucide-icons": "^1.104.2",
-    "@tamagui/next-plugin": "^1.104.2",
-    "@tamagui/shorthands": "^1.104.2",
-    "@tamagui/themes": "^1.104.2",
+    "@tamagui/animations-css": "^1.108.0",
+    "@tamagui/animations-react-native": "^1.108.0",
+    "@tamagui/config": "^1.108.0",
+    "@tamagui/font-inter": "^1.108.0",
+    "@tamagui/linear-gradient": "^1.108.0",
+    "@tamagui/lucide-icons": "^1.108.0",
+    "@tamagui/next-plugin": "^1.108.0",
+    "@tamagui/shorthands": "^1.108.0",
+    "@tamagui/themes": "^1.108.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "add": "^2.0.6",
     "axios": "^1.7.2",
     "babel-plugin-styled-components": "^2.1.4",
     "expo": "^51.0.22",
@@ -84,8 +89,9 @@
     "remark-unwrap-images": "^4.0.0",
     "solito": "^4.2.2",
     "styled-components": "^6.1.8",
-    "tamagui": "^1.104.2",
-    "uuid": "^10.0.0"
+    "tamagui": "^1.108.0",
+    "uuid": "^10.0.0",
+    "yarn": "^1.22.22"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

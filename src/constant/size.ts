@@ -76,4 +76,4 @@ export const Size = {
     PlanFooter: {
         h: 80,
     },
-};
+} as const;

@@ -8,13 +8,13 @@ import { PageMetaData } from "src/constant/meta";
 import "src/locales/i18n";
 import { i18nAppConfig } from "src/locales/i18n";
 import { reduxStore } from "src/redux/redux";
+import tamaguiConfig from "src/tamagui/tamagui.config";
 import { Auth } from "src/view/common/Auth";
 import { FirebaseProvider } from "src/view/common/FirebaseProvider";
 import { Theme } from "src/view/common/Theme";
 import { ErrorBoundary } from "src/view/provider/ErrorBoundary";
 import { History } from "src/view/provider/History";
-import { TamaguiProvider } from "tamagui";
-import tamaguiConfig from "tamagui.config";
+import { PortalProvider, TamaguiProvider } from "tamagui";
 
 function App({ Component, pageProps }: AppProps) {
     const { t } = useTranslation();
@@ -74,10 +74,13 @@ function App({ Component, pageProps }: AppProps) {
                         <History />
                         <TamaguiProvider
                             config={tamaguiConfig}
+                            defaultTheme="light"
                             disableInjectCSS
                             disableRootThemeClass
                         >
-                            <Component {...pageProps} />
+                            <PortalProvider shouldAddRootHost>
+                                <Component {...pageProps} />
+                            </PortalProvider>
                         </TamaguiProvider>
                     </ErrorBoundary>
                 </Provider>
