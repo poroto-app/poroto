@@ -52,7 +52,6 @@ const ToastComponent = () => {
             key={currentToast.id}
             onOpenChange={currentToast.onOpenChange}
             duration={currentToast.duration ?? 3000}
-            transition="all ease-in 800ms"
             enterStyle={{
                 opacity: 0,
                 scale: 0.5,
@@ -62,10 +61,7 @@ const ToastComponent = () => {
             y={0}
             opacity={1}
             scale={1}
-            {
-                // Android で animation を指定して動作させるとエラーが発生する
-                ...(isWeb && { animation: "medium" })
-            }
+            animation="quicker"
             viewportName={currentToast.viewportName}
             unstyled
             width="100%"
