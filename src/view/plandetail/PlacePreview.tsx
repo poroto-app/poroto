@@ -25,7 +25,7 @@ import {
 } from "src/view/plandetail/PlaceChipContextAction";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
-import { Dialog, Text, XStack, YStack } from "tamagui";
+import {Dialog, Text, View, XStack, YStack} from "tamagui";
 
 type Props = {
     placeId: string;
@@ -258,6 +258,8 @@ function ImagePreviewDialog({
                     height={600}
                     maxWidth={600}
                     maxHeight="100%"
+                    display="flex"
+                    flexDirection="column"
                     animation={[
                         "quicker",
                         {
@@ -270,7 +272,9 @@ function ImagePreviewDialog({
                     exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
                     gap={Padding.p16}
                 >
-                    <ImageWithSkeleton src={imageUrl} objectFit="contain" />
+                    <View w="100%" flex={1}>
+                        <ImageWithSkeleton src={imageUrl} objectFit="contain" />
+                    </View>
                     <RoundedButton
                         label={t("common:close")}
                         onClick={onClose}
