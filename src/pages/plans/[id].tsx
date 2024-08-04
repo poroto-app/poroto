@@ -219,7 +219,7 @@ export default function PlanPage() {
                     sectionHeader={
                         <SectionTitle
                             title={t("plan:planInfo")}
-                            px={Size.PlanDetail.px + "px"}
+                            px={Size.PlanDetail.px}
                         />
                     }
                 >
@@ -235,7 +235,7 @@ export default function PlanPage() {
                     sectionHeader={
                         <SectionTitle
                             title={t("plan:plan")}
-                            px={Size.PlanDetail.px + "px"}
+                            px={Size.PlanDetail.px}
                         />
                     }
                 >
@@ -253,7 +253,7 @@ export default function PlanPage() {
                         <SectionTitle
                             title={t("plan:placesInPlan")}
                             description={t("plan:clickMarkerToShowPlaceDetail")}
-                            px={Size.PlanDetail.px + "px"}
+                            px={Size.PlanDetail.px}
                         />
                     }
                 >
@@ -278,7 +278,7 @@ export default function PlanPage() {
                                 <PlanListSectionTitle
                                     title={t("plan:nearbyPlans")}
                                     icon={MdOutlineNearMe}
-                                    px={Size.PlanDetail.px + "px"}
+                                    px={Size.PlanDetail.px}
                                 />
                             }
                         >
@@ -303,7 +303,7 @@ export default function PlanPage() {
                             <PlanListSectionTitle
                                 title={t("plan:createNewPlanTitle")}
                                 icon={MdOutlineExplore}
-                                px={Size.PlanDetail.px + "px"}
+                                px={Size.PlanDetail.px}
                             />
                         }
                     >

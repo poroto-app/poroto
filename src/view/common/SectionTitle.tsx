@@ -5,11 +5,16 @@ type Props = {
     title: string;
     description?: string;
     icon?: IconType;
-    px?: string | number;
+    px?: number;
 };
 export function SectionTitle({ title, description, icon, px }: Props) {
     return (
-        <VStack alignItems="flex-start" px={px} spacing="4px" color="#3E3E3E">
+        <VStack
+            alignItems="flex-start"
+            px={px + "px"}
+            spacing="4px"
+            color="#3E3E3E"
+        >
             <HStack>
                 {icon && <Icon w="24px" h="24px" as={icon} fontSize="20px" />}
                 <Text fontWeight="bold" fontSize="20px">
