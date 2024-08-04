@@ -1,7 +1,6 @@
-import { Center, Spinner, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import InfiniteScroll from "react-infinite-scroller";
 import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
 import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
@@ -20,7 +19,6 @@ import {
 import { NavBar } from "src/view/navigation/NavBar";
 import { NearbyPlanList } from "src/view/plan/NearbyPlanList";
 import { PlanList } from "src/view/plan/PlanList";
-import { PlanListSectionRecentlyCreated } from "src/view/top/PlanListSectionTitle";
 
 type Props = {
     plansRecentlyCreated: Plan[] | null;
@@ -61,23 +59,15 @@ export default function SearchPage(props: Props) {
                     isFetchingNearbyPlans={isFetchingNearbyPlans}
                     onRequestFetchNearByPlans={fetchNearbyPlans}
                 />
-                {/* TODO: React 18に対応 */}
-                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                {/* @ts-ignore */}
-                <InfiniteScroll
+                <PlanList
+                    grid
+                    ads
+                    px={Size.top.px}
+                    plans={plansRecentlyCreated}
+                    isLoading={isLoadingRecentlyCreatedPlans}
+                    canLoadMore={canLoadMoreRecentlyCreatedPlans}
                     loadMore={() => loadNextRecentCreatedPlans()}
-                    hasMore={canLoadMoreRecentlyCreatedPlans}
-                    style={{ width: "100%" }}
-                >
-                    <PlanList plans={plansRecentlyCreated} px={Size.top.px}>
-                        <PlanListSectionRecentlyCreated />
-                    </PlanList>
-                    {isLoadingRecentlyCreatedPlans && (
-                        <Center w="100%" py="32px">
-                            <Spinner size="md" color="orange.600" />
-                        </Center>
-                    )}
-                </InfiniteScroll>
+                />
             </VStack>
         </Layout>
     );

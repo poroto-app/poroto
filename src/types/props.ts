@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { ImageSize, Image as ImageType } from "src/domain/models/Image";
+import { Plan } from "src/domain/models/Plan";
 
 export type FadeInFadeOutTransitionProps = {
     duration?: number;
@@ -46,6 +47,25 @@ export type ImageSliderPreviewProps = {
     draggable?: boolean;
     borderRadius?: number;
     onClickImage?: (image: ImageType) => void;
+};
+
+export type PlanListProps = {
+    plans: Plan[] | null;
+
+    isLoading?: boolean;
+    canLoadMore?: boolean;
+    loadMore?: () => void;
+
+    px?: number;
+    grid?: boolean;
+    numPlaceHolders?: number;
+
+    wrapTitle?: boolean;
+    showAuthor?: boolean;
+
+    ads?: boolean;
+
+    children?: ReactNode;
 };
 
 export type RotateTransitionProps = {
