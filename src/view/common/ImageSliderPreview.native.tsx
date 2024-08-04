@@ -30,9 +30,7 @@ export function ImageSliderPreview({
                                 key={i}
                                 src={getImageSizeOf(imageSize, image)}
                                 isGoogleImage={image.isGoogleImage}
-                                onClick={() =>
-                                    onClickImage && onClickImage(image)
-                                }
+                                onClick={onClickImage && (() => onClickImage(image))}
                             />
                         </XStack>
                     ))}
