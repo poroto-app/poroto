@@ -1,8 +1,10 @@
 import { config as configBase } from "@tamagui/config/v3";
 import { createTamagui, CreateTamaguiProps } from "tamagui";
 
-const tamaguiProps: CreateTamaguiProps = {
+const tamaguiConfig = createTamagui({
+    ...configBase,
     media: {
+        ...configBase.media,
         xs: { maxWidth: 700 },
         gtXs: { minWidth: 700 + 1 },
         sm: { maxWidth: 860 },
@@ -16,11 +18,6 @@ const tamaguiProps: CreateTamaguiProps = {
         hoverNone: { hover: "none" },
         pointerCoarse: { pointer: "coarse" },
     },
-};
-
-const tamaguiConfig = createTamagui({
-    ...configBase,
-    ...tamaguiProps,
 });
 
 export default tamaguiConfig;
