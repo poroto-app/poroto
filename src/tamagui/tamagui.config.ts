@@ -1,5 +1,5 @@
 import { config as configBase } from "@tamagui/config/v3";
-import { createTamagui, CreateTamaguiProps } from "tamagui";
+import { createTamagui } from "tamagui";
 
 const tamaguiConfig = createTamagui({
     ...configBase,
