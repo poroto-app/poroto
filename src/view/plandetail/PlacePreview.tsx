@@ -259,7 +259,7 @@ function ImagePreviewDialog({
                     maxWidth={600}
                     maxHeight="100%"
                     animation={[
-                        "fast",
+                        "quicker",
                         {
                             opacity: {
                                 overshootClamping: true,
