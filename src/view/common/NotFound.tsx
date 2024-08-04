@@ -1,16 +1,17 @@
-import { Image } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { Link } from "solito/link";
 import { Routes } from "src/constant/router";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
+import TakenIcon from "src/view/assets/svg/taken.svg";
 import { FailurePage } from "src/view/common/FailurePage";
-import { RoundedButton } from "./RoundedButton";
+import { RoundedButton } from "src/view/common/RoundedButton";
+import { isWeb } from "tamagui";
 
 type Props = {
     navBar?: boolean;
 };
 
 export const NotFound = ({ navBar }: Props) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <FailurePage
             navBar={navBar}
@@ -18,11 +19,10 @@ export const NotFound = ({ navBar }: Props) => {
             statusMessage={t("error:notFoundStatusMessage")}
             statusDescription={t("error:notFoundDescription")}
             image={
-                <Image
-                    w="100%"
-                    objectFit="cover"
-                    src="/images/404.png"
-                    alt="Not Found"
+                <TakenIcon
+                    width={isWeb ? "100%" : 300}
+                    height={isWeb ? "auto" : 300}
+                    viewBox="0 0 672.5315 738.39398"
                 />
             }
             actions={
@@ -30,7 +30,7 @@ export const NotFound = ({ navBar }: Props) => {
                     href={Routes.home}
                     viewProps={{ style: { width: "100%" } }}
                 >
-                    <RoundedButton>{t("common:backToHome")}</RoundedButton>
+                    <RoundedButton label={t("common:backToHome")} />
                 </Link>
             }
         />

@@ -1,6 +1,7 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { LayoutChangeEvent } from "react-native";
-import { setScreenWidth } from "src/redux/native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { setSafeArea, setScreenWidth } from "src/redux/native";
 import { useAppDispatch } from "src/redux/redux";
 import { View } from "tamagui";
 
@@ -8,10 +9,16 @@ import { View } from "tamagui";
 // Dimensions API や useWindowDimensions では画面分割時に正しい値を取得できない
 export function ScreenSizeProvider({ children }: { children?: ReactNode }) {
     const dispatch = useAppDispatch();
+    const { top, right, bottom, left } = useSafeAreaInsets();
 
     const handleOnLayout = (e: LayoutChangeEvent) => {
         dispatch(setScreenWidth(e.nativeEvent.layout.width));
     };
+
+    useEffect(() => {
+        dispatch(setSafeArea({ top, right, bottom, left }));
+    }, [top, right, bottom, left]);
+
     return (
         <View width="100%" height="100%" onLayout={handleOnLayout}>
             {children}

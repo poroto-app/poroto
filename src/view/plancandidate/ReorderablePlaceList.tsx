@@ -22,8 +22,9 @@ import {
     verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { Footprints } from "@tamagui/lucide-icons";
 import { forwardRef, useState } from "react";
-import { MdDirectionsWalk, MdDragIndicator } from "react-icons/md";
+import { MdDragIndicator } from "react-icons/md";
 import { Colors } from "src/constant/color";
 import { Padding } from "src/constant/padding";
 import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
@@ -75,7 +76,7 @@ export function ReorderablePlaceDialog({
                             label={t(
                                 "plan:reorderPlacesMinimizeWalkingDistance"
                             )}
-                            icon={MdDirectionsWalk}
+                            icon={Footprints}
                             onClick={onAutoReorderPlaces}
                         />
                     </HStack>

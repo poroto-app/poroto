@@ -1,8 +1,8 @@
 import { Icon } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { FormEvent, useEffect, useState } from "react";
 import { MdClose, MdSearch } from "react-icons/md";
 import { hasValue } from "src/domain/util/null";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import styled from "styled-components";
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 };
 
 export function PlaceSearchBar({ defaultValue = "", onSearch }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const [lastUsedQuery, setLastUsedQuery] = useState<string | null>(null);
     const [value, setValue] = useState(defaultValue);
 

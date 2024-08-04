@@ -1,18 +1,19 @@
-import { IconType } from "react-icons";
+import { IconProps } from "@tamagui/helpers-icon";
 import {
-    MdOutlineAttractions,
-    MdOutlineCottage,
-    MdOutlineImportContacts,
-    MdOutlineLocalCafe,
-    MdOutlineLocalLibrary,
-    MdOutlineLocationOn,
-    MdOutlineMuseum,
-    MdOutlinePark,
-    MdOutlinePets,
-    MdOutlineRestaurant,
-    MdOutlineShoppingBag,
-    MdOutlineTakeoutDining,
-} from "react-icons/md";
+    Bird,
+    BookOpen,
+    Coffee,
+    FerrisWheel,
+    Landmark,
+    Library,
+    MapPin,
+    Sandwich,
+    ShoppingBag,
+    Tent,
+    TreeDeciduous,
+    Utensils,
+} from "@tamagui/lucide-icons";
+import { NamedExoticComponent } from "react";
 import {
     PlaceCategory,
     PlaceCategoryTypes,
@@ -21,25 +22,25 @@ import {
 const icons: {
     [key in
         | (typeof PlaceCategoryTypes)[keyof typeof PlaceCategoryTypes]
-        | "null"]: IconType;
+        | "null"]: NamedExoticComponent<IconProps>;
 } = {
-    [PlaceCategoryTypes.Amusements]: MdOutlineAttractions,
-    [PlaceCategoryTypes.BookStores]: MdOutlineImportContacts,
-    [PlaceCategoryTypes.Cafe]: MdOutlineLocalCafe,
-    [PlaceCategoryTypes.Camp]: MdOutlineCottage,
-    [PlaceCategoryTypes.Culture]: MdOutlineMuseum,
-    [PlaceCategoryTypes.Natural]: MdOutlinePets,
-    [PlaceCategoryTypes.Park]: MdOutlinePark,
-    [PlaceCategoryTypes.Restaurant]: MdOutlineRestaurant,
-    [PlaceCategoryTypes.Library]: MdOutlineLocalLibrary,
-    [PlaceCategoryTypes.MealTakeaway]: MdOutlineTakeoutDining,
-    [PlaceCategoryTypes.Shopping]: MdOutlineShoppingBag,
+    [PlaceCategoryTypes.Amusements]: FerrisWheel,
+    [PlaceCategoryTypes.BookStores]: BookOpen,
+    [PlaceCategoryTypes.Cafe]: Coffee,
+    [PlaceCategoryTypes.Camp]: Tent,
+    [PlaceCategoryTypes.Culture]: Landmark,
+    [PlaceCategoryTypes.Natural]: Bird,
+    [PlaceCategoryTypes.Park]: TreeDeciduous,
+    [PlaceCategoryTypes.Restaurant]: Utensils,
+    [PlaceCategoryTypes.Library]: Library,
+    [PlaceCategoryTypes.MealTakeaway]: Sandwich,
+    [PlaceCategoryTypes.Shopping]: ShoppingBag,
 };
 
 export const getPlaceCategoryIcon = (
     category: PlaceCategory | null
-): IconType => {
-    const defaultIcon = MdOutlineLocationOn;
+): NamedExoticComponent<IconProps> => {
+    const defaultIcon = MapPin;
     if (category === null) return defaultIcon;
     if (Object.keys(icons).includes(category.id)) return icons[category.id];
     return defaultIcon;

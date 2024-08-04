@@ -18,25 +18,6 @@ export function Theme() {
                         --max-page-width: 990px;
                     }
 
-                    :root {
-                        --color-brown-400: #ac8e6c;
-                        --color-brown-500: #8c6d5c;
-                        --color-brown-600: #6c4d4c;
-                        --color-brown-700: #4c2d3c;
-                        --color-brown-800: #2c230d;
-
-                        --color-beige-200: #f7f5ee;
-                        --color-beige-300: #d8bfc5;
-                        --color-beige-400: #bba0a6;
-                        --color-beige-500: #958797;
-
-                        --color-primary-400: var(--color-brown-400);
-                        --color-primary-500: var(--color-brown-500);
-                        --color-primary-600: var(--color-brown-600);
-                        --color-primary-700: var(--color-brown-700);
-                        --color-primary-800: var(--color-brown-800);
-                    }
-
                     button {
                         border-style: none;
                         background-color: transparent;

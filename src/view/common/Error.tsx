@@ -1,4 +1,4 @@
-import { useTranslation } from "next-i18next";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import ServerDownIcon from "src/view/assets/svg/server_down.svg";
 import { FailurePage } from "src/view/common/FailurePage";
 import { RoundedButton } from "src/view/common/RoundedButton";
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export function Error({ navBar, onReload }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
 
     const handleOnReload = () => {
         onReload?.();
@@ -34,9 +34,10 @@ export function Error({ navBar, onReload }: Props) {
                 />
             }
             actions={
-                <RoundedButton onClick={handleOnReload}>
-                    {t("common:reload")}
-                </RoundedButton>
+                <RoundedButton
+                    label={t("common:reload")}
+                    onClick={handleOnReload}
+                />
             }
         />
     );

@@ -7,8 +7,9 @@ import { initReactI18next } from "react-i18next";
 import { Provider } from "react-redux";
 import { i18nAppConfig } from "src/locales/i18n";
 import { reduxStore } from "src/redux/redux";
-import { tamaguiConfigAnimation } from "src/tamagui/animation";
 import tamaguiConfig from "src/tamagui/tamagui.config";
+import { NavBar } from "src/view/navigation/NavBar";
+import { AppToastProvider } from "src/view/provider/AppToastProvider";
 import { ScreenSizeProvider } from "src/view/provider/ScreenSizeProvider.native";
 import { TamaguiProvider } from "tamagui";
 
@@ -41,25 +42,28 @@ export default function RootLayout() {
     }
 
     return (
-        <Provider store={reduxStore}>
-            <TamaguiProvider
-                config={{
-                    ...tamaguiConfig,
-                    animations: tamaguiConfigAnimation,
-                }}
-                defaultTheme="light"
-            >
-                <ThemeProvider value={DefaultTheme}>
+        <TamaguiProvider config={tamaguiConfig} defaultTheme="light">
+            <ThemeProvider value={DefaultTheme}>
+                <Provider store={reduxStore}>
                     <ScreenSizeProvider>
-                        <Stack>
-                            <Stack.Screen
-                                name="(tabs)"
-                                options={{ headerShown: false }}
-                            />
-                        </Stack>
+                        <AppToastProvider>
+                            <Stack
+                                screenOptions={{
+                                    headerShown: true,
+                                    header: (props) => (
+                                        <NavBar
+                                            canGoBack={props.navigation.canGoBack()}
+                                            onBack={props.navigation.goBack}
+                                        />
+                                    ),
+                                }}
+                            >
+                                <Stack.Screen name="(tabs)" />
+                            </Stack>
+                        </AppToastProvider>
                     </ScreenSizeProvider>
-                </ThemeProvider>
-            </TamaguiProvider>
-        </Provider>
+                </Provider>
+            </ThemeProvider>
+        </TamaguiProvider>
     );
 }

@@ -1,5 +1,5 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import HappyNewsIcon from "src/view/assets/svg/happy_news.svg";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 
@@ -14,7 +14,7 @@ export function PlanCreatedDialog({
     onClickClose,
     visible,
 }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <FullscreenDialog onClickOutside={onClickClose} visible={visible}>
             <VStack

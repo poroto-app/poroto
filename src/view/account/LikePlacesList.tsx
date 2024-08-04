@@ -1,11 +1,11 @@
 import { Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
 import { isPC } from "src/constant/userAgent";
 import { Place } from "src/domain/models/Place";
 import { createArrayWithSize } from "src/domain/util/array";
 import { hasValue } from "src/domain/util/null";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import UndrawOuterSpaceIcon from "src/view/assets/svg/outer_space.svg";
 import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
 import { PlaceCard } from "src/view/place/PlaceCard";
@@ -21,7 +21,7 @@ export function LikePlacesList({
     onSelectLikePlace,
     numPlaceHolders = 6,
 }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <VStack w="100%">
             <HorizontalScrollableList
@@ -84,7 +84,7 @@ function LikePlaces({
 }
 
 function Empty() {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <VStack
             w="100%"

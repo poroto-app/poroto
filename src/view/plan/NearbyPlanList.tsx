@@ -1,6 +1,6 @@
-import { useTranslation } from "next-i18next";
 import { isPC } from "src/constant/userAgent";
 import { Plan } from "src/domain/models/Plan";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { LocationPermission, LocationPermissions } from "src/hooks/useLocation";
 import { PlanList } from "src/view/plan/PlanList";
 import { LocationUnavailable } from "src/view/top/LocationUnavailable";
@@ -24,7 +24,7 @@ export function NearbyPlanList({
     isFetchingCurrentLocation,
     onRequestFetchNearByPlans,
 }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <PlanList
             plans={plans}

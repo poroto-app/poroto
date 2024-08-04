@@ -1,6 +1,6 @@
 import { Box, Divider, HStack, Image, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { forwardRef } from "react";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import Logo from "src/view/assets/svg/logo.svg";
 import { AppTrans } from "src/view/common/AppTrans";
 
@@ -18,7 +18,7 @@ type CollageProps = {
 
 export const CollageTemplate = forwardRef<HTMLDivElement, CollageProps>(
     function CollageTemplateComponent({ title, places, introduction }, ref) {
-        const { t } = useTranslation();
+        const { t } = useAppTranslation();
         return (
             <VStack
                 ref={ref}

@@ -8,8 +8,8 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { useState } from "react";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { OnClickHandler } from "src/types/handler";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 
@@ -76,7 +76,7 @@ const Confirm = ({
     onUpload: OnClickHandler;
     onClose: OnClickHandler;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <VStack h="100%" w="100%" px="16px" py="16px">
             <VStack w="100%" flex={1} justifyContent="center" spacing="32px">

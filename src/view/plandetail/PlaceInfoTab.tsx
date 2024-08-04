@@ -1,19 +1,20 @@
-import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
-import { ReactNode, useState } from "react";
-import { IconType } from "react-icons";
-import { MdCurrencyYen, MdSchedule } from "react-icons/md";
+import { IconProps } from "@tamagui/helpers-icon";
+import { Calendar, JapaneseYen } from "@tamagui/lucide-icons";
+import { NamedExoticComponent, ReactNode, useState } from "react";
+import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
 import { DateHelper } from "src/domain/util/date";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
+import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
 import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
+import { Text, XStack, YStack } from "tamagui";
 
 type Props = {
     priceRange: PriceRange | null;
     categories: PlaceCategory[];
-    tabHSpaacing?: string;
+    tabHSpacing?: number;
     estimatedStayDuration: number;
 };
 
@@ -25,25 +26,37 @@ export type PlaceInfoTab = (typeof PlaceInfoTabs)[keyof typeof PlaceInfoTabs];
 export const PlaceInfoTab = ({
     categories,
     priceRange,
-    tabHSpaacing,
+    tabHSpacing,
     estimatedStayDuration,
 }: Props) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const [activeTab, setActiveTab] = useState<PlaceInfoTab>(
         PlaceInfoTabs.Information
     );
 
     return (
-        <VStack w="100%" spacing="16px" h={180} transition="height 0.4s ease">
-            <HStack w="100%" px={tabHSpaacing} alignItems="flex-start">
+        <YStack
+            w="100%"
+            gap={Padding.p16}
+            h={180}
+            transition="height 0.4s ease"
+        >
+            <XStack w="100%" px={tabHSpacing} alignItems="flex-start">
                 <Tab
                     active={activeTab === PlaceInfoTabs.Information}
                     tab={PlaceInfoTabs.Information}
                     label={t("common:info")}
                     onClick={setActiveTab}
                 />
-            </HStack>
-            <Center w="100%" h="100%" flex={1} overflow="hidden">
+            </XStack>
+            <YStack
+                alignItems="center"
+                justifyContent="center"
+                w="100%"
+                h="100%"
+                flex={1}
+                overflow="hidden"
+            >
                 <TabPanel active={activeTab === PlaceInfoTabs.Information}>
                     <TabPanelInformation
                         categories={categories}
@@ -51,8 +64,8 @@ export const PlaceInfoTab = ({
                         estimatedStayDuration={estimatedStayDuration}
                     />
                 </TabPanel>
-            </Center>
-        </VStack>
+            </YStack>
+        </YStack>
     );
 };
 
@@ -68,24 +81,24 @@ export const Tab = ({
     onClick: (tab: PlaceInfoTab) => void;
 }) => {
     return (
-        <VStack
+        <YStack
             flex={1}
             alignItems="flex-start"
-            as="button"
-            onClick={() => onClick(tab)}
+            tag="button"
+            onPress={() => onClick(tab)}
         >
-            <VStack alignItems="center" spacing="0">
+            <YStack alignItems="center" gap={0}>
                 <Text userSelect="none">{label}</Text>
-                <Box
+                <YStack
                     w="100%"
-                    h="6px"
-                    borderRadius="10px"
+                    h={6}
+                    borderRadius={10}
                     backgroundColor="#DCB78D"
                     opacity={active ? 1 : 0}
                     transition="all 0.4s ease"
                 />
-            </VStack>
-        </VStack>
+            </YStack>
+        </YStack>
     );
 };
 
@@ -97,14 +110,14 @@ export const TabPanel = ({
     children?: ReactNode;
 }) => {
     return (
-        <Box
-            w={active ? "100%" : "0"}
+        <YStack
+            w={active ? "100%" : 0}
             h="100%"
             opacity={active ? 1 : 0.5}
             transition="opacity 0.2s ease, height 0.2s ease"
         >
             {active && children}
-        </Box>
+        </YStack>
     );
 };
 
@@ -124,97 +137,100 @@ const TabPanelInformation = ({
 
     if (isCategoryEmpty && isPriceRangeEmpty && isEstimatedStayDurationEmpty) {
         return (
-            <Center w="100%" h="100%">
+            <YStack
+                w="100%"
+                h="100%"
+                justifyContent="center"
+                alignItems="center"
+            >
                 <Text color="#574836">{t("place:noInformation")}</Text>
-            </Center>
+            </YStack>
         );
     }
 
     return (
-        <VStack
+        <YStack
             w="100%"
-            spacing="8px"
-            px={Size.PlaceCardPaddingH + "px"}
-            overflowX="hidden"
+            gap={Padding.p8}
+            px={Size.PlaceCard.px}
+            overflow="hidden"
         >
-            <HStack
-                w="100%"
-                alignItems="stretch"
-                overflowX="scroll"
-                overflowY="hidden"
-                sx={{
-                    "::-webkit-scrollbar": {
-                        display: "none",
-                    },
-                }}
+            <HorizontalScrollableList
+                roundedEdgeCorner={false}
+                pageButtonVisible={false}
             >
-                {!isCategoryEmpty && (
-                    <InformationTag
-                        key="category"
-                        icon={getPlaceCategoryIcon(categories[0])}
-                        value={categories[0].displayName}
-                        label={t("place:category")}
-                    />
-                )}
-                {!isPriceRangeEmpty && (
-                    <InformationTag
-                        key="priceRange"
-                        icon={MdCurrencyYen}
-                        value={`${priceRange.min}~${t("common:priceLabel", {
-                            price: priceRange.max,
-                        })}`}
-                        label={t("place:priceRange")}
-                    />
-                )}
-                {!isEstimatedStayDurationEmpty && (
-                    <InformationTag
-                        key="estimatedStayDuration"
-                        icon={MdSchedule}
-                        value={DateHelper.formatHHMM(estimatedStayDuration, {
-                            hour: t("common:labelHour"),
-                            minute: t("common:labelMinute"),
-                        })}
-                        label={t("place:estimatedStayDuration")}
-                    />
-                )}
-            </HStack>
-        </VStack>
+                <XStack gap={Padding.p8} width="100%">
+                    {!isCategoryEmpty && (
+                        <InformationTag
+                            key="category"
+                            icon={getPlaceCategoryIcon(categories[0])}
+                            value={categories[0].displayName}
+                            label={t("place:category")}
+                        />
+                    )}
+                    {!isPriceRangeEmpty && (
+                        <InformationTag
+                            key="priceRange"
+                            icon={JapaneseYen}
+                            value={`${priceRange.min}~${t("common:priceLabel", {
+                                price: priceRange.max,
+                            })}`}
+                            label={t("place:priceRange")}
+                        />
+                    )}
+                    {!isEstimatedStayDurationEmpty && (
+                        <InformationTag
+                            key="estimatedStayDuration"
+                            icon={Calendar}
+                            value={DateHelper.formatHHMM(
+                                estimatedStayDuration,
+                                {
+                                    hour: t("common:labelHour"),
+                                    minute: t("common:labelMinute"),
+                                }
+                            )}
+                            label={t("place:estimatedStayDuration")}
+                        />
+                    )}
+                </XStack>
+            </HorizontalScrollableList>
+        </YStack>
     );
 };
 
 const InformationTag = ({
-    icon,
+    icon: Icon,
     value,
     label,
 }: {
-    icon: IconType;
+    icon: NamedExoticComponent<IconProps>;
     value: string;
     label: string;
 }) => {
     return (
-        <VStack
-            px="20px"
-            py="16px"
-            spacing="16px"
-            border="0.5px solid #CEB79B"
-            borderRadius="10px"
+        <YStack
+            px={Padding.p24}
+            py={Padding.p16}
+            gap={Padding.p16}
+            borderWidth={0.5}
+            borderColor="#CEB79B"
+            borderRadius={10}
             justifyContent="space-between"
             alignItems="flex-start"
         >
-            <Icon as={icon} w="24px" h="24px" color="#946A35" />
-            <VStack spacing={0} alignItems="flex-start">
-                <Text fontSize="0.8rem" color="#574836" whiteSpace="nowrap">
+            <Icon size={24} color="#946A35" />
+            <YStack gap={0} alignItems="flex-start">
+                <Text fontSize={14} color="#574836" whiteSpace="nowrap">
                     {label}
                 </Text>
-                <Text color="#574836" whiteSpace="nowrap">
-                    {value.split("\n").map((l) => (
-                        <>
+                <YStack>
+                    {value.split("\n").map((l, i) => (
+                        <Text color="#574836" whiteSpace="nowrap" key={i}>
                             {l}
-                            <br />
-                        </>
+                        </Text>
                     ))}
-                </Text>
-            </VStack>
-        </VStack>
+                </YStack>
+            </YStack>
+        </YStack>
     );
 };

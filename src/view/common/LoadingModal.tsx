@@ -1,7 +1,8 @@
-import { Center, Text, VStack } from "@chakra-ui/react";
-import Image from "next/image";
-import { zIndex } from "src/constant/zIndex";
-import styled, { keyframes } from "styled-components";
+import { Padding } from "src/constant/padding";
+import { FadeInFadeOutTransition } from "src/view/animation/FadeinFadeoutTransition";
+import { RotateTransition } from "src/view/animation/RotateTransition";
+import MapIcon from "src/view/assets/svg/map_gradation.svg";
+import { Dialog, Text, XStack, YStack } from "tamagui";
 
 type Props = {
     title: string;
@@ -9,64 +10,39 @@ type Props = {
 
 export const LoadingModal = ({ title }: Props) => {
     return (
-        <Center
-            w="100%"
-            h="100%"
-            backgroundColor="white"
-            position="fixed"
-            top={0}
-            right={0}
-            bottom={0}
-            left={0}
-            userSelect="none"
-            zIndex={zIndex.dialog}
-        >
-            <VStack spacing={8}>
-                <FadeInFadeOutTransition>
-                    <Image
-                        width={100}
-                        height={100}
-                        src="/images/map.svg"
-                        alt="map"
-                    />
-                </FadeInFadeOutTransition>
-                <Text
-                    px="16px"
-                    maxW="100%"
-                    fontSize="1.25rem"
-                    bgGradient="linear(45deg, #4E6382, #BBA0A6)"
-                    bgClip="text"
+        <Dialog open={true} modal>
+            <Dialog.Portal>
+                <Dialog.Content
+                    alignItems="center"
+                    justifyContent="center"
+                    w="100%"
+                    h="100%"
+                    flex={1}
+                    elevate={false}
                 >
-                    {title}
-                </Text>
-            </VStack>
-        </Center>
+                    <YStack gap={Padding.p64} alignItems="center">
+                        <XStack w={100} h={100}>
+                            <RotateTransition>
+                                <FadeInFadeOutTransition>
+                                    <MapIcon
+                                        viewBox="0 0 80 85"
+                                        width={100}
+                                        height={100}
+                                    />
+                                </FadeInFadeOutTransition>
+                            </RotateTransition>
+                        </XStack>
+                        <Text
+                            px={Padding.p16}
+                            maxWidth="100%"
+                            fontSize={20}
+                            color="#4E6382"
+                        >
+                            {title}
+                        </Text>
+                    </YStack>
+                </Dialog.Content>
+            </Dialog.Portal>
+        </Dialog>
     );
 };
-
-const fadeinFadeOut = keyframes`
-  0% {
-    opacity: .1;
-  }
-
-  to {
-    opacity: 1;
-  }
-`;
-
-const rotate = keyframes`
-  0% {
-    transform: rotate(0);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const FadeInFadeOutTransition = styled.div`
-    animation:
-        ${fadeinFadeOut} 0.75s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-            alternate-reverse infinite,
-        ${rotate} 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
-`;

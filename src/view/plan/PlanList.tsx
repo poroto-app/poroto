@@ -1,5 +1,5 @@
-import { Box, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { Padding } from "src/constant/padding";
 import { Routes } from "src/constant/router";
 import { Size } from "src/constant/size";
 import { Plan } from "src/domain/models/Plan";
@@ -7,6 +7,7 @@ import { createArrayWithSize } from "src/domain/util/array";
 import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
 import { PlanPreview } from "src/view/plan/PlanPreview";
 import styled from "styled-components";
+import { YStack } from "tamagui";
 import { AdInPlanList } from "../ad/AdInPlanList";
 
 type Props = {
@@ -85,9 +86,9 @@ export function PlanList({
 
 function Container({ children }: { children: ReactNode }) {
     return (
-        <VStack w="100%" spacing={4} alignItems="center">
+        <YStack w="100%" gap={Padding.p8} alignItems="center">
             {children}
-        </VStack>
+        </YStack>
     );
 }
 
@@ -103,7 +104,7 @@ function PlanListItem({
     showAuthor?: boolean;
 }) {
     return (
-        <Box minW={grid ? "100%" : Size.PlanList.Card.minW}>
+        <YStack minWidth={grid ? "100%" : Size.PlanList.Card.minW}>
             <PlanPreview
                 link={plan && Routes.plans.plan(plan.id)}
                 plan={plan}
@@ -114,7 +115,7 @@ function PlanListItem({
                 showAuthor={showAuthor}
                 draggableThumbnail={grid}
             />
-        </Box>
+        </YStack>
     );
 }
 

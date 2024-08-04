@@ -1,24 +1,19 @@
-import {
-    Box,
-    Center,
-    Divider,
-    HStack,
-    Icon,
-    Text,
-    VStack,
-} from "@chakra-ui/react";
-import { MdAdd, MdOutlineDirectionsWalk } from "react-icons/md";
+import { Footprints, Plus } from "@tamagui/lucide-icons";
 import { Colors } from "src/constant/color";
+import { Padding } from "src/constant/padding";
+import { Size } from "src/constant/size";
 import { Place } from "src/domain/models/Place";
 import { Plan } from "src/domain/models/Plan";
 import { Transition } from "src/domain/models/Transition";
 import { DateHelper } from "src/domain/util/date";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { UploadPlaceImageProps } from "src/hooks/useUploadPlaceImage";
 import { AppTrans } from "src/view/common/AppTrans";
 import {
     PlaceActionHandler,
     PlacePreview,
 } from "src/view/plandetail/PlacePreview";
+import { Text, XStack, YStack } from "tamagui";
 
 type Props = {
     plan: Plan;
@@ -47,6 +42,7 @@ export function PlanPlaceList({
     onClickDeletePlace,
     onUpdateLikeAtPlace,
 }: Props) {
+    const { t } = useAppTranslation();
     const schedules = generateSchedules({
         places: plan.places,
         startTime,
@@ -54,21 +50,21 @@ export function PlanPlaceList({
     });
 
     return (
-        <VStack spacing="0" w="100%">
+        <YStack gap={0} w="100%">
             {createdBasedOnCurrentLocation && (
-                <VStack w="100%" spacing={0}>
-                    <ScheduleListItem label="現在地" />
+                <YStack w="100%" gap={0}>
+                    <ScheduleListItem label={t("common:currentLocation")} />
                     <ListItemWalk
                         transition={plan.transitions.find(
                             // 現在地から最初の場所への移動ではPlaceがないので、fromPlaceIdがnullのものを取得する
                             (t) => t.fromPlaceId == null
                         )}
                     />
-                </VStack>
+                </YStack>
             )}
             {plan.places.map((place, i) => (
-                <VStack key={i} w="100%" spacing="0">
-                    <VStack w="100%" spacing="16px">
+                <YStack key={i} w="100%" gap={0}>
+                    <YStack w="100" gap={0}>
                         <ScheduleListItem
                             label={DateHelper.dateToHHMM(
                                 schedules[i].startTime
@@ -88,15 +84,15 @@ export function PlanPlaceList({
                         <ScheduleListItem
                             label={DateHelper.dateToHHMM(schedules[i].endTime)}
                         />
-                    </VStack>
+                    </YStack>
                     <ListItemWalk
                         transition={plan.transitions.find(
                             (t) => t.fromPlaceId == place.id
                         )}
                     />
-                </VStack>
+                </YStack>
             ))}
-        </VStack>
+        </YStack>
     );
 }
 
@@ -166,7 +162,13 @@ const PlaceListItem = ({
     onClickDeletePlace?: (placeId: string) => void;
 } & PlaceActionHandler) => {
     return (
-        <VStack spacing="16px" w="100%" pl="24px" position="relative">
+        <YStack
+            w="100%"
+            gap={Padding.p16}
+            py={Padding.p16}
+            pl={Padding.p24}
+            position="relative"
+        >
             <PlacePreview
                 googlePlaceId={place.googlePlaceId}
                 placeId={place.id}
@@ -196,86 +198,96 @@ const PlaceListItem = ({
                 }
             />
             {onClickAddPlace && (
-                <Center
-                    as="button"
-                    color="#BD9F8E"
-                    border="1.5px solid #BD9F8E"
-                    borderRadius="20px"
+                <YStack
+                    tag="button"
+                    alignItems="center"
+                    justifyContent="center"
+                    borderWidth={1.5}
+                    borderColor="#BD9F8E"
+                    borderRadius={20}
                     w="100%"
-                    py="4px"
-                    onClick={() =>
+                    py={Padding.p4}
+                    onPress={() =>
                         onClickAddPlace({
                             previousPlaceId: place.id,
                         })
                     }
                 >
-                    <Icon as={MdAdd} />
-                </Center>
+                    <Plus color="#BD9F8E" size={20} />
+                </YStack>
             )}
             {/* スケジュールを表すバー */}
-            <Box
-                w="8px"
+            <XStack
+                w={8}
                 backgroundColor="#ECCEAC"
                 position="absolute"
-                top="-16px"
-                bottom="-16px"
-                left="4px"
+                top={-Size.PlanList.Schedule.dotRadius}
+                bottom={-Size.PlanList.Schedule.dotRadius}
+                left={
+                    Size.PlanList.Schedule.dotRadius / 2 -
+                    Size.PlanList.Schedule.borderWidth
+                }
             />
-        </VStack>
+        </YStack>
     );
 };
 
-// TODO: コンポーネントとして切り出しする
-const ScheduleListItem = ({ label }: { label }) => {
+const ScheduleListItem = ({
+    label,
+    pt,
+    pb,
+}: {
+    label: string;
+    pt?: number;
+    pb?: number;
+}) => {
     return (
-        <HStack w="100%" spacing={4}>
-            <Box
-                w="16px"
-                h="16px"
-                border="4px solid transparent"
-                borderRadius="50% "
-                outline="4px solid #ecceac"
+        <XStack w="100%" gap={Padding.p16} pt={pt} pb={pb} alignItems="center">
+            <XStack
+                w={Size.PlanList.Schedule.dotRadius}
+                h={Size.PlanList.Schedule.dotRadius}
+                borderWidth={Size.PlanList.Schedule.borderWidth}
+                borderColor="#ECCEAC"
+                borderRadius={999}
                 backgroundColor="white"
                 zIndex={1}
             />
-            <Text fontWeight="bold" fontSize="16px">
+            <Text fontWeight="bold" fontSize={16}>
                 {label}
             </Text>
-        </HStack>
+        </XStack>
     );
 };
 
-// TODO: コンポーネントとして切り出しする
 const ListItemWalk = ({ transition }: { transition: Transition }) => {
     if (!transition) return <></>;
 
     return (
-        <HStack w="100%" position="relative">
-            <Divider
+        <XStack w="100%" position="relative" py={Padding.p16}>
+            <YStack
                 position="absolute"
-                left="8px"
-                top="0"
-                bottom="0"
-                orientation="vertical"
+                left={Size.PlanList.Schedule.dotRadius / 2}
+                top={0}
+                bottom={0}
+                borderLeftWidth={1}
                 borderColor="rgba(0,0,0,.3)"
                 borderStyle="dashed"
             />
-            <HStack w="100%" py="12px" pl="20px">
-                <Icon
-                    as={MdOutlineDirectionsWalk}
-                    w="20px"
-                    h="20px"
-                    color={Colors.beige["400"]}
-                />
-                <VStack alignItems="flex-start" spacing={0}>
+            <XStack
+                w="100%"
+                pl={Padding.p16 + Size.PlanList.Schedule.dotRadius}
+                gap={Padding.p8}
+            >
+                <Footprints size={20} color={Colors.beige["400"]} />
+                <YStack alignItems="flex-start" gap={0}>
                     <Text>
                         <AppTrans
                             i18nKey="common:minutesLabel"
                             values={{ minutes: transition.durationInMinutes }}
                         />
                     </Text>
-                </VStack>
-            </HStack>
-        </HStack>
+                </YStack>
+            </XStack>
+        </XStack>
     );
 };

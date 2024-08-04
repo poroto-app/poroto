@@ -6,11 +6,11 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { useEffect, useRef, useState } from "react";
 import { isIPad13 } from "react-device-detect";
 import { Asset } from "src/constant/asset";
 import { Padding } from "src/constant/padding";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
@@ -37,7 +37,7 @@ export function PwaIosInstruction({
     onClose,
     onClickAlreadyInstalled,
 }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const [currentTab, setCurrentTab] = useState<InstructionTab>(defaultTab);
     const videoRef = useRef<HTMLVideoElement>(null);
 

@@ -15,10 +15,10 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 import { isMobile, isTablet } from "react-device-detect";
 import { MdClose } from "react-icons/md";
+import { Padding } from "src/constant/padding";
 import {
     ImageSizes,
     Image as ImageType,
@@ -34,7 +34,7 @@ import { OnClickHandler } from "src/types/handler";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
 import { RoundedButton } from "src/view/common/RoundedButton";
-import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
+import { PlaceCategoryIcon } from "src/view/place/PlaceCategoryIcon";
 import {
     PlaceChipActionGoogleMaps,
     PlaceChipActionInstagram,
@@ -165,7 +165,7 @@ function SelectPlaceToUpdateScreen({
     onClickUpdate: (placeId: string) => void;
     onClose: () => void;
 }) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     if (placesRecommended == null) return <LoadingScreen />;
 
     const isPC = !isMobile && !isTablet;
@@ -205,8 +205,9 @@ function SelectPlaceToUpdateScreen({
                         {placesWithCategories?.map((pwc, i) => (
                             <Tab key={i} display="block">
                                 <HStack>
-                                    <Icon
-                                        as={getPlaceCategoryIcon(pwc.category)}
+                                    <PlaceCategoryIcon
+                                        size={18}
+                                        category={pwc.category}
                                     />
                                     <Text>{pwc.category.displayName}</Text>
                                 </HStack>
@@ -274,13 +275,10 @@ export function PlaceListItem({
             </AspectRatio>
             <VStack spacing={0}>
                 <HStack spacing="4px" alignItems="flex-start" onClick={onClick}>
-                    <Icon
-                        w="24px"
-                        h="24px"
+                    <PlaceCategoryIcon
+                        category={categories.length > 0 ? categories[0] : null}
+                        size={24}
                         color="#946A35"
-                        as={getPlaceCategoryIcon(
-                            categories.length > 0 ? categories[0] : null
-                        )}
                     />
                     <Text fontWeight="bold" color="#574836">
                         {name}
@@ -379,7 +377,7 @@ export function ConfirmToUpdateScreen({
                 </VStack>
                 <VStack w="100%">
                     <PlaceInfoTab
-                        tabHSpaacing="20px"
+                        tabHSpacing={Padding.p24}
                         priceRange={place.priceRange}
                         categories={place.categories}
                         estimatedStayDuration={place.estimatedStayDuration}
@@ -394,10 +392,10 @@ export function ConfirmToUpdateScreen({
                 </VStack>
             </VStack>
             <HStack w="100%" pb="48px" px="20px">
-                <RoundedButton w="100%" outlined onClick={onCancel}>
+                <RoundedButton flex={1} w="100%" outlined onClick={onCancel}>
                     {t("common:cancel")}
                 </RoundedButton>
-                <RoundedButton w="100%" onClick={onClickUpdate}>
+                <RoundedButton flex={1} w="100%" onClick={onClickUpdate}>
                     {buttonLabelUpdatePlace}
                 </RoundedButton>
             </HStack>

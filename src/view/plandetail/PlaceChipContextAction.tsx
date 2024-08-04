@@ -1,42 +1,52 @@
-import { HStack, Icon, Text } from "@chakra-ui/react";
 import { getAnalytics, logEvent } from "@firebase/analytics";
-import { useTranslation } from "next-i18next";
-import { useRef } from "react";
-import { IconType } from "react-icons";
+import { IconProps } from "@tamagui/helpers-icon";
 import {
-    MdOutlineCameraAlt,
-    MdOutlineDeleteOutline,
-    MdOutlineFindReplace,
-} from "react-icons/md";
-import { SiGooglemaps, SiInstagram } from "react-icons/si";
+    Camera,
+    Instagram,
+    MapPin,
+    Replace,
+    Trash,
+} from "@tamagui/lucide-icons";
+import { NamedExoticComponent, ReactNode, useRef } from "react";
 import { Link } from "solito/link";
 import { AnalyticsEvents } from "src/constant/analytics";
+import { Padding } from "src/constant/padding";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { UploadPlaceImageProps } from "src/hooks/useUploadPlaceImage";
 import { OnClickHandler } from "src/types/handler";
+import { Text, XStack } from "tamagui";
 
 type Props = {
     label: string;
-    icon: IconType;
+    icon: NamedExoticComponent<IconProps>;
     onClick?: OnClickHandler;
+    children?: ReactNode;
 };
 
-export const PlaceChipContextAction = ({ label, icon, onClick }: Props) => {
+export const PlaceChipContextAction = ({
+    label,
+    icon: Icon,
+    children,
+    onClick,
+}: Props) => {
     return (
-        <HStack
+        <XStack
+            tag="button"
             backgroundColor="#FCF2E4"
-            color="#483216"
-            onClick={onClick}
-            as="button"
-            px="8px"
-            py="4px"
-            borderRadius="20px"
+            borderRadius={20}
+            px={Padding.p8}
+            py={Padding.p4}
+            gap={Padding.p4}
+            alignItems="center"
+            justifyContent="center"
+            onPress={onClick}
         >
-            <Icon w="16px" h="16px" as={icon} />
-            <Text fontSize="0.8rem" whiteSpace="nowrap">
+            <Icon size={16} color="#483216" />
+            <Text fontSize={12} whiteSpace="nowrap" color="#483216">
                 {label}
             </Text>
-        </HStack>
+            {children}
+        </XStack>
     );
 };
 
@@ -49,7 +59,7 @@ export const PlaceChipActionDelete = ({
     return (
         <PlaceChipContextAction
             label={t("common:delete")}
-            icon={MdOutlineDeleteOutline}
+            icon={Trash}
             onClick={onClick}
         />
     );
@@ -60,11 +70,11 @@ export const PlaceChipActionShowRelatedPlaces = ({
 }: {
     onClick: OnClickHandler;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <PlaceChipContextAction
             label={t("place:relatedPlacesShow")}
-            icon={MdOutlineFindReplace}
+            icon={Replace}
             onClick={onClick}
         />
     );
@@ -75,7 +85,7 @@ export const PlaceChipActionInstagram = ({
 }: {
     placeName: string;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <Link
             href={`https://www.instagram.com/explore/tags/${encodeURIComponent(
@@ -92,7 +102,7 @@ export const PlaceChipActionInstagram = ({
         >
             <PlaceChipContextAction
                 label={t("place:searchByInstagram")}
-                icon={SiInstagram}
+                icon={Instagram}
             />
         </Link>
     );
@@ -107,7 +117,7 @@ export const PlaceChipActionGoogleMaps = ({
     googlePlaceId: string;
     onClick?: OnClickHandler;
 }) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const url = new URL("https://www.google.com/maps/search/");
     url.searchParams.set("api", "1");
     url.searchParams.set("query", placeName);
@@ -125,7 +135,7 @@ export const PlaceChipActionGoogleMaps = ({
         >
             <PlaceChipContextAction
                 label={t("place:searchByGoogleMaps")}
-                icon={SiGooglemaps}
+                icon={MapPin}
             />
         </Link>
     );
@@ -139,25 +149,15 @@ export const PlaceChipActionCamera = ({
     placeId,
     onFileChanged,
 }: PlaceChipActionCameraProps) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     return (
-        <div>
-            <HStack
-                backgroundColor="#FCF2E4"
-                color="#483216"
-                onClick={() => fileInputRef.current?.click()}
-                px="8px"
-                py="4px"
-                borderRadius="20px"
-                as="button"
-            >
-                <Icon w="16px" h="16px" as={MdOutlineCameraAlt} />
-                <Text fontSize="0.8rem" whiteSpace="nowrap">
-                    {t("place:uploadPlacePhoto")}
-                </Text>
-            </HStack>
+        <PlaceChipContextAction
+            label={t("place:uploadPlacePhoto")}
+            icon={Camera}
+            onClick={() => fileInputRef.current?.click()}
+        >
             <input
                 ref={fileInputRef}
                 id="file-input"
@@ -172,6 +172,6 @@ export const PlaceChipActionCamera = ({
                 }
                 style={{ display: "none" }}
             />
-        </div>
+        </PlaceChipContextAction>
     );
 };

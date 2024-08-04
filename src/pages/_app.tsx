@@ -12,6 +12,7 @@ import tamaguiConfig from "src/tamagui/tamagui.config";
 import { Auth } from "src/view/common/Auth";
 import { FirebaseProvider } from "src/view/common/FirebaseProvider";
 import { Theme } from "src/view/common/Theme";
+import { AppToastProvider } from "src/view/provider/AppToastProvider";
 import { ErrorBoundary } from "src/view/provider/ErrorBoundary";
 import { History } from "src/view/provider/History";
 import { PortalProvider, TamaguiProvider } from "tamagui";
@@ -79,7 +80,9 @@ function App({ Component, pageProps }: AppProps) {
                             disableRootThemeClass
                         >
                             <PortalProvider shouldAddRootHost>
-                                <Component {...pageProps} />
+                                <AppToastProvider>
+                                    <Component {...pageProps} />
+                                </AppToastProvider>
                             </PortalProvider>
                         </TamaguiProvider>
                     </ErrorBoundary>

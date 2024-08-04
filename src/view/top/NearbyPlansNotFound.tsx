@@ -1,12 +1,12 @@
 import { Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { Link } from "solito/link";
 import { Routes } from "src/constant/router";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import IconTraveling from "src/view/assets/svg/traveling.svg";
 import { RoundedButton } from "src/view/common/RoundedButton";
 
 export const NearbyPlansNotFound = () => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
 
     return (
         <VStack w="100%" spacing="32px">

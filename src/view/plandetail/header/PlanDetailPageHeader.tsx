@@ -12,7 +12,6 @@ import {
     Text,
     VStack,
 } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import * as process from "process";
 import { useRef, useState } from "react";
 import {
@@ -55,7 +54,7 @@ export function PlanDetailPageHeader({
     onUpdateLikePlace,
     onCopyPlanUrl,
 }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     const [currentPage, setCurrentPage] = useState(0);
     const placesWithImages = plan.places.filter(
         (place) => place.images.length > 0

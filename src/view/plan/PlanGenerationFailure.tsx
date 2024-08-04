@@ -1,17 +1,16 @@
 import { Image } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
-import { ReactNode } from "react";
 import { Link } from "solito/link";
 import { Routes } from "src/constant/router";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { FailurePage } from "src/view/common/FailurePage";
 import { RoundedButton } from "../common/RoundedButton";
 
 type Props = {
-    navBar?: ReactNode;
+    navBar?: boolean;
 };
 
 export const PlanGenerationFailure = ({ navBar }: Props) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <FailurePage
             title="Sorry"

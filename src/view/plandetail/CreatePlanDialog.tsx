@@ -1,9 +1,9 @@
 import { Box, Button, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 import { Colors } from "src/constant/color";
 import { Place } from "src/domain/models/Place";
 import { copyObject } from "src/domain/util/object";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import {
     DialogPositions,
     FullscreenDialog,
@@ -22,7 +22,7 @@ export const CreatePlanDialog = ({
     onClickClose,
     onClickCreatePlan,
 }: Props) => {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     // ダイアログを閉じるときに、placeをnullにするとエラーになってしまうため
     // placeのキャッシュを作成し、それを表示する
     const [placeCache, setPlaceCache] = useState(place);

@@ -1,9 +1,9 @@
 import { Box, Button, Center, HStack, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import Image from "next/image";
 import { CSSProperties } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 import { Size } from "src/constant/size";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { AppTrans } from "src/view/common/AppTrans";
 import { RoundedButton } from "src/view/common/RoundedButton";
 
@@ -28,7 +28,7 @@ export function PwaInstallDialog({
     onClickInstall,
     onClickCancel,
 }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore

@@ -66,7 +66,7 @@ export function NavBarUserDialog({
                 enterStyle={{ y: 10, opacity: 0 }}
                 exitStyle={{ y: 10, opacity: 0 }}
                 animation={[
-                    "fast",
+                    "quickest",
                     {
                         opacity: {
                             overshootClamping: true,

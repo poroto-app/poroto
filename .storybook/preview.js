@@ -1,11 +1,11 @@
 import {ChakraProvider} from "@chakra-ui/react";
-import {TamaguiProvider} from "tamagui";
+import {PortalProvider, TamaguiProvider} from "tamagui";
 import {Theme} from "../src/view/common/Theme";
 import {INITIAL_VIEWPORTS} from '@storybook/addon-viewport'
 import {I18nextProvider} from "react-i18next";
 import {useEffect} from "react";
 import i18n from "./i18n";
-import tamaguiConfig from "../src/tamagui/tamagui.config";
+import tamaguiConfig from "./tamagui.config";
 
 const withChakra = (StoryFn) => {
     return (
@@ -22,7 +22,9 @@ const withTamagui = (StoryFn) => {
             config={tamaguiConfig}
             defaultTheme="light"
         >
-            <StoryFn/>
+            <PortalProvider>
+                <StoryFn/>
+            </PortalProvider>
         </TamaguiProvider>
     );
 }

@@ -1,18 +1,6 @@
-import {
-    Box,
-    HStack,
-    Icon,
-    Image,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalOverlay,
-    Text,
-    useMediaQuery,
-    VStack,
-} from "@chakra-ui/react";
-import { useState } from "react";
+import { isAndroid } from "@tamagui/constants";
+import { ReactNode, useState } from "react";
+import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
 import {
     getImageSizeOf,
@@ -21,8 +9,12 @@ import {
 } from "src/domain/models/Image";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { PriceRange } from "src/domain/models/PriceRange";
+import { hasValue } from "src/domain/util/null";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
+import { useMediaQuery } from "src/hooks/useMediaQuery";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
-import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
+import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
+import { RoundedButton } from "src/view/common/RoundedButton";
 import {
     PlaceChipActionCamera,
     PlaceChipActionCameraProps,
@@ -33,7 +25,7 @@ import {
 } from "src/view/plandetail/PlaceChipContextAction";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
-import styled from "styled-components";
+import { Dialog, Text, View, XStack, YStack } from "tamagui";
 
 type Props = {
     placeId: string;
@@ -72,7 +64,7 @@ export const PlacePreview = ({
     onUpdateLikeAtPlace,
 }: Props) => {
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
-    const [isLargerThan700] = useMediaQuery("(min-width: 700px)");
+    const { gtSm } = useMediaQuery();
     const isEmptyLocation =
         images.length === 0 && categories.length === 0 && !priceRange;
 
@@ -84,49 +76,50 @@ export const PlacePreview = ({
         setSelectedImage(null);
     };
 
+    // TODO: ダブルタップでいいねできるようにする
     const handleDoubleClick = () => {
         onUpdateLikeAtPlace?.({ like: !like, placeId });
     };
 
     if (isEmptyLocation) {
         return (
-            <Container p="16px" w="100%">
-                <HStack>
+            <Container p={Padding.p16} w="100%">
+                <XStack>
                     <Text
-                        fontSize="1.15rem"
-                        as="h2"
+                        fontSize={18}
+                        tag="h2"
                         fontWeight="bold"
                         color="#222222"
                     >
                         {name}
                     </Text>
-                </HStack>
+                </XStack>
             </Container>
         );
     }
 
     return (
-        <Container onDoubleClick={handleDoubleClick}>
+        <Container>
             <ImagePreviewContainer hasImage={images.length > 0}>
                 {images.length > 0 && (
                     <ImageSliderPreview
                         images={images}
                         onClickImage={openModal}
-                        borderRadius={isLargerThan700 ? 20 : 0}
+                        borderRadius={gtSm ? 20 : 0}
                     />
                 )}
             </ImagePreviewContainer>
-            <VStack
+            <YStack
                 flex={1}
                 alignItems="flex-start"
                 w="100%"
-                py="16px"
+                py={Padding.p16}
                 overflow="hidden"
             >
-                <HStack w="100%" px={Size.PlaceCardPaddingH + "px"}>
+                <XStack w="100%" px={Size.PlaceCard.px}>
                     <Text
-                        fontSize="1.15rem"
-                        as="h2"
+                        fontSize={18}
+                        tag="h2"
                         fontWeight="bold"
                         color="#222222"
                         flex={1}
@@ -142,19 +135,18 @@ export const PlacePreview = ({
                             }
                         />
                     )}
-                </HStack>
+                </XStack>
                 <PlaceInfoTab
-                    tabHSpaacing={Size.PlaceCardPaddingH + "px"}
+                    tabHSpacing={Size.PlaceCard.px}
                     categories={categories}
                     priceRange={priceRange}
                     estimatedStayDuration={estimatedStayDuration}
                 />
-                <HStack
+                <XStack
                     w="100%"
-                    px={Size.PlaceCardPaddingH + "px"}
-                    flexWrap={isLargerThan700 ? "wrap" : "nowrap"}
-                    overflowX="auto"
-                    spacing="4px"
+                    px={Size.PlaceCard.px}
+                    flexWrap={gtSm ? "wrap" : "nowrap"}
+                    gap={Padding.p4}
                 >
                     {onClickShowRelatedPlaces && (
                         <PlaceChipActionShowRelatedPlaces
@@ -172,58 +164,123 @@ export const PlacePreview = ({
                     {uploadPlaceImage && uploadPlaceImage.canUpload && (
                         <PlaceChipActionCamera {...uploadPlaceImage} />
                     )}
-                </HStack>
-            </VStack>
-            <Modal isOpen={!!selectedImage} onClose={closeModal} size="xl">
-                <ModalOverlay />
-                <ModalContent>
-                    <ModalCloseButton />
-                    <ModalBody py="48px" px="16px">
-                        {selectedImage && (
-                            <Image
-                                src={selectedImage}
-                                objectFit="contain"
-                                w="100%"
-                                maxH="80vh"
-                            />
-                        )}
-                    </ModalBody>
-                </ModalContent>
-            </Modal>
+                </XStack>
+            </YStack>
+            <ImagePreviewDialog imageUrl={selectedImage} onClose={closeModal} />
         </Container>
     );
 };
 
-const Container = styled(Box)`
-    border-radius: 20px;
-    width: 100%;
-    overflow: hidden;
-    background-color: white;
-    box-shadow: 0px 0px 20px 0px #f0dfca;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+function Container({
+    p,
+    w = "100%",
+    children,
+}: {
+    p?: number;
+    w?: "100%" | number;
+    children?: ReactNode;
+}) {
+    return (
+        <YStack
+            p={p}
+            borderRadius={20}
+            width={w}
+            overflow="hidden"
+            backgroundColor="white"
+            elevationAndroid={10}
+            shadowColor={isAndroid ? "#a45800" : "#dcb78d"}
+            shadowOffset={{ width: 0, height: 0 }}
+            shadowRadius={20}
+            shadowOpacity={1}
+            alignItems="flex-start"
+            $gtSm={{
+                flexDirection: "row",
+                alignItems: "stretch",
+            }}
+        >
+            {children}
+        </YStack>
+    );
+}
 
-    // pcレイアウトの場合は横並びにする
-    @media screen and (min-width: 700px) {
-        flex-direction: row;
-        align-items: stretch;
-    }
-`;
+function ImagePreviewContainer({
+    hasImage,
+    children,
+}: {
+    hasImage: boolean;
+    children?: ReactNode;
+}) {
+    return (
+        <YStack
+            width="100%"
+            height={hasImage ? 200 : "0"}
+            $gtSm={{
+                alignSelf: "center",
+                flex: 0.75,
+                minWidth: 400,
+                height: hasImage ? 250 : 0,
+                padding: Padding.p16,
+            }}
+        >
+            {children}
+        </YStack>
+    );
+}
 
-export const PlaceIcon = ({ category }: { category: PlaceCategory | null }) => {
-    return <Icon w="24px" h="24px" as={getPlaceCategoryIcon(category)} />;
-};
-
-const ImagePreviewContainer = styled.div<{ hasImage: boolean }>`
-    width: 100%;
-    height: ${({ hasImage }) => (hasImage ? "200px" : "0")};
-
-    @media screen and (min-width: 700px) {
-        align-self: center;
-        flex: 0.75;
-        width: 350px;
-        height: ${({ hasImage }) => (hasImage ? "250px" : "0")};
-        padding: 16px;
-    }
-`;
+// TODO: 複数の画像をプレビューできるようにする
+function ImagePreviewDialog({
+    imageUrl,
+    onClose,
+}: {
+    imageUrl: string | null;
+    onClose: () => void;
+}) {
+    const { t } = useAppTranslation();
+    return (
+        <Dialog
+            open={hasValue(imageUrl)}
+            onOpenChange={(open) => {
+                if (!open) onClose();
+            }}
+        >
+            <Dialog.Portal
+                paddingHorizontal={Padding.p16}
+                paddingVertical={Padding.p16}
+            >
+                <Dialog.Overlay
+                    animation="slow"
+                    opacity={0.9}
+                    enterStyle={{ opacity: 0 }}
+                    exitStyle={{ opacity: 0 }}
+                />
+                <Dialog.Content
+                    width="100%"
+                    height={600}
+                    maxWidth={600}
+                    maxHeight="100%"
+                    display="flex"
+                    flexDirection="column"
+                    animation={[
+                        "quicker",
+                        {
+                            opacity: {
+                                overshootClamping: true,
+                            },
+                        },
+                    ]}
+                    enterStyle={{ x: 0, y: -20, opacity: 0, scale: 0.9 }}
+                    exitStyle={{ x: 0, y: 10, opacity: 0, scale: 0.95 }}
+                    gap={Padding.p16}
+                >
+                    <View w="100%" flex={1}>
+                        <ImageWithSkeleton src={imageUrl} objectFit="contain" />
+                    </View>
+                    <RoundedButton
+                        label={t("common:close")}
+                        onClick={onClose}
+                    />
+                </Dialog.Content>
+            </Dialog.Portal>
+        </Dialog>
+    );
+}

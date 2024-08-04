@@ -1,10 +1,10 @@
-import { Box, Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
+import { Box, Center, HStack, Text, VStack } from "@chakra-ui/react";
 import "@splidejs/splide/css";
 import { useState } from "react";
 import { Size } from "src/constant/size";
 import { Image, getDefaultPlaceImage } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
-import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
+import { PlaceCategoryIcon } from "src/view/place/PlaceCategoryIcon";
 import { StoryImagePreview } from "src/view/plancandidate/StoryImagePreview";
 
 type Props = {
@@ -67,17 +67,16 @@ export function PlanCandidateGalleryCard({
                 >
                     <VStack w="100%" alignItems="flex-start">
                         <HStack>
-                            <Icon
-                                w="24px"
-                                h="24px"
-                                color="white"
-                                as={getPlaceCategoryIcon(
+                            <PlaceCategoryIcon
+                                category={
                                     plan.places[currentPlaceIndex].categories
                                         .length > 0
                                         ? plan.places[currentPlaceIndex]
                                               .categories[0]
                                         : null
-                                )}
+                                }
+                                size={20}
+                                color="white"
                             />
                             <Text color="white">
                                 {plan.places[currentPlaceIndex].name}

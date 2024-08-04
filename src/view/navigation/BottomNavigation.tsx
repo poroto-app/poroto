@@ -1,10 +1,10 @@
 import { Center, HStack, Icon, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { IconType } from "react-icons";
 import { MdAccountCircle, MdHome, MdSearch } from "react-icons/md";
 import { Link } from "solito/link";
 import { Routes } from "src/constant/router";
 import { Size } from "src/constant/size";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 
 type Props = {
     page: NavigationPage;
@@ -19,7 +19,7 @@ export type NavigationPage =
     (typeof BottomNavigationPages)[keyof typeof BottomNavigationPages];
 
 export function BottomNavigation({ page }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <Center
             as="nav"

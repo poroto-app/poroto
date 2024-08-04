@@ -1,5 +1,6 @@
 import { ParseKeys, type Namespace, type TOptions } from "i18next";
-import { Trans, useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { TranslationNameSpaces } from "src/locales/resources";
 import { Text } from "tamagui";
 
@@ -10,7 +11,7 @@ export function AppTrans({
     i18nKey: ParseKeys<Namespace, TOptions, string>;
     values?: { [key: string]: string | number | JSX.Element };
 }) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <Trans
             t={t}

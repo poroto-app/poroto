@@ -5,6 +5,7 @@ export const CommonTranslationEn: CommonTranslationKeys = {
     backToHome: "Back to Home",
     budget: "Budget",
     cancel: "Cancel",
+    currentLocation: "Current Location",
     close: "Close",
     delete: "Delete",
     edit: "Edit",

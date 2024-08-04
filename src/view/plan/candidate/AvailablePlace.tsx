@@ -1,7 +1,6 @@
 import {
     Box,
     HStack,
-    Icon,
     Image,
     Skeleton,
     SkeletonText,
@@ -11,7 +10,7 @@ import {
 import { Colors } from "src/constant/color";
 import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
 import { Place } from "src/domain/models/Place";
-import { getPlaceCategoryIcon } from "src/view/plan/PlaceCategoryIcon";
+import { PlaceCategoryIcon } from "src/view/place/PlaceCategoryIcon";
 
 type Props = {
     place: Place | null;
@@ -56,15 +55,14 @@ export function AvailablePlace({ place, onClick }: Props) {
             </Box>
             {place ? (
                 <HStack w="100%">
-                    <Icon
-                        w="24px"
-                        h="24px"
-                        color={Colors.primary["600"]}
-                        as={getPlaceCategoryIcon(
+                    <PlaceCategoryIcon
+                        category={
                             place.categories.length > 0
                                 ? place.categories[0]
                                 : null
-                        )}
+                        }
+                        size={24}
+                        color={Colors.primary["600"]}
                     />
                     <Text py="4px">{place.name}</Text>
                 </HStack>

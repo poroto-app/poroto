@@ -101,7 +101,7 @@ export function PlanInterestPageComponent({
     handleRejectCategory,
     navBar,
 }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     if (!currentCategory) {
         if (
             matchInterestRequestStatus === RequestStatuses.FULFILLED &&

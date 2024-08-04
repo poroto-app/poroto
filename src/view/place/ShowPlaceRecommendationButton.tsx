@@ -1,12 +1,12 @@
 import { Box, Text } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 
 type Props = {
     onClick?: () => void;
 };
 
 export function ShowPlaceRecommendationButton({ onClick }: Props) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <Box
             cursor="pointer"

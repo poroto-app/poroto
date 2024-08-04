@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { MdOutlineDeleteOutline } from "react-icons/md";
+import { Trash } from "@tamagui/lucide-icons";
 import {
     PlaceChipActionDelete,
     PlaceChipActionGoogleMaps,
@@ -20,7 +20,7 @@ type Story = StoryObj<typeof PlaceChipContextAction>;
 export const Primary: Story = {
     args: {
         label: "削除",
-        icon: MdOutlineDeleteOutline,
+        icon: Trash,
         onClick: () => 0,
     },
 };

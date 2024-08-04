@@ -1,5 +1,5 @@
 import { Box, Center, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { LottiePlayer } from "src/view/common/LottiePlayer";
 import { RoundedButton } from "src/view/common/RoundedButton";
@@ -41,7 +41,7 @@ export function GeneratingPlanDialog({ visible, failed, onClose }: Props) {
 }
 
 function Generating() {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <VStack>
             <Box position="relative" h="100px" w="100%" my="32px">
@@ -58,7 +58,7 @@ function Generating() {
 }
 
 function Failed({ onClose }: { onClose: () => void }) {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <VStack spacing="16px">
             <VStack>

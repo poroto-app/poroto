@@ -1,10 +1,10 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { CSSProperties } from "react";
 import { Transition, TransitionStatus } from "react-transition-group";
 import { Padding } from "src/constant/padding";
 import { Plan } from "src/domain/models/Plan";
 import { hasValue } from "src/domain/util/null";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import TravelModeIcon from "src/view/assets/svg/travel_mode.svg";
 import { PlanList } from "src/view/plan/PlanList";
 import { PlanListSectionTitleSavedPlans } from "src/view/top/PlanListSectionTitle";
@@ -25,7 +25,6 @@ const transitionStyles: {
 };
 
 export function UsersPlan({ plans, isLoading }: Props) {
-    const { t } = useTranslation();
     return (
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -68,7 +67,7 @@ export function UsersPlan({ plans, isLoading }: Props) {
 }
 
 function Empty() {
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
     return (
         <VStack
             w="100%"
