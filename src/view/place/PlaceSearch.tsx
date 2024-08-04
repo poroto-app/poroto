@@ -1,8 +1,9 @@
-import { Box, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { Padding } from "src/constant/padding";
 import { PlaceSearchResult } from "src/domain/models/PlaceSearchResult";
 import { PlaceSearchBar } from "src/view/place/PlaceSearchBar";
 import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
+import { YStack } from "tamagui";
 
 export type PlaceSearchProps = {
     googlePlaceSearchResults?: PlaceSearchResult[];
@@ -20,16 +21,17 @@ export function PlaceSearch({
     const isEmptySearchResults =
         !googlePlaceSearchResults || googlePlaceSearchResults.length === 0;
     return (
-        <VStack spacing={4} w="100%">
+        <YStack gap={Padding.p8} w="100%" alignItems="center">
             <PlaceSearchBar onSearch={onSearchGooglePlacesByQuery} />
             {isEmptySearchResults && placeSearchActions && placeSearchActions}
-            <Box
+            <YStack
                 w="100%"
                 backgroundColor="white"
                 borderRadius={5}
-                boxShadow={
-                    !isEmptySearchResults && "0px 5px 20px 0px rgb(0 0 0 / 10%)"
-                }
+                shadowOffset={{ width: 0, height: 5 }}
+                shadowRadius={20}
+                shadowColor="rgba(0, 0, 0, 0.1)"
+                shadowOpacity={isEmptySearchResults ? 0 : 1}
             >
                 <PlaceSearchResults
                     places={googlePlaceSearchResults}
@@ -37,7 +39,7 @@ export function PlaceSearch({
                         onClickGooglePlaceSearchResult(place)
                     }
                 />
-            </Box>
-        </VStack>
+            </YStack>
+        </YStack>
     );
 }
