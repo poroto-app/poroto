@@ -25,7 +25,7 @@ import {
 } from "src/view/plandetail/PlaceChipContextAction";
 import { PlaceInfoTab } from "src/view/plandetail/PlaceInfoTab";
 import { PlaceLikeButton } from "src/view/plandetail/PlaceLikeButton";
-import {Dialog, Text, View, XStack, YStack} from "tamagui";
+import { Dialog, Text, View, XStack, YStack } from "tamagui";
 
 type Props = {
     placeId: string;
