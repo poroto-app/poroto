@@ -1,10 +1,10 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useEffect } from "react";
-import { useRouter } from "solito/router";
 import { AnalyticsEvents } from "src/constant/analytics";
 import { Routes } from "src/constant/router";
 import { Place } from "src/domain/models/Place";
 import { hasValue } from "src/domain/util/null";
+import { useAppRouter } from "src/hooks/useAppRouter";
 import { reduxAuthSelector } from "src/redux/auth";
 import { setSearchLocation } from "src/redux/location";
 import { reduxPlaceSelector, setLikePlaces } from "src/redux/place";
@@ -13,7 +13,7 @@ import { useAppDispatch } from "src/redux/redux";
 import { fetchUser } from "src/redux/user";
 
 export const useLikePlaces = () => {
-    const router = useRouter();
+    const router = useAppRouter();
     const dispatch = useAppDispatch();
     const { likePlaces } = reduxPlaceSelector();
     const { user, firebaseIdToken } = reduxAuthSelector();

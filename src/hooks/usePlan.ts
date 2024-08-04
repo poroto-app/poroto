@@ -1,12 +1,12 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useEffect } from "react";
-import { useRouter } from "solito/router";
 import { AnalyticsEvents } from "src/constant/analytics";
 import { Routes } from "src/constant/router";
 import { Place } from "src/domain/models/Place";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { User } from "src/domain/models/User";
 import { hasValue } from "src/domain/util/null";
+import { useAppRouter } from "src/hooks/useAppRouter";
 import { setSearchLocation } from "src/redux/location";
 import {
     fetchPlacesNearbyPlanLocation,
@@ -28,7 +28,7 @@ export const usePlan = ({
     fetchNearbyPlanSize?: number;
 }) => {
     const dispatch = useAppDispatch();
-    const router = useRouter();
+    const router = useAppRouter();
 
     const {
         preview: plan,

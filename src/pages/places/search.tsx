@@ -5,7 +5,6 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { MdDone, MdOutlineTouchApp } from "react-icons/md";
 import { createParam } from "solito";
-import { useRouter } from "solito/router";
 import { AnalyticsEvents } from "src/constant/analytics";
 import { locationSinjukuStation } from "src/constant/location";
 import { PageMetaData } from "src/constant/meta";
@@ -14,6 +13,7 @@ import { Size } from "src/constant/size";
 import { zIndex } from "src/constant/zIndex";
 import { GeoLocation } from "src/data/graphql/generated";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { useAppRouter } from "src/hooks/useAppRouter";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { useGooglePlaceSearch } from "src/hooks/useGooglePlaceSearch";
 import { useLocation } from "src/hooks/useLocation";
@@ -52,7 +52,7 @@ export default function Page() {
 }
 
 function PlaceSearchPage() {
-    const router = useRouter();
+    const router = useAppRouter();
     const [skipCurrentLocation] = useParam(RouteParams.SkipCurrentLocation);
     const isSkipFetchCurrentLocation = skipCurrentLocation === "true";
     const { t } = useAppTranslation();

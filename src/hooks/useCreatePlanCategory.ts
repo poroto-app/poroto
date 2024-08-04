@@ -1,11 +1,11 @@
 import { getAnalytics, logEvent } from "@firebase/analytics";
 import { useEffect, useState } from "react";
-import { useRouter } from "solito/router";
 import { AnalyticsEvents } from "src/constant/analytics";
 import { Routes } from "src/constant/router";
 import { CreatePlanPlaceCategory } from "src/domain/models/CreatePlanPlaceCategory";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { useAppRouter } from "src/hooks/useAppRouter";
 import {
     createPlanByCategory,
     reduxPlanCandidateSelector,
@@ -15,7 +15,7 @@ import { useAppDispatch } from "src/redux/redux";
 
 export const useCreatePlanCategory = () => {
     const dispatch = useAppDispatch();
-    const router = useRouter();
+    const router = useAppRouter();
     const [category, setCategory] = useState<CreatePlanPlaceCategory>(null);
     const [
         isCreatePlanCategoryRangeDialogVisible,
@@ -79,9 +79,12 @@ export const useCreatePlanCategory = () => {
             createPlanSession &&
             createPlanByCategoryRequestStatus === RequestStatuses.FULFILLED
         ) {
-            router.push(Routes.plans.planCandidate.index(createPlanSession));
-            setIsCreatingPlanFromCategory(false);
-            dispatch(resetCreatePlanByCategoryRequestStatus());
+            router
+                .push(Routes.plans.planCandidate.index(createPlanSession))
+                .then(() => {
+                    setIsCreatingPlanFromCategory(false);
+                    dispatch(resetCreatePlanByCategoryRequestStatus());
+                });
         }
     }, [createPlanSession, createPlanByCategoryRequestStatus]);
 

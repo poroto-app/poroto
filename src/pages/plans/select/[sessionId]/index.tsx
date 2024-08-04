@@ -1,7 +1,6 @@
 import { Box, Button, Center, Text, VStack } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { createParam } from "solito";
-import { useRouter } from "solito/router";
 import { Colors } from "src/constant/color";
 import { Size } from "src/constant/size";
 import { isPC } from "src/constant/userAgent";
@@ -55,7 +54,6 @@ const SelectPlanPage = () => {
     const { t } = useAppTranslation();
     const dispatch = useAppDispatch();
 
-    const router = useRouter();
     const { sessionId } = useParams().params;
     const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
     const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
