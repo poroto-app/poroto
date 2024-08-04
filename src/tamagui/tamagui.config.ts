@@ -18,6 +18,10 @@ const tamaguiConfig = createTamagui({
         hoverNone: { hover: "none" },
         pointerCoarse: { pointer: "coarse" },
     },
+    themes: {
+        ...configBase.themes,
+        dark: configBase.themes.light,
+    },
 });
 
 export default tamaguiConfig;
