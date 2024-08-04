@@ -261,7 +261,7 @@ function Schedule({
                 alignItems="center"
                 edgeCornerRadius={10}
                 pageButtonOpacity={0.6}
-                px={Size.PlanDetailHeader.px + "px"}
+                px={Size.PlanDetailHeader.px}
                 spacing={0}
             >
                 {places.map((place, i) => (

@@ -11,7 +11,7 @@ import { PlanListSectionTitle } from "src/view/top/PlanListSectionTitle";
 type Props = {
     plans: Plan[] | null;
     locationPermission: LocationPermission | null;
-    px?: string | number;
+    px?: number;
     isFetchingNearbyPlans: boolean;
     isFetchingCurrentLocation: boolean;
     onRequestFetchNearByPlans: () => void;

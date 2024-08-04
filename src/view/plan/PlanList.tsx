@@ -18,7 +18,7 @@ type Props = {
     grid?: boolean;
     wrapTitle?: boolean;
     showAuthor?: boolean;
-    px?: string | number;
+    px?: number;
     ads?: boolean;
 };
 
@@ -124,7 +124,7 @@ const Layout = ({
     children,
 }: {
     grid: boolean;
-    px: string | number;
+    px: number;
     children: ReactNode;
 }) => {
     if (grid) {

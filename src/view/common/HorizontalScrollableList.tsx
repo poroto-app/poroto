@@ -2,19 +2,7 @@ import { Box, Center, HStack, Icon } from "@chakra-ui/react";
 import { ReactNode, useEffect, useRef, useState } from "react";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 import { isPC } from "src/constant/userAgent";
-
-type Props = {
-    scrollAmount?: number;
-    pageButtonOffsetY?: number;
-    px?: number | string;
-    spacing?: number | string;
-    alignItems?: string;
-    pageButtonVisible?: boolean;
-    roundedEdgeCorner?: boolean;
-    edgeCornerRadius?: number;
-    pageButtonOpacity?: number;
-    children?: ReactNode;
-};
+import { HorizontalScrollableListProps } from "src/types/props";
 
 export const HorizontalScrollableList = ({
     scrollAmount = 400,
@@ -27,7 +15,7 @@ export const HorizontalScrollableList = ({
     edgeCornerRadius = 20,
     pageButtonOpacity = 1,
     children,
-}: Props) => {
+}: HorizontalScrollableListProps) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const [isHovered, setIsHovered] = useState(false);
 
@@ -67,7 +55,7 @@ export const HorizontalScrollableList = ({
             <HStack
                 ref={containerRef}
                 w="100%"
-                px={px}
+                px={px + "px"}
                 spacing={spacing}
                 borderRadius={roundedEdgeCorner ? edgeCornerRadius + "px" : 0}
                 overflowX="auto"

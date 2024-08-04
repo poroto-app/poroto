@@ -292,7 +292,7 @@ export default function PlanPage() {
                                 grid={false}
                                 wrapTitle={false}
                                 showAuthor={false}
-                                px={Size.PlanDetail.px + "px"}
+                                px={Size.PlanDetail.px}
                                 ads={false}
                             />
                         </PlanPageSection>
@@ -309,7 +309,7 @@ export default function PlanPage() {
                     >
                         <NearbyPlaceList
                             places={placesNearbyPlanLocation}
-                            px={Size.PlanDetail.px + "px"}
+                            px={Size.PlanDetail.px}
                             onSelectPlace={(place) =>
                                 dispatch(setPlaceIdToCreatePlan(place.id))
                             }
