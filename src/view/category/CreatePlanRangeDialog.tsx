@@ -98,7 +98,7 @@ export function CreatePlanRangeDialog({
             position={isPC ? DialogPositions.CENTER : DialogPositions.BOTTOM}
             onClickOutside={onClose}
         >
-            <RoundedDialog h="100%" w={isPC ? "900px" : "100%"} maxW="100%">
+            <RoundedDialog h="100%" w={isPC ? 900 : "100%"} maxW="100%">
                 <YStack
                     w="100%"
                     h="100%"
@@ -164,7 +164,7 @@ export function CreatePlanRangeDialog({
                         <RangeInput
                             rangeInKm={rangeInKm}
                             onValueChange={(value) =>
-                               setRangeInKm(Math.max(minRangeInKm, value))
+                                setRangeInKm(Math.max(minRangeInKm, value))
                             }
                         />
                     </YStack>
@@ -175,7 +175,9 @@ export function CreatePlanRangeDialog({
                         label={
                             location
                                 ? t("plan:createPlanByCategory")
-                                : t("plan:createPlanByCategorySelectLocationTitle")
+                                : t(
+                                      "plan:createPlanByCategorySelectLocationTitle"
+                                  )
                         }
                     />
                 </YStack>

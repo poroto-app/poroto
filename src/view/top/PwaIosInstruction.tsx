@@ -53,7 +53,7 @@ export function PwaIosInstruction({
             paddingX={Padding.p8 + "px"}
             paddingY={Padding.p8 + "px"}
         >
-            <RoundedDialog h="min(100vh, 600px)" w="min(100vw, 800px)">
+            <RoundedDialog h={600} w={800} maxH="100%" maxW="100%">
                 <VStack
                     py={Padding.p32 + "px"}
                     h="100%"
