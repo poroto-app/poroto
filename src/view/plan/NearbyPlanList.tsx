@@ -1,6 +1,4 @@
-import { isPC } from "src/constant/userAgent";
 import { Plan } from "src/domain/models/Plan";
-import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { LocationPermission, LocationPermissions } from "src/hooks/useLocation";
 import { PlanList } from "src/view/plan/PlanList";
 import { LocationUnavailable } from "src/view/top/LocationUnavailable";
@@ -24,11 +22,14 @@ export function NearbyPlanList({
     isFetchingCurrentLocation,
     onRequestFetchNearByPlans,
 }: Props) {
-    const { t } = useAppTranslation();
     return (
         <PlanList
             plans={plans}
-            empty={
+            isLoading={isFetchingNearbyPlans}
+            numPlaceHolders={3}
+            px={px}
+            header={<PlanListSectionTitleNearbyPlans px={px} />}
+            emptyFallback={
                 <Empty
                     plans={plans}
                     locationPermission={locationPermission}
@@ -36,12 +37,7 @@ export function NearbyPlanList({
                     onRequestFetchNearByPlans={onRequestFetchNearByPlans}
                 />
             }
-            isLoading={isFetchingNearbyPlans}
-            numPlaceHolders={isPC ? 3 : 1}
-            px={px}
-        >
-            <PlanListSectionTitleNearbyPlans px={px} />
-        </PlanList>
+        />
     );
 }
 

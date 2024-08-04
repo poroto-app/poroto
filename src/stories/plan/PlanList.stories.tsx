@@ -43,7 +43,7 @@ export const Empty: Story = {
 export const EmptyWithComponent: Story = {
     args: {
         plans: [],
-        empty: <p>Empty</p>,
+        emptyFallback: <p>Empty</p>,
     },
 };
 

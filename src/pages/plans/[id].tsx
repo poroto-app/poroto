@@ -226,7 +226,7 @@ export default function PlanPage() {
                                 numPlaceHolders={6}
                                 grid={false}
                                 wrapTitle={false}
-                                showAuthor={false}
+                                showAuthor={true}
                                 px={Size.PlanDetail.px}
                                 ads={false}
                             />

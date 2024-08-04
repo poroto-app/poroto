@@ -15,18 +15,22 @@ export function PlanListUser({ user, plans, isLoading = false }: Props) {
     if (!user) return <></>;
 
     return (
-        <PlanList plans={plans} isLoading={isLoading}>
-            <Text
-                as="h2"
-                fontSize="20px"
-                fontWeight="bold"
-                w="100%"
-                maxW="600px"
-                textAlign="center"
-                py="16x"
-            >
-                {t("plan:savedPlans")}
-            </Text>
-        </PlanList>
+        <PlanList
+            plans={plans}
+            isLoading={isLoading}
+            header={
+                <Text
+                    as="h2"
+                    fontSize="20px"
+                    fontWeight="bold"
+                    w="100%"
+                    maxW="600px"
+                    textAlign="center"
+                    py="16x"
+                >
+                    {t("plan:savedPlans")}
+                </Text>
+            }
+        />
     );
 }

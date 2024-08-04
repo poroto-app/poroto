@@ -1,5 +1,6 @@
 import { createParam } from "solito";
 import { Padding } from "src/constant/padding";
+import { Size } from "src/constant/size";
 import { getPlanPriceRange } from "src/domain/models/Plan";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { usePlan } from "src/hooks/usePlan";
@@ -13,9 +14,11 @@ import {
     SectionTitlePlan,
     SectionTitlePlanInfo,
 } from "src/view/common/SectionTitle";
+import { PlanList } from "src/view/plan/PlanList";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
 import { PlanPlaceList } from "src/view/plandetail/PlanPlaceList";
+import { PlanListSectionTitleNearbyPlans } from "src/view/top/PlanListSectionTitle";
 import { ScrollView, YStack } from "tamagui";
 
 const { useParam } = createParam<{ id: string }>();
@@ -23,7 +26,9 @@ const { useParam } = createParam<{ id: string }>();
 export default function PlanPage() {
     const [id] = useParam("id");
     const { t } = useAppTranslation();
-    const { plan, isFetchingPlan, planError } = usePlan({ planId: id });
+    const { plan, isFetchingPlan, planError, nearbyPlans } = usePlan({
+        planId: id,
+    });
     const uploadImageProps = useUploadPlaceImage();
     const { userId, firebaseIdToken, likePlaceIds, updateLikePlace } =
         useUserPlan();
@@ -60,6 +65,27 @@ export default function PlanPage() {
                             }
                         />
                     </PlanPageSection>
+                    {nearbyPlans && nearbyPlans.length > 0 && (
+                        <PlanPageSection
+                            sectionHeader={
+                                <PlanListSectionTitleNearbyPlans
+                                    px={Size.PlanDetail.px}
+                                />
+                            }
+                            contentPaddingX={0}
+                        >
+                            <PlanList
+                                plans={nearbyPlans}
+                                isLoading={isFetchingPlan}
+                                numPlaceHolders={6}
+                                grid={false}
+                                wrapTitle={false}
+                                showAuthor={true}
+                                px={Size.PlanDetail.px}
+                                ads={false}
+                            />
+                        </PlanPageSection>
+                    )}
                 </YStack>
             </Layout>
         </ScrollView>
