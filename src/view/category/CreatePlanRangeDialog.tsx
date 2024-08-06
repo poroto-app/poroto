@@ -95,8 +95,9 @@ export function CreatePlanRangeDialog({
             width={!isPC && "100%"}
             maxHeight="100%"
             maxWidth="100%"
-            paddingX={isPC && Padding.p8}
-            position={isPC ? DialogPositions.CENTER : DialogPositions.BOTTOM}
+            paddingX={Padding.p8}
+            paddingY={Padding.p32}
+            position={DialogPositions.CENTER}
             onClickOutside={onClose}
         >
             <RoundedDialog h="100%" w={isPC ? 900 : "100%"} maxW="100%">
