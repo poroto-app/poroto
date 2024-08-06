@@ -291,7 +291,7 @@ function SetByCurrentLocationButton({
                 <MapPin size={14} color="#2D59C9" />
             )}
             <Text fontSize={14} color="#2D59C9">
-                現在地を中心にする
+                {t("place:setMapCenterOnCurrentLocation")}
             </Text>
         </XStack>
     );

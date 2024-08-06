@@ -33,6 +33,7 @@ export const PlaceTranslationEn: PlaceTranslationKeys = {
     searchPlace: "Search place",
     selectPlaceCategoryMessage: "What type of place do you want to visit?",
     skipCurrentLocationRetrieval: "Skip current location retrieval",
+    setMapCenterOnCurrentLocation: "Center on current location",
 
     tapToSelectPlace: "Tap to select place",
 

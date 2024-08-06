@@ -33,6 +33,7 @@ export const PlaceTranslationJa: PlaceTranslationKeys = {
     searchPlace: "場所を検索",
     selectPlaceCategoryMessage: "どんな場所に行きたいですか？",
     skipCurrentLocationRetrieval: "現在地取得をスキップする",
+    setMapCenterOnCurrentLocation: "現在地を中心にする",
 
     tapToSelectPlace: "場所を選択",
 
