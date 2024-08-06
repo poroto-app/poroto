@@ -1,6 +1,5 @@
 import { Circle, Marker } from "@react-google-maps/api";
-import { ReactNode } from "react";
-import { GeoLocation } from "src/data/graphql/generated";
+import { CreatePlanLocationMapProps } from "src/types/props";
 import { MapViewer } from "src/view/common/MapViewer";
 
 export function CreatePlanLocationMap({
@@ -10,15 +9,7 @@ export function CreatePlanLocationMap({
 
     children,
     onClickLocation,
-}: {
-    rangeInKm: number;
-    mapCenter: GeoLocation;
-    location?: GeoLocation;
-
-    onClickLocation?: (location: GeoLocation) => void;
-
-    children?: ReactNode;
-}) {
+}: CreatePlanLocationMapProps) {
     return (
         <MapViewer
             zoom={14}

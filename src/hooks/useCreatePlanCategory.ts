@@ -12,6 +12,7 @@ import {
     resetCreatePlanByCategoryRequestStatus,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
+import { isWeb } from "tamagui";
 
 export const useCreatePlanCategory = () => {
     const dispatch = useAppDispatch();
@@ -32,11 +33,14 @@ export const useCreatePlanCategory = () => {
     }: {
         category: CreatePlanPlaceCategory;
     }) => {
-        logEvent(
-            getAnalytics(),
-            AnalyticsEvents.CreatePlan.SelectCreatePlanCategory,
-            { category: category.id }
-        );
+        // TODO: native対応
+        if (isWeb) {
+            logEvent(
+                getAnalytics(),
+                AnalyticsEvents.CreatePlan.SelectCreatePlanCategory,
+                { category: category.id }
+            );
+        }
         setCategory(category);
         setIsCreatePlanCategoryRangeDialogVisible(true);
     };

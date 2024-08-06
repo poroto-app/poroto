@@ -152,7 +152,7 @@ export function CreatePlanRangeDialog({
                             </XStack>
                             <DirectionIndicator rangeInKm={rangeInKm} />
                         </CreatePlanLocationMap>
-                        <TapMapOverlay />
+                        {/*<TapMapOverlay />*/}
                     </YStack>
                     <YStack
                         w="100%"
@@ -397,6 +397,7 @@ function RangeInput({
                 justifyContent="center"
                 alignItems="center"
                 padding={Padding.p4}
+                backgroundColor="white"
             >
                 <Ruler size={20} color="#38A169" />
             </Slider.Thumb>

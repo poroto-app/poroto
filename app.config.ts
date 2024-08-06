@@ -21,6 +21,13 @@ export default ({ config }: ConfigContext) => {
     IMAGE_OPTIMIZATION_API_HOST: process.env.IMAGE_OPTIMIZATION_API_HOST,
   }
 
+  config.android.config = {
+    ...config.android.config,
+    googleMaps: {
+      apiKey: process.env.GCP_ANDROID_API_KEY,
+    },
+  }
+
   return {
     ...config,
   }
