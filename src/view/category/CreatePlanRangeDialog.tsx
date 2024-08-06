@@ -134,6 +134,7 @@ export function CreatePlanRangeDialog({
                             px={Padding.p8}
                         >
                             <PlaceSearch
+                                placeSearchBarAutoFocus={false}
                                 onSearchGooglePlacesByQuery={
                                     onSearchGooglePlacesByQuery
                                 }

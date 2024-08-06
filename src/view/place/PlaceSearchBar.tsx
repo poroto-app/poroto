@@ -7,10 +7,15 @@ import { Form, Input, XStack } from "tamagui";
 
 type Props = {
     defaultValue?: string;
+    autoFocus?: boolean;
     onSearch: (value: string) => void;
 };
 
-export function PlaceSearchBar({ defaultValue = "", onSearch }: Props) {
+export function PlaceSearchBar({
+    defaultValue = "",
+    autoFocus = true,
+    onSearch,
+}: Props) {
     const { t } = useAppTranslation();
     const [lastUsedQuery, setLastUsedQuery] = useState<string | null>(null);
     const [value, setValue] = useState(defaultValue);
@@ -65,7 +70,7 @@ export function PlaceSearchBar({ defaultValue = "", onSearch }: Props) {
             <Search size={32} color="#1a202c" p={Padding.p4} />
             <Form flex={1} onSubmit={handleOnSubmit}>
                 <Input
-                    autoFocus
+                    autoFocus={autoFocus}
                     unstyled
                     outlineWidth={0}
                     placeholder={t("place:searchPlace")}

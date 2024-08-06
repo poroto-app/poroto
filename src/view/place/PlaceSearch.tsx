@@ -6,6 +6,7 @@ import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
 import { YStack } from "tamagui";
 
 export type PlaceSearchProps = {
+    placeSearchBarAutoFocus?: boolean;
     googlePlaceSearchResults?: PlaceSearchResult[];
     placeSearchActions?: ReactNode;
     onSearchGooglePlacesByQuery: (query: string) => void;
@@ -13,6 +14,7 @@ export type PlaceSearchProps = {
 };
 
 export function PlaceSearch({
+    placeSearchBarAutoFocus,
     placeSearchActions,
     googlePlaceSearchResults,
     onSearchGooglePlacesByQuery,
@@ -22,7 +24,10 @@ export function PlaceSearch({
         !googlePlaceSearchResults || googlePlaceSearchResults.length === 0;
     return (
         <YStack gap={Padding.p8} w="100%" alignItems="center">
-            <PlaceSearchBar onSearch={onSearchGooglePlacesByQuery} />
+            <PlaceSearchBar
+                autoFocus={placeSearchBarAutoFocus}
+                onSearch={onSearchGooglePlacesByQuery}
+            />
             {isEmptySearchResults && placeSearchActions && placeSearchActions}
             {!isEmptySearchResults && (
                 <YStack
