@@ -9,8 +9,6 @@ export type CreatePlanLocationMapProps = {
     location?: GeoLocation;
 
     onClickLocation?: (location: GeoLocation) => void;
-
-    children?: ReactNode;
 };
 
 export type FadeInFadeOutTransitionProps = {

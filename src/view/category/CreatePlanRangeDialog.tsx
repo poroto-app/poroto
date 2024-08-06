@@ -125,34 +125,33 @@ export function CreatePlanRangeDialog({
                                     moveCenter: false,
                                 });
                             }}
+                        ></CreatePlanLocationMap>
+                        <XStack
+                            w="100%"
+                            position="absolute"
+                            pt={Padding.p24}
+                            px={Padding.p8}
                         >
-                            <XStack
-                                w="100%"
-                                position="absolute"
-                                pt={Padding.p24}
-                                px={Padding.p8}
-                            >
-                                <PlaceSearch
-                                    onSearchGooglePlacesByQuery={
-                                        onSearchGooglePlacesByQuery
-                                    }
-                                    onClickGooglePlaceSearchResult={
-                                        onClickGooglePlaceSearchResult
-                                    }
-                                    googlePlaceSearchResults={
-                                        googlePlaceSearchResults
-                                    }
-                                    placeSearchActions={
-                                        <SetByCurrentLocationButton
-                                            onGetCurrentLocation={(location) =>
-                                                handleSetLocation({ location })
-                                            }
-                                        />
-                                    }
-                                />
-                            </XStack>
-                            <DirectionIndicator rangeInKm={rangeInKm} />
-                        </CreatePlanLocationMap>
+                            <PlaceSearch
+                                onSearchGooglePlacesByQuery={
+                                    onSearchGooglePlacesByQuery
+                                }
+                                onClickGooglePlaceSearchResult={
+                                    onClickGooglePlaceSearchResult
+                                }
+                                googlePlaceSearchResults={
+                                    googlePlaceSearchResults
+                                }
+                                placeSearchActions={
+                                    <SetByCurrentLocationButton
+                                        onGetCurrentLocation={(location) =>
+                                            handleSetLocation({ location })
+                                        }
+                                    />
+                                }
+                            />
+                        </XStack>
+                        <DirectionIndicator rangeInKm={rangeInKm} />
                         <TapMapOverlay />
                     </YStack>
                     <YStack

@@ -6,7 +6,6 @@ export function CreatePlanLocationMap({
     mapCenter,
     location,
 
-    children,
     onClickLocation,
 }: CreatePlanLocationMapProps) {
     return (
