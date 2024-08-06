@@ -8,13 +8,7 @@ import {
     Ruler,
 } from "@tamagui/lucide-icons";
 import { useToastController } from "@tamagui/toast";
-import {
-    CSSProperties,
-    NamedExoticComponent,
-    useEffect,
-    useState,
-} from "react";
-import { Transition, TransitionStatus } from "react-transition-group";
+import { NamedExoticComponent, useEffect, useState } from "react";
 import { locationSinjukuStation } from "src/constant/location";
 import { Padding } from "src/constant/padding";
 import { isPC } from "src/constant/userAgent";
@@ -32,7 +26,14 @@ import {
 import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import { PlaceSearch, PlaceSearchProps } from "src/view/place/PlaceSearch";
-import { Slider, Spinner, Text, XStack, YStack } from "tamagui";
+import {
+    AnimatePresence,
+    Slider,
+    Spinner,
+    Text,
+    XStack,
+    YStack,
+} from "tamagui";
 
 type Props = {
     visible: boolean;
@@ -152,7 +153,7 @@ export function CreatePlanRangeDialog({
                             </XStack>
                             <DirectionIndicator rangeInKm={rangeInKm} />
                         </CreatePlanLocationMap>
-                        {/*<TapMapOverlay />*/}
+                        <TapMapOverlay />
                     </YStack>
                     <YStack
                         w="100%"
@@ -209,26 +210,22 @@ function TapMapOverlay() {
     const { t } = useAppTranslation();
     const [isFirstTap, setIsFirstTap] = useState(true);
 
-    const transitionStyles: { [key in TransitionStatus]: CSSProperties } = {
-        unmounted: { opacity: 0, visibility: "hidden" },
-        entering: { opacity: 1, visibility: "visible" },
-        entered: { opacity: 1, visibility: "visible" },
-        exiting: { opacity: 0, visibility: "visible" },
-        exited: { opacity: 0, visibility: "hidden" },
-    };
-
     return (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        <Transition in={isFirstTap} timeout={300}>
-            {(state) => (
+        <AnimatePresence>
+            {isFirstTap && (
                 <XStack
+                    key="tapMapOverlay"
+                    animation="quick"
+                    enterStyle={{
+                        opacity: 0,
+                    }}
+                    exitStyle={{
+                        opacity: 0,
+                    }}
                     alignItems="center"
                     justifyContent="center"
-                    style={transitionStyles[state]}
                     backgroundColor="rgba(0,0,0,.4)"
                     onPress={() => setIsFirstTap(false)}
-                    transition="opacity 0.3s"
                     position="absolute"
                     top={0}
                     right={0}
@@ -243,7 +240,7 @@ function TapMapOverlay() {
                     </YStack>
                 </XStack>
             )}
-        </Transition>
+        </AnimatePresence>
     );
 }
 
