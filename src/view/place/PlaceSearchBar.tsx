@@ -1,16 +1,21 @@
-import { Icon } from "@chakra-ui/react";
-import { FormEvent, useEffect, useState } from "react";
-import { MdClose, MdSearch } from "react-icons/md";
+import { Search, X } from "@tamagui/lucide-icons";
+import { useEffect, useState } from "react";
+import { Padding } from "src/constant/padding";
 import { hasValue } from "src/domain/util/null";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
-import styled from "styled-components";
+import { Form, Input, XStack } from "tamagui";
 
 type Props = {
     defaultValue?: string;
+    autoFocus?: boolean;
     onSearch: (value: string) => void;
 };
 
-export function PlaceSearchBar({ defaultValue = "", onSearch }: Props) {
+export function PlaceSearchBar({
+    defaultValue = "",
+    autoFocus = true,
+    onSearch,
+}: Props) {
     const { t } = useAppTranslation();
     const [lastUsedQuery, setLastUsedQuery] = useState<string | null>(null);
     const [value, setValue] = useState(defaultValue);
@@ -46,47 +51,42 @@ export function PlaceSearchBar({ defaultValue = "", onSearch }: Props) {
         onSearch(value);
     };
 
-    const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleOnSubmit = () => {
         validateAndDoSearch(value);
     };
 
     return (
-        <Container>
-            <Icon w="32px" h="32px" as={MdSearch} />
-            <Form onSubmit={handleOnSubmit}>
-                <TextField
-                    autoFocus
-                    type="text"
+        <XStack
+            w="100%"
+            gap={Padding.p16}
+            alignItems="center"
+            borderWidth={1}
+            borderColor="rgba(0, 0, 0, 0.15)"
+            borderRadius={50}
+            py={Padding.p4}
+            px={Padding.p8}
+            backgroundColor="white"
+        >
+            <Search size={32} color="#1a202c" p={Padding.p4} />
+            <Form flex={1} onSubmit={handleOnSubmit}>
+                <Input
+                    autoFocus={autoFocus}
+                    unstyled
+                    outlineWidth={0}
                     placeholder={t("place:searchPlace")}
                     value={value}
-                    onChange={(e) => setValue(e.currentTarget.value)}
+                    onChangeText={(text) => setValue(text)}
                 />
             </Form>
             {value !== "" && (
-                <Icon w="32px" onClick={() => setValue("")} as={MdClose} />
+                <X
+                    size={24}
+                    color="#1a202c"
+                    p={Padding.p4}
+                    cursor="pointer"
+                    onPress={() => setValue("")}
+                />
             )}
-        </Container>
+        </XStack>
     );
 }
-
-const Container = styled.div`
-    width: 100%;
-    display: flex;
-    column-gap: 16px;
-    align-items: center;
-    border: 1px solid rgba(0, 0, 0, 0.15);
-    border-radius: 50px;
-    padding: 4px 8px;
-    background: white;
-`;
-
-const TextField = styled.input`
-    width: 100%;
-    border: none;
-    outline: none;
-`;
-
-const Form = styled.form`
-    width: 100%;
-`;

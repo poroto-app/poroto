@@ -6,8 +6,11 @@ import { PlannerGraphQlApi } from "src/data/graphql/PlannerGraphQlApi";
 import { CreatePlanPlaceCategorySet } from "src/domain/models/CreatePlanPlaceCategory";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
+import { useCreatePlanCategory } from "src/hooks/useCreatePlanCategory";
 import { CreatePlanCategoryList } from "src/view/category/CreatePlanCategoryList";
+import { CreatePlanRangeDialog } from "src/view/category/CreatePlanRangeDialog";
 import { Layout } from "src/view/common/Layout";
+import { LoadingModal } from "src/view/common/LoadingModal";
 import { CreatePlanSection } from "src/view/top/CreatePlanSection";
 import { ScrollView, Text, YStack } from "tamagui";
 
@@ -16,6 +19,24 @@ export default function HomeScreen() {
     const [categorySets, setCategorySets] = useState<
         CreatePlanPlaceCategorySet[]
     >([]);
+
+    const {
+        mapCenter,
+        isCreatePlanCategoryRangeDialogVisible,
+        isCreatingPlanFromCategory,
+        setMapCenter,
+        onSelectCreatePlanCategory,
+        onSelectCreatePlanRange,
+        onCloseCreatePlanCategoryRangeDialog,
+    } = useCreatePlanCategory();
+
+    // const {
+    //     placeSearchResults,
+    //     searchGooglePlacesByQuery,
+    //     onSelectedSearchResult,
+    // } = useGooglePlaceSearch({
+    //     onMoveToSelectedLocation: ({ location }) => setMapCenter(location),
+    // });
 
     useEffect(() => {
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
@@ -40,9 +61,30 @@ export default function HomeScreen() {
                             {t("plan:createPlanByCategoryDescription")}
                         </Text>
                     </YStack>
-                    <CreatePlanCategoryList categorySets={categorySets} />
+                    <CreatePlanCategoryList
+                        categorySets={categorySets}
+                        onSelectCategory={(category) =>
+                            onSelectCreatePlanCategory({ category })
+                        }
+                    />
                 </YStack>
             </Layout>
+            <>
+                <CreatePlanRangeDialog
+                    defaultMapCenter={mapCenter}
+                    visible={isCreatePlanCategoryRangeDialogVisible}
+                    onClose={onCloseCreatePlanCategoryRangeDialog}
+                    onConfirm={onSelectCreatePlanRange}
+                    onClickGooglePlaceSearchResult={() => 0}
+                    onSearchGooglePlacesByQuery={() => 0}
+                    // googlePlaceSearchResults={placeSearchResults}
+                    // onSearchGooglePlacesByQuery={searchGooglePlacesByQuery}
+                    // onClickGooglePlaceSearchResult={onSelectedSearchResult}
+                />
+                {isCreatingPlanFromCategory && (
+                    <LoadingModal title={t("plan:createPlanInProgressTitle")} />
+                )}
+            </>
         </ScrollView>
     );
 }

@@ -1,6 +1,15 @@
 import { ReactNode } from "react";
+import { GeoLocation } from "src/data/graphql/generated";
 import { ImageSize, Image as ImageType } from "src/domain/models/Image";
 import { Plan } from "src/domain/models/Plan";
+
+export type CreatePlanLocationMapProps = {
+    rangeInKm: number;
+    mapCenter: GeoLocation;
+    location?: GeoLocation;
+
+    onClickLocation?: (location: GeoLocation) => void;
+};
 
 export type FadeInFadeOutTransitionProps = {
     duration?: number;

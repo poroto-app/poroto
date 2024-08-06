@@ -1,10 +1,12 @@
-import { Box, VStack } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { Padding } from "src/constant/padding";
 import { PlaceSearchResult } from "src/domain/models/PlaceSearchResult";
 import { PlaceSearchBar } from "src/view/place/PlaceSearchBar";
 import { PlaceSearchResults } from "src/view/place/PlaceSearchResults";
+import { YStack } from "tamagui";
 
 export type PlaceSearchProps = {
+    placeSearchBarAutoFocus?: boolean;
     googlePlaceSearchResults?: PlaceSearchResult[];
     placeSearchActions?: ReactNode;
     onSearchGooglePlacesByQuery: (query: string) => void;
@@ -12,6 +14,7 @@ export type PlaceSearchProps = {
 };
 
 export function PlaceSearch({
+    placeSearchBarAutoFocus,
     placeSearchActions,
     googlePlaceSearchResults,
     onSearchGooglePlacesByQuery,
@@ -20,24 +23,30 @@ export function PlaceSearch({
     const isEmptySearchResults =
         !googlePlaceSearchResults || googlePlaceSearchResults.length === 0;
     return (
-        <VStack spacing={4}>
-            <PlaceSearchBar onSearch={onSearchGooglePlacesByQuery} />
+        <YStack gap={Padding.p8} w="100%" alignItems="center">
+            <PlaceSearchBar
+                autoFocus={placeSearchBarAutoFocus}
+                onSearch={onSearchGooglePlacesByQuery}
+            />
             {isEmptySearchResults && placeSearchActions && placeSearchActions}
-            <Box
-                w="100%"
-                backgroundColor="white"
-                borderRadius={5}
-                boxShadow={
-                    !isEmptySearchResults && "0px 5px 20px 0px rgb(0 0 0 / 10%)"
-                }
-            >
-                <PlaceSearchResults
-                    places={googlePlaceSearchResults}
-                    onClickPlace={(place) =>
-                        onClickGooglePlaceSearchResult(place)
-                    }
-                />
-            </Box>
-        </VStack>
+            {!isEmptySearchResults && (
+                <YStack
+                    w="100%"
+                    backgroundColor="white"
+                    borderRadius={5}
+                    shadowOffset={{ width: 0, height: 5 }}
+                    shadowRadius={20}
+                    shadowColor="rgba(0, 0, 0, 0.1)"
+                    shadowOpacity={isEmptySearchResults ? 0 : 1}
+                >
+                    <PlaceSearchResults
+                        places={googlePlaceSearchResults}
+                        onClickPlace={(place) =>
+                            onClickGooglePlaceSearchResult(place)
+                        }
+                    />
+                </YStack>
+            )}
+        </YStack>
     );
 }

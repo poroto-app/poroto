@@ -207,6 +207,7 @@ export type PlaceTranslationKeys = {
     searchPlace: string;
     selectPlaceCategoryMessage: string;
     skipCurrentLocationRetrieval: string;
+    setMapCenterOnCurrentLocation: string;
 
     tapToSelectPlace: string;
 

@@ -1,18 +1,18 @@
-import { Box } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { Colors } from "src/constant/color";
+import { XStack } from "tamagui";
 
 type Props = {
-    w?: string | number;
-    h?: string | number;
-    maxW?: string | number;
-    maxH?: string | number;
+    w?: number | "100%";
+    h?: number | "100%";
+    maxW?: number | "100%";
+    maxH?: number | "100%";
     backgroundColor?: string;
     children?: ReactNode;
 };
 
 export function RoundedDialog({
-    w = "500px",
+    w = 500,
     h,
     maxW = "100%",
     maxH,
@@ -20,16 +20,16 @@ export function RoundedDialog({
     children,
 }: Props) {
     return (
-        <Box
+        <XStack
             backgroundColor={backgroundColor}
             w={w}
             h={h}
-            maxW={maxW}
-            maxH={maxH}
-            borderRadius="20px"
+            maxWidth={maxW}
+            maxHeight={maxH}
+            borderRadius={20}
             overflow="hidden"
         >
             {children}
-        </Box>
+        </XStack>
     );
 }
