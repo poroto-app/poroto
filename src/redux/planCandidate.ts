@@ -16,6 +16,7 @@ import {
 } from "src/domain/models/RequestStatus";
 import { PlannerApi } from "src/domain/plan/PlannerApi";
 import { RootState } from "src/redux/redux";
+import { isWeb } from "tamagui";
 
 export type PlanCandidateState = {
     createPlanSession: string | null;
@@ -159,9 +160,12 @@ type CreatePlanByCategoryProps = {
 export const createPlanByCategory = createAsyncThunk(
     "planCandidate/createPlanByCategory",
     async ({ categoryId, location, rangeInKm }: CreatePlanByCategoryProps) => {
-        logEvent(getAnalytics(), AnalyticsEvents.CreatePlan.Create, {
-            category: categoryId,
-        });
+        // TODO: native対応
+        if (isWeb) {
+            logEvent(getAnalytics(), AnalyticsEvents.CreatePlan.Create, {
+                category: categoryId,
+            });
+        }
 
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.createPlanByCategory({
