@@ -24,22 +24,24 @@ export function PlaceSearch({
         <YStack gap={Padding.p8} w="100%" alignItems="center">
             <PlaceSearchBar onSearch={onSearchGooglePlacesByQuery} />
             {isEmptySearchResults && placeSearchActions && placeSearchActions}
-            <YStack
-                w="100%"
-                backgroundColor="white"
-                borderRadius={5}
-                shadowOffset={{ width: 0, height: 5 }}
-                shadowRadius={20}
-                shadowColor="rgba(0, 0, 0, 0.1)"
-                shadowOpacity={isEmptySearchResults ? 0 : 1}
-            >
-                <PlaceSearchResults
-                    places={googlePlaceSearchResults}
-                    onClickPlace={(place) =>
-                        onClickGooglePlaceSearchResult(place)
-                    }
-                />
-            </YStack>
+            {!isEmptySearchResults && (
+                <YStack
+                    w="100%"
+                    backgroundColor="white"
+                    borderRadius={5}
+                    shadowOffset={{ width: 0, height: 5 }}
+                    shadowRadius={20}
+                    shadowColor="rgba(0, 0, 0, 0.1)"
+                    shadowOpacity={isEmptySearchResults ? 0 : 1}
+                >
+                    <PlaceSearchResults
+                        places={googlePlaceSearchResults}
+                        onClickPlace={(place) =>
+                            onClickGooglePlaceSearchResult(place)
+                        }
+                    />
+                </YStack>
+            )}
         </YStack>
     );
 }
