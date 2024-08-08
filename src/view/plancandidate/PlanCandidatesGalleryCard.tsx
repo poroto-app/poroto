@@ -39,7 +39,7 @@ export function PlanCandidateGalleryCard({
             justifyContent="center"
             h={Size.PlanCandidatesGallery.Card.h.active}
         >
-            <Card animation="quick" isActive={isActive} position="relative">
+            <Card animation="quicker" isActive={isActive} position="relative">
                 <StoryImagePreview
                     images={images}
                     slideable={isActive}
