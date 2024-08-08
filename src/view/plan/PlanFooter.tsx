@@ -1,58 +1,55 @@
-import { Center, HStack } from "@chakra-ui/react";
-import { CSSProperties, ReactNode } from "react";
-import { Transition, TransitionStatus } from "react-transition-group";
+import { ReactNode } from "react";
+import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
 import { zIndex } from "src/constant/zIndex";
+import { isWeb, XStack } from "tamagui";
 
 type Props = {
     visible?: boolean;
     children?: ReactNode;
 };
 
-const transitionStyles: {
-    [key in TransitionStatus]: CSSProperties | undefined;
-} = {
-    entering: { opacity: 0, transform: "translateY(50%)" },
-    entered: { opacity: 1, transform: "translateY(0)" },
-    exiting: { opacity: 0, transform: "translateY(50%)" },
-    exited: { opacity: 0, visibility: "hidden" },
-    unmounted: { opacity: 0, visibility: "hidden" },
-};
-
 export function PlanFooter({ visible = true, children }: Props) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const position: "absolute" = isWeb ? "fixed" : "absolute";
+
     return (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        <Transition
-            in={visible}
-            timeout={{
-                enter: 200,
-                exit: 200,
-            }}
-        >
-            {(state) => (
-                <Center
+        <>
+            {visible && (
+                <XStack
                     backgroundColor="white"
-                    borderTop="1px solid rgba(0,0,0,.1)"
-                    h={Size.PlanFooter.h + "px"}
+                    borderTopWidth={1}
+                    borderTopColor="rgba(0,0,0,.1)"
+                    h={Size.PlanFooter.h}
                     w="100%"
-                    position="fixed"
-                    px="16px"
-                    py="16px"
+                    px={Padding.p16}
+                    py={Padding.p16}
+                    position={position}
                     bottom={0}
                     left={0}
                     right={0}
                     zIndex={zIndex.footer}
-                    transition="all 0.2s ease-in-out"
-                    style={{
-                        ...transitionStyles[state],
+                    animation="quicker"
+                    enterStyle={{
+                        opacity: 0,
+                        y: Size.PlanFooter.h / 2,
+                    }}
+                    exitStyle={{
+                        opacity: 1,
+                        y: Size.PlanFooter.h / 2,
                     }}
                 >
-                    <HStack w="100%" maxW="var(--max-page-width)" h="100%">
+                    <XStack
+                        w="100%"
+                        maxWidth={Size.mainContentWidth}
+                        h="100%"
+                        gap={Padding.p8}
+                    >
                         {children}
-                    </HStack>
-                </Center>
+                    </XStack>
+                </XStack>
             )}
-        </Transition>
+        </>
     );
 }

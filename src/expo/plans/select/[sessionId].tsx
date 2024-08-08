@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import { createParam } from "solito";
+import { Colors } from "src/constant/color";
 import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
 import { getPlanPriceRange } from "src/domain/models/Plan";
@@ -14,7 +15,9 @@ import { ButtonWithBlur } from "src/view/common/ButtonWithBlur";
 import { ErrorPage } from "src/view/common/ErrorPage";
 import { LoadingModal } from "src/view/common/LoadingModal";
 import { NotFound } from "src/view/common/NotFound";
+import { RoundedButton } from "src/view/common/RoundedButton";
 import { SectionTitle } from "src/view/common/SectionTitle";
+import { PlanFooter } from "src/view/plan/PlanFooter";
 import { PlanPageSection } from "src/view/plan/section/PlanPageSection";
 import { PlanCandidatesGallery } from "src/view/plancandidate/PlanCandidatesGallery";
 import { PlanInfoSection } from "src/view/plandetail/PlanInfoSection";
@@ -81,48 +84,67 @@ export default function PlanCandidatePage() {
     }
 
     return (
-        <ScrollView
-            ref={scrollViewRef}
-            style={{ width: "100%", height: "100%", backgroundColor: "white" }}
-            pagingEnabled={scrollY <= planCandidateListHeight}
-            scrollEventThrottle={16}
-            onScroll={(event) => {
-                setScrollY(event.nativeEvent.contentOffset.y);
-            }}
-        >
-            <YStack
-                alignItems="center"
-                justifyContent="center"
-                w="100%"
-                h={planCandidateListHeight}
-                gap={Padding.p32}
+        <>
+            <ScrollView
+                ref={scrollViewRef}
+                style={{
+                    width: "100%",
+                    height: "100%",
+                    backgroundColor: "white",
+                }}
+                pagingEnabled={scrollY <= planCandidateListHeight}
+                scrollEventThrottle={16}
+                onScroll={(event) => {
+                    setScrollY(event.nativeEvent.contentOffset.y);
+                }}
             >
-                <PlanCandidatesGallery
-                    planCandidates={plansCreated}
-                    isCreating={isCreatingPlan}
-                />
-                <ButtonWithBlur
-                    px={Padding.p16}
-                    py={Padding.p16}
-                    backgroundColor="#84A6FF"
-                    borderRadius={50}
-                    onClick={() =>
-                        scrollViewRef.current?.scrollTo({
-                            y: planCandidateListHeight,
-                        })
-                    }
+                <YStack
+                    alignItems="center"
+                    justifyContent="center"
+                    w="100%"
+                    h={planCandidateListHeight}
+                    gap={Padding.p32}
                 >
-                    <Text color="white" fontWeight="bold" fontSize={18}>
-                        {t("plan:showPlan")}
-                    </Text>
-                </ButtonWithBlur>
-            </YStack>
-            <PlanDetailPage
-                planId={currentPlanId}
-                planCandidateSetId={sessionId}
-                isPlanFooterVisible={true}
-            />
-        </ScrollView>
+                    <PlanCandidatesGallery
+                        planCandidates={plansCreated}
+                        isCreating={isCreatingPlan}
+                    />
+                    <ButtonWithBlur
+                        px={Padding.p16}
+                        py={Padding.p16}
+                        backgroundColor="#84A6FF"
+                        borderRadius={50}
+                        onClick={() =>
+                            scrollViewRef.current?.scrollTo({
+                                y: planCandidateListHeight,
+                            })
+                        }
+                    >
+                        <Text color="white" fontWeight="bold" fontSize={18}>
+                            {t("plan:showPlan")}
+                        </Text>
+                    </ButtonWithBlur>
+                </YStack>
+                <PlanDetailPage
+                    planId={currentPlanId}
+                    planCandidateSetId={sessionId}
+                    isPlanFooterVisible={true}
+                />
+            </ScrollView>
+            <PlanFooter visible={scrollY > planCandidateListHeight}>
+                <RoundedButton
+                    flex={1}
+                    outlined
+                    color={Colors.primary[400]}
+                    label={t("plan:reorderPlaces")}
+                />
+                <RoundedButton
+                    flex={1}
+                    color="#BF756E"
+                    label={t("plan:saveThisPlan")}
+                />
+            </PlanFooter>
+        </>
     );
 }
 
