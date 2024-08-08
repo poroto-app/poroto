@@ -1,7 +1,7 @@
 import { Box, Center, Text, VStack } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { createParam } from "solito";
-import { useRouter } from "solito/router";
+import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
@@ -27,7 +27,6 @@ const SelectPlanPage = () => {
     const { t } = useAppTranslation();
     const dispatch = useAppDispatch();
 
-    const router = useRouter();
     const { sessionId } = useParams().params;
     const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
     const refPlanCandidateGallery = useRef<HTMLDivElement>(null);
@@ -166,10 +165,10 @@ const SelectPlanPage = () => {
                         onActiveIndexChange={setSelectedPlanIndex}
                     />
                     <ButtonWithBlur
-                        px="16px"
-                        py="16px"
+                        px={Padding.p16}
+                        py={Padding.p16}
                         backgroundColor="#84A6FF"
-                        borderRadius="50px"
+                        borderRadius={50}
                         onClick={scrollToPlanDetailPage}
                     >
                         <Text color="white" fontWeight="bold" fontSize="18px">
