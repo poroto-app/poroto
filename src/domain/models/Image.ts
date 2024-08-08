@@ -25,11 +25,19 @@ export function getImageSizeOf(size: ImageSize, image: Image): string {
     }
 }
 
-export const getDefaultPlaceImage = (): Image => {
+export const getDefaultPlaceImage = ({
+    isWeb = true,
+}: {
+    isWeb?: boolean;
+}): Image => {
+    const defaultImage = isWeb
+        ? "/images/NotFound.jpg"
+        : "https://komichi.app/images/NotFound.jpg";
+
     return {
         isGoogleImage: false,
-        default: "/images/NotFound.jpg",
-        small: "/images/NotFound.jpg",
-        large: "/images/NotFound.jpg",
+        default: defaultImage,
+        small: defaultImage,
+        large: defaultImage,
     };
 };

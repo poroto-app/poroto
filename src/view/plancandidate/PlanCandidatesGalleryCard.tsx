@@ -7,7 +7,7 @@ import { Plan } from "src/domain/models/Plan";
 import { createArrayWithSize } from "src/domain/util/array";
 import { PlaceCategoryIcon } from "src/view/place/PlaceCategoryIcon";
 import { StoryImagePreview } from "src/view/plancandidate/StoryImagePreview";
-import { Text, XStack, YStack, styled } from "tamagui";
+import { Text, XStack, YStack, isWeb, styled } from "tamagui";
 
 type Props = {
     plan: Plan;
@@ -28,7 +28,9 @@ export function PlanCandidateGalleryCard({
 
     // TODO: Not Foundの画像がNativeでも表示されるようにする
     const images: Image[] = plan.places.map((place) =>
-        place.images.length > 0 ? place.images[0] : getDefaultPlaceImage()
+        place.images.length > 0 && place.images[0].default !== ""
+            ? place.images[0]
+            : getDefaultPlaceImage({ isWeb })
     );
 
     return (

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { createParam } from "solito";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { useAppTranslation } from "src/hooks/useAppTranslation";

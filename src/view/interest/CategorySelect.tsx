@@ -26,6 +26,7 @@ import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
 import { SelectButton } from "src/view/interest/SelectButton";
 import { PlaceCategoryIcon } from "src/view/place/PlaceCategoryIcon";
 import { styled } from "styled-components";
+import { isWeb } from "tamagui";
 
 /**
  * @param interactiveAnimation trueの場合、スライドして切り替わることを示すためのアニメーションを表示する
@@ -260,7 +261,9 @@ function PlaceThumbnail({
     imageSize: ImageSize;
 }) {
     const placeImage =
-        place.images.length > 0 ? place.images[0] : getDefaultPlaceImage();
+        place.images.length > 0
+            ? place.images[0]
+            : getDefaultPlaceImage({ isWeb });
     return (
         <Box w="100%" h="100%" position="relative">
             <ImageWithSkeleton
