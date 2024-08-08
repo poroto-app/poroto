@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Plan } from "src/domain/models/Plan";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
+import { hasValue } from "src/domain/util/null";
 import { reduxAuthSelector } from "src/redux/auth";
 import {
     createPlanFromPlace,
@@ -14,9 +15,11 @@ import { useAppDispatch } from "src/redux/redux";
 
 export const usePlanCandidateSet = ({
     planCandidateSetId,
+    selectedPlanIndex,
     onCreatedPlanFromPlace,
 }: {
     planCandidateSetId: string;
+    selectedPlanIndex: number;
     onCreatedPlanFromPlace?: (params: { plansCreated: Plan[] }) => void;
 }) => {
     const dispatch = useAppDispatch();
@@ -107,6 +110,12 @@ export const usePlanCandidateSet = ({
     return {
         plansCreated,
         placesAvailableForPlan,
+        currentPlanId:
+            hasValue(selectedPlanIndex) &&
+            hasValue(plansCreated) &&
+            plansCreated.length > selectedPlanIndex
+                ? plansCreated[selectedPlanIndex].id
+                : null,
         isCreatingPlan:
             createPlanFromPlaceRequestStatus === RequestStatuses.PENDING,
         createPlanFromPlaceRequestStatus,
