@@ -16,7 +16,7 @@ type Props = {
     planId: string;
 };
 
-export const usePlanCreate = ({ planCandidateSetId, planId }: Props) => {
+export const usePlanSave = ({ planCandidateSetId, planId }: Props) => {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const { preview: plan, savePlanFromCandidateRequestStatus } =

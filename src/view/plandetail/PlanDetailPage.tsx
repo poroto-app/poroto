@@ -6,11 +6,11 @@ import { getPlanPriceRange } from "src/domain/models/Plan";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { usePlaceLikeInPlanCandidate } from "src/hooks/usePlaceLikeInPlanCandidate";
 import { usePlanCandidate } from "src/hooks/usePlanCandidate";
-import { usePlanCreate } from "src/hooks/usePlanCreate";
 import { usePlanPlaceAdd } from "src/hooks/usePlanPlaceAdd";
 import { usePlanPlaceDelete } from "src/hooks/usePlanPlaceDelete";
 import { usePlanPlaceReorder } from "src/hooks/usePlanPlaceReorder";
 import { usePlanPlaceReplace } from "src/hooks/usePlanPlaceReplace";
+import { usePlanSave } from "src/hooks/usePlanSave";
 import { AdInPlanDetail } from "src/view/ad/AdInPlanDetail";
 import { HorizontalScrollableList } from "src/view/common/HorizontalScrollableList";
 import { LoadingModal } from "src/view/common/LoadingModal";
@@ -110,7 +110,7 @@ export function PlanDetailPage({
     const { likedPlaceIdsInPlanCandidate, updateLikeAtPlace } =
         usePlaceLikeInPlanCandidate();
 
-    const { createPlan, isCreatingPlan } = usePlanCreate({
+    const { createPlan, isCreatingPlan } = usePlanSave({
         planCandidateSetId: planCandidateSetId,
         planId: planId,
     });

@@ -9,7 +9,7 @@ import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { usePlaceLikeInPlanCandidate } from "src/hooks/usePlaceLikeInPlanCandidate";
 import { usePlanCandidate } from "src/hooks/usePlanCandidate";
 import { usePlanCandidateSet } from "src/hooks/usePlanCandidateSet";
-import { usePlanCreate } from "src/hooks/usePlanCreate";
+import { usePlanSave } from "src/hooks/usePlanSave";
 import { reduxNativeSelector } from "src/redux/native";
 import { ButtonWithBlur } from "src/view/common/ButtonWithBlur";
 import { ErrorPage } from "src/view/common/ErrorPage";
@@ -177,7 +177,7 @@ export function PlanDetailPage({
     const { likedPlaceIdsInPlanCandidate, updateLikeAtPlace } =
         usePlaceLikeInPlanCandidate();
 
-    const { createPlan, isCreatingPlan } = usePlanCreate({
+    const { createPlan, isCreatingPlan } = usePlanSave({
         planCandidateSetId: planCandidateSetId,
         planId: planId,
     });
