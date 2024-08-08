@@ -19,7 +19,7 @@ export const Primary: Story = {
         backgroundColor: "#84A6FF",
     },
     render: (args) => (
-        <ButtonWithBlur px="16px" py="16px" borderRadius="5px" {...args}>
+        <ButtonWithBlur px={16} py={16} borderRadius={5} {...args}>
             <Text>Button</Text>
         </ButtonWithBlur>
     ),

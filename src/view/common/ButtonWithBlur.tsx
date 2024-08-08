@@ -1,13 +1,21 @@
-import { Center, ChakraProps, HTMLChakraProps } from "@chakra-ui/react";
 import { ReactNode } from "react";
+import { XStack } from "tamagui";
 
-type Props = {
+export function ButtonWithBlur({
+    borderRadius,
+    backgroundColor,
+    px,
+    py,
+    onClick,
+    children,
+}: {
+    borderRadius?: number;
     backgroundColor: string;
+    px?: number;
+    py?: number;
+    onClick?: () => void;
     children?: ReactNode;
-} & ChakraProps &
-    HTMLChakraProps<"button">;
-
-export function ButtonWithBlur(props: Props) {
+}) {
     const toRgb = (
         color: string
     ): { red: number; green: number; blue: number } => {
@@ -30,15 +38,23 @@ export function ButtonWithBlur(props: Props) {
         }
     };
 
-    const color = toRgb(props.backgroundColor);
+    const color = toRgb(backgroundColor);
 
     return (
-        <Center
-            {...props}
-            boxShadow={`0px 0px 20px 0px rgba(${color.red},${color.green},${color.blue},.6)`}
-            as="button"
+        <XStack
+            tag="button"
+            backgroundColor={backgroundColor}
+            px={px}
+            py={py}
+            shadowOffset={{ width: 0, height: 0 }}
+            shadowColor={`rgb(${color.red},${color.green},${color.blue})`}
+            shadowOpacity={0.6}
+            shadowRadius={20}
+            elevationAndroid={20}
+            borderRadius={borderRadius}
+            onPress={onClick}
         >
-            {props.children}
-        </Center>
+            {children}
+        </XStack>
     );
 }
