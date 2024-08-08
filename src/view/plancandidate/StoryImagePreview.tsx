@@ -118,22 +118,6 @@ const SlideContainer = styled(Splide)`
     }
 
     & > .splide__pagination {
-        top: 0.5em;
-        bottom: initial !important;
-        // :not(is-overflow) となっても表示されるようにする
-        display: flex !important;
-    }
-
-    & > .splide__pagination > li {
-        flex: 1;
-        padding: 0 1px;
-    }
-
-    & > .splide__pagination > li > .splide__pagination__page {
-        width: 100%;
-        height: 4px;
-        border-radius: 10px;
-        transform: scale(1);
-        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
+        visibility: hidden;
     }
 `;

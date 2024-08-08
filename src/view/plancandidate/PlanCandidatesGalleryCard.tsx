@@ -151,9 +151,6 @@ function PageIndicator({
             px={Padding.p16}
             w="100%"
             h={4}
-            shadowColor="black"
-            shadowOpacity={0.25}
-            shadowRadius={20}
             columnGap={Padding.p4}
         >
             {createArrayWithSize(total).map((_, i) => {
