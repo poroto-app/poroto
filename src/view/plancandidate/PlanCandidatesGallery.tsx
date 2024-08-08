@@ -1,11 +1,13 @@
-import { Box, Center, Skeleton } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { useEffect, useRef, useState } from "react";
-import { Size } from "src/constant/size";
 import { Time } from "src/constant/time";
 import { Plan } from "src/domain/models/Plan";
-import { PlanCandidateGalleryCard } from "src/view/plancandidate/PlanCandidatesGalleryCard";
+import {
+    PlanCandidateGalleryCard,
+    PlanCandidateGalleryCardPlaceHolder,
+} from "src/view/plancandidate/PlanCandidatesGalleryCard";
 import { styled } from "styled-components";
 
 export type Props = {
@@ -96,18 +98,7 @@ export function PlanCandidatesGallery({
                         />
                     </SplideSlide>
                 ))}
-                {isCreating && (
-                    <Box
-                        w={Size.PlanCandidatesGallery.Card.w + "px"}
-                        h={Size.PlanCandidatesGallery.Card.h.inactive + "px"}
-                        borderRadius={
-                            Size.PlanCandidatesGallery.Card.borderRadius
-                        }
-                        overflow="hidden"
-                    >
-                        <Skeleton w="100%" h="100%" />
-                    </Box>
-                )}
+                {isCreating && <PlanCandidateGalleryCardPlaceHolder />}
             </SlideContainer>
         </Center>
     );
