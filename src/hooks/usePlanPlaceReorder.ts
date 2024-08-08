@@ -1,9 +1,9 @@
 import { ToastId, useToast } from "@chakra-ui/react";
-import { useTranslation } from "next-i18next";
 import { useEffect, useState } from "react";
 import { Place } from "src/domain/models/Place";
 import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { copyObject } from "src/domain/util/object";
+import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { usePlanCandidate } from "src/hooks/usePlanCandidate";
 import {
     autoReorderPlacesInPlanCandidate,
@@ -16,7 +16,7 @@ import { useAppDispatch } from "src/redux/redux";
 export const usePlanPlaceReorder = ({ planId }: { planId: string }) => {
     const dispatch = useAppDispatch();
     const toast = useToast();
-    const { t } = useTranslation();
+    const { t } = useAppTranslation();
 
     const { plan, currentLocation, createdBasedOnCurrentLocation } =
         usePlanCandidate({
