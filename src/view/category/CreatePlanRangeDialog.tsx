@@ -17,6 +17,7 @@ import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { useLocation } from "src/hooks/useLocation";
 import { OnClickHandler } from "src/types/handler";
+import { LocationPermissions } from "src/types/hooks";
 import { CreatePlanLocationMap } from "src/view/category/CreatePlanLocationMap";
 import { AppTrans } from "src/view/common/AppTrans";
 import {
@@ -252,8 +253,12 @@ function SetByCurrentLocationButton({
 }) {
     const { t } = useAppTranslation();
     const toast = useToastController();
-    const [isFetching, setIsFetching] = useState(false);
-    const { getCurrentLocation, fetchCurrentLocationStatus } = useLocation();
+    const {
+        getCurrentLocation,
+        locationPermission,
+        fetchCurrentLocationStatus,
+        isFetchingCurrentLocation,
+    } = useLocation();
 
     const handleOnClick = async () => {
         const currentLocation = await getCurrentLocation();
@@ -261,16 +266,21 @@ function SetByCurrentLocationButton({
     };
 
     useEffect(() => {
-        setIsFetching(fetchCurrentLocationStatus === RequestStatuses.PENDING);
-        if (fetchCurrentLocationStatus === RequestStatuses.REJECTED) {
+        const isFailed =
+            fetchCurrentLocationStatus === RequestStatuses.REJECTED;
+
+        const isLocationRejected =
+            fetchCurrentLocationStatus === RequestStatuses.FULFILLED &&
+            locationPermission === LocationPermissions.DENIED;
+
+        if (isFailed || isLocationRejected) {
             toast.show(t("location:fetchCurrentLocationFailed"), {
                 burntOptions: { preset: "error" },
                 duration: 3000,
             });
         }
-    }, [fetchCurrentLocationStatus]);
+    }, [fetchCurrentLocationStatus, locationPermission]);
 
-    // TODO: i18n
     return (
         <XStack
             tag="button"
@@ -285,7 +295,7 @@ function SetByCurrentLocationButton({
             gap={Padding.p4}
             onPress={handleOnClick}
         >
-            {isFetching ? (
+            {isFetchingCurrentLocation ? (
                 <Spinner size="small" />
             ) : (
                 <MapPin size={14} color="#2D59C9" />
