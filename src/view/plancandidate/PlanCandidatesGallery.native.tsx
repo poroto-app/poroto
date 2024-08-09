@@ -76,7 +76,7 @@ export function PlanCandidatesGallery({
     }, [activeIndex]);
 
     return (
-        <YStack w="100%" h="100%" justifyContent="center" alignItems="center">
+        <YStack w="100%" justifyContent="center" alignItems="center">
             <FlatList
                 ref={flatListRef}
                 horizontal

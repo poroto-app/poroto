@@ -14,11 +14,13 @@ export const usePlanCandidate = ({ planId }: { planId?: string }) => {
     const [placeIdToCreatePlan, setPlaceIdToCreatePlan] = useState<
         string | null
     >(null);
+
     const {
         preview: plan,
         createdBasedOnCurrentLocation,
         placesForDestination,
     } = reduxPlanCandidateSelector();
+
     const destinationPlacesForPlanCandidate =
         placesForDestination?.find((p) => p.planCandidateId === planId)
             ?.places || [];

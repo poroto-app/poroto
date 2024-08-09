@@ -78,6 +78,8 @@ export const PlanTranslationJa: PlanTranslationKeys = {
         "保存したプランはいつでも見返すことができます。",
     savedPlansEmptyTitle: "プランを作って、保存しよう！",
 
+    savePlanInProgressTitle: "プランを保存しています...",
+
     searchNearbyPlansInProgress: "近くのプランを検索しています...",
     searchNearbyPlansLocationPermissionDenied:
         "位置情報を許可すると、近くのプランを探すことができます。",

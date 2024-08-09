@@ -163,6 +163,8 @@ export type PlanTranslationKeys = {
     saveThisPlan: string;
     showPlan: string;
 
+    savePlanInProgressTitle: string;
+
     savedPlans: string;
     savedPlansEmptyDescription: string;
     savedPlansEmptyTitle: string;

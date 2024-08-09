@@ -8,6 +8,7 @@ export type NativeState = {
     safeAreaLeft: number | null;
     safeAreaRight: number | null;
     screenWidth: number | null;
+    screenHeight: number | null;
 };
 
 const initialState: NativeState = {
@@ -17,14 +18,19 @@ const initialState: NativeState = {
     safeAreaRight: null,
 
     screenWidth: null,
+    screenHeight: null,
 };
 
 export const slice = createSlice({
     name: "native",
     initialState,
     reducers: {
-        setScreenWidth: (state, action) => {
-            state.screenWidth = action.payload;
+        setScreenSize: (
+            state,
+            { payload }: PayloadAction<{ width: number; height: number }>
+        ) => {
+            state.screenWidth = payload.width;
+            state.screenHeight = payload.height;
         },
         setSafeArea: (
             state,
@@ -45,7 +51,7 @@ export const slice = createSlice({
     },
 });
 
-export const { setScreenWidth, setSafeArea } = slice.actions;
+export const { setScreenSize, setSafeArea } = slice.actions;
 
 export const reduxNativeSelector = () =>
     useSelector((state: RootState) => state.native);

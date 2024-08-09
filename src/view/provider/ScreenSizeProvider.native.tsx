@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from "react";
 import { LayoutChangeEvent } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { setSafeArea, setScreenWidth } from "src/redux/native";
+import { setSafeArea, setScreenSize } from "src/redux/native";
 import { useAppDispatch } from "src/redux/redux";
 import { View } from "tamagui";
 
@@ -12,7 +12,12 @@ export function ScreenSizeProvider({ children }: { children?: ReactNode }) {
     const { top, right, bottom, left } = useSafeAreaInsets();
 
     const handleOnLayout = (e: LayoutChangeEvent) => {
-        dispatch(setScreenWidth(e.nativeEvent.layout.width));
+        dispatch(
+            setScreenSize({
+                width: e.nativeEvent.layout.width,
+                height: e.nativeEvent.layout.height,
+            })
+        );
     };
 
     useEffect(() => {
