@@ -100,7 +100,7 @@ function Failed() {
                 <Text fontWeight="bold" fontSize={20}>
                     {t("location:fetchCurrentLocationFailedTitle")}
                 </Text>
-                <Text>
+                <Text color="$black075">
                     {t("location:fetchCurrentLocationFailedDescription")}
                 </Text>
             </YStack>
