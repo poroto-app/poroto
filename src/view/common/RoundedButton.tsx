@@ -1,4 +1,5 @@
-import { ReactNode } from "react";
+import { IconProps } from "@tamagui/helpers-icon";
+import { NamedExoticComponent, ReactNode } from "react";
 import { Colors } from "src/constant/color";
 import { Button, Text } from "tamagui";
 
@@ -9,9 +10,11 @@ type Props = {
     borderWidth?: number;
     disabled?: boolean;
     fontWeight?: "bold" | "normal";
+    fontSize?: number;
     // TODO: variantで共通化
     outlined?: boolean;
     variant?: "solid" | "outlined" | "ghost";
+    icon?: NamedExoticComponent<IconProps>;
     children?: ReactNode;
     color?: string;
     onClick?: () => void;
@@ -24,10 +27,12 @@ export function RoundedButton({
     flex,
     borderWidth = 2,
     fontWeight = "bold",
+    fontSize = 16,
     disabled,
     outlined,
     variant = "solid",
     color = Colors.primary["400"],
+    icon: Icon,
     children,
     onClick,
 }: Props) {
@@ -38,7 +43,6 @@ export function RoundedButton({
     return (
         <Button
             unstyled
-            alignItems="center"
             backgroundColor={
                 disabled ? "#8b8b8b" : variant === "solid" ? color : "white"
             }
@@ -46,18 +50,28 @@ export function RoundedButton({
             borderWidth={variant === "outlined" ? borderWidth : 0}
             borderRadius={100}
             color={variant === "solid" ? "#ffffff" : color}
-            columnGap={8}
             disabled={disabled ?? false}
+            display="flex"
+            flexDirection="row"
+            justifyContent="center"
+            alignItems="center"
+            gap={0}
             flex={flex}
             height={40}
-            justifyContent="center"
             padding={8}
             width={w}
             onPress={onClick}
         >
+            {Icon && (
+                <Icon
+                    size={28}
+                    color={variant === "solid" ? "#ffffff" : color}
+                />
+            )}
             {label && (
                 <Text
                     fontWeight={fontWeight}
+                    fontSize={fontSize}
                     color={variant === "solid" ? "#ffffff" : color}
                 >
                     {label}
@@ -66,6 +80,7 @@ export function RoundedButton({
             {children && (
                 <Text
                     fontWeight={fontWeight}
+                    fontSize={fontSize}
                     color={variant === "solid" ? "#ffffff" : color}
                 >
                     {children}
