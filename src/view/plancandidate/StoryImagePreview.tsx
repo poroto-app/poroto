@@ -1,26 +1,13 @@
-import { Box, HStack } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import "@splidejs/splide/css";
 import { useEffect, useRef } from "react";
 import { Time } from "src/constant/time";
-import {
-    ImageSize,
-    ImageSizes,
-    Image as ImageType,
-    getImageSizeOf,
-} from "src/domain/models/Image";
+import { ImageSizes, getImageSizeOf } from "src/domain/models/Image";
+import { StoryImagePreviewProps } from "src/types/props";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
+import { StoryImagePreviewTapPagerOverlay } from "src/view/plancandidate/StoryImagePreviewTapPagerOverlay";
 import { styled } from "styled-components";
-
-type Props = {
-    images: ImageType[];
-    imageSize?: ImageSize;
-    tapControl?: boolean;
-    slideable?: boolean;
-    onActiveIndexChange?: (index: number) => void;
-    onClickLastItem?: () => void;
-    onClickFirstItem?: () => void;
-};
 
 export function StoryImagePreview({
     images,
@@ -30,7 +17,7 @@ export function StoryImagePreview({
     onActiveIndexChange,
     onClickFirstItem,
     onClickLastItem,
-}: Props) {
+}: StoryImagePreviewProps) {
     const refSplide = useRef<Splide | null>(null);
 
     useEffect(() => {
@@ -101,16 +88,10 @@ export function StoryImagePreview({
                 ))}
             </SlideContainer>
             {tapControl && (
-                <HStack
-                    position="absolute"
-                    top={0}
-                    right={0}
-                    bottom={0}
-                    left={0}
-                >
-                    <Box w="100%" h="100%" onClick={onClickPrev} />
-                    <Box w="100%" h="100%" onClick={onClickNext} />
-                </HStack>
+                <StoryImagePreviewTapPagerOverlay
+                    onClickNext={onClickNext}
+                    onClickPrev={onClickPrev}
+                />
             )}
         </Box>
     );
@@ -137,22 +118,6 @@ const SlideContainer = styled(Splide)`
     }
 
     & > .splide__pagination {
-        top: 0.5em;
-        bottom: initial !important;
-        // :not(is-overflow) となっても表示されるようにする
-        display: flex !important;
-    }
-
-    & > .splide__pagination > li {
-        flex: 1;
-        padding: 0 1px;
-    }
-
-    & > .splide__pagination > li > .splide__pagination__page {
-        width: 100%;
-        height: 4px;
-        border-radius: 10px;
-        transform: scale(1);
-        box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.25);
+        visibility: hidden;
     }
 `;

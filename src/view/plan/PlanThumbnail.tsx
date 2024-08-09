@@ -5,7 +5,7 @@ import {
     ImageSizes,
 } from "src/domain/models/Image";
 import { ImageSliderPreview } from "src/view/common/ImageSliderPreview";
-import { XStack } from "tamagui";
+import { isWeb, XStack } from "tamagui";
 
 type Props = {
     images: Image[];
@@ -23,7 +23,7 @@ export const PlanThumbnail = ({
     draggable,
 }: Props) => {
     if (images.length === 0) {
-        images.push(getDefaultPlaceImage());
+        images.push(getDefaultPlaceImage({ isWeb }));
     }
 
     return (

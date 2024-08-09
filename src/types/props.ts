@@ -82,3 +82,13 @@ export type RotateTransitionProps = {
     duration?: number;
     children?: ReactNode;
 };
+
+export type StoryImagePreviewProps = {
+    images: ImageType[];
+    imageSize?: ImageSize;
+    tapControl?: boolean;
+    slideable?: boolean;
+    onActiveIndexChange?: (index: number) => void;
+    onClickLastItem?: () => void;
+    onClickFirstItem?: () => void;
+};
