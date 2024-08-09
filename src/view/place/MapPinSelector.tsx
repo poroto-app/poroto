@@ -2,8 +2,6 @@ import { Marker } from "@react-google-maps/api";
 import { MapPinSelectorProps } from "src/types/props";
 import { MapViewer } from "src/view/common/MapViewer";
 
-export type Props = {};
-
 export function MapPinSelector({
     center,
     onSelectLocation,
