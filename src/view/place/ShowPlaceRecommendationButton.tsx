@@ -19,6 +19,7 @@ export function ShowPlaceRecommendationButton({ onClick }: Props) {
             shadowOffset={{ width: 2, height: 2 }}
             shadowRadius={4}
             shadowColor="#A2A2A2"
+            elevationAndroid={4}
             onPress={onClick}
         >
             <Text color="#2D59C9">
