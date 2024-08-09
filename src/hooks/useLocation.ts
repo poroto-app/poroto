@@ -4,6 +4,7 @@ import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
+import {LocationHooks} from "src/types/hooks";
 
 export const LocationPermissions = {
     GRANTED: "GRANTED",
@@ -34,7 +35,7 @@ const fetchCurrentLocation = async (): Promise<GeoLocation | null> => {
     });
 };
 
-export const useLocation = () => {
+export const useLocation = (): LocationHooks => {
     const [location, setLocation] = useState<GeoLocation | null>(null);
     const [requestStatus, setRequestStatus] = useState<RequestStatus | null>(
         null
