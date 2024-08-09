@@ -29,6 +29,12 @@
         {
           "root": "src/expo"
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "$(PRODUCT_NAME) による位置情報の使用を許可しますか？"
+        }
       ]
     ],
     "experiments": {
