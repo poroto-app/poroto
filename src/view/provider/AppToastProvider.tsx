@@ -7,9 +7,10 @@ import {
 } from "@tamagui/toast";
 import { ReactNode } from "react";
 import { Padding } from "src/constant/padding";
+import { zIndex } from "src/constant/zIndex";
 import { hasValue } from "src/domain/util/null";
 import { reduxNativeSelector } from "src/redux/native";
-import { isWeb, XStack, YStack } from "tamagui";
+import { isWeb, PortalProvider, XStack, YStack } from "tamagui";
 
 export function AppToastProvider({ children }: { children?: ReactNode }) {
     const { safeAreaTop, safeAreaRight, safeAreaLeft } = reduxNativeSelector();
@@ -17,7 +18,8 @@ export function AppToastProvider({ children }: { children?: ReactNode }) {
     return (
         <>
             <ToastProvider burntOptions={{ from: "bottom" }}>
-                {children}
+                {/*ToastがDialogよりも前にでるようにするため*/}
+                <PortalProvider shouldAddRootHost>{children}</PortalProvider>
                 <ToastComponent />
                 <ToastViewport
                     right={(safeAreaRight ?? 0) + Padding.p16}
@@ -68,6 +70,7 @@ const ToastComponent = () => {
             maxWidth={isWeb && 400}
             borderRadius={5}
             backgroundColor={toastColor()}
+            zIndex={zIndex.toast}
         >
             <XStack
                 gap={Padding.p16}

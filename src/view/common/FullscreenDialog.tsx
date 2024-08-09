@@ -1,4 +1,5 @@
 import { ReactNode, useState } from "react";
+import { zIndex } from "src/constant/zIndex";
 import { Dialog, Sheet } from "tamagui";
 
 type Props = {
@@ -53,6 +54,7 @@ export function FullscreenDialog({
                         onClickOutside();
                     }
                 }}
+                zIndex={zIndex.dialog}
             >
                 <Sheet.Overlay
                     animation="slow"
@@ -85,6 +87,7 @@ export function FullscreenDialog({
                 alignItems={"center"}
                 paddingHorizontal={paddingX ?? padding}
                 paddingVertical={paddingY ?? padding}
+                zIndex={zIndex.dialog}
             >
                 <Dialog.Overlay
                     opacity={0.5}
