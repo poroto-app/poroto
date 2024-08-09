@@ -1,18 +1,14 @@
 import { Marker } from "@react-google-maps/api";
-import { GeoLocation } from "src/domain/models/GeoLocation";
+import { MapPinSelectorProps } from "src/types/props";
 import { MapViewer } from "src/view/common/MapViewer";
 
-export type Props = {
-    center: GeoLocation;
-    onSelectLocation: (location: GeoLocation) => void;
-    pinnedLocation?: GeoLocation;
-};
+export type Props = {};
 
 export function MapPinSelector({
     center,
     onSelectLocation,
     pinnedLocation,
-}: Props) {
+}: MapPinSelectorProps) {
     return (
         <MapViewer
             center={{ lat: center.latitude, lng: center.longitude }}

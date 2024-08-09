@@ -84,6 +84,12 @@ export type LottiePlayerProps = {
     transform?: string;
 };
 
+export type MapPinSelectorProps = {
+    center: GeoLocation;
+    onSelectLocation: (location: GeoLocation) => void;
+    pinnedLocation?: GeoLocation;
+};
+
 export type PlanListProps = {
     plans: Plan[] | null;
 
