@@ -14,15 +14,17 @@ import animationDataFailedLocation from "src/view/lottie/location-failed.json";
 import animationDataLoadingLocation from "src/view/lottie/location-loading.json";
 import { Text, XStack, YStack } from "tamagui";
 
-type Props = {
-    fetchLocationRequestStatus: RequestStatus | null;
-    isSkipCurrentLocationVisible?: boolean;
-};
-
 export function FetchLocationDialog({
     fetchLocationRequestStatus,
     isSkipCurrentLocationVisible = false,
-}: Props) {
+    skipCurrentLocationLabel,
+    skipCurrentLocationDescription,
+}: {
+    fetchLocationRequestStatus: RequestStatus | null;
+    isSkipCurrentLocationVisible?: boolean;
+    skipCurrentLocationLabel: string;
+    skipCurrentLocationDescription?: string;
+}) {
     return (
         <FullscreenDialog
             visible={[
@@ -35,13 +37,19 @@ export function FetchLocationDialog({
                 <XStack p={Padding.p16} w="100%">
                     {fetchLocationRequestStatus === RequestStatuses.PENDING && (
                         <Fetching
+                            skipCurrentLocationLabel={skipCurrentLocationLabel}
+                            skipCurrentLocationDescription={
+                                skipCurrentLocationDescription
+                            }
                             isSkipCurrentLocationVisible={
                                 isSkipCurrentLocationVisible
                             }
                         />
                     )}
                     {fetchLocationRequestStatus ===
-                        RequestStatuses.REJECTED && <Failed />}
+                        RequestStatuses.REJECTED && (
+                        <Failed skipLocationLabel={skipCurrentLocationLabel} />
+                    )}
                 </XStack>
             </RoundedDialog>
         </FullscreenDialog>
@@ -50,8 +58,12 @@ export function FetchLocationDialog({
 
 function Fetching({
     isSkipCurrentLocationVisible,
+    skipCurrentLocationLabel,
+    skipCurrentLocationDescription,
 }: {
     isSkipCurrentLocationVisible: boolean;
+    skipCurrentLocationLabel: string;
+    skipCurrentLocationDescription?: string;
 }) {
     const { t } = useAppTranslation();
 
@@ -71,9 +83,11 @@ function Fetching({
                         opacity: 0,
                     }}
                 >
-                    <Text color="$black075">
-                        {t("plan:createPlanFromFavoritePlaceDescription")}
-                    </Text>
+                    {skipCurrentLocationDescription && (
+                        <Text color="$black075">
+                            {t("plan:createPlanFromFavoritePlaceDescription")}
+                        </Text>
+                    )}
                     <Link
                         href={Routes.places.search({
                             skipCurrentLocation: true,
@@ -81,7 +95,7 @@ function Fetching({
                         viewProps={{ style: { marginTop: Padding.p16 } }}
                     >
                         <RoundedButton w="100%" variant="outlined">
-                            {t("plan:createPlanFromFavoritePlace")}
+                            {skipCurrentLocationLabel}
                         </RoundedButton>
                     </Link>
                 </YStack>
@@ -91,7 +105,7 @@ function Fetching({
 }
 
 // TODO: i18n
-function Failed() {
+function Failed({ skipLocationLabel }: { skipLocationLabel: string }) {
     const { t } = useAppTranslation();
 
     return (
@@ -116,7 +130,7 @@ function Failed() {
                     viewProps={{ style: { width: "100%" } }}
                 >
                     <RoundedButton w="100%" outlined>
-                        {t("plan:createPlanFromFavoritePlace")}
+                        {skipLocationLabel}
                     </RoundedButton>
                 </Link>
                 <Link

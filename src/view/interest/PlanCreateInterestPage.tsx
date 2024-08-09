@@ -20,6 +20,7 @@ export function PlanCreateInterestPage({
 }: {
     navBar?: boolean;
 }) {
+    const { t } = useAppTranslation();
     const {
         categoryCandidates,
         currentCategory,
@@ -37,6 +38,10 @@ export function PlanCreateInterestPage({
             <FetchLocationDialog
                 isSkipCurrentLocationVisible={true}
                 fetchLocationRequestStatus={fetchCurrentLocationStatus}
+                skipCurrentLocationLabel={t("plan:createPlanFromFavoritePlace")}
+                skipCurrentLocationDescription={t(
+                    "plan:createPlanFromFavoritePlaceDescription"
+                )}
             />
         );
 
