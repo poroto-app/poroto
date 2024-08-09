@@ -79,6 +79,8 @@ export const PlanTranslationEn: PlanTranslationKeys = {
     savedPlansEmptyDescription: "You can review the saved plans anytime.",
     savedPlansEmptyTitle: "Create and save a plan!",
 
+    savePlanInProgressTitle: "Saving plan...",
+
     searchNearbyPlansInProgress: "Searching for nearby plans...",
     searchNearbyPlansLocationPermissionDenied:
         "Allow location access to search for nearby plans.",

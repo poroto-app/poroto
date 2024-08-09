@@ -90,10 +90,8 @@ export default function PlanCandidatePage() {
         return <NotFound navBar={false} />;
     }
 
-    // プラン保存中
     if (isSavingPlan) {
-        // TODO: プラン保存中の文言にする
-        return <LoadingModal title={t("plan:createPlanInProgressTitle")} />;
+        return <LoadingModal title={t("plan:savePlanInProgressTitle")} />;
     }
 
     return (

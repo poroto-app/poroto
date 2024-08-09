@@ -123,7 +123,7 @@ export function PlanDetailPage({
     };
 
     if (isSavingPlan) {
-        return <LoadingModal title={t("plan:createPlanInProgressTitle")} />;
+        return <LoadingModal title={t("plan:savePlanInProgressTitle")} />;
     }
 
     if (!plan || !planId) {
