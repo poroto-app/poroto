@@ -84,7 +84,7 @@ export function CreatePlanSection() {
                                     }
                                 />
                             }
-                            icon={Map}
+                            icon={MapPin}
                             link={Routes.plans.interest({})}
                             onClick={() =>
                                 logEvent(
@@ -100,7 +100,7 @@ export function CreatePlanSection() {
                                     i18nKey={"home:createPlanFromFavoritePlace"}
                                 />
                             }
-                            icon={MapPin}
+                            icon={Map}
                             link={Routes.places.search({
                                 skipCurrentLocation: true,
                             })}
