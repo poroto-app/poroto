@@ -36,10 +36,6 @@ export const useLocation = (): LocationHooks => {
     const [requestStatus, setRequestStatus] = useState<RequestStatus | null>(
         null
     );
-    // TODO: DELETE ME!
-    const [isPermissionGranted, setIsPermissionGranted] = useState<
-        boolean | null
-    >(null);
     const [locationPermission, setLocationPermission] =
         useState<LocationPermission | null>(null);
 
@@ -70,13 +66,11 @@ export const useLocation = (): LocationHooks => {
                 setLocation(currentLocation);
                 setRequestStatus(RequestStatuses.FULFILLED);
                 setLocationPermission(LocationPermissions.GRANTED);
-                setIsPermissionGranted(true);
                 return currentLocation;
             } catch (e) {
                 setLocation(null);
                 setRequestStatus(RequestStatuses.REJECTED);
                 setLocationPermission(LocationPermissions.DENIED);
-                setIsPermissionGranted(false);
                 return null;
             }
         };
@@ -84,7 +78,6 @@ export const useLocation = (): LocationHooks => {
     const resetLocationState = () => {
         setLocation(null);
         setRequestStatus(null);
-        setIsPermissionGranted(false);
     };
 
     return {
