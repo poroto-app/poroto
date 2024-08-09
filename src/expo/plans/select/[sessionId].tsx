@@ -101,6 +101,9 @@ export default function PlanCandidatePage() {
                     <PlanCandidatesGallery
                         planCandidates={plansCreated}
                         isCreating={isCreatingPlan}
+                        onActiveIndexChange={(index) =>
+                            setSelectedPlanIndex(index)
+                        }
                     />
                     <ButtonWithBlur
                         px={Padding.p16}
@@ -165,7 +168,7 @@ export function PlanDetailPage({
         onCloseCreatePlanFromPlace,
         onCreatePlanFromPlace,
     } = usePlanCandidate({
-        planId: planId,
+        planId,
     });
 
     const { likedPlaceIdsInPlanCandidate, updateLikeAtPlace } =
