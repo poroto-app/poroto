@@ -36,7 +36,6 @@ export function PlanCreateInterestPage({
     if (!searchLocation)
         return (
             <FetchLocationDialog
-                skipLocationLabel={t("plan:createPlanFromFavoritePlace")}
                 isSkipCurrentLocationVisible={true}
                 fetchLocationRequestStatus={fetchCurrentLocationStatus}
             />

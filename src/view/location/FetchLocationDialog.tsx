@@ -16,14 +16,12 @@ import { Text, XStack, YStack } from "tamagui";
 
 type Props = {
     fetchLocationRequestStatus: RequestStatus | null;
-    skipLocationLabel: string;
     isSkipCurrentLocationVisible?: boolean;
 };
 
 export function FetchLocationDialog({
     fetchLocationRequestStatus,
     isSkipCurrentLocationVisible = false,
-    skipLocationLabel,
 }: Props) {
     return (
         <FullscreenDialog
@@ -37,16 +35,13 @@ export function FetchLocationDialog({
                 <XStack p={Padding.p16} w="100%">
                     {fetchLocationRequestStatus === RequestStatuses.PENDING && (
                         <Fetching
-                            skipLocationLabel={skipLocationLabel}
                             isSkipCurrentLocationVisible={
                                 isSkipCurrentLocationVisible
                             }
                         />
                     )}
                     {fetchLocationRequestStatus ===
-                        RequestStatuses.REJECTED && (
-                        <Failed skipLocationLabel={skipLocationLabel} />
-                    )}
+                        RequestStatuses.REJECTED && <Failed />}
                 </XStack>
             </RoundedDialog>
         </FullscreenDialog>
@@ -54,10 +49,8 @@ export function FetchLocationDialog({
 }
 
 function Fetching({
-    skipLocationLabel,
     isSkipCurrentLocationVisible,
 }: {
-    skipLocationLabel: string;
     isSkipCurrentLocationVisible: boolean;
 }) {
     const { t } = useAppTranslation();
@@ -79,7 +72,7 @@ function Fetching({
                     }}
                 >
                     <Text color="$black075">
-                        プランは好きな場所からも作ることができます
+                        {t("plan:createPlanFromFavoritePlaceDescription")}
                     </Text>
                     <Link
                         href={Routes.places.search({
@@ -88,7 +81,7 @@ function Fetching({
                         viewProps={{ style: { marginTop: Padding.p16 } }}
                     >
                         <RoundedButton w="100%" variant="outlined">
-                            {skipLocationLabel}
+                            {t("plan:createPlanFromFavoritePlace")}
                         </RoundedButton>
                     </Link>
                 </YStack>
@@ -98,16 +91,18 @@ function Fetching({
 }
 
 // TODO: i18n
-function Failed({ skipLocationLabel }: { skipLocationLabel: string }) {
+function Failed() {
     const { t } = useAppTranslation();
 
     return (
         <YStack w="100%" alignItems="center">
             <YStack gap={0} alignItems="center">
                 <Text fontWeight="bold" fontSize={20}>
-                    位置情報の取得に失敗しました
+                    {t("location:fetchCurrentLocationFailedTitle")}
                 </Text>
-                <Text>設定をご確認ください</Text>
+                <Text>
+                    {t("location:fetchCurrentLocationFailedDescription")}
+                </Text>
             </YStack>
             <YStack w="100%" h={250} position="relative">
                 <LottiePlayer
@@ -121,7 +116,7 @@ function Failed({ skipLocationLabel }: { skipLocationLabel: string }) {
                     viewProps={{ style: { width: "100%" } }}
                 >
                     <RoundedButton w="100%" outlined>
-                        {skipLocationLabel}
+                        {t("plan:createPlanFromFavoritePlace")}
                     </RoundedButton>
                 </Link>
                 <Link

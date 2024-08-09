@@ -274,7 +274,7 @@ function SetByCurrentLocationButton({
             locationPermission === LocationPermissions.DENIED;
 
         if (isFailed || isLocationRejected) {
-            toast.show(t("location:fetchCurrentLocationFailed"), {
+            toast.show(t("location:fetchCurrentLocationFailedTitle"), {
                 burntOptions: { preset: "error" },
                 duration: 3000,
             });
