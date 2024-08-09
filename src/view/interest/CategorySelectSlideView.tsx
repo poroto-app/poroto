@@ -1,24 +1,15 @@
-import {
-    Box,
-    Center,
-    Image as ChakraImage,
-    HStack,
-    Text,
-} from "@chakra-ui/react";
 import { Splide, SplideSlide } from "@splidejs/react-splide";
 import { Splide as SplideCore } from "@splidejs/splide";
 import "@splidejs/splide/css";
 import { useEffect, useRef, useState } from "react";
 import { isPC } from "src/constant/userAgent";
 import { ImageSize } from "src/data/graphql/generated";
-import { getDefaultPlaceImage, getImageSizeOf } from "src/domain/models/Image";
-import { Place } from "src/domain/models/Place";
-import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { CategorySelectSlideViewProps } from "src/types/props";
-import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
-import { PlaceCategoryIcon } from "src/view/place/PlaceCategoryIcon";
+import {
+    CategorySelectDefaultPlaceThumbnail,
+    CategorySelectPlaceThumbnail,
+} from "src/view/interest/CategorySelectPlaceThumbnail";
 import { styled } from "styled-components";
-import { isWeb } from "tamagui";
 
 export const CategorySelectSlideView = ({
     category,
@@ -106,13 +97,15 @@ export const CategorySelectSlideView = ({
             }}
         >
             <SplideSlide>
-                <DefaultThumbnail imageUrl={category.defaultThumbnailUrl} />
+                <CategorySelectDefaultPlaceThumbnail
+                    imageUrl={category.defaultThumbnailUrl}
+                />
             </SplideSlide>
             {placesOfCategory
                 .filter((p) => p.images.length > 0)
                 .map((place, index) => (
                     <SplideSlide key={index}>
-                        <PlaceThumbnail
+                        <CategorySelectPlaceThumbnail
                             place={place}
                             category={{
                                 id: category.name,
@@ -193,71 +186,3 @@ const SplideContainer = styled(Splide)`
         }
     }
 `;
-
-function PlaceThumbnail({
-    place,
-    category,
-    imageSize,
-}: {
-    place: Place;
-    category: PlaceCategory;
-    imageSize: ImageSize;
-}) {
-    const placeImage =
-        place.images.length > 0
-            ? place.images[0]
-            : getDefaultPlaceImage({ isWeb });
-    return (
-        <Box w="100%" h="100%" position="relative">
-            <ImageWithSkeleton
-                isGoogleImage={placeImage.isGoogleImage}
-                attributionToBottom={false}
-                src={getImageSizeOf(imageSize, placeImage)}
-            />
-            <Box
-                position="absolute"
-                right={0}
-                bottom={0}
-                left={0}
-                px="16px"
-                pb="16px"
-                pt="48px"
-                background="linear-gradient(180deg, rgba(0, 0, 0, 0.00) 0%, rgba(0, 0, 0, 0.20) 20%, rgba(0, 0, 0, 0.50) 40%, rgba(0, 0, 0, 0.80) 100%)"
-            >
-                <HStack>
-                    <PlaceCategoryIcon
-                        category={category}
-                        size={24}
-                        color="white"
-                    />
-                    <Text color="white">{place.name}</Text>
-                </HStack>
-            </Box>
-        </Box>
-    );
-}
-
-const DefaultThumbnail = ({ imageUrl }: { imageUrl: string }) => {
-    return (
-        <Center
-            w="100%"
-            h="100%"
-            px="32px"
-            py="32px"
-            position="absolute"
-            top="0"
-            right="0"
-            bottom="0"
-            left="0"
-            userSelect="none"
-        >
-            <ChakraImage
-                src={imageUrl}
-                maxW="600px"
-                maxH="400px"
-                h="100%"
-                w="100%"
-            />
-        </Center>
-    );
-};
