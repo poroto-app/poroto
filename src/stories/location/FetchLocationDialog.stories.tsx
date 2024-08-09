@@ -14,27 +14,23 @@ type Story = StoryObj<typeof FetchLocationDialog>;
 export const Fetching: Story = {
     args: {
         fetchLocationRequestStatus: RequestStatuses.PENDING,
-        onRetry: () => 0,
     },
 };
 
 export const Failed: Story = {
     args: {
         fetchLocationRequestStatus: RequestStatuses.REJECTED,
-        onRetry: () => 0,
     },
 };
 
 export const Fulfilled: Story = {
     args: {
         fetchLocationRequestStatus: RequestStatuses.FULFILLED,
-        onRetry: () => 0,
     },
 };
 
 export const None: Story = {
     args: {
         fetchLocationRequestStatus: null,
-        onRetry: () => 0,
     },
 };
