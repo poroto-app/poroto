@@ -1,3 +1,8 @@
+import {
+    getCurrentPositionAsync,
+    getForegroundPermissionsAsync,
+    requestForegroundPermissionsAsync,
+} from "expo-location";
 import { useState } from "react";
 import { GeoLocation } from "src/domain/models/GeoLocation";
 import {
@@ -10,25 +15,29 @@ import {
     LocationPermissions,
 } from "src/types/hooks";
 
-const fetchCurrentLocation = async (): Promise<GeoLocation | null> => {
-    if (!navigator.geolocation) {
-        console.info("cannot use the geolocation API");
-        return null;
+const fetchCurrentLocation = async (): Promise<{
+    location: GeoLocation;
+    permission: LocationPermission;
+} | null> => {
+    const { status } = await getForegroundPermissionsAsync();
+    if (status !== "granted") {
+        const { status } = await requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+            return {
+                location: null,
+                permission: LocationPermissions.DENIED,
+            };
+        }
     }
 
-    return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                resolve({
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude,
-                });
-            },
-            (e) => {
-                reject(e);
-            }
-        );
-    });
+    const location = await getCurrentPositionAsync();
+    return {
+        location: {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+        },
+        permission: LocationPermissions.GRANTED,
+    };
 };
 
 export const useLocation = (): LocationHooks => {
@@ -40,14 +49,12 @@ export const useLocation = (): LocationHooks => {
         useState<LocationPermission | null>(null);
 
     const checkGeolocationPermission = async (): Promise<boolean> => {
-        const result = await navigator.permissions.query({
-            name: "geolocation",
-        });
-        switch (result.state) {
+        const result = await getForegroundPermissionsAsync();
+        switch (result.status) {
             case "granted":
                 setLocationPermission(LocationPermissions.GRANTED);
                 break;
-            case "prompt":
+            case "undetermined":
                 setLocationPermission(LocationPermissions.PROMPT);
                 break;
             case "denied":
@@ -55,24 +62,17 @@ export const useLocation = (): LocationHooks => {
                 break;
         }
 
-        return result.state === LocationPermissions.GRANTED;
+        return result.status === LocationPermissions.GRANTED;
     };
 
     const fetchCurrentLocationWithHook =
         async (): Promise<GeoLocation | null> => {
             setRequestStatus(RequestStatuses.PENDING);
-            try {
-                const currentLocation = await fetchCurrentLocation();
-                setLocation(currentLocation);
-                setRequestStatus(RequestStatuses.FULFILLED);
-                setLocationPermission(LocationPermissions.GRANTED);
-                return currentLocation;
-            } catch (e) {
-                setLocation(null);
-                setRequestStatus(RequestStatuses.REJECTED);
-                setLocationPermission(LocationPermissions.DENIED);
-                return null;
-            }
+            const { location, permission } = await fetchCurrentLocation();
+            setLocation(location);
+            setRequestStatus(RequestStatuses.FULFILLED);
+            setLocationPermission(permission);
+            return location;
         };
 
     const resetLocationState = () => {

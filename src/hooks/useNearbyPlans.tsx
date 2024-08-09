@@ -12,7 +12,7 @@ export const useNearbyPlans = () => {
     const { plansNearby, fetchNearbyPlansRequestStatus } = reduxPlanSelector();
     const {
         locationPermission,
-        fetchCurrentLocationStatus,
+        isFetchingCurrentLocation,
         checkGeolocationPermission,
         getCurrentLocation,
     } = useLocation();
@@ -43,8 +43,7 @@ export const useNearbyPlans = () => {
         plansNearby,
         locationPermission,
         fetchNearbyPlans,
-        isFetchingCurrentLocation:
-            fetchCurrentLocationStatus === RequestStatuses.PENDING,
+        isFetchingCurrentLocation,
         isFetchingNearbyPlans:
             fetchNearbyPlansRequestStatus === RequestStatuses.PENDING,
     };

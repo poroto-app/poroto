@@ -55,7 +55,7 @@ export const useCreatePlanInterest = () => {
     const { searchLocation, searchPlaceId } = reduxLocationSelector();
 
     // 現在地取得
-    const { getCurrentLocation, location, fetchCurrentLocationStatus } =
+    const { getCurrentLocation, currentLocation, fetchCurrentLocationStatus } =
         useLocation();
 
     // カテゴリ選択
@@ -141,8 +141,7 @@ export const useCreatePlanInterest = () => {
 
     // 現在地を取得したら、それをもとに検索
     useEffect(() => {
-        if (!location) return;
-        const currentLocation = location;
+        if (!currentLocation) return;
         dispatch(setCurrentLocation({ currentLocation }));
         dispatch(
             setSearchLocation({
@@ -150,7 +149,7 @@ export const useCreatePlanInterest = () => {
                 searchPlaceId: null,
             })
         );
-    }, [location]);
+    }, [currentLocation]);
 
     // 付近のカテゴリを取得
     useEffect(() => {

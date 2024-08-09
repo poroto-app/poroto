@@ -9,7 +9,7 @@ import { useAppDispatch } from "src/redux/redux";
 
 export const usePlanCandidate = ({ planId }: { planId?: string }) => {
     const dispatch = useAppDispatch();
-    const { getCurrentLocation, location: currentLocation } = useLocation();
+    const { getCurrentLocation, currentLocation } = useLocation();
 
     const [placeIdToCreatePlan, setPlaceIdToCreatePlan] = useState<
         string | null

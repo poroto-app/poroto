@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import MapView, { Circle, Marker, PROVIDER_GOOGLE } from "react-native-maps";
 import { CreatePlanLocationMapProps } from "src/types/props";
 
@@ -8,8 +9,21 @@ export function CreatePlanLocationMap({
 
     onClickLocation,
 }: CreatePlanLocationMapProps) {
+    const mapViewRef = useRef<MapView>(null);
+
+    useEffect(() => {
+        if (!mapViewRef.current) return;
+        mapViewRef.current.animateToRegion({
+            latitude: mapCenter.latitude,
+            longitude: mapCenter.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+        });
+    }, [mapCenter]);
+
     return (
         <MapView
+            ref={mapViewRef}
             style={{ width: "100%", height: "100%" }}
             provider={PROVIDER_GOOGLE}
             initialRegion={{

@@ -65,7 +65,7 @@ function PlaceSearchPage() {
     const {
         fetchCurrentLocationStatus,
         getCurrentLocation,
-        location,
+        currentLocation,
         resetLocationState,
         checkGeolocationPermission,
     } = useLocation();
@@ -115,13 +115,13 @@ function PlaceSearchPage() {
 
     // 現在地が取得できたら、地図の中心を現在地にする
     useEffect(() => {
-        if (!location) return;
+        if (!currentLocation) return;
 
-        dispatch(setCurrentLocation({ currentLocation: location }));
+        dispatch(setCurrentLocation({ currentLocation: currentLocation }));
         if (mapCenter === locationSinjukuStation) {
-            setMapCenter(location);
+            setMapCenter(currentLocation);
         }
-    }, [location]);
+    }, [currentLocation]);
 
     useEffect(() => {
         dispatch(resetPlaceSearchResults());
@@ -156,7 +156,7 @@ function PlaceSearchPage() {
         );
     };
 
-    if (fetchCurrentLocationStatus && !location)
+    if (fetchCurrentLocationStatus && !currentLocation)
         return (
             <FetchLocationDialog
                 skipLocationLabel={t("place:skipCurrentLocationRetrieval")}

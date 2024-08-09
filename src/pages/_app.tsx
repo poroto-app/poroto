@@ -15,7 +15,7 @@ import { Theme } from "src/view/common/Theme";
 import { AppToastProvider } from "src/view/provider/AppToastProvider";
 import { ErrorBoundary } from "src/view/provider/ErrorBoundary";
 import { History } from "src/view/provider/History";
-import { PortalProvider, TamaguiProvider } from "tamagui";
+import { TamaguiProvider } from "tamagui";
 
 function App({ Component, pageProps }: AppProps) {
     const { t } = useTranslation();
@@ -79,11 +79,9 @@ function App({ Component, pageProps }: AppProps) {
                             disableInjectCSS
                             disableRootThemeClass
                         >
-                            <PortalProvider shouldAddRootHost>
-                                <AppToastProvider>
-                                    <Component {...pageProps} />
-                                </AppToastProvider>
-                            </PortalProvider>
+                            <AppToastProvider>
+                                <Component {...pageProps} />
+                            </AppToastProvider>
                         </TamaguiProvider>
                     </ErrorBoundary>
                 </Provider>
