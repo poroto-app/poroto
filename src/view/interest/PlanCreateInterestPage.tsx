@@ -20,7 +20,6 @@ export function PlanCreateInterestPage({
 }: {
     navBar?: boolean;
 }) {
-    const { t } = useAppTranslation();
     const {
         categoryCandidates,
         currentCategory,
