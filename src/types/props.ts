@@ -1,7 +1,13 @@
 import { ReactNode } from "react";
 import { GeoLocation } from "src/data/graphql/generated";
 import { ImageSize, Image as ImageType } from "src/domain/models/Image";
+import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
 import { Plan } from "src/domain/models/Plan";
+
+export type CategorySelectSlideViewProps = {
+    category: LocationCategoryWithPlace;
+    interactiveAnimation?: boolean;
+};
 
 export type CreatePlanLocationMapProps = {
     rangeInKm: number;

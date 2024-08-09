@@ -1,4 +1,3 @@
-import { useTranslation } from "next-i18next";
 import Head from "next/head";
 import { ReactNode } from "react";
 import { createParam } from "solito";
@@ -22,20 +21,19 @@ import { MatchInterestPageTemplate } from "src/view/plan/MatchInterestPageTempla
 const { useParams } = createParam<{ location?: string }>();
 
 export default function Page() {
-    const { t } = useTranslation();
     const { params } = useParams();
 
     return (
         <>
             <Head>
                 <title>
-                    {PageMetaData(t).plans.interest.title(
+                    {PageMetaData().plans.interest.title(
                         params.location !== "true"
                     )}
                 </title>
                 <meta
                     name="description"
-                    content={PageMetaData(t).plans.interest.description}
+                    content={PageMetaData().plans.interest.description}
                 />
             </Head>
             <PlanInterestPage />
