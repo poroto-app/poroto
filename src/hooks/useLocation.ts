@@ -97,8 +97,9 @@ export const useLocation = (): LocationHooks => {
     return {
         locationPermission,
         isLocationPermissionGranted: isPermissionGranted,
+        isFetchingCurrentLocation: requestStatus === RequestStatuses.PENDING,
         fetchCurrentLocationStatus: requestStatus,
-        location,
+        currentLocation: location,
         getCurrentLocation: fetchCurrentLocationWithHook,
         resetLocationState,
         checkGeolocationPermission,

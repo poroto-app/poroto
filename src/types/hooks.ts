@@ -24,10 +24,11 @@ export type LocationPermission =
     (typeof LocationPermissions)[keyof typeof LocationPermissions];
 
 export type LocationHooks = {
+    currentLocation: GeoLocation | null,
     locationPermission: LocationPermission | null,
     isLocationPermissionGranted: boolean,
+    isFetchingCurrentLocation: boolean,
     fetchCurrentLocationStatus: RequestStatus | null,
-    location: GeoLocation | null,
     getCurrentLocation: () => Promise<GeoLocation | null>,
     resetLocationState: () => void,
     checkGeolocationPermission: () => Promise<boolean>,
