@@ -201,7 +201,8 @@ export const useCreatePlanInterest = () => {
             );
 
             // 作成したプラン候補を保存
-            if (!user) {
+            // TODO: native対応
+            if (!user && isWeb) {
                 const createdPlanCandidates: string[] = JSON.parse(
                     localStorage.getItem(LocalStorageKeys.PlanCandidate) ?? "[]"
                 );

@@ -96,7 +96,10 @@ export const createPlanFromLocation = createAsyncThunk(
         }: CreatePlanFromCurrentLocationProps,
         { dispatch, getState }
     ) => {
-        logEvent(getAnalytics(), AnalyticsEvents.CreatePlan.Create);
+        // TODO: native対応
+        if (isWeb) {
+            logEvent(getAnalytics(), AnalyticsEvents.CreatePlan.Create);
+        }
 
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
 
