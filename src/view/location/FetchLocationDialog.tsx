@@ -77,6 +77,7 @@ function Fetching({
             </YStack>
             {isSkipCurrentLocationVisible && (
                 <YStack
+                    w="100%"
                     alignItems="center"
                     animation="medium"
                     enterStyle={{
@@ -92,7 +93,9 @@ function Fetching({
                         href={Routes.places.search({
                             skipCurrentLocation: true,
                         })}
-                        viewProps={{ style: { marginTop: Padding.p16 } }}
+                        viewProps={{
+                            style: { marginTop: Padding.p16, width: "100%" },
+                        }}
                     >
                         <RoundedButton w="100%" variant="outlined">
                             {skipCurrentLocationLabel}

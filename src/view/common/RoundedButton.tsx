@@ -1,7 +1,8 @@
 import { IconProps } from "@tamagui/helpers-icon";
 import { NamedExoticComponent, ReactNode } from "react";
 import { Colors } from "src/constant/color";
-import { Button, Text } from "tamagui";
+import { Padding } from "src/constant/padding";
+import { Button, Text, XStack } from "tamagui";
 
 type Props = {
     w?: number | "100%";
@@ -32,7 +33,7 @@ export function RoundedButton({
     outlined,
     variant = "solid",
     color = Colors.primary["400"],
-    icon: Icon,
+    icon: Icon = null,
     children,
     onClick,
 }: Props) {
@@ -51,41 +52,45 @@ export function RoundedButton({
             borderRadius={100}
             color={variant === "solid" ? "#ffffff" : color}
             disabled={disabled ?? false}
-            display="flex"
-            flexDirection="row"
-            justifyContent="center"
-            alignItems="center"
-            gap={0}
             flex={flex}
             height={40}
-            padding={8}
             width={w}
             onPress={onClick}
         >
-            {Icon && (
-                <Icon
-                    size={28}
-                    color={variant === "solid" ? "#ffffff" : color}
-                />
-            )}
-            {label && (
-                <Text
-                    fontWeight={fontWeight}
-                    fontSize={fontSize}
-                    color={variant === "solid" ? "#ffffff" : color}
-                >
-                    {label}
-                </Text>
-            )}
-            {children && (
-                <Text
-                    fontWeight={fontWeight}
-                    fontSize={fontSize}
-                    color={variant === "solid" ? "#ffffff" : color}
-                >
-                    {children}
-                </Text>
-            )}
+            <XStack
+                h="100%"
+                gap={0}
+                justifyContent="center"
+                alignItems="center"
+                px={Padding.p8}
+            >
+                {Icon && (
+                    <Icon
+                        size={28}
+                        color={variant === "solid" ? "#ffffff" : color}
+                    />
+                )}
+                {label && (
+                    <Text
+                        fontWeight={fontWeight}
+                        fontSize={fontSize}
+                        color={variant === "solid" ? "#ffffff" : color}
+                        textAlign="center"
+                    >
+                        {label}
+                    </Text>
+                )}
+                {children && (
+                    <Text
+                        fontWeight={fontWeight}
+                        fontSize={fontSize}
+                        color={variant === "solid" ? "#ffffff" : color}
+                        textAlign="center"
+                    >
+                        {children}
+                    </Text>
+                )}
+            </XStack>
         </Button>
     );
 }
