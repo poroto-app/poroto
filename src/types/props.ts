@@ -64,6 +64,16 @@ export type ImageSliderPreviewProps = {
     onClickImage?: (image: ImageType) => void;
 };
 
+export type ImageWithSVGProps = {
+    src: string;
+    w?: number | "100%";
+    h?: number | "100%";
+    maxWidth?: number | "100%";
+    maxHeight?: number | "100%";
+    alt?: string;
+    objectFit?: "contain" | "cover";
+};
+
 export type PlanListProps = {
     plans: Plan[] | null;
 

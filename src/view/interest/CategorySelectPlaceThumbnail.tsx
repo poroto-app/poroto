@@ -8,8 +8,9 @@ import {
 import { Place } from "src/domain/models/Place";
 import { PlaceCategory } from "src/domain/models/PlaceCategory";
 import { ImageWithSkeleton } from "src/view/common/ImageWithSkeleton";
+import { ImageWithSVG } from "src/view/common/ImageWithSVG";
 import { PlaceCategoryIcon } from "src/view/place/PlaceCategoryIcon";
-import { Image, isWeb, Text, XStack, YStack } from "tamagui";
+import { isWeb, Text, XStack, YStack } from "tamagui";
 
 export function CategorySelectPlaceThumbnail({
     place,
@@ -50,7 +51,7 @@ export function CategorySelectPlaceThumbnail({
                 start={[0, 0]}
                 end={[0, 1]}
             >
-                <XStack>
+                <XStack gap={Padding.p8}>
                     <PlaceCategoryIcon
                         category={category}
                         size={24}
@@ -83,7 +84,7 @@ export function CategorySelectDefaultPlaceThumbnail({
             left={0}
             userSelect="none"
         >
-            <Image
+            <ImageWithSVG
                 alt="category"
                 src={imageUrl}
                 maxWidth={600}
@@ -91,7 +92,6 @@ export function CategorySelectDefaultPlaceThumbnail({
                 h="100%"
                 w="100%"
                 objectFit="contain"
-                resizeMode="contain"
             />
         </XStack>
     );
