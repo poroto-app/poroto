@@ -74,6 +74,16 @@ export type ImageWithSVGProps = {
     objectFit?: "contain" | "cover";
 };
 
+export type LottiePlayerProps = {
+    animationData: any;
+    loop?: boolean;
+    segments?: {
+        start: number;
+        end: number;
+    };
+    transform?: string;
+};
+
 export type PlanListProps = {
     plans: Plan[] | null;
 

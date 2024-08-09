@@ -1,19 +1,14 @@
 import { Box } from "@chakra-ui/react";
 import { useLottie } from "lottie-react";
-import { AnimationSegment } from "lottie-web";
 import { useEffect } from "react";
+import { LottiePlayerProps } from "src/types/props";
 
 export function LottiePlayer({
     animationData,
     loop = true,
     segments,
-    style,
-}: {
-    animationData: unknown;
-    loop?: boolean;
-    segments?: AnimationSegment;
-    style?: React.CSSProperties;
-}) {
+    transform,
+}: LottiePlayerProps) {
     const {
         View: LottieView,
         play,
@@ -28,12 +23,12 @@ export function LottiePlayer({
             right: 0,
             bottom: 0,
             left: 0,
-            ...style,
+            transform,
         },
     });
 
     useEffect(() => {
-        if (segments) playSegments(segments, true);
+        if (segments) playSegments([segments.start, segments.end], true);
         else play();
     }, []);
 
