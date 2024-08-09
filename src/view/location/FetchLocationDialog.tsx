@@ -1,4 +1,3 @@
-import { Box, Button, Text, VStack } from "@chakra-ui/react";
 import { Link } from "solito/link";
 import { Padding } from "src/constant/padding";
 import { Routes } from "src/constant/router";
@@ -9,36 +8,39 @@ import {
 import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { FullscreenDialog } from "src/view/common/FullscreenDialog";
 import { LottiePlayer } from "src/view/common/LottiePlayer";
+import { RoundedButton } from "src/view/common/RoundedButton";
 import { RoundedDialog } from "src/view/common/RoundedDialog";
 import animationDataFailedLocation from "src/view/lottie/location-failed.json";
 import animationDataLoadingLocation from "src/view/lottie/location-loading.json";
-
-type Props = {
-    fetchLocationRequestStatus: RequestStatus | null;
-    skipLocationLabel: string;
-    isSkipCurrentLocationVisible?: boolean;
-    onRetry: () => void;
-};
+import { Text, XStack, YStack } from "tamagui";
 
 export function FetchLocationDialog({
     fetchLocationRequestStatus,
     isSkipCurrentLocationVisible = false,
-    skipLocationLabel,
-    onRetry,
-}: Props) {
+    skipCurrentLocationLabel,
+    skipCurrentLocationDescription,
+}: {
+    fetchLocationRequestStatus: RequestStatus | null;
+    isSkipCurrentLocationVisible?: boolean;
+    skipCurrentLocationLabel: string;
+    skipCurrentLocationDescription?: string;
+}) {
     return (
         <FullscreenDialog
             visible={[
                 RequestStatuses.PENDING,
                 RequestStatuses.REJECTED,
             ].includes(fetchLocationRequestStatus)}
-            padding="16px"
+            padding={Padding.p16}
         >
             <RoundedDialog backgroundColor="white">
-                <Box p="16px" w="100%">
+                <XStack p={Padding.p16} w="100%">
                     {fetchLocationRequestStatus === RequestStatuses.PENDING && (
                         <Fetching
-                            skipLocationLabel={skipLocationLabel}
+                            skipCurrentLocationLabel={skipCurrentLocationLabel}
+                            skipCurrentLocationDescription={
+                                skipCurrentLocationDescription
+                            }
                             isSkipCurrentLocationVisible={
                                 isSkipCurrentLocationVisible
                             }
@@ -46,83 +48,100 @@ export function FetchLocationDialog({
                     )}
                     {fetchLocationRequestStatus ===
                         RequestStatuses.REJECTED && (
-                        <Failed
-                            skipLocationLabel={skipLocationLabel}
-                            onClickReFetch={onRetry}
-                        />
+                        <Failed skipLocationLabel={skipCurrentLocationLabel} />
                     )}
-                </Box>
+                </XStack>
             </RoundedDialog>
         </FullscreenDialog>
     );
 }
 
 function Fetching({
-    skipLocationLabel,
     isSkipCurrentLocationVisible,
+    skipCurrentLocationLabel,
+    skipCurrentLocationDescription,
 }: {
-    skipLocationLabel: string;
     isSkipCurrentLocationVisible: boolean;
+    skipCurrentLocationLabel: string;
+    skipCurrentLocationDescription?: string;
 }) {
     const { t } = useAppTranslation();
+
     return (
-        <VStack w="100%">
-            <Box w="100%" position="relative" h="250px">
+        <YStack w="100%" alignItems="center" gap={Padding.p16} py={Padding.p16}>
+            <Text fontSize={20}>
+                {t("location:fetchCurrentLocationInProgress")}
+            </Text>
+            <YStack w="100%" h={250} position="relative">
                 <LottiePlayer animationData={animationDataLoadingLocation} />
-            </Box>
-            <Text>{t("location:fetchCurrentLocationInProgress")}</Text>
+            </YStack>
             {isSkipCurrentLocationVisible && (
-                <Link
-                    href={Routes.places.search({ skipCurrentLocation: true })}
-                    viewProps={{ style: { marginTop: Padding.p16 } }}
+                <YStack
+                    alignItems="center"
+                    animation="medium"
+                    enterStyle={{
+                        opacity: 0,
+                    }}
                 >
-                    <Text color="blue.600">{skipLocationLabel}</Text>
-                </Link>
+                    {skipCurrentLocationDescription && (
+                        <Text color="$black075">
+                            {t("plan:createPlanFromFavoritePlaceDescription")}
+                        </Text>
+                    )}
+                    <Link
+                        href={Routes.places.search({
+                            skipCurrentLocation: true,
+                        })}
+                        viewProps={{ style: { marginTop: Padding.p16 } }}
+                    >
+                        <RoundedButton w="100%" variant="outlined">
+                            {skipCurrentLocationLabel}
+                        </RoundedButton>
+                    </Link>
+                </YStack>
             )}
-        </VStack>
+        </YStack>
     );
 }
 
 // TODO: i18n
-function Failed({
-    skipLocationLabel,
-    onClickReFetch,
-}: {
-    skipLocationLabel: string;
-    onClickReFetch: () => void;
-}) {
+function Failed({ skipLocationLabel }: { skipLocationLabel: string }) {
+    const { t } = useAppTranslation();
+
     return (
-        <VStack w="100%">
-            <VStack spacing={0}>
-                <Text fontWeight="bold" fontSize="20px">
-                    位置情報の取得に失敗しました
+        <YStack w="100%" alignItems="center">
+            <YStack gap={0} alignItems="center">
+                <Text fontWeight="bold" fontSize={20}>
+                    {t("location:fetchCurrentLocationFailedTitle")}
                 </Text>
-                <Text>設定をご確認ください</Text>
-            </VStack>
-            <Box w="100%" position="relative" h="250px">
+                <Text color="$black075">
+                    {t("location:fetchCurrentLocationFailedDescription")}
+                </Text>
+            </YStack>
+            <YStack w="100%" h={250} position="relative">
                 <LottiePlayer
                     animationData={animationDataFailedLocation}
                     loop={false}
                 />
-            </Box>
-            <VStack w="100%" py="16px">
+            </YStack>
+            <YStack w="100%" py={Padding.p16} gap={Padding.p8}>
                 <Link
                     href={Routes.places.search({ skipCurrentLocation: true })}
                     viewProps={{ style: { width: "100%" } }}
                 >
-                    <Button
-                        w="100%"
-                        variant="outline"
-                        colorScheme="blue"
-                        onClick={onClickReFetch}
-                    >
+                    <RoundedButton w="100%" outlined>
                         {skipLocationLabel}
-                    </Button>
+                    </RoundedButton>
                 </Link>
-                <Button w="100%" variant="link" colorScheme="blue">
-                    再取得
-                </Button>
-            </VStack>
-        </VStack>
+                <Link
+                    href={Routes.home}
+                    viewProps={{ style: { width: "100%" } }}
+                >
+                    <RoundedButton w="100%" variant="ghost">
+                        {t("common:backToHome")}
+                    </RoundedButton>
+                </Link>
+            </YStack>
+        </YStack>
     );
 }

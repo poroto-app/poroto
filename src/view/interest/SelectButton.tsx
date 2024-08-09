@@ -1,18 +1,19 @@
-import { Icon } from "@chakra-ui/react";
-import { useRef } from "react";
-import { IconType } from "react-icons";
-import styled from "styled-components";
+import { IconProps } from "@tamagui/helpers-icon";
+import { NamedExoticComponent, useRef, useState } from "react";
+import { Padding } from "src/constant/padding";
+import { XStack } from "tamagui";
 
 export const SelectButton = ({
     color,
     onClick,
-    icon,
+    icon: Icon,
 }: {
     color: string;
     onClick: () => void;
-    icon: IconType;
+    icon: NamedExoticComponent<IconProps>;
 }) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
+    const [hover, setHover] = useState(false);
 
     const handleOnClick = () => {
         // MEMO: ボタンにCSSのactive状態が適用されるのはボタンを押している間だけなので、
@@ -23,33 +24,29 @@ export const SelectButton = ({
     };
 
     return (
-        <Button color={color} ref={buttonRef} onClick={handleOnClick}>
-            <Icon w="32px" h="32px" color={color} as={icon} />
-        </Button>
+        <XStack
+            tag="button"
+            flex={1}
+            alignItems="center"
+            justifyContent="center"
+            backgroundColor="white"
+            borderColor={color}
+            borderWidth={2}
+            borderRadius={100}
+            padding={Padding.p8}
+            hoverStyle={{
+                backgroundColor: color,
+            }}
+            onHoverIn={() => setHover(true)}
+            onHoverOut={() => setHover(false)}
+            pressStyle={{
+                scale: 0.8,
+            }}
+            animation="quicker"
+            ref={buttonRef}
+            onPress={handleOnClick}
+        >
+            <Icon size={32} color={hover ? "white" : color} />
+        </XStack>
     );
 };
-
-const Button = styled.button<{ color: string }>`
-    display: flex;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-    -webkit-tap-highlight-color: transparent;
-
-    background-color: white;
-    border: 2px solid ${({ color }) => color};
-    border-radius: 100px;
-    padding: 8px;
-
-    transition: all 200ms;
-
-    &:focus {
-        background-color: ${({ color }) => color};
-
-        > svg {
-            color: white;
-        }
-
-        transform: scale(0.8);
-    }
-`;

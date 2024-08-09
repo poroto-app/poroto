@@ -47,7 +47,7 @@ function Generating() {
             <Box position="relative" h="100px" w="100%" my="32px">
                 <LottiePlayer
                     animationData={animationDataCreating}
-                    style={{ transform: "scale3d(1.5, 1.5, 1)" }}
+                    transform={"scale3d(1.5, 1.5, 1)"}
                 />
             </Box>
             <Text fontSize="24px" fontWeight="bold">
@@ -66,7 +66,10 @@ function Failed({ onClose }: { onClose: () => void }) {
                     <LottiePlayer
                         animationData={animationDataFailed}
                         loop={false}
-                        segments={[0, 193]}
+                        segments={{
+                            start: 0,
+                            end: 193,
+                        }}
                     />
                 </Box>
                 <Text fontSize="24px" fontWeight="bold">

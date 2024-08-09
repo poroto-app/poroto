@@ -23,6 +23,7 @@ import {
     setCreatedPlans,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
+import { isWeb } from "tamagui";
 
 const { useParams } = createParam<{
     lat: string;
@@ -72,7 +73,10 @@ export const useCreatePlanInterest = () => {
     >(null);
 
     const handleAcceptCategory = (category: LocationCategory) => {
-        logEvent(getAnalytics(), AnalyticsEvents.Interests.SelectCategory);
+        // TODO: native対応
+        if (isWeb) {
+            logEvent(getAnalytics(), AnalyticsEvents.Interests.SelectCategory);
+        }
         setCategoriesAccepted((prev) => [...prev, category]);
     };
 
@@ -197,7 +201,8 @@ export const useCreatePlanInterest = () => {
             );
 
             // 作成したプラン候補を保存
-            if (!user) {
+            // TODO: native対応
+            if (!user && isWeb) {
                 const createdPlanCandidates: string[] = JSON.parse(
                     localStorage.getItem(LocalStorageKeys.PlanCandidate) ?? "[]"
                 );

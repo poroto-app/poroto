@@ -1,7 +1,13 @@
 import { ReactNode } from "react";
 import { GeoLocation } from "src/data/graphql/generated";
 import { ImageSize, Image as ImageType } from "src/domain/models/Image";
+import { LocationCategoryWithPlace } from "src/domain/models/LocationCategoryWithPlace";
 import { Plan } from "src/domain/models/Plan";
+
+export type CategorySelectSlideViewProps = {
+    category: LocationCategoryWithPlace;
+    interactiveAnimation?: boolean;
+};
 
 export type CreatePlanLocationMapProps = {
     rangeInKm: number;
@@ -56,6 +62,26 @@ export type ImageSliderPreviewProps = {
     draggable?: boolean;
     borderRadius?: number;
     onClickImage?: (image: ImageType) => void;
+};
+
+export type ImageWithSVGProps = {
+    src: string;
+    w?: number | "100%";
+    h?: number | "100%";
+    maxWidth?: number | "100%";
+    maxHeight?: number | "100%";
+    alt?: string;
+    objectFit?: "contain" | "cover";
+};
+
+export type LottiePlayerProps = {
+    animationData: any;
+    loop?: boolean;
+    segments?: {
+        start: number;
+        end: number;
+    };
+    transform?: string;
 };
 
 export type PlanListProps = {

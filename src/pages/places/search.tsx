@@ -159,12 +159,13 @@ function PlaceSearchPage() {
     if (fetchCurrentLocationStatus && !currentLocation)
         return (
             <FetchLocationDialog
-                skipLocationLabel={t("place:skipCurrentLocationRetrieval")}
+                skipCurrentLocationLabel={t(
+                    "place:skipCurrentLocationRetrieval"
+                )}
                 isSkipCurrentLocationVisible={true}
                 fetchLocationRequestStatus={
                     fetchCurrentLocationStatus ?? RequestStatuses.PENDING
                 }
-                onRetry={() => getCurrentLocation().then()}
             />
         );
 
