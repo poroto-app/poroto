@@ -34,6 +34,9 @@ const SelectPlanPage = () => {
         plansCreated,
         placesAvailableForPlan,
         isCreatingPlan,
+        isLoadingPlanCandidateSet,
+        isCreatingPlanFromLocation,
+        isFailedInFetchingPlanCandidateSet,
         currentPlanId,
         createPlanFromPlaceRequestStatus,
         createPlanFromLocationRequestStatus,
@@ -72,27 +75,11 @@ const SelectPlanPage = () => {
     };
 
     if (!plansCreated) {
-        // ページ読み込み直後
-        const isLoadingPlan =
-            !fetchCachedCreatedPlansRequestStatus &&
-            !createPlanFromLocationRequestStatus;
-        // プラン作成中
-        const isCreatingPlanFromLocation =
-            createPlanFromLocationRequestStatus === RequestStatuses.PENDING;
-        // プラン候補取得中
-        const isFetchingPlanCandidate =
-            fetchCachedCreatedPlansRequestStatus === RequestStatuses.PENDING;
-
-        if (
-            isLoadingPlan ||
-            isCreatingPlanFromLocation ||
-            isFetchingPlanCandidate
-        )
+        if (isLoadingPlanCandidateSet || isCreatingPlanFromLocation)
             return <LoadingModal title={t("plan:createPlanInProgressTitle")} />;
 
         // プラン候補取得失敗
-        if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.REJECTED)
-            return <ErrorPage />;
+        if (isFailedInFetchingPlanCandidateSet) return <ErrorPage />;
 
         // プラン候補が存在しない
         return <NotFound />;

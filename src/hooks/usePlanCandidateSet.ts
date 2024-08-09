@@ -118,6 +118,13 @@ export const usePlanCandidateSet = ({
                 : null,
         isCreatingPlan:
             createPlanFromPlaceRequestStatus === RequestStatuses.PENDING,
+        isLoadingPlanCandidateSet:
+            !fetchCachedCreatedPlansRequestStatus &&
+            !createPlanFromLocationRequestStatus,
+        isCreatingPlanFromLocation:
+            createPlanFromLocationRequestStatus === RequestStatuses.PENDING,
+        isFailedInFetchingPlanCandidateSet:
+            fetchCachedCreatedPlansRequestStatus === RequestStatuses.REJECTED,
         createPlanFromPlaceRequestStatus,
         createPlanFromLocationRequestStatus,
         fetchAvailablePlacesForPlanRequestStatus,

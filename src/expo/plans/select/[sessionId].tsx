@@ -4,7 +4,6 @@ import { Colors } from "src/constant/color";
 import { Padding } from "src/constant/padding";
 import { Size } from "src/constant/size";
 import { getPlanPriceRange } from "src/domain/models/Plan";
-import { RequestStatuses } from "src/domain/models/RequestStatus";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
 import { usePlaceLikeInPlanCandidate } from "src/hooks/usePlaceLikeInPlanCandidate";
 import { usePlanCandidate } from "src/hooks/usePlanCandidate";
@@ -42,11 +41,9 @@ export default function PlanCandidatePage() {
         placesAvailableForPlan,
         currentPlanId,
         isCreatingPlan,
-        createPlanFromPlaceRequestStatus,
-        createPlanFromLocationRequestStatus,
-        fetchAvailablePlacesForPlanRequestStatus,
-        fetchCachedCreatedPlansRequestStatus,
-        createPlanCandidateFromPlace,
+        isLoadingPlanCandidateSet,
+        isCreatingPlanFromLocation,
+        isFailedInFetchingPlanCandidateSet,
     } = usePlanCandidateSet({
         planCandidateSetId: sessionId as string,
         selectedPlanIndex,
@@ -64,26 +61,11 @@ export default function PlanCandidatePage() {
 
     if (!plansCreated) {
         // TODO: refactor
-        // ページ読み込み直後
-        const isLoadingPlan =
-            !fetchCachedCreatedPlansRequestStatus &&
-            !createPlanFromLocationRequestStatus;
-        // プラン作成中
-        const isCreatingPlanFromLocation =
-            createPlanFromLocationRequestStatus === RequestStatuses.PENDING;
-        // プラン候補取得中
-        const isFetchingPlanCandidate =
-            fetchCachedCreatedPlansRequestStatus === RequestStatuses.PENDING;
-
-        if (
-            isLoadingPlan ||
-            isCreatingPlanFromLocation ||
-            isFetchingPlanCandidate
-        )
+        if (isLoadingPlanCandidateSet || isCreatingPlanFromLocation)
             return <LoadingModal title={t("plan:createPlanInProgressTitle")} />;
 
         // プラン候補取得失敗
-        if (fetchCachedCreatedPlansRequestStatus === RequestStatuses.REJECTED)
+        if (isFailedInFetchingPlanCandidateSet)
             return <ErrorPage navBar={false} />;
 
         // プラン候補が存在しない
