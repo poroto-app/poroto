@@ -118,16 +118,18 @@ const Card = styled(YStack, {
     width: Size.PlanCandidatesGallery.Card.w,
     borderRadius: Size.PlanCandidatesGallery.Card.borderRadius,
     overflow: "hidden",
-    shadowOffset: { width: 0, height: 0 },
-    shadowColor: "black",
     backgroundColor: "$gray9",
 
     variants: {
         isActive: {
             true: {
                 filter: "none",
-                shadowOpacity: 0.25,
                 height: Size.PlanCandidatesGallery.Card.h.active,
+                shadowOffset: { width: 0, height: 0 },
+                shadowColor: "rgb(132,166,255)",
+                shadowOpacity: 0.4,
+                shadowRadius: 50,
+                elevationAndroid: 20,
             },
             false: {
                 filter: "blur(1px)",
