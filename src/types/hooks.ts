@@ -1,6 +1,6 @@
 import type { NextRouter as NextRouterType } from "next/dist/shared/lib/router/router";
-import {RequestStatus} from "src/domain/models/RequestStatus";
-import {GeoLocation} from "src/domain/models/GeoLocation";
+import { GeoLocation } from "src/domain/models/GeoLocation";
+import { RequestStatus } from "src/domain/models/RequestStatus";
 
 export type AppRouter = {
     push: (
@@ -24,12 +24,11 @@ export type LocationPermission =
     (typeof LocationPermissions)[keyof typeof LocationPermissions];
 
 export type LocationHooks = {
-    currentLocation: GeoLocation | null,
-    locationPermission: LocationPermission | null,
-    isLocationPermissionGranted: boolean,
-    isFetchingCurrentLocation: boolean,
-    fetchCurrentLocationStatus: RequestStatus | null,
-    getCurrentLocation: () => Promise<GeoLocation | null>,
-    resetLocationState: () => void,
-    checkGeolocationPermission: () => Promise<boolean>,
-}
+    currentLocation: GeoLocation | null;
+    locationPermission: LocationPermission | null;
+    isFetchingCurrentLocation: boolean;
+    fetchCurrentLocationStatus: RequestStatus | null;
+    getCurrentLocation: () => Promise<GeoLocation | null>;
+    resetLocationState: () => void;
+    checkGeolocationPermission: () => Promise<boolean>;
+};

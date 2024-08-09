@@ -1,5 +1,5 @@
 import { Plan } from "src/domain/models/Plan";
-import { LocationPermission, LocationPermissions } from "src/hooks/useLocation";
+import { LocationPermission, LocationPermissions } from "src/types/hooks";
 import { PlanList } from "src/view/plan/PlanList";
 import { LocationUnavailable } from "src/view/top/LocationUnavailable";
 import { NearbyPlansNotFound } from "src/view/top/NearbyPlansNotFound";

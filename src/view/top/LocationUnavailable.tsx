@@ -1,6 +1,6 @@
 import { Switch, Text, VStack } from "@chakra-ui/react";
 import { useAppTranslation } from "src/hooks/useAppTranslation";
-import { LocationPermission, LocationPermissions } from "src/hooks/useLocation";
+import { LocationPermission, LocationPermissions } from "src/types/hooks";
 import MapIcon from "src/view/assets/svg/map.svg";
 
 type Props = {

@@ -4,15 +4,11 @@ import {
     RequestStatus,
     RequestStatuses,
 } from "src/domain/models/RequestStatus";
-import {LocationHooks} from "src/types/hooks";
-
-export const LocationPermissions = {
-    GRANTED: "GRANTED",
-    DENIED: "DENIED",
-    PROMPT: "PROMPT",
-};
-export type LocationPermission =
-    (typeof LocationPermissions)[keyof typeof LocationPermissions];
+import {
+    LocationHooks,
+    LocationPermission,
+    LocationPermissions,
+} from "src/types/hooks";
 
 const fetchCurrentLocation = async (): Promise<GeoLocation | null> => {
     if (!navigator.geolocation) {
@@ -51,9 +47,6 @@ export const useLocation = (): LocationHooks => {
         const result = await navigator.permissions.query({
             name: "geolocation",
         });
-        const isGranted = result.state === "granted";
-        setIsPermissionGranted(isGranted);
-
         switch (result.state) {
             case "granted":
                 setLocationPermission(LocationPermissions.GRANTED);
@@ -66,7 +59,7 @@ export const useLocation = (): LocationHooks => {
                 break;
         }
 
-        return isGranted;
+        return result.state === LocationPermissions.GRANTED;
     };
 
     const fetchCurrentLocationWithHook =
@@ -96,7 +89,6 @@ export const useLocation = (): LocationHooks => {
 
     return {
         locationPermission,
-        isLocationPermissionGranted: isPermissionGranted,
         isFetchingCurrentLocation: requestStatus === RequestStatuses.PENDING,
         fetchCurrentLocationStatus: requestStatus,
         currentLocation: location,
