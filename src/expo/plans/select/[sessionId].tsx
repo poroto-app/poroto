@@ -36,6 +36,7 @@ export default function PlanCandidatePage() {
     const { screenHeight, safeAreaTop, safeAreaBottom } = reduxNativeSelector();
     const planCandidateListHeight =
         screenHeight - (Size.NavBar.height + safeAreaTop + safeAreaBottom);
+
     const {
         plansCreated,
         placesAvailableForPlan,
@@ -56,7 +57,13 @@ export default function PlanCandidatePage() {
         },
     });
 
+    const { savePlan, isSavingPlan } = usePlanSave({
+        planCandidateSetId: sessionId,
+        planId: currentPlanId,
+    });
+
     if (!plansCreated) {
+        // TODO: refactor
         // ページ読み込み直後
         const isLoadingPlan =
             !fetchCachedCreatedPlansRequestStatus &&
@@ -81,6 +88,12 @@ export default function PlanCandidatePage() {
 
         // プラン候補が存在しない
         return <NotFound navBar={false} />;
+    }
+
+    // プラン保存中
+    if (isSavingPlan) {
+        // TODO: プラン保存中の文言にする
+        return <LoadingModal title={t("plan:createPlanInProgressTitle")} />;
     }
 
     return (
@@ -128,7 +141,7 @@ export default function PlanCandidatePage() {
                 <PlanDetailPage
                     planId={currentPlanId}
                     planCandidateSetId={sessionId}
-                    isPlanFooterVisible={true}
+                    isPlanFooterVisible={scrollY > planCandidateListHeight}
                 />
             </ScrollView>
             <PlanFooter visible={scrollY > planCandidateListHeight}>
@@ -142,6 +155,7 @@ export default function PlanCandidatePage() {
                     flex={1}
                     color="#BF756E"
                     label={t("plan:saveThisPlan")}
+                    onClick={() => savePlan({ planId: currentPlanId })}
                 />
             </PlanFooter>
         </>
@@ -176,15 +190,6 @@ export function PlanDetailPage({
 
     const { likedPlaceIdsInPlanCandidate, updateLikeAtPlace } =
         usePlaceLikeInPlanCandidate();
-
-    const { createPlan, isCreatingPlan } = usePlanSave({
-        planCandidateSetId: planCandidateSetId,
-        planId: planId,
-    });
-
-    if (isCreatingPlan) {
-        return <LoadingModal title={t("plan:createPlanInProgressTitle")} />;
-    }
 
     if (!plan || !planId) {
         return <></>;

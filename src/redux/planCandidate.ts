@@ -332,7 +332,10 @@ type SavePlanFromCandidateProps = {
 export const savePlanFromCandidate = createAsyncThunk(
     "planCandidate/savePlanFromCandidate",
     async ({ session, planId, authToken }: SavePlanFromCandidateProps) => {
-        logEvent(getAnalytics(), AnalyticsEvents.SavePlan);
+        if (isWeb) {
+            // TODO: native対応
+            logEvent(getAnalytics(), AnalyticsEvents.SavePlan);
+        }
         const plannerApi: PlannerApi = new PlannerGraphQlApi();
         const response = await plannerApi.savePlanFromCandidate({
             session,

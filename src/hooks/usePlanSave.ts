@@ -10,6 +10,7 @@ import {
     savePlanFromCandidate,
 } from "src/redux/planCandidate";
 import { useAppDispatch } from "src/redux/redux";
+import { isWeb } from "tamagui";
 
 type Props = {
     planCandidateSetId: string;
@@ -21,12 +22,16 @@ export const usePlanSave = ({ planCandidateSetId, planId }: Props) => {
     const router = useRouter();
     const { preview: plan, savePlanFromCandidateRequestStatus } =
         reduxPlanCandidateSelector();
-    const [isCreatingPlan, setIsCreatingPlan] = useState(false);
+    const [isSavingPlan, setIsSavingPlan] = useState(false);
 
-    const createPlan = async ({ planId }: { planId: string }) => {
-        const auth = getAuth();
-        const authToken = await auth.currentUser?.getIdToken(true);
-        setIsCreatingPlan(true);
+    const savePlan = async ({ planId }: { planId: string }) => {
+        // TODO: native対応
+        let authToken: string;
+        if (isWeb) {
+            const auth = getAuth();
+            authToken = await auth.currentUser?.getIdToken(true);
+        }
+        setIsSavingPlan(true);
         dispatch(
             savePlanFromCandidate({
                 session: planCandidateSetId,
@@ -44,7 +49,7 @@ export const usePlanSave = ({ planCandidateSetId, planId }: Props) => {
             dispatch(setShowPlanCreatedModal(true));
             // TODO: 遷移が終了したタイミングでモーダルが閉じるようにする
             return () => {
-                setIsCreatingPlan(false);
+                setIsSavingPlan(false);
                 // 戻ったときに再リダイレクトされないようにする
                 dispatch(resetPlanCandidates());
             };
@@ -52,7 +57,7 @@ export const usePlanSave = ({ planCandidateSetId, planId }: Props) => {
     }, [planId, savePlanFromCandidateRequestStatus]);
 
     return {
-        createPlan,
-        isCreatingPlan,
+        savePlan,
+        isSavingPlan,
     };
 };

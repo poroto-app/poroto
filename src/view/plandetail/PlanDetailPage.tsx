@@ -110,7 +110,7 @@ export function PlanDetailPage({
     const { likedPlaceIdsInPlanCandidate, updateLikeAtPlace } =
         usePlaceLikeInPlanCandidate();
 
-    const { createPlan, isCreatingPlan } = usePlanSave({
+    const { savePlan, isSavingPlan } = usePlanSave({
         planCandidateSetId: planCandidateSetId,
         planId: planId,
     });
@@ -122,7 +122,7 @@ export function PlanDetailPage({
         }
     };
 
-    if (isCreatingPlan) {
+    if (isSavingPlan) {
         return <LoadingModal title={t("plan:createPlanInProgressTitle")} />;
     }
 
@@ -259,7 +259,7 @@ export function PlanDetailPage({
                     flex={1}
                     color="#BF756E"
                     label={t("plan:saveThisPlan")}
-                    onClick={() => createPlan({ planId: plan.id })}
+                    onClick={() => savePlan({ planId: plan.id })}
                 />
             </PlanFooter>
             {/*Dialog*/}
